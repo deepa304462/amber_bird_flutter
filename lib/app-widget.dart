@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class AppWidget extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _AppWidget extends State<AppWidget> {
   Locale _currentLocale = Locale('en');
   @override
   void initState() {
+    FlutterNativeSplash.remove();
     // warmupFlare();
     ChangeLocale.change = (Locale locale) {
       _currentLocale = locale;

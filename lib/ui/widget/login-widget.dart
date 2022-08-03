@@ -13,23 +13,23 @@ class _LoginWidget extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 5,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+          borderRadius: BorderRadius.all(Radius.circular(15))),
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              'https://cdn.diago-app.com/6239657a-f58d-4299-b16b-10911028319f',
+              'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
               width: 200,
               fit: BoxFit.cover,
             ),
             Text(
               'Get access',
-              style: TextStyles.titleXLarge,
+              style: TextStyles.titleXLargePrimary,
             ),
             ITextBox('Registered contact number'),
             TextButton(
@@ -40,7 +40,7 @@ class _LoginWidget extends State<LoginWidget> {
               ),
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black)),
+                      MaterialStateProperty.all<Color>(AppColors.primeColor)),
             )
           ],
         ),

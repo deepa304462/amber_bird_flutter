@@ -1,4 +1,7 @@
-import 'package:amber_bird/ui/SplashPageWidget.dart';
+import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/home-page.dart';
+import 'package:amber_bird/ui/pages/login-page.dart';
+import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 //http://localhost:64123/#/form/60e6b312c7f5dc000df40a1c/en
@@ -10,7 +13,9 @@ class AppModule extends Module {
   // Provide all the routes for your module
   @override
   List<ModularRoute> get routes => [
-        ChildRoute('/', child: (_, args) => LoginPageWidget()),
+        // ChildRoute('/', child: (_, args) => LoginPageWidget()),
+        ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
+        ModuleRoute('/', module: HomePageModule()),
         // ChildRoute('/feedbackFormList',
         //     child: (_, args) => FeedbackListWidget(),
         //     guards: [AppCommonGuard()]),

@@ -47,6 +47,8 @@ dependencies:
   url_launcher: ^6.0.12
   intl: ^0.17.0
   carousel_slider: ^4.1.1
+  flutter_native_splash: ^2.2.6
+  lottie: ^1.4.0
 
 dev_dependencies:
   flutter_test:

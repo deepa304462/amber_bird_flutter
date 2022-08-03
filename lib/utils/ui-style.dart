@@ -5,6 +5,10 @@ class Fonts {
   static String get title => "Barlow";
 }
 
+class AppColors {
+  static Color primeColor = Colors.red.shade800;
+}
+
 class FontSizes {
   static double scale = 1;
 
@@ -21,6 +25,10 @@ class TextStyles {
   static TextStyle get titleFont => TextStyle(fontFamily: Fonts.title);
   static TextStyle get titleXLargeWhite => TextStyle(
       fontFamily: Fonts.title, fontSize: FontSizes.xLarge, color: Colors.white);
+  static TextStyle get titleXLargePrimary => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.xLarge,
+      color: AppColors.primeColor);
   static TextStyle get titleXLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge);
 
@@ -40,5 +48,9 @@ class TextStyles {
       fontSize: FontSizes.large,
       fontWeight: FontWeight.w300,
       color: Colors.white);
+  static TextStyle get bodyPrimaryLarge => bodyFont.copyWith(
+      fontSize: FontSizes.large,
+      fontWeight: FontWeight.w300,
+      color: AppColors.primeColor);
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
 }
