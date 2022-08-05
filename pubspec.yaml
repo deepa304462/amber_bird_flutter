@@ -43,7 +43,7 @@ dependencies:
   connectivity: ^3.0.6
   flutter_modular: ^5.0.0
   flutter_dotenv: ^5.0.2
-  location: ^4.3.0
+  location: ^4.2.0
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   url_launcher: ^6.0.12
@@ -79,6 +79,8 @@ flutter:
   assets:
     - lib/l10n/
     - assets/
+    - assets/config/.env
+
   fonts:
     - family: Barlow
       fonts:

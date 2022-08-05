@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:amber_bird/main.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:location/location.dart';
@@ -19,7 +17,7 @@ class AppWidget extends StatefulWidget {
 }
 
 class _AppWidget extends State<AppWidget> {
-  Locale _currentLocale = Locale('en');
+  Locale _currentLocale = const Locale('en');
   @override
   void initState() {
     FlutterNativeSplash.remove();
@@ -33,7 +31,9 @@ class _AppWidget extends State<AppWidget> {
   }
 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
-    var response =json.decode(await getReverseGeocodingGivenLatLngUsingMapbox(latLng));
+    var response  = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
+    // print(resp);
+    // var response =resp; 
     Map feature = response['features'][0];
     Map revGeocode = {
       'name': feature['text'],
@@ -41,33 +41,34 @@ class _AppWidget extends State<AppWidget> {
       'place': feature['place_name'],
       'location': latLng
     };
+    print(revGeocode);
     return revGeocode;
   }
 
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
-    Location _location = Location();
-    bool? _serviceEnabled;
-    PermissionStatus? _permissionGranted;
+    Location location = Location();
+    bool? serviceEnabled;
+    PermissionStatus? permissionGranted;
 
-    _serviceEnabled = await _location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _location.requestService();
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
     }
 
-    _permissionGranted = await _location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location.requestPermission();
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
     }
 
     // Get the current user location
-    LocationData _locationData = await _location.getLocation();
+    LocationData locationData = await location.getLocation();
     LatLng currentLocation =
-        LatLng(_locationData.latitude!, _locationData.longitude!);
+        LatLng(locationData.latitude!, locationData.longitude!);
     print(currentLocation);
     // Get the current user address
     String currentAddress =(await getParsedReverseGeocoding(currentLocation))['place'];
-
+     print('addd${currentAddress}');
     // Store the user location in sharedPreferences
     // sharedPreferences.setDouble('latitude', _locationData.latitude!);
     // sharedPreferences.setDouble('longitude', _locationData.longitude!);
