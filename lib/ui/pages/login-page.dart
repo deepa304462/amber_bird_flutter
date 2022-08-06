@@ -1,7 +1,5 @@
 import 'package:amber_bird/data/slider-item.dart';
 import 'package:amber_bird/ui/widget/login-widget.dart';
-import 'package:amber_bird/utils/ui-style.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -33,8 +31,8 @@ class _LoginPage extends State<LoginPageWidget> {
     return SafeArea(
       child: Scaffold(body: Builder(
         builder: (context) {
-          final double height = MediaQuery.of(context).size.height;
-          final double width = MediaQuery.of(context).size.width;
+          // final double height = MediaQuery.of(context).size.height;
+          // final double width = MediaQuery.of(context).size.width;
           return Stack(
             children: [
               Container(

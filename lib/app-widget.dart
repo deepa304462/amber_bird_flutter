@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:amber_bird/main.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -31,9 +32,9 @@ class _AppWidget extends State<AppWidget> {
   }
 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
-    var response  = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
+    var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
     // print(resp);
-    // var response =resp; 
+    // var response =resp;
     Map feature = response['features'][0];
     Map revGeocode = {
       'name': feature['text'],
@@ -67,8 +68,12 @@ class _AppWidget extends State<AppWidget> {
         LatLng(locationData.latitude!, locationData.longitude!);
     print(currentLocation);
     // Get the current user address
-    String currentAddress =(await getParsedReverseGeocoding(currentLocation))['place'];
-     print('addd${currentAddress}');
+    String currentAddress =
+        (await getParsedReverseGeocoding(currentLocation))['address'];
+    // print('addd${currentAddress}');
+    SharedData.save(locationData.latitude!.toString(), 'latitude');
+    SharedData.save(locationData.longitude!.toString(), 'longitude');
+    SharedData.save(currentAddress, 'current-address');
     // Store the user location in sharedPreferences
     // sharedPreferences.setDouble('latitude', _locationData.latitude!);
     // sharedPreferences.setDouble('longitude', _locationData.longitude!);
