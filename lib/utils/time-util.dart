@@ -29,7 +29,6 @@ class TimeUtil {
   }
 }
 
-
 /* ICU Name                   Skeleton
 --------                   --------
 DAY                          d

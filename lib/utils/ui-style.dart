@@ -8,6 +8,7 @@ class Fonts {
 class AppColors {
   static Color primeColor = Colors.red.shade800;
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
+  static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
 }
 
 class FontSizes {
@@ -24,6 +25,9 @@ class FontSizes {
 class TextStyles {
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
   static TextStyle get titleFont => TextStyle(fontFamily: Fonts.title);
+  static TextStyle get headingFont => TextStyle(
+      fontFamily: Fonts.title, fontSize: FontSizes.title,fontWeight: FontWeight.bold, color: Colors.black);
+  static TextStyle get subHeadingFont=> TextStyle(fontFamily: Fonts.body,fontSize:FontSizes.body,color: Colors.grey);
   static TextStyle get titleXLargeWhite => TextStyle(
       fontFamily: Fonts.title, fontSize: FontSizes.xLarge, color: Colors.white);
   static TextStyle get titleXLargePrimary => TextStyle(

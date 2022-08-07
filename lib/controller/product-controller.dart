@@ -1,5 +1,5 @@
-import 'package:amber_bird/data/product-category.dart';
-import 'package:amber_bird/data/product.dart';
+ import 'package:amber_bird/data/product.dart';
+import 'package:amber_bird/data/product_category/product_category.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -13,22 +13,22 @@ class ProductController extends GetxController {
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt productImageDefaultIndex = 0.obs;
 
-  void filterItemsByCategory(int index) {
-    for (ProductCategory element in categories) {
-      element.isSelected = false;
-    }
-    categories[index].isSelected = true;
-    update();
+  // void filterItemsByCategory(int index) {
+  //   for (ProductCategory element in categories) {
+  //     element.isSelected = false;
+  //   }
+  //   categories[index].isSelected = true;
+  //   update();
 
-    if (categories[index].type == ProductType.all) {
-      filteredProducts.assignAll(allProducts);
-    } else {
-      filteredProducts.assignAll(allProducts.where((item) {
-        return item.type == categories[index].type;
-      }).toList());
-    }
-    filteredProducts.refresh();
-  }
+  //   if (categories[index].type == ProductType.all) {
+  //     filteredProducts.assignAll(allProducts);
+  //   } else {
+  //     filteredProducts.assignAll(allProducts.where((item) {
+  //       return item.type == categories[index].type;
+  //     }).toList());
+  //   }
+  //   filteredProducts.refresh();
+  // }
 
   void isLiked(int index) {
     filteredProducts[index].isLiked = !filteredProducts[index].isLiked;
@@ -75,7 +75,7 @@ class ProductController extends GetxController {
 
   bool isNominal(Product product) {
     // if (product.sizes?.numerical != null) {
-      return true;
+    return true;
     // } else {
     //   return false;
     // }

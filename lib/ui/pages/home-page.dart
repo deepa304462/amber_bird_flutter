@@ -24,7 +24,7 @@ PreferredSize _appBar(address) {
           children: [
             Container(
               margin: const EdgeInsets.all(8),
-              padding:  const EdgeInsets.fromLTRB(0,0,8,0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: AppColors.lightGrey),
@@ -35,7 +35,7 @@ PreferredSize _appBar(address) {
                   onPressed: () {},
                   icon: const Icon(Icons.location_city, color: Colors.black),
                 ),
-                Text(address !='' ? address.substring(0, 20) : 'Location')
+                Text(address != '' ? address.substring(0, 20) : 'Location')
               ]),
             ),
             Container(
@@ -68,11 +68,28 @@ class _HomePageState extends State<HomePage> {
 
   getLocation() async {
     String ad = (await SharedData.read('current-address')).toString();
-    address.value =  ad;
+    address.value = ad;
     setState(() {
-      address= address;
+      address = address;
     });
+    changeTab(currentTab);
     // print('jjjjjjjjjjjjj${address.toString()}');
+  }
+  changeTab(currentTab){
+    switch (currentTab) {
+      case 0:
+        routerOut.Modular.to.navigate('/main');
+        break;
+      case 1:
+        routerOut.Modular.to.navigate('/category');
+        break;
+      case 2:
+        routerOut.Modular.to.navigate('/cart');
+        break;
+      case 3:
+        routerOut.Modular.to.navigate('/login');
+        break;
+    }
   }
 
   @override
@@ -100,7 +117,9 @@ class _HomePageState extends State<HomePage> {
                       icon:
                           const Icon(Icons.location_city, color: Colors.black),
                     ),
-                    Text(address.toString() != '' ? address.toString().substring(0, 20) : 'Location')
+                    Text(address.toString() != ''
+                        ? address.toString().substring(0, 20)
+                        : 'Location')
                   ]),
                 ),
                 Container(
@@ -131,20 +150,8 @@ class _HomePageState extends State<HomePage> {
         onTap: (i) {
           setState(() {
             currentTab = i;
-            switch (currentTab) {
-              case 0:
-                routerOut.Modular.to.navigate('/main');
-                break;
-              case 1:
-                routerOut.Modular.to.navigate('/category');
-                break;
-              case 2:
-                routerOut.Modular.to.navigate('/cart');
-                break;
-              case 3:
-                routerOut.Modular.to.navigate('/login');
-                break;
-            }
+            changeTab(currentTab);
+            
           });
         },
         items: [

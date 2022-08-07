@@ -1,4 +1,3 @@
- 
 enum ProductType { all, watch, mobile, headphone, tablet, tv }
 
 class Product {

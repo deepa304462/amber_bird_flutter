@@ -22,8 +22,8 @@ class ClientService {
   // static String urlV2 =
   //     "http://192.168.43.155/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
 
-  static String url = "https://old.diago-app.com/";
-
+  static String url = "https://prod.sbazar.app/";
+  static String cdnUrl ="https://cdn2.sbazar.app/";
   static Dio dio = new Dio();
   static DefaultCacheManager cacheManager = DefaultCacheManager();
   static String token = '';
@@ -145,6 +145,7 @@ class ClientService {
           break;
       }
     } catch (e) {
+      print(url+ path);
       DioError error = e as DioError;
       if (error.response?.statusCode == 429 && retry > 0) {
         return await _call(

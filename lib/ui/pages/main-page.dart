@@ -1,7 +1,8 @@
 import 'package:amber_bird/controller/product-controller.dart';
+import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
- 
+
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
 
@@ -10,10 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
-final ProductController controller = Get.put(ProductController());
-
-
+  // final ProductController controller = Get.put(ProductController());
 
   // Widget _recommendedProductListView(BuildContext context) {
   //   return SizedBox(
@@ -148,20 +146,20 @@ final ProductController controller = Get.put(ProductController());
   //   );
   // }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Hello Sina",
-          style: Theme.of(context).textTheme.headline1,
-        ),
-        Text(
-          "Lets gets somethings?",
-          style: Theme.of(context).textTheme.headline5,
-        ),
+        // Text(
+        //   "Hello Sina",
+        //   style: Theme.of(context).textTheme.headline1,
+        // ),
+        // Text(
+        //   "Lets gets somethings?",
+        //   style: Theme.of(context).textTheme.headline5,
+        // ),
+        CategoryPage()
         // _recommendedProductListView(context),
         // _topCategoriesHeader(context),
         // _topCategoriesListView(),
