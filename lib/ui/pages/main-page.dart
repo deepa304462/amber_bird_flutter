@@ -1,6 +1,10 @@
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
+import 'package:amber_bird/ui/size_config.dart';
+import 'package:amber_bird/ui/widget/category-row.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class MainPage extends StatefulWidget {
@@ -148,18 +152,14 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text(
-        //   "Hello Sina",
-        //   style: Theme.of(context).textTheme.headline1,
-        // ),
-        // Text(
-        //   "Lets gets somethings?",
-        //   style: Theme.of(context).textTheme.headline5,
-        // ),
-        CategoryPage()
+       
+       
+
+        CategoryRow()
         // _recommendedProductListView(context),
         // _topCategoriesHeader(context),
         // _topCategoriesListView(),

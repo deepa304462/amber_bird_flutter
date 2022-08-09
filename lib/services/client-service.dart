@@ -101,14 +101,14 @@ class ClientService {
     var response;
     Map<String, dynamic> header = Map();
     if (apiVersion == APIVersion.V2 && method != RESTMethod.AUTH) {
-      header['Authorization'] = 'Bearer ' + token;
+      header['Authorization'] = 'Bearer $token';
     }
     header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
     try {
       switch (method) {
         case RESTMethod.GET:
           response = await dio.get(
-              (apiVersion == APIVersion.V1 ? url : urlV2) + path + '/$id',
+              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
               options: Options(headers: header));
           return response;
         case RESTMethod.POST:
@@ -122,7 +122,7 @@ class ClientService {
           Map<String, dynamic> queryMap = Map<String, dynamic>();
           queryMap['query'] = jsonEncode(payload);
           if (lang!.isNotEmpty) {
-            queryMap['ln'] = lang;
+            queryMap['locale'] = lang;
           }
           response = await dio.get(
               (apiVersion == APIVersion.V1 ? url : urlV2) + path,
@@ -131,13 +131,13 @@ class ClientService {
           return response;
         case RESTMethod.PUT:
           response = await dio.put(
-              (apiVersion == APIVersion.V1 ? url : urlV2) + path + '/$id',
+              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
               data: payload,
               options: Options(headers: header));
           return response;
         case RESTMethod.DELETE:
           response = await dio.delete(
-              (apiVersion == APIVersion.V1 ? url : urlV2) + path + '/$id',
+              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
               options: Options(headers: header));
           return response;
         case RESTMethod.DOWNLOAD:
@@ -189,7 +189,7 @@ class ClientService {
 
     try {
       //404
-      return await dio.post((ver == APIVersion.V1 ? url : urlV2) + 'file',
+      return await dio.post('${ver == APIVersion.V1 ? url : urlV2}file',
           data: formData, options: Options(contentType: 'multipart/form-data'));
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
@@ -211,7 +211,7 @@ class ClientService {
     // ignore: unnecessary_null_comparison
     if (file == null) {
       var request =
-          await dio.get((ver == APIVersion.V1 ? url : urlV2) + path + '/$id',
+          await dio.get('${ver == APIVersion.V1 ? url : urlV2}$path/$id',
               options: Options(
                 responseType: ResponseType.bytes,
                 followRedirects: false,

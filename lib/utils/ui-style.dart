@@ -26,8 +26,12 @@ class TextStyles {
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
   static TextStyle get titleFont => TextStyle(fontFamily: Fonts.title);
   static TextStyle get headingFont => TextStyle(
-      fontFamily: Fonts.title, fontSize: FontSizes.title,fontWeight: FontWeight.bold, color: Colors.black);
-  static TextStyle get subHeadingFont=> TextStyle(fontFamily: Fonts.body,fontSize:FontSizes.body,color: Colors.grey);
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.bold,
+      color: Colors.black);
+  static TextStyle get subHeadingFont => TextStyle(
+      fontFamily: Fonts.body, fontSize: FontSizes.body, color: Colors.grey);
   static TextStyle get titleXLargeWhite => TextStyle(
       fontFamily: Fonts.title, fontSize: FontSizes.xLarge, color: Colors.white);
   static TextStyle get titleXLargePrimary => TextStyle(
@@ -45,6 +49,14 @@ class TextStyles {
 
   static TextStyle get body =>
       bodyFont.copyWith(fontSize: FontSizes.body, fontWeight: FontWeight.w300);
+  static TextStyle get bodyGreen => bodyFont.copyWith(
+      fontSize: FontSizes.body,
+      fontWeight: FontWeight.w500,
+      color: Colors.green);
+  static TextStyle get titleGreen => titleFont.copyWith(
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.w500,
+      color: Colors.green);
   static TextStyle get bodyWhite => bodyFont.copyWith(
       fontSize: FontSizes.body,
       fontWeight: FontWeight.w300,

@@ -1,4 +1,5 @@
 import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -14,6 +15,7 @@ class AppModule extends Module {
         // ChildRoute('/', child: (_, args) => LoginPageWidget()),
         ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
         ModuleRoute('/', module: HomePageModule()),
+       
         // ChildRoute('/feedbackFormList',
         //     child: (_, args) => FeedbackListWidget(),
         //     guards: [AppCommonGuard()]),

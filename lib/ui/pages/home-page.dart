@@ -1,8 +1,10 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -75,7 +77,8 @@ class _HomePageState extends State<HomePage> {
     changeTab(currentTab);
     // print('jjjjjjjjjjjjj${address.toString()}');
   }
-  changeTab(currentTab){
+
+  changeTab(currentTab) {
     switch (currentTab) {
       case 0:
         routerOut.Modular.to.navigate('/main');
@@ -94,49 +97,97 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    // TextEditingController _controller = new TextEditingController();
+    final Controller search = Get.put(Controller(), tag: 'mycontroller');
+    TextEditingController _controller = new TextEditingController();
+    _controller.text = search.search.toString();
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
+        preferredSize: const Size.fromHeight(130),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.lightGrey),
-                  child: Row(children: [
-                    IconButton(
-                      padding: const EdgeInsets.all(8),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {},
-                      icon:
-                          const Icon(Icons.location_city, color: Colors.black),
+          child: Column(
+            // padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.lightGrey),
+                      child: Row(children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          onPressed: () {},
+                          icon: const Icon(Icons.location_pin,
+                              color: Colors.black),
+                        ),
+                        Text(address.toString() != ''
+                            ? address.toString().substring(0, 20)
+                            : 'Location')
+                      ]),
                     ),
-                    Text(address.toString() != ''
-                        ? address.toString().substring(0, 20)
-                        : 'Location')
-                  ]),
+                    Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.lightGrey),
+                      child: IconButton(
+                        padding: const EdgeInsets.all(8),
+                        constraints: const BoxConstraints(),
+                        onPressed: () {},
+                        icon: const Icon(Icons.shopping_basket,
+                            color: Colors.black),
+                      ),
+                    )
+                  ],
                 ),
-                Container(
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppColors.lightGrey),
-                  child: IconButton(
-                    padding: const EdgeInsets.all(8),
-                    constraints: const BoxConstraints(),
-                    onPressed: () {},
-                    icon:
-                        const Icon(Icons.shopping_basket, color: Colors.black),
+              ),
+              Container(
+                width: width,
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                decoration: BoxDecoration(
+                  color: AppColors.lightGrey.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        print(_controller.value.text);
+                        search.setSearchVal(_controller.value.text);
+                        Modular.to.navigate('/product',
+                            arguments: _controller.value.text);
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        // builder: (context) =>
+                        //     )));
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
+                    labelText: "Search Product here...",
+                    contentPadding: const EdgeInsets.all(10.0),
+                    enabledBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -151,7 +202,6 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             currentTab = i;
             changeTab(currentTab);
-            
           });
         },
         items: [
