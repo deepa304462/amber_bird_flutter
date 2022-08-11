@@ -16,24 +16,28 @@ class DealProductCard extends StatefulWidget {
 class _DealProductCardState extends State<DealProductCard> {
   final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   Widget _gridItemBody(DealProduct product) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE5E6E8),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: 
-       Image.network(
-          '${ClientService.cdnUrl}${product.product!.images![0]}',
-          // width: 80,
-          // height: 80,
-          fit: BoxFit.fill
-          // scale: 3,
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(15,15,15,0),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE5E6E8),
+            borderRadius: BorderRadius.circular(20),
           ),
-      // Image.asset(
-      //   product.product!.images![0],
-      //   scale: 3,
-      // ),
+          child: Image.network(
+              '${ClientService.cdnUrl}${product.product!.images![0]}',
+              // width: 80,
+              // height: 80,
+              fit: BoxFit.cover
+              // scale: 3,
+              ),
+          // Image.asset(
+          //   product.product!.images![0],
+          //   scale: 3,
+          // ),
+        ),
+        _gridItemFooter(product, context)
+      ],
     );
   }
 
@@ -73,10 +77,10 @@ class _DealProductCardState extends State<DealProductCard> {
 
   Widget _gridItemFooter(DealProduct product, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 15,right: 15),
       child: Container(
-        padding: const EdgeInsets.all(10),
-        height: 60,
+        padding: const EdgeInsets.only(left: 5, right: 5),
+        height: 50,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -137,7 +141,7 @@ class _DealProductCardState extends State<DealProductCard> {
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 10 / 16,
+                childAspectRatio: 10 / 12,
                 crossAxisCount: 2,
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10),
@@ -149,7 +153,7 @@ class _DealProductCardState extends State<DealProductCard> {
                 child: OpenContainerWrapper(
                     child: GridTile(
                       header: _gridItemHeader(dProduct, index),
-                      footer: _gridItemFooter(dProduct, context),
+                      // footer: _gridItemFooter(dProduct, context),
                       child: _gridItemBody(dProduct),
                     ),
                     product: myController.dealProd[index].product),
