@@ -140,23 +140,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   )
                 : const SizedBox(),
           ),
-          Obx(
-            () => myController.subCategoryList.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Sub Categories",
-                          style: TextStyles.headingFont,
-                        ),
-                      ],
-                    ),
-                  )
-                : SizedBox(),
-          ),
+
           GetX<Controller>(
             init: myController,
             //initState: (state) =>state.controller!.reviewIds = resultModel.reviews,

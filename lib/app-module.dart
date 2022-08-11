@@ -15,7 +15,7 @@ class AppModule extends Module {
         // ChildRoute('/', child: (_, args) => LoginPageWidget()),
         ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
         ModuleRoute('/', module: HomePageModule()),
-       
+
         // ChildRoute('/feedbackFormList',
         //     child: (_, args) => FeedbackListWidget(),
         //     guards: [AppCommonGuard()]),

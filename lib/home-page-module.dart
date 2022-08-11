@@ -15,7 +15,7 @@ class HomePageModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
-       ChildRoute(
+      ChildRoute(
         '/product',
         child: (_, args) => ProductPage(search: true, word: args),
       ),

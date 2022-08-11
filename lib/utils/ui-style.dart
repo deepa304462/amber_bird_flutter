@@ -70,4 +70,14 @@ class TextStyles {
       fontWeight: FontWeight.w300,
       color: AppColors.primeColor);
   static TextStyle get bodySm => body.copyWith(fontSize: FontSizes.bodySm);
+  static TextStyle get mrpStyle => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.body,
+      color: Color.fromARGB(255, 104, 35, 35));
+
+  static TextStyle get prieLinThroughStyle => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.body,
+      decoration: TextDecoration.lineThrough,
+      color: Color.fromARGB(255, 196, 186, 186));
 }

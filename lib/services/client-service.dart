@@ -12,6 +12,18 @@ enum APIVersion { V1, V2 }
 
 enum RESTMethod { POST, PUT, DELETE, DOWNLOAD, GET, SEARCH, AUTH }
 
+enum dealName {
+  FLASH,
+  SALES,
+  WEEKLY_DEAL,
+  SUPER_DEAL,
+  ONLY_COIN_DEAL,
+  EXCLUSIVE_DEAL,
+  MEMBER_DEAL,
+  PRIME_MEMBER_DEAL,
+  CUSTOM_RULE_DEAL
+}
+
 class ClientService {
   ClientService._();
 
@@ -23,7 +35,7 @@ class ClientService {
   //     "http://192.168.43.155/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
 
   static String url = "https://prod.sbazar.app/";
-  static String cdnUrl ="https://cdn2.sbazar.app/";
+  static String cdnUrl = "https://cdn2.sbazar.app/";
   static Dio dio = new Dio();
   static DefaultCacheManager cacheManager = DefaultCacheManager();
   static String token = '';
@@ -145,7 +157,7 @@ class ClientService {
           break;
       }
     } catch (e) {
-      print(url+ path);
+      print(url + path);
       DioError error = e as DioError;
       if (error.response?.statusCode == 429 && retry > 0) {
         return await _call(
