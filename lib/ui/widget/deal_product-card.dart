@@ -124,7 +124,7 @@ class _DealProductCardState extends State<DealProductCard> {
           padding: const EdgeInsets.only(top: 20),
           child: GridView.builder(
             itemCount: myController.dealProd.length,
-            shrinkWrap: true, 
+            shrinkWrap: true,
             scrollDirection: Axis.vertical,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 10 / 16,
@@ -133,13 +133,17 @@ class _DealProductCardState extends State<DealProductCard> {
                 crossAxisSpacing: 10),
             itemBuilder: (_, index) {
               DealProduct dProduct = myController.dealProd[index];
-              return OpenContainerWrapper(
-                  child: GridTile(
-                    header: _gridItemHeader(dProduct, index),
-                    footer: _gridItemFooter(dProduct, context),
-                    child: _gridItemBody(dProduct),
-                  ),
-                  product: myController.dealProd[index].product);
+              return Container(
+                height: 100,
+                width: 100,
+                child: OpenContainerWrapper(
+                    child: GridTile(
+                      header: _gridItemHeader(dProduct, index),
+                      footer: _gridItemFooter(dProduct, context),
+                      child: _gridItemBody(dProduct),
+                    ),
+                    product: myController.dealProd[index].product),
+              );
             },
           ),
         );

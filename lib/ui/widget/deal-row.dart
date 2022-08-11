@@ -86,27 +86,25 @@ class _DealRowState extends State<DealRow> {
                   ],
                 ),
               ),
-              Expanded(
-                child: GetX<Controller>(
-                  init: myController,
-                  //initState: (state) =>state.controller!.reviewIds = resultModel.reviews,
-                  builder: (mController) {
-                    if (dealProd.isNotEmpty) {
-                      return ListView.builder(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: dealProd.length,
-                        itemBuilder: (_, index) {
-                          return DealProductCard();
-                        },
-                      );
-                    } else {
-                      return SizedBox();
-                    }
-                  },
-                ),
-              ),
+              // GetX<Controller>(
+              //   init: myController,
+              //   //initState: (state) =>state.controller!.reviewIds = resultModel.reviews,
+              //   builder: (mController) {
+              //     if (dealProd.isNotEmpty) {
+              //       return ListView.builder(
+              //         padding: const EdgeInsets.symmetric(vertical: 10),
+              //         shrinkWrap: true,
+              //         scrollDirection: Axis.horizontal,
+              //         itemCount: dealProd.length,
+              //         itemBuilder: (_, index) {
+                 SizedBox(height:400,child:DealProductCard())
+                //       },
+                //     );
+                //   } else {
+                //     return SizedBox();
+                //   }
+                // },
+              // ),
             ],
           )
         : SizedBox();
