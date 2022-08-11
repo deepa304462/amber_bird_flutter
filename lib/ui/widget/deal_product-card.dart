@@ -98,7 +98,7 @@ class _DealProductCardState extends State<DealProductCard> {
             ),
             const SizedBox(height: 5),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   product.dealPrice!.offerPrice != null
@@ -118,6 +118,7 @@ class _DealProductCardState extends State<DealProductCard> {
                     ),
                   ),
                 ),
+                Spacer(),
                 Icon(Icons.add)
               ],
             ),
