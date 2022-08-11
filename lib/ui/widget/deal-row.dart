@@ -97,7 +97,7 @@ class _DealRowState extends State<DealRow> {
               //         scrollDirection: Axis.horizontal,
               //         itemCount: dealProd.length,
               //         itemBuilder: (_, index) {
-                 SizedBox(height:400,child:DealProductCard())
+                 SizedBox(height:600,child:DealProductCard())
                 //       },
                 //     );
                 //   } else {

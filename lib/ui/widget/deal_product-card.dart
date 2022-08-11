@@ -1,6 +1,8 @@
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/open_container_wrapper.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,10 +22,18 @@ class _DealProductCardState extends State<DealProductCard> {
         color: const Color(0xFFE5E6E8),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Image.asset(
-        product.product!.images![0],
-        scale: 3,
-      ),
+      child: 
+       Image.network(
+          '${ClientService.cdnUrl}${product.product!.images![0]}',
+          // width: 80,
+          // height: 80,
+          fit: BoxFit.fill
+          // scale: 3,
+          ),
+      // Image.asset(
+      //   product.product!.images![0],
+      //   scale: 3,
+      // ),
     );
   }
 
@@ -42,7 +52,7 @@ class _DealProductCardState extends State<DealProductCard> {
               height: 30,
               alignment: Alignment.center,
               child: const Text(
-                "30% OFF",
+                "2hrs left",
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -94,7 +104,7 @@ class _DealProductCardState extends State<DealProductCard> {
                   product.dealPrice!.offerPrice != null
                       ? "\$${product.dealPrice!.actualPrice}"
                       : "\$${product.dealPrice!.offerPrice}",
-                  style: Theme.of(context).textTheme.headline4,
+                  style: TextStyles.bodyFont,
                 ),
                 const SizedBox(width: 3),
                 Visibility(
@@ -134,8 +144,8 @@ class _DealProductCardState extends State<DealProductCard> {
             itemBuilder: (_, index) {
               DealProduct dProduct = myController.dealProd[index];
               return Container(
-                height: 100,
-                width: 100,
+                // height: 100,
+                // width: 100,
                 child: OpenContainerWrapper(
                     child: GridTile(
                       header: _gridItemHeader(dProduct, index),
