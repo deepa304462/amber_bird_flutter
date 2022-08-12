@@ -3,14 +3,15 @@ import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:flutter/material.dart';
 
-class MainPage extends StatefulWidget {
-  MainPage({Key? key}) : super(key: key);
+// class MainPage extends StatefulWidget {
+//   MainPage({Key? key}) : super(key: key);
 
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
+//   @override
+//   State<MainPage> createState() => _MainPageState();
+// }
 
-class _MainPageState extends State<MainPage> {
+// class _MainPageState extends State<MainPage> {
+class MainPage extends StatelessWidget {
   // final ProductController controller = Get.put(ProductController());
 
   @override

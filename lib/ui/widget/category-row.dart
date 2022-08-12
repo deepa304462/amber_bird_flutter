@@ -71,6 +71,7 @@ class _CategoryRowState extends State<CategoryRow> {
               ),
               TextButton(
                 onPressed: () {
+                  myController.setCurrentTab(2);
                   Modular.to.navigate('/category');
                 },
                 child: Text(

@@ -1,18 +1,18 @@
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+// class HomePage extends StatelessWidget {
+//   HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+//   @override
+//   State<HomePage> createState() => _HomePageState();
+// }
 
 PreferredSize _appBar(address) {
   var dropdownvalue;
@@ -59,49 +59,37 @@ PreferredSize _appBar(address) {
   );
 }
 
-class _HomePageState extends State<HomePage> {
-  int currentTab = 0; // to keep track of active tab index
-  RxString address = ''.obs;
+// class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget {
+  // to keep track of active tab index
+  Controller myController = Get.put(Controller(), tag: 'mycontroller');
+  // Controller locationController = Get.find();
+  // RxString address = ''.obs;
   @override
   initState() {
-    getLocation();
-    super.initState();
+    // print('mddddddddddddddd${myController.address.toString()}');
+    // getLocation();
+    // super.initState();
   }
 
-  getLocation() async {
-    String ad = (await SharedData.read('current-address')).toString();
-    address.value = ad;
-    setState(() {
-      address = address;
-    });
-    changeTab(currentTab);
-    // print('jjjjjjjjjjjjj${address.toString()}');
-  }
+  // getLocation() async {
+  //   String ad = (await SharedData.read('current-address')).toString();
+  //   address.value = ad;
+  //   // setState(() {
+  //   //   address = address;
+  //   // });
+  //   print('jjjjjjjjjjjjj${address.toString()}');
+  //   myController.changeTab(myController.currentTab.toInt());
 
-  changeTab(currentTab) {
-    switch (currentTab) {
-      case 0:
-        routerOut.Modular.to.navigate('/main');
-        break;
-      case 1:
-        routerOut.Modular.to.navigate('/category');
-        break;
-      case 2:
-        routerOut.Modular.to.navigate('/cart');
-        break;
-      case 3:
-        routerOut.Modular.to.navigate('/login');
-        break;
-    }
-  }
+  // }
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     // TextEditingController _controller = new TextEditingController();
-    final Controller search = Get.put(Controller(), tag: 'mycontroller');
+    // final Controller search = Get.put(Controller(), tag: 'mycontroller');
     TextEditingController _controller = new TextEditingController();
-    _controller.text = search.search.toString();
+    _controller.text = myController.search.toString();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(130),
@@ -129,9 +117,13 @@ class _HomePageState extends State<HomePage> {
                           icon: const Icon(Icons.location_pin,
                               color: Colors.black),
                         ),
-                        Text(address.toString() != ''
-                            ? address.toString().substring(0, 20)
-                            : 'Location')
+                        GetX<LocationController>(
+                          // init: myController,
+                          builder: (mcontroller) {
+                          return  Text(mcontroller.address.toString().length >20
+                              ? mcontroller.address.toString().substring(0, 20)
+                              : 'Location');
+                        })
                       ]),
                     ),
                     Container(
@@ -163,8 +155,8 @@ class _HomePageState extends State<HomePage> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         print(_controller.value.text);
-                        search.setSearchVal(_controller.value.text);
-                        Modular.to.navigate('/product',
+                        myController.setSearchVal(_controller.value.text);
+                        routerOut.Modular.to.navigate('/product',
                             arguments: _controller.value.text);
                         // Navigator.of(context).push(MaterialPageRoute(
                         // builder: (context) =>
@@ -192,39 +184,44 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: const routerOut.RouterOutlet(),
-      bottomNavigationBar: BottomNav(
-        index: currentTab,
-        backgroundColor: Colors.white,
-        showElevation: true,
-        navBarHeight: 75.0,
-        radius: 30.0,
-        onTap: (i) {
-          setState(() {
-            currentTab = i;
-            changeTab(currentTab);
-          });
-        },
-        items: [
-          BottomNavItem(
-              imgIcon:
-                  'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
-              icon: Icons.home,
-              label: "Home",
-              selectedColor: Colors.red.shade900),
-          BottomNavItem(
-              icon: Icons.category,
-              label: "Category",
-              selectedColor: Colors.green),
-          BottomNavItem(
-              icon: Icons.shopping_bag,
-              label: "Search",
-              selectedColor: Colors.amber.shade800),
-          BottomNavItem(
-              icon: Icons.account_circle,
-              label: "Profile",
-              selectedColor: Colors.blue),
-        ],
-      ),
+      bottomNavigationBar: GetX<Controller>(
+          init: myController,
+          builder: (mcontroller) {
+            return BottomNav(
+              index: mcontroller.currentTab.toInt(),
+              backgroundColor: Colors.white,
+              showElevation: true,
+              navBarHeight: 75.0,
+              radius: 30.0,
+              onTap: (i) {
+                myController.setCurrentTab(i);
+                // setState(() {
+                //   // myController.currentTab = i;
+                //   changeTab(myController.currentTab.toInt());
+                // });
+              },
+              items: [
+                BottomNavItem(
+                    imgIcon:
+                        'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                    icon: Icons.home,
+                    label: "Home",
+                    selectedColor: Colors.red.shade900),
+                BottomNavItem(
+                    icon: Icons.category,
+                    label: "Category",
+                    selectedColor: Colors.green),
+                BottomNavItem(
+                    icon: Icons.shopping_bag,
+                    label: "Search",
+                    selectedColor: Colors.amber.shade800),
+                BottomNavItem(
+                    icon: Icons.account_circle,
+                    label: "Profile",
+                    selectedColor: Colors.blue),
+              ],
+            );
+          }),
     );
   }
 }
