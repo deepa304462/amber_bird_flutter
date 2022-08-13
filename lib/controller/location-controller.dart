@@ -1,11 +1,6 @@
- 
-import 'package:amber_bird/data/deal_product/deal_product.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
-import 'package:amber_bird/data/product_category/product_category.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
@@ -21,22 +16,22 @@ class LocationController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void 
-
-  getLocation() async {
+  void getLocation() async {
     FlutterNativeSplash.remove();
     String ad = (await SharedData.read('current-address')).toString();
-    if (ad != null) {
+    if (ad != '{}') {
+      print('3111${ad}');
       address = RxString(ad);
-    } else { 
-      initializeLocationAndSave();
-      // ChangeLocale.change = (Locale locale) {
-      //   _currentLocale = locale;
-      //   // setState(() {});
-      // };
     } 
-    // myController.changeTab(myController.currentTab.toInt());
+  }
+
+  locationReqest() {
+     initializeLocationAndSave();
+  }
+
+  Future<PermissionStatus> checkPermission() async{
+    PermissionStatus serviceEnabled = await Location().hasPermission();
+    return serviceEnabled  ;
   }
 
   void initializeLocationAndSave() async {
@@ -68,15 +63,9 @@ class LocationController extends GetxController {
     SharedData.save(locationData.longitude!.toString(), 'longitude');
     SharedData.save(currentAddress, 'current-address');
     address = RxString(currentAddress);
-    // Store the user location in sharedPreferences
-    // sharedPreferences.setDouble('latitude', _locationData.latitude!);
-    // sharedPreferences.setDouble('longitude', _locationData.longitude!);
-    // sharedPreferences.setString('current-address', currentAddress);
-
-    // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (_) => const Home()), (route) => false);
   }
 
-   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
+  Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
     var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
     // print(resp);
     // var response =resp;
@@ -90,5 +79,4 @@ class LocationController extends GetxController {
     print(revGeocode);
     return revGeocode;
   }
-
 }

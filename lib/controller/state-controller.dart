@@ -8,12 +8,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
-  var search = ''.obs;
+  
  
 
   var currentTab = 0.obs;
-  RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
-  RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
+  // RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
+  // RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
   RxList<DealProduct> dealProd = <DealProduct>[].obs;
   RxList<Product> filteredProducts = <Product>[].obs;
   RxList<Product> cartProducts = <Product>[].obs;
@@ -23,7 +23,7 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
-    
+    changeTab(currentTab.toInt());
     super.onInit();
   }
 
@@ -52,7 +52,7 @@ class Controller extends GetxController {
   }
 
   setCurrentTab(curTab) {
-    currentTab = RxInt(curTab);
+    currentTab.value =  (curTab);
     changeTab(currentTab.toInt());
   }
 
@@ -82,21 +82,19 @@ class Controller extends GetxController {
     calculateTotalPrice();
   }
 
-  setCategory(cList) {
-    categoryList = RxList(cList);
-  }
+  // setCategory(cList) {
+  //   categoryList = RxList(cList);
+  // }
 
   setDealProd(cList) {
     dealProd = (cList);
   }
 
-  setSubCategory(sList) {
-    subCategoryList = RxList(sList);
-  }
+  // setSubCategory(sList) {
+  //   subCategoryList = RxList(sList);
+  // }
 
-  setSearchVal(val) {
-    search = RxString(val);
-  }
+
 
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
