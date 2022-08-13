@@ -22,7 +22,7 @@ class MainPage extends StatelessWidget {
         children: [
           CategoryRow(),
           DealRow(dealName.FLASH),
-          // DealRow(dealName.SALES),
+          DealRow(dealName.SALES),
         ],
       ),
     );

@@ -12,8 +12,6 @@ class Controller extends GetxController {
  
 
   var currentTab = 0.obs;
-  // RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
-  // RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
   
   RxList<Product> filteredProducts = <Product>[].obs;
   RxList<Product> cartProducts = <Product>[].obs;
@@ -26,10 +24,7 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
     super.onInit();
   }
-
-  // increment() {
-  //   count++;
-  // }
+ 
   bool isPriceOff(Product product) {
     if (product.varient!.price!.offerPrice != null) {
       return true;
@@ -82,18 +77,7 @@ class Controller extends GetxController {
     calculateTotalPrice();
   }
 
-  // setCategory(cList) {
-  //   categoryList = RxList(cList);
-  // }
-
-  // setDealProd(cList) {
-  //   dealProd = (cList);
-  // }
-
-  // setSubCategory(sList) {
-  //   subCategoryList = RxList(sList);
-  // }
-
+ 
 
 
   void switchBetweenProductImages(int index) {

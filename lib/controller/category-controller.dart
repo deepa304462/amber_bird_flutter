@@ -25,7 +25,7 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       categoryList.value =  (cList);
-      print(categoryList);
+      // print(categoryList);
     } else {
       inspect(response);
     }
@@ -42,7 +42,7 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       subCategoryList.value = (sList);
-      print(subCategoryList);
+      // print(subCategoryList);
     } else {
       inspect(response);
     }

@@ -22,7 +22,7 @@ class CategoryPage extends StatelessWidget {
   bool isLoading = false;
   ProductCategory selectedCatergory = new ProductCategory();
   ProductCategory selectedSubCatergory = new ProductCategory();
-  final Controller myController = Get.put(Controller(), tag: 'mycontroller');
+  // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CategoryController categoryController = Get.put(CategoryController());
   // @override
   // initState() {

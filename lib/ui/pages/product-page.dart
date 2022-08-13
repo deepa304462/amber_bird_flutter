@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 
-class ProductPage extends StatefulWidget {
+// class ProductPage extends StatefulWidget {
+//   String word = '';
+//   bool search = false;
+//   ProductPage({Key? key, required bool search, required word})
+//       : super(key: key);
+
+//   @override
+//   State<ProductPage> createState() => _ProductPageState();
+// }
+
+// class _ProductPageState extends State<ProductPage> {
+class ProductPage extends StatelessWidget {
   String word = '';
   bool search = false;
-  ProductPage({Key? key, required bool search, required word})
-      : super(key: key);
-
-  @override
-  State<ProductPage> createState() => _ProductPageState();
-}
-
-class _ProductPageState extends State<ProductPage> {
-  @override
-  void initState() {
-    print('hiiiiiiiiii${widget.word}');
-    if (widget.word.isNotEmpty) {
-      getProduct();
-    }
-    super.initState();
-  }
-
-  getProduct() {}
+  ProductPage({Key? key, required bool search, required word});
 
   @override
   Widget build(BuildContext context) {

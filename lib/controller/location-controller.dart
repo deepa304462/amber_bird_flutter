@@ -19,8 +19,7 @@ class LocationController extends GetxController {
   void getLocation() async {
     FlutterNativeSplash.remove();
     String ad = (await SharedData.read('current-address')).toString();
-    if (ad != '{}') {
-      print('3111${ad}');
+    if (ad != '{}') { 
       address.value =  (ad);
     } 
   }
