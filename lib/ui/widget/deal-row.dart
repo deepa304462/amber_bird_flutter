@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/product_category/product_category.dart';
@@ -21,8 +22,8 @@ class DealRow extends StatefulWidget {
 
 class _DealRowState extends State<DealRow> {
   bool isLoading = false;
-  RxList<DealProduct> dealProd = <DealProduct>[].obs;
-  final Controller myController = Get.put(Controller(), tag: 'mycontroller');
+  // RxList<DealProduct> dealProd = <DealProduct>[].obs;
+  final DealController dealController = Get.put(DealController());
   @override
   initState() {
     getDealList();
@@ -35,20 +36,7 @@ class _DealRowState extends State<DealRow> {
       isLoading = true;
     });
 
-    var payload = {"type": widget.CurrentdealName};
-    var response = await ClientService.searchQuery(
-        path: 'cache/dealProduct/search', query: payload, lang: 'en');
-
-    if (response.statusCode == 200) {
-      print(response.data);
-      dealProd = RxList((response.data as List<dynamic>?)
-              ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
-              .toList() ??
-          []);
-      myController.setDealProd(dealProd);
-    } else {
-      inspect(response);
-    }
+   
 
     setState(() {
       isLoading = false;

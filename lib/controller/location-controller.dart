@@ -21,7 +21,7 @@ class LocationController extends GetxController {
     String ad = (await SharedData.read('current-address')).toString();
     if (ad != '{}') {
       print('3111${ad}');
-      address = RxString(ad);
+      address.value =  (ad);
     } 
   }
 
@@ -62,7 +62,7 @@ class LocationController extends GetxController {
     SharedData.save(locationData.latitude!.toString(), 'latitude');
     SharedData.save(locationData.longitude!.toString(), 'longitude');
     SharedData.save(currentAddress, 'current-address');
-    address = RxString(currentAddress);
+    address.value =  (currentAddress);
   }
 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {

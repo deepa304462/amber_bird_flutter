@@ -14,7 +14,7 @@ class Controller extends GetxController {
   var currentTab = 0.obs;
   // RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
   // RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
-  RxList<DealProduct> dealProd = <DealProduct>[].obs;
+  
   RxList<Product> filteredProducts = <Product>[].obs;
   RxList<Product> cartProducts = <Product>[].obs;
   RxInt totalPrice = 0.obs;
@@ -86,9 +86,9 @@ class Controller extends GetxController {
   //   categoryList = RxList(cList);
   // }
 
-  setDealProd(cList) {
-    dealProd = (cList);
-  }
+  // setDealProd(cList) {
+  //   dealProd = (cList);
+  // }
 
   // setSubCategory(sList) {
   //   subCategoryList = RxList(sList);
