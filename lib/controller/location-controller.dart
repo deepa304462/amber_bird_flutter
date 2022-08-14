@@ -55,8 +55,7 @@ class LocationController extends GetxController {
     print(currentLocation);
     // Get the current user address
     String currentAddress =
-        (await getParsedReverseGeocoding(currentLocation))['address'];
-    // print('addd${currentAddress}');
+        (await getParsedReverseGeocoding(currentLocation))['address']; 
     SharedData.save(locationData.latitude!.toString(), 'latitude');
     SharedData.save(locationData.longitude!.toString(), 'longitude');
     SharedData.save(currentAddress, 'current-address');
@@ -64,17 +63,14 @@ class LocationController extends GetxController {
   }
 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
-    var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
-    // print(resp);
-    // var response =resp;
+    var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng); 
     Map feature = response['features'][0];
     Map revGeocode = {
       'name': feature['text'],
       'address': feature['place_name'].split('${feature['text']}, ')[1],
       'place': feature['place_name'],
       'location': latLng
-    };
-    print(revGeocode);
+    }; 
     return revGeocode;
   }
 }

@@ -1,9 +1,6 @@
 import 'dart:ffi';
-
-import 'package:amber_bird/data/deal_product/deal_product.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
-import 'package:amber_bird/data/product_category/product_category.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
+ 
+import 'package:amber_bird/data/deal_product/product.dart'; 
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -75,24 +72,5 @@ class Controller extends GetxController {
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
   }
-
-  // List<Numerical> sizeType(Product product) {
-  //   ProductSizeType? productSize = product.sizes;
-  //   List<Numerical> numericalList = [];
-
-  //   if (productSize?.numerical != null) {
-  //     for (var element in productSize!.numerical!) {
-  //       numericalList.add(Numerical(element.numerical, element.isSelected));
-  //     }
-  //   }
-
-  //   if (productSize?.categorical != null) {
-  //     for (var element in productSize!.categorical!) {
-  //       numericalList
-  //           .add(Numerical(element.categorical.name, element.isSelected));
-  //     }
-  //   }
-
-  //   return numericalList;
-  // }
+ 
 }

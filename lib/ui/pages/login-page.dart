@@ -1,22 +1,25 @@
+import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/data/slider-item.dart';
 import 'package:amber_bird/ui/widget/login-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginPageWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _LoginPage();
-  }
-}
+class LoginPageWidget extends StatelessWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _LoginPage();
+//   }
+// }
 
-class _LoginPage extends State<LoginPageWidget> {
-  @override
-  void initState() {
-    super.initState();
-  }
+// class _LoginPage extends State<LoginPageWidget> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
+final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {

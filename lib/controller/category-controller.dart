@@ -41,8 +41,7 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      subCategoryList.value = (sList);
-      // print(subCategoryList);
+      subCategoryList.value = (sList); 
     } else {
       inspect(response);
     }

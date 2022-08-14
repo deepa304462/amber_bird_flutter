@@ -32,7 +32,7 @@ class _LoginWidget extends State<LoginWidget> {
               'Get access',
               style: TextStyles.titleXLargePrimary,
             ),
-            ITextBox('Registered contact number'),
+            ITextBox('Registered contact number','',false, TextInputType.text,false),
             TextButton(
               onPressed: () {},
               child: Text(

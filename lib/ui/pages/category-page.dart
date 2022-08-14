@@ -24,38 +24,6 @@ class CategoryPage extends StatelessWidget {
   ProductCategory selectedSubCatergory = new ProductCategory();
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CategoryController categoryController = Get.put(CategoryController());
-  // @override
-  // initState() {
-  //   getCategoryList();
-  //   super.initState();
-  // }
-
-  // getCategoryList() async {
-  //   if (!myController.categoryList.isNotEmpty) {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-
-  //     var payload = {"data": ""};
-  //     var response = await ClientService.searchQuery(
-  //         path: 'cache/productCategory/search', query: payload, lang: 'en');
-
-  //     if (response.statusCode == 200) {
-  //       List<ProductCategory> cList = ((response.data as List<dynamic>?)
-  //               ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
-  //               .toList() ??
-  //           []);
-  //       myController.setCategory(cList);
-  //       // print(myController.categoryList);
-  //     } else {
-  //       inspect(response);
-  //     }
-
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +91,7 @@ class CategoryPage extends StatelessWidget {
                     )
                   : const SizedBox(),
             ),
-
             GetX<CategoryController>(
-              // init: myController,
-              //initState: (state) =>state.controller!.reviewIds = resultModel.reviews,
               builder: (mController) {
                 if (mController.subCategoryList.isNotEmpty) {
                   print(mController.subCategoryList.isNotEmpty);
@@ -148,9 +113,6 @@ class CategoryPage extends StatelessWidget {
                                 onPressed: () {
                                   selectedSubCatergory =
                                       mController.subCategoryList[index];
-                                  // setState(() {
-                                  //   isLoading = false;
-                                  // });
                                 },
                                 child: Text(
                                     mController.subCategoryList[index].name!
@@ -191,42 +153,6 @@ class CategoryPage extends StatelessWidget {
                 }
               },
             ),
-            // sList.isNotEmpty
-            //     ? SizedBox(
-            //         height: 45,
-            //         child: ListView.builder(
-            //           scrollDirection: Axis.horizontal,
-            //           itemCount: sList.length,
-            //           itemBuilder: (_, index) {
-            //             return Container(
-            //               margin: const EdgeInsets.all(8),
-            //               padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-            //               decoration: BoxDecoration(
-            //                   borderRadius: BorderRadius.circular(10),
-            //                   color: AppColors.lightGrey),
-            //               child: Row(
-            //                 children: [
-            //                   Text(sList[index].name!.defaultText!.text ?? '',
-            //                       style: TextStyles.title),
-            //                   InkWell(
-            //                     onTap: () {
-            //                       print(
-            //                           "Container clicked ${index}${sList[index]}");
-            //                       // getSubCategory(cList[index].id);
-            //                     },
-            //                     child: Image.network(
-            //                         '${ClientService.cdnUrl}${sList[index].logoId}',
-            //                         width: 25,
-            //                         height: 25,
-            //                         fit: BoxFit.fill),
-            //                   ),
-            //                 ],
-            //               ),
-            //             );
-            //           },
-            //         ),
-            //       )
-            //     : const SizedBox(),
           ],
         ),
       );

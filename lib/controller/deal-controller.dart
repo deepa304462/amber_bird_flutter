@@ -6,15 +6,12 @@ import 'package:get/get.dart';
 
 class DealController extends GetxController {
   RxList<DealProduct> dealProd = <DealProduct>[].obs;
-  // Map<String, String> params = Get.arguments;
-
+ 
   final tag;
 
   DealController(this.tag);
   @override
-  void onInit() {
-    // print(params);
-    print('111111${tag}');
+  void onInit() { 
     if (tag == dealName.FLASH) {
       getDealProduct('FLASH');
     }else if (tag == dealName.SALES) {
@@ -34,9 +31,7 @@ class DealController extends GetxController {
               ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      dealProd.value = (dList);
-      print('deal${response.data}');
-      // myController.setDealProd(dealProd);
+      dealProd.value = (dList); 
     } else {
       inspect(response);
     }

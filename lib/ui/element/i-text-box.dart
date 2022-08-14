@@ -2,18 +2,25 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ITextBox extends StatefulWidget {
+class ITextBox extends StatelessWidget {
   final String label;
-  ITextBox(this.label);
-  @override
-  State<StatefulWidget> createState() {
-    return _ITextBox();
-  }
-}
+  final String value;
+  final bool iscomingFromThridParty;
+  final bool isPassword;
+  final TextInputType keyboardType;
+  ITextBox(
+      this.label, this.value, this.iscomingFromThridParty, this.keyboardType, this.isPassword);
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _ITextBox();
+//   }
+// }
 
-class _ITextBox extends State<ITextBox> {
+// class _ITextBox extends State<ITextBox> {
   @override
   Widget build(BuildContext context) {
+    TextEditingController ipController = new TextEditingController();
+    ipController.text = value ;
     return Container(
       padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
       decoration: BoxDecoration(
@@ -22,9 +29,11 @@ class _ITextBox extends State<ITextBox> {
       child: TextField(
         decoration: InputDecoration(
           border: InputBorder.none,
-          labelText: this.widget.label,
+          labelText: label,
         ),
-        controller: new TextEditingController(),
+        controller: ipController,
+        obscureText: isPassword,
+        keyboardType: keyboardType,
       ),
     );
   }
