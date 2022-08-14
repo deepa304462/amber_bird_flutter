@@ -5,6 +5,7 @@ import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
+import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class HomePageModule extends Module {
@@ -23,6 +24,7 @@ class HomePageModule extends Module {
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
+      ChildRoute('/signup', child: (_, args) => SignUp()),
     ]),
   ];
 }

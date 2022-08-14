@@ -1,6 +1,8 @@
 import 'package:amber_bird/data/slider-item.dart';
 import 'package:amber_bird/ui/widget/login-widget.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPageWidget extends StatefulWidget {
@@ -10,16 +12,6 @@ class LoginPageWidget extends StatefulWidget {
   }
 }
 
-/**
-  
- Text(AppLocalizations.of(context)!.helloWorld),
-              IconButton(
-                icon: Icon(Icons.access_alarm),
-                onPressed: () {
-                  ChangeLocale.change(Locale('es'));
-                },
-              ),
- */
 class _LoginPage extends State<LoginPageWidget> {
   @override
   void initState() {
@@ -47,6 +39,7 @@ class _LoginPage extends State<LoginPageWidget> {
                   child: LoginWidget(),
                 ),
               ),
+             
             ],
           );
         },
