@@ -2,7 +2,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-import '../pages/product_detail_screen.dart'; 
+import '../pages/product_detail_screen.dart';
 
 class OpenContainerWrapper extends StatelessWidget {
   const OpenContainerWrapper(
@@ -10,7 +10,7 @@ class OpenContainerWrapper extends StatelessWidget {
       : super(key: key);
 
   final Widget child;
-  final Product? product;
+  final ProductSummary? product;
 
   @override
   Widget build(BuildContext context) {

@@ -8,13 +8,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
-  
- 
-
   var currentTab = 0.obs;
-  
-  RxList<Product> filteredProducts = <Product>[].obs;
-  RxList<Product> cartProducts = <Product>[].obs;
+
+  RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
+  RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt productImageDefaultIndex = 0.obs;
@@ -24,8 +21,8 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
     super.onInit();
   }
- 
-  bool isPriceOff(Product product) {
+
+  bool isPriceOff(ProductSummary product) {
     if (product.varient!.price!.offerPrice != null) {
       return true;
     } else {
@@ -47,11 +44,9 @@ class Controller extends GetxController {
   }
 
   setCurrentTab(curTab) {
-    currentTab.value =  (curTab);
+    currentTab.value = (curTab);
     changeTab(currentTab.toInt());
   }
-
-  
 
   changeTab(currentTab) {
     switch (currentTab) {
@@ -76,9 +71,6 @@ class Controller extends GetxController {
     // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     calculateTotalPrice();
   }
-
- 
-
 
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;

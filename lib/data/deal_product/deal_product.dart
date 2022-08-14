@@ -9,7 +9,7 @@ import 'rule_config.dart';
 class DealProduct {
   MetaData? metaData;
   String? type;
-  Product? product;
+  ProductSummary? product;
   DealPrice? dealPrice;
   String? imageId;
   RuleConfig? ruleConfig;
@@ -43,7 +43,7 @@ class DealProduct {
         type: data['type'] as String?,
         product: data['product'] == null
             ? null
-            : Product.fromMap(data['product'] as Map<String, dynamic>),
+            : ProductSummary.fromMap(data['product'] as Map<String, dynamic>),
         dealPrice: data['dealPrice'] == null
             ? null
             : DealPrice.fromMap(data['dealPrice'] as Map<String, dynamic>),
@@ -87,7 +87,7 @@ class DealProduct {
   DealProduct copyWith({
     MetaData? metaData,
     String? type,
-    Product? product,
+    ProductSummary? product,
     DealPrice? dealPrice,
     String? imageId,
     RuleConfig? ruleConfig,

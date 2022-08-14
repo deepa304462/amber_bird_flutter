@@ -17,20 +17,19 @@ class LocationController extends GetxController {
   }
 
   void getLocation() async {
-    FlutterNativeSplash.remove();
     String ad = (await SharedData.read('current-address')).toString();
-    if (ad != '{}') { 
-      address.value =  (ad);
-    } 
+    if (ad != '{}') {
+      address.value = (ad);
+    }
   }
 
   locationReqest() {
-     initializeLocationAndSave();
+    initializeLocationAndSave();
   }
 
-  Future<PermissionStatus> checkPermission() async{
+  Future<PermissionStatus> checkPermission() async {
     PermissionStatus serviceEnabled = await Location().hasPermission();
-    return serviceEnabled  ;
+    return serviceEnabled;
   }
 
   void initializeLocationAndSave() async {
@@ -61,7 +60,7 @@ class LocationController extends GetxController {
     SharedData.save(locationData.latitude!.toString(), 'latitude');
     SharedData.save(locationData.longitude!.toString(), 'longitude');
     SharedData.save(currentAddress, 'current-address');
-    address.value =  (currentAddress);
+    address.value = (currentAddress);
   }
 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
