@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class ProductDetailScreen extends StatelessWidget {
   final PageController _pageController = PageController(initialPage: 0);
   final Controller myController = Get.put(Controller(), tag: 'mycontroller');
-  final Product? product;
+  final ProductSummary? product;
 
   ProductDetailScreen(this.product, {Key? key}) : super(key: key);
 

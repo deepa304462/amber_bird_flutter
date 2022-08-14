@@ -5,7 +5,7 @@ import 'description.dart';
 import 'name.dart';
 import 'varient.dart';
 
-class Product {
+class ProductSummary {
   Name? name;
   Description? description;
   List<dynamic>? images;
@@ -14,7 +14,7 @@ class Product {
   String? countryCode;
   String? id;
 
-  Product({
+  ProductSummary({
     this.name,
     this.description,
     this.images,
@@ -29,7 +29,7 @@ class Product {
     return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, id: $id)';
   }
 
-  factory Product.fromMap(Map<String, dynamic> data) => Product(
+  factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
         name: data['name'] == null
             ? null
             : Name.fromMap(data['name'] as Map<String, dynamic>),
@@ -59,17 +59,17 @@ class Product {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Product].
-  factory Product.fromJson(String data) {
-    return Product.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [ProductSummary].
+  factory ProductSummary.fromJson(String data) {
+    return ProductSummary.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [Product] to a JSON string.
+  /// Converts [ProductSummary] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Product copyWith({
+  ProductSummary copyWith({
     Name? name,
     Description? description,
     List<String>? images,
@@ -78,7 +78,7 @@ class Product {
     String? countryCode,
     String? id,
   }) {
-    return Product(
+    return ProductSummary(
       name: name ?? this.name,
       description: description ?? this.description,
       images: images ?? this.images,
