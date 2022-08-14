@@ -20,6 +20,7 @@ class DealProductCard extends StatelessWidget {
           ),
           child: Image.network(
               '${ClientService.cdnUrl}${product.product!.images![0]}',
+              height: 150,
               fit: BoxFit.cover),
         ),
         _gridItemFooter(product, context)
@@ -122,7 +123,7 @@ class DealProductCard extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: con.dealProd.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 10 / 13,
+              childAspectRatio: 10 / 11,
               crossAxisCount: 2,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10),
