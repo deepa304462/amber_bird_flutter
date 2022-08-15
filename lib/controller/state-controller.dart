@@ -1,12 +1,12 @@
 import 'dart:ffi';
- 
-import 'package:amber_bird/data/deal_product/product.dart'; 
+
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
   var currentTab = 0.obs;
-
+  var activePageName = ''.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
@@ -45,18 +45,31 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
   }
 
+  bool showSearch(){
+    if(activePageName.value == 'main' || activePageName.value == 'category' ||
+        activePageName.value == 'cart'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   changeTab(currentTab) {
     switch (currentTab) {
       case 0:
+        activePageName.value = 'main';
         Modular.to.navigate('/main');
         break;
       case 1:
+        activePageName.value = 'category';
         Modular.to.navigate('/category');
         break;
       case 2:
+        activePageName.value = 'cart';
         Modular.to.navigate('/cart');
         break;
       case 3:
+        activePageName.value = 'login';
         Modular.to.navigate('/login');
         break;
     }
@@ -72,5 +85,4 @@ class Controller extends GetxController {
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
   }
- 
 }

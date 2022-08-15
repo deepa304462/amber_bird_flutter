@@ -1,7 +1,10 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
+import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 // class MainPage extends StatefulWidget {
 //   MainPage({Key? key}) : super(key: key);
@@ -20,6 +23,8 @@ class MainPage extends StatelessWidget {
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+         
+          
           CategoryRow(),
           DealRow(dealName.FLASH),
           DealRow(dealName.SALES),

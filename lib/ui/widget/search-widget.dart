@@ -13,7 +13,7 @@ class SearchWidget extends StatelessWidget {
      controller.text = searchController.search.toString();
     var width = MediaQuery.of(context).size.width;
     return Container(
-      width: width,
+      width: width, 
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
         color: AppColors.lightGrey.withOpacity(0.1),

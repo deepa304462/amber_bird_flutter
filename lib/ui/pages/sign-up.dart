@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUp extends StatelessWidget {
+  final AuthController authController = Get.find();
   @override
   Widget build(BuildContext context) {
     return GetX<AuthController>(builder: (mController) {
@@ -25,20 +26,31 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              ITextBox('Full Name', mController.fieldValue['fullName'].toString(), false, TextInputType.text, false),
+              // ITextBox(
+              //     'Username',
+              //     'userName',
+              //     mController.fieldValue['userName'].toString(),
+              //     false,
+              //     TextInputType.text,
+              //     false,
+              //     callback),
               const SizedBox(
                 height: 10,
               ),
-              ITextBox('Mobile',  mController.fieldValue['mobile'].toString(), false, TextInputType.number, false),
+              ITextBox('Full Name','fullName', mController.fieldValue['fullName'].toString(), false, TextInputType.text, false,callback),
               const SizedBox(
                 height: 10,
               ),
-              ITextBox('Email',  mController.fieldValue['email'].toString(), false, TextInputType.emailAddress, false),
+              ITextBox('Mobile', 'mobile', mController.fieldValue['mobile'].toString(), false, TextInputType.number, false,callback),
+              const SizedBox(
+                height: 10,
+              ),
+              ITextBox('Email','email',  mController.fieldValue['email'].toString(), false, TextInputType.emailAddress, false,callback),
               const SizedBox(
                 height: 10,
               ),
               ITextBox(
-                  'Password', mController.fieldValue['password'].toString(), false, TextInputType.visiblePassword, true),
+                  'Password','password', mController.fieldValue['password'].toString(), false, TextInputType.visiblePassword, true,callback),
               const SizedBox(
                 height: 20,
               ),
@@ -51,13 +63,13 @@ class SignUp extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
+                  children: const <Widget>[
                     Image(
                       image: AssetImage("assets/google_logo.png"),
                       height: 35.0,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.only(left: 10),
                       child: Text(
                         'Sign in with Google',
                         style: TextStyle(
@@ -74,19 +86,24 @@ class SignUp extends StatelessWidget {
                 height: 20,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  mController.signUp();
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(AppColors.primeColor)),
                 child: Text(
                   'Sign up',
                   style: TextStyles.bodyWhiteLarge,
                 ),
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(AppColors.primeColor)),
               )
             ],
           ),
         ),
       );
     });
+  }
+
+  callback(String p1) { 
   }
 }

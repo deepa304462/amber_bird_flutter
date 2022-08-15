@@ -21,7 +21,7 @@ class CategoryRow extends StatelessWidget {
   bool isLoading = false;
   // RxList<ProductCategory> cList = RxList([]);
   final CategoryController categoryController = Get.put(CategoryController());
-  final Controller myController = Get.put(Controller());
+  final Controller myController = Get.find();
   
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class CategoryRow extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,

@@ -123,7 +123,7 @@ class DealProductCard extends StatelessWidget {
           scrollDirection: Axis.vertical,
           itemCount: con.dealProd.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 10 / 11,
+              childAspectRatio: 10 / 12.3,
               crossAxisCount: 2,
               mainAxisSpacing: 10,
               crossAxisSpacing: 10),

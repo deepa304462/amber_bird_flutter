@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/app-bar.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
+import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
@@ -62,53 +63,62 @@ PreferredSize _appBar(address) {
 // class _HomePageState extends State<HomePage> {
 class HomePage extends StatelessWidget {
   // to keep track of active tab index
-  Controller myController = Get.put(Controller(), tag: 'mycontroller');
-
+  // Controller myController = Get.put(Controller(), tag: 'mycontroller');
+  final Controller myController = Get.put(Controller());
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(130), child: appBarWidget()),
-      body: const routerOut.RouterOutlet(),
+          preferredSize: const Size.fromHeight(80), child: appBarWidget()),
+      body: GetX<Controller>(builder: (mController) {
+        print(mController.activePageName);
+        print(mController.showSearch());
+        if (mController.showSearch() == true) {
+          return Stack(alignment: AlignmentDirectional.topCenter, children: [
+            SearchWidget(),
+            const Padding(
+                padding: EdgeInsets.only(top:50,left: 20,right: 20), 
+                child: routerOut.RouterOutlet())
+          ]);
+        } else {
+          return routerOut.RouterOutlet();
+        }
+      }),
       bottomNavigationBar: GetX<Controller>(
-          init: myController,
+          // init: myController,
           builder: (mcontroller) {
-            return BottomNav(
-              index: mcontroller.currentTab.toInt(),
-              backgroundColor: Colors.white,
-              showElevation: true,
-              navBarHeight: 75.0,
-              radius: 30.0,
-              onTap: (i) {
-                myController.setCurrentTab(i);
-                // setState(() {
-                //   // myController.currentTab = i;
-                //   changeTab(myController.currentTab.toInt());
-                // });
-              },
-              items: [
-                BottomNavItem(
-                    imgIcon:
-                        'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
-                    icon: Icons.home,
-                    label: "Home",
-                    selectedColor: Colors.red.shade900),
-                BottomNavItem(
-                    icon: Icons.category,
-                    label: "Category",
-                    selectedColor: Colors.green),
-                BottomNavItem(
-                    icon: Icons.shopping_bag,
-                    label: "Search",
-                    selectedColor: Colors.amber.shade800),
-                BottomNavItem(
-                    icon: Icons.account_circle,
-                    label: "Profile",
-                    selectedColor: Colors.blue),
-              ],
-            );
-          }),
+        return BottomNav(
+          index: mcontroller.currentTab.toInt(),
+          backgroundColor: Colors.white,
+          showElevation: true,
+          navBarHeight: 75.0,
+          radius: 30.0,
+          onTap: (i) {
+            mcontroller.setCurrentTab(i);
+          },
+          items: [
+            BottomNavItem(
+                imgIcon:
+                    'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                icon: Icons.home,
+                label: "Home",
+                selectedColor: Colors.red.shade900),
+            BottomNavItem(
+                icon: Icons.category,
+                label: "Category",
+                selectedColor: Colors.green),
+            BottomNavItem(
+                icon: Icons.shopping_bag,
+                label: "Search",
+                selectedColor: Colors.amber.shade800),
+            BottomNavItem(
+                icon: Icons.account_circle,
+                label: "Profile",
+                selectedColor: Colors.blue),
+          ],
+        );
+      }),
     );
   }
 }

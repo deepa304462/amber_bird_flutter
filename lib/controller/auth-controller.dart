@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -8,12 +9,13 @@ class AuthController extends GetxController {
   var fieldValue = {
     'fullName': '',
     'email': '',
-    'id': '',
+    'thirdPartyId': '',
     'imageFromSocialMedia': '',
     'isThirdParty': false,
-    'name': 'Google',
+    'thirdPartyName': '',
     'mobile': '',
-    'password': ''
+    'password': '',
+    'userName': ''
   }.obs;
   @override
   void onInit() {
@@ -27,6 +29,50 @@ class AuthController extends GetxController {
 
   login() {
     // var data = signInWithGoogle();
+  }
+  signUp() async {
+    // var payload = {
+    //   "email": fieldValue['email'],
+    //   "fullName": fieldValue['fullName'],
+    //   "mobile": fieldValue['mobile'],
+    //   "thirdPartyRef": {"name": "sbazar", "_id": "sbazar"
+    //   },
+    //   // "type": "string",
+    //   "userName": fieldValue['userName'],
+
+    //   "socialMediaOAuths": [
+    //     {
+    //       "type": fieldValue['thirdPartyName'],
+    //       "socialMediaId": fieldValue['thirdPartyId'],
+    //       "imageFromSocialMedia": fieldValue['imageFromSocialMedia'],
+    //       // "verifiedAccountId": "string",
+    //       // "username": "string",
+    //       // "socialMediaName": "string",
+    //       "socialMediaAvatar": fieldValue['imageFromSocialMedia']
+    //     }
+    //   ],
+    // };
+    var payload = {
+      "suggestedUsername": fieldValue['email'],
+      "orgRef": {"name": "sbazar", "_id": "sbazar"},
+      // "orgShortCode": "string",
+      "email": fieldValue['email'],
+      "mobile": fieldValue['mobile'],
+      "fullName": fieldValue['fullName'],
+      // "deviceId": "string",
+      // "tfaStatus": true,
+      // "acls": ["string"],
+      "profileType": "DIAGO_APP_PROFILE",
+      "password": fieldValue['password'],
+      // "notificationSetting": {
+      //   "userHasDevice": "CUG_PHONE",
+      //   "platform": ["ANDROID"]
+      // }
+    };
+    print(payload);
+    var resp = await ClientService.post(path: 'profile-auth', payload: payload);
+    print(resp);
+    inspect(resp);
   }
 
   signInWithGoogle() async {
@@ -49,15 +95,19 @@ class AuthController extends GetxController {
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
-        'id': googleSignInAuthentication!.idToken ?? '',
+        'thirdPartyId': googleSignInAuthentication!.idToken ?? '',
         'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
         'isThirdParty': true,
-        'name': 'Google',
+        'thirdPartyName': 'GOOGLE',
         'mobile': '',
-        'password': ''
+        'password': '',
+        'userName': ''
       };
-
-      
     }
+  }
+
+  void setFielsvalue(String text, String name) {
+    fieldValue.value[name] = text;
+    print(fieldValue);
   }
 }
