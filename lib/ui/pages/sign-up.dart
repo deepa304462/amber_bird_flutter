@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -7,6 +8,8 @@ import 'package:get/get.dart';
 
 class SignUp extends StatelessWidget {
   final AuthController authController = Get.find();
+  final Controller controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return GetX<AuthController>(builder: (mController) {
@@ -38,30 +41,56 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              ITextBox('Full Name','fullName', mController.fieldValue['fullName'].toString(), false, TextInputType.text, false,callback),
-              const SizedBox(
-                height: 10,
-              ),
-              ITextBox('Mobile', 'mobile', mController.fieldValue['mobile'].toString(), false, TextInputType.phone, false,callback),
-              const SizedBox(
-                height: 10,
-              ),
-              ITextBox('Email','email',  mController.fieldValue['email'].toString(), false, TextInputType.emailAddress, false,callback),
+              ITextBox(
+                  'Full Name',
+                  'fullName',
+                  mController.fieldValue['fullName'].toString(),
+                  false,
+                  TextInputType.text,
+                  false,
+                  callback),
               const SizedBox(
                 height: 10,
               ),
               ITextBox(
-                  'Password','password', mController.fieldValue['password'].toString(), false, TextInputType.visiblePassword, true,callback),
+                  'Mobile',
+                  'mobile',
+                  mController.fieldValue['mobile'].toString(),
+                  false,
+                  TextInputType.phone,
+                  false,
+                  callback),
+              const SizedBox(
+                height: 10,
+              ),
+              ITextBox(
+                  'Email',
+                  'email',
+                  mController.fieldValue['email'].toString(),
+                  false,
+                  TextInputType.emailAddress,
+                  false,
+                  callback),
+              const SizedBox(
+                height: 10,
+              ),
+              ITextBox(
+                  'Password',
+                  'password',
+                  mController.fieldValue['password'].toString(),
+                  false,
+                  TextInputType.visiblePassword,
+                  true,
+                  callback),
               const SizedBox(
                 height: 20,
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: ()  async {
+                onTap: () async {
                   var data = await mController.signInWithGoogle();
 
                   var showToast = snackBarClass.showToast(context, data['msg']);
-                  
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -89,9 +118,13 @@ class SignUp extends StatelessWidget {
                 height: 20,
               ),
               TextButton(
-                onPressed: () async{
-                   var data = await mController.signUp();
-                  var showToast = snackBarClass.showToast(context, data['msg']);
+                onPressed: () async {
+                  var data = await mController.signUp();
+                  if (data['status'] == 'success') {
+                    controller.isLogin.value = true;
+                    controller.setCurrentTab(0);
+                  }
+                  snackBarClass.showToast(context, data['msg']);
                 },
                 style: ButtonStyle(
                     backgroundColor:
@@ -108,6 +141,5 @@ class SignUp extends StatelessWidget {
     });
   }
 
-  callback(String p1) { 
-  }
+  callback(String p1) {}
 }

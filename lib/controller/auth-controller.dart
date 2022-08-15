@@ -99,7 +99,6 @@ class AuthController extends GetxController {
       } else {
         return {"msg": "Something Went Wrong!!", "status": "error"};
       }
-      inspect(resp);
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }

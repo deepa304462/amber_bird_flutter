@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +15,10 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
+    var isLoginShared = (SharedData.read('isLogin'));
+    print(isLoginShared);
+    bool b = isLoginShared.toString() == 'true';
+    isLogin.value = b;
     changeTab(currentTab.toInt());
     super.onInit();
   }
@@ -46,11 +49,12 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
   }
 
-  bool showSearch(){
-    if(activePageName.value == 'main' || activePageName.value == 'category' ||
-        activePageName.value == 'cart'){
+  bool showSearch() {
+    if (activePageName.value == 'main' ||
+        activePageName.value == 'category' ||
+        activePageName.value == 'cart') {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -70,8 +74,14 @@ class Controller extends GetxController {
         Modular.to.navigate('/cart');
         break;
       case 3:
-        activePageName.value = 'login';
-        Modular.to.navigate('/login');
+      if(isLogin.value){
+          activePageName.value = 'profile';
+          Modular.to.navigate('/profile');
+        }else{
+          activePageName.value = 'login';
+          Modular.to.navigate('/login');
+        }
+        
         break;
     }
   }
