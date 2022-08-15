@@ -1,7 +1,9 @@
 import 'package:amber_bird/ui/element/i-text-box.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:get/get.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -32,20 +34,22 @@ class _LoginWidget extends State<LoginWidget> {
               'Get access',
               style: TextStyles.titleXLargePrimary,
             ),
-            ITextBox('Registered contact number','mobile','',false, TextInputType.text,false,callback),
+            ITextBox('Registered contact number','mobile','',false, TextInputType.phone,false,callback),
             TextButton(
               onPressed: () {},
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(AppColors.primeColor)),
               child: Text(
                 'Verify',
                 style: TextStyles.bodyWhiteLarge,
               ),
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(AppColors.primeColor)),
             ),
              Center(
               child: TextButton(
                 onPressed: () {
+                 
+                  
                   Modular.to.navigate('/signup');
                 },
                 child: Text(

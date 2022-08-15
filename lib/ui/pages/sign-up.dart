@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              ITextBox('Mobile', 'mobile', mController.fieldValue['mobile'].toString(), false, TextInputType.number, false,callback),
+              ITextBox('Mobile', 'mobile', mController.fieldValue['mobile'].toString(), false, TextInputType.phone, false,callback),
               const SizedBox(
                 height: 10,
               ),
@@ -56,9 +57,11 @@ class SignUp extends StatelessWidget {
               ),
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
-                onTap: ()   {
-                   mController.signInWithGoogle();
-                 
+                onTap: ()  async {
+                  var data = await mController.signInWithGoogle();
+
+                  var showToast = snackBarClass.showToast(context, data['msg']);
+                  
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -86,8 +89,9 @@ class SignUp extends StatelessWidget {
                 height: 20,
               ),
               TextButton(
-                onPressed: () {
-                  mController.signUp();
+                onPressed: () async{
+                   var data = await mController.signUp();
+                  var showToast = snackBarClass.showToast(context, data['msg']);
                 },
                 style: ButtonStyle(
                     backgroundColor:

@@ -65,6 +65,7 @@ class AppWidget extends StatelessWidget {
       routerDelegate: flutter_modular.Modular.routerDelegate,
       routeInformationParser: flutter_modular.Modular.routeInformationParser,
       title: "App",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Barlow',
         primarySwatch: Colors.grey,

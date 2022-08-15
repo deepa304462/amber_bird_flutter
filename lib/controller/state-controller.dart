@@ -5,6 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class Controller extends GetxController {
+  var isLogin = false.obs;
   var currentTab = 0.obs;
   var activePageName = ''.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;

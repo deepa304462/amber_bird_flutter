@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -15,7 +17,8 @@ class AuthController extends GetxController {
     'thirdPartyName': '',
     'mobile': '',
     'password': '',
-    'userName': ''
+    'userName': '',
+    'countryCode': ''
   }.obs;
   @override
   void onInit() {
@@ -30,52 +33,79 @@ class AuthController extends GetxController {
   login() {
     // var data = signInWithGoogle();
   }
-  signUp() async {
-    // var payload = {
-    //   "email": fieldValue['email'],
-    //   "fullName": fieldValue['fullName'],
-    //   "mobile": fieldValue['mobile'],
-    //   "thirdPartyRef": {"name": "sbazar", "_id": "sbazar"
-    //   },
-    //   // "type": "string",
-    //   "userName": fieldValue['userName'],
-
-    //   "socialMediaOAuths": [
-    //     {
-    //       "type": fieldValue['thirdPartyName'],
-    //       "socialMediaId": fieldValue['thirdPartyId'],
-    //       "imageFromSocialMedia": fieldValue['imageFromSocialMedia'],
-    //       // "verifiedAccountId": "string",
-    //       // "username": "string",
-    //       // "socialMediaName": "string",
-    //       "socialMediaAvatar": fieldValue['imageFromSocialMedia']
-    //     }
-    //   ],
-    // };
+  dynamic signUp() async {
     var payload = {
       "suggestedUsername": fieldValue['email'],
       "orgRef": {"name": "sbazar", "_id": "sbazar"},
-      // "orgShortCode": "string",
       "email": fieldValue['email'],
-      "mobile": fieldValue['mobile'],
+      "mobile": fieldValue['countryCode'].toString() +
+          fieldValue['mobile'].toString(),
       "fullName": fieldValue['fullName'],
       // "deviceId": "string",
-      // "tfaStatus": true,
-      // "acls": ["string"],
+      "acls": ["user"],
       "profileType": "DIAGO_APP_PROFILE",
       "password": fieldValue['password'],
-      // "notificationSetting": {
-      //   "userHasDevice": "CUG_PHONE",
-      //   "platform": ["ANDROID"]
-      // }
     };
     print(payload);
     var resp = await ClientService.post(path: 'profile-auth', payload: payload);
-    print(resp);
-    inspect(resp);
+    if (resp.statusCode == 200) {
+      SharedData.save(resp.data.toString(), 'ProfileAuthData');
+      print(resp);
+      var loginPayload = {
+        "password": fieldValue['password'],
+        "username": fieldValue['email'],
+        "appName": "DIAGO_TEAM_WEB_APP"
+      };
+      print(loginPayload);
+      var loginResp =
+          await ClientService.post(path: 'auth/login', payload: loginPayload);
+
+      print(loginResp);
+      if (loginResp.statusCode == 200) {
+        ClientService.token = loginResp.data['accessToken'];
+        SharedData.save(loginResp.data.toString(), 'authData');
+
+        if (fieldValue['isThirdParty'] as bool) {
+          var socialdata = [
+            {
+              "type": fieldValue['thirdPartyName'],
+              "socialMediaId": fieldValue['thirdPartyId'],
+              "imageFromSocialMedia": fieldValue['imageFromSocialMedia'],
+              "socialMediaAvatar": fieldValue['imageFromSocialMedia']
+            }
+          ];
+          resp.data['profile']['socialMediaOAuths'] = socialdata;
+          var userPayload = resp.data['profile'];
+
+          print(userPayload);
+          var userUpdateResp = await ClientService.Put(
+              path: 'user-profile',
+              id: resp.data['profile']['_id'],
+              payload: userPayload);
+          print(userUpdateResp);
+          if (userUpdateResp.statusCode == 200) {
+            SharedData.save(userUpdateResp.data.toString(), 'userData');
+            SharedData.save(true.toString(), 'isLogin');
+             return {"msg": "Account Created Successfully!!", "status": "success"};
+
+          } else {
+            return {"msg": "Something Went Wrong!!", "status": "error"};
+
+          }
+        } else {
+          SharedData.save(true.toString(), 'isLogin');
+          return {"msg": "Account Created Successfully!!", "status": "success"};
+        }
+      } else {
+        return {"msg": "Something Went Wrong!!", "status": "error"};
+      }
+      inspect(resp);
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 
-  signInWithGoogle() async {
+  dynamic signInWithGoogle() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
@@ -101,8 +131,12 @@ class AuthController extends GetxController {
         'thirdPartyName': 'GOOGLE',
         'mobile': '',
         'password': '',
-        'userName': ''
+        'userName': '',
+        'countryCode': ''
       };
+       return {"msg": "Please fill all field !!", "status": "success"};
+    }else{
+       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
 
