@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -30,9 +30,42 @@ class AuthController extends GetxController {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
 
-  login() {
-    // var data = signInWithGoogle();
+  login() async {
+    var loginPayload = {
+      "password": fieldValue['password'],
+      "username": fieldValue['email'],
+      "appName": "DIAGO_TEAM_WEB_APP"
+    };
+    print(loginPayload);
+    var loginResp =
+        await ClientService.post(path: 'auth/login', payload: loginPayload);
+
+    print(loginResp);
+    
+    if (loginResp.statusCode == 200) {
+      ClientService.token = loginResp.data['accessToken'];
+      SharedData.save(jsonEncode( loginResp.data), 'authData');
+      var searchPAyload = {
+        "type": "DIAGO_APP_PROFILE",
+        "email": fieldValue['email'],
+        "username": fieldValue['email']
+      };
+      print(searchPAyload);
+      var userUpdateResp = await ClientService.post(
+          path: 'user-profile/search', payload: searchPAyload);
+      print(userUpdateResp);
+      if (userUpdateResp.statusCode == 200) {
+        SharedData.save(userUpdateResp.data.toString(), 'userData');
+        SharedData.save(true.toString(), 'isLogin');
+        return {"msg": "Login Successfully!!", "status": "success"};
+      } else {
+        return {"msg": "Something Went Wrong!!", "status": "error"};
+      }
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
+
   dynamic signUp() async {
     var payload = {
       "suggestedUsername": fieldValue['email'],
@@ -41,7 +74,6 @@ class AuthController extends GetxController {
       "mobile": fieldValue['countryCode'].toString() +
           fieldValue['mobile'].toString(),
       "fullName": fieldValue['fullName'],
-      // "deviceId": "string",
       "acls": ["user"],
       "profileType": "DIAGO_APP_PROFILE",
       "password": fieldValue['password'],
@@ -86,11 +118,12 @@ class AuthController extends GetxController {
           if (userUpdateResp.statusCode == 200) {
             SharedData.save(userUpdateResp.data.toString(), 'userData');
             SharedData.save(true.toString(), 'isLogin');
-             return {"msg": "Account Created Successfully!!", "status": "success"};
-
+            return {
+              "msg": "Account Created Successfully!!",
+              "status": "success"
+            };
           } else {
             return {"msg": "Something Went Wrong!!", "status": "error"};
-
           }
         } else {
           SharedData.save(true.toString(), 'isLogin');
@@ -133,9 +166,9 @@ class AuthController extends GetxController {
         'userName': '',
         'countryCode': ''
       };
-       return {"msg": "Please fill all field !!", "status": "success"};
-    }else{
-       return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Please fill all field !!", "status": "success"};
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
 

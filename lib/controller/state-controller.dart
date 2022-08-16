@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -15,12 +18,29 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
-    var isLoginShared = (SharedData.read('isLogin'));
-    print(isLoginShared);
-    bool b = isLoginShared.toString() == 'true';
-    isLogin.value = b;
+    getLoginInfo();
+    
     changeTab(currentTab.toInt());
     super.onInit();
+  }
+
+  getLoginInfo() async{
+    var isLoginShared = await (SharedData.read('isLogin'));
+    bool b = isLoginShared.toString() == 'true';
+    isLogin.value = b;
+    var authData = jsonDecode(await (SharedData.read('authData')) as String ?? '');
+    ClientService.token = authData['accessToken'] ?? '';
+    
+  }
+
+  logout(){
+    isLogin.value = false;
+    ClientService.token = '';
+    SharedData.save(false.toString(), 'isLogin');
+    SharedData.remove('userData');
+    SharedData.remove('authData');
+    SharedData.remove('ProfileAuthData'); 
+    changeTab(currentTab.toInt());
   }
 
   bool isPriceOff(ProductSummary product) {

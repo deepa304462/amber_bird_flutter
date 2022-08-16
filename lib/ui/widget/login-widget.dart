@@ -1,3 +1,5 @@
+import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -5,21 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
-class LoginWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _LoginWidget();
-  }
-}
+class LoginWidget extends StatelessWidget {
+  final AuthController authController = Get.find();
+  final Controller controller = Get.find();
 
-class _LoginWidget extends State<LoginWidget> {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return _LoginWidget();
+//   }
+// }
+
+// class _LoginWidget extends State<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
       color: Colors.white,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(15))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15)),
+      ),
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
         child: Column(
@@ -34,22 +40,45 @@ class _LoginWidget extends State<LoginWidget> {
               'Get access',
               style: TextStyles.titleXLargePrimary,
             ),
-            ITextBox('Registered contact number','mobile','',false, TextInputType.phone,false,callback),
+            // ITextBox('Registered contact number', 'mobile', '', false,
+            //     TextInputType.phone, false, callback),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // const Center(
+            //   child: Text('OR'),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            ITextBox('Email', 'email', '', false, TextInputType.emailAddress, false,
+                callback),
+            const SizedBox(
+              height: 10,
+            ),
+            ITextBox('Password', 'password', '', false,
+                TextInputType.visiblePassword, true, callback),
             TextButton(
-              onPressed: () {},
+              onPressed: () async{
+                var data = await authController.login();
+                print(data);
+                if (data['status'] == 'success') {
+                  controller.isLogin.value = true;
+                  controller.setCurrentTab(0);
+                }
+                snackBarClass.showToast(context, data['msg']);
+              },
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(AppColors.primeColor)),
               child: Text(
-                'Verify',
+                'Login',
                 style: TextStyles.bodyWhiteLarge,
               ),
             ),
-             Center(
+            Center(
               child: TextButton(
                 onPressed: () {
-                 
-                  
                   Modular.to.navigate('/signup');
                 },
                 child: Text(
@@ -64,6 +93,5 @@ class _LoginWidget extends State<LoginWidget> {
     );
   }
 
-  callback(String p1) {
-  }
+  callback(String p1) {}
 }
