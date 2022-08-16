@@ -8,17 +8,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPageWidget extends StatelessWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _LoginPage();
-//   }
-// }
 
-// class _LoginPage extends State<LoginPageWidget> {
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
 final AuthController authController = Get.put(AuthController());
 
   @override
