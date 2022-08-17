@@ -21,6 +21,16 @@ class DealController extends GetxController {
     super.onInit();
   }
 
+  String getDealName(name){
+    if (dealName.FLASH == name) {
+      return "Flash Deal";
+    }else if (dealName.SALES == name) {
+      return "Sales Deal";
+    } else{
+      return "Flash Deal";
+    }
+  }
+
   getDealProduct(name) async {
     var payload = {"type": name};
     var response = await ClientService.searchQuery(

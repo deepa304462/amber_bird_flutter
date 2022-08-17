@@ -24,23 +24,7 @@ class DealRow extends StatelessWidget {
 
   DealRow(this.currentdealName, {super.key});
 
-  // @override
-  // initState() {
-  //   getDealList();
-  //   super.initState();
-  // }
 
-  // getDealList() async {
-  //   // if (widget.CurrentdealName.isNotEmpty) {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  //   // }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +43,13 @@ class DealRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  currentdealName.toString(),
+                  dealController.getDealName(currentdealName),
                   style: TextStyles.headingFont,
                 ),
               ],
             ),
           ),
-          SizedBox(child: DealProductCard(dealController))
+          SizedBox(height:240,child: DealProductCard(dealController))
         ],
       );
     // } else {

@@ -48,7 +48,7 @@ class AuthController extends GetxController {
       var searchPAyload = {
         "type": "DIAGO_APP_PROFILE",
         "email": fieldValue['email'],
-        "username": fieldValue['email']
+        "userName": fieldValue['email']
       };
       print(searchPAyload);
       var userUpdateResp = await ClientService.post(
@@ -77,8 +77,7 @@ class AuthController extends GetxController {
       "acls": ["user"],
       "profileType": "DIAGO_APP_PROFILE",
       "password": fieldValue['password'],
-    };
-    print(payload);
+    }; 
     var resp = await ClientService.post(path: 'profile-auth', payload: payload);
     if (resp.statusCode == 200) {
       SharedData.save(resp.data.toString(), 'ProfileAuthData');

@@ -12,16 +12,13 @@ class DealProductCard extends StatelessWidget {
   Widget _gridItemBody(DealProduct product, BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5E6E8),
-            borderRadius: BorderRadius.circular(10),
-          ),
+        OpenContainerWrapper(
+          product: product.product,
           child: Image.network(
               '${ClientService.cdnUrl}${product.product!.images![0]}',
-              height: 150,
-              fit: BoxFit.cover),
+               
+              fit: BoxFit.fill
+              ),
         ),
         _gridItemFooter(product, context)
       ],
@@ -65,9 +62,12 @@ class DealProductCard extends StatelessWidget {
   Widget _gridItemFooter(DealProduct product, BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
+      // margin: const EdgeInsets.only(left: 3, right: 3),
       height: 55,
       decoration: const BoxDecoration(
         color: Colors.white,
+        borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),
+              bottomRight: Radius.circular(10))
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -119,24 +119,24 @@ class DealProductCard extends StatelessWidget {
       () => Padding(
         padding: const EdgeInsets.only(top: 10),
         child: GridView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
+          scrollDirection: Axis.horizontal,
           itemCount: con.dealProd.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 10 / 12.3,
-              crossAxisCount: 2,
-              mainAxisSpacing: 10,
+              crossAxisCount: 1,
+              childAspectRatio: 14.5 / 11,
               crossAxisSpacing: 10),
           itemBuilder: (_, index) {
             DealProduct dProduct = con.dealProd[index];
-            return Container(
-              child: OpenContainerWrapper(
-                  product: con.dealProd[index].product,
-                  child: GridTile(
-                    header: _gridItemHeader(dProduct, index),
-                    // footer: _gridItemFooter(dProduct, context),
-                    child: _gridItemBody(dProduct, context),
-                  )),
+            return Padding(
+              padding: const EdgeInsetsDirectional.all(5),
+              child: ClipRRect(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                borderRadius: BorderRadius.circular(15.0),
+                child: GridTile(
+                  header: _gridItemHeader(dProduct, index),
+                  child: _gridItemBody(dProduct, context),
+                ),
+              ),
             );
           },
         ),
