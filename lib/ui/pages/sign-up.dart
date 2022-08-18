@@ -117,6 +117,35 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () async {
+                  var data = await mController.signInWithFacebook();
+
+                  var showToast = snackBarClass.showToast(context, data['msg']);
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Icon(Icons.facebook),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        'Sign in with Facebook',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               TextButton(
                 onPressed: () async {
                   var data = await mController.signUp();

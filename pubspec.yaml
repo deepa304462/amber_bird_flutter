@@ -54,9 +54,10 @@ dependencies:
   mapbox_gl: ^0.16.0
   get: ^4.6.5
   animations: ^2.0.3
-  firebase_core:  
-  firebase_auth:  
-  google_sign_in:  
+  firebase_core: 1.20.1 
+  firebase_auth: 3.6.3
+  google_sign_in: 5.4.1 
+  flutter_facebook_auth: 4.4.1
 
 dev_dependencies:
   flutter_test:

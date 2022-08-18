@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+ <string name="facebook_app_id">483860012596394</string>
+    <string name="facebook_client_token">dad37c78fea60e0b5aebe5b70e73d4f6</string>
     <string name="public_access_token">pk.eyJ1IjoiaHRlc2hrdW1hciIsImEiOiJjazRoejR2eWwxYjd1M2ZvMnkxcXhxOGs5In0.wiXc9SRCrIYNnpl-XhDEHA</string>
 </resources>

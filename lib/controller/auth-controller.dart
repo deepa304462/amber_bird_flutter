@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthController extends GetxController {
   var fieldValue = {
@@ -41,10 +42,10 @@ class AuthController extends GetxController {
         await ClientService.post(path: 'auth/login', payload: loginPayload);
 
     print(loginResp);
-    
+
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];
-      SharedData.save(jsonEncode( loginResp.data), 'authData');
+      SharedData.save(jsonEncode(loginResp.data), 'authData');
       var searchPAyload = {
         "type": "DIAGO_APP_PROFILE",
         "email": fieldValue['email'],
@@ -77,7 +78,7 @@ class AuthController extends GetxController {
       "acls": ["user"],
       "profileType": "DIAGO_APP_PROFILE",
       "password": fieldValue['password'],
-    }; 
+    };
     var resp = await ClientService.post(path: 'profile-auth', payload: payload);
     if (resp.statusCode == 200) {
       SharedData.save(resp.data.toString(), 'ProfileAuthData');
@@ -169,6 +170,35 @@ class AuthController extends GetxController {
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
+  }
+
+  dynamic signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    // final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    if (result.status == LoginStatus.success) {
+      // you are logged
+      print(result);
+       fieldValue.value = {
+        'fullName': '',
+        'email': '',
+        'thirdPartyId': result.accessToken ?? '',
+        'imageFromSocialMedia': '',
+        'isThirdParty': true,
+        'thirdPartyName': 'FACEBOOK',
+        'mobile': '',
+        'password': '',
+        'userName': '',
+        'countryCode': ''
+      };
+      final AccessToken accessToken = result.accessToken!;
+       return {"msg": "Please fill all field !!", "status": "success"};
+    } else {
+      print(result.status);
+      print(result.message);
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
+   
   }
 
   void setFielsvalue(String text, String name) {
