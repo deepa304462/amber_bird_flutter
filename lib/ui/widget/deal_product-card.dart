@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DealProductCard extends StatelessWidget {
+    final CartController cartController = Get.find();
+
   final DealController con;
   DealProductCard(this.con, {super.key});
   Widget _gridItemBody(DealProduct product, BuildContext context) {
@@ -82,7 +85,6 @@ class DealProductCard extends StatelessWidget {
                   fontWeight: FontWeight.w500, color: Colors.grey),
             ),
           ),
-          const SizedBox(height: 5),
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -105,7 +107,14 @@ class DealProductCard extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Icon(Icons.add)
+              IconButton(
+                padding: const EdgeInsets.all(8),
+                constraints: const BoxConstraints(),
+                onPressed: () {
+                  cartController.addToCart(product!.product);
+                },
+                icon: const Icon(Icons.add, color: Colors.black),
+              ), 
             ],
           ),
         ],

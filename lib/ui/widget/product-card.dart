@@ -1,15 +1,13 @@
-import 'package:amber_bird/data/product.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductSummary product;
   ProductCard(this.product, {super.key});
 
 
-  Widget _gridItemBody(Product product, BuildContext context) {
+  Widget _gridItemBody(ProductSummary product, BuildContext context) {
     return Column(
       children: [
         Container(
@@ -28,7 +26,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _gridItemHeader(Product product, int index) {
+  Widget _gridItemHeader(ProductSummary product, int index) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
@@ -62,7 +60,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _gridItemFooter(Product product, BuildContext context) {
+  Widget _gridItemFooter(ProductSummary product, BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
       height: 55,
@@ -75,7 +73,7 @@ class ProductCard extends StatelessWidget {
         children: [
           FittedBox(
             child: Text(
-              product!.name ,
+              product!.name!.defaultText!.text ?? '',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: const TextStyle(

@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
@@ -15,7 +16,6 @@ import 'package:get/get.dart';
 
 // class _MainPageState extends State<MainPage> {
 class MainPage extends StatelessWidget {
-  // final ProductController controller = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {

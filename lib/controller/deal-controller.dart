@@ -6,27 +6,27 @@ import 'package:get/get.dart';
 
 class DealController extends GetxController {
   RxList<DealProduct> dealProd = <DealProduct>[].obs;
- 
+
   final tag;
 
   DealController(this.tag);
   @override
-  void onInit() { 
+  void onInit() {
     if (tag == dealName.FLASH) {
       getDealProduct('FLASH');
-    }else if (tag == dealName.SALES) {
+    } else if (tag == dealName.SALES) {
       getDealProduct('SALES');
     }
 
     super.onInit();
   }
 
-  String getDealName(name){
+  String getDealName(name) {
     if (dealName.FLASH == name) {
       return "Flash Deal";
-    }else if (dealName.SALES == name) {
+    } else if (dealName.SALES == name) {
       return "Sales Deal";
-    } else{
+    } else {
       return "Flash Deal";
     }
   }
@@ -35,13 +35,13 @@ class DealController extends GetxController {
     var payload = {"type": name};
     var response = await ClientService.searchQuery(
         path: 'cache/dealProduct/search', query: payload, lang: 'en');
-
+     inspect(response.data);
     if (response.statusCode == 200) {
       List<DealProduct> dList = ((response.data as List<dynamic>?)
               ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      dealProd.value = (dList); 
+      dealProd.value = (dList);
     } else {
       inspect(response);
     }

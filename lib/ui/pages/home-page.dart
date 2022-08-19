@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/app-bar.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
@@ -65,6 +66,8 @@ class HomePage extends StatelessWidget {
   // to keep track of active tab index
   // Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final Controller myController = Get.put(Controller());
+  final CartController cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
@@ -78,7 +81,7 @@ class HomePage extends StatelessWidget {
           return Stack(alignment: AlignmentDirectional.topCenter, children: [
             SearchWidget(),
             const Padding(
-                padding: EdgeInsets.only(top:50,left: 20,right: 20), 
+                padding: EdgeInsets.only(top: 50, left: 20, right: 20),
                 child: routerOut.RouterOutlet())
           ]);
         } else {
@@ -106,14 +109,17 @@ class HomePage extends StatelessWidget {
                 selectedColor: Colors.red.shade900),
             BottomNavItem(
                 icon: Icons.category,
+                suffix: '',
                 label: "Category",
                 selectedColor: Colors.green),
             BottomNavItem(
                 icon: Icons.shopping_bag,
                 label: "Search",
+                // suffix: cartController!.cartProducts!.length.toString() ?? '0',
                 selectedColor: Colors.amber.shade800),
             BottomNavItem(
                 icon: Icons.account_circle,
+                suffix: '',
                 label: "Profile",
                 selectedColor: Colors.blue),
           ],

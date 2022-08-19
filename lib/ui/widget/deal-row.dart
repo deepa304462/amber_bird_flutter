@@ -24,34 +24,32 @@ class DealRow extends StatelessWidget {
 
   DealRow(this.currentdealName, {super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     final DealController dealController = Get.put(
         DealController(currentdealName),
         tag: currentdealName.toString());
     print('aaa${dealController.dealProd}');
-
+    inspect(dealController.dealProd);
     // if (dealController.dealProd.isNotEmpty) {
-      return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  dealController.getDealName(currentdealName),
-                  style: TextStyles.headingFont,
-                ),
-              ],
-            ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                dealController.getDealName(currentdealName),
+                style: TextStyles.headingFont,
+              ),
+            ],
           ),
-          SizedBox(height:240,child: DealProductCard(dealController))
-        ],
-      );
+        ),
+        SizedBox(height: 240, child: DealProductCard(dealController))
+      ],
+    );
     // } else {
     //   return SizedBox();
     // }

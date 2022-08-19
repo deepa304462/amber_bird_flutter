@@ -1,11 +1,14 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 
 class locationWidget extends StatelessWidget {
+  final CartController cartController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,7 +28,7 @@ class locationWidget extends StatelessWidget {
                 constraints: const BoxConstraints(),
                 onPressed: () async {
                   PermissionStatus check =
-                      await Get.find<LocationController>().checkPermission(); 
+                      await Get.find<LocationController>().checkPermission();
                   if (check == PermissionStatus.denied) {
                     showDialog(
                       context: context,
@@ -63,18 +66,28 @@ class locationWidget extends StatelessWidget {
               })
             ]),
           ),
-          Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.lightGrey),
-            child: IconButton(
-              padding: const EdgeInsets.all(8),
-              constraints: const BoxConstraints(),
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_basket, color: Colors.black),
-            ),
-          ),
+          Obx(() {
+            return Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.lightGrey),
+                child: Stack(
+                  children: [
+                    Text(
+                        cartController!.cartProducts!.length.toString() ?? '0'),
+                    IconButton(
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        Modular.to.navigate('/cart');
+                      },
+                      icon: const Icon(Icons.shopping_basket,
+                          color: Colors.black),
+                    ),
+                  ],
+                ));
+          }),
         ],
       ),
     );

@@ -22,11 +22,56 @@
           }
         },
         {
+          "client_id": "257752284304-2duapioa0guod9t5gt96m14p96ddsiro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gbmh.sbazarapp",
+            "certificate_hash": "169bb1df9d8e412694701da4e9b3b612d9a60278"
+          }
+        },
+        {
           "client_id": "257752284304-jmca2fe3ulrq562vh2tjcsbaoklam9i4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gbmh.sbazarapp",
             "certificate_hash": "45ac0cd68116fc0dd6c06457d75161f767bad78f"
+          }
+        },
+        {
+          "client_id": "257752284304-h535dpn51hojbtsbsd70f4pd7nkn1bk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDriZrOQBdqGBKQ16xU6bxJ0TJMGaDFA5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257752284304-h535dpn51hojbtsbsd70f4pd7nkn1bk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257752284304:android:7a441fadb3901cd3b22c15",
+        "android_client_info": {
+          "package_name": "com.gmbh.sbazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257752284304-tchg2el08h9fp3pvp8ol9084mtmp4n24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "169bb1df9d8e412694701da4e9b3b612d9a60278"
           }
         },
         {

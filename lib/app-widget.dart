@@ -29,8 +29,7 @@ class AppWidget extends StatelessWidget {
   // Locale _currentLocale = const Locale('en');
   // @override
   // void initState() {
-  //   print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-  //   // FlutterNativeSplash.remove();
+   //   // FlutterNativeSplash.remove();
   //   // warmupFlare();
   //   // initializeLocationAndSave();
   //   // ChangeLocale.change = (Locale locale) {

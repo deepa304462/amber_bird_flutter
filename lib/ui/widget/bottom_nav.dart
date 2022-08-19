@@ -87,7 +87,7 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.items.map((element) {
                 int item = widget.items.indexOf(element);
-                return BottomBarItem(element.icon, element.imgIcon,
+                return BottomBarItem(element.icon, element.imgIcon,element.suffix,
                     widget.navBarHeight, element.label, () {
                   widget.onTap(item);
                 }, element.selectedColor, _controllers[item], widget.radius);
@@ -110,12 +110,14 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
 class BottomNavItem {
   final IconData icon;
   final String label;
+  final String suffix;
   Color selectedColor;
   final String imgIcon;
 
   BottomNavItem(
       {required this.icon,
       this.imgIcon = '',
+      this.suffix = '',
       required this.label,
       required this.selectedColor});
 }
@@ -129,8 +131,9 @@ class BottomBarItem extends StatefulWidget {
   final AnimationController controller;
   final double radius;
   final String imageIcon;
+  final String suffix;
 
-  BottomBarItem(this.icon, this.imageIcon, this.height, this.label, this.onTap,
+  BottomBarItem(this.icon, this.imageIcon, this.suffix,this.height, this.label, this.onTap,
       this.color, this.controller, this.radius);
 
   @override
@@ -195,6 +198,12 @@ class _BottomBarItemState extends State<BottomBarItem>
                       ),
                     ),
             ),
+            // Padding(
+            //   padding: const EdgeInsets.all(4.0),
+            //   child: widget.suffix.isNotEmpty
+            //       ? Text(widget.suffix?? '')
+            //       : SizedBox(),
+            // ),
             Padding(
               padding: const EdgeInsets.all(6.0),
               child: animation.value != 0.0

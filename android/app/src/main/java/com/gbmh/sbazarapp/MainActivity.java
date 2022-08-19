@@ -1,4 +1,4 @@
-package com.example.amber_bird;
+package com.gmbh.sbazar;
 
 import io.flutter.embedding.android.FlutterActivity;
 
