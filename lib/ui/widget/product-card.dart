@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
@@ -18,21 +20,18 @@ class ProductCard extends StatelessWidget {
 
   final CartController cartController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
-    return 
-    Column(
+    return Column(
       children: [
         OpenContainerWrapper(
           product: product,
-          refId: refId,
-          addedFrom: addedFrom,
-          child: Image.network(
-              '${ClientService.cdnUrl}${product!.images![0]}',
+          refId: product.id,
+          addedFrom: 'DIRECTLY',
+          child: Image.network('${ClientService.cdnUrl}${product!.images![0]}',
               fit: BoxFit.fill),
         ),
         _gridItemFooter(product, context)
       ],
     );
-    
   }
 
   Widget _gridItemHeader(ProductSummary product) {
@@ -83,40 +82,42 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-            Text(
-              product!.name!.defaultText!.text ?? '',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: Colors.grey),
-            ),
-           
+          Text(
+            product!.name!.defaultText!.text ?? '',
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: Colors.grey),
+          ),
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              dealPrice == 'DEAL'
-                  ? Text( "\$${dealPrice!.offerPrice}" ,
+              addedFrom == 'DEAL'
+                  ? Text(
+                      "\$${dealPrice!.offerPrice}",
                       style: TextStyles.bodyFont,
                     )
-                  : Text(  "\$${product.varient!.price!.offerPrice}" ,
+                  : Text(
+                      "\$${product.varient!.price!.offerPrice}",
                       style: TextStyles.bodyFont,
                     ),
               const SizedBox(width: 3),
-              dealPrice == 'DEAL'
-                  ?
-              Visibility(
-                visible: dealPrice!.actualPrice != null ? true : false,
-                child: Text(
-                  "\$${dealPrice!.actualPrice.toString()}",
-                  style: const TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ) : Visibility(
-                      visible:
-                          product!.varient!.price!.actualPrice != null ? true : false,
+              addedFrom == 'DEAL'
+                  ? Visibility(
+                      visible: dealPrice!.actualPrice != null ? true : false,
+                      child: Text(
+                        "\$${dealPrice!.actualPrice.toString()}",
+                        style: const TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    )
+                  : Visibility(
+                      visible: product!.varient!.price!.actualPrice != null
+                          ? true
+                          : false,
                       child: Text(
                         "\$${product!.varient!.price!.actualPrice.toString()}",
                         style: const TextStyle(
@@ -131,7 +132,15 @@ class ProductCard extends StatelessWidget {
                 padding: const EdgeInsets.all(1),
                 constraints: const BoxConstraints(),
                 onPressed: () {
-                  cartController.addToCart(product!, refId!, addedFrom!);
+                  showModalBottomSheet<void>(
+                    // context and builder are
+                    // required properties in this widget
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _bottomSheetAddToCart(product, context);
+                    },
+                  );
+                  // cartController.addToCart(product!, refId!, addedFrom!);
                 },
                 icon: const Icon(Icons.add, color: Colors.black),
               ),
@@ -140,8 +149,91 @@ class ProductCard extends StatelessWidget {
         ],
       ),
     );
+  }
 
- 
+  Widget _bottomSheetAddToCart(ProductSummary product, BuildContext context) {
+    ProductSummary? p = ProductSummary.fromMap(product.toMap());
+    if (addedFrom == 'DEAL') {
+      // var curProduct = product.toMap();
+      // ProductSummary? p=ProductSummary.fromMap(curProduct);
+      p!.varient!.price = dealPrice;
+      inspect(p);
+      inspect(product);
+    }
+    return SizedBox(
+      height: 300,
+      child: Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.network(
+            '${ClientService.cdnUrl}${p!.images![0]}',
+            width: 200,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${p.name!.defaultText!.text}',
+                style: TextStyles.bodyFont,
+              ),
+              SizedBox(height: 5),
+              Text('${p.varient!.weight!} ${p.varient!.unit!}'),
+              Text('\$${p.varient!.price!.offerPrice!}'),
+              Text(
+                '\$${p.varient!.price!.actualPrice!}',
+                style: TextStyles.prieLinThroughStyle,
+              ),
+              GetX<CartController>(builder: (cController) {
+                return cController.checkProductInCart(refId)? Row(
+                  children: [
+                    IconButton(
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        cController.addToCart(p, refId!, addedFrom!, -1);
+                      },
+                      icon:
+                          const Icon(Icons.remove_circle_outline, color: Colors.black),
+                    ),
+                    Text(cController.getCurrentQuantity(refId).toString()),
+                    IconButton(
+                      padding: const EdgeInsets.all(8),
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        cController.addToCart(p, refId!, addedFrom!,1);
+                      },
+                      icon:
+                          const Icon(Icons.add_circle_outline, color: Colors.black),
+                    ),
+                  ],
+                ):ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primeColor,
+                    // padding: const EdgeInsets.symmetric(
+                    //     horizontal: 50, vertical: 15),
+                    textStyle: TextStyles.bodyWhite),
+                onPressed: p!.varient!.currentStock > 0
+                    ? () => cartController.addToCart(p, refId!, addedFrom!,1)
+                    : () => cartController.addToCart(p, refId!, addedFrom!,1),
+                child: Text("Add to cart", style: TextStyles.addTocartText),
+              );
+              }),
+              
+            ],
+          ),
+
+          // IconButton(
+          //   padding: const EdgeInsets.all(1),
+          //   constraints: const BoxConstraints(),
+          //   onPressed: () {
+          //     cartController.addToCart(product!, refId!, addedFrom!);
+          //   },
+          //   icon: const Icon(Icons.add, color: Colors.black),
+          // ),
+        ],
+      )),
+    );
   }
 
   @override

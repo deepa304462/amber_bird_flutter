@@ -1,8 +1,9 @@
 import 'package:amber_bird/controller/cart-controller.dart';
- import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/price.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class ProductDetailScreen extends StatelessWidget {
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController = Get.find();
   final ProductSummary? product;
+  // final Price? dealPrice;
   final String? refId;
   final String? addedFrom;
 
@@ -59,60 +61,13 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  // Widget _ratingBar(BuildContext context) {
-  //   return Row(
-  //     children: [
-  //       RatingBar.builder(
-  //           initialRating: product.rating,
-  //           direction: Axis.horizontal,
-  //           itemBuilder: (_, index) {
-  //             return const Icon(Icons.star, color: Colors.amber);
-  //           },
-  //           onRatingUpdate: (rating) {}),
-  //       const SizedBox(width: 30),
-  //       Text(
-  //         "(4500 Reviews)",
-  //         style: Theme.of(context)
-  //             .textTheme
-  //             .headline3
-  //             ?.copyWith(fontWeight: FontWeight.w300),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  // // Widget productVarientListView() {
-  //   return ListView.builder(
-  //     scrollDirection: Axis.horizontal,
-  //     itemCount: myController.sizeType(product).length,
-  //     itemBuilder: (_, index) {
-  //       return InkWell(
-  //         onTap: () {
-  //           // myController.switchBetweenProductSizes(product, index);
-  //         },
-  //         child: Container(
-  //           margin: const EdgeInsets.only(right: 5, left: 5),
-  //           alignment: Alignment.center,
-  //           width: myController.isNominal(product) ? 40 : 70,
-  //           decoration: BoxDecoration(
-  //               color: myController.sizeType(product)[index].isSelected == false
-  //                   ? Colors.white
-  //                   : AppColor.lightOrange,
-  //               borderRadius: BorderRadius.circular(10),
-  //               border: Border.all(color: Colors.grey, width: 0.4)),
-  //           child: FittedBox(
-  //             child: Text(
-  //               //Map<String,bool>
-  //               myController.sizeType(product)[index].numerical,
-  //               style:
-  //                   const TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  Widget productVarientView() {
+    return Row(
+      children: [
+        Text('${product!.varient!.weight!} ${product!.varient!.unit!}'),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,21 +88,17 @@ class ProductDetailScreen extends StatelessWidget {
                   product!.name!.defaultText!.text ?? '',
                   style: TextStyles.detailProductName,
                 ),
-                // const SizedBox(height: 10),
-                // _ratingBar(context),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Text(product!.varient!.price!.offerPrice != null
-                        ? "\$${product!.varient!.price!.actualPrice}"
-                        : "\$${product!.varient!.price!.offerPrice}"),
+                    Text("\$${product!.varient!.price!.offerPrice}"),
                     const SizedBox(width: 3),
                     Visibility(
                       visible: product!.varient!.price!.offerPrice != null
                           ? true
                           : false,
                       child: Text(
-                        "\$${product!.varient!.price!.offerPrice}",
+                        "\$${product!.varient!.price!.actualPrice}",
                         style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
                           color: Colors.grey,
@@ -164,6 +115,10 @@ class ProductDetailScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                productVarientView(),
                 const SizedBox(height: 30),
                 Text(
                   "About",
@@ -172,27 +127,21 @@ class ProductDetailScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(product!.description!.defaultText!.text ?? ''),
                 const SizedBox(height: 20),
-                // SizedBox(
-                //   height: 40,
-                //   child: GetBuilder<Controller>(
-                //     builder: (Controller controller) {
-                //       return productSizesListView();
-                //     },
-                //   ),
-                // ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primeColor,
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 15),
                         textStyle: TextStyles.bodyWhite),
                     onPressed: product!.varient!.currentStock > 0
-                        ? () => cartController.addToCart(product,refId!,addedFrom!)
-                        : () => cartController.addToCart(product, refId!, addedFrom!),
-                    child: Text("Add to cart",style: TextStyles.addTocartText),
+                        ? () => cartController.addToCart(
+                            product, refId!, addedFrom!,1)
+                        : () => cartController.addToCart(
+                            product, refId!, addedFrom!,1),
+                    child: Text("Add to cart", style: TextStyles.addTocartText),
                   ),
                 )
               ],

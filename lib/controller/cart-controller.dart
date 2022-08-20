@@ -12,47 +12,20 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  void addToCart(ProductSummary? product, String refId, String addedFrom) {
-    // CartProduct cartRow;
-    // final index =
-    //     cartProducts.value.indexWhere((element) => element.id == product!.id);
-    // if (index >= 0) {
-    //   List<CartProduct> cartProductsLocal = cartProducts.value;
-    //   print('Using indexWhere: ${cartProducts.value[index]}');
-    //   // foods.firstWhere((element) => element.id == searchedId) = food;
-    //   print('Using20e: ${cartProducts.value[index].quantity}');
-    //   cartProducts.value[index].quantity =
-    //       cartProducts.value[index].quantity ?? 0 + 1;
-    //   cartRow = CartProduct.fromMap({
-    //     'product': cartProducts.value[index].product!.toMap(),
-    //     'quantity': cartProducts.value[index].quantity ?? 0 + 1,
-    //     'id': cartProducts.value[index]!.id
-    //   });
-    //   cartProducts[index] = cartRow;
-    //   print('Using20e3: ${cartProducts.value[index].quantity}');
-    //   print('Using indexWhereeeeeeeeeeeeeeeeeee: ${cartProducts.value[index]}');
-
-    // } else {
-    //   cartRow = CartProduct.fromMap(
-    //       {'product': product!.toMap(), 'quantity': 1, 'id': product!.id});
-    //   // product.quantity++;
-    //   cartProducts.add(cartRow);
-    // }
-
-    // var key= '${product!.id}@${product!.varient!.varientCode}';
-
+  void addToCart(ProductSummary? product, String refId, String addedFrom,int? addQuantity) {
+ 
     var getData = cartProducts[refId];
-    int quantity = 1;
+    int quantity = 0 + addQuantity!;
     double price = (product!.varient!.price!.offerPrice).toDouble();
     if (getData != null) {
       quantity = getData!.quantity!;
-      quantity++;
+      quantity = quantity + addQuantity!;
       price = price * quantity;
     }
 
     List<ProductSummary> li = [];
     li.add(product!);
-
+    inspect(product);
     CartProduct cartRow = CartProduct.fromMap({
       'product': li,
       'quantity': quantity,
@@ -62,8 +35,25 @@ class CartController extends GetxController {
     });
 
     cartProducts[refId] = cartRow;
-    inspect(cartProducts);
+
     // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     // calculateTotalPrice();
+  }
+
+   bool checkProductInCart(key){
+    if(cartProducts[key] != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  int getCurrentQuantity(key) {
+    if(cartProducts[key] != null){
+      return cartProducts[key]!.quantity!;
+    }else{
+      return 0;
+    }
+    
   }
 }

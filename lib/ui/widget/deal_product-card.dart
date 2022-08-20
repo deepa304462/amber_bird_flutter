@@ -115,7 +115,7 @@ class DealProductCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 constraints: const BoxConstraints(),
                 onPressed: () {
-                  cartController.addToCart(product!.product,'refid','comingFrom');
+                  cartController.addToCart(product!.product,'refid','comingFrom',1);
                 },
                 icon: const Icon(Icons.add, color: Colors.black),
               ), 
@@ -142,7 +142,7 @@ class DealProductCard extends StatelessWidget {
             DealProduct dProduct = con.dealProd[index];
             var curProduct = dProduct!.product;
             inspect(curProduct);
-            curProduct!.varient!.price = dProduct!.dealPrice;
+            // curProduct!.varient!.price = dProduct!.dealPrice;
             //  inspect(curProduct);
             return ProductCard(dProduct!.product, dProduct!.id, 'DEAL',dProduct.dealPrice);
  
