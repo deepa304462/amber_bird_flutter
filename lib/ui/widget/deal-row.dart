@@ -28,9 +28,7 @@ class DealRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final DealController dealController = Get.put(
         DealController(currentdealName),
-        tag: currentdealName.toString());
-    print('aaa${dealController.dealProd}');
-    inspect(dealController.dealProd);
+        tag: currentdealName.toString()); 
     // if (dealController.dealProd.isNotEmpty) {
     return Column(
       children: [

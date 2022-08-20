@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:amber_bird/data/cart-product.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -11,7 +12,7 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  void addToCart(ProductSummary? product) {
+  void addToCart(ProductSummary? product, String refId, String addedFrom) {
     // CartProduct cartRow;
     // final index =
     //     cartProducts.value.indexWhere((element) => element.id == product!.id);
@@ -37,16 +38,31 @@ class CartController extends GetxController {
     //   // product.quantity++;
     //   cartProducts.add(cartRow);
     // }
-    
-    
-    
-    var key= '${product!.id}@${product!.varient!.varientCode}';
+
+    // var key= '${product!.id}@${product!.varient!.varientCode}';
+
+    var getData = cartProducts[refId];
+    int quantity = 1;
+    double price = (product!.varient!.price!.offerPrice).toDouble();
+    if (getData != null) {
+      quantity = getData!.quantity!;
+      quantity++;
+      price = price * quantity;
+    }
+
     List<ProductSummary> li = [];
     li.add(product!);
-    CartProduct cartRow =
-        CartProduct.fromMap({'product': li, 'quantity': 1, 'id': product!.id});
+
+    CartProduct cartRow = CartProduct.fromMap({
+      'product': li,
+      'quantity': quantity,
+      'refId': refId,
+      'addedFrom': addedFrom,
+      'totalPrice': price.toString()
+    });
+
+    cartProducts[refId] = cartRow;
     inspect(cartProducts);
-    cartProducts[key] = cartRow;
     // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     // calculateTotalPrice();
   }

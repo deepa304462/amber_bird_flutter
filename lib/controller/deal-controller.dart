@@ -35,15 +35,12 @@ class DealController extends GetxController {
     var payload = {"type": name};
     var response = await ClientService.searchQuery(
         path: 'cache/dealProduct/search', query: payload, lang: 'en');
-     inspect(response.data);
-    if (response.statusCode == 200) {
+     if (response.statusCode == 200) {
       List<DealProduct> dList = ((response.data as List<dynamic>?)
               ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
       dealProd.value = (dList);
-    } else {
-      inspect(response);
-    }
+    } 
   }
 }

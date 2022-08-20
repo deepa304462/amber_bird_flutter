@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/deal_product/price.dart';
+
 import 'constraint.dart';
-import 'deal_price.dart';
-import 'meta_data.dart';
+ import 'meta_data.dart';
 import 'product.dart';
 import 'rule_config.dart';
 
@@ -10,7 +11,7 @@ class DealProduct {
   MetaData? metaData;
   String? type;
   ProductSummary? product;
-  DealPrice? dealPrice;
+  Price? dealPrice;
   String? imageId;
   RuleConfig? ruleConfig;
   String? businessId;
@@ -46,7 +47,7 @@ class DealProduct {
             : ProductSummary.fromMap(data['product'] as Map<String, dynamic>),
         dealPrice: data['dealPrice'] == null
             ? null
-            : DealPrice.fromMap(data['dealPrice'] as Map<String, dynamic>),
+            : Price.fromMap(data['dealPrice'] as Map<String, dynamic>),
         imageId: data['imageId'] as String?,
         ruleConfig: data['ruleConfig'] == null
             ? null
@@ -88,7 +89,7 @@ class DealProduct {
     MetaData? metaData,
     String? type,
     ProductSummary? product,
-    DealPrice? dealPrice,
+    Price? dealPrice,
     String? imageId,
     RuleConfig? ruleConfig,
     String? businessId,

@@ -26,9 +26,7 @@ class CategoryController extends GetxController {
           []);
       categoryList.value =  (cList);
       // print(categoryList);
-    } else {
-      inspect(response);
-    }
+    }  
   }
 
   getSubCategory(catId) async {
@@ -42,8 +40,6 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       subCategoryList.value = (sList); 
-    } else {
-      inspect(response);
-    }
+    }  
   }
 }
