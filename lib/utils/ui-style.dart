@@ -23,6 +23,12 @@ class FontSizes {
 }
 
 class TextStyles {
+  static  TextStyle get detailProductName => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.xLarge,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 56, 53, 53));
+
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
   static TextStyle get titleFont => TextStyle(fontFamily: Fonts.title);
   static TextStyle get headingFont => TextStyle(
@@ -64,6 +70,10 @@ class TextStyles {
   static TextStyle get bodyWhiteLarge => bodyFont.copyWith(
       fontSize: FontSizes.large,
       fontWeight: FontWeight.w300,
+      color: Colors.white);
+  static TextStyle get addTocartText => bodyFont.copyWith(
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.w500,
       color: Colors.white);
   static TextStyle get bodyPrimaryLarge => bodyFont.copyWith(
       fontSize: FontSizes.large,

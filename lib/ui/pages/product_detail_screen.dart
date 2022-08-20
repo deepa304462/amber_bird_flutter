@@ -1,17 +1,19 @@
-import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
+ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:amber_bird/utils/ui-style.dart';
+ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final PageController _pageController = PageController(initialPage: 0);
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
-  final Controller myController = Get.find();
+  final CartController cartController = Get.find();
   final ProductSummary? product;
+  final String? refId;
+  final String? addedFrom;
 
-  ProductDetailScreen(this.product, {Key? key}) : super(key: key);
+  ProductDetailScreen(this.product, this.refId, this.addedFrom, {Key? key});
 
   Widget productPageView(double width, double height) {
     return Container(
@@ -31,7 +33,7 @@ class ProductDetailScreen extends StatelessWidget {
             child: PageView.builder(
               itemCount: product!.images!.length,
               controller: _pageController,
-              onPageChanged: myController.switchBetweenProductImages,
+              // onPageChanged: myController.switchBetweenProductImages,
               itemBuilder: (_, index) {
                 return Image.network(
                     '${ClientService.cdnUrl}${product!.images![index]}',
@@ -129,7 +131,7 @@ class ProductDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   product!.name!.defaultText!.text ?? '',
-                  // style: Theme.of(context).textTheme.headline2,
+                  style: TextStyles.detailProductName,
                 ),
                 // const SizedBox(height: 10),
                 // _ratingBar(context),
@@ -182,10 +184,15 @@ class ProductDetailScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    child: const Text("Add to cart"),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primeColor,
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                        textStyle: TextStyles.bodyWhite),
                     onPressed: product!.varient!.currentStock > 0
-                        ? () => myController.addToCart(product)
-                        : null,
+                        ? () => cartController.addToCart(product,refId!,addedFrom!)
+                        : () => cartController.addToCart(product, refId!, addedFrom!),
+                    child: Text("Add to cart",style: TextStyles.addTocartText),
                   ),
                 )
               ],

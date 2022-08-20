@@ -73,6 +73,7 @@ class locationWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: AppColors.lightGrey),
                 child: Stack(
+                  alignment: AlignmentDirectional.topEnd,
                   children: [
                     Text(
                         cartController!.cartProducts!.length.toString() ?? '0'),

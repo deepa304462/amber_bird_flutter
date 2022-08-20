@@ -6,11 +6,13 @@ import '../pages/product_detail_screen.dart';
 
 class OpenContainerWrapper extends StatelessWidget {
   const OpenContainerWrapper(
-      {Key? key, required this.child, required this.product})
+      {Key? key, required this.child, required this.product, this.refId, this.addedFrom})
       : super(key: key);
 
   final Widget child;
   final ProductSummary? product;
+  final String? refId;
+  final String? addedFrom;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class OpenContainerWrapper extends StatelessWidget {
         );
       },
       openBuilder: (BuildContext context, VoidCallback _) {
-        return ProductDetailScreen(product);
+        return ProductDetailScreen(product,refId!,addedFrom!);
       },
     );
   }

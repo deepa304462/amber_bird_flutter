@@ -20,6 +20,7 @@ class DealProductCard extends StatelessWidget {
       children: [
         OpenContainerWrapper(
           product: product.product,
+          
           child: Image.network(
               '${ClientService.cdnUrl}${product.product!.images![0]}',
                
@@ -144,17 +145,7 @@ class DealProductCard extends StatelessWidget {
             curProduct!.varient!.price = dProduct!.dealPrice;
             //  inspect(curProduct);
             return ProductCard(dProduct!.product, dProduct!.id, 'DEAL',dProduct.dealPrice);
-            // Padding(
-            //   padding: const EdgeInsetsDirectional.all(5),
-            //   child: ClipRRect(
-            //     clipBehavior: Clip.antiAliasWithSaveLayer,
-            //     borderRadius: BorderRadius.circular(15.0),
-            //     child: GridTile(
-            //       header: _gridItemHeader(dProduct, index),
-            //       child: _gridItemBody(dProduct, context),
-            //     ),
-            //   ),
-            // );
+ 
           },
         ),
       ),

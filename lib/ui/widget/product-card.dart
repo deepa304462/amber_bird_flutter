@@ -3,6 +3,7 @@ import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/open_container_wrapper.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,20 +18,21 @@ class ProductCard extends StatelessWidget {
 
   final CartController cartController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
-    return Column(
+    return 
+    Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5E6E8),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Image.network('${ClientService.cdnUrl}${product!.images![0]}',
-              height: 150, fit: BoxFit.cover),
+        OpenContainerWrapper(
+          product: product,
+          refId: refId,
+          addedFrom: addedFrom,
+          child: Image.network(
+              '${ClientService.cdnUrl}${product!.images![0]}',
+              fit: BoxFit.fill),
         ),
         _gridItemFooter(product, context)
       ],
     );
+    
   }
 
   Widget _gridItemHeader(ProductSummary product) {
@@ -81,15 +83,14 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FittedBox(
-            child: Text(
+            Text(
               product!.name!.defaultText!.text ?? '',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: const TextStyle(
                   fontWeight: FontWeight.w500, color: Colors.grey),
             ),
-          ),
+           
           Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,7 +128,7 @@ class ProductCard extends StatelessWidget {
                     ),
               Spacer(),
               IconButton(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(1),
                 constraints: const BoxConstraints(),
                 onPressed: () {
                   cartController.addToCart(product!, refId!, addedFrom!);
@@ -140,62 +141,7 @@ class ProductCard extends StatelessWidget {
       ),
     );
 
-    //   return Container(
-    //     padding: const EdgeInsets.only(left: 15, right: 15),
-    //     height: 55,
-    //     decoration: const BoxDecoration(
-    //       color: Colors.white,
-    //     ),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         FittedBox(
-    //           child: Text(
-    //             product!.name!.defaultText!.text ?? '',
-    //             overflow: TextOverflow.ellipsis,
-    //             maxLines: 1,
-    //             style: const TextStyle(
-    //                 fontWeight: FontWeight.w500, color: Colors.grey),
-    //           ),
-    //         ),
-    //         const SizedBox(height: 5),
-    //         Row(
-    //           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             // Text(
-    //               // product.dealPrice!.offerPrice != null
-    //               //     ? "\$${product.dealPrice!.actualPrice}"
-    //               //     : "\$${product.dealPrice!.offerPrice}",
-    //               //  style: TextStyles.bodyFont,
-    //             // ),
-    //             const SizedBox(width: 3),
-    //             // Visibility(
-    //             //   visible: product.dealPrice!.offerPrice != null ? true : false,
-    //             //   child: Text(
-    //             //     "\$${product.dealPrice!.offerPrice.toString()}",
-    //             //     style: const TextStyle(
-    //             //       decoration: TextDecoration.lineThrough,
-    //             //       color: Colors.grey,
-    //             //       fontWeight: FontWeight.w500,
-    //             //     ),
-    //             //   ),
-    //             // ),
-    //             Spacer(),
-    //             IconButton(
-    //               padding: const EdgeInsets.all(8),
-    //               constraints: const BoxConstraints(),
-    //               onPressed: () {
-    //                 cartController.addToCart(
-    //                     product,refId!, addedFrom!);
-    //               },
-    //               icon: const Icon(Icons.add, color: Colors.black),
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   );
+ 
   }
 
   @override
