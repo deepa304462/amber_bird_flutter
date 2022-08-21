@@ -8,7 +8,12 @@ import '../pages/product_detail_screen.dart';
 
 class OpenContainerWrapper extends StatelessWidget {
   const OpenContainerWrapper(
-      {Key? key, required this.child, required this.product, this.refId, this.addedFrom,this.dealPrice})
+      {Key? key,
+      required this.child,
+      required this.product,
+      this.refId,
+      this.addedFrom,
+      this.dealPrice})
       : super(key: key);
 
   final Widget child;
@@ -34,7 +39,7 @@ class OpenContainerWrapper extends StatelessWidget {
         );
       },
       openBuilder: (BuildContext context, VoidCallback _) {
-        return ProductDetailScreen(product,refId!,addedFrom!);
+        return ProductDetailScreen(product, refId!, addedFrom!);
       },
     );
   }

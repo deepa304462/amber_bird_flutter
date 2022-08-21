@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DealProductCard extends StatelessWidget {
-    final CartController cartController = Get.find();
+  final CartController cartController = Get.find();
 
   final DealController con;
   DealProductCard(this.con, {super.key});
@@ -20,12 +20,9 @@ class DealProductCard extends StatelessWidget {
       children: [
         OpenContainerWrapper(
           product: product.product,
-          
           child: Image.network(
               '${ClientService.cdnUrl}${product.product!.images![0]}',
-               
-              fit: BoxFit.fill
-              ),
+              fit: BoxFit.fill),
         ),
         _gridItemFooter(product, context)
       ],
@@ -72,10 +69,10 @@ class DealProductCard extends StatelessWidget {
       // margin: const EdgeInsets.only(left: 3, right: 3),
       height: 55,
       decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),
-              bottomRight: Radius.circular(10))
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,10 +112,11 @@ class DealProductCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 constraints: const BoxConstraints(),
                 onPressed: () {
-                  cartController.addToCart(product!.product,'refid','comingFrom',1);
+                  cartController.addToCart(
+                      product!.product, 'refid', 'comingFrom', 1);
                 },
                 icon: const Icon(Icons.add, color: Colors.black),
-              ), 
+              ),
             ],
           ),
         ],
@@ -144,8 +142,8 @@ class DealProductCard extends StatelessWidget {
             inspect(curProduct);
             // curProduct!.varient!.price = dProduct!.dealPrice;
             //  inspect(curProduct);
-            return ProductCard(dProduct!.product, dProduct!.id, 'DEAL',dProduct.dealPrice);
- 
+            return ProductCard(
+                dProduct!.product, dProduct!.id, 'DEAL', dProduct.dealPrice);
           },
         ),
       ),

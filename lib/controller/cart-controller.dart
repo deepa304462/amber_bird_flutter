@@ -12,8 +12,8 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  void addToCart(ProductSummary? product, String refId, String addedFrom,int? addQuantity) {
- 
+  void addToCart(ProductSummary? product, String refId, String addedFrom,
+      int? addQuantity) {
     var getData = cartProducts[refId];
     int quantity = 0 + addQuantity!;
     double price = (product!.varient!.price!.offerPrice).toDouble();
@@ -40,20 +40,19 @@ class CartController extends GetxController {
     // calculateTotalPrice();
   }
 
-   bool checkProductInCart(key){
-    if(cartProducts[key] != null){
+  bool checkProductInCart(key) {
+    if (cartProducts[key] != null) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
   int getCurrentQuantity(key) {
-    if(cartProducts[key] != null){
+    if (cartProducts[key] != null) {
       return cartProducts[key]!.quantity!;
-    }else{
+    } else {
       return 0;
     }
-    
   }
 }

@@ -23,7 +23,7 @@ class CartWidget extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Column(
-                  children: [ 
+                  children: [
                     cartController
                             .cartProducts.value[currentKey]!.product!.isNotEmpty
                         ? ListView.builder(
@@ -51,16 +51,12 @@ class CartWidget extends StatelessWidget {
                                           children: [
                                             Text(currentProduct
                                                 .name!.defaultText!.text!),
-                                            Text('${cartController
-                                                .cartProducts[currentKey]!
-                                                .quantity!
-                                                .toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                            Text(
+                                                '${cartController.cartProducts[currentKey]!.quantity!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
                                           ],
                                         ),
-                                        Text('\$${cartController
-                                            .cartProducts[currentKey]!
-                                            .totalPrice!
-                                            .toString()}')
+                                        Text(
+                                            '\$${cartController.cartProducts[currentKey]!.totalPrice!.toString()}')
                                       ]),
                                 ),
                               );

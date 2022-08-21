@@ -15,7 +15,7 @@ class CategoryController extends GetxController {
   }
 
   getCategory() async {
-    var payload = {'':''};
+    var payload = {'': ''};
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
 
@@ -24,9 +24,9 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      categoryList.value =  (cList);
+      categoryList.value = (cList);
       // print(categoryList);
-    }  
+    }
   }
 
   getSubCategory(catId) async {
@@ -39,7 +39,7 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      subCategoryList.value = (sList); 
-    }  
+      subCategoryList.value = (sList);
+    }
   }
 }

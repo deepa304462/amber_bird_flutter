@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/open_container_wrapper.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class ProductCard extends StatelessWidget {
       {super.key});
 
   final CartController cartController = Get.find();
+  final Controller stateController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
     return Column(
       children: [
@@ -55,7 +58,7 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.favorite,
               // color: myController.filteredProducts[index].isLiked
               //     ? Colors.redAccent
@@ -185,52 +188,81 @@ class ProductCard extends StatelessWidget {
                 style: TextStyles.prieLinThroughStyle,
               ),
               GetX<CartController>(builder: (cController) {
-                return cController.checkProductInCart(refId)? Row(
-                  children: [
-                    IconButton(
-                      padding: const EdgeInsets.all(8),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        cController.addToCart(p, refId!, addedFrom!, -1);
-                      },
-                      icon:
-                          const Icon(Icons.remove_circle_outline, color: Colors.black),
-                    ),
-                    Text(cController.getCurrentQuantity(refId).toString()),
-                    IconButton(
-                      padding: const EdgeInsets.all(8),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        cController.addToCart(p, refId!, addedFrom!,1);
-                      },
-                      icon:
-                          const Icon(Icons.add_circle_outline, color: Colors.black),
-                    ),
-                  ],
-                ):ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primeColor,
-                    // padding: const EdgeInsets.symmetric(
-                    //     horizontal: 50, vertical: 15),
-                    textStyle: TextStyles.bodyWhite),
-                onPressed: p!.varient!.currentStock > 0
-                    ? () => cartController.addToCart(p, refId!, addedFrom!,1)
-                    : () => cartController.addToCart(p, refId!, addedFrom!,1),
-                child: Text("Add to cart", style: TextStyles.addTocartText),
-              );
+                return cController.checkProductInCart(refId)
+                    ? Row(
+                        children: [
+                          IconButton(
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(),
+                            onPressed: () {
+                              if (stateController.isLogin.value) {
+                                cController.addToCart(
+                                    p, refId!, addedFrom!, -1);
+                              } else {
+                                stateController.setCurrentTab(3);
+                                var showToast = snackBarClass.showToast(
+                                    context, 'Please Login to preoceed');
+                              }
+                              // cController.addToCart(p, refId!, addedFrom!, -1);
+                            },
+                            icon: const Icon(Icons.remove_circle_outline,
+                                color: Colors.black),
+                          ),
+                          Text(
+                              cController.getCurrentQuantity(refId).toString()),
+                          IconButton(
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(),
+                            onPressed: () {
+                              if (stateController.isLogin.value) {
+                                cController.addToCart(p, refId!, addedFrom!, 1);
+                              } else {
+                                stateController.setCurrentTab(3);
+                                var showToast = snackBarClass.showToast(
+                                    context, 'Please Login to preoceed');
+                              }
+                              // cController.addToCart(p, refId!, addedFrom!, 1);
+                            },
+                            icon: const Icon(Icons.add_circle_outline,
+                                color: Colors.black),
+                          ),
+                        ],
+                      )
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primeColor,
+                            // padding: const EdgeInsets.symmetric(
+                            //     horizontal: 50, vertical: 15),
+                            textStyle: TextStyles.bodyWhite),
+                        onPressed: p!.varient!.currentStock > 0
+                            ? () {
+                                if (stateController.isLogin.value) {
+                                  cartController.addToCart(
+                                      p, refId!, addedFrom!, 1);
+                                } else {
+                                  stateController.setCurrentTab(3);
+                                  var showToast = snackBarClass.showToast(
+                                      context, 'Please Login to preoceed');
+                                }
+                              }
+                            : () {
+                                print(
+                                    'nnnnnnnnnnnnnnnnnnnnnnnnnnnn${stateController.isLogin.value}');
+                                if (stateController.isLogin.value) {
+                                  cartController.addToCart(
+                                      p, refId!, addedFrom!, 1);
+                                } else {
+                                  stateController.setCurrentTab(3);
+                                  var showToast = snackBarClass.showToast(
+                                      context, 'Please Login to preoceed');
+                                }
+                              },
+                        child: Text("Add to cart",
+                            style: TextStyles.addTocartText),
+                      );
               }),
-              
             ],
           ),
-
-          // IconButton(
-          //   padding: const EdgeInsets.all(1),
-          //   constraints: const BoxConstraints(),
-          //   onPressed: () {
-          //     cartController.addToCart(product!, refId!, addedFrom!);
-          //   },
-          //   icon: const Icon(Icons.add, color: Colors.black),
-          // ),
         ],
       )),
     );

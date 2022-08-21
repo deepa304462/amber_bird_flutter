@@ -19,27 +19,27 @@ class Controller extends GetxController {
   @override
   void onInit() {
     getLoginInfo();
-    
+
     changeTab(currentTab.toInt());
     super.onInit();
   }
 
-  getLoginInfo() async{
+  getLoginInfo() async {
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
-    var authData = jsonDecode(await (SharedData.read('authData')) as String ?? '');
+    var authData =
+        jsonDecode(await (SharedData.read('authData')) as String ?? '');
     ClientService.token = authData['accessToken'] ?? '';
-    
   }
 
-  logout(){
+  logout() {
     isLogin.value = false;
     ClientService.token = '';
     SharedData.save(false.toString(), 'isLogin');
     SharedData.remove('userData');
     SharedData.remove('authData');
-    SharedData.remove('ProfileAuthData'); 
+    SharedData.remove('ProfileAuthData');
     changeTab(currentTab.toInt());
   }
 
@@ -94,14 +94,14 @@ class Controller extends GetxController {
         Modular.to.navigate('/cart');
         break;
       case 3:
-      if(isLogin.value){
+        if (isLogin.value) {
           activePageName.value = 'profile';
           Modular.to.navigate('/profile');
-        }else{
+        } else {
           activePageName.value = 'login';
           Modular.to.navigate('/login');
         }
-        
+
         break;
     }
   }

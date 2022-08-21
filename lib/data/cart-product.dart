@@ -4,12 +4,17 @@ import 'package:amber_bird/data/deal_product/product.dart';
 
 class CartProduct {
   List<ProductSummary>? product;
-  int? quantity; 
+  int? quantity;
   String? addedFrom;
   String? refId;
   String? totalPrice;
 
-  CartProduct({this.product, this.quantity, this.refId, this.addedFrom,this.totalPrice});
+  CartProduct(
+      {this.product,
+      this.quantity,
+      this.refId,
+      this.addedFrom,
+      this.totalPrice});
 
   @override
   String toString() {
@@ -19,7 +24,7 @@ class CartProduct {
   factory CartProduct.fromMap(Map<String, dynamic> data) => CartProduct(
         product: (data['product'] as List<dynamic>?)
             ?.map((e) => ProductSummary.fromMap(e.toMap()))
-            .toList() ,
+            .toList(),
         quantity: data['quantity'] as int?,
         refId: data['refId'] as String?,
         addedFrom: data['addedFrom'] as String?,
@@ -46,7 +51,10 @@ class CartProduct {
   /// Converts [CartProduct] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  CartProduct copyWith({List<ProductSummary>? product, int? quantity, String? refId,
+  CartProduct copyWith(
+      {List<ProductSummary>? product,
+      int? quantity,
+      String? refId,
       String? addedFrom,
       String? totalPrice}) {
     return CartProduct(

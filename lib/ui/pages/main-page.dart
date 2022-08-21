@@ -16,15 +16,12 @@ import 'package:get/get.dart';
 
 // class _MainPageState extends State<MainPage> {
 class MainPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         
-          
           CategoryRow(),
           DealRow(dealName.FLASH),
           DealRow(dealName.SALES),

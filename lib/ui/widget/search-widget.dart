@@ -5,15 +5,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class SearchWidget extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller =   TextEditingController();
+    TextEditingController controller = TextEditingController();
     final SearchController searchController = Get.put(SearchController());
-     controller.text = searchController.search.toString();
+    controller.text = searchController.search.toString();
     var width = MediaQuery.of(context).size.width;
     return Container(
-      width: width, 
+      width: width,
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
         color: AppColors.lightGrey.withOpacity(0.1),
@@ -26,8 +25,7 @@ class SearchWidget extends StatelessWidget {
             onPressed: () {
               print(controller.value.text);
               searchController.setSearchVal(controller.value.text);
-              Modular.to
-                  .navigate('/product', arguments: controller.value.text);
+              Modular.to.navigate('/product', arguments: controller.value.text);
             },
             icon: const Icon(Icons.search),
           ),

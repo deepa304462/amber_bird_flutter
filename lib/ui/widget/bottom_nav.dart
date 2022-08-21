@@ -87,8 +87,8 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.items.map((element) {
                 int item = widget.items.indexOf(element);
-                return BottomBarItem(element.icon, element.imgIcon,element.suffix,
-                    widget.navBarHeight, element.label, () {
+                return BottomBarItem(element.icon, element.imgIcon,
+                    element.suffix, widget.navBarHeight, element.label, () {
                   widget.onTap(item);
                 }, element.selectedColor, _controllers[item], widget.radius);
               }).toList(),
@@ -133,8 +133,8 @@ class BottomBarItem extends StatefulWidget {
   final String imageIcon;
   final String suffix;
 
-  BottomBarItem(this.icon, this.imageIcon, this.suffix,this.height, this.label, this.onTap,
-      this.color, this.controller, this.radius);
+  BottomBarItem(this.icon, this.imageIcon, this.suffix, this.height, this.label,
+      this.onTap, this.color, this.controller, this.radius);
 
   @override
   _BottomBarItemState createState() => _BottomBarItemState();

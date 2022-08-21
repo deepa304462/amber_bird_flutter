@@ -22,7 +22,7 @@ class CategoryRow extends StatelessWidget {
   // RxList<ProductCategory> cList = RxList([]);
   final CategoryController categoryController = Get.put(CategoryController());
   final Controller myController = Get.find();
-  
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -68,8 +68,8 @@ class CategoryRow extends StatelessWidget {
                                 height: 80,
                                 fit: BoxFit.fill),
                             Center(
-                              child: Text(categoryController.categoryList[index].name!
-                                      .defaultText!.text ??
+                              child: Text(categoryController.categoryList[index]
+                                      .name!.defaultText!.text ??
                                   ''),
                             )
                           ],

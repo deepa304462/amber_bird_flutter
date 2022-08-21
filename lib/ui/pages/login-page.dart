@@ -1,13 +1,12 @@
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/data/slider-item.dart';
-import 'package:amber_bird/ui/widget/login-widget.dart'; 
-import 'package:flutter/material.dart'; 
+import 'package:amber_bird/ui/widget/login-widget.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPageWidget extends StatelessWidget {
-
-final AuthController authController = Get.put(AuthController());
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,6 @@ final AuthController authController = Get.put(AuthController());
                   child: LoginWidget(),
                 ),
               ),
-             
             ],
           );
         },

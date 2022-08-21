@@ -1,7 +1,9 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,7 @@ class ProductDetailScreen extends StatelessWidget {
   final PageController _pageController = PageController(initialPage: 0);
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController = Get.find();
+  final Controller stateController = Get.find();
   final ProductSummary? product;
   // final Price? dealPrice;
   final String? refId;
@@ -137,10 +140,26 @@ class ProductDetailScreen extends StatelessWidget {
                             horizontal: 50, vertical: 15),
                         textStyle: TextStyles.bodyWhite),
                     onPressed: product!.varient!.currentStock > 0
-                        ? () => cartController.addToCart(
-                            product, refId!, addedFrom!,1)
-                        : () => cartController.addToCart(
-                            product, refId!, addedFrom!,1),
+                        ? () {
+                            if (stateController.isLogin.value) {
+                              cartController.addToCart(
+                                  product, refId!, addedFrom!, 1);
+                            } else {
+                              stateController.setCurrentTab(3);
+                              var showToast = snackBarClass.showToast(
+                                  context, 'Please Login to preoceed');
+                            }
+                          }
+                        : () {
+                            if (stateController.isLogin.value) {
+                              cartController.addToCart(
+                                  product, refId!, addedFrom!, 1);
+                            } else {
+                              stateController.setCurrentTab(3);
+                              var showToast = snackBarClass.showToast(
+                                  context, 'Please Login to preoceed');
+                            }
+                          },
                     child: Text("Add to cart", style: TextStyles.addTocartText),
                   ),
                 )

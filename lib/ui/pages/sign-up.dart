@@ -89,7 +89,10 @@ class SignUp extends StatelessWidget {
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
                   var data = await mController.signInWithGoogle();
-
+                  if (data['status'] == 'success') {
+                    controller.isLogin.value = true;
+                    controller.setCurrentTab(0);
+                  }
                   var showToast = snackBarClass.showToast(context, data['msg']);
                 },
                 child: Row(
@@ -121,7 +124,10 @@ class SignUp extends StatelessWidget {
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
                   var data = await mController.signInWithFacebook();
-
+                  if (data['status'] == 'success') {
+                    controller.isLogin.value = true;
+                    controller.setCurrentTab(0);
+                  }
                   var showToast = snackBarClass.showToast(context, data['msg']);
                 },
                 child: Row(

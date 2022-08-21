@@ -23,7 +23,7 @@ class FontSizes {
 }
 
 class TextStyles {
-  static  TextStyle get detailProductName => TextStyle(
+  static TextStyle get detailProductName => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.xLarge,
       fontWeight: FontWeight.bold,
@@ -46,7 +46,8 @@ class TextStyles {
       color: AppColors.primeColor);
   static TextStyle get titleXLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge);
-
+  static TextStyle get titleLarge =>
+      TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.large);
   static TextStyle get title => titleFont.copyWith(fontSize: FontSizes.title);
   static TextStyle get titleWhite =>
       titleFont.copyWith(fontSize: FontSizes.title, color: Colors.white);

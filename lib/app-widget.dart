@@ -22,14 +22,12 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 
 // class _AppWidget extends State<AppWidget> {
 class AppWidget extends StatelessWidget {
-    
-
   // const AppWidget({super.key});
 
   // Locale _currentLocale = const Locale('en');
   // @override
   // void initState() {
-   //   // FlutterNativeSplash.remove();
+  //   // FlutterNativeSplash.remove();
   //   // warmupFlare();
   //   // initializeLocationAndSave();
   //   // ChangeLocale.change = (Locale locale) {
@@ -54,7 +52,6 @@ class AppWidget extends StatelessWidget {
   //   return revGeocode;
   // }
 
-  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp.router(

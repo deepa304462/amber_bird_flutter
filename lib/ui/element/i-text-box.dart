@@ -60,7 +60,8 @@ class ITextBox extends StatelessWidget {
             SizedBox(
               width: 50,
               child: CountryPickerDropdown(
-                (country) {  //countryCode
+                (country) {
+                  //countryCode
                   authController.setFielsvalue(country, 'countryCode');
                 },
               ),
@@ -69,10 +70,9 @@ class ITextBox extends StatelessWidget {
               child: TextField(
                 maxLength: 10,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: label,
-                  counterText: ""
-                ),
+                    border: InputBorder.none,
+                    labelText: label,
+                    counterText: ""),
                 controller: ipController,
                 obscureText: isPassword,
                 keyboardType: keyboardType,

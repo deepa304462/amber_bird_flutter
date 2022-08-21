@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/price.dart';
 
 import 'constraint.dart';
- import 'meta_data.dart';
+import 'meta_data.dart';
 import 'product.dart';
 import 'rule_config.dart';
 

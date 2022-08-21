@@ -21,7 +21,7 @@ import 'package:get/get.dart';
 class CategoryPage extends StatelessWidget {
   bool isLoading = false;
   ProductCategory selectedCatergory = new ProductCategory();
-  ProductCategory selectedSubCatergory = new ProductCategory(); 
+  ProductCategory selectedSubCatergory = new ProductCategory();
   final CategoryController categoryController = Get.put(CategoryController());
 
   @override
