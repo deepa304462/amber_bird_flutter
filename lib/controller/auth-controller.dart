@@ -126,12 +126,12 @@ class AuthController extends GetxController {
       print(resp);
       var loginPayload = {
         "password": fieldValue['password'],
-        "username": fieldValue['email'],
-        "appName": "DIAGO_TEAM_WEB_APP"
+        "userName": fieldValue['email'],
+        // "appName": "DIAGO_TEAM_WEB_APP"
       };
       print(loginPayload);
       var loginResp =
-          await ClientService.post(path: 'auth/login', payload: loginPayload);
+          await ClientService.post(path: 'auth/authenticate', payload: loginPayload);
 
       print(loginResp);
       if (loginResp.statusCode == 200) {
@@ -157,7 +157,7 @@ class AuthController extends GetxController {
               payload: userPayload);
           print(userUpdateResp);
           if (userUpdateResp.statusCode == 200) {
-            SharedData.save(jsonEncode(userUpdateResp), 'userData');
+            SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
             SharedData.save(true.toString(), 'isLogin');
             return {
               "msg": "Account Created Successfully!!",
@@ -185,21 +185,21 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      inspect(googleSignInAuthentication);
-      print('credetails${googleSignInAuthentication.accessToken}');
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
+      // final GoogleSignInAuthentication googleSignInAuthentication =
+      //     await googleSignInAccount.authentication;
+      // inspect(googleSignInAuthentication);
+      // print('credetails${googleSignInAuthentication.accessToken}');
+      // final AuthCredential credential = GoogleAuthProvider.credential(
+      //   accessToken: googleSignInAuthentication.accessToken,
+      //   idToken: googleSignInAuthentication.idToken,
+      // );
 
-      print('credetails${credential}');
+      // print('credetails${credential}');
       // var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
-        'thirdPartyId': googleSignInAuthentication!.idToken ?? '',
+        'thirdPartyId': googleSignInAccount!.id ?? '',
         'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
         'isThirdParty': true,
         'thirdPartyName': 'GOOGLE',
@@ -224,21 +224,21 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
-          await googleSignInAccount.authentication;
-      inspect(googleSignInAuthentication);
-      print('credetails${googleSignInAuthentication.accessToken}');
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
+      // final GoogleSignInAuthentication googleSignInAuthentication =
+      //     await googleSignInAccount.authentication;
+      // inspect(googleSignInAuthentication);
+      // print('credetails${googleSignInAuthentication.accessToken}');
+      // final AuthCredential credential = GoogleAuthProvider.credential(
+      //   accessToken: googleSignInAuthentication.accessToken,
+      //   idToken: googleSignInAuthentication.idToken,
+      // );
 
-      print('credetails${credential}');
+      // print('credetails${credential}');
       var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
-        'thirdPartyId': googleSignInAuthentication!.idToken ?? '',
+        'thirdPartyId': googleSignInAccount!.id ?? '',
         'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
         'isThirdParty': true,
         'thirdPartyName': 'GOOGLE',

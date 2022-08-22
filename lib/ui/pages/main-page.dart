@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
+import 'package:amber_bird/ui/widget/multi-product-row.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class MainPage extends StatelessWidget {
           CategoryRow(),
           DealRow(dealName.FLASH),
           DealRow(dealName.SALES),
+          MultiProductRow(multiProductName.COMBO)
         ],
       ),
     );
