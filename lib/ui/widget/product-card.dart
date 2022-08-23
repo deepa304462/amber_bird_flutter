@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -22,6 +23,7 @@ class ProductCard extends StatelessWidget {
 
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
+  final WishlistController wishlistController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
     return Column(
       children: [
@@ -57,15 +59,19 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
+          // GetX<WishlistController>(builder: (wController) {
+          //   return
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.favorite,
-              // color: myController.filteredProducts[index].isLiked
-              //     ? Colors.redAccent
-              //     : const Color(0xFFA6A3A0),
+              color: wishlistController.checkIfProductWishlist(product.id)
+                  ? Colors.redAccent
+                  : const Color(0xFFA6A3A0),
             ),
-            onPressed: () => {},
-          ),
+            onPressed: () =>
+                {wishlistController.addToWishlist(product.id, product)},
+          )
+          // }),
         ],
       ),
     );
@@ -246,8 +252,7 @@ class ProductCard extends StatelessWidget {
                                 }
                               }
                             : () {
-                                print(
-                                    'nnnnnnnnnnnnnnnnnnnnnnnnnnnn${stateController.isLogin.value}');
+                                print('nnnnn${stateController.isLogin.value}');
                                 if (stateController.isLogin.value) {
                                   cartController.addToCart(
                                       p, refId!, addedFrom!, 1);

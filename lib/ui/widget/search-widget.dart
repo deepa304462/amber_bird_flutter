@@ -25,7 +25,8 @@ class SearchWidget extends StatelessWidget {
             onPressed: () {
               print(controller.value.text);
               searchController.setSearchVal(controller.value.text);
-              Modular.to.navigate('/product', arguments: controller.value.text);
+              Modular.to
+                  .navigate('/home/product', arguments: controller.value.text);
             },
             icon: const Icon(Icons.search),
           ),

@@ -84,7 +84,7 @@ class LoginWidget extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
-                          Modular.to.navigate('/signup');
+                          Modular.to.navigate('/home/signup');
                         },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(

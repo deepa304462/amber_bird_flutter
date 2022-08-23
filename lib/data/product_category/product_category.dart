@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'meta_data.dart';
+import 'package:amber_bird/data/deal_product/meta_data.dart';
+
 import 'name.dart';
 
 class ProductCategory {

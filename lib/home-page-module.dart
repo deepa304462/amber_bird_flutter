@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
+import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class HomePageModule extends Module {
@@ -14,7 +15,8 @@ class HomePageModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => HomePage(), children: [
+    ChildRoute('/', child: (_, args) => SplashOfferPage()),
+    ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
         '/product',

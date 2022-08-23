@@ -81,7 +81,7 @@ class locationWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       constraints: const BoxConstraints(),
                       onPressed: () {
-                        Modular.to.navigate('/cart');
+                        Modular.to.navigate('/home/cart');
                       },
                       icon: const Icon(Icons.shopping_basket,
                           color: Colors.black),

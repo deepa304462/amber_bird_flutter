@@ -83,23 +83,23 @@ class Controller extends GetxController {
     switch (currentTab) {
       case 0:
         activePageName.value = 'main';
-        Modular.to.navigate('/main');
+        Modular.to.navigate('/home/main');
         break;
       case 1:
         activePageName.value = 'category';
-        Modular.to.navigate('/category');
+        Modular.to.navigate('/home/category');
         break;
       case 2:
         activePageName.value = 'cart';
-        Modular.to.navigate('/cart');
+        Modular.to.navigate('/home/cart');
         break;
       case 3:
         if (isLogin.value) {
           activePageName.value = 'profile';
-          Modular.to.navigate('/profile');
+          Modular.to.navigate('/home/profile');
         } else {
           activePageName.value = 'login';
-          Modular.to.navigate('/login');
+          Modular.to.navigate('/home/login');
         }
 
         break;

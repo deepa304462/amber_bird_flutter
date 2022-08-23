@@ -19,7 +19,7 @@ class MultiProductController extends GetxController {
     super.onInit();
   }
 
-  getmultiProductProduct(key) async{
+  getmultiProductProduct(key) async {
     var payload = {"type": key};
     var response = await ClientService.searchQuery(
         path: 'cache/multiProduct/search', query: payload, lang: 'en');
@@ -27,7 +27,7 @@ class MultiProductController extends GetxController {
       List<Multi> dList = ((response.data as List<dynamic>?)
               ?.map((e) => Multi.fromMap(e as Map<String, dynamic>))
               .toList() ??
-          []); 
+          []);
       multiProd.value = (dList);
     }
   }
@@ -40,6 +40,5 @@ class MultiProductController extends GetxController {
     } else {
       return "Flash Deal";
     }
-  
   }
 }

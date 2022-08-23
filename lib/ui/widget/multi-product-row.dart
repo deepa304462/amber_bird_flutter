@@ -59,23 +59,20 @@ class MultiProductRow extends StatelessWidget {
                   return SizedBox(
                       // height: 250,
                       // width: 500,
-                      child: ListView(
-                        scrollDirection:  Axis.horizontal,
+                      child: ListView(scrollDirection: Axis.horizontal,
                           // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            for (var i = 0;
-                                i < mProduct.products!.length;
-                                i++) ...[
-                              SizedBox(
-                                width: (150* mProduct.products!.length).toDouble(),
-                                child: ProductCard(
-                                    mProduct.products![i],
-                                    mProduct.id,
-                                    'MULTIPRODUCT',
-                                    mProduct.products![i].varient!.price!),
-                              )
-                            ]
-                          ]));
+                        for (var i = 0; i < mProduct.products!.length; i++) ...[
+                          SizedBox(
+                            width: (150 * mProduct.products!.length).toDouble(),
+                            child: ProductCard(
+                                mProduct.products![i],
+                                mProduct.id,
+                                'MULTIPRODUCT',
+                                mProduct.products![i].varient!.price!),
+                          )
+                        ]
+                      ]));
                   // return for (var i = 0; i < mProduct.products!.length; i++){
                   //   var curProduct = mProduct.products![i];
                   //   return ProductCard(curProduct, mProduct!.id, 'MULTIPRODUCT',

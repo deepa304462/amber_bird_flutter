@@ -5,10 +5,8 @@ import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 
- 
- 
 class Multi {
-  MetaData    ? metaData;
+  MetaData? metaData;
   Name? name;
   List<ProductSummary>? products;
   String? displayImageId;

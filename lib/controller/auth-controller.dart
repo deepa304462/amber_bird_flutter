@@ -130,8 +130,8 @@ class AuthController extends GetxController {
         // "appName": "DIAGO_TEAM_WEB_APP"
       };
       print(loginPayload);
-      var loginResp =
-          await ClientService.post(path: 'auth/authenticate', payload: loginPayload);
+      var loginResp = await ClientService.post(
+          path: 'auth/authenticate', payload: loginPayload);
 
       print(loginResp);
       if (loginResp.statusCode == 200) {

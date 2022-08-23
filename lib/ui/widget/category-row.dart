@@ -41,7 +41,7 @@ class CategoryRow extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     myController.setCurrentTab(2);
-                    Modular.to.navigate('/category');
+                    Modular.to.navigate('/home/category');
                   },
                   child: Text(
                     "SEE ALL",
