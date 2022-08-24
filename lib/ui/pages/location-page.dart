@@ -1,3 +1,4 @@
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,12 +68,13 @@ class LocationPage extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: const EdgeInsets.all(25.0),
+              padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.darkOrange,
                     textStyle: TextStyles.bodyWhite),
                 onPressed: () {
+                  SharedData.save('true','onboardingDone');
                   Modular.to.navigate('/home/main');
                 },
                 child: Text(

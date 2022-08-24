@@ -10,6 +10,7 @@ class Controller extends GetxController {
   var isLogin = false.obs;
   var currentTab = 0.obs;
   var activePageName = ''.obs;
+  var onboardingDone = false.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
@@ -25,6 +26,9 @@ class Controller extends GetxController {
   }
 
   getLoginInfo() async {
+    var onboardLocarl = await (SharedData.read('onboardingDone'));
+     bool onboard = onboardLocarl.toString() == 'true';
+     onboardingDone.value = onboard;
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
