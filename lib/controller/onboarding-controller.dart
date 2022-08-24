@@ -7,6 +7,7 @@ import 'package:get/get.dart';
  
 class OnBoardingController extends GetxController {
   var onboardingData = Appmanger.fromJson("{}").obs;
+  var activePage = 0.obs;
   @override
   void onInit() {
     getOboarding();

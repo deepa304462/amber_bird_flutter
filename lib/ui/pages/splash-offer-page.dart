@@ -23,128 +23,6 @@ class SplashOfferPage extends StatelessWidget {
   // final WishlistController wishlistController = Get.put(WishlistController());
 
   // Making list of pages needed to pass in IntroViewsFlutter constructor.
-  final pages = [
-    Container(
-      color: Colors.pink,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Image.asset(
-            'assets/1.png',
-            fit: BoxFit.cover,
-          ),
-          Padding(padding: const EdgeInsets.all(20.0)),
-          Column(
-            children: <Widget>[
-              new Text(
-                "Hi",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "It's Me",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "Sahdeep",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-    Container(
-      color: Colors.deepPurpleAccent,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Image.asset(
-            'assets/1.png',
-            fit: BoxFit.cover,
-          ),
-          Padding(padding: const EdgeInsets.all(20.0)),
-          Column(
-            children: <Widget>[
-              new Text(
-                "Take a",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "look at",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "Liquid Swipe",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-    Container(
-      color: Colors.greenAccent,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Image.asset(
-            'assets/1.png',
-            fit: BoxFit.cover,
-          ),
-          Padding(padding: const EdgeInsets.all(20.0)),
-          Column(
-            children: <Widget>[
-              new Text(
-                "Liked?",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "Fork!",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-              new Text(
-                "Give Star!",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontFamily: "Billy",
-                    fontWeight: FontWeight.w600),
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-  ];
   var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
   @override
   Widget build(BuildContext context) {
@@ -156,7 +34,6 @@ class SplashOfferPage extends StatelessWidget {
             ? LiquidSwipe.builder(
                 itemCount: onBoardingController
                     .onboardingData.value.appIntro!.introImages!.length,
-                    
                 itemBuilder: (context, index) {
                   var data = onBoardingController
                       .onboardingData.value.appIntro!.introImages![index];
@@ -170,57 +47,81 @@ class SplashOfferPage extends StatelessWidget {
                         fit: BoxFit.fill),
                   );
                 },
-                 positionSlideIcon: 0.8,
+                positionSlideIcon: 0.8,
                 slideIconWidget: Icon(Icons.arrow_back_ios),
-                onPageChangeCallback: pageChangeCallback,
+                onPageChangeCallback: (int lpage) {
+                  if (onBoardingController.onboardingData.value.appIntro!
+                                  .introImages!.length -
+                              1 ==
+                          lpage &&
+                      onBoardingController.onboardingData.value.appIntro!
+                                  .introImages!.length -
+                              1 ==
+                          onBoardingController.activePage.value) {
+                    Modular.to.navigate('/location');
+                  }
+                  onBoardingController.activePage.value = lpage;
+                },
                 waveType: WaveType.liquidReveal,
                 liquidController: liquidController,
                 fullTransitionValue: 880,
                 enableSideReveal: true,
                 enableLoop: false,
                 ignoreUserGestureWhileAnimating: true,
-                )
+              )
             : SizedBox(),
-
-Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.darkOrange ,
-                  textStyle: TextStyles.bodyWhite),
-                  onPressed: () {
-                    liquidController.animateToPage(
-                        page: onBoardingController.onboardingData.value.appIntro!.introImages!.length - 1, duration: 700);
-                         Modular.to.navigate('/home/main');
-                  },
-                  child: Text("Skip to End",style: TextStyles.bodyWhite,),
-                  // color: Colors.white.withOpacity(0.01),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.darkOrange,
                   textStyle: TextStyles.bodyWhite),
-                  onPressed: () {
-                    liquidController.jumpToPage(
-                        page: liquidController.currentPage + 1 > onBoardingController.onboardingData.value.appIntro!
-                                    .introImages!.length - 1
-                            ? 0
-                            : liquidController.currentPage + 1);
-                  },
-                  child: Text("Next", style: TextStyles.bodyWhite),
-                  // color: Colors.white.withOpacity(0.01),
-                ),
+              onPressed: () {
+                if (onBoardingController.onboardingData.value.appIntro !=
+                    null) {
+                  liquidController.animateToPage(
+                      page: onBoardingController.onboardingData.value.appIntro!
+                              .introImages!.length -
+                          1,
+                      duration: 700);
+                  Modular.to.navigate('/location');
+                }
+              },
+              child: Text(
+                "Skip to End",
+                style: TextStyles.bodyWhite,
               ),
-            )
+              // color: Colors.white.withOpacity(0.01),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomLeft,
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.darkOrange,
+                  textStyle: TextStyles.bodyWhite),
+              onPressed: () {
+                if (onBoardingController.onboardingData.value.appIntro !=
+                    null) {
+                  liquidController.jumpToPage(
+                      page: liquidController.currentPage + 1 >
+                              onBoardingController.onboardingData.value
+                                      .appIntro!.introImages!.length -
+                                  1
+                          ? 0
+                          : liquidController.currentPage + 1);
+                }
+              },
+              child: Text("Next", style: TextStyles.bodyWhite),
+              // color: Colors.white.withOpacity(0.01),
+            ),
+          ),
+        )
       ]),
     );
 

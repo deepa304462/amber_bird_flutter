@@ -46,6 +46,8 @@ class TextStyles {
       color: AppColors.primeColor);
   static TextStyle get titleXLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge);
+      static TextStyle get titleXLargeBold =>
+      TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge,fontWeight: FontWeight.w800);
   static TextStyle get titleLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.large);
   static TextStyle get title => titleFont.copyWith(fontSize: FontSizes.title);

@@ -1,6 +1,7 @@
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/home-page.dart';
+import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
@@ -16,6 +17,7 @@ class HomePageModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, args) => SplashOfferPage()),
+    ChildRoute('/location', child: (_, args) => LocationPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
