@@ -8,6 +8,7 @@ import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
+import 'package:amber_bird/ui/widget/searct-location.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -20,6 +21,7 @@ class HomePageModule extends Module {
   final List<ModularRoute> routes = [
     ChildRoute('/', child: (_, args) => SplashOfferPage(),guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
+    ChildRoute('/search-location', child: (_, args) => searchLocation()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(

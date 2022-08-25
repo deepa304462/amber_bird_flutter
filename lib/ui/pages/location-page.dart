@@ -1,8 +1,10 @@
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:get/get.dart';
+import 'package:location/location.dart';
 
 class LocationPage extends StatelessWidget {
   @override
@@ -11,8 +13,15 @@ class LocationPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(top:250,left:20,right: 20),
+            padding: EdgeInsets.only(top: 200, left: 20, right: 20),
             child: Column(children: [
+              Image.asset(
+                "assets/top-view-map-blue-background.jpg",
+                width: 250,
+              ),
+               const SizedBox(
+                height: 30,
+              ),
               Text(
                 "Set Your Delivery Location",
                 style: TextStyles.titleXLargeBold,
@@ -25,7 +34,7 @@ class LocationPage extends StatelessWidget {
                 style: TextStyles.bodyFont,
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               ElevatedButton.icon(
                 icon: const Icon(
@@ -35,8 +44,35 @@ class LocationPage extends StatelessWidget {
                 ),
                 label: Text('Use my current location',
                     style: TextStyles.bodyWhite),
-                onPressed: () {
+                onPressed: () async {
                   print('Button Pressed');
+                  PermissionStatus check =
+                      await Get.find<LocationController>().checkPermission();
+                  if (check == PermissionStatus.denied) {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text("Use Location?"),
+                        content: const Text(
+                            "If you enable Location Services , we can show you nearby Warehouses, and delivery services whle using the app"),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Get.find<LocationController>().locationReqest();
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Container(
+                              color: Colors.green,
+                              padding: const EdgeInsets.all(14),
+                              child:
+                                  Text("Enable", style: TextStyles.titleWhite),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                    // Get.find<LocationController>().locationReqest();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primeColor,
@@ -45,7 +81,7 @@ class LocationPage extends StatelessWidget {
                     textStyle: TextStyles.bodyWhite),
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               ElevatedButton.icon(
                 icon: const Icon(
@@ -53,9 +89,41 @@ class LocationPage extends StatelessWidget {
                   color: Colors.white,
                   size: 30.0,
                 ),
-                label: Text('Selct Location from map',style: TextStyles.bodyWhite,),
-                onPressed: () {
+                label: Text(
+                  'Select Location from map',
+                  style: TextStyles.bodyWhite,
+                ),
+                onPressed: () async {
                   print('Button Pressed');
+                  PermissionStatus check =
+                      await Get.find<LocationController>().checkPermission();
+                  if (check == PermissionStatus.denied) {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        title: const Text("Use Location?"),
+                        content: const Text(
+                            "If you enable Location Services , we can show you nearby Warehouses, and delivery services whle using the app"),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Get.find<LocationController>().locationReqest();
+                              Navigator.of(ctx).pop();
+                              Modular.to.navigate('/search-location');
+                            },
+                            child: Container(
+                              color: Colors.green,
+                              padding: const EdgeInsets.all(14),
+                              child:
+                                  Text("Enable", style: TextStyles.titleWhite),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    Modular.to.navigate('/search-location');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primeColor,
@@ -71,15 +139,15 @@ class LocationPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.darkOrange,
+                    backgroundColor: Colors.transparent,
                     textStyle: TextStyles.bodyWhite),
                 onPressed: () {
-                  SharedData.save('true','onboardingDone');
+                  SharedData.save('true', 'onboardingDone');
                   Modular.to.navigate('/home/main');
                 },
                 child: Text(
                   "Skip for now",
-                  style: TextStyles.bodyWhite,
+                  style: TextStyles.bodyFont,
                 ),
                 // color: Colors.white.withOpacity(0.01),
               ),

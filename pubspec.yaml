@@ -60,6 +60,7 @@ dependencies:
   flutter_facebook_auth: 4.4.1
   liquid_swipe: ^3.0.0
   cached_network_image: ^3.2.1
+  
 
 dev_dependencies:
   flutter_test:

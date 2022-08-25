@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
 
+import 'dart:ffi';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedData {
@@ -8,6 +10,11 @@ class SharedData {
   static Future<void> save(String data, String key) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, data);
+  }
+
+  static Future<void> saveDouble(double data, String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setDouble(key, data);
   }
 
   static Future<void> remove(String key) async {
@@ -21,6 +28,11 @@ class SharedData {
     return value;
   }
 
+static Future<double> readDouble(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    final value = prefs.getDouble(key) ?? 0;
+    return value;
+  }
   static void removeAppConfig() {
     remove('appConfig');
   }
