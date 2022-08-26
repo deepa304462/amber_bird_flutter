@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -42,11 +42,10 @@ class AuthController extends GetxController {
   }
 
   initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    // FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
 
-  login() async {
-    print(fieldValue);
+  login() async { 
     var loginPayload = {
       "password": fieldValue['password'],
       "username": fieldValue['email'],
@@ -74,7 +73,7 @@ class AuthController extends GetxController {
     } else if (loginWith.value == LoginType.googleToken) {
       loginPayload = {
         "socialMediaId": fieldValue['thirdPartyId'].toString(),
-        // "appName": "DIAGO_TEAM_WEB_APP"
+        "appName": "DIAGO_TEAM_WEB_APP"
       };
     }
     print('dfdfv${loginPayload}');
@@ -199,7 +198,7 @@ class AuthController extends GetxController {
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
-        'thirdPartyId': googleSignInAccount!.id ?? '',
+        'thirdPartyId': googleSignInAccount.id,
         'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
         'isThirdParty': true,
         'thirdPartyName': 'GOOGLE',
@@ -208,7 +207,7 @@ class AuthController extends GetxController {
         'userName': '',
         'countryCode': ''
       };
-      print('fieldValue${fieldValue}');
+      print('fieldValue$fieldValue');
       // return {"msg": "Please fill all field !!", "status": "success"};
       var respLogin = await login();
       return respLogin;
@@ -238,7 +237,7 @@ class AuthController extends GetxController {
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
-        'thirdPartyId': googleSignInAccount!.id ?? '',
+        'thirdPartyId': googleSignInAccount.id,
         'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
         'isThirdParty': true,
         'thirdPartyName': 'GOOGLE',
@@ -247,7 +246,7 @@ class AuthController extends GetxController {
         'userName': '',
         'countryCode': ''
       };
-      print('fieldValue${fieldValue}');
+      print('fieldValue$fieldValue');
       print('pw${pw}');
       // return {"msg": "Please fill all field !!", "status": "success"};
       var respSignup = await signUp();

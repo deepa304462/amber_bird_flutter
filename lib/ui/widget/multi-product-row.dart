@@ -53,14 +53,9 @@ class MultiProductRow extends StatelessWidget {
                 itemBuilder: (_, index) {
                   Multi mProduct = multiprodController.multiProd[index];
                   // var curProduct = dProduct!.product;
-                  inspect(mProduct);
-                  // curProduct!.varient!.price = dProduct!.dealPrice;
-                  //  inspect(curProduct);
-                  return SizedBox(
-                      // height: 250,
-                      // width: 500,
-                      child: ListView(scrollDirection: Axis.horizontal,
-                          // mainAxisAlignment: MainAxisAlignment.center,
+                  inspect(mProduct); 
+                  return SizedBox( 
+                      child: ListView(scrollDirection: Axis.horizontal, 
                           children: [
                         for (var i = 0; i < mProduct.products!.length; i++) ...[
                           SizedBox(

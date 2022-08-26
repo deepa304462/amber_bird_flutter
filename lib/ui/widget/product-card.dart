@@ -61,7 +61,7 @@ class ProductCard extends StatelessWidget {
           // GetX<WishlistController>(builder: (wController) {
           //   return
           Obx(() {
-            // print(wishlistController.wishlistProducts);
+            print(wishlistController.wishlistProducts);
             return IconButton(
               icon: Icon(
                 Icons.favorite,
@@ -148,7 +148,8 @@ class ProductCard extends StatelessWidget {
                     // context and builder are
                     // required properties in this widget
                     context: context,
-                    builder: (BuildContext context) {
+                    elevation: 3,
+                    builder: (context) {
                       return _bottomSheetAddToCart(product, context);
                     },
                   );
@@ -188,12 +189,13 @@ class ProductCard extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close_rounded),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Stack(alignment: AlignmentDirectional.topStart, children: [
                   Image.network(
@@ -241,12 +243,13 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5),
-                    // Text(
-                    //   product!.description!.defaultText!.text ?? '',
-                    //   maxLines: 4,
-                    //   overflow: TextOverflow.ellipsis,
-                    //   style: TextStyles.bodyFont,
-                    // ),
+                    SizedBox(
+                      width:  MediaQuery.of(context).size.width * .5,
+                      child: Text(
+                        product!.description!.defaultText!.text ?? '',
+                        style: TextStyles.bodyFont,
+                      ),
+                    ),
                     const SizedBox(height: 5),
                   ],
                 ),
@@ -266,7 +269,7 @@ class ProductCard extends StatelessWidget {
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
