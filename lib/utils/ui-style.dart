@@ -9,6 +9,7 @@ class AppColors {
   static Color primeColor = Colors.red.shade800;
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
   static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
+  static Color grey = Color.fromARGB(212, 120, 119, 117);
 }
 
 class FontSizes {
@@ -36,6 +37,11 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: Colors.black);
+   static TextStyle get headingFontGray=> TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.bold,
+      color: Colors.grey);
   static TextStyle get subHeadingFont => TextStyle(
       fontFamily: Fonts.body, fontSize: FontSizes.body, color: Colors.grey);
   static TextStyle get titleXLargeWhite => TextStyle(

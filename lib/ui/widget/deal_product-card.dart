@@ -15,119 +15,13 @@ class DealProductCard extends StatelessWidget {
 
   final DealController con;
   DealProductCard(this.con, {super.key});
-  Widget _gridItemBody(DealProduct product, BuildContext context) {
-    return Column(
-      children: [
-        OpenContainerWrapper(
-          product: product.product,
-          child: Image.network(
-              '${ClientService.cdnUrl}${product.product!.images![0]}',
-              fit: BoxFit.fill),
-        ),
-        _gridItemFooter(product, context)
-      ],
-    );
-  }
-
-  Widget _gridItemHeader(DealProduct product, int index) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Visibility(
-            visible: true,
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: Colors.white),
-              width: 80,
-              height: 30,
-              alignment: Alignment.center,
-              child: const Text(
-                "2hrs left",
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.favorite,
-              // color: myController.filteredProducts[index].isLiked
-              //     ? Colors.redAccent
-              //     : const Color(0xFFA6A3A0),
-            ),
-            onPressed: () => {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _gridItemFooter(DealProduct product, BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      // margin: const EdgeInsets.only(left: 3, right: 3),
-      height: 55,
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10),
-              bottomRight: Radius.circular(10))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FittedBox(
-            child: Text(
-              product.product!.name!.defaultText!.text ?? '',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w500, color: Colors.grey),
-            ),
-          ),
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                product.dealPrice!.offerPrice != null
-                    ? "\$${product.dealPrice!.actualPrice}"
-                    : "\$${product.dealPrice!.offerPrice}",
-                style: TextStyles.bodyFont,
-              ),
-              const SizedBox(width: 3),
-              Visibility(
-                visible: product.dealPrice!.offerPrice != null ? true : false,
-                child: Text(
-                  "\$${product.dealPrice!.offerPrice.toString()}",
-                  style: const TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              Spacer(),
-              IconButton(
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-                onPressed: () {
-                  cartController.addToCart(
-                      product!.product, 'refid', 'comingFrom', 1);
-                },
-                icon: const Icon(Icons.add, color: Colors.black),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
+ 
+ 
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Padding(
+      () => 
+      Padding(
         padding: const EdgeInsets.only(top: 10),
         child: GridView.builder(
           scrollDirection: Axis.horizontal,

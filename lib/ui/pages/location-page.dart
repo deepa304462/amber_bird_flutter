@@ -13,13 +13,18 @@ class LocationPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 200, left: 20, right: 20),
+            padding: EdgeInsets.only(top: 100, left: 20, right: 20),
             child: Column(children: [
-              Image.asset(
-                "assets/top-view-map-blue-background.jpg",
-                width: 250,
+              const CircleAvatar(
+                backgroundImage:
+                    AssetImage('assets/top-view-map-blue-background.jpg'),
+                radius: 180
               ),
-               const SizedBox(
+              // Image.asset(
+              //   "assets/top-view-map-blue-background.jpg",
+              //   width: 250,
+              // ),
+              const SizedBox(
                 height: 30,
               ),
               Text(
@@ -60,6 +65,8 @@ class LocationPage extends StatelessWidget {
                             onPressed: () {
                               Get.find<LocationController>().locationReqest();
                               Navigator.of(ctx).pop();
+                              SharedData.save('true', 'onboardingDone');
+                              Modular.to.navigate('/home/main');
                             },
                             child: Container(
                               color: Colors.green,
@@ -137,7 +144,7 @@ class LocationPage extends StatelessWidget {
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
-              child: ElevatedButton(
+              child: TextButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     textStyle: TextStyles.bodyWhite),

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
-import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -61,16 +60,20 @@ class ProductCard extends StatelessWidget {
           ),
           // GetX<WishlistController>(builder: (wController) {
           //   return
-          IconButton(
-            icon: Icon(
-              Icons.favorite,
-              color: wishlistController.checkIfProductWishlist(product.id)
-                  ? Colors.redAccent
-                  : const Color(0xFFA6A3A0),
-            ),
-            onPressed: () =>
-                {wishlistController.addToWishlist(product.id, product)},
-          )
+          Obx(() {
+            // print(wishlistController.wishlistProducts);
+            return IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: wishlistController.checkIfProductWishlist(product.id)
+                    ? Colors.redAccent
+                    : const Color(0xFFA6A3A0),
+              ),
+              onPressed: () =>
+                  {wishlistController.addToWishlist(product.id, product)},
+            );
+          }),
+
           // }),
         ],
       ),
@@ -136,7 +139,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                     ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 padding: const EdgeInsets.all(1),
                 constraints: const BoxConstraints(),
@@ -151,7 +154,8 @@ class ProductCard extends StatelessWidget {
                   );
                   // cartController.addToCart(product!, refId!, addedFrom!);
                 },
-                icon: const Icon(Icons.add, color: Colors.black),
+                icon:
+                    Icon(Icons.add_circle_outline, color: AppColors.primeColor),
               ),
             ],
           ),
@@ -178,9 +182,12 @@ class ProductCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Add Item"),
+                Text(
+                  "Add Item",
+                  style: TextStyles.headingFontGray,
+                ),
                 IconButton(
-                  icon: Icon(Icons.close_rounded),
+                  icon: const Icon(Icons.close_rounded),
                   onPressed: () {},
                 ),
               ],
@@ -188,10 +195,29 @@ class ProductCard extends StatelessWidget {
             Row(
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.network(
-                  '${ClientService.cdnUrl}${p!.images![0]}',
-                  width: 150,
-                ),
+                Stack(alignment: AlignmentDirectional.topStart, children: [
+                  Image.network(
+                    '${ClientService.cdnUrl}${p!.images![0]}',
+                    width: 130,
+                  ),
+                  Obx(
+                    () => Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.favorite,
+                          color: wishlistController
+                                  .checkIfProductWishlist(product.id)
+                              ? Colors.redAccent
+                              : AppColors.grey,
+                        ),
+                        onPressed: () => {
+                          wishlistController.addToWishlist(product.id, product)
+                        },
+                      ),
+                    ),
+                  ),
+                ]),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,12 +241,12 @@ class ProductCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 5),
-                    Text(
-                      product!.description!.defaultText!.text ?? '',
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyles.bodyFont,
-                    ),
+                    // Text(
+                    //   product!.description!.defaultText!.text ?? '',
+                    //   maxLines: 4,
+                    //   overflow: TextOverflow.ellipsis,
+                    //   style: TextStyles.bodyFont,
+                    // ),
                     const SizedBox(height: 5),
                   ],
                 ),

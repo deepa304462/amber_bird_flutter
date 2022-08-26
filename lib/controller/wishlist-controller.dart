@@ -12,9 +12,16 @@ class WishlistController extends GetxController {
   }
 
   addToWishlist(pid, product) {
-    WishlistProduct wishlistRow = WishlistProduct.fromMap(
-        {'product': product.toMap(), 'isChecked': true});
-    wishlistProducts[pid] = wishlistRow;
+    if (pid != null) {
+      WishlistProduct? wishlistRowcheck = wishlistProducts[pid];
+      if (wishlistRowcheck != null) {
+         wishlistProducts.remove(pid); 
+      } else {
+        WishlistProduct wishlistRow = WishlistProduct.fromMap(
+            {'product': product.toMap(), 'isChecked': true});
+        wishlistProducts[pid] = wishlistRow;
+      }
+    }
   }
 
   bool checkIfProductWishlist(pid) {
