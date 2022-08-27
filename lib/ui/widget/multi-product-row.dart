@@ -39,35 +39,48 @@ class MultiProductRow extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 240,
+          height: 250,
           child: Obx(
             () => Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: GridView.builder(
+              child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: multiprodController.multiProd.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 14.5 / 11,
-                    crossAxisSpacing: 10),
+                shrinkWrap: true,
+                // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 1,
+                //     childAspectRatio: 14.5 / 11,
+                //     crossAxisSpacing: 10),
                 itemBuilder: (_, index) {
                   Multi mProduct = multiprodController.multiProd[index];
                   // var curProduct = dProduct!.product;
-                  inspect(mProduct); 
-                  return SizedBox( 
-                      child: ListView(scrollDirection: Axis.horizontal, 
+                  inspect(mProduct);
+                  return Container(
+                      margin: const EdgeInsets.all(5.0),
+                      // padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.primeColor)),
+
+                      // width: (150 * mProduct.products!.length).toDouble(),
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
                           children: [
-                        for (var i = 0; i < mProduct.products!.length; i++) ...[
-                          SizedBox(
-                            width: (150 * mProduct.products!.length).toDouble(),
-                            child: ProductCard(
-                                mProduct.products![i],
-                                mProduct.id,
-                                'MULTIPRODUCT',
-                                mProduct.products![i].varient!.price!),
-                          )
-                        ]
-                      ]));
+                            for (var i = 0;
+                                i < mProduct.products!.length;
+                                i++) ...[
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    .45, //150,
+
+                                child: ProductCard(
+                                    mProduct.products![i],
+                                    mProduct.id,
+                                    'MULTIPRODUCT',
+                                    mProduct.products![i].varient!.price!),
+                              )
+                            ]
+                          ]));
                   // return for (var i = 0; i < mProduct.products!.length; i++){
                   //   var curProduct = mProduct.products![i];
                   //   return ProductCard(curProduct, mProduct!.id, 'MULTIPRODUCT',
