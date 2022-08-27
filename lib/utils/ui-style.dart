@@ -7,6 +7,7 @@ class Fonts {
 
 class AppColors {
   static Color primeColor = Colors.red.shade800;
+  static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
   static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
   static Color grey = Color.fromARGB(212, 120, 119, 117);

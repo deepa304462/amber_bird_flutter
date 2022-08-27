@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController {
   RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
   RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
+  Rx<ProductCategory> selectedCatergory = ProductCategory().obs;
+  Rx<ProductCategory> selectedSubCatergory = ProductCategory().obs;
 
   @override
   void onInit() {

@@ -59,7 +59,7 @@ class MultiProductRow extends StatelessWidget {
                       margin: const EdgeInsets.all(5.0),
                       // padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.primeColor)),
+                          border: Border.all(color: AppColors.secondaryColor)),
 
                       // width: (150 * mProduct.products!.length).toDouble(),
                       child: ListView(
