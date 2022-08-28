@@ -38,7 +38,7 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: Colors.black);
-   static TextStyle get headingFontGray=> TextStyle(
+  static TextStyle get headingFontGray => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
@@ -53,8 +53,10 @@ class TextStyles {
       color: AppColors.primeColor);
   static TextStyle get titleXLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge);
-      static TextStyle get titleXLargeBold =>
-      TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge,fontWeight: FontWeight.w800);
+  static TextStyle get titleXLargeBold => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.xLarge,
+      fontWeight: FontWeight.w800);
   static TextStyle get titleLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.large);
   static TextStyle get title => titleFont.copyWith(fontSize: FontSizes.title);

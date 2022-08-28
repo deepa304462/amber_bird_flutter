@@ -13,14 +13,7 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-// class AppWidget extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _AppWidget();
-//   }
-// }
-
-// class _AppWidget extends State<AppWidget> {
+  
 class AppWidget extends StatelessWidget {
   // const AppWidget({super.key});
 

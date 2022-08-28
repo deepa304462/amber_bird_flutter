@@ -9,14 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
-// class CategoryRow extends StatefulWidget {
-//   CategoryRow({Key? key}) : super(key: key);
-
-//   @override
-//   State<CategoryRow> createState() => _CategoryRowState();
-// }
-
-// class _CategoryRowState extends State<CategoryRow> {
 class CategoryRow extends StatelessWidget {
   bool isLoading = false;
   // RxList<ProductCategory> cList = RxList([]);
@@ -40,8 +32,8 @@ class CategoryRow extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    myController.setCurrentTab(2);
-                    Modular.to.navigate('/home/category');
+                    myController.setCurrentTab(1);
+                    // Modular.to.navigate('/home/category');
                   },
                   child: Text(
                     "SEE ALL",
@@ -62,11 +54,23 @@ class CategoryRow extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 5),
                         child: Column(
                           children: [
-                            Image.network(
-                                '${ClientService.cdnUrl}${categoryController.categoryList[index].logoId}',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.fill),
+                            InkWell(
+                              onTap: () {
+                                categoryController.selectedCatergory.value =
+                                    categoryController.categoryList[index];
+                                categoryController.getSubCategory(
+                                    categoryController.categoryList[index].id);
+
+                                categoryController.selectedSubCatergory.value = ProductCategory();
+                                categoryController.getProductList();
+                                 myController.setCurrentTab(1);
+                              },
+                              child: Image.network(
+                                  '${ClientService.cdnUrl}${categoryController.categoryList[index].logoId}',
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.fill),
+                            ),
                             Center(
                               child: Text(categoryController.categoryList[index]
                                       .name!.defaultText!.text ??

@@ -27,8 +27,8 @@ class Controller extends GetxController {
 
   getLoginInfo() async {
     var onboardLocarl = await (SharedData.read('onboardingDone'));
-     bool onboard = onboardLocarl.toString() == 'true';
-     onboardingDone.value = onboard;
+    bool onboard = onboardLocarl.toString() == 'true';
+    onboardingDone.value = onboard;
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;

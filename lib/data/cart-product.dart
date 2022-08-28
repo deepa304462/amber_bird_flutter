@@ -39,8 +39,7 @@ class CartProduct {
         'totalPrice': totalPrice,
       };
 
-  /// `dart:convert`
-  ///
+  
   /// Parses the string and returns the resulting Json object as [CartProduct].
   factory CartProduct.fromJson(String data) {
     return CartProduct.fromMap(json.decode(data) as Map<String, dynamic>);

@@ -46,7 +46,7 @@ class AuthController extends GetxController {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
 
-  login() async { 
+  login() async {
     var loginPayload = {
       "password": fieldValue['password'],
       "username": fieldValue['email'],
@@ -185,17 +185,7 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      // final GoogleSignInAuthentication googleSignInAuthentication =
-      //     await googleSignInAccount.authentication;
-      // inspect(googleSignInAuthentication);
-      // print('credetails${googleSignInAuthentication.accessToken}');
-      // final AuthCredential credential = GoogleAuthProvider.credential(
-      //   accessToken: googleSignInAuthentication.accessToken,
-      //   idToken: googleSignInAuthentication.idToken,
-      // );
-
-      // print('credetails${credential}');
-      // var pw = generatePassword();
+ 
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
@@ -224,16 +214,7 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      // final GoogleSignInAuthentication googleSignInAuthentication =
-      //     await googleSignInAccount.authentication;
-      // inspect(googleSignInAuthentication);
-      // print('credetails${googleSignInAuthentication.accessToken}');
-      // final AuthCredential credential = GoogleAuthProvider.credential(
-      //   accessToken: googleSignInAuthentication.accessToken,
-      //   idToken: googleSignInAuthentication.idToken,
-      // );
-
-      // print('credetails${credential}');
+   
       var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',

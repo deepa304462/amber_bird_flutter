@@ -26,7 +26,6 @@ class SplashOfferPage extends StatelessWidget {
   var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
   @override
   Widget build(BuildContext context) {
-    
     final double height = MediaQuery.of(context).size.height;
     return Obx(
       () => Stack(children: [

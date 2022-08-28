@@ -97,7 +97,7 @@ class DealBottomDrawer extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          '${product!.name!.defaultText!.text}',
+                          '${product!.category!.name!.defaultText!.text}',
                           style: TextStyles.subHeadingFont,
                         ),
                       ],

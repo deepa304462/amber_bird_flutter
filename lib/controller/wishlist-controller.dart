@@ -15,7 +15,7 @@ class WishlistController extends GetxController {
     if (pid != null) {
       WishlistProduct? wishlistRowcheck = wishlistProducts[pid];
       if (wishlistRowcheck != null) {
-         wishlistProducts.remove(pid); 
+        wishlistProducts.remove(pid);
       } else {
         WishlistProduct wishlistRow = WishlistProduct.fromMap(
             {'product': product.toMap(), 'isChecked': true});

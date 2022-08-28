@@ -28,11 +28,12 @@ class SharedData {
     return value;
   }
 
-static Future<double> readDouble(String key) async {
+  static Future<double> readDouble(String key) async {
     final prefs = await SharedPreferences.getInstance();
     final value = prefs.getDouble(key) ?? 0;
     return value;
   }
+
   static void removeAppConfig() {
     remove('appConfig');
   }

@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class searchLocation extends StatelessWidget {
-LocationController locationController = Get.find();
-
+  LocationController locationController = Get.find();
 
   // Carousel related
   int pageIndex = 0;
@@ -19,7 +18,7 @@ LocationController locationController = Get.find();
     late String currentAddress = locationController.address.value;
     late CameraPosition _initialCameraPosition =
         CameraPosition(target: currentLocation, zoom: 14);
-   
+
     return Scaffold(
       body: Stack(
         children: [

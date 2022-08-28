@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class Dimension {
-  int? width;
-  int? height;
-  int? length;
+  double? width;
+  double? height;
+  double? length;
 
   Dimension({this.width, this.height, this.length});
 
@@ -13,9 +13,9 @@ class Dimension {
   }
 
   factory Dimension.fromMap(Map<String, dynamic> data) => Dimension(
-        width: data['width'] as int?,
-        height: data['height'] as int?,
-        length: data['length'] as int?,
+        width: data['width'] as double?,
+        height: data['height'] as double?,
+        length: data['length'] as double?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,9 +37,9 @@ class Dimension {
   String toJson() => json.encode(toMap());
 
   Dimension copyWith({
-    int? width,
-    int? height,
-    int? length,
+    double? width,
+    double? height,
+    double? length,
   }) {
     return Dimension(
       width: width ?? this.width,

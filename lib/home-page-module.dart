@@ -19,7 +19,8 @@ class HomePageModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => SplashOfferPage(),guards: [AppOnboardingGuard()]),
+    ChildRoute('/',
+        child: (_, args) => SplashOfferPage(), guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
     ChildRoute('/search-location', child: (_, args) => searchLocation()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
@@ -37,24 +38,15 @@ class HomePageModule extends Module {
   ];
 }
 
-
 class AppOnboardingGuard extends RouteGuard {
   AppOnboardingGuard() : super(redirectTo: '/home/main');
 
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
-    
     var onboardLocal = await (SharedData.read('onboardingDone'));
     bool onboard = onboardLocal.toString() == 'true';
     FlutterNativeSplash.remove();
     return !onboard;
   }
 }
-// class AppOnboardingGuard extends RouteGuard {
-//   AppOnboardingGuard() : super(redirectTo: '/login/');
-
-//   @override
-//   Future<bool> canActivate(String path, ModularRoute route) async {
-//     return await Modular.get<AuthStore>().checkCurrentUser;
-//   }
-// }
+ 

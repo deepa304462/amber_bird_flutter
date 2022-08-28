@@ -16,10 +16,9 @@ class LocationPage extends StatelessWidget {
             padding: EdgeInsets.only(top: 100, left: 20, right: 20),
             child: Column(children: [
               const CircleAvatar(
-                backgroundImage:
-                    AssetImage('assets/top-view-map-blue-background.jpg'),
-                radius: 180
-              ),
+                  backgroundImage:
+                      AssetImage('assets/top-view-map-blue-background.jpg'),
+                  radius: 180),
               // Image.asset(
               //   "assets/top-view-map-blue-background.jpg",
               //   width: 250,

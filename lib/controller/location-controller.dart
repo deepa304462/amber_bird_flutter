@@ -11,7 +11,7 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 class LocationController extends GetxController {
   var address = ''.obs;
   Locale currentLocale = const Locale('en');
-    Rx<LatLng> currentLatLang = LatLng(0, 0).obs;
+  Rx<LatLng> currentLatLang = LatLng(0, 0).obs;
   @override
   void onInit() {
     getLocation();
@@ -41,7 +41,6 @@ class LocationController extends GetxController {
     Location location = Location();
     bool? serviceEnabled;
     PermissionStatus? permissionGranted;
-  
 
     serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
@@ -73,11 +72,10 @@ class LocationController extends GetxController {
   }
 
   getCurrentLatLngFromSharedPrefs() async {
-    currentLatLang.value=  LatLng((await SharedData.readDouble('latitude')!),
+    currentLatLang.value = LatLng((await SharedData.readDouble('latitude')!),
         await SharedData.readDouble('longitude')!);
   }
 
- 
   Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
     var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
     Map feature = response['features'][0];

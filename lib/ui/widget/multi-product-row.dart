@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MultiProductRow extends StatelessWidget {
-  bool isLoading = false; 
+  bool isLoading = false;
   final currenttypeName;
 
   MultiProductRow(this.currenttypeName, {super.key});

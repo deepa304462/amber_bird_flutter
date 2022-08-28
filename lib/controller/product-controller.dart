@@ -5,7 +5,7 @@ class ProductController extends GetxController {
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
 
   @override
-  void onInit() { 
+  void onInit() {
     super.onInit();
   }
 }

@@ -7,6 +7,7 @@ class Category {
   String? logoId;
   bool? subCategory;
   String? parentCategoryId;
+  String? parent;
   String? id;
 
   Category({
@@ -14,12 +15,13 @@ class Category {
     this.logoId,
     this.subCategory,
     this.parentCategoryId,
+    this.parent,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Category(name: $name, logoId: $logoId, subCategory: $subCategory, parentCategoryId: $parentCategoryId, id: $id)';
+    return 'Category(name: $name, logoId: $logoId, subCategory: $subCategory, parentCategoryId: $parentCategoryId, parent: $parent, id: $id)';
   }
 
   factory Category.fromMap(Map<String, dynamic> data) => Category(
@@ -29,6 +31,7 @@ class Category {
         logoId: data['logoId'] as String?,
         subCategory: data['subCategory'] as bool?,
         parentCategoryId: data['parentCategoryId'] as String?,
+        parent: data['parent'] as String?,
         id: data['id'] as String?,
       );
 
@@ -37,6 +40,7 @@ class Category {
         'logoId': logoId,
         'subCategory': subCategory,
         'parentCategoryId': parentCategoryId,
+        'parent': parent,
         'id': id,
       };
 
@@ -57,6 +61,7 @@ class Category {
     String? logoId,
     bool? subCategory,
     String? parentCategoryId,
+    String? parent,
     String? id,
   }) {
     return Category(
@@ -64,6 +69,7 @@ class Category {
       logoId: logoId ?? this.logoId,
       subCategory: subCategory ?? this.subCategory,
       parentCategoryId: parentCategoryId ?? this.parentCategoryId,
+      parent: parent ?? this.parent,
       id: id ?? this.id,
     );
   }
