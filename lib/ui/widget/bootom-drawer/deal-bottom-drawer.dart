@@ -8,7 +8,6 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,8 +61,9 @@ class DealBottomDrawer extends StatelessWidget {
                     '${ClientService.cdnUrl}${p!.images![0]}',
                     width: 130,
                   ),
-                  Obx(
-                    () => Align(
+                  // Obx(
+                  //   () => 
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: IconButton(
                         icon: Icon(
@@ -78,7 +78,7 @@ class DealBottomDrawer extends StatelessWidget {
                         },
                       ),
                     ),
-                  ),
+                  // ),
                 ]),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,

@@ -31,8 +31,12 @@ class ProductCard extends StatelessWidget {
           product: product,
           refId: product.id,
           addedFrom: 'DIRECTLY',
-          child: Image.network('${ClientService.cdnUrl}${product!.images![0]}',
-              fit: BoxFit.fill),
+          child: product.images!.isNotEmpty
+              ? Image.network('${ClientService.cdnUrl}${product!.images![0]}',
+                  fit: BoxFit.fill)
+              : const SizedBox(
+                  child: Text('Empty Image'),
+                ),
         ),
         _gridItemFooter(product, context)
       ],
@@ -168,7 +172,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return Padding(

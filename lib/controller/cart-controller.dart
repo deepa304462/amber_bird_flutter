@@ -6,7 +6,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  RxMap<String, CartProduct> cartProducts = Map<String, CartProduct>().obs;
+  RxMap<String, CartProduct> cartProducts = <String, CartProduct>{}.obs;
   @override
   void onInit() {
     super.onInit();

@@ -57,11 +57,11 @@ class CategoryRow extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 categoryController.selectedCatergory.value =
-                                    categoryController.categoryList[index];
+                                    categoryController.categoryList[index].id ?? '';
                                 categoryController.getSubCategory(
                                     categoryController.categoryList[index].id);
 
-                                categoryController.selectedSubCatergory.value = ProductCategory();
+                                categoryController.selectedSubCatergory.value = 'all';
                                 categoryController.getProductList();
                                  myController.setCurrentTab(1);
                               },

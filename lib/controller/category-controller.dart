@@ -9,9 +9,10 @@ import 'package:get/get.dart';
 class CategoryController extends GetxController {
   RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
   RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
-  Rx<ProductCategory> selectedCatergory = ProductCategory().obs;
-  Rx<ProductCategory> selectedSubCatergory = ProductCategory().obs;
-  RxList<Product> productList = <Product>[].obs;
+  RxString selectedCatergory = "".obs;
+  RxString selectedSubCatergory = "all".obs;
+  RxList<ProductSummary> productList = <ProductSummary>[].obs;
+  var activeIndexVariant = 0.obs;
   RxBool isList = true.obs;
   @override
   void onInit() {
@@ -21,7 +22,7 @@ class CategoryController extends GetxController {
   }
 
   getCategory() async {
-    var payload = {'': ''};
+    var payload = {'onlyParentCategories': true};
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
 
@@ -59,25 +60,24 @@ class CategoryController extends GetxController {
       // "keywords": "string"
       "": ""
     };
-    if (selectedSubCatergory.value.id != '' && selectedSubCatergory.value.id != null) {
+    if (selectedSubCatergory.value != '' && selectedSubCatergory.value !=  'all') {
       payload = {
-        "parentCategoryId": selectedCatergory.value.id ?? '',
-        "productCategoryId": selectedSubCatergory.value.id ?? '',
+        // "parentCategoryId": selectedCatergory.value.id ?? '',
+        "productCategoryId": selectedSubCatergory.value ?? '',
       };
-    } else if (selectedCatergory.value.id != ''  &&
-        selectedCatergory.value.id != null) {
+    } else if (selectedCatergory.value != '') {
       payload = {
-        "parentCategoryId": selectedCatergory.value.id ?? '',
+        "parentCategoryId": selectedCatergory.value ?? '',
       };
     }
     print(payload);
      // {"parentCategoryId": catId};
     var response = await ClientService.searchQuery(
-        path: 'cache/product/search', query: payload, lang: 'en');
+        path: 'cache/product/searchSummary', query: payload, lang: 'en');
 
     if (response.statusCode == 200) {
-      List<Product> pList = ((response.data as List<dynamic>?)
-              ?.map((e) => Product.fromMap(e as Map<String, dynamic>))
+      List<ProductSummary> pList = ((response.data as List<dynamic>?)
+              ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
       print(pList);

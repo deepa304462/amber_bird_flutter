@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
