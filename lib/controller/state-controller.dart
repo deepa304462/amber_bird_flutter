@@ -74,12 +74,20 @@ class Controller extends GetxController {
   }
 
   bool showSearch() {
+    print(activePageName);
     if (activePageName.value == 'main' ||
         activePageName.value == 'category' ||
-        activePageName.value == 'cart') {
+        activePageName.value == 'search') {
       return true;
     } else {
       return false;
+    }
+  }
+
+  navigateToUrl(url) {
+    if (url == '/home/cart') {
+      activePageName.value == 'cart';
+      Modular.to.navigate('/home/cart');
     }
   }
 
@@ -94,8 +102,8 @@ class Controller extends GetxController {
         Modular.to.navigate('/home/category');
         break;
       case 2:
-        activePageName.value = 'cart';
-        Modular.to.navigate('/home/cart');
+        activePageName.value = 'search';
+        Modular.to.navigate('/home/search');
         break;
       case 3:
         if (isLogin.value) {

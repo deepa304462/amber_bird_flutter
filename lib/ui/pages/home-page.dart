@@ -75,23 +75,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80), child: appBarWidget()),
-      body: GetX<Controller>(builder: (mController) {
-        print(mController.activePageName);
-        print(mController.showSearch());
-        if (mController.showSearch() == true) {
-          return Stack(alignment: AlignmentDirectional.topCenter, children: [
-            SearchWidget(),
-            const Padding(
-                padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-                child: routerOut.RouterOutlet())
-          ]);
-        } else {
-          return routerOut.RouterOutlet();
-        }
-      }),
-      bottomNavigationBar: GetX<Controller>(
-          // init: myController,
-          builder: (mcontroller) {
+      body: Obx(() => myController.showSearch() == true
+          ? Stack(alignment: AlignmentDirectional.topCenter, children: [
+              SearchWidget(),
+              const Padding(
+                  padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+                  child: routerOut.RouterOutlet())
+            ])
+          : routerOut.RouterOutlet()),
+      bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
         return BottomNav(
           index: mcontroller.currentTab.toInt(),
           backgroundColor: Colors.white,
@@ -114,7 +106,7 @@ class HomePage extends StatelessWidget {
                 label: "Category",
                 selectedColor: Colors.green),
             BottomNavItem(
-                icon: Icons.shopping_bag,
+                icon: Icons.search_off,
                 label: "Search",
                 // suffix: cartController!.cartProducts!.length.toString() ?? '0',
                 selectedColor: Colors.amber.shade800),

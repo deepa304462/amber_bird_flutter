@@ -1,3 +1,4 @@
+import 'package:amber_bird/ui/pages/product_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 // class ProductPage extends StatefulWidget {
@@ -20,8 +21,7 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
     print('arrrrrrrrrrrrrrrrr${args}');
-    return Container(
-      child: Text('Product page'),
-    );
+    return  ProductDetailScreen(args.toString(), args.toString(), 'SEARCH');
+    
   }
 }

@@ -1,14 +1,14 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 
 class locationWidget extends StatelessWidget {
   final CartController cartController = Get.find();
+  final Controller stateController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +81,9 @@ class locationWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       constraints: const BoxConstraints(),
                       onPressed: () {
-                        Modular.to.navigate('/home/cart');
+                       
+                        stateController.navigateToUrl('/home/cart');
+                        // Modular.to.navigate('/home/cart');
                       },
                       icon: const Icon(Icons.shopping_basket,
                           color: Colors.black),

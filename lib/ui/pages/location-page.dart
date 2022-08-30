@@ -13,7 +13,7 @@ class LocationPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
             child: Column(children: [
               const CircleAvatar(
                   backgroundImage:

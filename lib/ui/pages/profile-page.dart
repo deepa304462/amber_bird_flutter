@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
 
 // class _ProfilePageState extends State<ProfilePage> {
 
-  final Controller cont = Get.put(Controller());
+  final Controller cont = Get.find();
 
   @override
   Widget build(BuildContext context) {

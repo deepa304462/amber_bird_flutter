@@ -104,6 +104,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
+    print('aaaaaaaaaaaaaaaaaaaaaaaaaa$pId');
     final ProductController productController =
         Get.put(ProductController(pId ?? ''), tag: pId ?? "");
     return Obx(() => productController.product.value.id != null
