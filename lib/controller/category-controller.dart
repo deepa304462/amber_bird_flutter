@@ -12,7 +12,7 @@ class CategoryController extends GetxController {
   RxString selectedCatergory = "".obs;
   RxString selectedSubCatergory = "all".obs;
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
-  var activeIndexVariant = 0.obs;
+  
   RxBool isList = true.obs;
   @override
   void onInit() {

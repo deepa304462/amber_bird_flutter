@@ -1,18 +1,18 @@
 import 'dart:developer';
 
 import 'package:amber_bird/controller/category-controller.dart';
+import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/product_category/product_category.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class CategoryRow extends StatelessWidget {
   bool isLoading = false;
   // RxList<ProductCategory> cList = RxList([]);
   final CategoryController categoryController = Get.put(CategoryController());
+  // final ProductController productController = Get.put(ProductController());
   final Controller myController = Get.find();
 
   @override

@@ -1,7 +1,10 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -13,14 +16,15 @@ class ProductDetailScreen extends StatelessWidget {
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
-  final ProductSummary? product;
+
+  final String? pId;
   // final Price? dealPrice;
   final String? refId;
   final String? addedFrom;
 
-  ProductDetailScreen(this.product, this.refId, this.addedFrom, {Key? key});
+  ProductDetailScreen(this.pId, this.refId, this.addedFrom, {Key? key});
 
-  Widget productPageView(double width, double height) {
+  Widget productPageView(Product product, double width, double height) {
     return Container(
       height: height * 0.42,
       width: width,
@@ -64,110 +68,154 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget productVarientView() {
-    return Row(
-      children: [
-        Text('${product!.varient!.weight!} ${product!.varient!.unit!}'),
-      ],
+  Widget productVarientView(List<Varient> varientList , activeVariant) {
+    return SizedBox(
+      height: 50,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: varientList.length,
+          shrinkWrap: true,
+          itemBuilder: (_, index) {
+            var currentVarient = varientList[index];
+            return SizedBox(
+              height: 50,
+              child: Card(
+                color: activeVariant == index ? Colors.grey: Colors.white,
+                margin: EdgeInsets.all(5),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                        '${currentVarient!.weight!} ${currentVarient!.unit!}'),
+                  ),
+                ),
+              ),
+            );
+          }),
     );
+    // return Row(
+    //   children: [
+    //     Text('${product!.varient!.weight!} ${product!.varient!.unit!}'),
+    //   ],
+    // );
   }
 
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          productPageView(width, height),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(20),
+    final ProductController productController =
+        Get.put(ProductController(pId ?? ''), tag: pId ?? "");
+    return Obx(() => productController.product.value.id != null
+        ? SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  product!.name!.defaultText!.text ?? '',
-                  style: TextStyles.detailProductName,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text("\$${product!.varient!.price!.offerPrice}"),
-                    const SizedBox(width: 3),
-                    Visibility(
-                      visible: product!.varient!.price!.offerPrice != null
-                          ? true
-                          : false,
-                      child: Text(
-                        "\$${product!.varient!.price!.actualPrice}",
-                        style: const TextStyle(
-                          decoration: TextDecoration.lineThrough,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500,
-                        ),
+                productPageView(productController.product.value, width, height),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        productController
+                                .product.value!.name!.defaultText!.text ??
+                            '',
+                        style: TextStyles.detailProductName,
                       ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      product!.varient!.currentStock > 0
-                          ? "Available in stock"
-                          : "Not available",
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                productVarientView(),
-                const SizedBox(height: 30),
-                Text(
-                  "About",
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-                const SizedBox(height: 10),
-                Text(product!.description!.defaultText!.text ?? ''),
-                const SizedBox(height: 20),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primeColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
-                        textStyle: TextStyles.bodyWhite),
-                    onPressed: product!.varient!.currentStock > 0
-                        ? () {
-                            if (stateController.isLogin.value) {
-                              cartController.addToCart(
-                                  product, refId!, addedFrom!, 1);
-                            } else {
-                              stateController.setCurrentTab(3);
-                              var showToast = snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
-                            }
-                          }
-                        : () {
-                            if (stateController.isLogin.value) {
-                              cartController.addToCart(
-                                  product, refId!, addedFrom!, 1);
-                            } else {
-                              stateController.setCurrentTab(3);
-                              var showToast = snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
-                            }
-                          },
-                    child: Text("Add to cart", style: TextStyles.addTocartText),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Text(
+                              "\$${productController.product.value!.varients![0].price!.offerPrice}"),
+                          const SizedBox(width: 3),
+                          Visibility(
+                            visible: productController.product.value!
+                                        .varients![0].price!.offerPrice !=
+                                    null
+                                ? true
+                                : false,
+                            child: Text(
+                              "\$${productController.product.value!.varients![0].price!.actualPrice}",
+                              style: const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            productController.product.value!.varients![0]!
+                                        .currentStock >
+                                    0
+                                ? "Available in stock"
+                                : "Not available",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      productVarientView(
+                          productController.product.value.varients ?? [] ,
+                          productController.activeIndexVariant.value),
+                      const SizedBox(height: 30),
+                      Text(
+                        "About",
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(productController
+                              .product.value!.description!.defaultText!.text ??
+                          ''),
+                      const SizedBox(height: 20),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primeColor,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 15),
+                              textStyle: TextStyles.bodyWhite),
+                          onPressed: productController.product.value!
+                                      .varients![0]!.currentStock >
+                                  0
+                              ? () {
+                                  // if (stateController.isLogin.value) {
+                                  //   cartController.addToCart(
+                                  //       product, refId!, addedFrom!, 1);
+                                  // } else {
+                                  //   stateController.setCurrentTab(3);
+                                  //   var showToast = snackBarClass.showToast(
+                                  //       context, 'Please Login to preoceed');
+                                  // }
+                                }
+                              : () {
+                                  // if (stateController.isLogin.value) {
+                                  //   cartController.addToCart(
+                                  //       product, refId!, addedFrom!, 1);
+                                  // } else {
+                                  //   stateController.setCurrentTab(3);
+                                  //   var showToast = snackBarClass.showToast(
+                                  //       context, 'Please Login to preoceed');
+                                  // }
+                                },
+                          child: Text("Add to cart",
+                              style: TextStyles.addTocartText),
+                        ),
+                      )
+                    ],
                   ),
                 )
               ],
             ),
           )
-        ],
-      ),
-    );
+        : const Center(
+            child: Text("Loading"),
+          ));
   }
 }

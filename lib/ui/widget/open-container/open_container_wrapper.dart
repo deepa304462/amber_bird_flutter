@@ -39,7 +39,7 @@ class OpenContainerWrapper extends StatelessWidget {
         );
       },
       openBuilder: (BuildContext context, VoidCallback _) {
-        return ProductDetailScreen(product, refId!, addedFrom!);
+        return ProductDetailScreen(product!.id!, refId!, addedFrom!);
       },
     );
   }
