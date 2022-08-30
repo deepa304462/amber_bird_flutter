@@ -81,10 +81,10 @@ class ProductDetailScreen extends StatelessWidget {
               height: 50,
               child: Card(
                 color: activeVariant == index ? Colors.grey: Colors.white,
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 child: Center(
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Text(
                         '${currentVarient!.weight!} ${currentVarient!.unit!}'),
                   ),
