@@ -194,7 +194,7 @@ class ClientService {
       required String filePath,
       required Map<String, dynamic> payload,
       APIVersion ver = APIVersion.V1}) async {
-    FormData formData = new FormData.fromMap({
+    FormData formData = FormData.fromMap({
       'data': jsonEncode(payload),
       "files": await MultipartFile.fromFile(file.path,
           filename: file.path
