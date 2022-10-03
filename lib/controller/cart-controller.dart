@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:ffi';
 
 import 'package:amber_bird/data/cart-product.dart';
+import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:get/get.dart';
 
@@ -12,11 +13,11 @@ class CartController extends GetxController {
     super.onInit();
   }
 
-  void addToCart(ProductSummary? product, String refId, String addedFrom,
-      int? addQuantity) {
+  void addToCart(List<ProductSummary>? product, String refId, String addedFrom,
+      int? addQuantity, Price? priceInfo) {
     var getData = cartProducts[refId];
     int quantity = 0 + addQuantity!;
-    double price = (product!.varient!.price!.offerPrice).toDouble();
+    double price = (priceInfo!.offerPrice).toDouble();
     if (getData != null) {
       quantity = getData!.quantity!;
       quantity = quantity + addQuantity!;
@@ -24,7 +25,7 @@ class CartController extends GetxController {
     }
 
     List<ProductSummary> li = [];
-    li.add(product!);
+    li.addAll(product!);
     inspect(product);
     CartProduct cartRow = CartProduct.fromMap({
       'product': li,
@@ -38,6 +39,14 @@ class CartController extends GetxController {
 
     // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     // calculateTotalPrice();
+  }
+
+  currentCount(String refId) {
+    if (checkProductInCart(refId)) {
+      return cartProducts[refId]!.quantity;
+    } else {
+      return 0;
+    }
   }
 
   bool checkProductInCart(key) {

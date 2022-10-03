@@ -19,10 +19,13 @@ class LocationController extends GetxController {
     super.onInit();
   }
 
-  void getLocation() async {
+  Future<bool> getLocation() async {
     String ad = (await SharedData.read('current-address')).toString();
     if (ad != '{}') {
       address.value = (ad);
+      return Future.value(true);
+    } else {
+      return Future.value(false);
     }
   }
 

@@ -73,16 +73,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80), child: appBarWidget()),
-      body: Obx(() => myController.showSearch() == true
-          ? Stack(alignment: AlignmentDirectional.topCenter, children: [
-              SearchWidget(),
-              const Padding(
-                  padding: EdgeInsets.only(top: 50, left: 20, right: 20),
-                  child: routerOut.RouterOutlet())
-            ])
-          : routerOut.RouterOutlet()),
+      appBar: AppBar(
+        titleSpacing: 5,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: AppBarWidget(),
+      ),
+      body: routerOut.RouterOutlet(),
       bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
         return BottomNav(
           index: mcontroller.currentTab.toInt(),

@@ -1,6 +1,8 @@
 import 'package:amber_bird/app-module.dart';
 import 'package:amber_bird/app-widget.dart';
 import 'package:amber_bird/controller/location-controller.dart';
+import 'package:amber_bird/controller/onboarding-controller.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -15,6 +17,11 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  OfflineDBService.init();
   final LocationController locationController = Get.put(LocationController());
-  runApp(ModularApp(module: AppModule(), child: AppWidget()));
+  final OnBoardingController onBoardingController =
+      Get.put(OnBoardingController());
+  runApp(
+    ModularApp(module: AppModule(), child: AppWidget()),
+  );
 }

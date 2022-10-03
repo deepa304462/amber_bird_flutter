@@ -21,21 +21,16 @@ class DealProductCard extends StatelessWidget {
     return Obx(
       () => Padding(
         padding: const EdgeInsets.only(top: 10),
-        child: GridView.builder(
+        child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: con.dealProd.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 14.5 / 11,
-              crossAxisSpacing: 10),
           itemBuilder: (_, index) {
             DealProduct dProduct = con.dealProd[index];
-            var curProduct = dProduct!.product;
-            inspect(curProduct);
-            // curProduct!.varient!.price = dProduct!.dealPrice;
-            //  inspect(curProduct);
-            return ProductCard(
-                dProduct!.product, dProduct!.id, 'DEAL', dProduct.dealPrice);
+            return SizedBox(
+              width: 170,
+              child: ProductCard(
+                  dProduct!.product, dProduct!.id, 'DEAL', dProduct.dealPrice),
+            );
           },
         ),
       ),

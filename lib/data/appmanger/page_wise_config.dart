@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/appmanger/intro_image.dart';
+
 import 'cover_image.dart';
 
 class PageWiseConfig {
   String? pageType;
-  List<CoverImage>? coverImages;
+  List<IntroImage>? coverImages;
 
   PageWiseConfig({this.pageType, this.coverImages});
 
@@ -17,7 +19,7 @@ class PageWiseConfig {
     return PageWiseConfig(
       pageType: data['pageType'] as String?,
       coverImages: (data['coverImages'] as List<dynamic>?)
-          ?.map((e) => CoverImage.fromMap(e as Map<String, dynamic>))
+          ?.map((e) => IntroImage.fromMap(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -41,7 +43,7 @@ class PageWiseConfig {
 
   PageWiseConfig copyWith({
     String? pageType,
-    List<CoverImage>? coverImages,
+    List<IntroImage>? coverImages,
   }) {
     return PageWiseConfig(
       pageType: pageType ?? this.pageType,

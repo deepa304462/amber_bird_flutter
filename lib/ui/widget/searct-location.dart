@@ -1,11 +1,10 @@
 import 'package:amber_bird/controller/location-controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-class searchLocation extends StatelessWidget {
+class SearchLocationFromMapPage extends StatelessWidget {
   LocationController locationController = Get.find();
 
   // Carousel related

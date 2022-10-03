@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ class ProductController extends GetxController {
   Rx<Product> product = Product().obs;
   var activeIndexVariant = 0.obs;
   final tag;
+  Rx<Varient> varient = Varient().obs;
 
   ProductController(this.tag);
   @override
@@ -19,12 +22,12 @@ class ProductController extends GetxController {
 
   getProduct(String id) async {
     var payload = {"id": id};
-    var response = await ClientService.searchQuery(
-        path: 'cache/product/$id', query: payload, lang: 'en');
-    inspect(response);
+    var response =
+        await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {
       Product prod = Product.fromMap(response.data as Map<String, dynamic>);
       product.value = (prod);
+      varient.value = prod.varients![0];
       if (product.value.defaultVarientCode != null) {
         final index1 = product.value.varients!.indexWhere((element) =>
             element.varientCode == product.value.defaultVarientCode);
@@ -34,5 +37,9 @@ class ProductController extends GetxController {
         }
       }
     }
+  }
+
+  setVarient(Varient value) {
+    varient.value = value;
   }
 }

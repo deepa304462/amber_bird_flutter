@@ -11,88 +11,96 @@ class locationWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            margin: const EdgeInsets.all(8),
-            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColors.lightGrey),
-            child: Row(children: [
-              IconButton(
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-                onPressed: () async {
-                  PermissionStatus check =
-                      await Get.find<LocationController>().checkPermission();
-                  if (check == PermissionStatus.denied) {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => AlertDialog(
-                        title: const Text("Use Location?"),
-                        content: const Text(
-                            "If you enable Location Services , we can show you nearby Warehouses, and delivery services whle using the app"),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Get.find<LocationController>().locationReqest();
-                              Navigator.of(ctx).pop();
-                            },
-                            child: Container(
-                              color: Colors.green,
-                              padding: const EdgeInsets.all(14),
-                              child:
-                                  Text("Enable", style: TextStyles.titleWhite),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                    // Get.find<LocationController>().locationReqest();
-                  }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        GetX<LocationController>(
+          builder: (location) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Icon(
+                  Icons.location_pin,
+                  color: AppColors.primeColor,
+                ),
+                Text(
+                    location.address != null && location.address.value != null
+                        ? location.address.value.substring(0, 5)
+                        : '00000',
+                    style: TextStyles.body)
+              ],
+            );
+          },
+        ),
+        Obx(() {
+          return Stack(
+            alignment: AlignmentDirectional.topEnd,
+            children: [
+              InkWell(
+                onTap: () {
+                  stateController.navigateToUrl('/home/cart');
                 },
-                icon: const Icon(Icons.location_pin, color: Colors.black),
-              ),
-              GetX<LocationController>(
-                  // init: myController,
-                  builder: (location) {
-                return Text(location.address.toString().length > 20
-                    ? location.address.toString().substring(0, 20)
-                    : 'Location');
-              })
-            ]),
-          ),
-          Obx(() {
-            return Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.lightGrey),
-                child: Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: [
-                    Text(
-                        cartController!.cartProducts!.length.toString() ?? '0'),
-                    IconButton(
-                      padding: const EdgeInsets.all(8),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                       
-                        stateController.navigateToUrl('/home/cart');
-                        // Modular.to.navigate('/home/cart');
-                      },
-                      icon: const Icon(Icons.shopping_basket,
-                          color: Colors.black),
+                child: Card(
+                  color: AppColors.primeColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.shopping_bag_rounded,
+                      color: AppColors.white,
                     ),
-                  ],
-                ));
-          }),
-        ],
-      ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: -2,
+                right: -2,
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                      cartController.cartProducts.value.length.toString() ??
+                          '99',
+                      style: TextStyles.bodyFontBold),
+                )),
+              ),
+            ],
+          );
+        }),
+      ],
     );
+  }
+
+  checkLocation(BuildContext context) async {
+    PermissionStatus check =
+        await Get.find<LocationController>().checkPermission();
+    if (check == PermissionStatus.denied) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text("Use Location?"),
+          content: const Text(
+              "If you enable Location Services , we can show you nearby Warehouses, and delivery services whle using the app"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Get.find<LocationController>().locationReqest();
+                Navigator.of(ctx).pop();
+              },
+              child: Container(
+                color: Colors.green,
+                padding: const EdgeInsets.all(14),
+                child: Text("Enable", style: TextStyles.titleWhite),
+              ),
+            ),
+          ],
+        ),
+      );
+      // Get.find<LocationController>().locationReqest();
+    }
   }
 }

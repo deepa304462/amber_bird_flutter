@@ -12,6 +12,12 @@ class MultiProductController extends GetxController {
   void onInit() {
     if (tag == multiProductName.COMBO) {
       getmultiProductProduct('COMBO');
+    }
+    if (tag == multiProductName.BUNDLE) {
+      getmultiProductProduct('BUNDLE');
+    }
+    if (tag == multiProductName.COLLECTION) {
+      getmultiProductProduct('COLLECTION');
     } else if (tag == dealName.SALES) {
       getmultiProductProduct('SALES');
     }
@@ -37,6 +43,8 @@ class MultiProductController extends GetxController {
       return "Combo Deal";
     } else if (multiProductName.BUNDLE == name) {
       return "Bundle Deal";
+    } else if (multiProductName.COLLECTION == name) {
+      return "Collections";
     } else {
       return "Flash Deal";
     }

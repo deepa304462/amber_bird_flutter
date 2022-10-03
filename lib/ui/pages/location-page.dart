@@ -78,6 +78,8 @@ class LocationPage extends StatelessWidget {
                       ),
                     );
                     // Get.find<LocationController>().locationReqest();
+                  } else {
+                    Modular.to.navigate('home/main');
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -100,7 +102,6 @@ class LocationPage extends StatelessWidget {
                   style: TextStyles.bodyWhite,
                 ),
                 onPressed: () async {
-                  print('Button Pressed');
                   PermissionStatus check =
                       await Get.find<LocationController>().checkPermission();
                   if (check == PermissionStatus.denied) {
@@ -128,7 +129,7 @@ class LocationPage extends StatelessWidget {
                       ),
                     );
                   } else {
-                    Modular.to.navigate('/search-location');
+                    Modular.to.pushNamed('/search-location');
                   }
                 },
                 style: ElevatedButton.styleFrom(

@@ -1,5 +1,7 @@
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -16,9 +18,8 @@ class SplashOfferPage extends StatelessWidget {
 
 // class _SplashOfferPageState extends State<SplashOfferPage> {
   LiquidController liquidController = LiquidController();
-
-  final OnBoardingController onBoardingController =
-      Get.put(OnBoardingController());
+  LocationController locationController = Get.find();
+  final OnBoardingController onBoardingController = Get.find();
   // final CartController cartController = Get.put(CartController());
   // final WishlistController wishlistController = Get.put(WishlistController());
 
@@ -36,19 +37,20 @@ class SplashOfferPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var data = onBoardingController
                       .onboardingData.value.appIntro!.introImages![index];
-                  print(data);
                   return Container(
                     width: double.infinity,
                     height: height,
                     color: colorList[index] ?? Colors.blueAccent,
-                    child: Image.network(
-                        '${ClientService.cdnUrl}${data.imageId}',
-                        fit: BoxFit.fill),
+                    child: ImageBox(
+                      data.imageId!,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                    ),
                   );
                 },
                 positionSlideIcon: 0.8,
                 slideIconWidget: Icon(Icons.arrow_back_ios),
-                onPageChangeCallback: (int lpage) {
+                onPageChangeCallback: (int lpage) async {
                   if (onBoardingController.onboardingData.value.appIntro!
                                   .introImages!.length -
                               1 ==
@@ -57,7 +59,11 @@ class SplashOfferPage extends StatelessWidget {
                                   .introImages!.length -
                               1 ==
                           onBoardingController.activePage.value) {
-                    Modular.to.navigate('/location');
+                    if (await locationController.getLocation()) {
+                      Modular.to.navigate('/home/main');
+                    } else {
+                      Modular.to.navigate('/location');
+                    }
                   }
                   onBoardingController.activePage.value = lpage;
                 },
@@ -77,7 +83,7 @@ class SplashOfferPage extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.darkOrange,
                   textStyle: TextStyles.bodyWhite),
-              onPressed: () {
+              onPressed: () async {
                 if (onBoardingController.onboardingData.value.appIntro !=
                     null) {
                   liquidController.animateToPage(
@@ -85,7 +91,11 @@ class SplashOfferPage extends StatelessWidget {
                               .introImages!.length -
                           1,
                       duration: 700);
-                  Modular.to.navigate('/location');
+                  if (await locationController.getLocation()) {
+                    Modular.to.navigate('/home/main');
+                  } else {
+                    Modular.to.navigate('/location');
+                  }
                 }
               },
               child: Text(

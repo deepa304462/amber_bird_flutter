@@ -49,23 +49,26 @@ class CategoryPage extends StatelessWidget {
                                         '${ClientService.cdnUrl}${currentProduct.images![0]}',
                                         width: 100,
                                         fit: BoxFit.fill)
-                                    : const SizedBox(child: Text('Empty image')),
-                                    Align(
+                                    : const SizedBox(
+                                        child: Text('Empty image')),
+                                Align(
                                   alignment: Alignment.centerLeft,
-                                  child:  Obx(() => IconButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: wishlistController
-                                              .checkIfProductWishlist(
-                                                  currentProduct!.id)
-                                          ? Colors.redAccent
-                                          : AppColors.grey,
+                                  child: Obx(
+                                    () => IconButton(
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: wishlistController
+                                                .checkIfProductWishlist(
+                                                    currentProduct!.id)
+                                            ? Colors.redAccent
+                                            : AppColors.grey,
+                                      ),
+                                      onPressed: () => {
+                                        wishlistController.addToWishlist(
+                                            currentProduct!.id, currentProduct)
+                                      },
                                     ),
-                                    onPressed: () => {
-                                      wishlistController.addToWishlist(
-                                          currentProduct!.id, currentProduct)
-                                    },
-                                  ),),
+                                  ),
                                 ),
                               ],
                             ),
@@ -121,10 +124,12 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        currentProduct,
+                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
-                                                        -1);
+                                                        -1,
+                                                        currentProduct
+                                                            .varient!.price);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -152,10 +157,12 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        currentProduct,
+                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
-                                                        1);
+                                                        1,
+                                                        currentProduct
+                                                            .varient!.price);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -187,10 +194,12 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          currentProduct,
+                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
-                                                          1);
+                                                          1,
+                                                          currentProduct
+                                                              .varient!.price);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
@@ -206,10 +215,12 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          currentProduct,
+                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
-                                                          1);
+                                                          1,
+                                                          currentProduct
+                                                              .varient!.price);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);

@@ -13,46 +13,51 @@ class SearchWidget extends StatelessWidget {
     final SearchController searchController = Get.put(SearchController());
     final Controller stateController = Get.find();
     controller.text = searchController.search.toString();
-    var width = MediaQuery.of(context).size.width;
-    return Container(
-      width: width,
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      decoration: BoxDecoration(
-        color: AppColors.lightGrey.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: TextField(
-        // controller: controller,
-        readOnly: true,
-        onTap: () {
-          showSearch(
-              context: context,
-              // delegate to customize the search bar
-              delegate: CustomSearchDelegate());
-        },
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            onPressed: () {
-              // searchController.setSearchVal(controller.value.text);
-              // if(stateController.activePageName.value != 'search'){
-              //   Modular.to.navigate('/home/search',
-              //       arguments: controller.value.text);
-              // }
-              print(controller.value.text);
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.lightGrey.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: TextField(
+            // controller: controller,
+            readOnly: true,
+            onTap: () {
+              showSearch(
+                  context: context,
+                  // delegate to customize the search bar
+                  delegate: CustomSearchDelegate());
             },
-            icon: const Icon(Icons.search),
-          ),
-          labelText: "Search Product here...",
-          contentPadding: const EdgeInsets.all(10.0),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            borderSide: BorderSide(
-              color: Colors.grey,
+            decoration: InputDecoration(
+              suffixIcon: IconButton(
+                onPressed: () {
+                  // searchController.setSearchVal(controller.value.text);
+                  // if(stateController.activePageName.value != 'search'){
+                  //   Modular.to.navigate('/home/search',
+                  //       arguments: controller.value.text);
+                  // }
+                },
+                icon: Icon(
+                  Icons.search_outlined,
+                  color: AppColors.primeColor,
+                ),
+              ),
+              labelText: "Search Product here...",
+              contentPadding: const EdgeInsets.all(8.0),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(
+                  color: AppColors.grey,
+                ),
+              ),
+              hintStyle: TextStyle(color: AppColors.primeColor),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(color: AppColors.grey),
+              ),
             ),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: BorderSide(color: Colors.blue),
           ),
         ),
       ),
@@ -139,8 +144,8 @@ class CustomSearchDelegate extends SearchDelegate {
           return ListTile(
               onTap: () {
                 close(context, null);
-                Modular.to.navigate('/home/product-detail',
-                    arguments: product.id);
+                Modular.to
+                    .navigate('/home/product-detail', arguments: product.id);
               },
               title: Row(
                 children: [

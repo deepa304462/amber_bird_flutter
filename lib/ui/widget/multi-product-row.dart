@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -37,149 +39,213 @@ class MultiProductRow extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 340,
-          child: Obx(
-            () => Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: multiprodController.multiProd.length,
-                shrinkWrap: true,
-                // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 1,
-                //     childAspectRatio: 14.5 / 11,
-                //     crossAxisSpacing: 10),
-                itemBuilder: (_, index) {
-                  Multi mProduct = multiprodController.multiProd[index];
-                  // var curProduct = dProduct!.product;
-                  inspect(mProduct);
-                  return SizedBox(
-                    height: 280,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.all(5.0),
-                          height: 250,
-                          // padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: AppColors.secondaryColor)),
-
-                          // width: (150 * mProduct.products!.length).toDouble(),
-                          child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              children: [
-                                for (var i = 0;
-                                    i < mProduct.products!.length;
-                                    i++) ...[
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        .45, //150,
-
-                                    // child: ProductCard(
-                                    //     mProduct.products![i],
-                                    //     mProduct.id,
-                                    //     'MULTIPRODUCT',
-                                    //     mProduct.products![i].varient!.price!),
-                                         child: ProductCard(
-                                        mProduct.products![i],
-                                        mProduct.products![i].id,
-                                        'DIRECTLY',
-                                        mProduct.products![i].varient!.price!),
-                                  )
-                                ]
-                              ]),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          child: Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            // margin: const EdgeInsets.only(left: 3, right: 3),
-                            height: 55,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10))),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  mProduct!.name!.defaultText!.text ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * .8,
-                                  child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "\$${mProduct.price!.offerPrice}",
-                                        style: TextStyles.bodyFont,
-                                      ),
-                                      const SizedBox(width: 3),
-                                      Visibility(
-                                        visible:
-                                            mProduct!.price!.actualPrice != null
-                                                ? true
-                                                : false,
-                                        child: Text(
-                                          "\$${mProduct!.price!.actualPrice.toString()}",
-                                          style: const TextStyle(
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      IconButton(
-                                        padding: const EdgeInsets.all(1),
-                                        constraints: const BoxConstraints(),
-                                        onPressed: () {
-                                          showModalBottomSheet<void>(
-                                            // context and builder are
-                                            // required properties in this widget
-                                            context: context,
-                                            elevation: 3,
-                                            builder: (context) {
-                                              // return _bottomSheetAddToCart(product, context);
-                                              return DealBottomDrawer(
-                                                  mProduct!.products![0],
-                                                  mProduct.id,
-                                                  'MULTIPRODUCT',
-                                                  mProduct.price);
-                                            },
-                                          );
-                                          // cartController.addToCart(product!, refId!, addedFrom!);
-                                        },
-                                        icon: Icon(Icons.add_circle_outline,
-                                            color: AppColors.primeColor),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        )
+        childListing(multiprodController, context)
       ],
+    );
+  }
+
+  Widget childListing(
+      MultiProductController multiprodController, BuildContext context) {
+    if (currenttypeName == multiProductName.COMBO) {
+      return twoProductListing(multiprodController, context);
+    } else if (currenttypeName == multiProductName.COLLECTION ||
+        currenttypeName == multiProductName.BUNDLE) {
+      return multiProductListing(multiprodController, context);
+    } else {
+      return const Text('No implemented');
+    }
+  }
+
+  Widget twoProductListing(
+      MultiProductController multiprodController, BuildContext context) {
+    return SizedBox(
+      height: 410,
+      child: Obx(
+        () => Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: multiprodController.multiProd.length,
+            shrinkWrap: true,
+            // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //     crossAxisCount: 1,
+            //     childAspectRatio: 14.5 / 11,
+            //     crossAxisSpacing: 10),
+            itemBuilder: (_, index) {
+              Multi mProduct = multiprodController.multiProd[index];
+
+              // var curProduct = dProduct!.product;
+              return Card(
+                child: Column(
+                  children: [
+                    Image.network(
+                      '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                      height: 100,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(5.0),
+                      height: 190,
+                      child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          children: [
+                            for (var i = 0;
+                                i < mProduct.products!.length;
+                                i++) ...[
+                              SizedBox(
+                                width: 170,
+                                child: ProductCard(
+                                    mProduct.products![i],
+                                    mProduct.products![i].id,
+                                    'MULTIPRODUCT',
+                                    mProduct.products![i].varient!.price!),
+                              )
+                            ]
+                          ]),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        // margin: const EdgeInsets.only(left: 3, right: 3),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              mProduct!.name!.defaultText!.text ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 25,
+                                  color: Colors.grey),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .8,
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  PriceTag(
+                                      mProduct.price!.offerPrice.toString(),
+                                      mProduct!.price!.actualPrice.toString()),
+                                  const Spacer(),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.red.shade900,
+                                    radius: 20,
+                                    child: IconButton(
+                                      padding: const EdgeInsets.all(1),
+                                      constraints: const BoxConstraints(),
+                                      onPressed: () {
+                                        showModalBottomSheet<void>(
+                                          // context and builder are
+                                          // required properties in this widget
+                                          context: context,
+                                          useRootNavigator: true,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13)),
+                                          backgroundColor: Colors.white,
+                                          isScrollControlled: true,
+                                          elevation: 3,
+                                          builder: (context) {
+                                            // return _bottomSheetAddToCart(product, context);
+                                            return DealBottomDrawer(
+                                                mProduct!.products,
+                                                mProduct.id,
+                                                'MULTIPRODUCT',
+                                                mProduct.price,
+                                                mProduct.name);
+                                          },
+                                        );
+                                        // cartController.addToCart(product!, refId!, addedFrom!);
+                                      },
+                                      icon: const Icon(
+                                        Icons.add,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget multiProductListing(
+      MultiProductController multiprodController, BuildContext context) {
+    return SizedBox(
+        height: 120,
+        child: Obx(() => ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            itemCount: multiprodController.multiProd.length,
+            itemBuilder: (_, index) {
+              return multiProductTile(
+                  multiprodController.multiProd[index], context);
+            })));
+  }
+
+  Widget multiProductTile(Multi multiProd, BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * .8,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.network(
+                '${ClientService.cdnUrl}${multiProd.displayImageId}',
+                fit: BoxFit.fill,
+                height: 100,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${multiProd.name!.defaultText!.text}',
+                      style: TextStyles.bodyPrimaryLarge),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PriceTag(multiProd.price!.offerPrice.toString(),
+                          multiProd.price!.actualPrice.toString()),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      MaterialButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        color: AppColors.primeColor,
+                        child: Text('BUY', style: TextStyles.bodyWhiteLarge),
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -5,7 +5,6 @@ import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
-import 'package:amber_bird/ui/pages/product_detail_screen.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
@@ -24,16 +23,17 @@ class HomePageModule extends Module {
     ChildRoute('/',
         child: (_, args) => SplashOfferPage(), guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
-    ChildRoute('/search-location', child: (_, args) => searchLocation()),
+    ChildRoute('/search-location',
+        child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
-        '/product',
-        child: (_, args) => ProductPage(search: false, word: args),
-      ),
-      ChildRoute(
-        '/product-detail',
-        child: (_, args) =>ProductPage(search: true, word: args),
+        '/product/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          print(productId);
+          return ProductPage(productId, search: false);
+        },
       ),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
@@ -51,9 +51,9 @@ class AppOnboardingGuard extends RouteGuard {
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
     var onboardLocal = await (SharedData.read('onboardingDone'));
-    bool onboard = onboardLocal.toString() == 'true';
+    bool onboard = onboardLocal.toString() != 'true';
+    // bool onboard = false;
     FlutterNativeSplash.remove();
-    return !onboard;
+    return onboard;
   }
 }
- 

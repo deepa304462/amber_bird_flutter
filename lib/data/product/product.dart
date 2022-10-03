@@ -7,8 +7,8 @@ import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 
 import 'brand.dart';
- import 'marketing_info.dart';
-   
+import 'marketing_info.dart';
+
 class Product {
   MetaData? metaData;
   Name? name;
@@ -57,14 +57,14 @@ class Product {
         description: data['description'] == null
             ? null
             : Description.fromMap(data['description'] as Map<String, dynamic>),
-        images: data['images'] as List<dynamic>? ,
+        images: data['images'] as List<dynamic>?,
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
             .toList(),
         keywords: (data['keywords'] as List<dynamic>?)
             ?.map((e) => e as String)
             .toList(),
-            //data['keywords'] as List<String>?,
+        //data['keywords'] as List<String>?,
         brand: data['brand'] == null
             ? null
             : Brand.fromMap(data['brand'] as Map<String, dynamic>),

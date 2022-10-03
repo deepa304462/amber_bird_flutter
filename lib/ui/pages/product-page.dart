@@ -13,15 +13,16 @@ import 'package:flutter/material.dart';
 
 // class _ProductPageState extends State<ProductPage> {
 class ProductPage extends StatelessWidget {
-  String word = '';
+  final String productId;
   bool search = false;
-  ProductPage({Key? key, required bool search, required word});
+  ProductPage(
+    this.productId, {
+    Key? key,
+    required bool search,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    print('arrrrrrrrrrrrrrrrr${args}');
-    return  ProductDetailScreen(args.toString(), args.toString(), 'SEARCH');
-    
+    return ProductDetailScreen(productId, productId, 'SEARCH');
   }
 }

@@ -7,6 +7,7 @@ class Fonts {
 
 class AppColors {
   static Color primeColor = Colors.red.shade800;
+  static Color white = Colors.white;
   static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
   static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
@@ -32,6 +33,8 @@ class TextStyles {
       color: Color.fromARGB(255, 56, 53, 53));
 
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
+  static TextStyle get bodyFontBold =>
+      TextStyle(fontFamily: Fonts.body, fontWeight: FontWeight.bold);
   static TextStyle get titleFont => TextStyle(fontFamily: Fonts.title);
   static TextStyle get headingFont => TextStyle(
       fontFamily: Fonts.title,
@@ -51,6 +54,11 @@ class TextStyles {
       fontFamily: Fonts.title,
       fontSize: FontSizes.xLarge,
       color: AppColors.primeColor);
+  static TextStyle get titleXLargePrimaryBold => TextStyle(
+      fontFamily: Fonts.title,
+      fontWeight: FontWeight.w900,
+      fontSize: FontSizes.xLarge,
+      color: AppColors.primeColor);
   static TextStyle get titleXLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.xLarge);
   static TextStyle get titleXLargeBold => TextStyle(
@@ -59,7 +67,13 @@ class TextStyles {
       fontWeight: FontWeight.w800);
   static TextStyle get titleLarge =>
       TextStyle(fontFamily: Fonts.title, fontSize: FontSizes.large);
+  static TextStyle get titleLargeBold => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.large,
+      fontWeight: FontWeight.bold);
   static TextStyle get title => titleFont.copyWith(fontSize: FontSizes.title);
+  static TextStyle get titleLast =>
+      titleFont.copyWith(fontSize: FontSizes.body);
   static TextStyle get titleWhite =>
       titleFont.copyWith(fontSize: FontSizes.title, color: Colors.white);
   static TextStyle get titleLight =>

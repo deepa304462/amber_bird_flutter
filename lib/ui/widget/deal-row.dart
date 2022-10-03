@@ -32,23 +32,33 @@ class DealRow extends StatelessWidget {
     // if (dealController.dealProd.isNotEmpty) {
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    dealController.getDealName(currentdealName),
-                    style: TextStyles.headingFont,
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        dealController.getDealName(currentdealName),
+                        style: TextStyles.titleLargeBold,
+                      ),
+                      Text(
+                        'More >',
+                        style: TextStyles.headingFontGray,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: 250, child: DealProductCard(dealController))
+              ],
             ),
-            SizedBox(height: 240, child: DealProductCard(dealController))
-          ],
+          ),
         );
       } else {
         return const SizedBox();
