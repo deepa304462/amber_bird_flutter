@@ -29,13 +29,13 @@ class MainPage extends StatelessWidget {
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageSlider(
+             onBoardingController.onboardingData.value.pageWiseConfig != null ? ImageSlider(
               onBoardingController
                   .onboardingData.value.pageWiseConfig!.coverImages!,
               MediaQuery.of(context).size.width,
               isImagePath: false,
               height: 180,
-            ),
+            ):const SizedBox(),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: CategoryRow(),

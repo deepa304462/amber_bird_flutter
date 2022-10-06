@@ -27,7 +27,7 @@ class locationWidget extends StatelessWidget {
                   color: AppColors.primeColor,
                 ),
                 Text(
-                    location.address != null && location.address.value != null
+                    location.address != null && location.address.value != ''
                         ? location.address.value.substring(0, 5)
                         : '00000',
                     style: TextStyles.body)
