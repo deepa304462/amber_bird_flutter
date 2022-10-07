@@ -1,3 +1,9 @@
+import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/ui-style.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:math' as math;
+
 class CodeHelp {
   CodeHelp._();
   static String euro = '€';
@@ -10,7 +16,25 @@ class CodeHelp {
     }
     return unit;
   }
+
+  static toast(String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: AppColors.primeColor,
+        textColor: AppColors.white,
+        fontSize: 16.0);
+  }
+
+  randomColor() {
+    return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+        .withOpacity(1.0);
+  }
 }
+
+
 
 /* ICU Name                   Skeleton
 --------                   --------

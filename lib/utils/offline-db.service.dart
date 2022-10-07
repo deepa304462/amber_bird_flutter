@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class OfflineDBService {
   static String profileAuth = 'profileAuth';
   static String appManager = 'appManager';
+  static String location = 'location';
 
   OfflineDBService._();
 
@@ -11,6 +12,7 @@ class OfflineDBService {
     await Hive.initFlutter();
     await Hive.openBox(profileAuth);
     await Hive.openBox(appManager);
+    await Hive.openBox(location);
     print('Hive initiated');
   }
 
@@ -39,5 +41,11 @@ class OfflineDBService {
 
   static void deleteBox(String storeKey) {
     Hive.deleteBoxFromDisk(storeKey);
+  }
+
+  static Future<bool> checkBox(String storeKey, {String? getId}) async {
+    var box = await Hive.openBox(storeKey);
+    getId ??= storeKey;
+    return box.containsKey(getId);
   }
 }

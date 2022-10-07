@@ -67,6 +67,7 @@ class DealBottomDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
                     children: products!
                         .map((product) => Padding(
@@ -83,7 +84,7 @@ class DealBottomDrawer extends StatelessWidget {
                                         children: [
                                           ImageBox(
                                             product!.images![0],
-                                            width: 130,
+                                            width: 120,
                                           ),
                                           Column(
                                             mainAxisAlignment:
@@ -178,6 +179,7 @@ class DealBottomDrawer extends StatelessWidget {
                                     style: TextStyles.bodyFont,
                                     textAlign: TextAlign.justify,
                                   ),
+                                  Divider(),
                                 ],
                               ),
                             ))

@@ -46,6 +46,11 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: Colors.grey);
+  static TextStyle get headingFontBlue => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.bold,
+      color: Colors.blueAccent);
   static TextStyle get subHeadingFont => TextStyle(
       fontFamily: Fonts.body, fontSize: FontSizes.body, color: Colors.grey);
   static TextStyle get titleXLargeWhite => TextStyle(

@@ -38,8 +38,8 @@ class ProductCard extends StatelessWidget {
                       Modular.to.pushNamed('product/${product.id}');
                     },
                     child: SizedBox(
-                      width: 150,
-                      height: 150,
+                      width: 120,
+                      height: 120,
                       child: Image.network(
                         '${ClientService.cdnUrl}${product!.images![0]}',
                         fit: BoxFit.fitHeight,

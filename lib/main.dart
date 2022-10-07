@@ -17,7 +17,7 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  OfflineDBService.init();
+  await OfflineDBService.init();
   final LocationController locationController = Get.put(LocationController());
   final OnBoardingController onBoardingController =
       Get.put(OnBoardingController());

@@ -27,7 +27,7 @@ class DealProductCard extends StatelessWidget {
           itemBuilder: (_, index) {
             DealProduct dProduct = con.dealProd[index];
             return SizedBox(
-              width: 170,
+              width: 150,
               child: ProductCard(
                   dProduct!.product, dProduct!.id, 'DEAL', dProduct.dealPrice),
             );

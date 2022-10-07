@@ -1,13 +1,16 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/category-controller.dart';
+import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/deal_product.dart';
+import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/open-container/open_container_wrapper.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +19,13 @@ import 'package:get/get.dart';
 class CategoryPage extends StatelessWidget {
   bool isLoading = false;
 
-  final CategoryController categoryController = Get.find();
+  final MegaMenuController megaMenuController = Get.put(MegaMenuController());
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
 
   Widget _productList(
-      CategoryController categoryController, BuildContext context) {
+      MegaMenuController categoryController, BuildContext context) {
     return SizedBox(
         height: MediaQuery.of(context).size.height * .42,
         child: ListView.builder(
@@ -246,217 +249,305 @@ class CategoryPage extends StatelessWidget {
   }
 
   Widget _productGrid(
-      CategoryController categoryController, BuildContext context) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * .42,
-        child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 6 / 8,
-                crossAxisSpacing: 10),
-            scrollDirection: Axis.vertical,
-            itemCount: categoryController.productList.length,
-            shrinkWrap: true,
-            itemBuilder: (_, index) {
-              var currentProduct = categoryController.productList[index];
-              if (currentProduct.varient != null) {
-                return ProductCard(currentProduct, currentProduct.id,
-                    'CATEGORY', currentProduct.varient!.price!);
-              } else {
-                return const SizedBox();
-              }
-            }));
-  }
-
-  Widget _staticSubCategory() {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: AppColors.lightGrey),
-      child: Row(
-        children: [
-          TextButton(
-            onPressed: () {
-              categoryController.selectedSubCatergory.value = 'all';
-              categoryController.getProductList();
-            },
-            child: Obx(
-              () => Text('All',
-                  style:
-                      (categoryController.selectedSubCatergory.value == 'all')
-                          ? TextStyles.titleGreen
-                          : TextStyles.title),
-            ),
-          ),
-          const SizedBox(width: 5),
-          InkWell(
-            onTap: () {
-              categoryController.selectedSubCatergory.value = 'all';
-            },
-            child: const Icon(Icons.all_out, size: 25),
-          ),
-        ],
-      ),
-    );
+      MegaMenuController categoryController, BuildContext context) {
+    return GridView.builder(
+        physics: BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+        scrollDirection: Axis.vertical,
+        itemCount: categoryController.productList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var currentProduct = categoryController.productList[index];
+          if (currentProduct.varient != null) {
+            return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
+                currentProduct.varient!.price!);
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Categories",
-                style: TextStyles.headingFont,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 100,
-          child: categoryController.categoryList.isNotEmpty
-              ? ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categoryController.categoryList.length,
-                  itemBuilder: (_, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              categoryController.selectedCatergory.value =
-                                  categoryController.categoryList[index].id ??
-                                      '';
-                              categoryController.getSubCategory(
-                                  categoryController.categoryList[index].id);
-
-                              categoryController.selectedSubCatergory.value =
-                                  'all';
-                              categoryController.getProductList();
-                            },
-                            child: Image.network(
-                                '${ClientService.cdnUrl}${categoryController.categoryList[index].logoId}',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.fill),
-                          ),
-                          Obx(() => Center(
-                                child: Text(
-                                  categoryController.categoryList[index].name!
-                                          .defaultText!.text ??
-                                      '',
-                                  style: (categoryController
-                                              .selectedCatergory.value ==
-                                          categoryController
-                                              .categoryList[index].id)
-                                      ? TextStyles.bodyGreen
-                                      : TextStyles.bodySm,
+        Obx(
+          () {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: SizedBox(
+                height: 70,
+                child: megaMenuController.mainTabs.isNotEmpty
+                    ? ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: megaMenuController.mainTabs.length,
+                        itemBuilder: (_, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    megaMenuController.selectedParentTab.value =
+                                        megaMenuController.mainTabs[index].id ??
+                                            '';
+                                    megaMenuController.getSubMenu(
+                                        megaMenuController.mainTabs[index]);
+                                  },
+                                  child: ImageBox(
+                                    megaMenuController.mainTabs[index].image!,
+                                    width: 50,
+                                    height: 50,
+                                  ),
                                 ),
-                              ))
-                        ],
-                      ),
-                    );
-                  },
-                )
-              : const SizedBox(),
+                                Obx(() => Center(
+                                      child: Text(
+                                        megaMenuController
+                                            .mainTabs[index].text!,
+                                        style: (megaMenuController
+                                                    .selectedParentTab.value ==
+                                                megaMenuController
+                                                    .mainTabs[index].id)
+                                            ? TextStyles.headingFontGray
+                                                .copyWith(
+                                                    color: AppColors.primeColor)
+                                            : TextStyles.headingFontGray,
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : const SizedBox(),
+              ),
+            );
+          },
         ),
-        Obx(() => categoryController.subCategoryList.isNotEmpty
+        Obx(() => megaMenuController.subMenuList.isNotEmpty
             ? SizedBox(
                 height: 58,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: categoryController.subCategoryList.length + 1,
+                  itemCount: megaMenuController.subMenuList.length,
                   itemBuilder: (_, index) {
-                    if (index == 0) {
-                      return _staticSubCategory();
-                    } else {
-                      return Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.lightGrey),
-                        child: Row(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                categoryController.selectedSubCatergory.value =
-                                    categoryController
-                                            .subCategoryList[index - 1].id ??
-                                        '';
-                                categoryController.getProductList();
-                              },
-                              child: Obx(
-                                () => Text(
-                                    categoryController
-                                            .subCategoryList[index - 1]
-                                            .name!
-                                            .defaultText!
-                                            .text ??
-                                        '',
-                                    style: (categoryController
-                                                .selectedSubCatergory.value ==
-                                            categoryController
-                                                .subCategoryList[index - 1].id)
-                                        ? TextStyles.titleGreen
-                                        : TextStyles.title),
-                              ),
+                    return Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.lightGrey),
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              megaMenuController.selectedSubMenu.value =
+                                  megaMenuController.subMenuList[index].id ??
+                                      '';
+                              megaMenuController.getAllProducts(
+                                  megaMenuController.subMenuList[index],
+                                  GenericTab(
+                                      id: megaMenuController
+                                          .selectedParentTab.value,
+                                      type: megaMenuController
+                                          .selectedType.value));
+                            },
+                            child: Obx(
+                              () => Text(
+                                  megaMenuController.subMenuList[index].text!,
+                                  style: (megaMenuController
+                                              .selectedSubMenu.value ==
+                                          megaMenuController
+                                              .subMenuList[index].id)
+                                      ? TextStyles.titleGreen
+                                      : TextStyles.title),
                             ),
-                            const SizedBox(width: 5),
-                            InkWell(
-                              onTap: () {
-                                categoryController.selectedSubCatergory.value =
-                                    categoryController
-                                            .subCategoryList[index - 1].id ??
-                                        '';
-                              },
-                              child: Image.network(
-                                  '${ClientService.cdnUrl}${categoryController.subCategoryList[index - 1].logoId}',
-                                  width: 25,
-                                  height: 25,
-                                  fit: BoxFit.fill),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+                          ),
+                          const SizedBox(width: 5),
+                          InkWell(
+                            onTap: () {
+                              megaMenuController.selectedSubMenu.value =
+                                  megaMenuController.subMenuList[index].id ??
+                                      '';
+                            },
+                            child: Image.network(
+                                '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
+                                width: 25,
+                                height: 25,
+                                fit: BoxFit.fill),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               )
             : const SizedBox()),
-        const Divider(),
-        SizedBox(
-          height: 30,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    categoryController.isList.value = true;
-                  },
-                  icon: const Icon(Icons.list)),
-              IconButton(
-                  onPressed: () {
-                    categoryController.isList.value = false;
-                  },
-                  icon: const Icon(Icons.grid_4x4_outlined))
-            ],
-          ),
-        ),
-        const Divider(),
-        Obx(() => categoryController.productList.isNotEmpty
-            ? (categoryController.isList.isTrue
-                ? _productList(categoryController, context)
-                : _productGrid(categoryController, context))
-            : const SizedBox())
+        Obx(
+          () {
+            return showResults(megaMenuController, context);
+          },
+        )
       ],
+    );
+  }
+
+  Widget showResults(
+      MegaMenuController megaMenuController, BuildContext context) {
+    switch (megaMenuController.selectedType.value) {
+      case 'DEAL':
+        return _dealGrid(megaMenuController, context);
+      case 'MULTI':
+        return _multiProductList(megaMenuController, context);
+      default:
+        return categoryProducts(megaMenuController, context);
+    }
+  }
+
+  Widget categoryProducts(
+      MegaMenuController megaMenuController, BuildContext context) {
+    return Column(
+      children: [_productGrid(megaMenuController, context)],
+    );
+  }
+
+  Widget _dealGrid(
+      MegaMenuController megaMenuController, BuildContext context) {
+    return GridView.builder(
+        physics: BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+        scrollDirection: Axis.vertical,
+        itemCount: megaMenuController.dealProductList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          DealProduct dealProduct = megaMenuController.dealProductList[0];
+          if (dealProduct.product != null) {
+            return ProductCard(dealProduct.product, dealProduct.product!.id,
+                'DEAL', dealProduct.product!.varient!.price!);
+          } else {
+            return const SizedBox();
+          }
+        });
+  }
+
+  Widget _multiProductList(
+      MegaMenuController megaMenuController, BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemCount: megaMenuController.multiProd.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          Multi mProduct = megaMenuController.multiProd[index];
+          // var curProduct = dProduct!.product;
+          return Card(
+            child: Column(
+              children: [
+                Image.network(
+                  '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                  height: 80,
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5.0),
+                  height: 160,
+                  child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: [
+                        for (var i = 0; i < mProduct.products!.length; i++) ...[
+                          SizedBox(
+                            width: 150,
+                            child: ProductCard(
+                                mProduct.products![i],
+                                mProduct.products![i].id,
+                                'MULTIPRODUCT',
+                                mProduct.products![i].varient!.price!),
+                          )
+                        ]
+                      ]),
+                ),
+                Align(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    // margin: const EdgeInsets.only(left: 3, right: 3),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          mProduct!.name!.defaultText!.text ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              color: Colors.grey),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * .8,
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              PriceTag(mProduct.price!.offerPrice.toString(),
+                                  mProduct!.price!.actualPrice.toString()),
+                              const Spacer(),
+                              CircleAvatar(
+                                backgroundColor: Colors.red.shade900,
+                                radius: 20,
+                                child: IconButton(
+                                  padding: const EdgeInsets.all(1),
+                                  constraints: const BoxConstraints(),
+                                  onPressed: () {
+                                    showModalBottomSheet<void>(
+                                      // context and builder are
+                                      // required properties in this widget
+                                      context: context,
+                                      useRootNavigator: true,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(13)),
+                                      backgroundColor: Colors.white,
+                                      isScrollControlled: true,
+                                      elevation: 3,
+                                      builder: (context) {
+                                        // return _bottomSheetAddToCart(product, context);
+                                        return DealBottomDrawer(
+                                            mProduct!.products,
+                                            mProduct.id,
+                                            'MULTIPRODUCT',
+                                            mProduct.price,
+                                            mProduct.name);
+                                      },
+                                    );
+                                    // cartController.addToCart(product!, refId!, addedFrom!);
+                                  },
+                                  icon: const Icon(
+                                    Icons.add,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

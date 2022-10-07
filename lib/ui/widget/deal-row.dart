@@ -50,12 +50,12 @@ class DealRow extends StatelessWidget {
                       ),
                       Text(
                         'More >',
-                        style: TextStyles.headingFontGray,
+                        style: TextStyles.headingFontBlue,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 250, child: DealProductCard(dealController))
+                SizedBox(height: 220, child: DealProductCard(dealController))
               ],
             ),
           ),

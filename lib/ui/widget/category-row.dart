@@ -25,7 +25,7 @@ class CategoryRow extends StatelessWidget {
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                itemCount: categoryController.categoryList.length,
+                itemCount: categoryController.mainTabs.length,
                 itemBuilder: (_, index) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 5),
@@ -34,9 +34,9 @@ class CategoryRow extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             categoryController.selectedCatergory.value =
-                                categoryController.categoryList[index].id ?? '';
+                                categoryController.mainTabs[index].id ?? '';
                             categoryController.getSubCategory(
-                                categoryController.categoryList[index].id);
+                                categoryController.mainTabs[index].id);
 
                             categoryController.selectedSubCatergory.value =
                                 'all';
@@ -44,14 +44,14 @@ class CategoryRow extends StatelessWidget {
                             myController.setCurrentTab(1);
                           },
                           child: ImageBox(
-                            categoryController.categoryList[index].logoId!,
+                            categoryController.mainTabs[index].logoId!,
                             width: 50,
                             height: 50,
                           ),
                         ),
                         Center(
-                          child: Text(categoryController.categoryList[index]
-                                  .name!.defaultText!.text ??
+                          child: Text(categoryController
+                                  .mainTabs[index].name!.defaultText!.text ??
                               ''),
                         )
                       ],

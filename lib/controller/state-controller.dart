@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +13,7 @@ class Controller extends GetxController {
   var currentTab = 0.obs;
   var activePageName = ''.obs;
   var onboardingDone = false.obs;
+  var backButtonPress = 0.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
@@ -19,10 +22,17 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
+    backButtonPress.value = 0;
     getLoginInfo();
 
     changeTab(currentTab.toInt());
     super.onInit();
+  }
+
+  backPressed() {
+    backButtonPress.value = backButtonPress.value + 1;
+    if (backButtonPress.value < 2)
+      CodeHelp.toast('Press back on more time to exit');
   }
 
   getLoginInfo() async {

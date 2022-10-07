@@ -72,50 +72,58 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 5,
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: AppBarWidget(),
-      ),
-      body: routerOut.RouterOutlet(),
-      bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
-        return BottomNav(
-          index: mcontroller.currentTab.toInt(),
+    return WillPopScope(
+      onWillPop: () {
+        myController.backPressed();
+        return myController.backButtonPress.value == 2
+            ? Future.value(true)
+            : Future.value(false);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 5,
           backgroundColor: Colors.white,
-          showElevation: true,
-          navBarHeight: 75.0,
-          radius: 30.0,
-          onTap: (i) {
-            mcontroller.setCurrentTab(i);
-          },
-          items: [
-            BottomNavItem(
-                imgIcon:
-                    'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
-                icon: Icons.home,
-                label: "Home",
-                selectedColor: Colors.red.shade900),
-            BottomNavItem(
-                icon: Icons.category,
-                suffix: '',
-                label: "Category",
-                selectedColor: Colors.green),
-            BottomNavItem(
-                icon: Icons.search_off,
-                label: "Search",
-                // suffix: cartController!.cartProducts!.length.toString() ?? '0',
-                selectedColor: Colors.amber.shade800),
-            BottomNavItem(
-                icon: Icons.account_circle,
-                suffix: '',
-                label: "Profile",
-                selectedColor: Colors.blue),
-          ],
-        );
-      }),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: AppBarWidget(),
+        ),
+        body: routerOut.RouterOutlet(),
+        bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
+          return BottomNav(
+            index: mcontroller.currentTab.toInt(),
+            backgroundColor: Colors.white,
+            showElevation: true,
+            navBarHeight: 75.0,
+            radius: 30.0,
+            onTap: (i) {
+              mcontroller.setCurrentTab(i);
+            },
+            items: [
+              BottomNavItem(
+                  imgIcon:
+                      'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                  icon: Icons.home,
+                  label: "Home",
+                  selectedColor: Colors.red.shade900),
+              BottomNavItem(
+                  icon: Icons.category,
+                  suffix: '',
+                  label: "Category",
+                  selectedColor: Colors.green),
+              BottomNavItem(
+                  icon: Icons.search_off,
+                  label: "Search",
+                  // suffix: cartController!.cartProducts!.length.toString() ?? '0',
+                  selectedColor: Colors.amber.shade800),
+              BottomNavItem(
+                  icon: Icons.account_circle,
+                  suffix: '',
+                  label: "Profile",
+                  selectedColor: Colors.blue),
+            ],
+          );
+        }),
+      ),
     );
   }
 }

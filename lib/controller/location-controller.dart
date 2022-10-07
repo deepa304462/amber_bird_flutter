@@ -1,36 +1,55 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 class LocationController extends GetxController {
-  var address = ''.obs;
   Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = LatLng(0, 0).obs;
+  RxMap address = Map().obs;
+  Rx<bool> mapLoad = false.obs;
+  late GoogleMapController mapController;
+  Dio dio = new Dio();
+  LatLng latLng = LatLng(0, 0);
+  Rx<Marker> currentPin = Marker(
+    markerId: MarkerId('pin'),
+  ).obs;
+  String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
   @override
   void onInit() {
     getLocation();
-    getCurrentLatLngFromSharedPrefs();
 
     super.onInit();
   }
 
+  void onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
   Future<bool> getLocation() async {
-    String ad = (await SharedData.read('current-address')).toString();
-    if (ad != '{}') {
-      address.value = (ad);
-      return Future.value(true);
-    } else {
-      return Future.value(false);
+    var locationExists =
+        await OfflineDBService.checkBox(OfflineDBService.location);
+    if (locationExists) {
+      address.value = await OfflineDBService.get(OfflineDBService.location);
+      currentLatLang.value = LatLng(
+          address.value['geometry']['location']['lat'],
+          address.value['geometry']['location']['lng']);
+      currentPin.value =
+          Marker(markerId: MarkerId('pin'), position: currentLatLang.value);
     }
+    return locationExists;
   }
 
   locationReqest() {
-    initializeLocationAndSave();
+    // initializeLocationAndSave();
   }
 
   Future<PermissionStatus> checkPermission() async {
@@ -38,8 +57,17 @@ class LocationController extends GetxController {
     return serviceEnabled;
   }
 
+  void updatePosition(CameraPosition _position) {
+    currentPin.value = Marker(
+        markerId: MarkerId('pin'),
+        position:
+            LatLng(_position.target.latitude, _position.target.longitude));
+    checkAddress(_position.target);
+  }
+
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
+    mapLoad.value = true;
     Location location = Location();
     bool? serviceEnabled;
     PermissionStatus? permissionGranted;
@@ -58,66 +86,56 @@ class LocationController extends GetxController {
     LocationData locationData = await location.getLocation();
     LatLng currentLocation =
         LatLng(locationData.latitude!, locationData.longitude!);
-
-    print(currentLocation);
-    // Get the current user address
-    Map data = (await getParsedReverseGeocoding(currentLocation));
-    print(data);
-    String currentAddress = data['address'];
-    // String countryshortCode = "IN";//data['country']['short_code'];
-    //  getNearbyWareHouseData(locationData.latitude!, locationData.longitude!, countryshortCode);
-    SharedData.saveDouble(locationData.latitude!, 'latitude');
-    SharedData.saveDouble(locationData.longitude!, 'longitude');
-    SharedData.save(currentAddress, 'current-address');
-    getCurrentLatLngFromSharedPrefs();
-    address.value = (currentAddress);
+    this.currentLatLang.value = currentLocation;
+    currentPin.value =
+        Marker(markerId: MarkerId('pin'), position: currentLocation);
+    getAddressFromLatLng(locationData.latitude!, locationData.longitude!);
+    mapLoad.value = false;
   }
 
-  getCurrentLatLngFromSharedPrefs() async {
-    currentLatLang.value = LatLng((await SharedData.readDouble('latitude')!),
-        await SharedData.readDouble('longitude')!);
+  saveAddress() {
+    OfflineDBService.save(OfflineDBService.location, address.value);
+    Modular.to.navigate('home/main');
   }
 
-  Future<Map> getParsedReverseGeocoding(LatLng latLng) async {
-    var response = await getReverseGeocodingGivenLatLngUsingMapbox(latLng);
-    Map feature = response['features'][0];
-    var countryObj = feature['context'].where((item) {
-      print(item);
-      // print(item['id'] ?? ''.contains('country'));
-      if (item != null) {
-        if (item['id'].contains('country')) {
-          return true;
-        } else {
-          return false;
+  String findValueFromAddress(String key) {
+    for (dynamic element in (address.value['address_components'] as List)) {
+      bool keyMatched = false;
+      for (String value in (element['types'] as List)) {
+        keyMatched = value == key;
+        if (keyMatched) {
+          break;
         }
-      } else {
-        return false;
       }
-    });
-    Map revGeocode = {
-      'name': feature['text'],
-      'address': feature['place_name'].split('${feature['text']}, ')[1],
-      'place': feature['place_name'],
-      'location': latLng,
-      'country': countryObj
-    };
-    inspect(response);
-    return revGeocode;
+      if (keyMatched) {
+        return element['long_name'];
+      }
+    }
+    return '';
+  }
+
+  getAddressFromLatLng(double lat, double lng) async {
+    String _host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$_host?key=$mapKey&language=en&latlng=$lat,$lng';
+    if (lat != null && lng != null) {
+      var response = await dio.get(url);
+      if (response.statusCode == 200) {
+        address.value = response.data["results"][0];
+      }
+    }
   }
 
   void getNearbyWareHouseData(latitude, longitude, countryshortCode) async {
     var payload = {
       "userCoordinates": [latitude, longitude],
       "countryCode": countryshortCode,
-      // "productId": "string",
-      // "varientCode": "string",
-      // "productQuantity": 0
     };
-    print(payload);
     var response = await ClientService.post(
         path: 'productInventory/getNearestWarehouse', payload: payload);
-    if (response.statusCode == 200) {
-      print(response.data);
-    }
+    if (response.statusCode == 200) {}
+  }
+
+  void checkAddress(LatLng coOrdinate) {
+    getAddressFromLatLng(coOrdinate.latitude!, coOrdinate.longitude!);
   }
 }

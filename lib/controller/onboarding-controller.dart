@@ -4,7 +4,7 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class OnBoardingController extends GetxController {
-  var onboardingData = Appmanger.fromJson("{}").obs;
+  var onboardingData = Appmanger().obs;
   var activePage = 0.obs;
   @override
   void onInit() {

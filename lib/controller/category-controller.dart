@@ -6,12 +6,12 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
 class CategoryController extends GetxController {
-  RxList<ProductCategory> categoryList = <ProductCategory>[].obs; //RxList([]);
+  RxList<ProductCategory> mainTabs = <ProductCategory>[].obs; //RxList([]);
   RxList<ProductCategory> subCategoryList = <ProductCategory>[].obs;
   RxString selectedCatergory = "".obs;
   RxString selectedSubCatergory = "all".obs;
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
-  
+
   RxBool isList = true.obs;
   @override
   void onInit() {
@@ -30,8 +30,8 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      categoryList.value = (cList);
-     
+      mainTabs.value = (cList);
+
       // print(categoryList);
     }
   }
@@ -47,7 +47,6 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       subCategoryList.value = (sList);
-      
     }
   }
 
@@ -59,7 +58,8 @@ class CategoryController extends GetxController {
       // "keywords": "string"
       "": ""
     };
-    if (selectedSubCatergory.value != '' && selectedSubCatergory.value !=  'all') {
+    if (selectedSubCatergory.value != '' &&
+        selectedSubCatergory.value != 'all') {
       payload = {
         // "parentCategoryId": selectedCatergory.value.id ?? '',
         "productCategoryId": selectedSubCatergory.value ?? '',
@@ -70,7 +70,7 @@ class CategoryController extends GetxController {
       };
     }
     print(payload);
-     // {"parentCategoryId": catId};
+    // {"parentCategoryId": catId};
     var response = await ClientService.searchQuery(
         path: 'cache/product/searchSummary', query: payload, lang: 'en');
 
@@ -82,7 +82,7 @@ class CategoryController extends GetxController {
       print(pList);
       inspect(pList);
       productList.value = (pList);
-    }else{
+    } else {
       print(response);
     }
   }

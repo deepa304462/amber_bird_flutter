@@ -8,9 +8,11 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:math' as math;
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
@@ -24,23 +26,33 @@ class MultiProductRow extends StatelessWidget {
         MultiProductController(currenttypeName),
         tag: currenttypeName.toString());
     // if (dealController.dealProd.isNotEmpty) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                multiprodController.getProductName(currenttypeName),
-                style: TextStyles.headingFont,
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    multiprodController.getProductName(currenttypeName),
+                    style: TextStyles.titleLargeBold,
+                  ),
+                  Text(
+                    'More >',
+                    style: TextStyles.headingFontBlue,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        childListing(multiprodController, context)
-      ],
+          childListing(multiprodController, context)
+        ],
+      ),
     );
   }
 
@@ -59,11 +71,12 @@ class MultiProductRow extends StatelessWidget {
   Widget twoProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 410,
+      height: 340,
       child: Obx(
         () => Padding(
           padding: const EdgeInsets.only(top: 10),
           child: ListView.builder(
+            physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemCount: multiprodController.multiProd.length,
             shrinkWrap: true,
@@ -73,18 +86,17 @@ class MultiProductRow extends StatelessWidget {
             //     crossAxisSpacing: 10),
             itemBuilder: (_, index) {
               Multi mProduct = multiprodController.multiProd[index];
-
               // var curProduct = dProduct!.product;
               return Card(
                 child: Column(
                   children: [
                     Image.network(
                       '${ClientService.cdnUrl}${mProduct.displayImageId}',
-                      height: 100,
+                      height: 80,
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
-                      height: 190,
+                      height: 160,
                       child: ListView(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -93,7 +105,7 @@ class MultiProductRow extends StatelessWidget {
                                 i < mProduct.products!.length;
                                 i++) ...[
                               SizedBox(
-                                width: 170,
+                                width: 150,
                                 child: ProductCard(
                                     mProduct.products![i],
                                     mProduct.products![i].id,

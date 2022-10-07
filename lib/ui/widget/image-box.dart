@@ -16,7 +16,7 @@ class ImageBox extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: '${ClientService.cdnUrl}$path',
       width: width,
-      height: height,
+      height: height == 0 ? width * 1 : height,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(
           image: DecorationImage(

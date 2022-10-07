@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 
@@ -17,21 +18,23 @@ class locationWidget extends StatelessWidget {
       children: [
         GetX<LocationController>(
           builder: (location) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  Icons.location_pin,
-                  color: AppColors.primeColor,
-                ),
-                Text(
-                    location.address != null && location.address.value != null
-                        ? location.address.value.substring(0, 5)
-                        : '00000',
-                    style: TextStyles.body)
-              ],
+            return InkWell(
+              onTap: () {
+                Modular.to.pushNamed('/location');
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Icon(
+                    Icons.location_pin,
+                    color: AppColors.primeColor,
+                  ),
+                  Text(location.findValueFromAddress('postal_code'),
+                      style: TextStyles.body)
+                ],
+              ),
             );
           },
         ),

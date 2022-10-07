@@ -23,8 +23,8 @@ class HomePageModule extends Module {
     ChildRoute('/',
         child: (_, args) => SplashOfferPage(), guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
-    ChildRoute('/search-location',
-        child: (_, args) => SearchLocationFromMapPage()),
+    // ChildRoute('/search-location',
+    //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
