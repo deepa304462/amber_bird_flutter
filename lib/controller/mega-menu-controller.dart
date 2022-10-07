@@ -78,7 +78,7 @@ class MegaMenuController extends GetxController {
         image: parentTab.image));
     if (parentTab.type == 'DEAL') {
       var resp = await ClientService.get(
-          path: 'dealProduct/getSummaryList', id: parentTab.id);
+          path: 'dealProduct/categorySummary', id: parentTab.id);
       ((resp.data as List<dynamic>?)?.map((e) {
             ProductCategory category =
                 ProductCategory.fromMap(e as Map<String, dynamic>);
@@ -92,7 +92,7 @@ class MegaMenuController extends GetxController {
     }
     if (parentTab.type == 'MULTI') {
       var resp = await ClientService.get(
-          path: 'multiProduct/getSummaryList', id: parentTab.id);
+          path: 'multiProduct/categorySummary', id: parentTab.id);
       ((resp.data as List<dynamic>?)?.map((e) {
             ProductCategory category =
                 ProductCategory.fromMap(e as Map<String, dynamic>);

@@ -47,7 +47,7 @@ class CategoryPage extends StatelessWidget {
                           children: [
                             Stack(
                               children: [
-                                currentProduct.images!.length > 0
+                                currentProduct.images!.isNotEmpty
                                     ? Image.network(
                                         '${ClientService.cdnUrl}${currentProduct.images![0]}',
                                         width: 100,

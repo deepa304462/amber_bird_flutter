@@ -88,12 +88,21 @@ class SignUp extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
-                  var data = await mController.signInWithGoogle();
-                  if (data['status'] == 'success') {
-                    controller.isLogin.value = true;
-                    controller.setCurrentTab(0);
+                  try{
+                    var data = await mController.signInWithGoogle();
+                    print(data);
+                    if (data['status'] == 'success') {
+                      controller.isLogin.value = true;
+                      controller.setCurrentTab(0);
+                    }
+                    var showToast =
+                        snackBarClass.showToast(context, data['msg']);
+                  }catch (e) {
+                    var showToast =
+                        snackBarClass.showToast(context, 'Something went wrong...');
                   }
-                  var showToast = snackBarClass.showToast(context, data['msg']);
+
+                  
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
