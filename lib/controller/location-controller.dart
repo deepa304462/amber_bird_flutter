@@ -39,9 +39,12 @@ class LocationController extends GetxController {
         await OfflineDBService.checkBox(OfflineDBService.location);
     if (locationExists) {
       address.value = await OfflineDBService.get(OfflineDBService.location);
-      currentLatLang.value = LatLng(
-          address.value['geometry']['location']['lat'],
-          address.value['geometry']['location']['lng']);
+      if(address.value['geometry'] != null){
+        currentLatLang.value = LatLng(
+            address.value['geometry']['location']['lat'],
+            address.value['geometry']['location']['lng']);
+      }
+     
       currentPin.value =
           Marker(markerId: MarkerId('pin'), position: currentLatLang.value);
     }
@@ -99,18 +102,21 @@ class LocationController extends GetxController {
   }
 
   String findValueFromAddress(String key) {
-    for (dynamic element in (address.value['address_components'] as List)) {
-      bool keyMatched = false;
-      for (String value in (element['types'] as List)) {
-        keyMatched = value == key;
+    if (address.value['address_components'] != null) {
+      for (dynamic element in (address.value['address_components'] as List)) {
+        bool keyMatched = false;
+        for (String value in (element['types'] as List)) {
+          keyMatched = value == key;
+          if (keyMatched) {
+            break;
+          }
+        }
         if (keyMatched) {
-          break;
+          return element['long_name'];
         }
       }
-      if (keyMatched) {
-        return element['long_name'];
-      }
     }
+
     return '';
   }
 

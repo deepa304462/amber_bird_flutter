@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -10,18 +11,9 @@ import 'package:get/get.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
 class SplashOfferPage extends StatelessWidget {
-//   SplashOfferPage({Key? key}) : super(key: key);
-
-//   @override
-//   State<SplashOfferPage> createState() => _SplashOfferPageState();
-// }
-
-// class _SplashOfferPageState extends State<SplashOfferPage> {
   LiquidController liquidController = LiquidController();
   LocationController locationController = Get.find();
   final OnBoardingController onBoardingController = Get.find();
-  // final CartController cartController = Get.put(CartController());
-  // final WishlistController wishlistController = Get.put(WishlistController());
 
   // Making list of pages needed to pass in IntroViewsFlutter constructor.
   var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
@@ -40,7 +32,7 @@ class SplashOfferPage extends StatelessWidget {
                   return Container(
                     width: double.infinity,
                     height: height,
-                    color: colorList[index] ?? Colors.blueAccent,
+                    color: colorList[index],
                     child: ImageBox(
                       data.imageId!,
                       height: MediaQuery.of(context).size.height,
@@ -49,7 +41,7 @@ class SplashOfferPage extends StatelessWidget {
                   );
                 },
                 positionSlideIcon: 0.8,
-                slideIconWidget: Icon(Icons.arrow_back_ios),
+                slideIconWidget: const Icon(Icons.arrow_back_ios),
                 onPageChangeCallback: (int lpage) async {
                   if (onBoardingController.onboardingData.value.appIntro!
                                   .introImages!.length -
@@ -59,6 +51,7 @@ class SplashOfferPage extends StatelessWidget {
                                   .introImages!.length -
                               1 ==
                           onBoardingController.activePage.value) {
+                    SharedData.save('true', 'onboardingDone');
                     if (await locationController.getLocation()) {
                       Modular.to.navigate('/home/main');
                     } else {
@@ -74,7 +67,7 @@ class SplashOfferPage extends StatelessWidget {
                 enableLoop: false,
                 ignoreUserGestureWhileAnimating: true,
               )
-            : SizedBox(),
+            : const SizedBox(),
         Align(
           alignment: Alignment.bottomRight,
           child: Padding(
@@ -84,6 +77,7 @@ class SplashOfferPage extends StatelessWidget {
                   backgroundColor: AppColors.darkOrange,
                   textStyle: TextStyles.bodyWhite),
               onPressed: () async {
+                SharedData.save('true', 'onboardingDone');
                 if (onBoardingController.onboardingData.value.appIntro !=
                     null) {
                   liquidController.animateToPage(
@@ -102,7 +96,6 @@ class SplashOfferPage extends StatelessWidget {
                 "Skip to End",
                 style: TextStyles.bodyWhite,
               ),
-              // color: Colors.white.withOpacity(0.01),
             ),
           ),
         ),
@@ -127,39 +120,14 @@ class SplashOfferPage extends StatelessWidget {
                 }
               },
               child: Text("Next", style: TextStyles.bodyWhite),
-              // color: Colors.white.withOpacity(0.01),
             ),
           ),
         )
       ]),
     );
-
-    // LiquidSwipe(
-    //          pages: pages,
-    //          fullTransitionValue: 500,
-    //          enableSideReveal: true,
-    //        );
-    //  Obx(
-    //   () =>IntroViewsFlutter(
-    //   pages,
-    //   showNextButton: true,
-    //   showBackButton: true,
-    //   onTapDoneButton: () {
-    //     // Use Navigator.pushReplacement if you want to dispose the latest route
-    //     // so the user will not be able to slide back to the Intro Views.
-    //     Modular.to.navigate('/home/main');
-    //   },
-    //   pageButtonTextStyles: const TextStyle(
-    //     color: Colors.white,
-    //     fontSize: 18.0,
-    //   ),
-    // ));
   }
 
   pageChangeCallback(int lpage) {
-    // setState(() {
-    //   page = lpage;
-    // });
     print(lpage);
   }
 }

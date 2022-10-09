@@ -13,6 +13,7 @@ class Controller extends GetxController {
   var currentTab = 0.obs;
   var activePageName = ''.obs;
   var onboardingDone = false.obs;
+  var isActivate = false.obs;
   var backButtonPress = 0.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
@@ -31,8 +32,9 @@ class Controller extends GetxController {
 
   backPressed() {
     backButtonPress.value = backButtonPress.value + 1;
-    if (backButtonPress.value < 2)
+    if (backButtonPress.value < 2) {
       CodeHelp.toast('Press back on more time to exit');
+    }
   }
 
   getLoginInfo() async {
@@ -42,9 +44,11 @@ class Controller extends GetxController {
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
-    var authData =
-        jsonDecode(await (SharedData.read('authData')) as String ?? '');
+    var authData = jsonDecode(await (SharedData.read('authData')));
+    print('aaaaaaaaa$authData');
     ClientService.token = authData['accessToken'] ?? '';
+    isActivate.value = authData['emailVerified'] ?? false;
+
   }
 
   logout() {
