@@ -84,6 +84,18 @@ class LoginWidget extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
+                          authController.fieldValue.value =  {
+                            'fullName': '',
+                            'email': '',
+                            'thirdPartyId': '',
+                            'imageFromSocialMedia': '',
+                            'isThirdParty': false,
+                            'thirdPartyName': '',
+                            'mobile': '',
+                            'password': '',
+                            'userName': '',
+                            'countryCode': ''
+                          };
                           Modular.to.navigate('/home/signup');
                         },
                         style: ButtonStyle(

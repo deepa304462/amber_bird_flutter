@@ -186,8 +186,6 @@ class CategoryPage extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor:
                                                     AppColors.primeColor,
-                                                // padding: const EdgeInsets.symmetric(
-                                                //     horizontal: 50, vertical: 15),
                                                 textStyle:
                                                     TextStyles.bodyWhite),
                                             onPressed: currentProduct

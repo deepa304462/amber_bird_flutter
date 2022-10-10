@@ -45,14 +45,15 @@ class Controller extends GetxController {
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
     var authData = jsonDecode(await (SharedData.read('authData')));
-    print('aaaaaaaaa$authData');
+    print("aaaaaaaaa${authData['emailVerified']}");
     ClientService.token = authData['accessToken'] ?? '';
-    isActivate.value = authData['emailVerified'] ?? false;
+    isActivate.value = authData['emailVerified'];
 
   }
 
   logout() {
     isLogin.value = false;
+    isActivate.value = false;
     ClientService.token = '';
     SharedData.save(false.toString(), 'isLogin');
     SharedData.remove('userData');
