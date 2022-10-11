@@ -46,6 +46,21 @@ class AuthController extends GetxController {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
 
+  resetFieldValue() {
+    fieldValue.value = {
+      'fullName': '',
+      'email': '',
+      'thirdPartyId': '',
+      'imageFromSocialMedia': '',
+      'isThirdParty': false,
+      'thirdPartyName': '',
+      'mobile': '',
+      'password': '',
+      'userName': '',
+      'countryCode': ''
+    };
+  }
+
   login() async {
     var loginPayload = {
       "password": fieldValue['password'],
@@ -119,6 +134,7 @@ class AuthController extends GetxController {
       "acls": ["user"],
       "profileType": "DIAGO_APP_PROFILE",
       "password": fieldValue['password'],
+      "profileType": "CUSTOMER"
     };
     var resp = await ClientService.post(path: 'profile-auth', payload: payload);
     if (resp.statusCode == 200) {
@@ -185,7 +201,6 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
- 
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
@@ -207,6 +222,7 @@ class AuthController extends GetxController {
     }
   }
 
+
   dynamic signInWithGoogle() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -214,7 +230,6 @@ class AuthController extends GetxController {
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-   
       var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',

@@ -14,7 +14,10 @@ class Controller extends GetxController {
   var activePageName = ''.obs;
   var onboardingDone = false.obs;
   var isActivate = false.obs;
+  var isEmailVerified = false.obs;
+  var isPhoneVerified = false.obs;
   var backButtonPress = 0.obs;
+  RxString tokenManagerEntityId = ''.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
@@ -25,7 +28,6 @@ class Controller extends GetxController {
   void onInit() {
     backButtonPress.value = 0;
     getLoginInfo();
-
     changeTab(currentTab.toInt());
     super.onInit();
   }
@@ -45,15 +47,33 @@ class Controller extends GetxController {
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
     var authData = jsonDecode(await (SharedData.read('authData')));
-    print("aaaaaaaaa${authData['emailVerified']}");
+    var userData = jsonDecode(await (SharedData.read('userData')));
+    print(userData);
     ClientService.token = authData['accessToken'] ?? '';
-    isActivate.value = authData['emailVerified'];
+    if (authData['emailVerified'] != null) {
+      isActivate.value = authData['emailVerified'];
+      isEmailVerified.value = authData['emailVerified'];
+      isPhoneVerified.value = authData['mobileVerified'];
+      tokenManagerEntityId.value = authData['tokenManagerEntityId'];
+    }
+  }
 
+  resendMail() async {  
+    var resp = await ClientService.post(
+        path: 'profile-auth/resend/verificationEmail/${tokenManagerEntityId.value}', payload: {});
+    print(resp);
+    if (resp.statusCode == 200) {
+      return {"msg": "Mail sent Successfully!!", "status": "success"};
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 
   logout() {
     isLogin.value = false;
     isActivate.value = false;
+    isEmailVerified.value = false;
+    isPhoneVerified.value = false;
     ClientService.token = '';
     SharedData.save(false.toString(), 'isLogin');
     SharedData.remove('userData');

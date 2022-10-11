@@ -39,12 +39,12 @@ class LocationController extends GetxController {
         await OfflineDBService.checkBox(OfflineDBService.location);
     if (locationExists) {
       address.value = await OfflineDBService.get(OfflineDBService.location);
-      if(address.value['geometry'] != null){
+      if (address.value['geometry'] != null) {
         currentLatLang.value = LatLng(
             address.value['geometry']['location']['lat'],
             address.value['geometry']['location']['lng']);
       }
-     
+
       currentPin.value =
           Marker(markerId: MarkerId('pin'), position: currentLatLang.value);
     }

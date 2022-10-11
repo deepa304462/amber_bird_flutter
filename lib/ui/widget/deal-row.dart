@@ -6,7 +6,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class DealRow extends StatelessWidget {
   bool isLoading = false;
   final currentdealName;
