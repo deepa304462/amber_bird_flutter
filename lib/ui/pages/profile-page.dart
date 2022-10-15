@@ -10,6 +10,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    stateController.getLoginInfo();
     return Container(
         padding: const EdgeInsets.all(10),
         child: Column(children: [
@@ -56,7 +57,7 @@ class ProfilePage extends StatelessWidget {
             onPressed: () async {
               stateController.logout();
             },
-            child: Text("Logout",style: TextStyles.headingFont),
+            child: Text("Logout", style: TextStyles.headingFont),
           ),
         ]));
   }

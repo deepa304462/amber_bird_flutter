@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-class MappedTo {
+class Ref {
   String? name;
   String? id;
 
-  MappedTo({this.name, this.id});
+  Ref({this.name, this.id});
 
   @override
-  String toString() => 'MappedTo(name: $name, id: $id)';
+  String toString() => 'Ref(name: $name, id: $id)';
 
-  factory MappedTo.fromMap(Map<String, dynamic> data) => MappedTo(
+  factory Ref.fromMap(Map<String, dynamic> data) => Ref(
         name: data['name'] as String?,
         id: data['_id'] as String?,
       );
@@ -21,21 +21,21 @@ class MappedTo {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [MappedTo].
-  factory MappedTo.fromJson(String data) {
-    return MappedTo.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [Ref].
+  factory Ref.fromJson(String data) {
+    return Ref.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [MappedTo] to a JSON string.
+  /// Converts [Ref] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  MappedTo copyWith({
+  Ref copyWith({
     String? name,
     String? id,
   }) {
-    return MappedTo(
+    return Ref(
       name: name ?? this.name,
       id: id ?? this.id,
     );

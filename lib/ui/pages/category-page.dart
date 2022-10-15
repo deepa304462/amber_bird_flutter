@@ -127,12 +127,13 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
                                                         -1,
                                                         currentProduct
-                                                            .varient!.price);
+                                                            .varient!.price,
+                                                        currentProduct,
+                                                        []);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -160,12 +161,13 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
                                                         1,
                                                         currentProduct
-                                                            .varient!.price);
+                                                            .varient!.price,
+                                                        currentProduct,
+                                                        []);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -195,12 +197,13 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
                                                           1,
                                                           currentProduct
-                                                              .varient!.price);
+                                                              .varient!.price,
+                                                          currentProduct,
+                                                          []);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
@@ -216,12 +219,13 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
                                                           1,
                                                           currentProduct
-                                                              .varient!.price);
+                                                              .varient!.price,
+                                                          currentProduct,
+                                                          []);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);

@@ -164,6 +164,7 @@ class SignUp extends StatelessWidget {
                   var data = await mController.signUp();
                   if (data['status'] == 'success') {
                     controller.isLogin.value = true;
+                    controller.getLoginInfo();
                     controller.setCurrentTab(0);
                   }
                   snackBarClass.showToast(context, data['msg']);

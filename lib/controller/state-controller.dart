@@ -4,6 +4,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -56,11 +57,28 @@ class Controller extends GetxController {
       isPhoneVerified.value = authData['mobileVerified'];
       tokenManagerEntityId.value = authData['tokenManagerEntityId'];
     }
+    if (userData['mappedTo'] != null) {
+      getCustomerDate(userData['mappedTo']['_id']);
+    }
   }
 
-  resendMail() async {  
+  getCustomerDate(tokenManagerEntityId) async {
+    var customerInsightDetail = await ClientService.post(
+        path: 'customerInsight/detail',
+        payload: {},
+        payloadAsString: tokenManagerEntityId);
+    print(customerInsightDetail.data);
+    if (customerInsightDetail.statusCode == 200) {
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+    }
+  }
+
+  resendMail() async {
     var resp = await ClientService.post(
-        path: 'profile-auth/resend/verificationEmail/${tokenManagerEntityId.value}', payload: {});
+        path:
+            'profile-auth/resend/verificationEmail/${tokenManagerEntityId.value}',
+        payload: {});
     print(resp);
     if (resp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
@@ -163,4 +181,6 @@ class Controller extends GetxController {
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
   }
+
+  void checkAuth() {}
 }

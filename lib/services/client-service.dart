@@ -78,9 +78,21 @@ class ClientService {
   static Future<Response> post(
       {required String path,
       required Map<String, dynamic> payload,
+      String payloadAsString = '',
       APIVersion ver = APIVersion.V1}) async {
-    return await _call(
-        path: path, payload: payload, apiVersion: ver, method: RESTMethod.POST);
+    if (payloadAsString != '') {
+      return await _call(
+          path: path,
+          id: payloadAsString,
+          apiVersion: ver,
+          method: RESTMethod.POST);
+    } else {
+      return await _call(
+          path: path,
+          payload: payload,
+          apiVersion: ver,
+          method: RESTMethod.POST);
+    }
   }
 
   static Future<Response> auth(
@@ -127,10 +139,18 @@ class ClientService {
           return response;
         case RESTMethod.POST:
         case RESTMethod.AUTH:
-          response = await dio.post(
-              (apiVersion == APIVersion.V1 ? url : urlV2) + path,
-              data: payload,
-              options: Options(headers: header));
+          if (id != null && id != '') {
+            response = await dio.post(
+                (apiVersion == APIVersion.V1 ? url : urlV2) + path,
+                data: id,
+                options: Options(headers: header));
+          } else {
+            response = await dio.post(
+                (apiVersion == APIVersion.V1 ? url : urlV2) + path,
+                data: payload,
+                options: Options(headers: header));
+          }
+
           return response;
         case RESTMethod.SEARCH:
           Map<String, dynamic> queryMap = Map<String, dynamic>();

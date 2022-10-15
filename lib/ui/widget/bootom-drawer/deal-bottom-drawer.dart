@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -207,8 +208,13 @@ class DealBottomDrawer extends StatelessWidget {
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
                                       if (stateController.isLogin.value) {
-                                        cController.addToCart(products, refId!,
-                                            addedFrom!, -1, priceInfo);
+                                        cController.addToCart(
+                                            refId!,
+                                            addedFrom!,
+                                            -1,
+                                            priceInfo,
+                                            {} as ProductSummary?,
+                                            products);
                                       } else {
                                         stateController.setCurrentTab(3);
                                         var showToast = snackBarClass.showToast(
@@ -229,11 +235,16 @@ class DealBottomDrawer extends StatelessWidget {
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
                                       if (stateController.isLogin.value) {
-                                        cController.addToCart(products, refId!,
-                                            addedFrom!, 1, priceInfo);
+                                        cController.addToCart(
+                                            refId!,
+                                            addedFrom!,
+                                            1,
+                                            priceInfo,
+                                            products![0],
+                                            null);
                                       } else {
                                         stateController.setCurrentTab(3);
-                                        var showToast = snackBarClass.showToast(
+                                          snackBarClass.showToast(
                                             context,
                                             'Please Login to preoceed');
                                       }
@@ -255,19 +266,19 @@ class DealBottomDrawer extends StatelessWidget {
                                               if (stateController
                                                   .isActivate.value) {
                                                 cartController.addToCart(
-                                                    products,
                                                     refId!,
                                                     addedFrom!,
                                                     1,
-                                                    priceInfo);
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
                                               } else {
                                                 snackBarClass.showToast(context,
                                                     'Your profile is not active yet');
                                               }
                                             } else {
                                               stateController.setCurrentTab(3);
-                                              var showToast =
-                                                  snackBarClass.showToast(
+                                               snackBarClass.showToast(
                                                       context,
                                                       'Please Login to preoceed');
                                             }
@@ -277,11 +288,12 @@ class DealBottomDrawer extends StatelessWidget {
                                               if (stateController
                                                   .isActivate.value) {
                                                 cartController.addToCart(
-                                                    products,
                                                     refId!,
                                                     addedFrom!,
                                                     1,
-                                                    priceInfo);
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 stateController

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/deal_product/meta_data.dart';
+
 import 'authority.dart';
 import 'last_logged_in_from.dart';
-import 'mapped_to.dart';
-import 'meta_data.dart';
-import 'org_ref.dart';
+import 'ref.dart';
 
 class Profile {
   MetaData? metaData;
@@ -21,9 +21,9 @@ class Profile {
   String? serviceName;
   String? authEmail;
   bool? authEmailVerified;
-  OrgRef? orgRef;
+  Ref? orgRef;
   bool? needTfa;
-  MappedTo? mappedTo;
+  Ref? mappedTo;
   String? orgShortCode;
   String? parentTokenManager;
   String? mobile;
@@ -84,11 +84,11 @@ class Profile {
         authEmailVerified: data['authEmailVerified'] as bool?,
         orgRef: data['orgRef'] == null
             ? null
-            : OrgRef.fromMap(data['orgRef'] as Map<String, dynamic>),
+            : Ref.fromMap(data['orgRef'] as Map<String, dynamic>),
         needTfa: data['needTfa'] as bool?,
         mappedTo: data['mappedTo'] == null
             ? null
-            : MappedTo.fromMap(data['mappedTo'] as Map<String, dynamic>),
+            : Ref.fromMap(data['mappedTo'] as Map<String, dynamic>),
         orgShortCode: data['orgShortCode'] as String?,
         parentTokenManager: data['parentTokenManager'] as String?,
         mobile: data['mobile'] as String?,
@@ -148,9 +148,9 @@ class Profile {
     String? serviceName,
     String? authEmail,
     bool? authEmailVerified,
-    OrgRef? orgRef,
+    Ref? orgRef,
     bool? needTfa,
-    MappedTo? mappedTo,
+    Ref? mappedTo,
     String? orgShortCode,
     String? parentTokenManager,
     String? mobile,

@@ -1,6 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,16 +23,16 @@ class CartWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
                 child: Column(
                   children: [
-                    cartController
-                            .cartProducts.value[currentKey]!.product!.isNotEmpty
+                    cartController.cartProducts.value[currentKey]!.products!
+                            .isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: cartController.cartProducts
-                                .value[currentKey]!.product!.length,
+                                .value[currentKey]!.products!.length,
                             itemBuilder: (_, pIndex) {
                               var currentProduct = cartController.cartProducts
-                                  .value[currentKey]!.product![pIndex];
+                                  .value[currentKey]!.products![pIndex];
                               return Card(
                                 color: Colors.white,
                                 child: Padding(
@@ -52,11 +51,11 @@ class CartWidget extends StatelessWidget {
                                             Text(currentProduct
                                                 .name!.defaultText!.text!),
                                             Text(
-                                                '${cartController.cartProducts[currentKey]!.quantity!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                                '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
                                           ],
                                         ),
                                         Text(
-                                            '\$${cartController.cartProducts[currentKey]!.totalPrice!.toString()}')
+                                            '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}')
                                       ]),
                                 ),
                               );

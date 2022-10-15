@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:math';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -107,17 +108,24 @@ class AuthController extends GetxController {
         "email": fieldValue['email'],
         "userName": fieldValue['email']
       };
-      print(searchPAyload);
-      var userUpdateResp = await ClientService.post(
-          path: 'user-profile/search', payload: searchPAyload);
-      print(userUpdateResp);
-      if (userUpdateResp.statusCode == 200) {
-        SharedData.save(userUpdateResp.data.toString(), 'userData');
-        SharedData.save(true.toString(), 'isLogin');
-        return {"msg": "Login Successfully!!", "status": "success"};
-      } else {
-        return {"msg": "Something Went Wrong!!", "status": "error"};
+      if (loginResp.data['tokenManagerEntityId'] != null) {
+        String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
+        var tokenResp = await ClientService.get(
+            path: 'auth', id: '$tokenManagerEntityId?locale=en');
+        print(tokenResp);
+        if (tokenResp.statusCode == 200) {
+          SharedData.save(jsonEncode(tokenResp.data), 'userData');
+          SharedData.save(true.toString(), 'isLogin');
+          // getCustomerDate(tokenManagerEntityId);
+          // OfflineDBService.save(OfflineDBService.appManager, data.toJson());
+          return {"msg": "Login Successfully!!", "status": "success"};
+        } else {
+          return {"msg": "Something Went Wrong!!", "status": "error"};
+        }
       }
+      // var userUpdateResp = await ClientService.post(
+      //     path: 'user-profile/search', payload: searchPAyload);
+
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
@@ -153,7 +161,16 @@ class AuthController extends GetxController {
       if (loginResp.statusCode == 200) {
         ClientService.token = loginResp.data['accessToken'];
         SharedData.save(jsonEncode(loginResp.data), 'authData');
-
+        if (loginResp.data['tokenManagerEntityId'] != null) {
+          String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
+          var tokenResp = await ClientService.get(
+              path: 'auth/$tokenManagerEntityId',
+              id: '$tokenManagerEntityId?locale=en');
+          print(tokenResp);
+          if (tokenResp.statusCode == 200) {
+            SharedData.save(jsonEncode(tokenResp.data), 'userData');
+          }
+        }
         if (fieldValue['isThirdParty'] as bool) {
           var socialdata = [
             {
@@ -173,7 +190,7 @@ class AuthController extends GetxController {
               payload: userPayload);
           print(userUpdateResp);
           if (userUpdateResp.statusCode == 200) {
-            SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
+            // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
             SharedData.save(true.toString(), 'isLogin');
             return {
               "msg": "Account Created Successfully!!",
@@ -221,7 +238,6 @@ class AuthController extends GetxController {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
-
 
   dynamic signInWithGoogle() async {
     FirebaseAuth auth = FirebaseAuth.instance;

@@ -1,51 +1,106 @@
+import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 
-import 'package:amber_bird/data/cart-product.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/order/order.dart';
+import 'package:amber_bird/data/order/product_order.dart';
+import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/helpers/helper.dart';
+import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  RxMap<String, CartProduct> cartProducts = <String, CartProduct>{}.obs;
+  // RxMap<String, CartProduct> cartProducts = <String, CartProduct>{}.obs;
+  // RxMap<String, Order> cartProducts = <String, Order>{}.obs;
+  RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
   @override
   void onInit() {
     super.onInit();
   }
 
-  void addToCart(List<ProductSummary>? product, String refId, String addedFrom,
-      int? addQuantity, Price? priceInfo) {
-    var getData = cartProducts[refId];
-    int quantity = 0 + addQuantity!;
-    double price = (priceInfo!.offerPrice).toDouble();
-    if (getData != null) {
-      quantity = getData!.quantity!;
-      quantity = quantity + addQuantity!;
-      price = price * quantity;
-    }
+  fetchCart() {}
 
-    List<ProductSummary> li = [];
-    li.addAll(product!);
-    inspect(product);
-    CartProduct cartRow = CartProduct.fromMap({
-      'product': li,
-      'quantity': quantity,
-      'refId': refId,
-      'addedFrom': addedFrom,
-      'totalPrice': price.toString()
-    });
+  updateCart() {}
 
-    cartProducts[refId] = cartRow;
+  Future<void> addToCart(
+    String refId,
+    String addedFrom,
+    int? addQuantity,
+    Price? priceInfo,
+    ProductSummary? product,
+    List<ProductSummary>? products,
+  ) async {
+    // inspect(product);
+    // inspect(products);
+    // var customerInsightDetail = await OfflineDBService.checkBox(OfflineDBService.customerInsightDetail);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    // inspect(customerInsightDetail);
+    inspect(customerInsightDetail);
+    if (customerInsightDetail['_id'] == null) {
+      var getData = cartProducts[refId];
+      int quantity = 0 + addQuantity!;
+      double price = (priceInfo!.offerPrice).toDouble();
+      if (getData != null) {
+        quantity = getData!.count!;
+        quantity = quantity + addQuantity!;
+        price = price * quantity;
+      }
+      List<ProductSummary> li = [];
+      if (products != null) {
+        li.addAll(products!);
+      }
+      inspect(product);
 
+      ProductOrder cartRow = ProductOrder.fromMap({
+        'products': li,
+        'product': product,
+        'count': quantity,
+        'ref': Ref.fromMap({'_id': refId, 'name': null}),
+        'productType': addedFrom,
+        'price': Price.fromMap({
+          'actualPrice': price,
+          'memberCoin': 0,
+          'primeMemberCoin': 0,
+          'goldMemberCoin': 0,
+          'silverMemberCoin': 0,
+          'offerPrice': price
+        })
+      });
+
+      cartProducts[refId] = cartRow;
+    } else {}
+    // createOrder();
     // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     // calculateTotalPrice();
   }
 
-  currentCount(String refId) {
-    if (checkProductInCart(refId)) {
-      return cartProducts[refId]!.quantity;
+  createOrder() async {
+    List<ProductOrder> listSumm = [];
+    cartProducts.value.values.forEach((v) {
+      // print("Value: $v");
+      listSumm.add(v);
+    });
+    // print(listSumm);
+    Ref custRef = await Helper.getCustomerRef();
+    Order cart = Order.fromMap({
+      'status': 'TEMPORARY_OR_CART',
+      'customerRef': custRef,
+      'products': listSumm
+    });
+    // inspect(cart);
+
+    var payload = (jsonDecode(cart.toJson()));
+    log(payload.toString());
+    var resp = await ClientService.post(
+        path: 'order', payload: payload as Map<String, dynamic>);
+    if (resp.statusCode == 200) {
+      print(resp);
     } else {
-      return 0;
+      print(resp);
     }
   }
 
@@ -59,7 +114,7 @@ class CartController extends GetxController {
 
   int getCurrentQuantity(key) {
     if (cartProducts[key] != null) {
-      return cartProducts[key]!.quantity!;
+      return cartProducts[key]!.count!;
     } else {
       return 0;
     }
