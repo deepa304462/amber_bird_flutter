@@ -1,6 +1,6 @@
 import 'dart:convert';
 
- import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 
 import 'last_movement.insight.detail.dart';
 
@@ -33,8 +33,7 @@ class OrderSummary {
   factory OrderSummary.fromMap(Map<String, dynamic> data) => OrderSummary(
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
-            : Ref.fromMap(
-                data['appliedCouponCode'] as Map<String, dynamic>),
+            : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
         discountAmount: data['discountAmount'] as int?,
         totalAmount: data['totalAmount'] as int?,
         paidAmount: data['paidAmount'] as int?,

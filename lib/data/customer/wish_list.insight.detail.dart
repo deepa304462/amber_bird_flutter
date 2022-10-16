@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
- import 'favorite.insight.detail.dart';
- 
+import 'favorite.insight.detail.dart';
+
 class WishList {
   MetaData? metaData;
   Ref? customerRef;
@@ -24,7 +24,7 @@ class WishList {
             : MetaData.fromMap(data['metaData'] as Map<String, dynamic>),
         customerRef: data['customerRef'] == null
             ? null
-            :  Ref.fromMap(data['customerRef'] as Map<String, dynamic>),
+            : Ref.fromMap(data['customerRef'] as Map<String, dynamic>),
         favorites: (data['favorites'] as List<dynamic>?)
             ?.map((e) => Favorite.fromMap(e as Map<String, dynamic>))
             .toList(),
@@ -52,7 +52,7 @@ class WishList {
 
   WishList copyWith({
     MetaData? metaData,
-     Ref? customerRef,
+    Ref? customerRef,
     List<Favorite>? favorites,
     String? id,
   }) {

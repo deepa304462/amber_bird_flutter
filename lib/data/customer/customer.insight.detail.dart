@@ -1,10 +1,9 @@
 import 'dart:convert';
 
- 
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/data/order/order.dart';
 
-  import 'order.summary.insight.detail.dart';
+import 'order.summary.insight.detail.dart';
 import 'personal_info.insight.detail.dart';
 import 'wish_list.insight.detail.dart';
 

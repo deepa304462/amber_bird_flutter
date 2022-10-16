@@ -45,12 +45,14 @@ class Order {
             : Payment.fromMap(data['payment'] as Map<String, dynamic>),
         products: (data['products'] as List<dynamic>?)
             ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
-            .toList() ,
+            .toList(),
         status: data['status'] as String?,
         shipping: data['shipping'] == null
             ? null
             : Shipping.fromMap(data['shipping'] as Map<String, dynamic>),
-        customerRef: data['customerRef'] == null ? null : Ref.fromMap(data['customerRef'] as Map<String, dynamic>),
+        customerRef: data['customerRef'] == null
+            ? null
+            : Ref.fromMap(data['customerRef'] as Map<String, dynamic>),
         shareLink: data['shareLink'] == null
             ? null
             : Ref.fromMap(data['shareLink'] as Map<String, dynamic>),

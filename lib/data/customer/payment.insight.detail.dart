@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/order/currency.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
- class Payment {
+class Payment {
   Ref? paidBy;
   Ref? order;
   Ref? appliedCouponCode;
@@ -48,8 +48,7 @@ import 'package:amber_bird/data/profile/ref.dart';
             : Ref.fromMap(data['order'] as Map<String, dynamic>),
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
-            : Ref.fromMap(
-                data['appliedCouponCode'] as Map<String, dynamic>),
+            : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
         discountAmount: data['discountAmount'] as int?,
         totalAmount: data['totalAmount'] as int?,
         paidAmount: data['paidAmount'] as int?,

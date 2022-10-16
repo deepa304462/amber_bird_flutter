@@ -29,18 +29,21 @@ class ProductOrder {
   factory ProductOrder.fromMap(Map<String, dynamic> data) => ProductOrder(
         product: data['product'] == null
             ? null
-            : ProductSummary.fromMap(data['product'] as Map<String, dynamic>),//data['product'] ?? null,
+            : ProductSummary.fromMap(data['product']
+                as Map<String, dynamic>), //data['product'] ?? null,
         products: (data['products'] as List<dynamic>?)
             ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
             .toList(),
         productType: data['productType'] as String?,
         ref: data['ref'] == null
             ? null
-            : Ref.fromMap(data['ref'] as Map<String, dynamic>),//data['ref'] == null ? null : data['ref'],
+            : Ref.fromMap(data['ref'] as Map<String,
+                dynamic>), //data['ref'] == null ? null : data['ref'],
         count: data['count'] as int?,
         price: data['price'] == null
             ? null
-            : Price.fromMap(data['price'] as Map<String, dynamic>),//data['price'] == null ? null : data['price'],
+            : Price.fromMap(data['price'] as Map<String,
+                dynamic>), //data['price'] == null ? null : data['price'],
       );
 
   Map<String, dynamic> toMap() => {

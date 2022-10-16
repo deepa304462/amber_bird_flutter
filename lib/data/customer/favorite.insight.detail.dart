@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/profile/ref.dart';
- 
+
 class Favorite {
   ProductSummary? product;
   List<ProductSummary>? products;

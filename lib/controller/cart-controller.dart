@@ -7,6 +7,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/data/checkout/checkout.availability.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -16,10 +17,33 @@ class CartController extends GetxController {
   // RxMap<String, CartProduct> cartProducts = <String, CartProduct>{}.obs;
   // RxMap<String, Order> cartProducts = <String, Order>{}.obs;
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
+  // Rx<Checkout> checkoutData = ({} as Checkout).obs ;
+  final checkoutData = Rxn<Checkout>();
   @override
   void onInit() {
     super.onInit();
     fetchCart();
+  }
+
+  checkout() async {
+    List<dynamic> listSumm = [];
+    cartProducts.value.values.forEach((v) {
+      listSumm.add((jsonDecode(v.toJson())));
+    });
+    Ref custRef = await Helper.getCustomerRef();
+
+    var payload = {
+      'status': 'TEMPORARY_OR_CART',
+      'customerRef': (jsonDecode(custRef.toJson())),
+      'products': listSumm
+    };
+
+    var resp = await ClientService.post(path: 'order/checkout', payload: payload);
+    if (resp.statusCode == 200) {
+      log(resp.data.toString());
+      Checkout data = Checkout.fromMap(resp.data);
+      checkoutData.value = data;
+     }
   }
 
   fetchCart() async {
