@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/order/order.dart';
@@ -8,7 +9,6 @@ import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
@@ -19,11 +19,21 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    fetchCart();
   }
 
-  fetchCart() {}
-
-  updateCart() {}
+  fetchCart() async {
+    var insightDetailloc =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust = Customer.fromMap(
+        (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
+    log(cust.toString());
+    if (cust.cart != null) {
+      cust.cart!.products!.forEach((element) {
+        cartProducts[element!.ref!.id ?? ''] = element;
+      });
+    }
+  }
 
   Future<void> addToCart(
     String refId,
@@ -33,13 +43,8 @@ class CartController extends GetxController {
     ProductSummary? product,
     List<ProductSummary>? products,
   ) async {
-    // inspect(product);
-    // inspect(products);
-    // var customerInsightDetail = await OfflineDBService.checkBox(OfflineDBService.customerInsightDetail);
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    // inspect(customerInsightDetail);
-    inspect(customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
@@ -56,33 +61,33 @@ class CartController extends GetxController {
       inspect(product);
 
       ProductOrder cartRow = ProductOrder.fromMap({
-        'products': li,
-        'product': product,
+        'products': (jsonDecode(li.toString())),
+        'product': (jsonDecode(product!.toJson())),
         'count': quantity,
-        'ref': Ref.fromMap({'_id': refId, 'name': null}),
+        'ref': {'_id': refId, 'name': null},
         'productType': addedFrom,
-        'price': Price.fromMap({
+        'price': {
           'actualPrice': price,
           'memberCoin': 0,
           'primeMemberCoin': 0,
           'goldMemberCoin': 0,
           'silverMemberCoin': 0,
           'offerPrice': price
-        })
+        }
       });
 
       cartProducts[refId] = cartRow;
     } else {}
-    createOrder(); 
+    createOrder();
   }
 
   createOrder() async {
     List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
-       listSumm.add((jsonDecode(v.toJson())));
+      listSumm.add((jsonDecode(v.toJson())));
     });
-     Ref custRef = await Helper.getCustomerRef();
- 
+    Ref custRef = await Helper.getCustomerRef();
+
     var payload = {
       'status': 'TEMPORARY_OR_CART',
       'customerRef': (jsonDecode(custRef.toJson())),
@@ -90,10 +95,18 @@ class CartController extends GetxController {
     };
     //(jsonDecode(cart.toJson()));
     log(payload.toString());
-    var resp = await ClientService.post(
-        path: 'order', payload: payload);
+    var resp = await ClientService.post(path: 'order', payload: payload);
     if (resp.statusCode == 200) {
-       updateCart();
+      log(resp.data.toString());
+      //  update Cart
+      var insightDetail =
+          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+      log(insightDetail.toString());
+      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+      cust.cart = Order.fromMap(resp.data);
+      log(cust.toString());
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }

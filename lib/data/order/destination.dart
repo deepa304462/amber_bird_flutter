@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/profile/ref.dart';
 
 import 'address.dart';
- 
+
 class Destination {
   Ref? wareHouseRef;
   Address? customerAddress;
@@ -19,16 +19,13 @@ class Destination {
   factory Destination.fromMap(Map<String, dynamic> data) => Destination(
         wareHouseRef: data['wareHouseRef'] == null
             ? null
-            : Ref.fromMap(
-                data['wareHouseRef'] as Map<String, dynamic>),
+            : Ref.fromMap(data['wareHouseRef'] as Map<String, dynamic>),
         customerAddress: data['customerAddress'] == null
             ? null
-            : Address.fromMap(
-                data['customerAddress'] as Map<String, dynamic>),
+            : Address.fromMap(data['customerAddress'] as Map<String, dynamic>),
         storeAddress: data['storeAddress'] == null
             ? null
-            : Address.fromMap(
-                data['storeAddress'] as Map<String, dynamic>),
+            : Address.fromMap(data['storeAddress'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toMap() => {

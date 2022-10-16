@@ -213,7 +213,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             addedFrom!,
                                             -1,
                                             priceInfo,
-                                            {} as ProductSummary?,
+                                            null,
                                             products);
                                       } else {
                                         stateController.setCurrentTab(3);
@@ -244,8 +244,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             null);
                                       } else {
                                         stateController.setCurrentTab(3);
-                                          snackBarClass.showToast(
-                                            context,
+                                        snackBarClass.showToast(context,
                                             'Please Login to preoceed');
                                       }
                                       // cController.addToCart(p, refId!, addedFrom!, 1);
@@ -278,9 +277,8 @@ class DealBottomDrawer extends StatelessWidget {
                                               }
                                             } else {
                                               stateController.setCurrentTab(3);
-                                               snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
                                             }
                                           }
                                         : () {

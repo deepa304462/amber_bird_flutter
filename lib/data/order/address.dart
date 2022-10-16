@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/geo_address.dart';
 
- 
 class Address {
   String? line1;
   String? line2;

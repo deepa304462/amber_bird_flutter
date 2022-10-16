@@ -1,13 +1,11 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/order/currency.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
-import 'currency.dart';
-import 'order.dart';
-
-class Payment {
+ class Payment {
   Ref? paidBy;
-  Order? order;
+  Ref? order;
   Ref? appliedCouponCode;
   int? discountAmount;
   int? totalAmount;
@@ -47,10 +45,11 @@ class Payment {
             : Ref.fromMap(data['paidBy'] as Map<String, dynamic>),
         order: data['order'] == null
             ? null
-            : Order.fromMap(data['order'] as Map<String, dynamic>),
+            : Ref.fromMap(data['order'] as Map<String, dynamic>),
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
-            : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
+            : Ref.fromMap(
+                data['appliedCouponCode'] as Map<String, dynamic>),
         discountAmount: data['discountAmount'] as int?,
         totalAmount: data['totalAmount'] as int?,
         paidAmount: data['paidAmount'] as int?,
@@ -97,7 +96,7 @@ class Payment {
 
   Payment copyWith({
     Ref? paidBy,
-    Order? order,
+    Ref? order,
     Ref? appliedCouponCode,
     int? discountAmount,
     int? totalAmount,

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+ import 'package:amber_bird/data/order/destination.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
-import 'destination.dart';
-import 'last_movement.dart';
-
+import 'last_movement.insight.detail.dart';
+  
 class Shipping {
   Destination? source;
   Destination? destination;
@@ -36,7 +36,7 @@ class Shipping {
             : Destination.fromMap(data['destination'] as Map<String, dynamic>),
         orderRef: data['orderRef'] == null
             ? null
-            : Ref.fromMap(data['orderRef'] as Map<String, dynamic>),
+            :  Ref.fromMap(data['orderRef'] as Map<String, dynamic>),
         finalStatus: data['finalStatus'] as String?,
         lastMovement: data['lastMovement'] == null
             ? null

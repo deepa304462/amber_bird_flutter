@@ -10,12 +10,10 @@ class Helper {
     return new Product();
   }
 
-  static Future<Ref> getCustomerRef() async{
-    var data  = jsonDecode(await SharedData.read('userData'));
+  static Future<Ref> getCustomerRef() async {
+    var data = jsonDecode(await SharedData.read('userData'));
     print(data);
-    return Ref.fromMap({
-      '_id': data['mappedTo']['_id'],
-      'name': data['mappedTo']['name']
-    });
+    return Ref.fromMap(
+        {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});
   }
 }
