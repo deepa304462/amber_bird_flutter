@@ -73,34 +73,29 @@ class CartController extends GetxController {
 
       cartProducts[refId] = cartRow;
     } else {}
-    // createOrder();
-    // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
-    // calculateTotalPrice();
+    createOrder(); 
   }
 
   createOrder() async {
-    List<ProductOrder> listSumm = [];
+    List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
-      // print("Value: $v");
-      listSumm.add(v);
+       listSumm.add((jsonDecode(v.toJson())));
     });
-    // print(listSumm);
-    Ref custRef = await Helper.getCustomerRef();
-    Order cart = Order.fromMap({
+     Ref custRef = await Helper.getCustomerRef();
+ 
+    var payload = {
       'status': 'TEMPORARY_OR_CART',
-      'customerRef': custRef,
+      'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
-    });
-    // inspect(cart);
-
-    var payload = (jsonDecode(cart.toJson()));
+    };
+    //(jsonDecode(cart.toJson()));
     log(payload.toString());
     var resp = await ClientService.post(
-        path: 'order', payload: payload as Map<String, dynamic>);
+        path: 'order', payload: payload);
     if (resp.statusCode == 200) {
-      print(resp);
+       updateCart();
     } else {
-      print(resp);
+      print('TODO');
     }
   }
 
