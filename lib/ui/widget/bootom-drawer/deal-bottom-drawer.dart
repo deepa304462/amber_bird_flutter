@@ -31,6 +31,7 @@ class DealBottomDrawer extends StatelessWidget {
     final CartController cartController = Get.find();
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
+    
 
     return Container(
       decoration: const BoxDecoration(
@@ -71,7 +72,9 @@ class DealBottomDrawer extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: products!
-                        .map((product) => Padding(
+                        .map((product) {
+                      product!.varient!.price = priceInfo;
+                      return Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 6.0),
                               child: Column(
@@ -183,7 +186,7 @@ class DealBottomDrawer extends StatelessWidget {
                                   Divider(),
                                 ],
                               ),
-                            ))
+                            );})
                         .toList(),
                   ),
                 ),
@@ -213,8 +216,8 @@ class DealBottomDrawer extends StatelessWidget {
                                             addedFrom!,
                                             -1,
                                             priceInfo,
-                                            null,
-                                            products);
+                                            products![0],
+                                            []);
                                       } else {
                                         stateController.setCurrentTab(3);
                                         var showToast = snackBarClass.showToast(

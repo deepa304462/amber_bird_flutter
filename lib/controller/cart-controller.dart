@@ -33,17 +33,24 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
-      'status': 'TEMPORARY_OR_CART',
+      'status': 'CREATED',
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
+    var resp1 = await ClientService.post(path: 'order', payload: payload);
+    if (resp1.statusCode == 200) {
+      var resp =
+          await ClientService.post(path: 'order/checkout', payload: resp1.data);
+      if (resp.statusCode == 200) {
+        log(resp.data.toString());
+        Checkout data = Checkout.fromMap(resp.data);
+        checkoutData.value = data;
+      }
+    }
+  }
 
-    var resp = await ClientService.post(path: 'order/checkout', payload: payload);
-    if (resp.statusCode == 200) {
-      log(resp.data.toString());
-      Checkout data = Checkout.fromMap(resp.data);
-      checkoutData.value = data;
-     }
+  removeProduct(currentKey){
+    cartProducts.remove(currentKey);
   }
 
   fetchCart() async {

@@ -6,9 +6,9 @@ import 'last_movement.insight.detail.dart';
 
 class OrderSummary {
   Ref? appliedCouponCode;
-  int? discountAmount;
-  int? totalAmount;
-  int? paidAmount;
+  dynamic? discountAmount;
+  dynamic? totalAmount;
+  dynamic? paidAmount;
   String? status;
   String? shippingStatus;
   LastMovement? lastMovement;
@@ -34,9 +34,9 @@ class OrderSummary {
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
             : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
-        discountAmount: data['discountAmount'] as int?,
-        totalAmount: data['totalAmount'] as int?,
-        paidAmount: data['paidAmount'] as int?,
+        discountAmount: data['discountAmount'] as dynamic?,
+        totalAmount: data['totalAmount'] as dynamic?,
+        paidAmount: data['paidAmount'] as dynamic?,
         status: data['status'] as String?,
         shippingStatus: data['shippingStatus'] as String?,
         lastMovement: data['lastMovement'] == null
@@ -71,9 +71,9 @@ class OrderSummary {
 
   OrderSummary copyWith({
     Ref? appliedCouponCode,
-    int? discountAmount,
-    int? totalAmount,
-    int? paidAmount,
+    dynamic? discountAmount,
+    dynamic? totalAmount,
+    dynamic? paidAmount,
     String? status,
     String? shippingStatus,
     LastMovement? lastMovement,
