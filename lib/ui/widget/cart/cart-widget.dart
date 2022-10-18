@@ -6,14 +6,16 @@ import 'package:get/get.dart';
 
 class CartWidget extends StatelessWidget {
   final CartController cartController = Get.find();
+  
   @override
   Widget build(BuildContext context) {
+    cartController.clearCheckout();
     return cartController.cartProducts.isNotEmpty
         ? Obx(
             () => Column(children: [
               SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height - 250,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height - 300,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -64,7 +66,8 @@ class CartWidget extends StatelessWidget {
                                                   cartController.removeProduct(
                                                       currentKey);
                                                 },
-                                                icon: Icon(Icons.close_rounded))
+                                                icon: const Icon(
+                                                    Icons.close_rounded))
                                           ]),
                                     ),
                                   );
@@ -102,7 +105,8 @@ class CartWidget extends StatelessWidget {
                                               cartController
                                                   .removeProduct(currentKey);
                                             },
-                                            icon: Icon(Icons.close_rounded))
+                                            icon:
+                                                const Icon(Icons.close_rounded))
                                       ]),
                                 ),
                               ),
@@ -128,9 +132,23 @@ class CartWidget extends StatelessWidget {
                       cartController.checkoutData.value != null &&
                               cartController.checkoutData.value!.allAvailable ==
                                   true
-                          ? Center(
-                              child: Text("All PRoduct Availale",
-                                  style: TextStyles.headingFontBlue),
+                          ? Column(
+                              children: [
+                                Center(
+                                  child: Text("All PRoduct Availale",
+                                      style: TextStyles.headingFontBlue),
+                                ),
+                                Center(
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        cartController.createPayment();
+                                      },
+                                      child: Text(
+                                        'Payment',
+                                        style: TextStyles.bodyFont,
+                                      )),
+                                )
+                              ],
                             )
                           : Column(
                               children: [

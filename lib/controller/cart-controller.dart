@@ -33,7 +33,7 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
-      'status': 'CREATED',
+      'status': 'INIT',
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
@@ -49,8 +49,45 @@ class CartController extends GetxController {
     }
   }
 
-  removeProduct(currentKey){
+  clearCheckout() {
+    checkoutData.value = null;
+  }
+
+  createPayment() async{
+      double total = 0.0;
+      List<dynamic> listSumm = [];
+    cartProducts.value.values.forEach((v) {
+      total += v.price!.offerPrice;
+      listSumm.add((jsonDecode(v.toJson())));
+    });
+    Ref custRef = await Helper.getCustomerRef();
+
+    var payload1 = {
+      'status': 'CREATED',
+      'customerRef': (jsonDecode(custRef.toJson())),
+      'products': listSumm
+    };
+    var resp1 = await ClientService.post(path: 'order', payload: payload1);
+    if (resp1.statusCode == 200) {
+    //(jsonDecode(cart.toJson()));
+     var payload = {
+        "amount": {
+          "currency": "USD",
+          "value": total,
+        },
+        "description": resp1.data['_id'],
+        "redirectUrl": "https://www.google.com"
+      };
+    log(payload.toString());
+    // var resp = await ClientService.post(path: 'payment/mollie/createPayment', payload: payload);
+    // if (resp.statusCode == 200) {}
+    // }
+    }
+  }
+
+  removeProduct(currentKey) {
     cartProducts.remove(currentKey);
+    createOrder();
   }
 
   fetchCart() async {

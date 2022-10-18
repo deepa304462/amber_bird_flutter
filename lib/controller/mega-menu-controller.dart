@@ -85,7 +85,7 @@ class MegaMenuController extends GetxController {
             subMenuList.add(GenericTab(
                 id: category.id,
                 image: category.logoId,
-                text: category.name!.languageTexts![0]!.text,
+                text: category.name!.languageTexts![0].text,
                 type: parentTab.type));
           }).toList() ??
           []);
@@ -99,7 +99,7 @@ class MegaMenuController extends GetxController {
             subMenuList.add(GenericTab(
                 id: category.id,
                 image: category.logoId,
-                text: category.name!.languageTexts![0]!.text,
+                text: category.name!.languageTexts![0].text,
                 type: parentTab.type));
           }).toList() ??
           []);
