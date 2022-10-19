@@ -3,6 +3,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class OfflineDBService {
   static String profileAuth = 'profileAuth';
+  static String customerInsight = 'customerInsight';
+  static String customerInsightDetail = 'customerInsightDetail';
   static String appManager = 'appManager';
   static String location = 'location';
 

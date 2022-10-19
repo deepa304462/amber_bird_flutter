@@ -62,13 +62,13 @@ class CategoryPage extends StatelessWidget {
                                         Icons.favorite,
                                         color: wishlistController
                                                 .checkIfProductWishlist(
-                                                    currentProduct!.id)
+                                                    currentProduct.id)
                                             ? Colors.redAccent
                                             : AppColors.grey,
                                       ),
                                       onPressed: () => {
                                         wishlistController.addToWishlist(
-                                            currentProduct!.id, currentProduct)
+                                            currentProduct.id, currentProduct)
                                       },
                                     ),
                                   ),
@@ -127,12 +127,13 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
                                                         -1,
                                                         currentProduct
-                                                            .varient!.price);
+                                                            .varient!.price,
+                                                        currentProduct,
+                                                        []);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -160,12 +161,13 @@ class CategoryPage extends StatelessWidget {
                                                   if (stateController
                                                       .isLogin.value) {
                                                     cartController.addToCart(
-                                                        [currentProduct],
                                                         currentProduct.id!,
                                                         'CATEGORY',
                                                         1,
                                                         currentProduct
-                                                            .varient!.price);
+                                                            .varient!.price,
+                                                        currentProduct,
+                                                        []);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -186,8 +188,6 @@ class CategoryPage extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor:
                                                     AppColors.primeColor,
-                                                // padding: const EdgeInsets.symmetric(
-                                                //     horizontal: 50, vertical: 15),
                                                 textStyle:
                                                     TextStyles.bodyWhite),
                                             onPressed: currentProduct
@@ -197,12 +197,13 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
                                                           1,
                                                           currentProduct
-                                                              .varient!.price);
+                                                              .varient!.price,
+                                                          currentProduct,
+                                                          []);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
@@ -218,12 +219,13 @@ class CategoryPage extends StatelessWidget {
                                                     if (stateController
                                                         .isLogin.value) {
                                                       cartController.addToCart(
-                                                          [currentProduct],
                                                           currentProduct.id!,
                                                           'CATEGORY',
                                                           1,
                                                           currentProduct
-                                                              .varient!.price);
+                                                              .varient!.price,
+                                                          currentProduct,
+                                                          []);
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
@@ -485,7 +487,7 @@ class CategoryPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          mProduct!.name!.defaultText!.text ?? '',
+                          mProduct.name!.defaultText!.text ?? '',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: const TextStyle(
@@ -499,7 +501,7 @@ class CategoryPage extends StatelessWidget {
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               PriceTag(mProduct.price!.offerPrice.toString(),
-                                  mProduct!.price!.actualPrice.toString()),
+                                  mProduct.price!.actualPrice.toString()),
                               const Spacer(),
                               CircleAvatar(
                                 backgroundColor: Colors.red.shade900,
@@ -522,7 +524,7 @@ class CategoryPage extends StatelessWidget {
                                       builder: (context) {
                                         // return _bottomSheetAddToCart(product, context);
                                         return DealBottomDrawer(
-                                            mProduct!.products,
+                                            mProduct.products,
                                             mProduct.id,
                                             'MULTIPRODUCT',
                                             mProduct.price,

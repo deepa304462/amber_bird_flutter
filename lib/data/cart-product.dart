@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/product.dart';
 
 class CartProduct {
-  List<ProductSummary>? product;
+  ProductSummary? product;
+  List<ProductSummary>? products;
   int? quantity;
   String? addedFrom;
   String? refId;
@@ -11,6 +12,7 @@ class CartProduct {
 
   CartProduct(
       {this.product,
+      this.products,
       this.quantity,
       this.refId,
       this.addedFrom,
@@ -18,11 +20,14 @@ class CartProduct {
 
   @override
   String toString() {
-    return 'CartProduct( product: $product, quantity: $quantity, refId: $refId, addedFrom: $addedFrom,totalPrice: $totalPrice)';
+    return 'CartProduct( product: $product,products: $products, quantity: $quantity, refId: $refId, addedFrom: $addedFrom,totalPrice: $totalPrice)';
   }
 
   factory CartProduct.fromMap(Map<String, dynamic> data) => CartProduct(
-        product: (data['product'] as List<dynamic>?)
+        product: data['product'] == null
+            ? null
+            : ProductSummary.fromMap(data['product'] as Map<String, dynamic>),
+        products: (data['products'] as List<dynamic>?)
             ?.map((e) => ProductSummary.fromMap(e.toMap()))
             .toList(),
         quantity: data['quantity'] as int?,
@@ -32,14 +37,14 @@ class CartProduct {
       );
 
   Map<String, dynamic> toMap() => {
-        'product': product?.map((e) => e.toMap()).toList(),
+        'product': product,
+        'products': products?.map((e) => e.toMap()).toList(),
         'quantity': quantity,
         'refId': refId,
         'addedFrom': addedFrom,
         'totalPrice': totalPrice,
       };
 
-  
   /// Parses the string and returns the resulting Json object as [CartProduct].
   factory CartProduct.fromJson(String data) {
     return CartProduct.fromMap(json.decode(data) as Map<String, dynamic>);
@@ -51,13 +56,15 @@ class CartProduct {
   String toJson() => json.encode(toMap());
 
   CartProduct copyWith(
-      {List<ProductSummary>? product,
+      {ProductSummary? product,
+      List<ProductSummary>? products,
       int? quantity,
       String? refId,
       String? addedFrom,
       String? totalPrice}) {
     return CartProduct(
       product: product ?? this.product,
+      products: products ?? this.products,
       quantity: quantity ?? this.quantity,
       refId: refId ?? this.refId,
       addedFrom: addedFrom ?? this.addedFrom,

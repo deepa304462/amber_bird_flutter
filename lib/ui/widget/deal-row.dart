@@ -6,20 +6,8 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// class DealRow extends StatefulWidget {
-//   String CurrentdealName = '';
-
-//   DealRow(dealName CurrentdealName, {Key? key}) : super(key: key);
-
-//   @override
-//   State<DealRow> createState() => _DealRowState();
-// }
-
-// class _DealRowState extends State<DealRow> {
 class DealRow extends StatelessWidget {
   bool isLoading = false;
-  // RxList<DealProduct> dealProd = <DealProduct>[].obs;
-  // final DealController dealController = Get.put(DealController());
   final currentdealName;
 
   DealRow(this.currentdealName, {super.key});

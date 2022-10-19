@@ -11,14 +11,6 @@ class LoginWidget extends StatelessWidget {
   final AuthController authController = Get.find();
   final Controller controller = Get.find();
 
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _LoginWidget();
-//   }
-// }
-
-// class _LoginWidget extends State<LoginWidget> {
-  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
@@ -84,6 +76,7 @@ class LoginWidget extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
+                          authController.resetFieldValue();
                           Modular.to.navigate('/home/signup');
                         },
                         style: ButtonStyle(
@@ -151,6 +144,7 @@ class LoginWidget extends StatelessWidget {
                           var data = await authController.LoginWithGoogle();
                           if (data['status'] == 'success') {
                             controller.isLogin.value = true;
+                            controller.getLoginInfo();
                             controller.setCurrentTab(0);
                           }
                           var showToast =

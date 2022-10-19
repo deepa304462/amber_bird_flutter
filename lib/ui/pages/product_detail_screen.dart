@@ -91,7 +91,7 @@ class ProductDetailScreen extends StatelessWidget {
         ? Stack(
             children: [
               SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(
                   children: [
@@ -135,9 +135,9 @@ class ProductDetailScreen extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 soldFrom(productController.product.value),
                                 const SizedBox(height: 5),
-                                Divider(),
+                                const Divider(),
                                 deliveryTo(),
-                                Divider(),
+                                const Divider(),
                                 specification(productController),
                                 tags(productController.product.value, context),
                               ],
@@ -213,7 +213,7 @@ class ProductDetailScreen extends StatelessWidget {
           'Free shipping over ${CodeHelp.euro}10',
           style: TextStyles.title,
         ),
-        Text(
+        const Text(
           'Policy Details',
           style: TextStyle(decoration: TextDecoration.underline, fontSize: 18),
         )
@@ -284,7 +284,7 @@ class ProductDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Table(
             columnWidths: {
-              0: FractionColumnWidth(.30),
+              0: const FractionColumnWidth(.30),
             },
             border: TableBorder.all(
               borderRadius: BorderRadius.circular(12),
@@ -413,7 +413,7 @@ class ProductDetailScreen extends StatelessWidget {
               width: 5,
             ),
             Text(
-              '${productController.product.value.brand!.name!}',
+              productController.product.value.brand!.name!,
               style: TextStyles.body,
             )
           ],

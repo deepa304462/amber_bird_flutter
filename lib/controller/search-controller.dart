@@ -10,7 +10,7 @@ class SearchController extends GetxController {
     search.value = (val);
   }
 
-  getsearchData(query) async{
+  getsearchData(query) async {
     var payload = {'keywords': query};
     var response = await ClientService.searchQuery(
         path: 'cache/product/search', query: payload, lang: 'en');
@@ -21,9 +21,8 @@ class SearchController extends GetxController {
               .toList() ??
           []);
       searchProductList.value = (cList);
-     
+
       // print(categoryList);
     }
   }
-
 }

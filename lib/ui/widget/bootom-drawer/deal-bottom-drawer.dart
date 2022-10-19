@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -30,13 +31,14 @@ class DealBottomDrawer extends StatelessWidget {
     final CartController cartController = Get.find();
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
+    
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(25.0),
-          topRight: const Radius.circular(25.0),
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
         ),
       ),
       constraints:
@@ -70,7 +72,9 @@ class DealBottomDrawer extends StatelessWidget {
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: products!
-                        .map((product) => Padding(
+                        .map((product) {
+                      product!.varient!.price = priceInfo;
+                      return Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 6.0),
                               child: Column(
@@ -182,7 +186,7 @@ class DealBottomDrawer extends StatelessWidget {
                                   Divider(),
                                 ],
                               ),
-                            ))
+                            );})
                         .toList(),
                   ),
                 ),
@@ -207,8 +211,13 @@ class DealBottomDrawer extends StatelessWidget {
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
                                       if (stateController.isLogin.value) {
-                                        cController.addToCart(products, refId!,
-                                            addedFrom!, -1, priceInfo);
+                                        cController.addToCart(
+                                            refId!,
+                                            addedFrom!,
+                                            -1,
+                                            priceInfo,
+                                            products![0],
+                                            []);
                                       } else {
                                         stateController.setCurrentTab(3);
                                         var showToast = snackBarClass.showToast(
@@ -229,12 +238,16 @@ class DealBottomDrawer extends StatelessWidget {
                                     constraints: const BoxConstraints(),
                                     onPressed: () {
                                       if (stateController.isLogin.value) {
-                                        cController.addToCart(products, refId!,
-                                            addedFrom!, 1, priceInfo);
+                                        cController.addToCart(
+                                            refId!,
+                                            addedFrom!,
+                                            1,
+                                            priceInfo,
+                                            products![0],
+                                            null);
                                       } else {
                                         stateController.setCurrentTab(3);
-                                        var showToast = snackBarClass.showToast(
-                                            context,
+                                        snackBarClass.showToast(context,
                                             'Please Login to preoceed');
                                       }
                                       // cController.addToCart(p, refId!, addedFrom!, 1);
@@ -247,37 +260,48 @@ class DealBottomDrawer extends StatelessWidget {
                             : ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.primeColor,
-                                    // padding: const EdgeInsets.symmetric(
-                                    //     horizontal: 50, vertical: 15),
                                     textStyle: TextStyles.bodyWhite),
                                 onPressed:
                                     cController.getCurrentQuantity(refId) > 0
                                         ? () {
                                             if (stateController.isLogin.value) {
-                                              cartController.addToCart(
-                                                  products,
-                                                  refId!,
-                                                  addedFrom!,
-                                                  1,
-                                                  priceInfo);
+                                              if (stateController
+                                                  .isActivate.value) {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    1,
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
+                                              } else {
+                                                snackBarClass.showToast(context,
+                                                    'Your profile is not active yet');
+                                              }
                                             } else {
                                               stateController.setCurrentTab(3);
-                                              var showToast =
-                                                  snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
                                             }
                                           }
                                         : () {
-                                            print(
-                                                'nnnnn${stateController.isLogin.value}');
                                             if (stateController.isLogin.value) {
-                                              cartController.addToCart(
-                                                  products,
-                                                  refId!,
-                                                  addedFrom!,
-                                                  1,
-                                                  priceInfo);
+                                              if (stateController
+                                                  .isActivate.value) {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    1,
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
+                                              } else {
+                                                Navigator.of(context).pop();
+                                                stateController
+                                                    .setCurrentTab(3);
+                                                snackBarClass.showToast(context,
+                                                    'Your profile is not active yet');
+                                              }
                                             } else {
                                               stateController.setCurrentTab(3);
                                               var showToast =

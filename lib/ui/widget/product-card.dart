@@ -65,8 +65,6 @@ class ProductCard extends StatelessWidget {
                 color: Colors.white,
                 onPressed: () {
                   showModalBottomSheet<void>(
-                    // context and builder are
-                    // required properties in this widget
                     context: context,
                     useRootNavigator: true,
                     shape: RoundedRectangleBorder(
@@ -80,9 +78,8 @@ class ProductCard extends StatelessWidget {
                           [product], refId, addedFrom, dealPrice, product.name);
                     },
                   );
-                  // cartController.addToCart(product!, refId!, addedFrom!);
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.add,
                   size: 25,
                   color: Colors.white,

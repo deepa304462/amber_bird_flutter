@@ -34,8 +34,6 @@ class CodeHelp {
   }
 }
 
-
-
 /* ICU Name                   Skeleton
 --------                   --------
 DAY                          d
