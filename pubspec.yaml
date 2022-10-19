@@ -62,6 +62,7 @@ dependencies:
   cached_network_image: ^3.2.1
   photo_view: ^0.14.0
   google_maps_flutter: ^2.2.1
+  flutter_inappwebview: ^5.0.5
   fluttertoast: 
   
 

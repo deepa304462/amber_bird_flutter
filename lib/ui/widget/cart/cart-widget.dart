@@ -2,11 +2,13 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class CartWidget extends StatelessWidget {
   final CartController cartController = Get.find();
-  
+
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
@@ -135,13 +137,66 @@ class CartWidget extends StatelessWidget {
                           ? Column(
                               children: [
                                 Center(
-                                  child: Text("All PRoduct Availale",
+                                  child: Text("All Product Availale",
                                       style: TextStyles.headingFontBlue),
                                 ),
                                 Center(
                                   child: ElevatedButton(
-                                      onPressed: () {
-                                        cartController.createPayment();
+                                      onPressed: () async {
+                                        var data = await cartController
+                                            .createPayment();
+                                        print(data);
+                                        Modular.to.navigate('/home/inapp',arguments: data['data']);
+                                        // HeadlessInAppWebView headlessWebView =
+                                        //     HeadlessInAppWebView(
+                                        //   initialUrlRequest: URLRequest(
+                                        //       url: Uri.parse(
+                                        //           "https://github.com/flutter")),
+                                        //   onWebViewCreated: (controller) {
+                                        //     const snackBar = SnackBar(
+                                        //       content:  Text(
+                                        //           'HeadlessInAppWebView created!'),
+                                        //       duration: Duration(seconds: 1),
+                                        //     );
+                                        //     ScaffoldMessenger.of(context)
+                                        //         .showSnackBar(snackBar);
+                                        //   },
+                                        //   onConsoleMessage:
+                                        //       (controller, consoleMessage) {
+                                        //     final snackBar = SnackBar(
+                                        //       content: Text(
+                                        //           'Console Message: ${consoleMessage.message}'),
+                                        //       duration: Duration(seconds: 1),
+                                        //     );
+                                        //     ScaffoldMessenger.of(context)
+                                        //         .showSnackBar(snackBar);
+                                        //   },
+                                        //   onLoadStart: (controller, url) async {
+                                        //     final snackBar = SnackBar(
+                                        //       content: Text('onLoadStart $url'),
+                                        //       duration: Duration(seconds: 1),
+                                        //     );
+                                        //     ScaffoldMessenger.of(context)
+                                        //         .showSnackBar(snackBar);
+
+                                        //     // setState(() {
+                                        //     //   this.url = url?.toString() ?? '';
+                                        //     // });
+                                        //   },
+                                        //   onLoadStop: (controller, url) async {
+                                        //     final snackBar = SnackBar(
+                                        //       content: Text('onLoadStop $url'),
+                                        //       duration: Duration(seconds: 1),
+                                        //     );
+                                        //     ScaffoldMessenger.of(context)
+                                        //         .showSnackBar(snackBar);
+
+                                        //     // setState(() {
+                                        //     //   this.url = url?.toString() ?? '';
+                                        //     // });
+                                        //   },
+                                        // );
+                                        // headlessWebView.run(); 
                                       },
                                       child: Text(
                                         'Payment',

@@ -33,7 +33,7 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
-      'status': 'INIT',
+      'status': 'CREATED',
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
@@ -53,9 +53,9 @@ class CartController extends GetxController {
     checkoutData.value = null;
   }
 
-  createPayment() async{
-      double total = 0.0;
-      List<dynamic> listSumm = [];
+  createPayment() async {
+    double total = 0.00;
+    List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
       total += v.price!.offerPrice;
       listSumm.add((jsonDecode(v.toJson())));
@@ -69,19 +69,24 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
-    //(jsonDecode(cart.toJson()));
-     var payload = {
+      //(jsonDecode(cart.toJson()));
+      var payload = {
         "amount": {
           "currency": "USD",
-          "value": total,
+          "value": total.toStringAsFixed(2).toString(),
         },
         "description": resp1.data['_id'],
         "redirectUrl": "https://www.google.com"
       };
-    log(payload.toString());
-    // var resp = await ClientService.post(path: 'payment/mollie/createPayment', payload: payload);
-    // if (resp.statusCode == 200) {}
-    // }
+      log(payload.toString());
+      var resp = await ClientService.post(
+          path: 'payment/mollie/createPayment', payload: payload);
+      if (resp.statusCode == 200) {
+        log(resp.data.toString());
+        return ({'error': false, 'data': resp.data['_links']['checkout']});
+      } else {
+        return ({'error': true, 'data': ''});
+      }
     }
   }
 
@@ -98,7 +103,7 @@ class CartController extends GetxController {
     log(cust.toString());
     if (cust.cart != null) {
       cust.cart!.products!.forEach((element) {
-        cartProducts[element!.ref!.id ?? ''] = element;
+        cartProducts[element.ref!.id ?? ''] = element;
       });
     }
   }
@@ -118,7 +123,7 @@ class CartController extends GetxController {
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice).toDouble();
       if (getData != null) {
-        quantity = getData!.count!;
+        quantity = getData.count!;
         quantity = quantity + addQuantity!;
         price = price * quantity;
       }
