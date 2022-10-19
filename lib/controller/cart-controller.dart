@@ -124,12 +124,12 @@ class CartController extends GetxController {
       double price = (priceInfo!.offerPrice).toDouble();
       if (getData != null) {
         quantity = getData.count!;
-        quantity = quantity + addQuantity!;
+        quantity = quantity + addQuantity;
         price = price * quantity;
       }
       List<ProductSummary> li = [];
       if (products != null) {
-        li.addAll(products!);
+        li.addAll(products);
       }
       inspect(product);
 

@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 class LoginWidget extends StatelessWidget {
   final AuthController authController = Get.find();
   final Controller controller = Get.find();
-
+  RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
     return Card(
       elevation: 5,
@@ -55,19 +55,21 @@ class LoginWidget extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () async {
+                          isLoading.value = true;
                           var data = await authController.login();
                           print(data);
                           if (data['status'] == 'success') {
                             controller.isLogin.value = true;
                             controller.setCurrentTab(0);
                           }
+                          isLoading.value = false;
                           snackBarClass.showToast(context, data['msg']);
                         },
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 AppColors.primeColor)),
                         child: Text(
-                          'Login',
+                          isLoading.value ? 'Loading' : 'Login',
                           style: TextStyles.bodyWhiteLarge,
                         ),
                       ),
@@ -135,40 +137,30 @@ class LoginWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        icon: Image.asset(
-                          "assets/google_logo.png",
-                          width: 25,
-                        ),
+                        icon: isLoading.value
+                            ? Icon(Icons.refresh_outlined)
+                            : Image.asset(
+                                "assets/google_logo.png",
+                                width: 25,
+                              ),
                         iconSize: 10,
                         onPressed: () async {
+                          isLoading.value = true;
                           var data = await authController.LoginWithGoogle();
                           if (data['status'] == 'success') {
                             controller.isLogin.value = true;
                             controller.getLoginInfo();
                             controller.setCurrentTab(0);
                           }
-                          var showToast =
-                              snackBarClass.showToast(context, data['msg']);
+
+                          isLoading.value = false;
+
+                          snackBarClass.showToast(context, data['msg']);
                         },
                       ),
-                      // Image(
-                      //   image: AssetImage("assets/google_logo.png"),
-                      //   height: 35.0,
-                      // ),
                       const Icon(Icons.facebook),
                     ],
                   ),
-                  // Center(
-                  //   child: TextButton(
-                  //     onPressed: () {
-                  //       Modular.to.navigate('/signup');
-                  //     },
-                  //     child: Text(
-                  //       'Sign up',
-                  //       style: (TextStyles.titleGreen),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               )),
         ),
