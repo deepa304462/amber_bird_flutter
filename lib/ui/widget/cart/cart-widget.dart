@@ -146,7 +146,8 @@ class CartWidget extends StatelessWidget {
                                         var data = await cartController
                                             .createPayment();
                                         print(data);
-                                        Modular.to.navigate('/home/inapp',arguments: data['data']);
+                                        Modular.to.navigate('/home/inapp',
+                                            arguments: data['data']);
                                         // HeadlessInAppWebView headlessWebView =
                                         //     HeadlessInAppWebView(
                                         //   initialUrlRequest: URLRequest(
@@ -196,7 +197,7 @@ class CartWidget extends StatelessWidget {
                                         //     // });
                                         //   },
                                         // );
-                                        // headlessWebView.run(); 
+                                        // headlessWebView.run();
                                       },
                                       child: Text(
                                         'Payment',

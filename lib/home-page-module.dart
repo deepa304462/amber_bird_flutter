@@ -4,6 +4,7 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
+import 'package:amber_bird/ui/pages/payment-status-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
@@ -38,6 +39,7 @@ class HomePageModule extends Module {
       ),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
+      ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),

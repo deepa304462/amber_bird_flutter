@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/product/product.dart';
 
- import 'recommended_varient.availability.dart';
+import 'recommended_varient.availability.dart';
 
 class ProductAvailability {
   ProductSummary? productSummary;

@@ -62,14 +62,14 @@ class CategoryController extends GetxController {
         selectedSubCatergory.value != 'all') {
       payload = {
         // "parentCategoryId": selectedCatergory.value.id ?? '',
-        "productCategoryId": selectedSubCatergory.value  ,
+        "productCategoryId": selectedSubCatergory.value,
       };
     } else if (selectedCatergory.value != '') {
       payload = {
-        "parentCategoryId": selectedCatergory.value ,
+        "parentCategoryId": selectedCatergory.value,
       };
     }
-     // {"parentCategoryId": catId};
+    // {"parentCategoryId": catId};
     var response = await ClientService.searchQuery(
         path: 'cache/product/searchSummary', query: payload, lang: 'en');
 
@@ -78,7 +78,7 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      
+
       productList.value = (pList);
     } else {
       print(response);
