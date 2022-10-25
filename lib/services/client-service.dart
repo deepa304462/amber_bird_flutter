@@ -189,6 +189,8 @@ class ClientService {
             apiVersion: apiVersion,
             lang: lang,
             retry: --retry);
+      } else if (error.response?.statusCode == 401) {
+        return error.response;  
       } else {
         throw e;
       }

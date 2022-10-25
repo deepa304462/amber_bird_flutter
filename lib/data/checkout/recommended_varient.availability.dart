@@ -7,9 +7,9 @@ import 'constraint.availability.dart';
 
 class RecommendedVarient {
   String? varientCode;
-  int? weight;
+  dynamic? weight;
   String? unit;
-  int? currentStock;
+  dynamic? currentStock;
   Price? price;
   Dimension? dimension;
   bool? applyExtraShipping;
@@ -36,7 +36,7 @@ class RecommendedVarient {
   factory RecommendedVarient.fromMap(Map<String, dynamic> data) {
     return RecommendedVarient(
       varientCode: data['varientCode'] as String?,
-      weight: data['weight'] as int?,
+      weight: data['weight'] as dynamic?,
       unit: data['unit'] as String?,
       currentStock: data['currentStock'] as int?,
       price: data['price'] == null
@@ -80,9 +80,9 @@ class RecommendedVarient {
 
   RecommendedVarient copyWith({
     String? varientCode,
-    int? weight,
+    dynamic? weight,
     String? unit,
-    int? currentStock,
+    dynamic? currentStock,
     Price? price,
     Dimension? dimension,
     bool? applyExtraShipping,

@@ -13,6 +13,7 @@ class InApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<InApp> {
+   final CartController cartController = Get.find();
   late InAppWebViewController _webViewController;
   String url = "";
   double progress = 0;
@@ -78,7 +79,7 @@ class _MyAppState extends State<InApp> {
               onUpdateVisitedHistory: (controller, url, androidIsReload) {
                 log(controller.toString());
                 log(url.toString());
-                if (url.toString() == 'https://www.google.com/') {
+                if (url.toString() == 'https://app.sbazar.app/order/${cartController.paymentData.value!.id}') {
                   CartController cartController = Get.find();
                   cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');

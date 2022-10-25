@@ -56,7 +56,7 @@ class CartController extends GetxController {
   }
 
   createPayment() async {
-    double total = 0.00;
+    double total = 0.0;
     List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
       total += v.price!.offerPrice;
@@ -72,19 +72,29 @@ class CartController extends GetxController {
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
       var payload = {
-        "amount": {
-          "currency": "USD",
-          "value": total.toStringAsFixed(2).toString(),
+        "paidBy": (jsonDecode(custRef.toJson())),
+        "order": {"name": "", "_id": resp1.data['_id']},
+        // "appliedCouponCode": {"name": "string", "_id": "string"},
+        "discountAmount": total.toString(),
+        "totalAmount": total.toString(),
+        "paidAmount": total.toString(),
+         "currency": {
+          "currencyCode": "USD",
+          "defaultFractionDigits": 0,
+          "numericCode": 0,
+          "symbol": "\$",
+          "displayName": "\$",
+          "numericCodeAsString": "\$"
         },
-        "description": resp1.data['_id'],
-        "redirectUrl": "https://www.google.com",
-        "webhookUrl":
-            "https://prod.sbazar.app/payment/updatePayment/${resp1.data['_id']}"
+        // "currency": {"currencyCode": "USD"},
+        "status": "OPEN",
+
+        "appliedTaxAmount": 0,
+        "description": resp1.data['_id']
       };
       log(payload.toString());
 
-      var resp = await ClientService.post(
-          path: 'payment/mollie/createPayment', payload: payload);
+      var resp = await ClientService.post(path: 'payment', payload: payload);
       if (resp.statusCode == 200) {
         paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
         log(resp.data.toString());
@@ -97,19 +107,32 @@ class CartController extends GetxController {
 
   paymentStatusCheck() async {
     var resp = await ClientService.get(
-          path: 'payment/mollie/getPayment', id: paymentData.value!.id);
-      if (resp.statusCode == 200) {
-        paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
-        log(resp.data.toString());
-        return ({'error': false, 'data': resp.data});
-      } else {
-        return ({'error': true, 'data': ''});
-      }
+        path: 'payment/mollie/getPayment', id: paymentData.value!.id);
+    if (resp.statusCode == 200) {
+      paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
+      log(resp.data.toString());
+      // resetCart();
+      return ({'error': false, 'data': resp.data});
+    } else {
+      return ({'error': true, 'data': ''});
+    }
   }
 
-  removeProduct(currentKey) {
+  removeProduct(currentKey) async {
     cartProducts.remove(currentKey);
+    //  var insightDetail =
+    //       await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    //   log(insightDetail.toString());
+    //   Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    //   cust.cart = Order.fromMap(resp.data);
+    //   log(cust.toString());
+    //   OfflineDBService.save(
+    //       OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     createOrder();
+  }
+
+  resetCart() {
+    cartProducts.clear();
   }
 
   fetchCart() async {

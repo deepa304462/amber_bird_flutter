@@ -127,7 +127,8 @@ class AuthController extends GetxController {
       //     path: 'user-profile/search', payload: searchPAyload);
 
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      print(loginResp);
+      return {"msg": loginResp.data['description'], "status": "error"};
     }
   }
 
