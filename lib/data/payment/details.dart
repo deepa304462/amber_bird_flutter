@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:amber_bird/data/payment/amount.dart';
- 
+
 import 'giftcard.dart';
 import 'qr_code.dart';
- 
+
 class Details {
   String? cardNumber;
   String? cardFingerprint;
@@ -119,8 +119,7 @@ class Details {
             .toList(),
         remainderAmount: data['remainderAmount'] == null
             ? null
-            : Amount.fromMap(
-                data['remainderAmount'] as Map<String, dynamic>),
+            : Amount.fromMap(data['remainderAmount'] as Map<String, dynamic>),
         remainderMethod: data['remainderMethod'] as String?,
         paypalReference: data['paypalReference'] as String?,
         customerReference: data['customerReference'] as String?,

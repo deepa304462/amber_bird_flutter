@@ -8,6 +8,7 @@ import 'package:amber_bird/ui/pages/payment-status-page.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
+import 'package:amber_bird/ui/pages/referral-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
@@ -50,6 +51,7 @@ class HomePageModule extends Module {
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
+      ChildRoute('/refer', child: (_, args) => ReferralPage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/search', child: (_, args) => SearchPage()),
       ChildRoute('/signup', child: (_, args) => SignUp()),

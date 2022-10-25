@@ -1,3 +1,4 @@
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 
 final Color? defaultColor = Colors.grey[700];
@@ -211,6 +212,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                       widget.label,
                       style: TextStyle(
                         color: widget.color,
+                        fontFamily: Fonts.title,
                         fontWeight: FontWeight.bold,
                         fontSize: (widget.height / 5.5) * animation.value,
                       ),

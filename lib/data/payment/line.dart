@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/payment/amount.dart';
- 
-import 'links.dart'; 
- 
+
+import 'links.dart';
+
 class Line {
   String? resource;
   String? id;
@@ -75,18 +75,15 @@ class Line {
         quantityShipped: data['quantityShipped'] as int?,
         amountShipped: data['amountShipped'] == null
             ? null
-            : Amount.fromMap(
-                data['amountShipped'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountShipped'] as Map<String, dynamic>),
         quantityRefunded: data['quantityRefunded'] as int?,
         amountRefunded: data['amountRefunded'] == null
             ? null
-            : Amount.fromMap(
-                data['amountRefunded'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountRefunded'] as Map<String, dynamic>),
         quantityCanceled: data['quantityCanceled'] as int?,
         amountCanceled: data['amountCanceled'] == null
             ? null
-            : Amount.fromMap(
-                data['amountCanceled'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountCanceled'] as Map<String, dynamic>),
         shippableQuantity: data['shippableQuantity'] as int?,
         refundableQuantity: data['refundableQuantity'] as int?,
         cancelableQuantity: data['cancelableQuantity'] as int?,
@@ -95,8 +92,7 @@ class Line {
             : Amount.fromMap(data['unitPrice'] as Map<String, dynamic>),
         discountAmount: data['discountAmount'] == null
             ? null
-            : Amount.fromMap(
-                data['discountAmount'] as Map<String, dynamic>),
+            : Amount.fromMap(data['discountAmount'] as Map<String, dynamic>),
         totalAmount: data['totalAmount'] == null
             ? null
             : Amount.fromMap(data['totalAmount'] as Map<String, dynamic>),
