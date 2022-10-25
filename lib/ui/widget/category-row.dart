@@ -50,9 +50,12 @@ class CategoryRow extends StatelessWidget {
                           ),
                         ),
                         Center(
-                          child: Text(categoryController
-                                  .mainTabs[index].name!.defaultText!.text ??
-                              ''),
+                          child: Text(
+                            categoryController
+                                    .mainTabs[index].name!.defaultText!.text ??
+                                '',
+                            style: TextStyles.titleFont,
+                          ),
                         )
                       ],
                     ),

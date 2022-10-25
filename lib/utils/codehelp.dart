@@ -28,6 +28,10 @@ class CodeHelp {
         fontSize: 16.0);
   }
 
+  static titleCase(String text) {
+    return "${text[0].toUpperCase()}${text.substring(1).toLowerCase()}";
+  }
+
   randomColor() {
     return Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
         .withOpacity(1.0);

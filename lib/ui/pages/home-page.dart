@@ -111,8 +111,8 @@ class HomePage extends StatelessWidget {
                   label: "Category",
                   selectedColor: Colors.green),
               BottomNavItem(
-                  icon: Icons.search_off,
-                  label: "Search",
+                  icon: Icons.share,
+                  label: "Refer",
                   // suffix: cartController!.cartProducts!.length.toString() ?? '0',
                   selectedColor: Colors.amber.shade800),
               BottomNavItem(

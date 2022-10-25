@@ -9,8 +9,10 @@ class PaymentStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () =>
-          Padding(padding: const EdgeInsets.only(top: 10), child: Text('Your Payment is ${cartController.paymentData.value!.status}')),
+      () => Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+              'Your Payment is ${cartController.paymentData.value!.status}')),
     );
   }
 }

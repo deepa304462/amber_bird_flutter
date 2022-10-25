@@ -97,7 +97,6 @@ class AuthController extends GetxController {
     inspect(loginPayload);
     var loginResp = await ClientService.post(
         path: 'auth/authenticate', payload: loginPayload);
-
     print(loginResp);
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];

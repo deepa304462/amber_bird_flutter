@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:amber_bird/data/payment/order-href.dart';
- 
- 
+
 class Links {
   OrderHref? self;
   OrderHref? checkout;
@@ -62,15 +61,13 @@ class Links {
             : OrderHref.fromMap(data['settlement'] as Map<String, dynamic>),
         documentation: data['documentation'] == null
             ? null
-            : OrderHref.fromMap(
-                data['documentation'] as Map<String, dynamic>),
+            : OrderHref.fromMap(data['documentation'] as Map<String, dynamic>),
         mandate: data['mandate'] == null
             ? null
             : OrderHref.fromMap(data['mandate'] as Map<String, dynamic>),
         subscription: data['subscription'] == null
             ? null
-            : OrderHref.fromMap(
-                data['subscription'] as Map<String, dynamic>),
+            : OrderHref.fromMap(data['subscription'] as Map<String, dynamic>),
         customer: data['customer'] == null
             ? null
             : OrderHref.fromMap(data['customer'] as Map<String, dynamic>),

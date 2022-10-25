@@ -1,12 +1,12 @@
 import 'dart:convert';
- 
+
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 
-import 'amount.dart'; 
+import 'amount.dart';
 import 'application_fee.dart';
 import 'details.dart';
 import 'embedded.dart';
-import 'links.dart'; 
+import 'links.dart';
 
 class Payment {
   String? resource;
@@ -92,43 +92,33 @@ class Payment {
         resource: data['resource'] as String?,
         id: data['id'] as String?,
         mode: data['mode'] as String?,
-        createdAt: data['createdAt'] == null
-            ? null
-            : (data['createdAt'] as dynamic),
+        createdAt:
+            data['createdAt'] == null ? null : (data['createdAt'] as dynamic),
         status: data['status'] as String?,
         authorizedAt: data['authorizedAt'] == null
             ? null
-            :  (data['authorizedAt'] as dynamic),
-        paidAt: data['paidAt'] == null
-            ? null
-            :  (data['paidAt'] as dynamic),
-        canceledAt: data['canceledAt'] == null
-            ? null
-            :  (data['canceledAt'] as dynamic),
-        expiresAt: data['expiresAt'] == null
-            ? null
-            :  (data['expiresAt'] as dynamic),
-        expiredAt: data['expiredAt'] == null
-            ? null
-            :  (data['expiredAt'] as dynamic),
-        failedAt: data['failedAt'] == null
-            ? null
-            :  (data['failedAt'] as dynamic),
+            : (data['authorizedAt'] as dynamic),
+        paidAt: data['paidAt'] == null ? null : (data['paidAt'] as dynamic),
+        canceledAt:
+            data['canceledAt'] == null ? null : (data['canceledAt'] as dynamic),
+        expiresAt:
+            data['expiresAt'] == null ? null : (data['expiresAt'] as dynamic),
+        expiredAt:
+            data['expiredAt'] == null ? null : (data['expiredAt'] as dynamic),
+        failedAt:
+            data['failedAt'] == null ? null : (data['failedAt'] as dynamic),
         amount: data['amount'] == null
             ? null
             : Amount.fromMap(data['amount'] as Map<String, dynamic>),
         amountRefunded: data['amountRefunded'] == null
             ? null
-            : Amount.fromMap(
-                data['amountRefunded'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountRefunded'] as Map<String, dynamic>),
         amountRemaining: data['amountRemaining'] == null
             ? null
-            : Amount.fromMap(
-                data['amountRemaining'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountRemaining'] as Map<String, dynamic>),
         amountCaptured: data['amountCaptured'] == null
             ? null
-            : Amount.fromMap(
-                data['amountCaptured'] as Map<String, dynamic>),
+            : Amount.fromMap(data['amountCaptured'] as Map<String, dynamic>),
         description: data['description'] as String?,
         redirectUrl: data['redirectUrl'] as String?,
         webhookUrl: data['webhookUrl'] as String?,
@@ -141,8 +131,7 @@ class Payment {
         profileId: data['profileId'] as String?,
         settlementAmount: data['settlementAmount'] == null
             ? null
-            : Amount.fromMap(
-                data['settlementAmount'] as Map<String, dynamic>),
+            : Amount.fromMap(data['settlementAmount'] as Map<String, dynamic>),
         settlementId: data['settlementId'] as String?,
         customerId: data['customerId'] as String?,
         sequenceType: data['sequenceType'] as String?,

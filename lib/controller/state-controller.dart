@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
@@ -24,6 +25,7 @@ class Controller extends GetxController {
   RxInt totalPrice = 0.obs;
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt productImageDefaultIndex = 0.obs;
+  Rx<UserProfile> loggedInProfile = UserProfile().obs;
 
   @override
   void onInit() {
@@ -51,6 +53,7 @@ class Controller extends GetxController {
     var userData = jsonDecode(await (SharedData.read('userData')));
     print(userData);
     ClientService.token = authData['accessToken'] ?? '';
+    syncUserProfile(userData['mappedTo']['_id']);
     if (authData['emailVerified'] != null) {
       isActivate.value = authData['emailVerified'];
       isEmailVerified.value = authData['emailVerified'];
@@ -130,7 +133,7 @@ class Controller extends GetxController {
     print(activePageName);
     if (activePageName.value == 'main' ||
         activePageName.value == 'category' ||
-        activePageName.value == 'search') {
+        activePageName.value == 'refer') {
       return true;
     } else {
       return false;
@@ -155,8 +158,8 @@ class Controller extends GetxController {
         Modular.to.navigate('/home/category');
         break;
       case 2:
-        activePageName.value = 'search';
-        Modular.to.navigate('/home/search');
+        activePageName.value = 'refer';
+        Modular.to.navigate('/home/refer');
         break;
       case 3:
         if (isLogin.value) {
@@ -183,4 +186,9 @@ class Controller extends GetxController {
   }
 
   void checkAuth() {}
+
+  void syncUserProfile(profileId) {
+    ClientService.get(path: 'user-profile', id: profileId).then(
+        (value) => loggedInProfile.value = UserProfile.fromMap(value.data));
+  }
 }

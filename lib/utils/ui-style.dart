@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Fonts {
-  static String get body => "Lato";
-  static String get title => "Barlow";
+  static String get body => "Nunito";
+  static String get title => "Nunito";
 }
 
 class AppColors {

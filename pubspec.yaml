@@ -95,9 +95,12 @@ flutter:
     - assets/config/.env
 
   fonts:
-    - family: Barlow
+    - family: Nunito
       fonts:
-        - asset: fonts/Barlow-Regular.ttf
+        - asset: fonts/Nunito-Regular.ttf
+        - asset: fonts/Nunito-Black.ttf
+        - asset: fonts/Nunito-Bold.ttf
+        - asset: fonts/Nunito-SemiBold.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

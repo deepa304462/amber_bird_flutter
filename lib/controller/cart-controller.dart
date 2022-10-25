@@ -111,7 +111,10 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
       log(resp.data.toString());
+<<<<<<< HEAD
       // resetCart();
+=======
+>>>>>>> 5d57dedce709e984e945d6b451f3f216efe65367
       return ({'error': false, 'data': resp.data});
     } else {
       return ({'error': true, 'data': ''});

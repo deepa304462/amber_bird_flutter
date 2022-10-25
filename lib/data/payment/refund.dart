@@ -5,7 +5,7 @@ import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'amount.dart';
 import 'embedded.dart';
 import 'line.dart';
-import 'links.dart';  
+import 'links.dart';
 
 class Refund {
   String? resource;
@@ -54,8 +54,7 @@ class Refund {
         settlementId: data['settlementId'] as String?,
         settlementAmount: data['settlementAmount'] == null
             ? null
-            :  Amount.fromMap(
-                data['settlementAmount'] as Map<String, dynamic>),
+            : Amount.fromMap(data['settlementAmount'] as Map<String, dynamic>),
         description: data['description'] as String?,
         metadata: data['metadata'] == null
             ? null
