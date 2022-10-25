@@ -4,13 +4,14 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
+import 'package:amber_bird/ui/pages/payment-status-page.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
-import 'package:amber_bird/ui/widget/searct-location.dart';
+import 'package:amber_bird/ui/widget/inAppView.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -45,6 +46,8 @@ class HomePageModule extends Module {
         },
       ),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
+      ChildRoute('/inapp', child: (_, args) => InApp()),
+      ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),

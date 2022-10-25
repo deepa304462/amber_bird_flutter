@@ -5,6 +5,7 @@ import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/order/order.dart';
+import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/checkout/checkout.availability.dart';
@@ -19,6 +20,7 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
   // Rx<Checkout> checkoutData = ({} as Checkout).obs ;
   final checkoutData = Rxn<Checkout>();
+  final paymentData = Rxn<Payment>();
   @override
   void onInit() {
     super.onInit();
@@ -33,7 +35,7 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
-      'status': 'INIT',
+      'status': 'CREATED',
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
@@ -54,7 +56,7 @@ class CartController extends GetxController {
   }
 
   createPayment() async {
-    double total = 0.0;
+    double total = 0.00;
     List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
       total += v.price!.offerPrice;
@@ -69,19 +71,39 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
-      //(jsonDecode(cart.toJson()));
       var payload = {
         "amount": {
           "currency": "USD",
-          "value": total,
+          "value": total.toStringAsFixed(2).toString(),
         },
         "description": resp1.data['_id'],
-        "redirectUrl": "https://www.google.com"
+        "redirectUrl": "https://www.google.com",
+        "webhookUrl":
+            "https://prod.sbazar.app/payment/updatePayment/${resp1.data['_id']}"
       };
       log(payload.toString());
-      // var resp = await ClientService.post(path: 'payment/mollie/createPayment', payload: payload);
-      // if (resp.statusCode == 200) {}
-      // }
+
+      var resp = await ClientService.post(
+          path: 'payment/mollie/createPayment', payload: payload);
+      if (resp.statusCode == 200) {
+        paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
+        log(resp.data.toString());
+        return ({'error': false, 'data': resp.data['_links']['checkout']});
+      } else {
+        return ({'error': true, 'data': ''});
+      }
+    }
+  }
+
+  paymentStatusCheck() async {
+    var resp = await ClientService.get(
+        path: 'payment/mollie/getPayment', id: paymentData.value!.id);
+    if (resp.statusCode == 200) {
+      paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
+      log(resp.data.toString());
+      return ({'error': false, 'data': resp.data});
+    } else {
+      return ({'error': true, 'data': ''});
     }
   }
 
@@ -98,7 +120,7 @@ class CartController extends GetxController {
     log(cust.toString());
     if (cust.cart != null) {
       cust.cart!.products!.forEach((element) {
-        cartProducts[element!.ref!.id ?? ''] = element;
+        cartProducts[element.ref!.id ?? ''] = element;
       });
     }
   }
@@ -118,13 +140,13 @@ class CartController extends GetxController {
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice).toDouble();
       if (getData != null) {
-        quantity = getData!.count!;
-        quantity = quantity + addQuantity!;
+        quantity = getData.count!;
+        quantity = quantity + addQuantity;
         price = price * quantity;
       }
       List<ProductSummary> li = [];
       if (products != null) {
-        li.addAll(products!);
+        li.addAll(products);
       }
       inspect(product);
 

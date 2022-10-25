@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 class SignUp extends StatelessWidget {
   final AuthController authController = Get.find();
   final Controller controller = Get.find();
+  RxBool isLoading = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +31,6 @@ class SignUp extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              // ITextBox(
-              //     'Username',
-              //     'userName',
-              //     mController.fieldValue['userName'].toString(),
-              //     false,
-              //     TextInputType.text,
-              //     false,
-              //     callback),
               const SizedBox(
                 height: 10,
               ),
@@ -89,15 +82,18 @@ class SignUp extends StatelessWidget {
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
                   try {
+                    isLoading.value = true;
                     var data = await mController.signInWithGoogle();
                     print(data);
                     if (data['status'] == 'success') {
                       controller.isLogin.value = true;
                       controller.setCurrentTab(0);
                     }
+                    isLoading.value = false;
                     var showToast =
                         snackBarClass.showToast(context, data['msg']);
                   } catch (e) {
+                    isLoading.value = false;
                     var showToast = snackBarClass.showToast(
                         context, 'Something went wrong...');
                   }
@@ -105,16 +101,16 @@ class SignUp extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Image(
+                  children: <Widget>[
+                    const Image(
                       image: AssetImage("assets/google_logo.png"),
                       height: 35.0,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        'Sign in with Google',
-                        style: TextStyle(
+                        !isLoading.value ? 'Sign in with Google' : 'Loading',
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
@@ -130,22 +126,24 @@ class SignUp extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () async {
+                  isLoading.value = true;
                   var data = await mController.signInWithFacebook();
                   if (data['status'] == 'success') {
                     controller.isLogin.value = true;
                     controller.setCurrentTab(0);
                   }
-                  var showToast = snackBarClass.showToast(context, data['msg']);
+                  isLoading.value = false;
+                  snackBarClass.showToast(context, data['msg']);
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Icon(Icons.facebook),
                     Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        'Sign in with Facebook',
+                        !isLoading.value ? 'Sign in with Facebook' : 'Loading',
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
@@ -161,19 +159,21 @@ class SignUp extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
+                  isLoading.value = true;
                   var data = await mController.signUp();
                   if (data['status'] == 'success') {
                     controller.isLogin.value = true;
                     controller.getLoginInfo();
                     controller.setCurrentTab(0);
                   }
+                  isLoading.value = false;
                   snackBarClass.showToast(context, data['msg']);
                 },
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(AppColors.primeColor)),
                 child: Text(
-                  'Sign up',
+                  !isLoading.value ? 'Sign up' : 'Loading',
                   style: TextStyles.bodyWhiteLarge,
                 ),
               )
