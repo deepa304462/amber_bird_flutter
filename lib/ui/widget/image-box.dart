@@ -8,7 +8,9 @@ class ImageBox extends StatelessWidget {
   final String path;
   double height;
   double width;
-  ImageBox(this.path, {Key? key, this.height = 0, this.width = 0})
+  BoxFit fit;
+  ImageBox(this.path,
+      {Key? key, this.height = 0, this.width = 0, this.fit = BoxFit.fitHeight})
       : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class ImageBox extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: imageProvider,
-            fit: BoxFit.fitHeight,
+            fit: fit,
           ),
         ),
       ),

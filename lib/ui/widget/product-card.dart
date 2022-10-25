@@ -8,6 +8,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/open-container/open_container_wrapper.dart';
+import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -26,102 +27,35 @@ class ProductCard extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      fit: StackFit.passthrough,
+    return Column(
       children: [
-        Column(
-          children: [
-            product.images!.isNotEmpty
-                ? InkWell(
-                    onTap: () {
-                      Modular.to.pushNamed('product/${product.id}');
-                    },
-                    child: SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: Image.network(
-                        '${ClientService.cdnUrl}${product!.images![0]}',
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                  )
-                : const SizedBox(
-                    child: Text('Empty Image'),
-                  ),
-            _gridItemFooter(product, context)
-          ],
-        ),
-        Positioned(
-          bottom: 60,
-          right: 0,
-          child: Visibility(
-            visible: checkBuyProductVisibility(),
-            child: CircleAvatar(
-              backgroundColor: Colors.red.shade900,
-              radius: 20,
-              child: IconButton(
-                constraints: const BoxConstraints(),
-                color: Colors.white,
-                onPressed: () {
-                  showModalBottomSheet<void>(
-                    context: context,
-                    useRootNavigator: true,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13)),
-                    backgroundColor: Colors.white,
-                    isScrollControlled: true,
-                    elevation: 3,
-                    builder: (context) {
-                      // return _bottomSheetAddToCart(product, context);
-                      return DealBottomDrawer(
-                          [product], refId, addedFrom, dealPrice, product.name);
-                    },
-                  );
+        product.images!.isNotEmpty
+            ? InkWell(
+                onTap: () {
+                  Modular.to.pushNamed('product/${product.id}');
                 },
-                icon: const Icon(
-                  Icons.add,
-                  size: 25,
-                  color: Colors.white,
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Image.network(
+                    '${ClientService.cdnUrl}${product!.images![0]}',
+                    fit: BoxFit.fitHeight,
+                  ),
                 ),
+              )
+            : const SizedBox(
+                child: Text('Empty Image'),
               ),
-            ),
-          ),
-        ),
+        _gridItemFooter(product, context)
       ],
     );
   }
 
   Widget _gridItemHeader(ProductSummary product) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Visibility(
-          visible: checkDealTimeoutVisibility(),
-          child: Card(
-            clipBehavior: Clip.hardEdge,
-            color: Colors.red.shade800,
-            margin: const EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: const Text(
-                "2hrs left",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        // GetX<WishlistController>(builder: (wController) {
-        //   return
         Obx(() {
-          print(wishlistController.wishlistProducts);
           return Visibility(
             visible: checkFavVisibility(),
             child: IconButton(
@@ -159,56 +93,13 @@ class ProductCard extends StatelessWidget {
             product!.name!.defaultText!.text ?? '',
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
-            style: const TextStyle(
-                fontWeight: FontWeight.w500, color: Colors.grey),
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.start,
+            direction: Axis.horizontal,
             children: [
-              checkPriceVisibility()
-                  ? Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        addedFrom == 'DEAL'
-                            ? Text("\$${dealPrice!.offerPrice}",
-                                style: TextStyles.bodyFontBold)
-                            : Text(
-                                "\$${product.varient!.price!.offerPrice}",
-                                style: TextStyles.bodyFontBold,
-                              ),
-                        const SizedBox(width: 3),
-                        addedFrom == 'DEAL'
-                            ? Visibility(
-                                visible: dealPrice!.actualPrice != null
-                                    ? true
-                                    : false,
-                                child: Text(
-                                  "\$${dealPrice!.actualPrice.toString()}",
-                                  style: const TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                            : Visibility(
-                                visible:
-                                    product!.varient!.price!.actualPrice != null
-                                        ? true
-                                        : false,
-                                child: Text(
-                                  "\$${product!.varient!.price!.actualPrice.toString()}",
-                                  style: const TextStyle(
-                                    decoration: TextDecoration.lineThrough,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                      ],
-                    )
-                  : const SizedBox(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -219,7 +110,14 @@ class ProductCard extends StatelessWidget {
                     style: TextStyle(color: Colors.blue, fontSize: 12),
                   )
                 ],
-              )
+              ),
+              checkPriceVisibility()
+                  ? addedFrom == 'DEAL'
+                      ? PriceTag(dealPrice!.offerPrice!.toString(),
+                          dealPrice!.actualPrice!.toString())
+                      : PriceTag(product.varient!.price!.offerPrice!.toString(),
+                          product.varient!.price!.actualPrice!.toString())
+                  : const SizedBox(),
             ],
           )
         ],
@@ -232,12 +130,48 @@ class ProductCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.all(5),
       child: ClipRRect(
-        clipBehavior: Clip.antiAliasWithSaveLayer,
         borderRadius: BorderRadius.circular(15.0),
-        child: Column(
+        child: Stack(
+          fit: StackFit.loose,
           children: [
-            _gridItemHeader(product!),
             _gridItemBody(product!, context),
+            _gridItemHeader(product!),
+            Positioned(
+              right: 0,
+              top: 50,
+              child: Visibility(
+                visible: checkBuyProductVisibility(),
+                child: CircleAvatar(
+                  backgroundColor: Colors.red.shade900,
+                  radius: 20,
+                  child: IconButton(
+                    constraints: const BoxConstraints(),
+                    color: Colors.white,
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        useRootNavigator: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13)),
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        elevation: 3,
+                        builder: (context) {
+                          // return _bottomSheetAddToCart(product, context);
+                          return DealBottomDrawer([product!], refId, addedFrom,
+                              dealPrice, product!.name);
+                        },
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 25,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

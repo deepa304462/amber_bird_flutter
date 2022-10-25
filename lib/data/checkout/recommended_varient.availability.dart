@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/dimension.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 
-import 'constraint.availability.dart'; 
+import 'constraint.availability.dart';
+
 class RecommendedVarient {
   String? varientCode;
   int? weight;

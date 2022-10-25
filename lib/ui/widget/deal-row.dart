@@ -43,7 +43,7 @@ class DealRow extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 220, child: DealProductCard(dealController))
+                SizedBox(height: 200, child: DealProductCard(dealController))
               ],
             ),
           ),

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class CartWidget extends StatelessWidget {
   final CartController cartController = Get.find();
-  
+
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();

@@ -1,3 +1,4 @@
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 
@@ -9,18 +10,24 @@ class PriceTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      verticalDirection: VerticalDirection.up,
       children: [
         Text(
-          "\$${showPrice}",
-          style: TextStyles.bodyFontBold,
+          "${CodeHelp.euro}${showPrice}",
+          style: TextStyles.titleLargeBold,
         ),
         const SizedBox(width: 3),
         Visibility(
           visible: realPrice != '' ? true : false,
           child: Text(
-            "\$${realPrice}",
+            "${realPrice}",
+            textHeightBehavior:
+                TextHeightBehavior(applyHeightToFirstAscent: true),
             style: const TextStyle(
               decoration: TextDecoration.lineThrough,
+              fontSize: 18,
               color: Colors.grey,
               fontWeight: FontWeight.w500,
             ),

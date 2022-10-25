@@ -53,9 +53,9 @@ class CartController extends GetxController {
     checkoutData.value = null;
   }
 
-  createPayment() async{
-      double total = 0.0;
-      List<dynamic> listSumm = [];
+  createPayment() async {
+    double total = 0.0;
+    List<dynamic> listSumm = [];
     cartProducts.value.values.forEach((v) {
       total += v.price!.offerPrice;
       listSumm.add((jsonDecode(v.toJson())));
@@ -69,8 +69,8 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
-    //(jsonDecode(cart.toJson()));
-     var payload = {
+      //(jsonDecode(cart.toJson()));
+      var payload = {
         "amount": {
           "currency": "USD",
           "value": total,
@@ -78,10 +78,10 @@ class CartController extends GetxController {
         "description": resp1.data['_id'],
         "redirectUrl": "https://www.google.com"
       };
-    log(payload.toString());
-    // var resp = await ClientService.post(path: 'payment/mollie/createPayment', payload: payload);
-    // if (resp.statusCode == 200) {}
-    // }
+      log(payload.toString());
+      // var resp = await ClientService.post(path: 'payment/mollie/createPayment', payload: payload);
+      // if (resp.statusCode == 200) {}
+      // }
     }
   }
 

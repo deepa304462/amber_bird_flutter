@@ -11,8 +11,9 @@ class ImageSlider extends StatefulWidget {
   final double width;
   double? height;
   bool isImagePath = true;
+  bool disableTap = false;
   ImageSlider(this.images, this.width,
-      {Key? key, this.height, this.isImagePath = true})
+      {Key? key, this.height, this.isImagePath = true, this.disableTap = false})
       : super(key: key);
   double minScale = .4;
   double defScale = 1;
@@ -41,12 +42,14 @@ class _ImageSlider extends State<ImageSlider> {
         widget.isImagePath
             ? InkWell(
                 onTap: () {
-                  showImageInOverlay(context);
+                  if (!widget.disableTap) showImageInOverlay(context);
                 },
                 child: CarouselSlider(
                   carouselController: controller,
                   options: CarouselOptions(
                       height: widget.height,
+                      viewportFraction: 1,
+                      autoPlay: true,
                       onPageChanged: (index, reason) {
                         setState(() {
                           currentPos = index;

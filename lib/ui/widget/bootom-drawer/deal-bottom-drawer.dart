@@ -31,7 +31,6 @@ class DealBottomDrawer extends StatelessWidget {
     final CartController cartController = Get.find();
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
-    
 
     return Container(
       decoration: const BoxDecoration(
@@ -71,123 +70,116 @@ class DealBottomDrawer extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
-                    children: products!
-                        .map((product) {
+                    children: products!.map((product) {
                       product!.varient!.price = priceInfo;
                       return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 6.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          ImageBox(
-                                            product!.images![0],
-                                            width: 120,
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ImageBox(
+                                      product!.images![0],
+                                      width: 120,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      textDirection: TextDirection.ltr,
+                                      children: [
+                                        Visibility(
+                                          visible: name!.defaultText!.text !=
+                                              product.name!.defaultText!.text,
+                                          child: Text(
+                                            '${product.name!.defaultText!.text}',
+                                            style: TextStyles.headingFont,
                                           ),
-                                          Column(
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            Image.network(
+                                              '${ClientService.cdnUrl}${product!.category!.logoId}',
+                                              height: 20,
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '${product!.category!.name!.defaultText!.text}',
+                                              style: TextStyles.subHeadingFont,
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .5,
+                                          child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            textDirection: TextDirection.ltr,
+                                                MainAxisAlignment.end,
                                             children: [
-                                              Visibility(
-                                                visible:
-                                                    name!.defaultText!.text !=
-                                                        product.name!
-                                                            .defaultText!.text,
-                                                child: Text(
-                                                  '${product.name!.defaultText!.text}',
-                                                  style: TextStyles.headingFont,
+                                              Card(
+                                                color: Colors.white,
+                                                margin: EdgeInsets.all(5),
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                    child: Text(
+                                                        '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
+                                                  ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 5),
-                                              Row(
-                                                children: [
-                                                  Image.network(
-                                                    '${ClientService.cdnUrl}${product!.category!.logoId}',
-                                                    height: 20,
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    '${product!.category!.name!.defaultText!.text}',
-                                                    style: TextStyles
-                                                        .subHeadingFont,
-                                                  ),
-                                                ],
-                                              ),
-                                              const SizedBox(height: 5),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    .5,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    Card(
-                                                      color: Colors.white,
-                                                      margin: EdgeInsets.all(5),
-                                                      child: Center(
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(8),
-                                                          child: Text(
-                                                              '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
                                             ],
                                           ),
-                                        ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Positioned(
+                                    top: -12,
+                                    left: -12,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: wishlistController
+                                                .checkIfProductWishlist(
+                                                    product!.id)
+                                            ? Colors.redAccent
+                                            : AppColors.grey,
                                       ),
-                                      Positioned(
-                                          top: -12,
-                                          left: -12,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              Icons.favorite,
-                                              color: wishlistController
-                                                      .checkIfProductWishlist(
-                                                          product!.id)
-                                                  ? Colors.redAccent
-                                                  : AppColors.grey,
-                                            ),
-                                            onPressed: () => {
-                                              wishlistController.addToWishlist(
-                                                  product!.id, product)
-                                            },
-                                          ))
-                                    ],
-                                  ),
-                                  Text(
-                                    'Description',
-                                    style: TextStyles.bodyFontBold,
-                                  ),
-                                  Text(
-                                    product!.description!.defaultText!.text ??
-                                        '',
-                                    style: TextStyles.bodyFont,
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  Divider(),
-                                ],
-                              ),
-                            );})
-                        .toList(),
+                                      onPressed: () => {
+                                        wishlistController.addToWishlist(
+                                            product!.id, product)
+                                      },
+                                    ))
+                              ],
+                            ),
+                            Text(
+                              'Description',
+                              style: TextStyles.bodyFontBold,
+                            ),
+                            Text(
+                              product!.description!.defaultText!.text ?? '',
+                              style: TextStyles.bodyFont,
+                              textAlign: TextAlign.justify,
+                            ),
+                            Divider(),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
@@ -216,8 +208,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             addedFrom!,
                                             -1,
                                             priceInfo,
-                                            products![0],
-                                            []);
+                                            products![0], []);
                                       } else {
                                         stateController.setCurrentTab(3);
                                         var showToast = snackBarClass.showToast(
