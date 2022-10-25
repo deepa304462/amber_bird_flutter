@@ -99,7 +99,6 @@ class AuthController extends GetxController {
         path: 'auth/authenticate', payload: loginPayload);
 
     print(loginResp);
-
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];
       SharedData.save(jsonEncode(loginResp.data), 'authData');
