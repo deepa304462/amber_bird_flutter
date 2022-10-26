@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -6,7 +5,6 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
-import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -68,10 +66,10 @@ class DealBottomDrawer extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: products!.map((product) {
-                      product!.varient!.price = priceInfo;
+                      product.varient!.price = priceInfo;
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6.0),
                         child: Column(
@@ -84,7 +82,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     ImageBox(
-                                      product!.images![0],
+                                      product.images![0],
                                       width: 120,
                                     ),
                                     Column(
@@ -106,14 +104,14 @@ class DealBottomDrawer extends StatelessWidget {
                                         Row(
                                           children: [
                                             Image.network(
-                                              '${ClientService.cdnUrl}${product!.category!.logoId}',
+                                              '${ClientService.cdnUrl}${product.category!.logoId}',
                                               height: 20,
                                             ),
                                             const SizedBox(
                                               width: 5,
                                             ),
                                             Text(
-                                              '${product!.category!.name!.defaultText!.text}',
+                                              '${product.category!.name!.defaultText!.text}',
                                               style: TextStyles.subHeadingFont,
                                             ),
                                           ],
@@ -130,10 +128,10 @@ class DealBottomDrawer extends StatelessWidget {
                                             children: [
                                               Card(
                                                 color: Colors.white,
-                                                margin: EdgeInsets.all(5),
+                                                margin: const EdgeInsets.all(5),
                                                 child: Center(
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(8),
+                                                    padding: const EdgeInsets.all(8),
                                                     child: Text(
                                                         '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
                                                   ),
@@ -155,13 +153,13 @@ class DealBottomDrawer extends StatelessWidget {
                                         Icons.favorite,
                                         color: wishlistController
                                                 .checkIfProductWishlist(
-                                                    product!.id)
+                                                    product.id)
                                             ? Colors.redAccent
                                             : AppColors.grey,
                                       ),
                                       onPressed: () => {
                                         wishlistController.addToWishlist(
-                                            product!.id, product)
+                                            product.id, product)
                                       },
                                     ))
                               ],
@@ -171,7 +169,7 @@ class DealBottomDrawer extends StatelessWidget {
                               style: TextStyles.bodyFontBold,
                             ),
                             Text(
-                              product!.description!.defaultText!.text ?? '',
+                              product.description!.defaultText!.text ?? '',
                               style: TextStyles.bodyFont,
                               textAlign: TextAlign.justify,
                             ),

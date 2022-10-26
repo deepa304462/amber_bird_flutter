@@ -1,12 +1,8 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
-import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -17,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final PageController _pageController = PageController(initialPage: 0);
+  // final PageController _pageController = PageController(initialPage: 0);
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
@@ -34,7 +30,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child:
-          ImageSlider(product!.images!, MediaQuery.of(context).size.width * .8),
+          ImageSlider(product.images!, MediaQuery.of(context).size.width * .8),
     );
   }
 
@@ -64,7 +60,7 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        '${currentVarient!.weight!} ${CodeHelp.formatUnit(currentVarient!.unit!)}',
+                        '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: currentVarient.varientCode !=
@@ -121,7 +117,7 @@ class ProductDetailScreen extends StatelessWidget {
                               children: [
                                 detailsHead(productController),
                                 Text(
-                                  productController.product.value!.name!
+                                  productController.product.value.name!
                                           .defaultText!.text ??
                                       '',
                                   style: TextStyles.titleXLargePrimaryBold,
@@ -160,7 +156,7 @@ class ProductDetailScreen extends StatelessWidget {
                           backgroundColor: AppColors.primeColor,
                           textStyle: TextStyles.bodyWhite),
                       onPressed: productController
-                                  .product.value!.varients![0]!.currentStock >
+                                  .product.value.varients![0].currentStock >
                               0
                           ? () {}
                           : () {},
@@ -319,7 +315,7 @@ class ProductDetailScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     child: Text(
                       productController
-                              .product.value!.description!.defaultText!.text ??
+                              .product.value.description!.defaultText!.text ??
                           '',
                       style: TextStyles.body,
                       textAlign: TextAlign.justify,
@@ -341,7 +337,7 @@ class ProductDetailScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: Text(
-                      productController.varient!.value!.weight.toString() +
+                      productController.varient.value.weight.toString() +
                           CodeHelp.formatUnit(
                               productController.varient.value.unit),
                       style: TextStyles.body,
@@ -369,7 +365,7 @@ class ProductDetailScreen extends StatelessWidget {
           height: 50,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: value!.keywords!
+            children: value.keywords!
                 .map((e) => Card(
                       color: AppColors.white,
                       shape: RoundedRectangleBorder(

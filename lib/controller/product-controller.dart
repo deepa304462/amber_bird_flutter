@@ -1,7 +1,4 @@
-import 'dart:developer';
 
-import 'package:amber_bird/data/deal_product/price.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';

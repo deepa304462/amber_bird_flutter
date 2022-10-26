@@ -17,7 +17,6 @@ class DealRow extends StatelessWidget {
     final DealController dealController = Get.put(
         DealController(currentdealName),
         tag: currentdealName.toString());
-    // if (dealController.dealProd.isNotEmpty) {
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
         return Padding(
@@ -43,7 +42,9 @@ class DealRow extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 200, child: DealProductCard(dealController))
+                SizedBox(
+                    height: 200,
+                    child: DealProductCard(dealController, currentdealName))
               ],
             ),
           ),

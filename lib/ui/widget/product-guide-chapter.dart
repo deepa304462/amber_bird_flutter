@@ -60,8 +60,8 @@ class ProductGuideChapter extends StatelessWidget {
           ),
           Column(
             children: chapter.products!
-                .map((e) =>
-                    Card(child: ProductCard(e, '', 'GUIDE', e.varient!.price)))
+                .map((e) => Card(
+                    child: ProductCard(e, '', 'GUIDE', e.varient!.price, null)))
                 .toList(),
           )
         ],

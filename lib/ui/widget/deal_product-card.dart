@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,8 @@ class DealProductCard extends StatelessWidget {
   final CartController cartController = Get.find();
 
   final DealController con;
-  DealProductCard(this.con, {super.key});
+  final dealName currentdealName;
+  DealProductCard(this.con, this.currentdealName, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class DealProductCard extends StatelessWidget {
             return SizedBox(
               width: 150,
               child: ProductCard(
-                  dProduct!.product, dProduct!.id, 'DEAL', dProduct.dealPrice),
+                  dProduct.product, dProduct.id, currentdealName.toString(), dProduct.dealPrice,dProduct.ruleConfig),
             );
           },
         ),

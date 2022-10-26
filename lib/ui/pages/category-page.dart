@@ -263,7 +263,7 @@ class CategoryPage extends StatelessWidget {
           var currentProduct = categoryController.productList[index];
           if (currentProduct.varient != null) {
             return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
-                currentProduct.varient!.price!);
+                currentProduct.varient!.price!, null);
           } else {
             return const SizedBox();
           }
@@ -418,7 +418,7 @@ class CategoryPage extends StatelessWidget {
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
     return GridView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
         scrollDirection: Axis.vertical,
@@ -428,7 +428,7 @@ class CategoryPage extends StatelessWidget {
           DealProduct dealProduct = megaMenuController.dealProductList[0];
           if (dealProduct.product != null) {
             return ProductCard(dealProduct.product, dealProduct.product!.id,
-                'DEAL', dealProduct.product!.varient!.price!);
+                'DEAL', dealProduct.product!.varient!.price!, null);
           } else {
             return const SizedBox();
           }
@@ -467,7 +467,8 @@ class CategoryPage extends StatelessWidget {
                                 mProduct.products![i],
                                 mProduct.products![i].id,
                                 'MULTIPRODUCT',
-                                mProduct.products![i].varient!.price!),
+                                mProduct.products![i].varient!.price!,
+                                null),
                           )
                         ]
                       ]),

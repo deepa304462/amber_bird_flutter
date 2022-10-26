@@ -1,16 +1,15 @@
-import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
-import 'package:amber_bird/ui/widget/open-container/open_container_wrapper.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
-import 'package:amber_bird/utils/ui-style.dart';
+import 'package:amber_bird/utils/ui-style.dart'; 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,8 @@ class ProductCard extends StatelessWidget {
   final String? refId;
   final String? addedFrom;
   final Price? dealPrice;
-  ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice,
+  final RuleConfig? ruleConfig;
+  ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig,
       {super.key});
 
   final CartController cartController = Get.find();
@@ -38,7 +38,7 @@ class ProductCard extends StatelessWidget {
                   width: 120,
                   height: 120,
                   child: Image.network(
-                    '${ClientService.cdnUrl}${product!.images![0]}',
+                    '${ClientService.cdnUrl}${product.images![0]}',
                     fit: BoxFit.fitHeight,
                   ),
                 ),
@@ -52,9 +52,21 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _gridItemHeader(ProductSummary product) {
+    String timeLeft = '';
+    var difference;
+    if(addedFrom == dealName.FLASH.toString()){
+      String expire = ruleConfig!.willExpireAt ?? ''; 
+      var newDate = DateTime.now().toUtc();//DateTime.now();
+      difference = DateTime.parse(expire).difference(newDate);
+    }
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        addedFrom == dealName.FLASH.toString() ?
+        Text(difference.inDays != null ? '${difference.inDays}D ${difference.inHours}hr Left' :
+        '${difference.inHours}hr ${difference.inMinutes}hr Left',
+        style: TextStyles.bodyRedBold,
+        ) : const SizedBox(),
         Obx(() {
           return Visibility(
             visible: checkFavVisibility(),
@@ -70,8 +82,6 @@ class ProductCard extends StatelessWidget {
             ),
           );
         }),
-
-        // }),
       ],
     );
   }
@@ -90,10 +100,10 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            product!.name!.defaultText!.text ?? '',
+            product.name!.defaultText!.text ?? '',
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),
           Wrap(
@@ -104,10 +114,10 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text('${product!.varient!.weight}'),
+                  Text('${product.varient!.weight}'),
                   Text(
-                    '${CodeHelp.formatUnit(product!.varient!.unit)}',
-                    style: TextStyle(color: Colors.blue, fontSize: 12),
+                    '${CodeHelp.formatUnit(product.varient!.unit)}',
+                    style: const TextStyle(color: Colors.blue, fontSize: 12),
                   )
                 ],
               ),

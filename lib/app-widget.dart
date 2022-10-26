@@ -1,17 +1,8 @@
-import 'dart:convert';
 
-import 'package:amber_bird/controller/location-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/main.dart';
-import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart' as flutter_modular;
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 
 class AppWidget extends StatelessWidget {
   // const AppWidget({super.key});

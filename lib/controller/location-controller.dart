@@ -1,8 +1,5 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -142,6 +139,6 @@ class LocationController extends GetxController {
   }
 
   void checkAddress(LatLng coOrdinate) {
-    getAddressFromLatLng(coOrdinate.latitude!, coOrdinate.longitude!);
+    getAddressFromLatLng(coOrdinate.latitude, coOrdinate.longitude);
   }
 }

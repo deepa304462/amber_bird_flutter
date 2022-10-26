@@ -73,11 +73,11 @@ class CartController extends GetxController {
     if (resp1.statusCode == 200) {
       var payload = {
         "paidBy": (jsonDecode(custRef.toJson())),
-        "order": {"name": "", "_id": resp1.data['_id']},
+        "order": {"name": "md", "_id": resp1.data['_id']},
         // "appliedCouponCode": {"name": "string", "_id": "string"},
-        "discountAmount": total.toString(),
-        "totalAmount": total.toString(),
-        "paidAmount": total.toString(),
+        "discountAmount": total,
+        "totalAmount": total,
+        "paidAmount": total,
          "currency": {
           "currencyCode": "USD",
           "defaultFractionDigits": 0,
@@ -111,6 +111,7 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
       log(resp.data.toString());
+      resetCart();
       // resetCart();
       return ({'error': false, 'data': resp.data});
     } else {
@@ -131,8 +132,16 @@ class CartController extends GetxController {
     createOrder();
   }
 
-  resetCart() {
+  resetCart() async{
     cartProducts.clear();
+      var insightDetail =
+          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+      log(insightDetail.toString());
+      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+      cust.cart = null;
+      log(cust.toString());
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
   }
 
   fetchCart() async {

@@ -1,7 +1,6 @@
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 class ProductGuidePageController extends GetxController {
   Rx<ProductGuide> productGuide = ProductGuide().obs;

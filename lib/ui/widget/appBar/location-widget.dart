@@ -66,8 +66,7 @@ class locationWidget extends StatelessWidget {
                     child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Text(
-                      cartController.cartProducts.value.length.toString() ??
-                          '99',
+                      cartController.cartProducts.value.length.toString(),
                       style: TextStyles.bodyFontBold),
                 )),
               ),
