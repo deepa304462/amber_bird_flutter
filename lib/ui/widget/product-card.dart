@@ -1,4 +1,3 @@
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -9,7 +8,7 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
-import 'package:amber_bird/utils/ui-style.dart'; 
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,8 @@ class ProductCard extends StatelessWidget {
   final String? addedFrom;
   final Price? dealPrice;
   final RuleConfig? ruleConfig;
-  ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig,
+  ProductCard(
+      this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig,
       {super.key});
 
   final CartController cartController = Get.find();
@@ -54,19 +54,22 @@ class ProductCard extends StatelessWidget {
   Widget _gridItemHeader(ProductSummary product) {
     String timeLeft = '';
     var difference;
-    if(addedFrom == dealName.FLASH.toString()){
-      String expire = ruleConfig!.willExpireAt ?? ''; 
-      var newDate = DateTime.now().toUtc();//DateTime.now();
+    if (addedFrom == dealName.FLASH.toString()) {
+      String expire = ruleConfig!.willExpireAt ?? '';
+      var newDate = DateTime.now().toUtc(); //DateTime.now();
       difference = DateTime.parse(expire).difference(newDate);
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        addedFrom == dealName.FLASH.toString() ?
-        Text(difference.inDays != null ? '${difference.inDays}D ${difference.inHours}hr Left' :
-        '${difference.inHours}hr ${difference.inMinutes}hr Left',
-        style: TextStyles.bodyRedBold,
-        ) : const SizedBox(),
+        addedFrom == dealName.FLASH.toString()
+            ? Text(
+                difference.inDays != null
+                    ? '${difference.inDays}D ${difference.inHours}hr Left'
+                    : '${difference.inHours}hr ${difference.inMinutes}hr Left',
+                style: TextStyles.bodyRedBold,
+              )
+            : const SizedBox(),
         Obx(() {
           return Visibility(
             visible: checkFavVisibility(),

@@ -1,4 +1,3 @@
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -131,7 +130,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                 margin: const EdgeInsets.all(5),
                                                 child: Center(
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(8),
+                                                    padding:
+                                                        const EdgeInsets.all(8),
                                                     child: Text(
                                                         '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
                                                   ),
@@ -173,7 +173,7 @@ class DealBottomDrawer extends StatelessWidget {
                               style: TextStyles.bodyFont,
                               textAlign: TextAlign.justify,
                             ),
-                            Divider(),
+                            const Divider(),
                           ],
                         ),
                       );
@@ -250,55 +250,36 @@ class DealBottomDrawer extends StatelessWidget {
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.primeColor,
                                     textStyle: TextStyles.bodyWhite),
-                                onPressed:
-                                    cController.getCurrentQuantity(refId) > 0
-                                        ? () {
-                                            if (stateController.isLogin.value) {
-                                              if (stateController
-                                                  .isActivate.value) {
-                                                cartController.addToCart(
-                                                    refId!,
-                                                    addedFrom!,
-                                                    1,
-                                                    priceInfo,
-                                                    products![0],
-                                                    null);
-                                              } else {
-                                                snackBarClass.showToast(context,
-                                                    'Your profile is not active yet');
-                                              }
-                                            } else {
-                                              stateController.setCurrentTab(3);
-                                              snackBarClass.showToast(context,
-                                                  'Please Login to preoceed');
-                                            }
+                                onPressed: stateController.isLogin.value
+                                    ? () {
+                                        if (stateController.isActivate.value) {
+                                          if (addedFrom == 'MULTIPRODUCT') {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                1,
+                                                priceInfo,
+                                                null,
+                                                products);
+                                          } else {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                1,
+                                                priceInfo,
+                                                products![0],
+                                                null);
                                           }
-                                        : () {
-                                            if (stateController.isLogin.value) {
-                                              if (stateController
-                                                  .isActivate.value) {
-                                                cartController.addToCart(
-                                                    refId!,
-                                                    addedFrom!,
-                                                    1,
-                                                    priceInfo,
-                                                    products![0],
-                                                    null);
-                                              } else {
-                                                Navigator.of(context).pop();
-                                                stateController
-                                                    .setCurrentTab(3);
-                                                snackBarClass.showToast(context,
-                                                    'Your profile is not active yet');
-                                              }
-                                            } else {
-                                              stateController.setCurrentTab(3);
-                                              var showToast =
-                                                  snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
-                                            }
-                                          },
+                                        } else {
+                                          snackBarClass.showToast(context,
+                                              'Your profile is not active yet');
+                                        }
+                                      }
+                                    : () {
+                                        stateController.setCurrentTab(3);
+                                        snackBarClass.showToast(context,
+                                            'Please Login to preoceed');
+                                      },
                                 child: Text("Add to cart",
                                     style: TextStyles.addTocartText),
                               );

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';

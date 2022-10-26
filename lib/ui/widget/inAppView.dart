@@ -13,7 +13,7 @@ class InApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<InApp> {
-   final CartController cartController = Get.find();
+  final CartController cartController = Get.find();
   late InAppWebViewController _webViewController;
   String url = "";
   double progress = 0;
@@ -49,13 +49,12 @@ class _MyAppState extends State<InApp> {
             decoration:
                 BoxDecoration(border: Border.all(color: Colors.blueAccent)),
             child: InAppWebView(
-              initialUrlRequest:
-                  // URLRequest(url: Uri.parse("https://flutter.dev/")),
-                  URLRequest(url: Uri.parse(args?['href'] ?? '')),
+              initialUrlRequest: URLRequest(url: Uri.parse(args ?? '')),
               initialOptions: InAppWebViewGroupOptions(
-                  crossPlatform: InAppWebViewOptions(
-                javaScriptEnabled: true,
-              )),
+                crossPlatform: InAppWebViewOptions(
+                  javaScriptEnabled: true,
+                ),
+              ),
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
               },
@@ -79,7 +78,8 @@ class _MyAppState extends State<InApp> {
               onUpdateVisitedHistory: (controller, url, androidIsReload) {
                 log(controller.toString());
                 log(url.toString());
-                if (url.toString() == 'https://app.sbazar.app/order/${cartController.paymentData.value!.id}') {
+                if (url.toString() ==
+                    'https://prod.sbazar.app/order/${cartController.OrderId.value}') {
                   CartController cartController = Get.find();
                   cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');

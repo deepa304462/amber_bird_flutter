@@ -1,18 +1,12 @@
-// class _DealRowState extends State<DealRow> {
-import 'dart:developer';
-
 import 'package:amber_bird/controller/multi-product-controller.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
-import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:math' as math;
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
@@ -86,7 +80,6 @@ class MultiProductRow extends StatelessWidget {
             //     crossAxisSpacing: 10),
             itemBuilder: (_, index) {
               Multi mProduct = multiprodController.multiProd[index];
-              // var curProduct = dProduct!.product;
               return Card(
                 child: Column(
                   children: [
@@ -120,7 +113,6 @@ class MultiProductRow extends StatelessWidget {
                       alignment: AlignmentDirectional.bottomCenter,
                       child: Container(
                         padding: const EdgeInsets.only(left: 15, right: 15),
-                        // margin: const EdgeInsets.only(left: 3, right: 3),
                         decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -142,7 +134,6 @@ class MultiProductRow extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * .8,
                               child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   PriceTag(
                                       mProduct.price!.offerPrice.toString(),
@@ -167,7 +158,6 @@ class MultiProductRow extends StatelessWidget {
                                           isScrollControlled: true,
                                           elevation: 3,
                                           builder: (context) {
-                                            // return _bottomSheetAddToCart(product, context);
                                             return DealBottomDrawer(
                                                 mProduct.products,
                                                 mProduct.id,
@@ -176,7 +166,6 @@ class MultiProductRow extends StatelessWidget {
                                                 mProduct.name);
                                           },
                                         );
-                                        // cartController.addToCart(product!, refId!, addedFrom!);
                                       },
                                       icon: const Icon(
                                         Icons.add,
@@ -206,7 +195,7 @@ class MultiProductRow extends StatelessWidget {
         height: 120,
         child: Obx(() => ListView.builder(
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: multiprodController.multiProd.length,
             itemBuilder: (_, index) {
               return multiProductTile(

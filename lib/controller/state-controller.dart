@@ -53,10 +53,10 @@ class Controller extends GetxController {
     var userData = jsonDecode(await (SharedData.read('userData')));
     print(userData);
     ClientService.token = authData['accessToken'] ?? '';
-    if(userData['mappedTo'] != null){
+    if (userData['mappedTo'] != null) {
       syncUserProfile(userData['mappedTo']['_id']);
     }
-   
+
     if (authData['emailVerified'] != null) {
       isActivate.value = authData['emailVerified'];
       isEmailVerified.value = authData['emailVerified'];

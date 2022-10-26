@@ -2,7 +2,6 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +24,6 @@ class CartWidget extends StatelessWidget {
                     itemBuilder: (_, index) {
                       var currentKey = cartController.cartProducts.value.keys
                           .elementAt(index);
-                      print(currentKey);
                       return Padding(
                         padding: const EdgeInsets.only(left: 5),
                         child: cartController.cartProducts.value[currentKey]!
@@ -57,6 +55,8 @@ class CartWidget extends StatelessWidget {
                                               children: [
                                                 Text(currentProduct
                                                     .name!.defaultText!.text!),
+                                                Text(
+                                                    '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                                 Text(
                                                     '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
                                               ],
@@ -96,6 +96,8 @@ class CartWidget extends StatelessWidget {
                                                 .name!
                                                 .defaultText!
                                                 .text!),
+                                            Text(
+                                                '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                             Text(
                                                 '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} ')
                                           ],

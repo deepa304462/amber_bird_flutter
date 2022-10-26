@@ -21,6 +21,7 @@ class CartController extends GetxController {
   // Rx<Checkout> checkoutData = ({} as Checkout).obs ;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
+  RxString OrderId = "".obs;
   @override
   void onInit() {
     super.onInit();
@@ -41,6 +42,7 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
+       OrderId.value = resp1.data['_id'];
       var resp =
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
       if (resp.statusCode == 200) {
@@ -71,24 +73,17 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
+       OrderId.value = resp1.data['_id'];
       var payload = {
         "paidBy": (jsonDecode(custRef.toJson())),
         "order": {"name": "md", "_id": resp1.data['_id']},
         // "appliedCouponCode": {"name": "string", "_id": "string"},
-        "discountAmount": total,
+        "discountAmount": 0,
         "totalAmount": total,
         "paidAmount": total,
-         "currency": {
-          "currencyCode": "USD",
-          "defaultFractionDigits": 0,
-          "numericCode": 0,
-          "symbol": "\$",
-          "displayName": "\$",
-          "numericCodeAsString": "\$"
-        },
+        "currency": "USD",
         // "currency": {"currencyCode": "USD"},
         "status": "OPEN",
-
         "appliedTaxAmount": 0,
         "description": resp1.data['_id']
       };
@@ -98,7 +93,7 @@ class CartController extends GetxController {
       if (resp.statusCode == 200) {
         paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
         log(resp.data.toString());
-        return ({'error': false, 'data': resp.data['_links']['checkout']});
+        return ({'error': false, 'data': resp.data['checkoutUrl']});
       } else {
         return ({'error': true, 'data': ''});
       }
@@ -132,28 +127,30 @@ class CartController extends GetxController {
     createOrder();
   }
 
-  resetCart() async{
+  resetCart() async {
     cartProducts.clear();
-      var insightDetail =
-          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-      log(insightDetail.toString());
-      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-      cust.cart = null;
-      log(cust.toString());
-      OfflineDBService.save(
-          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    log(insightDetail.toString());
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    cust.cart = null;
+    log(cust.toString());
+    OfflineDBService.save(
+        OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
   }
 
   fetchCart() async {
     var insightDetailloc =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    Customer cust = Customer.fromMap(
-        (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
-    log(cust.toString());
-    if (cust.cart != null) {
-      cust.cart!.products!.forEach((element) {
-        cartProducts[element.ref!.id ?? ''] = element;
-      });
+    if (insightDetailloc != null) {
+      Customer cust = Customer.fromMap(
+          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
+      log(cust.toString());
+      if (cust.cart != null) {
+        cust.cart!.products!.forEach((element) {
+          cartProducts[element.ref!.id ?? ''] = element;
+        });
+      }
     }
   }
 
@@ -219,6 +216,7 @@ class CartController extends GetxController {
     log(payload.toString());
     var resp = await ClientService.post(path: 'order', payload: payload);
     if (resp.statusCode == 200) {
+       OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
       var insightDetail =

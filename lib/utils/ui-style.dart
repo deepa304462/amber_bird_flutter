@@ -90,10 +90,8 @@ class TextStyles {
       fontSize: FontSizes.body,
       fontWeight: FontWeight.w500,
       color: Colors.green);
-      static TextStyle get bodyRedBold => bodyFont.copyWith(
-      fontSize: FontSizes.body,
-      fontWeight: FontWeight.w800,
-      color: Colors.red);
+  static TextStyle get bodyRedBold => bodyFont.copyWith(
+      fontSize: FontSizes.body, fontWeight: FontWeight.w800, color: Colors.red);
   static TextStyle get titleGreen => titleFont.copyWith(
       fontSize: FontSizes.title,
       fontWeight: FontWeight.w500,
