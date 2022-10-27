@@ -41,7 +41,6 @@ dependencies:
   path_provider: ^2.0.2
   shared_preferences: ^2.0.6
   connectivity: ^3.0.6
-  flutter_modular: ^5.0.0
   flutter_dotenv: ^5.0.2
   location: ^4.2.0
   hive: ^2.0.4
@@ -51,7 +50,6 @@ dependencies:
   carousel_slider: ^4.1.1
   flutter_native_splash: ^2.2.6
   lottie: ^1.4.0
-  mapbox_gl: ^0.16.0
   get: ^4.6.5
   animations: ^2.0.3
   firebase_core: ^1.23.0 
@@ -64,6 +62,8 @@ dependencies:
   google_maps_flutter: ^2.2.1
   flutter_inappwebview: ^5.0.5
   fluttertoast: 
+  firebase_messaging: ^13.1.0
+  flutter_modular: ^5.0.3
   
 
 dev_dependencies:
