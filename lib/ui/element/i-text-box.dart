@@ -68,7 +68,7 @@ class ITextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
-                maxLength: 10,
+                maxLength: 15,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     labelText: label,
@@ -76,10 +76,7 @@ class ITextBox extends StatelessWidget {
                 controller: ipController,
                 obscureText: isPassword,
                 keyboardType: keyboardType,
-                // onChanged: (value) {
-                //   // this.phoneNo=value;
-                //   print(value);
-                // },
+                 
               ),
             ),
           ],

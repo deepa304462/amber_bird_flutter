@@ -194,94 +194,99 @@ class DealBottomDrawer extends StatelessWidget {
                           priceInfo!.actualPrice.toString()),
                       GetX<CartController>(builder: (cController) {
                         return cController.checkProductInCart(refId)
-                            ? Row(
-                                children: [
-                                  IconButton(
-                                    padding: const EdgeInsets.all(8),
-                                    constraints: const BoxConstraints(),
-                                    onPressed: () {
-                                      if (stateController.isLogin.value) {
-                                        cController.addToCart(
-                                            refId!,
-                                            addedFrom!,
-                                            -1,
-                                            priceInfo,
-                                            products![0], []);
-                                      } else {
-                                        stateController.setCurrentTab(3);
-                                        var showToast = snackBarClass.showToast(
-                                            context,
-                                            'Please Login to preoceed');
-                                      }
-                                      // cController.addToCart(p, refId!, addedFrom!, -1);
-                                    },
-                                    icon: const Icon(
-                                        Icons.remove_circle_outline,
-                                        color: Colors.black),
-                                  ),
-                                  Text(cController
-                                      .getCurrentQuantity(refId)
-                                      .toString()),
-                                  IconButton(
-                                    padding: const EdgeInsets.all(8),
-                                    constraints: const BoxConstraints(),
-                                    onPressed: () {
-                                      if (stateController.isLogin.value) {
-                                        cController.addToCart(
-                                            refId!,
-                                            addedFrom!,
-                                            1,
-                                            priceInfo,
-                                            products![0],
-                                            null);
-                                      } else {
-                                        stateController.setCurrentTab(3);
-                                        snackBarClass.showToast(context,
-                                            'Please Login to preoceed');
-                                      }
-                                      // cController.addToCart(p, refId!, addedFrom!, 1);
-                                    },
-                                    icon: const Icon(Icons.add_circle_outline,
-                                        color: Colors.black),
-                                  ),
-                                ],
-                              )
-                            : ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primeColor,
-                                    textStyle: TextStyles.bodyWhite),
-                                onPressed: stateController.isLogin.value
-                                    ? () {
-                                        if (stateController.isActivate.value) {
-                                          if (addedFrom == 'MULTIPRODUCT') {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                1,
-                                                priceInfo,
-                                                null,
-                                                products);
-                                          } else {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                1,
-                                                priceInfo,
-                                                products![0],
-                                                null);
-                                          }
+                            ? Obx(
+                                () => Row(
+                                  children: [
+                                    IconButton(
+                                      padding: const EdgeInsets.all(8),
+                                      constraints: const BoxConstraints(),
+                                      onPressed: () {
+                                        if (stateController.isLogin.value) {
+                                          cController.addToCart(
+                                              refId!,
+                                              addedFrom!,
+                                              -1,
+                                              priceInfo,
+                                              products![0], []);
                                         } else {
-                                          snackBarClass.showToast(context,
-                                              'Your profile is not active yet');
+                                          stateController.setCurrentTab(3);
+                                          var showToast =
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
                                         }
-                                      }
-                                    : () {
-                                        stateController.setCurrentTab(3);
-                                        snackBarClass.showToast(context,
-                                            'Please Login to preoceed');
+                                        // cController.addToCart(p, refId!, addedFrom!, -1);
                                       },
-                                child: Text("Add to cart",
-                                    style: TextStyles.addTocartText),
+                                      icon: const Icon(
+                                          Icons.remove_circle_outline,
+                                          color: Colors.black),
+                                    ),
+                                    Text(cController
+                                        .getCurrentQuantity(refId)
+                                        .toString()),
+                                    IconButton(
+                                      padding: const EdgeInsets.all(8),
+                                      constraints: const BoxConstraints(),
+                                      onPressed: () {
+                                        if (stateController.isLogin.value) {
+                                          cController.addToCart(
+                                              refId!,
+                                              addedFrom!,
+                                              1,
+                                              priceInfo,
+                                              products![0],
+                                              null);
+                                        } else {
+                                          stateController.setCurrentTab(3);
+                                          snackBarClass.showToast(context,
+                                              'Please Login to preoceed');
+                                        }
+                                        // cController.addToCart(p, refId!, addedFrom!, 1);
+                                      },
+                                      icon: const Icon(Icons.add_circle_outline,
+                                          color: Colors.black),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Obx(
+                                () => ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primeColor,
+                                      textStyle: TextStyles.bodyWhite),
+                                  onPressed: stateController.isLogin.value
+                                      ? () {
+                                          if (stateController
+                                              .isActivate.value) {
+                                            if (addedFrom == 'MULTIPRODUCT') {
+                                              cartController.addToCart(
+                                                  refId!,
+                                                  addedFrom!,
+                                                  1,
+                                                  priceInfo,
+                                                  null,
+                                                  products);
+                                            } else {
+                                              cartController.addToCart(
+                                                  refId!,
+                                                  addedFrom!,
+                                                  1,
+                                                  priceInfo,
+                                                  products![0],
+                                                  null);
+                                            }
+                                          } else {
+                                            snackBarClass.showToast(context,
+                                                'Your profile is not active yet');
+                                          }
+                                        }
+                                      : () {
+                                          stateController.setCurrentTab(3);
+                                          snackBarClass.showToast(context,
+                                              'Please Login to preoceed');
+                                        },
+                                  child: Text("Add to cart",
+                                      style: TextStyles.addTocartText),
+                                ),
                               );
                       }),
                     ],
