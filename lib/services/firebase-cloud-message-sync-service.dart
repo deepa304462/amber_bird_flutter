@@ -1,3 +1,5 @@
+import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -46,15 +48,30 @@ class FCMSyncService {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 
-  static tokenSync(String profileId) async {
+  static tokenSync(
+    Ref profile,
+  ) async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    print(fcmToken);
+    ClientService.post(path: 'notificationToken/add', payload: {
+      'profile': profile.toMap(),
+      'uniqueDeviceKey': profile.id,
+      'deviceType': 'ANDROID',
+      'token': fcmToken
+    });
   }
 
   static Future<Map<String, dynamic>> getFCMData() async {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
     return initialMessage!.data;
+  }
+
+  static subcribeTopic(String topic) async {
+    await FirebaseMessaging.instance.subscribeToTopic(topic);
+  }
+
+  static unSubcribeTopic(String topic) async {
+    await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 }
 
