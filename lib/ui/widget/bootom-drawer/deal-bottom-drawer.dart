@@ -255,8 +255,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       textStyle: TextStyles.bodyWhite),
                                   onPressed: stateController.isLogin.value
                                       ? () {
-                                          if (stateController
-                                              .isActivate.value) {
+                                          if (stateController.isActivate.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
                                                   refId!,
@@ -275,11 +274,13 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null);
                                             }
                                           } else {
+                                            Navigator.of(context).pop();
                                             snackBarClass.showToast(context,
                                                 'Your profile is not active yet');
                                           }
                                         }
                                       : () {
+                                          Navigator.of(context).pop();
                                           stateController.setCurrentTab(3);
                                           snackBarClass.showToast(context,
                                               'Please Login to preoceed');

@@ -243,25 +243,33 @@ class CartWidget extends StatelessWidget {
                   ))
             ]),
           )
-        : Padding(padding: EdgeInsets.all(10),
-        child: Center(child: 
-        Column(
-          children: [
-            Text('Your Cart is Empty',style: TextStyles.bodyFont,),
-            const SizedBox(height: 20,),
-            ElevatedButton(
+        : Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Your Cart is Empty',
+                    style: TextStyles.bodyFont,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primeColor,
                         textStyle: TextStyles.bodyWhite),
-                    onPressed:  () {
+                    onPressed: () {
                       Modular.to.navigate('../home/main');
-                    } ,
-                    child:  Text('Add Products',style: TextStyles.bodyWhiteLarge,)
+                    },
+                    child: Text(
+                      'Add Products',
+                      style: TextStyles.bodyWhiteLarge,
+                    ),
                   ),
-
-          ],
-        )
-        ,),);
-        
+                ],
+              ),
+            ),
+          );
   }
 }

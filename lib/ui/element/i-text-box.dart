@@ -17,17 +17,10 @@ class ITextBox extends StatelessWidget {
       this.keyboardType, this.isPassword, this.callback);
 
   final AuthController authController = Get.find();
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _ITextBox();
-//   }
-// }
-
-// class _ITextBox extends State<ITextBox> {
+ 
   @override
   Widget build(BuildContext context) {
-    TextEditingController ipController = new TextEditingController();
+    TextEditingController ipController = TextEditingController();
     ipController.addListener(() {
       authController.setFielsvalue(ipController.text, keyName);
     });
@@ -35,7 +28,7 @@ class ITextBox extends StatelessWidget {
     ipController.text = value;
     if (keyName != 'mobile') {
       return Container(
-        padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppColors.primeColor)),
@@ -76,7 +69,6 @@ class ITextBox extends StatelessWidget {
                 controller: ipController,
                 obscureText: isPassword,
                 keyboardType: keyboardType,
-                 
               ),
             ),
           ],

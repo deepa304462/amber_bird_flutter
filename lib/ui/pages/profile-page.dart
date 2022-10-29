@@ -68,7 +68,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            CodeHelp.titleCase(value.fullName!),
+                            CodeHelp.titleCase(value!.fullName!),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),

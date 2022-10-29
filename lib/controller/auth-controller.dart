@@ -162,7 +162,7 @@ class AuthController extends GetxController {
         if (loginResp.data['tokenManagerEntityId'] != null) {
           String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
           var tokenResp = await ClientService.get(
-              path: 'auth/$tokenManagerEntityId',
+              path: 'auth',
               id: '$tokenManagerEntityId?locale=en');
           print(tokenResp);
           if (tokenResp.statusCode == 200) {
