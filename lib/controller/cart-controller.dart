@@ -42,7 +42,7 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
-       OrderId.value = resp1.data['_id'];
+      OrderId.value = resp1.data['_id'];
       var resp =
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
       if (resp.statusCode == 200) {
@@ -73,7 +73,7 @@ class CartController extends GetxController {
     };
     var resp1 = await ClientService.post(path: 'order', payload: payload1);
     if (resp1.statusCode == 200) {
-       OrderId.value = resp1.data['_id'];
+      OrderId.value = resp1.data['_id'];
       var payload = {
         "paidBy": (jsonDecode(custRef.toJson())),
         "order": {"name": "md", "_id": resp1.data['_id']},
@@ -173,15 +173,19 @@ class CartController extends GetxController {
         quantity = quantity + addQuantity;
         price = price * quantity;
       }
-      List<ProductSummary> li = [];
+      List li = [];
       if (products != null) {
-        li.addAll(products);
+        products.forEach((element) { 
+          li.add(element.toJson());
+        });
+        // li.addAll(products.toList());
       }
-      inspect(product);
-
+ 
       ProductOrder cartRow = ProductOrder.fromMap({
-        'products': (jsonDecode(li.toString())),
-        'product': (jsonDecode(product!.toJson())),
+        'products': li.isNotEmpty
+            ?  (jsonDecode(li.toString()))
+            : (jsonDecode(li.toString())),
+        'product': product != null ? (jsonDecode(product.toJson())) : null,
         'count': quantity,
         'ref': {'_id': refId, 'name': null},
         'productType': addedFrom,
@@ -216,7 +220,7 @@ class CartController extends GetxController {
     log(payload.toString());
     var resp = await ClientService.post(path: 'order', payload: payload);
     if (resp.statusCode == 200) {
-       OrderId.value = resp.data['_id'];
+      OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
       var insightDetail =
