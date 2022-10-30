@@ -14,6 +14,7 @@ import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
+import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -54,6 +55,7 @@ class HomePageModule extends Module {
           return ProductGuidePage(productId);
         },
       ),
+      ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
