@@ -59,6 +59,7 @@ class LoginWidget extends StatelessWidget {
                           var data = await authController.login();
                           print(data);
                           if (data['status'] == 'success') {
+                            controller.getLoginInfo();
                             controller.isLogin.value = true;
                             controller.setCurrentTab(0);
                           }
@@ -152,9 +153,7 @@ class LoginWidget extends StatelessWidget {
                             controller.getLoginInfo();
                             controller.setCurrentTab(0);
                           }
-
                           isLoading.value = false;
-
                           snackBarClass.showToast(context, data['msg']);
                         },
                       ),

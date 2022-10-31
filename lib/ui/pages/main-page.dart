@@ -26,9 +26,8 @@ class MainPage extends StatelessWidget {
     return Container(
       color: Colors.grey.shade200,
       child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Obx(
               () => onBoardingController.onboardingData.value.pageWiseConfig !=

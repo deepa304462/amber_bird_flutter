@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -68,7 +69,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            CodeHelp.titleCase(value.fullName!),
+                            CodeHelp.titleCase(value!.fullName!),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),
@@ -112,7 +113,9 @@ class ProfilePage extends StatelessWidget {
                             ],
                           ),
                           trailing: IconButton(
-                              onPressed: () {}, icon: Icon(Icons.edit)),
+                              onPressed: () {
+                               Modular.to.navigate('../home/edit-profile');
+                              }, icon: Icon(Icons.edit)),
                         ),
                       ),
                     ],

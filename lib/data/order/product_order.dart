@@ -31,7 +31,8 @@ class ProductOrder {
             ? null
             : ProductSummary.fromMap(data['product']
                 as Map<String, dynamic>), //data['product'] ?? null,
-        products: (data['products'] as List<dynamic>?)
+        products: data['products'] == null
+            ? null : (data['products'] as List<dynamic>?)
             ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
             .toList(),
         productType: data['productType'] as String?,

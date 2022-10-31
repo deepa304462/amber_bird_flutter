@@ -90,11 +90,11 @@ class SignUp extends StatelessWidget {
                       controller.setCurrentTab(0);
                     }
                     isLoading.value = false;
-                    var showToast =
+                   
                         snackBarClass.showToast(context, data['msg']);
                   } catch (e) {
                     isLoading.value = false;
-                    var showToast = snackBarClass.showToast(
+                     snackBarClass.showToast(
                         context, 'Something went wrong...');
                   }
                 },

@@ -44,7 +44,9 @@ class locationWidget extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  stateController.navigateToUrl('/home/cart');
+                  if (stateController.isLogin.value) {
+                    stateController.navigateToUrl('/home/cart');
+                  }
                 },
                 child: Card(
                   color: AppColors.primeColor,

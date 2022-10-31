@@ -4,6 +4,7 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
+import 'package:amber_bird/ui/pages/order-detail-page.dart';
 import 'package:amber_bird/ui/pages/payment-status-page.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
@@ -13,6 +14,7 @@ import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
+import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -39,6 +41,13 @@ class HomePageModule extends Module {
         },
       ),
       ChildRoute(
+        '/order-detail',
+        child: (_, args) { 
+          String orderId = args.data['id']; 
+          return OrderDetailPage(orderId, search: false);
+        },
+      ),
+      ChildRoute(
         '/guide/:id',
         child: (_, args) {
           String productId = args.params['id'];
@@ -46,6 +55,7 @@ class HomePageModule extends Module {
           return ProductGuidePage(productId);
         },
       ),
+      ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
