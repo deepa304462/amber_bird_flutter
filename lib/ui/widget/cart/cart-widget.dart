@@ -31,61 +31,75 @@ class CartWidget extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 5),
                         child: cartController.cartProducts.value[currentKey]!
                                 .products!.isNotEmpty
-                            ? Container(
-                                margin: const EdgeInsets.all(2.0),
-                                padding: const EdgeInsets.all(3.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Color.fromARGB(
-                                            255, 113, 116, 122))),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: cartController.cartProducts
-                                      .value[currentKey]!.products!.length,
-                                  itemBuilder: (_, pIndex) {
-                                    var currentProduct = cartController
-                                        .cartProducts
-                                        .value[currentKey]!
-                                        .products![pIndex];
-                                    return Card(
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(16),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Image.network(
-                                                  '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                                  width: 80,
-                                                  height: 80,
-                                                  fit: BoxFit.fill),
-                                              Column(
+                            ? Stack(
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(3.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: const Color.fromARGB(
+                                                255, 113, 116, 122))),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: cartController.cartProducts
+                                          .value[currentKey]!.products!.length,
+                                      itemBuilder: (_, pIndex) {
+                                        var currentProduct = cartController
+                                            .cartProducts
+                                            .value[currentKey]!
+                                            .products![pIndex];
+                                        return Card(
+                                          color: Colors.white,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(currentProduct.name!
-                                                      .defaultText!.text!),
+                                                  Image.network(
+                                                      '${ClientService.cdnUrl}${currentProduct.images![0]}',
+                                                      width: 80,
+                                                      height: 80,
+                                                      fit: BoxFit.fill),
+                                                  Column(
+                                                    children: [
+                                                      Text(currentProduct.name!
+                                                          .defaultText!.text!),
+                                                      Text(
+                                                          '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
+                                                      Text(
+                                                          '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                                    ],
+                                                  ),
                                                   Text(
-                                                      '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
-                                                  Text(
-                                                      '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
-                                                ],
-                                              ),
-                                              Text(
-                                                  '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    cartController
-                                                        .removeProduct(
-                                                            currentKey);
-                                                  },
-                                                  icon: const Icon(
-                                                      Icons.close_rounded))
-                                            ]),
-                                      ),
-                                    );
-                                  },
-                                ),
+                                                      '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
+                                                  // IconButton(
+                                                  //     onPressed: () {
+                                                  //       cartController
+                                                  //           .removeProduct(
+                                                  //               currentKey);
+                                                  //     },
+                                                  //     icon: const Icon(
+                                                  //         Icons.close_rounded))
+                                                ]),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          cartController
+                                              .removeProduct(currentKey);
+                                        },
+                                        icon: const Icon(Icons.close_rounded)),
+                                  )
+                                ],
                               )
                             : Card(
                                 color: Colors.white,
@@ -112,17 +126,18 @@ class CartWidget extends StatelessWidget {
                                           Text(
                                               '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                           Text(
-                                              '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} ')
+                                              '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                         ],
                                       ),
                                       Text(
                                           '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
                                       IconButton(
-                                          onPressed: () {
-                                            cartController
-                                                .removeProduct(currentKey);
-                                          },
-                                          icon: const Icon(Icons.close_rounded))
+                                        onPressed: () {
+                                          cartController
+                                              .removeProduct(currentKey);
+                                        },
+                                        icon: const Icon(Icons.close_rounded),
+                                      )
                                     ],
                                   ),
                                 ),

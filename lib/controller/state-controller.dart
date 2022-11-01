@@ -6,7 +6,6 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -103,7 +102,10 @@ class Controller extends GetxController {
     SharedData.remove('userData');
     SharedData.remove('authData');
     SharedData.remove('ProfileAuthData');
-    changeTab(currentTab.toInt());
+    SharedData.remove('ProfileAuthData');
+    changeTab(currentTab.toInt()); 
+    OfflineDBService.delete( OfflineDBService.customerInsightDetail,
+        OfflineDBService.customerInsightDetail);
   }
 
   bool isPriceOff(ProductSummary product) {

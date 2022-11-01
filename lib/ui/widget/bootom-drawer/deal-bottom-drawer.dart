@@ -270,8 +270,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                   addedFrom!,
                                                   1,
                                                   priceInfo,
-                                                  products![0],
-                                                  null);
+                                                  null,
+                                                  products);
                                             }
                                           } else {
                                             Navigator.of(context).pop();

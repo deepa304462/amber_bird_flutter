@@ -168,22 +168,33 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice).toDouble();
-      if (getData != null) {
-        quantity = getData.count!;
-        quantity = quantity + addQuantity;
-        price = price * quantity;
-      }
+
       List li = [];
       if (products != null) {
-        products.forEach((element) { 
+        price = 0;
+        products.forEach((element) {
           li.add(element.toJson());
+          if (getData != null) {
+            quantity = getData.count!;
+            quantity = quantity + addQuantity;
+            price = price + element.varient!.price!.offerPrice * quantity;
+          }else{
+            // quantity = quantity + addQuantity;
+            price = price + element.varient!.price!.offerPrice * quantity;
+          }
         });
         // li.addAll(products.toList());
+      } else {
+        if (getData != null) {
+          quantity = getData.count!;
+          quantity = quantity + addQuantity;
+          price = price * quantity;
+        }
       }
- 
+      log(li.toString());
       ProductOrder cartRow = ProductOrder.fromMap({
         'products': li.isNotEmpty
-            ?  (jsonDecode(li.toString()))
+            ? (jsonDecode(li.toString()))
             : (jsonDecode(li.toString())),
         'product': product != null ? (jsonDecode(product.toJson())) : null,
         'count': quantity,
