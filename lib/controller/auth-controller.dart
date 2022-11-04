@@ -31,6 +31,7 @@ class AuthController extends GetxController {
     'userName': '',
     'countryCode': ''
   }.obs;
+  var usernameValid = true.obs;
   var loginWith = LoginType.emailPassword.obs;
   @override
   void onInit() {
@@ -42,6 +43,13 @@ class AuthController extends GetxController {
     loginWith.value = key;
   }
 
+  checkValidityUsername() async{
+    var loginResp = await ClientService.get(
+        path: 'usernameSuggest?username=${fieldValue['userName']}');
+    print(loginResp);
+    if (loginResp.statusCode == 200) {
+    }
+  }
   initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
@@ -62,6 +70,7 @@ class AuthController extends GetxController {
   }
 
   login() async {
+    print(fieldValue);
     var loginPayload = {
       "password": fieldValue['password'],
       "username": fieldValue['email'],
@@ -91,8 +100,7 @@ class AuthController extends GetxController {
         "socialMediaId": fieldValue['thirdPartyId'].toString(),
         "appName": "DIAGO_TEAM_WEB_APP"
       };
-    }
-    print('dfdfv${loginPayload}');
+    } 
     inspect(loginPayload);
     var loginResp = await ClientService.post(
         path: 'auth/authenticate', payload: loginPayload);
@@ -162,8 +170,7 @@ class AuthController extends GetxController {
         if (loginResp.data['tokenManagerEntityId'] != null) {
           String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
           var tokenResp = await ClientService.get(
-              path: 'auth',
-              id: '$tokenManagerEntityId?locale=en');
+              path: 'auth', id: '$tokenManagerEntityId?locale=en');
           print(tokenResp);
           if (tokenResp.statusCode == 200) {
             SharedData.save(jsonEncode(tokenResp.data), 'userData');
@@ -313,16 +320,16 @@ class AuthController extends GetxController {
     bool isNumber = true,
     bool isSpecial = true,
   }) {
-    final length = 20;
-    final letterLowerCase = "abcdefghijklmnopqrstuvwxyz";
-    final letterUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    final number = '0123456789';
-    final special = '@#%^*>\$@?/[]=+';
+    const length = 20;
+    const letterLowerCase = "abcdefghijklmnopqrstuvwxyz";
+    const letterUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const number = '0123456789';
+    const special = '@#%^*>\$@?/[]=+';
 
     String chars = "";
     if (letter) chars += '$letterLowerCase$letterUpperCase';
-    if (isNumber) chars += '$number';
-    if (isSpecial) chars += '$special';
+    if (isNumber) chars += number;
+    if (isSpecial) chars += special;
 
     return List.generate(length, (index) {
       final indexRandom = Random.secure().nextInt(chars.length);

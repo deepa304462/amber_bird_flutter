@@ -1,8 +1,10 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -177,8 +179,105 @@ class ProductDetailScreen extends StatelessWidget {
                                         .toString()),
                               ),
                             ),
-                            Text("Add to cart",
-                                style: TextStyles.addTocartText),
+                            Obx(() {
+                              ProductSummary summary = ProductSummary.fromMap({
+                                "name": productController.product.value.name!
+                                    .toMap(),
+                                "description": productController
+                                    .product.value.description!
+                                    .toMap(),
+                                "images":
+                                    productController.product.value.images,
+                                "varient":
+                                    productController.varient.value.toMap(),
+                                "category": productController
+                                    .product.value.category!
+                                    .toMap(),
+                                "countryCode":
+                                    productController.product.value.countryCode,
+                                "id": productController.product.value.id
+                              });
+                              return cartController.checkProductInCart(
+                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                  ? Row(
+                                      children: [
+                                        IconButton(
+                                          padding: const EdgeInsets.all(8),
+                                          constraints: const BoxConstraints(),
+                                          onPressed: () {
+                                            if (stateController.isLogin.value) {
+                                              cartController.addToCart(
+                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                  addedFrom!,
+                                                  -1,
+                                                  productController
+                                                      .varient.value.price!,
+                                                  summary,
+                                                  null);
+                                            } else {
+                                              stateController.setCurrentTab(3);
+                                              var showToast =
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Please Login to preoceed');
+                                            }
+                                            // cController.addToCart(p, refId!, addedFrom!, -1);
+                                          },
+                                          icon: const Icon(
+                                              Icons.remove_circle_outline,
+                                              color: Colors.black),
+                                        ),
+                                        Text(cartController
+                                            .getCurrentQuantity('${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                            .toString()),
+                                        IconButton(
+                                          padding: const EdgeInsets.all(8),
+                                          constraints: const BoxConstraints(),
+                                          onPressed: () {
+                                            if (stateController.isLogin.value) {
+                                              cartController.addToCart(
+                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                  addedFrom!,
+                                                  1,
+                                                  productController
+                                                      .varient.value.price!,
+                                                  summary,
+                                                  null);
+                                            } else {
+                                              stateController.setCurrentTab(3);
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
+                                            }
+                                            // cController.addToCart(p, refId!, addedFrom!, 1);
+                                          },
+                                          icon: const Icon(
+                                              Icons.add_circle_outline,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    )
+                                  : TextButton(
+                                      onPressed: () {
+                                        if (stateController.isLogin.value) {
+                                          cartController.addToCart(
+                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                              addedFrom!,
+                                              1,
+                                              productController
+                                                  .varient.value.price!,
+                                              summary,
+                                              null);
+                                        } else {
+                                          stateController.setCurrentTab(3);
+                                          var showToast =
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
+                                        }
+                                      },
+                                      child: Text("Add to cart",
+                                          style: TextStyles.addTocartText),
+                                    );
+                            })
                           ],
                         ),
                       ),

@@ -17,11 +17,14 @@ class ITextBox extends StatelessWidget {
       this.keyboardType, this.isPassword, this.callback);
 
   final AuthController authController = Get.find();
- 
+
   @override
   Widget build(BuildContext context) {
     TextEditingController ipController = TextEditingController();
     ipController.addListener(() {
+      if (keyName == 'userName') {
+        authController.checkValidityUsername();
+      }
       authController.setFielsvalue(ipController.text, keyName);
     });
 

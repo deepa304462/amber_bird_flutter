@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -11,6 +12,7 @@ import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
+  final CartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class ProfilePage extends StatelessWidget {
                 child: TextButton(
                   onPressed: () async {
                     stateController.logout();
+                    cartController.fetchCart();
                   },
                   child: Text("Logout", style: TextStyles.headingFont),
                 ),
@@ -69,7 +72,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            CodeHelp.titleCase(value!.fullName!),
+                            CodeHelp.titleCase(value.fullName!),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),

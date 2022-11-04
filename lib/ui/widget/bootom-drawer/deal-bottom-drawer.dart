@@ -202,12 +202,30 @@ class DealBottomDrawer extends StatelessWidget {
                                       constraints: const BoxConstraints(),
                                       onPressed: () {
                                         if (stateController.isLogin.value) {
-                                          cController.addToCart(
-                                              refId!,
-                                              addedFrom!,
-                                              -1,
-                                              priceInfo,
-                                              products![0], []);
+                                          if (addedFrom == 'MULTIPRODUCT') {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                -1,
+                                                priceInfo,
+                                                null,
+                                                products);
+                                          }
+                                          {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                -1,
+                                                priceInfo,
+                                                products![0],
+                                                null);
+                                          }
+                                          // cController.addToCart(
+                                          //     refId!,
+                                          //     addedFrom!,
+                                          //     -1,
+                                          //     priceInfo,
+                                          //     null, products);
                                         } else {
                                           stateController.setCurrentTab(3);
                                           var showToast =
@@ -228,19 +246,28 @@ class DealBottomDrawer extends StatelessWidget {
                                       constraints: const BoxConstraints(),
                                       onPressed: () {
                                         if (stateController.isLogin.value) {
-                                          cController.addToCart(
-                                              refId!,
-                                              addedFrom!,
-                                              1,
-                                              priceInfo,
-                                              products![0],
-                                              null);
+                                          if (addedFrom == 'MULTIPRODUCT') {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                1,
+                                                priceInfo,
+                                                null,
+                                                products);
+                                          } else {
+                                            cartController.addToCart(
+                                                refId!,
+                                                addedFrom!,
+                                                1,
+                                                priceInfo,
+                                                products![0],
+                                                null);
+                                          }
                                         } else {
                                           stateController.setCurrentTab(3);
                                           snackBarClass.showToast(context,
                                               'Please Login to preoceed');
                                         }
-                                        // cController.addToCart(p, refId!, addedFrom!, 1);
                                       },
                                       icon: const Icon(Icons.add_circle_outline,
                                           color: Colors.black),
@@ -255,7 +282,8 @@ class DealBottomDrawer extends StatelessWidget {
                                       textStyle: TextStyles.bodyWhite),
                                   onPressed: stateController.isLogin.value
                                       ? () {
-                                          if (stateController.isActivate.value) {
+                                          if (stateController
+                                              .isActivate.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
                                                   refId!,
@@ -270,8 +298,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                   addedFrom!,
                                                   1,
                                                   priceInfo,
-                                                  null,
-                                                  products);
+                                                  products![0],
+                                                  null);
                                             }
                                           } else {
                                             Navigator.of(context).pop();

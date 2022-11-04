@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -48,6 +50,7 @@ class Controller extends GetxController {
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
+
     var authData = jsonDecode(await (SharedData.read('authData')));
     var userData = jsonDecode(await (SharedData.read('userData')));
     print(userData);
@@ -56,6 +59,15 @@ class Controller extends GetxController {
       syncUserProfile(userData['mappedTo']['_id']);
     }
 
+    // update token
+    if (isLogin.value) {
+      Ref data = Ref.fromMap({
+        '_id': userData['mappedTo']['_id'],
+        'name': userData['mappedTo']['name']
+      });
+      await FCMSyncService.tokenSync(data);
+    }
+    //end update token
     if (authData['emailVerified'] != null) {
       isActivate.value = authData['emailVerified'];
       isEmailVerified.value = authData['emailVerified'];
@@ -93,6 +105,8 @@ class Controller extends GetxController {
   }
 
   logout() {
+     OfflineDBService.delete(OfflineDBService.customerInsightDetail,
+        OfflineDBService.customerInsightDetail);
     isLogin.value = false;
     isActivate.value = false;
     isEmailVerified.value = false;
@@ -103,9 +117,8 @@ class Controller extends GetxController {
     SharedData.remove('authData');
     SharedData.remove('ProfileAuthData');
     SharedData.remove('ProfileAuthData');
-    changeTab(currentTab.toInt()); 
-    OfflineDBService.delete( OfflineDBService.customerInsightDetail,
-        OfflineDBService.customerInsightDetail);
+    changeTab(currentTab.toInt());
+   
   }
 
   bool isPriceOff(ProductSummary product) {
