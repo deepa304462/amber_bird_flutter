@@ -162,8 +162,7 @@ class AuthController extends GetxController {
         if (loginResp.data['tokenManagerEntityId'] != null) {
           String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
           var tokenResp = await ClientService.get(
-              path: 'auth',
-              id: '$tokenManagerEntityId?locale=en');
+              path: 'auth', id: '$tokenManagerEntityId?locale=en');
           print(tokenResp);
           if (tokenResp.statusCode == 200) {
             SharedData.save(jsonEncode(tokenResp.data), 'userData');

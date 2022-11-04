@@ -27,9 +27,9 @@ class CountryPickerDropdown extends StatelessWidget {
         var data = jsonDecode(elem['extraData']);
         arr.add({'label': data['label'], 'value': data['value']});
       });
-      dropdownItems.value =
-          arr;
-           callback(dropdownvalue.value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
+      dropdownItems.value = arr;
+      callback(dropdownvalue
+          .value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
       print(dropdownItems.value.toString());
       // (data['varients'] as List<dynamic>?)
       //       ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))

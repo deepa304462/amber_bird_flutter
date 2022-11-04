@@ -6,6 +6,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -63,11 +64,24 @@ class ProductCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         addedFrom == dealName.FLASH.toString()
-            ? Text(
-                difference.inDays != null
-                    ? '${difference.inDays}D ${difference.inHours}hr Left'
-                    : '${difference.inHours}hr ${difference.inMinutes}hr Left',
-                style: TextStyles.bodyRedBold,
+            ? CardColorAnimated(
+                Padding(
+                  padding:
+                      EdgeInsets.only(right: 5, top: 1, bottom: 1, left: 2),
+                  child: Text(
+                    difference.inHours != null
+                        ? '${difference.inHours}H left'
+                        : '${difference.inMinutes}M left',
+                    style:
+                        TextStyles.bodyFontBold.copyWith(color: Colors.white),
+                  ),
+                ),
+                Colors.red,
+                Colors.indigo,
+                const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12),
+                        bottomRight: Radius.circular(12))),
               )
             : const SizedBox(),
         Obx(() {
@@ -141,7 +155,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.all(5),
+      padding: const EdgeInsetsDirectional.all(2),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15.0),
         child: Stack(

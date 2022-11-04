@@ -20,7 +20,7 @@ class PaymentStatusWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             child: Text(
                 'Your Payment is ${cartController.paymentData.value!.status}'));
-      }else if (cartController.paymentData.value!.status == 'paid') {
+      } else if (cartController.paymentData.value!.status == 'paid') {
         return Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Center(
@@ -36,11 +36,12 @@ class PaymentStatusWidget extends StatelessWidget {
                 //     shape: BoxShape.circle,
                 //   ),
                 //   child:
-                   Lottie.asset('assets/10470-confirm.json',
-                   width: 200,
+                Lottie.asset(
+                  'assets/10470-confirm.json',
+                  width: 200,
                   height: 200,
-                   fit: BoxFit.contain,
-                  ),
+                  fit: BoxFit.contain,
+                ),
                 // ),
                 SizedBox(height: screenHeight * 0.1),
                 Text(
@@ -70,13 +71,14 @@ class PaymentStatusWidget extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-                 SizedBox(height: screenHeight * 0.05),
+                SizedBox(height: screenHeight * 0.05),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.darkOrange,
                       textStyle: TextStyles.bodyWhite),
                   onPressed: () async {
-                     Modular.to.navigate('/home/order-detail', arguments: {'id':cartController.OrderId.value});
+                    Modular.to.navigate('/home/order-detail',
+                        arguments: {'id': cartController.OrderId.value});
                   },
                   child: Text(
                     "Check Order",

@@ -1,6 +1,8 @@
+import 'package:amber_bird/controller/referral-controller.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class ReferralPage extends StatelessWidget {
@@ -8,6 +10,7 @@ class ReferralPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ReferralController controller = Get.put(ReferralController());
     return Scaffold(
       appBar: AppBar(
           elevation: 1,
@@ -27,60 +30,72 @@ class ReferralPage extends StatelessWidget {
                 repeat: true),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Text(
-                  'Get ${CodeHelp.euro}9 for user you refer',
-                  style: TextStyles.bodyPrimaryLarge.copyWith(
-                      fontWeight: FontWeight.w900, color: AppColors.primeColor),
-                ),
-                Text(
-                  'Share following link with your friends & family',
-                  textAlign: TextAlign.center,
-                  style: TextStyles.bodyPrimaryLarge.copyWith(
-                      fontWeight: FontWeight.normal, color: Colors.grey),
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(width: 2, color: AppColors.primeColor)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      'https://app.sbazar.app/refer/1abcdc',
-                      style: TextStyles.bodyFontBold,
-                    ),
-                  ),
-                ),
-                const Divider(),
-                MaterialButton(
-                  onPressed: () {},
-                  color: AppColors.primeColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.share,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          'Share',
-                          style: TextStyles.titleXLargeWhite
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(() {
+                return controller.isLoading.value
+                    ? LinearProgressIndicator()
+                    : Column(
+                        children: [
+                          Text(
+                            'Get ${CodeHelp.euro}9 for user you refer',
+                            style: TextStyles.bodyPrimaryLarge.copyWith(
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.primeColor),
+                          ),
+                          Text(
+                            'Share following link with your friends & family',
+                            textAlign: TextAlign.center,
+                            style: TextStyles.bodyPrimaryLarge.copyWith(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey),
+                          ),
+                          Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: BorderSide(
+                                    width: 2, color: AppColors.primeColor)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Obx(() {
+                                return Text(
+                                  controller.shortLink.value.shortUrl!,
+                                  style: TextStyles.bodyFontBold,
+                                );
+                              }),
+                            ),
+                          ),
+                          const Divider(),
+                          MaterialButton(
+                            onPressed: () {
+                              CodeHelp.shareWithOther(
+                                  'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
+                                  'Share now');
+                            },
+                            color: AppColors.primeColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.share,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    'Share',
+                                    style: TextStyles.titleXLargeWhite
+                                        .copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+              })),
           termsAndCondition(context)
         ],
       ),

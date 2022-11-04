@@ -42,8 +42,8 @@ class HomePageModule extends Module {
       ),
       ChildRoute(
         '/order-detail',
-        child: (_, args) { 
-          String orderId = args.data['id']; 
+        child: (_, args) {
+          String orderId = args.data['id'];
           return OrderDetailPage(orderId, search: false);
         },
       ),
@@ -75,8 +75,8 @@ class AppOnboardingGuard extends RouteGuard {
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
     var onboardLocal = await (SharedData.read('onboardingDone'));
-    bool onboard = onboardLocal.toString() != 'true';
-    // bool onboard = false;
+    // bool onboard = onboardLocal.toString() != 'true';
+    bool onboard = false;
     FlutterNativeSplash.remove();
     return onboard;
   }

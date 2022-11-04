@@ -103,8 +103,8 @@ class Controller extends GetxController {
     SharedData.remove('authData');
     SharedData.remove('ProfileAuthData');
     SharedData.remove('ProfileAuthData');
-    changeTab(currentTab.toInt()); 
-    OfflineDBService.delete( OfflineDBService.customerInsightDetail,
+    changeTab(currentTab.toInt());
+    OfflineDBService.delete(OfflineDBService.customerInsightDetail,
         OfflineDBService.customerInsightDetail);
   }
 

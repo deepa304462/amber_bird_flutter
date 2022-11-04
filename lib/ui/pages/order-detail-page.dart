@@ -15,7 +15,8 @@ class OrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final OrderController orderController = Get.put(OrderController(orderId), tag: orderId);
+    final OrderController orderController =
+        Get.put(OrderController(orderId), tag: orderId);
     print(orderId);
     return OrderDetailWidget(orderId);
   }

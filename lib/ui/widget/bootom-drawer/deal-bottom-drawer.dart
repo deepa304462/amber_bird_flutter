@@ -255,7 +255,8 @@ class DealBottomDrawer extends StatelessWidget {
                                       textStyle: TextStyles.bodyWhite),
                                   onPressed: stateController.isLogin.value
                                       ? () {
-                                          if (stateController.isActivate.value) {
+                                          if (stateController
+                                              .isActivate.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
                                                   refId!,

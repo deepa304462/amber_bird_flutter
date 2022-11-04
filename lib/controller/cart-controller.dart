@@ -178,7 +178,7 @@ class CartController extends GetxController {
             quantity = getData.count!;
             quantity = quantity + addQuantity;
             price = price + element.varient!.price!.offerPrice * quantity;
-          }else{
+          } else {
             // quantity = quantity + addQuantity;
             price = price + element.varient!.price!.offerPrice * quantity;
           }

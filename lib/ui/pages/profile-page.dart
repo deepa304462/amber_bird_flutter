@@ -14,29 +14,26 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(0),
-        child: Column(children: [
-          profileCard(context, stateController.loggedInProfile.value),
-          sectionCard('FAQ', 'Get answer for your specific query', () => {}),
-          sectionCard('Help', 'Get help from our customer care team', () => {}),
-          sectionCard(
-              'Privacy policy', 'Explains legals and policies', () => {}),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: TextButton(
-                  onPressed: () async {
-                    stateController.logout();
-                  },
-                  child: Text("Logout", style: TextStyles.headingFont),
-                ),
-              ),
+    return ListView(physics: const BouncingScrollPhysics(), children: [
+      profileCard(context, stateController.loggedInProfile.value),
+      sectionCard('FAQ', 'Get answer for your specific query', () => {}),
+      sectionCard('Help', 'Get help from our customer care team', () => {}),
+      sectionCard('Privacy policy', 'Explains legals and policies', () => {}),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: TextButton(
+              onPressed: () async {
+                stateController.logout();
+              },
+              child: Text("Logout", style: TextStyles.headingFont),
             ),
           ),
-        ]));
+        ),
+      ),
+    ]);
   }
 
   profileCard(BuildContext context, UserProfile value) {
@@ -114,8 +111,9 @@ class ProfilePage extends StatelessWidget {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                               Modular.to.navigate('../home/edit-profile');
-                              }, icon: Icon(Icons.edit)),
+                                Modular.to.navigate('../home/edit-profile');
+                              },
+                              icon: Icon(Icons.edit)),
                         ),
                       ),
                     ],

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' as math;
 
+import 'package:share_plus/share_plus.dart';
+
 class CodeHelp {
   CodeHelp._();
   static String euro = '€';
@@ -18,6 +20,10 @@ class CodeHelp {
       return "GM";
     }
     return unit;
+  }
+
+  static shareWithOther(String dataToString, String subject) {
+    Share.share(dataToString, subject: subject);
   }
 
   static toast(String message) {

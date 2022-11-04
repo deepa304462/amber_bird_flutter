@@ -15,13 +15,12 @@ class OrderController extends GetxController {
     getOrder(tag);
   }
 
-   getOrder(String id) async {
-    print(id); 
-    var response =
-        await ClientService.get(path: 'order', id: id);
+  getOrder(String id) async {
+    print(id);
+    var response = await ClientService.get(path: 'order', id: id);
     if (response.statusCode == 200) {
       log(response.data.toString());
-      orderDetail.value = Order.fromMap(response.data as Map<String,dynamic>);
+      orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);
     }
-   }
+  }
 }

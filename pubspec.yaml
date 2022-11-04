@@ -66,6 +66,7 @@ dependencies:
   flutter_modular: ^5.0.3
   mapbox_gl_web: ^0.16.0
   firebase_analytics: ^9.3.8
+  share_plus: ^6.2.0
   
 
 dev_dependencies:
