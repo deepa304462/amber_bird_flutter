@@ -39,9 +39,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    ]);
+        ]));
   }
 
   profileCard(BuildContext context, UserProfile value) {
