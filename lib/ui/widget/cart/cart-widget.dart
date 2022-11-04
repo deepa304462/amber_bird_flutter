@@ -172,9 +172,24 @@ class CartWidget extends StatelessWidget {
                                   true
                           ? Column(
                               children: [
-                                Center(
-                                  child: Text("All Product Availale",
-                                      style: TextStyles.headingFontBlue),
+                                // Center(
+                                //   child: Text("All Product Availale",
+                                //       style: TextStyles.headingFontBlue),
+                                // ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Total Price',
+                                      style: TextStyles.headingFontGray,
+                                    ),
+                                    Text(
+                                      cartController.totalPrice.value.offerPrice
+                                          .toString(),
+                                      style: TextStyles.mrpStyle,
+                                    )
+                                  ],
                                 ),
                                 Center(
                                   child: ElevatedButton(

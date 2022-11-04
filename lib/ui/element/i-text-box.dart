@@ -22,6 +22,9 @@ class ITextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController ipController = TextEditingController();
     ipController.addListener(() {
+      if (keyName == 'userName') {
+        authController.checkValidityUsername();
+      }
       authController.setFielsvalue(ipController.text, keyName);
     });
 

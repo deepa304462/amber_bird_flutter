@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:path_provider/path_provider.dart';
 
-enum APIVersion { V1, V2 }
+enum _APIVersion { V1, V2 }
 
 enum RESTMethod { POST, PUT, DELETE, DOWNLOAD, GET, SEARCH, AUTH }
 
@@ -41,10 +40,10 @@ class ClientService {
   static DefaultCacheManager cacheManager = DefaultCacheManager();
   static String token = '';
 
-  static setUrl({String? newUrl, required APIVersion ver}) {
-    if (ver == APIVersion.V1) {
+  static setUrl({String? newUrl, required _APIVersion ver}) {
+    if (ver == _APIVersion.V1) {
       url = newUrl!;
-    } else if (ver == APIVersion.V2) {
+    } else if (ver == _APIVersion.V2) {
       urlV2 = newUrl!;
     }
   }
@@ -61,7 +60,7 @@ class ClientService {
   static Future<Response> get(
       {required String path,
       String? id,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         path: path, id: id, apiVersion: ver, method: RESTMethod.GET);
   }
@@ -69,7 +68,7 @@ class ClientService {
   static Future<Response> delete(
       {required String path,
       required String id,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         path: path, id: id, apiVersion: ver, method: RESTMethod.DELETE);
   }
@@ -78,7 +77,7 @@ class ClientService {
       {required String path,
       required Map<String, dynamic> payload,
       String payloadAsString = '',
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     if (payloadAsString != '') {
       return await _call(
           path: path,
@@ -97,7 +96,7 @@ class ClientService {
   static Future<Response> auth(
       {required String path,
       required Map<String, dynamic> payload,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         path: path, payload: payload, apiVersion: ver, method: RESTMethod.AUTH);
   }
@@ -106,7 +105,7 @@ class ClientService {
       {required String path,
       required Map<String, dynamic> query,
       required String lang,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         path: path,
         payload: query,
@@ -119,7 +118,7 @@ class ClientService {
       {required String path,
       Map<String, dynamic>? payload,
       String? id,
-      APIVersion? apiVersion,
+      _APIVersion? apiVersion,
       String? lang,
       required RESTMethod method,
       int retry = 3}) async {
@@ -132,20 +131,27 @@ class ClientService {
     try {
       switch (method) {
         case RESTMethod.GET:
-          response = await dio.get(
-              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
-              options: Options(headers: header));
+          if (id != null && id != '') {
+            response = await dio.get(
+                '${apiVersion == _APIVersion.V1 ? url : urlV2}$path/$id',
+                options: Options(headers: header));
+          } else {
+            response = await dio.get(
+                '${apiVersion == _APIVersion.V1 ? url : urlV2}$path',
+                options: Options(headers: header));
+          }
+
           return response;
         case RESTMethod.POST:
         case RESTMethod.AUTH:
           if (id != null && id != '') {
             response = await dio.post(
-                (apiVersion == APIVersion.V1 ? url : urlV2) + path,
+                (apiVersion == _APIVersion.V1 ? url : urlV2) + path,
                 data: id,
                 options: Options(headers: header));
           } else {
             response = await dio.post(
-                (apiVersion == APIVersion.V1 ? url : urlV2) + path,
+                (apiVersion == _APIVersion.V1 ? url : urlV2) + path,
                 data: payload,
                 options: Options(headers: header));
           }
@@ -158,19 +164,19 @@ class ClientService {
             queryMap['locale'] = lang;
           }
           response = await dio.get(
-              (apiVersion == APIVersion.V1 ? url : urlV2) + path,
+              (apiVersion == _APIVersion.V1 ? url : urlV2) + path,
               queryParameters: queryMap,
               options: Options(headers: header));
           return response;
         case RESTMethod.PUT:
           response = await dio.put(
-              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
+              '${apiVersion == _APIVersion.V1 ? url : urlV2}$path/$id',
               data: payload,
               options: Options(headers: header));
           return response;
         case RESTMethod.DELETE:
           response = await dio.delete(
-              '${apiVersion == APIVersion.V1 ? url : urlV2}$path/$id',
+              '${apiVersion == _APIVersion.V1 ? url : urlV2}$path/$id',
               options: Options(headers: header));
           return response;
         case RESTMethod.DOWNLOAD:
@@ -201,7 +207,7 @@ class ClientService {
       {required String path,
       required String id,
       required Map<String, dynamic> payload,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         payload: payload,
         id: id,
@@ -214,7 +220,7 @@ class ClientService {
       {required File file,
       required String filePath,
       required Map<String, dynamic> payload,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     FormData formData = FormData.fromMap({
       'data': jsonEncode(payload),
       "files": await MultipartFile.fromFile(file.path,
@@ -224,7 +230,7 @@ class ClientService {
 
     try {
       //404
-      return await dio.post('${ver == APIVersion.V1 ? url : urlV2}file',
+      return await dio.post('${ver == _APIVersion.V1 ? url : urlV2}file',
           data: formData, options: Options(contentType: 'multipart/form-data'));
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
@@ -241,12 +247,12 @@ class ClientService {
   static Future<File> downloadFileFromUrl(
       {required String path,
       required String id,
-      APIVersion ver = APIVersion.V1}) async {
+      _APIVersion ver = _APIVersion.V1}) async {
     File file = await cacheManager.getSingleFile(id);
     // ignore: unnecessary_null_comparison
     if (file == null) {
       var request =
-          await dio.get('${ver == APIVersion.V1 ? url : urlV2}$path/$id',
+          await dio.get('${ver == _APIVersion.V1 ? url : urlV2}$path/$id',
               options: Options(
                 responseType: ResponseType.bytes,
                 followRedirects: false,

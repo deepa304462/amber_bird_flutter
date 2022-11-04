@@ -15,13 +15,12 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  // RxMap<String, CartProduct> cartProducts = <String, CartProduct>{}.obs;
-  // RxMap<String, Order> cartProducts = <String, Order>{}.obs;
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
-  // Rx<Checkout> checkoutData = ({} as Checkout).obs ;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
   RxString OrderId = "".obs;
+  Rx<Price> totalPrice = Price.fromMap({}).obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -30,9 +29,13 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
+    Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
     cartProducts.value.values.forEach((v) {
+      pr.actualPrice += v.price!.actualPrice;
+      pr.offerPrice += v.price!.actualPrice;
       listSumm.add((jsonDecode(v.toJson())));
     });
+    totalPrice.value = pr;
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
@@ -43,8 +46,10 @@ class CartController extends GetxController {
     var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
       OrderId.value = resp1.data['_id'];
+      log(jsonEncode(resp1.data).toString());
       var resp =
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
+      log(jsonEncode(resp.data).toString());
       if (resp.statusCode == 200) {
         log(resp.data.toString());
         Checkout data = Checkout.fromMap(resp.data);
@@ -151,6 +156,8 @@ class CartController extends GetxController {
           cartProducts[element.ref!.id ?? ''] = element;
         });
       }
+    } else {
+      cartProducts.value = Map();
     }
   }
 
@@ -168,7 +175,6 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice).toDouble();
-
       List li = [];
       if (products != null) {
         price = 0;
@@ -179,11 +185,9 @@ class CartController extends GetxController {
             quantity = quantity + addQuantity;
             price = price + element.varient!.price!.offerPrice * quantity;
           } else {
-            // quantity = quantity + addQuantity;
             price = price + element.varient!.price!.offerPrice * quantity;
           }
         });
-        // li.addAll(products.toList());
       } else {
         if (getData != null) {
           quantity = getData.count!;
@@ -209,7 +213,6 @@ class CartController extends GetxController {
           'offerPrice': price
         }
       });
-
       cartProducts[refId] = cartRow;
     } else {}
     createOrder();
@@ -221,7 +224,6 @@ class CartController extends GetxController {
       listSumm.add((jsonDecode(v.toJson())));
     });
     Ref custRef = await Helper.getCustomerRef();
-
     var payload = {
       'status': 'TEMPORARY_OR_CART',
       'customerRef': (jsonDecode(custRef.toJson())),

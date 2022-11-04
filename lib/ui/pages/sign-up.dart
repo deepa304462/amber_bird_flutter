@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 class SignUp extends StatelessWidget {
   final AuthController authController = Get.find();
   final Controller controller = Get.find();
+  final CartController cartController = Get.find();
   RxBool isLoading = false.obs;
 
   @override
@@ -17,7 +19,7 @@ class SignUp extends StatelessWidget {
       return Card(
         elevation: 5,
         color: Colors.white,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
@@ -57,6 +59,20 @@ class SignUp extends StatelessWidget {
                 height: 10,
               ),
               ITextBox(
+                  'Username',
+                  'userName',
+                  mController.fieldValue['userName'].toString(),
+                  false,
+                  TextInputType.text,
+                  false,
+                  callback),
+              mController.usernameValid.value
+                  ? const SizedBox()
+                  : const Text('Not Valid Username'),
+              const SizedBox(
+                height: 10,
+              ),
+              ITextBox(
                   'Email',
                   'email',
                   mController.fieldValue['email'].toString(),
@@ -87,7 +103,9 @@ class SignUp extends StatelessWidget {
                     print(data);
                     if (data['status'] == 'success') {
                       controller.isLogin.value = true;
+                      controller.getLoginInfo();
                       controller.setCurrentTab(0);
+                      cartController.fetchCart();
                     }
                     isLoading.value = false;
 
@@ -129,7 +147,9 @@ class SignUp extends StatelessWidget {
                   var data = await mController.signInWithFacebook();
                   if (data['status'] == 'success') {
                     controller.isLogin.value = true;
+                    controller.getLoginInfo();
                     controller.setCurrentTab(0);
+                    cartController.fetchCart();
                   }
                   isLoading.value = false;
                   snackBarClass.showToast(context, data['msg']);
@@ -164,6 +184,7 @@ class SignUp extends StatelessWidget {
                     controller.isLogin.value = true;
                     controller.getLoginInfo();
                     controller.setCurrentTab(0);
+                    cartController.fetchCart();
                   }
                   isLoading.value = false;
                   snackBarClass.showToast(context, data['msg']);

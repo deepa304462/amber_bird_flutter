@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -11,24 +12,31 @@ import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
+  final CartController cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return ListView(physics: const BouncingScrollPhysics(), children: [
-      profileCard(context, stateController.loggedInProfile.value),
-      sectionCard('FAQ', 'Get answer for your specific query', () => {}),
-      sectionCard('Help', 'Get help from our customer care team', () => {}),
-      sectionCard('Privacy policy', 'Explains legals and policies', () => {}),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: TextButton(
-              onPressed: () async {
-                stateController.logout();
-              },
-              child: Text("Logout", style: TextStyles.headingFont),
+    return Container(
+        padding: const EdgeInsets.all(0),
+        child: Column(children: [
+          profileCard(context, stateController.loggedInProfile.value),
+          sectionCard('FAQ', 'Get answer for your specific query', () => {}),
+          sectionCard('Help', 'Get help from our customer care team', () => {}),
+          sectionCard(
+              'Privacy policy', 'Explains legals and policies', () => {}),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: TextButton(
+                  onPressed: () async {
+                    stateController.logout();
+                    cartController.fetchCart();
+                  },
+                  child: Text("Logout", style: TextStyles.headingFont),
+                ),
+              ),
             ),
           ),
         ),
@@ -66,7 +74,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: Text(
-                            CodeHelp.titleCase(value!.fullName!),
+                            CodeHelp.titleCase(value.fullName!),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),

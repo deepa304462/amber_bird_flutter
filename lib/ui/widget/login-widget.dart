@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 class LoginWidget extends StatelessWidget {
   final AuthController authController = Get.find();
+    final CartController cartController = Get.find();
   final Controller controller = Get.find();
   RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class LoginWidget extends StatelessWidget {
                             controller.getLoginInfo();
                             controller.isLogin.value = true;
                             controller.setCurrentTab(0);
+                            cartController.fetchCart();
                           }
                           isLoading.value = false;
                           snackBarClass.showToast(context, data['msg']);
@@ -152,6 +155,7 @@ class LoginWidget extends StatelessWidget {
                             controller.isLogin.value = true;
                             controller.getLoginInfo();
                             controller.setCurrentTab(0);
+                            cartController.fetchCart();
                           }
                           isLoading.value = false;
                           snackBarClass.showToast(context, data['msg']);
