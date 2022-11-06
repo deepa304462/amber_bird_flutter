@@ -43,6 +43,7 @@ class SignUp extends StatelessWidget {
                   false,
                   TextInputType.text,
                   false,
+                  false,
                   callback),
               const SizedBox(
                 height: 10,
@@ -54,21 +55,24 @@ class SignUp extends StatelessWidget {
                   false,
                   TextInputType.phone,
                   false,
+                  false,
                   callback),
               const SizedBox(
                 height: 10,
               ),
               ITextBox(
                   'Username',
-                  'userName',
-                  mController.fieldValue['userName'].toString(),
+                  'username',
+                  mController.fieldValue['username'].toString(),
                   false,
                   TextInputType.text,
+                  false,
                   false,
                   callback),
               mController.usernameValid.value
                   ? const SizedBox()
-                  : const Text('Not Valid Username'),
+                  : Text(
+                      'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}'),
               const SizedBox(
                 height: 10,
               ),
@@ -79,6 +83,7 @@ class SignUp extends StatelessWidget {
                   false,
                   TextInputType.emailAddress,
                   false,
+                  mController.fieldValue['isThirdParty'] as bool,
                   callback),
               const SizedBox(
                 height: 10,
@@ -90,6 +95,7 @@ class SignUp extends StatelessWidget {
                   false,
                   TextInputType.visiblePassword,
                   true,
+                  false,
                   callback),
               const SizedBox(
                 height: 20,
@@ -102,10 +108,10 @@ class SignUp extends StatelessWidget {
                     var data = await mController.signInWithGoogle();
                     print(data);
                     if (data['status'] == 'success') {
-                      controller.isLogin.value = true;
-                      controller.getLoginInfo();
-                      controller.setCurrentTab(0);
-                      cartController.fetchCart();
+                      // controller.isLogin.value = true;
+                      // controller.getLoginInfo();
+                      // controller.setCurrentTab(0);
+                      // cartController.fetchCart();
                     }
                     isLoading.value = false;
 
@@ -163,7 +169,7 @@ class SignUp extends StatelessWidget {
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
                         !isLoading.value ? 'Sign in with Facebook' : 'Loading',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black54,
                           fontWeight: FontWeight.w600,
@@ -178,16 +184,22 @@ class SignUp extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  isLoading.value = true;
-                  var data = await mController.signUp();
-                  if (data['status'] == 'success') {
-                    controller.isLogin.value = true;
-                    controller.getLoginInfo();
-                    controller.setCurrentTab(0);
-                    cartController.fetchCart();
+                  await mController.checkValidityUsername();
+                  if (mController.usernameValid.value) {
+                    isLoading.value = true;
+
+                    var data = await mController.signUp();
+                    if (data['status'] == 'success') {
+                      controller.isLogin.value = true;
+                      controller.getLoginInfo();
+                      controller.setCurrentTab(0);
+                      cartController.fetchCart();
+                    }
+                    isLoading.value = false;
+                    snackBarClass.showToast(context, data['msg']);
+                  } else {
+                    snackBarClass.showToast(context, 'Please fill corrct username');
                   }
-                  isLoading.value = false;
-                  snackBarClass.showToast(context, data['msg']);
                 },
                 style: ButtonStyle(
                     backgroundColor:

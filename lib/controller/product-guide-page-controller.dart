@@ -11,10 +11,10 @@ class ProductGuidePageController extends GetxController {
     print('ok');
     ClientService.post(path: 'productGuide/search?locale=en', payload: {})
         .then((value) {
-      (value.data as List).forEach((element) {
+      for (var element in (value.data as List)) {
         productGuide.value = ProductGuide.fromMap(element);
         isLoading.value = false;
-      });
+      }
     });
     super.onInit();
   }

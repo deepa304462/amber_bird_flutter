@@ -93,7 +93,7 @@ class ProductDetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height * .32,
                       child: productPageView(productController.product.value,
                           width, height, context),

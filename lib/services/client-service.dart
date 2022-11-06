@@ -36,7 +36,7 @@ class ClientService {
 
   static String url = "https://prod.sbazar.app/";
   static String cdnUrl = "https://cdn2.sbazar.app/";
-  static Dio dio = new Dio();
+  static Dio dio = Dio();
   static DefaultCacheManager cacheManager = DefaultCacheManager();
   static String token = '';
 
@@ -60,6 +60,7 @@ class ClientService {
   static Future<Response> get(
       {required String path,
       String? id,
+      // ignore: library_private_types_in_public_api
       _APIVersion ver = _APIVersion.V1}) async {
     return await _call(
         path: path, id: id, apiVersion: ver, method: RESTMethod.GET);
@@ -181,8 +182,7 @@ class ClientService {
           return response;
         case RESTMethod.DOWNLOAD:
           throw Exception('no supported');
-          break;
-      }
+       }
     } catch (e) {
       print(url + path);
       DioError error = e as DioError;
@@ -198,8 +198,7 @@ class ClientService {
         return error.response;
       } else {
         throw e;
-      }
-      throw e;
+      } 
     }
   }
 

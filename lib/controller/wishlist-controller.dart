@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class WishlistController extends GetxController {
   RxMap<String, WishlistProduct> wishlistProducts =
-      Map<String, WishlistProduct>().obs;
+      <String, WishlistProduct>{}.obs;
 
   @override
   void onInit() {

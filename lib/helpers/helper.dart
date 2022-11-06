@@ -7,7 +7,7 @@ import 'package:amber_bird/utils/data-cache-service.dart';
 class Helper {
   static Product conertToProductSummary() {
     print("1234");
-    return new Product();
+    return Product();
   }
 
   static Future<Ref> getCustomerRef() async {

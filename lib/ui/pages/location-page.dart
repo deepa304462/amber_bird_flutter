@@ -1,13 +1,8 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/location-controller.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as Google;
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 

@@ -11,10 +11,11 @@ class ITextBox extends StatelessWidget {
   final String keyName;
   final bool iscomingFromThridParty;
   final bool isPassword;
+  final bool isDisabled;
   final TextInputType keyboardType;
   Function(String) callback;
   ITextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
-      this.keyboardType, this.isPassword, this.callback);
+      this.keyboardType, this.isPassword, this.isDisabled, this.callback);
 
   final AuthController authController = Get.find();
 
@@ -22,9 +23,9 @@ class ITextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController ipController = TextEditingController();
     ipController.addListener(() {
-      if (keyName == 'userName') {
-        authController.checkValidityUsername();
-      }
+      // if (keyName == 'userName') {
+      //   authController.checkValidityUsername();
+      // }
       authController.setFielsvalue(ipController.text, keyName);
     });
 
@@ -44,6 +45,7 @@ class ITextBox extends StatelessWidget {
           controller: ipController,
           obscureText: isPassword,
           keyboardType: keyboardType,
+          readOnly: isDisabled,
         ),
       );
     } else {
@@ -73,6 +75,7 @@ class ITextBox extends StatelessWidget {
                     counterText: ""),
                 controller: ipController,
                 obscureText: isPassword,
+                readOnly: isDisabled,
                 keyboardType: keyboardType,
               ),
             ),

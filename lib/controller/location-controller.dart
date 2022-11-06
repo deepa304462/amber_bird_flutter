@@ -9,13 +9,13 @@ import 'package:location/location.dart';
 
 class LocationController extends GetxController {
   Locale currentLocale = const Locale('en');
-  Rx<LatLng> currentLatLang = LatLng(0, 0).obs;
-  RxMap address = Map().obs;
+  Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
+  RxMap address = {}.obs;
   Rx<bool> mapLoad = false.obs;
   late GoogleMapController mapController;
-  Dio dio = new Dio();
-  LatLng latLng = LatLng(0, 0);
-  Rx<Marker> currentPin = Marker(
+  Dio dio = Dio();
+  LatLng latLng = const LatLng(0, 0);
+  Rx<Marker> currentPin = const Marker(
     markerId: MarkerId('pin'),
   ).obs;
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
@@ -42,7 +42,7 @@ class LocationController extends GetxController {
       }
 
       currentPin.value =
-          Marker(markerId: MarkerId('pin'), position: currentLatLang.value);
+          Marker(markerId: const MarkerId('pin'), position: currentLatLang.value);
     }
     return locationExists;
   }
@@ -58,7 +58,7 @@ class LocationController extends GetxController {
 
   void updatePosition(CameraPosition _position) {
     currentPin.value = Marker(
-        markerId: MarkerId('pin'),
+        markerId: const MarkerId('pin'),
         position:
             LatLng(_position.target.latitude, _position.target.longitude));
     checkAddress(_position.target);
@@ -85,9 +85,9 @@ class LocationController extends GetxController {
     LocationData locationData = await location.getLocation();
     LatLng currentLocation =
         LatLng(locationData.latitude!, locationData.longitude!);
-    this.currentLatLang.value = currentLocation;
+    currentLatLang.value = currentLocation;
     currentPin.value =
-        Marker(markerId: MarkerId('pin'), position: currentLocation);
+        Marker(markerId: const MarkerId('pin'), position: currentLocation);
     getAddressFromLatLng(locationData.latitude!, locationData.longitude!);
     mapLoad.value = false;
   }
@@ -117,8 +117,8 @@ class LocationController extends GetxController {
   }
 
   getAddressFromLatLng(double lat, double lng) async {
-    String _host = 'https://maps.google.com/maps/api/geocode/json';
-    final url = '$_host?key=$mapKey&language=en&latlng=$lat,$lng';
+    String host = 'https://maps.google.com/maps/api/geocode/json';
+    final url = '$host?key=$mapKey&language=en&latlng=$lat,$lng';
     if (lat != null && lng != null) {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
