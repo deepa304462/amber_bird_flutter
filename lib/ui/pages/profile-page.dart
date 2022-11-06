@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -71,7 +72,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: ListTile(
-                          title: Text(
+                          title: FitText(
                             CodeHelp.titleCase(value.fullName!),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
@@ -85,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                                     Icons.person,
                                     size: 15,
                                   ),
-                                  Text(value.userName!,
+                                  FitText(value.userName!,
                                       style: TextStyles.bodyFontBold),
                                 ],
                               ),
@@ -97,7 +98,7 @@ class ProfilePage extends StatelessWidget {
                                         Icons.call,
                                         size: 15,
                                       ),
-                                      Text(value.mobile!,
+                                      FitText(value.mobile!,
                                           style: TextStyles.bodyFontBold),
                                     ],
                                   ),
@@ -107,7 +108,7 @@ class ProfilePage extends StatelessWidget {
                                         Icons.email,
                                         size: 15,
                                       ),
-                                      Text(value.email!,
+                                      FitText(value.email!,
                                           style: TextStyles.bodyFontBold),
                                     ],
                                   )

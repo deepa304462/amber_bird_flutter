@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:amber_bird/home-page-module.dart';
-import 'package:amber_bird/ui/pages/WildCardRoutePage.dart';
+import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
