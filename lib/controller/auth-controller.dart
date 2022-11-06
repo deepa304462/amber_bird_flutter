@@ -117,11 +117,7 @@ class AuthController extends GetxController {
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];
       SharedData.save(jsonEncode(loginResp.data), 'authData');
-      // var searchPAyload = {
-      //   "type": "DIAGO_APP_PROFILE",
-      //   "email": fieldValue['email'],
-      //   "userName": fieldValue['email']
-      // };
+
       if (loginResp.data['tokenManagerEntityId'] != null) {
         String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
         var tokenResp = await ClientService.get(
