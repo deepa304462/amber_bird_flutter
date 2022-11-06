@@ -105,7 +105,7 @@ class Controller extends GetxController {
   }
 
   logout() {
-     OfflineDBService.delete(OfflineDBService.customerInsightDetail,
+    OfflineDBService.delete(OfflineDBService.customerInsightDetail,
         OfflineDBService.customerInsightDetail);
     isLogin.value = false;
     isActivate.value = false;
@@ -118,7 +118,8 @@ class Controller extends GetxController {
     SharedData.remove('ProfileAuthData');
     SharedData.remove('ProfileAuthData');
     changeTab(currentTab.toInt());
-   
+    OfflineDBService.delete(OfflineDBService.customerInsightDetail,
+        OfflineDBService.customerInsightDetail);
   }
 
   bool isPriceOff(ProductSummary product) {

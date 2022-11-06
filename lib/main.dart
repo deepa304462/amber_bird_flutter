@@ -11,7 +11,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
- 
+
+//flutter build apk --split-per-abi
 class ChangeLocale {
   static Function change = () {};
 }
@@ -23,7 +24,7 @@ void main() async {
   await Firebase.initializeApp();
   await FCMSyncService.init();
   await OfflineDBService.init();
-  AnalyticsService.logEvent('initalization',{
+  AnalyticsService.logEvent('initalization', {
     "message": 'initalized App',
   });
   // await FCMSyncService.tokenSync(Ref());

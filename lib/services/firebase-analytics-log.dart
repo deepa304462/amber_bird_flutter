@@ -7,8 +7,7 @@ class AnalyticsService {
       FirebaseAnalyticsObserver(analytics: analytics);
   static init() async {
     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    await analytics
-        .setDefaultEventParameters({'version': '0.0.1'});
+    await analytics.setDefaultEventParameters({'version': '0.0.1'});
   }
 
   static logEvent(name, parameters) async {
@@ -28,9 +27,9 @@ class AnalyticsService {
     //     'bool': true.toString(),
     //   },
     // );
-   }
+  }
 
   Future<void> setUserId(id) async {
     await analytics.setUserId(id: id);
-   }
+  }
 }

@@ -37,6 +37,7 @@ class ITextBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppColors.primeColor)),
         child: TextField(
+          style: TextStyles.titleLarge,
           decoration: InputDecoration(
             border: InputBorder.none,
             labelText: label,
@@ -66,6 +67,7 @@ class ITextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
+                style: TextStyles.titleLarge,
                 maxLength: 15,
                 decoration: InputDecoration(
                     border: InputBorder.none,

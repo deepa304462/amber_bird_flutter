@@ -30,7 +30,7 @@ class LocationPage extends StatelessWidget {
                       )
                     : Lottie.network(
                         'https://assets1.lottiefiles.com/packages/lf20_is82b4.json',
-                        frameRate: FrameRate(5),
+                        frameRate: FrameRate(50),
                         repeat: false),
               ),
             ),

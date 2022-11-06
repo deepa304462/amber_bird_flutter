@@ -58,16 +58,10 @@ class _MyAppState extends State<InApp> {
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
               },
-              onLoadStart: (controller, url) {
-               
-              },
-              onLoadStop: (controller, url) async {
-                
-              },
+              onLoadStart: (controller, url) {},
+              onLoadStop: (controller, url) async {},
               onProgressChanged:
-                  (InAppWebViewController controller, int progress) {
-               
-              },
+                  (InAppWebViewController controller, int progress) {},
               onUpdateVisitedHistory: (controller, url, androidIsReload) {
                 log(controller.toString());
                 log(url.toString());

@@ -13,13 +13,13 @@ class ProfileWidget extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.all(10),
         child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(onPressed: (){
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            IconButton(
+                onPressed: () {
                   Modular.to.navigate('../home/main');
-                }, icon: const Icon(Icons.arrow_back))
-            ]),
+                },
+                icon: const Icon(Icons.arrow_back))
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -59,7 +59,6 @@ class ProfileWidget extends StatelessWidget {
               ),
             ],
           ),
-           
         ]));
   }
 }

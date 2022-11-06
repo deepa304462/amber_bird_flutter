@@ -117,8 +117,9 @@ class ProfilePage extends StatelessWidget {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                               Modular.to.navigate('../home/edit-profile');
-                              }, icon: Icon(Icons.edit)),
+                                Modular.to.navigate('../home/edit-profile');
+                              },
+                              icon: Icon(Icons.edit)),
                         ),
                       ),
                     ],
