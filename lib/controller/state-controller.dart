@@ -53,20 +53,12 @@ class Controller extends GetxController {
 
     var authData = jsonDecode(await (SharedData.read('authData')));
     var userData = jsonDecode(await (SharedData.read('userData')));
-    print(userData);
     ClientService.token = authData['accessToken'] ?? '';
     if (userData['mappedTo'] != null) {
       syncUserProfile(userData['mappedTo']['_id']);
     }
 
     // update token
-    if (isLogin.value) {
-      Ref data = Ref.fromMap({
-        '_id': userData['mappedTo']['_id'],
-        'name': userData['mappedTo']['name']
-      });
-      await FCMSyncService.tokenSync(data);
-    }
     //end update token
     if (authData['emailVerified'] != null) {
       isActivate.value = authData['emailVerified'];
@@ -74,12 +66,9 @@ class Controller extends GetxController {
       isPhoneVerified.value = authData['mobileVerified'];
       tokenManagerEntityId.value = authData['tokenManagerEntityId'];
     }
-    if (userData['mappedTo'] != null) {
-      getCustomerDate(userData['mappedTo']['_id']);
-    }
   }
 
-  getCustomerDate(tokenManagerEntityId) async {
+  getCustomerData(tokenManagerEntityId) async {
     var customerInsightDetail = await ClientService.post(
         path: 'customerInsight/detail',
         payload: {},
@@ -207,7 +196,16 @@ class Controller extends GetxController {
   void checkAuth() {}
 
   void syncUserProfile(profileId) {
-    ClientService.get(path: 'user-profile', id: profileId).then(
-        (value) => loggedInProfile.value = UserProfile.fromMap(value.data));
+    ClientService.get(path: 'user-profile', id: profileId).then((value) {
+      loggedInProfile.value = UserProfile.fromMap(value.data);
+      Ref data = Ref.fromMap({
+        '_id': loggedInProfile.value.id,
+        'name': loggedInProfile.value.fullName
+      });
+      FCMSyncService.tokenSync(data);
+      getCustomerData(loggedInProfile.value.id);
+    }).catchError((error) {
+      logout();
+    });
   }
 }

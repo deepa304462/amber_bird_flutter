@@ -1,4 +1,5 @@
 import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -13,6 +14,10 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         // ChildRoute('/', child: (_, args) => LoginPageWidget()),
         ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
+        ChildRoute('/verify', child: (_, args) {
+          return EmailVerificationPage(
+              args.queryParams['email']!, args.queryParams['token']!);
+        }),
         ModuleRoute('/', module: HomePageModule()),
 
         // ChildRoute('/feedbackFormList',
