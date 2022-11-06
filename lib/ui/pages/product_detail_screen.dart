@@ -219,7 +219,7 @@ class ProductDetailScreen extends StatelessWidget {
                                               var showToast =
                                                   snackBarClass.showToast(
                                                       context,
-                                                      'Please Login to preoceed');
+                                                      'Please login to proceed');
                                             }
                                             // cController.addToCart(p, refId!, addedFrom!, -1);
                                           },
@@ -228,7 +228,8 @@ class ProductDetailScreen extends StatelessWidget {
                                               color: Colors.black),
                                         ),
                                         Text(cartController
-                                            .getCurrentQuantity('${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                            .getCurrentQuantity(
+                                                '${productController.product.value.id!}@${productController.varient.value.varientCode}')
                                             .toString()),
                                         IconButton(
                                           padding: const EdgeInsets.all(8),
