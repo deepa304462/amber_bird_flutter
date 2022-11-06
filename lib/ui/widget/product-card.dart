@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
     var difference;
     if (addedFrom == dealName.FLASH.toString()) {
       String expire = ruleConfig!.willExpireAt ?? '';
-      var newDate = DateTime.now().toUtc(); //DateTime.now();
+      var newDate = DateTime.now().toUtc();
       difference = DateTime.parse(expire).difference(newDate);
     }
     return Row(
