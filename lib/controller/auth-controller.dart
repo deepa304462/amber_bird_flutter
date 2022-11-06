@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'dart:math';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -28,10 +26,11 @@ class AuthController extends GetxController {
     'thirdPartyName': '',
     'mobile': '',
     'password': '',
-    'userName': '',
+    'username': '',
     'countryCode': ''
   }.obs;
   var usernameValid = true.obs;
+  var suggestedUsername = ''.obs;
   var loginWith = LoginType.emailPassword.obs;
   @override
   void onInit() {
@@ -43,13 +42,23 @@ class AuthController extends GetxController {
     loginWith.value = key;
   }
 
-  checkValidityUsername() async{
-    var loginResp = await ClientService.get(
-        path: 'usernameSuggest?username=${fieldValue['userName']}');
-    print(loginResp);
-    if (loginResp.statusCode == 200) {
+  checkValidityUsername() async {
+    if (fieldValue['username'].toString().length > 2) {
+      usernameValid.value = false;
+      var resp = await ClientService.get(
+          path: 'auth/usernameSuggest?username=${fieldValue['username']}');
+      print(resp);
+      if (resp.statusCode == 200) {
+        if (fieldValue['username'].toString() == resp.data['username']) {
+          usernameValid.value = true;
+        } else {
+          usernameValid.value = false;
+          suggestedUsername.value = resp.data['username'];
+        }
+      }
     }
   }
+
   initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
   }
@@ -64,7 +73,7 @@ class AuthController extends GetxController {
       'thirdPartyName': '',
       'mobile': '',
       'password': '',
-      'userName': '',
+      'username': '',
       'countryCode': ''
     };
   }
@@ -73,7 +82,7 @@ class AuthController extends GetxController {
     print(fieldValue);
     var loginPayload = {
       "password": fieldValue['password'],
-      "username": fieldValue['email'],
+      "userName": fieldValue['username'],
       // "appName": "DIAGO_TEAM_WEB_APP"
     };
     if (loginWith.value == LoginType.usernamePassword) {
@@ -100,7 +109,7 @@ class AuthController extends GetxController {
         "socialMediaId": fieldValue['thirdPartyId'].toString(),
         "appName": "DIAGO_TEAM_WEB_APP"
       };
-    } 
+    }
     inspect(loginPayload);
     var loginResp = await ClientService.post(
         path: 'auth/authenticate', payload: loginPayload);
@@ -108,11 +117,11 @@ class AuthController extends GetxController {
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];
       SharedData.save(jsonEncode(loginResp.data), 'authData');
-      var searchPAyload = {
-        "type": "DIAGO_APP_PROFILE",
-        "email": fieldValue['email'],
-        "userName": fieldValue['email']
-      };
+      // var searchPAyload = {
+      //   "type": "DIAGO_APP_PROFILE",
+      //   "email": fieldValue['email'],
+      //   "userName": fieldValue['email']
+      // };
       if (loginResp.data['tokenManagerEntityId'] != null) {
         String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
         var tokenResp = await ClientService.get(
@@ -138,81 +147,95 @@ class AuthController extends GetxController {
   }
 
   dynamic signUp() async {
-    var payload = {
-      "suggestedUsername": fieldValue['email'],
-      "orgRef": {"name": "sbazar", "_id": "sbazar"},
-      "email": fieldValue['email'],
-      "mobile": fieldValue['countryCode'].toString() +
-          fieldValue['mobile'].toString(),
-      "fullName": fieldValue['fullName'],
-      "acls": ["user"],
-      "profileType": "DIAGO_APP_PROFILE",
-      "password": fieldValue['password'],
-      "profileType": "CUSTOMER"
-    };
-    var resp = await ClientService.post(path: 'profile-auth', payload: payload);
-    if (resp.statusCode == 200) {
-      SharedData.save(jsonEncode(resp.data), 'ProfileAuthData');
-      print(resp);
-      var loginPayload = {
+    if (fieldValue['email'] != '' &&
+        fieldValue['username'] != '' &&
+        fieldValue['email'] != '' &&
+        fieldValue['email'] != '') {
+      var payload = {
+        "suggestedUsername": fieldValue['username'],
+        "orgRef": {"name": "sbazar", "_id": "sbazar"},
+        "email": fieldValue['email'],
+        "mobile": fieldValue['countryCode'].toString() +
+            fieldValue['mobile'].toString(),
+        "fullName": fieldValue['fullName'],
+        "acls": ["user"],
+        // "profileType": "DIAGO_APP_PROFILE",
         "password": fieldValue['password'],
-        "userName": fieldValue['email'],
-        // "appName": "DIAGO_TEAM_WEB_APP"
+        "profileType": "CUSTOMER",
+        "orgShortCode": ""
       };
-      print(loginPayload);
-      var loginResp = await ClientService.post(
-          path: 'auth/authenticate', payload: loginPayload);
+      print(payload);
+      var resp =
+          await ClientService.post(path: 'profile-auth', payload: payload);
+      if (resp.statusCode == 200) {
+        SharedData.save(jsonEncode(resp.data), 'ProfileAuthData');
+        print(resp);
+        var loginPayload = {
+          "password": fieldValue['password'],
+          "userName": fieldValue['username'],
+          // "appName": "DIAGO_TEAM_WEB_APP"
+        };
+        print(loginPayload);
+        var loginResp = await ClientService.post(
+            path: 'auth/authenticate', payload: loginPayload);
 
-      print(loginResp);
-      if (loginResp.statusCode == 200) {
-        ClientService.token = loginResp.data['accessToken'];
-        SharedData.save(jsonEncode(loginResp.data), 'authData');
-        if (loginResp.data['tokenManagerEntityId'] != null) {
-          String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
-          var tokenResp = await ClientService.get(
-              path: 'auth', id: '$tokenManagerEntityId?locale=en');
-          print(tokenResp);
-          if (tokenResp.statusCode == 200) {
-            SharedData.save(jsonEncode(tokenResp.data), 'userData');
-          }
-        }
-        if (fieldValue['isThirdParty'] as bool) {
-          var socialdata = [
-            {
-              "type": fieldValue['thirdPartyName'],
-              "socialMediaId": fieldValue['thirdPartyId'],
-              "imageFromSocialMedia": fieldValue['imageFromSocialMedia'],
-              "socialMediaAvatar": fieldValue['imageFromSocialMedia']
+        print(loginResp);
+        if (loginResp.statusCode == 200) {
+          ClientService.token = loginResp.data['accessToken'];
+          SharedData.save(jsonEncode(loginResp.data), 'authData');
+          if (loginResp.data['tokenManagerEntityId'] != null) {
+            String tokenManagerEntityId =
+                loginResp.data['tokenManagerEntityId'];
+            var tokenResp = await ClientService.get(
+                path: 'auth', id: '$tokenManagerEntityId?locale=en');
+            print(tokenResp);
+            if (tokenResp.statusCode == 200) {
+              SharedData.save(jsonEncode(tokenResp.data), 'userData');
             }
-          ];
-          resp.data['profile']['socialMediaOAuths'] = socialdata;
-          var userPayload = resp.data['profile'];
+          }
+          if (fieldValue['isThirdParty'] as bool) {
+            var socialdata = [
+              {
+                "type": fieldValue['thirdPartyName'],
+                "socialMediaId": fieldValue['thirdPartyId'],
+                "imageFromSocialMedia": fieldValue['imageFromSocialMedia'],
+                "socialMediaAvatar": fieldValue['imageFromSocialMedia']
+              }
+            ];
+            resp.data['profile']['socialMediaOAuths'] = socialdata;
+            var userPayload = resp.data['profile'];
 
-          inspect(userPayload);
-          var userUpdateResp = await ClientService.Put(
-              path: 'user-profile',
-              id: resp.data['profile']['_id'],
-              payload: userPayload);
-          print(userUpdateResp);
-          if (userUpdateResp.statusCode == 200) {
-            // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
+            inspect(userPayload);
+            var userUpdateResp = await ClientService.Put(
+                path: 'user-profile',
+                id: resp.data['profile']['_id'],
+                payload: userPayload);
+            print(userUpdateResp);
+            if (userUpdateResp.statusCode == 200) {
+              // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
+              SharedData.save(true.toString(), 'isLogin');
+              return {
+                "msg": "Account Created Successfully!!",
+                "status": "success"
+              };
+            } else {
+              return {"msg": "Something Went Wrong!!", "status": "error"};
+            }
+          } else {
             SharedData.save(true.toString(), 'isLogin');
             return {
               "msg": "Account Created Successfully!!",
               "status": "success"
             };
-          } else {
-            return {"msg": "Something Went Wrong!!", "status": "error"};
           }
         } else {
-          SharedData.save(true.toString(), 'isLogin');
-          return {"msg": "Account Created Successfully!!", "status": "success"};
+          return {"msg": "Something Went Wrong!!", "status": "error"};
         }
       } else {
         return {"msg": "Something Went Wrong!!", "status": "error"};
       }
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Please fill all field!!", "status": "error"};
     }
   }
 
@@ -232,7 +255,7 @@ class AuthController extends GetxController {
         'thirdPartyName': 'GOOGLE',
         'mobile': '',
         'password': '',
-        'userName': '',
+        'username': '',
         'countryCode': ''
       };
       print('fieldValue$fieldValue');
@@ -245,13 +268,13 @@ class AuthController extends GetxController {
   }
 
   dynamic signInWithGoogle() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    // FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
     inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      var pw = generatePassword();
+      // var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
@@ -260,15 +283,15 @@ class AuthController extends GetxController {
         'isThirdParty': true,
         'thirdPartyName': 'GOOGLE',
         'mobile': '',
-        'password': pw,
-        'userName': '',
+        'password': '',
+        'username': '',
         'countryCode': ''
       };
       print('fieldValue$fieldValue');
-      print('pw${pw}');
-      // return {"msg": "Please fill all field !!", "status": "success"};
-      var respSignup = await signUp();
-      return respSignup;
+      // print('pw${pw}');
+      return {"msg": "Please fill all field !!", "status": "success"};
+      // var respSignup = await signUp();
+      // return respSignup;
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
@@ -298,10 +321,10 @@ class AuthController extends GetxController {
         'thirdPartyName': 'FACEBOOK',
         'mobile': '',
         'password': '',
-        'userName': '',
+        'username': '',
         'countryCode': ''
       };
-      final AccessToken accessToken = result.accessToken!;
+      // final AccessToken accessToken = result.accessToken!;
       return {"msg": "Please fill all field !!", "status": "success"};
     } else {
       inspect(result);
@@ -312,7 +335,6 @@ class AuthController extends GetxController {
 
   void setFielsvalue(String text, String name) {
     fieldValue.value[name] = text;
-    print(fieldValue);
   }
 
   String generatePassword({

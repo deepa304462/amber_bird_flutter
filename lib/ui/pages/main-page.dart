@@ -1,14 +1,11 @@
-import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/onboarding-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/services/client-service.dart';
+ import 'package:amber_bird/controller/onboarding-controller.dart';
+ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
 import 'package:amber_bird/ui/widget/product-guide-row.dart';
-import 'package:amber_bird/ui/widget/search-widget.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // class MainPage extends StatefulWidget {
@@ -49,7 +46,7 @@ class MainPage extends StatelessWidget {
             DealRow(dealName.SALES),
             MultiProductRow(multiProductName.COMBO),
             MultiProductRow(multiProductName.BUNDLE),
-            ProductGuideRow(),
+            const ProductGuideRow(),
           ],
         ),
       ),

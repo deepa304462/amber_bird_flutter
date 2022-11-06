@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/category-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -137,10 +136,10 @@ class CategoryPage extends StatelessWidget {
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context,
-                                                            'Please Login to preoceed');
+
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to preoceed');
                                                   }
                                                   // cController.addToCart(p, refId!, addedFrom!, -1);
                                                 },
@@ -207,10 +206,10 @@ class CategoryPage extends StatelessWidget {
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
-                                                      var showToast =
-                                                          snackBarClass.showToast(
-                                                              context,
-                                                              'Please Login to preoceed');
+
+                                                      snackBarClass.showToast(
+                                                          context,
+                                                          'Please Login to preoceed');
                                                     }
                                                   }
                                                 : () {
@@ -229,10 +228,10 @@ class CategoryPage extends StatelessWidget {
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
-                                                      var showToast =
-                                                          snackBarClass.showToast(
-                                                              context,
-                                                              'Please Login to preoceed');
+
+                                                      snackBarClass.showToast(
+                                                          context,
+                                                          'Please Login to preoceed');
                                                     }
                                                   },
                                             child: Text("Add to cart",
@@ -241,7 +240,7 @@ class CategoryPage extends StatelessWidget {
                                           ),
                                   ],
                                 ))
-                            : SizedBox(),
+                            : const SizedBox(),
                       ],
                     ),
                   ),
@@ -253,7 +252,7 @@ class CategoryPage extends StatelessWidget {
   Widget _productGrid(
       MegaMenuController categoryController, BuildContext context) {
     return GridView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
         scrollDirection: Axis.vertical,
@@ -282,7 +281,7 @@ class CategoryPage extends StatelessWidget {
                 height: 70,
                 child: megaMenuController.mainTabs.isNotEmpty
                     ? ListView.builder(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemCount: megaMenuController.mainTabs.length,
                         itemBuilder: (_, index) {
@@ -439,7 +438,7 @@ class CategoryPage extends StatelessWidget {
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         itemCount: megaMenuController.multiProd.length,
         shrinkWrap: true,

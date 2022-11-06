@@ -3,11 +3,9 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/app-bar.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
-import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 // class HomePage extends StatelessWidget {
@@ -18,7 +16,7 @@ import 'package:get/get.dart';
 // }
 
 PreferredSize _appBar(address) {
-  var dropdownvalue;
+  // var dropdownvalue;
   return PreferredSize(
     preferredSize: const Size.fromHeight(100),
     child: SafeArea(
@@ -87,7 +85,7 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           title: AppBarWidget(),
         ),
-        body: routerOut.RouterOutlet(),
+        body: const routerOut.RouterOutlet(),
         bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
           return BottomNav(
             index: mcontroller.currentTab.toInt(),

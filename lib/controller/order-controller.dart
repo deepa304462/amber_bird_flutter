@@ -16,8 +16,7 @@ class OrderController extends GetxController {
   }
 
    getOrder(String id) async {
-    print(id); 
-    var response =
+     var response =
         await ClientService.get(path: 'order', id: id);
     if (response.statusCode == 200) {
       log(response.data.toString());

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amber_bird/services/client-service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,9 +26,9 @@ class CountryPickerDropdown extends StatelessWidget {
         var data = jsonDecode(elem['extraData']);
         arr.add({'label': data['label'], 'value': data['value']});
       });
-      dropdownItems.value =
-          arr;
-           callback(dropdownvalue.value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
+      dropdownItems.value = arr;
+      callback(dropdownvalue
+          .value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
       print(dropdownItems.value.toString());
       // (data['varients'] as List<dynamic>?)
       //       ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
@@ -51,12 +50,12 @@ class CountryPickerDropdown extends StatelessWidget {
                   child: Text(items['label'] ?? ''),
                 );
               }).toList(),
-              onChanged: (dynamic? newValue) {
+              onChanged: (dynamic newValue) {
                 dropdownvalue.value = newValue!;
                 callback(newValue);
               },
             )
-          : SizedBox(),
+          : const SizedBox(),
     );
   }
 }

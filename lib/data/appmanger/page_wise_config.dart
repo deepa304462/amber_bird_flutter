@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:amber_bird/data/appmanger/intro_image.dart';
 
-import 'cover_image.dart';
 
 class PageWiseConfig {
   String? pageType;

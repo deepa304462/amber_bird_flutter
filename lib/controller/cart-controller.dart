@@ -30,11 +30,11 @@ class CartController extends GetxController {
   checkout() async {
     List<dynamic> listSumm = [];
     Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
-    cartProducts.value.values.forEach((v) {
+    for (var v in cartProducts.value.values) {
       pr.actualPrice += v.price!.actualPrice;
       pr.offerPrice += v.price!.actualPrice;
       listSumm.add((jsonDecode(v.toJson())));
-    });
+    }
     totalPrice.value = pr;
     Ref custRef = await Helper.getCustomerRef();
 
@@ -65,10 +65,10 @@ class CartController extends GetxController {
   createPayment() async {
     double total = 0.0;
     List<dynamic> listSumm = [];
-    cartProducts.value.values.forEach((v) {
+    for (var v in cartProducts.value.values) {
       total += v.price!.offerPrice;
       listSumm.add((jsonDecode(v.toJson())));
-    });
+    }
     Ref custRef = await Helper.getCustomerRef();
 
     var payload1 = {
@@ -152,9 +152,9 @@ class CartController extends GetxController {
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       log(cust.toString());
       if (cust.cart != null) {
-        cust.cart!.products!.forEach((element) {
+        for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
-        });
+        }
       }
     } else {
       cartProducts.value = Map();
@@ -178,7 +178,7 @@ class CartController extends GetxController {
       List li = [];
       if (products != null) {
         price = 0;
-        products.forEach((element) {
+        for (var element in products) {
           li.add(element.toJson());
           if (getData != null) {
             quantity = getData.count!;
@@ -187,7 +187,7 @@ class CartController extends GetxController {
           } else {
             price = price + element.varient!.price!.offerPrice * quantity;
           }
-        });
+        }
       } else {
         if (getData != null) {
           quantity = getData.count!;
@@ -220,9 +220,9 @@ class CartController extends GetxController {
 
   createOrder() async {
     List<dynamic> listSumm = [];
-    cartProducts.value.values.forEach((v) {
+    for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
-    });
+    }
     Ref custRef = await Helper.getCustomerRef();
     var payload = {
       'status': 'TEMPORARY_OR_CART',

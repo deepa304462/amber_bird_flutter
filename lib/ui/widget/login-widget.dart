@@ -37,21 +37,21 @@ class LoginWidget extends StatelessWidget {
                   ),
                   LoginType.mobilePassword == authController.loginWith.value
                       ? ITextBox('contact number', 'mobile', '', false,
-                          TextInputType.phone, false, callback)
+                          TextInputType.phone, false,false, callback)
                       : const SizedBox(),
                   LoginType.emailPassword == authController.loginWith.value
                       ? ITextBox('Email', 'email', '', false,
-                          TextInputType.emailAddress, false, callback)
+                          TextInputType.emailAddress, false, false,callback)
                       : const SizedBox(),
                   LoginType.usernamePassword == authController.loginWith.value
                       ? ITextBox('Username', 'userName', '', false,
-                          TextInputType.emailAddress, false, callback)
+                          TextInputType.emailAddress, false, false,callback)
                       : const SizedBox(),
                   const SizedBox(
                     height: 10,
                   ),
                   ITextBox('Password', 'password', '', false,
-                      TextInputType.visiblePassword, true, callback),
+                      TextInputType.visiblePassword, true,false, callback),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
