@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -19,6 +22,9 @@ class AppModule extends Module {
               args.queryParams['email']!, args.queryParams['token']!);
         }),
         ModuleRoute('/', module: HomePageModule()),
+        WildcardRoute(child: (context, args) {
+          return WildCardRoutePage(args.uri);
+        }),
 
         // ChildRoute('/feedbackFormList',
         //     child: (_, args) => FeedbackListWidget(),
