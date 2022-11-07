@@ -1,4 +1,5 @@
  import 'package:amber_bird/controller/onboarding-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
  import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
@@ -8,18 +9,13 @@ import 'package:amber_bird/ui/widget/product-guide-row.dart';
  import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-// class MainPage extends StatefulWidget {
-//   MainPage({Key? key}) : super(key: key);
-
-//   @override
-//   State<MainPage> createState() => _MainPageState();
-// }
-
-// class _MainPageState extends State<MainPage> {
+ 
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
+   
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       color: Colors.grey.shade200,
       child: SingleChildScrollView(

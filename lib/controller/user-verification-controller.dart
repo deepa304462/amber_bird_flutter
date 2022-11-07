@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,7 +15,6 @@ class UserVerificationController extends GetxController {
   @override
   void onInit() {
     verifyUser();
-
     super.onInit();
   }
 
@@ -31,19 +31,23 @@ class UserVerificationController extends GetxController {
           if (tokenResp.statusCode == 200) {
             SharedData.save(jsonEncode(tokenResp.data), 'userData');
             SharedData.save(true.toString(), 'isLogin');
-            // getCustomerDate(tokenManagerEntityId);
-            // OfflineDBService.save(OfflineDBService.appManager, data.toJson());
+            try {
+              if (Get.isRegistered<Controller>()) {
+                var controller = Get.find<Controller>();
+                controller.getLoginInfo();
+              }
+            } catch (error) {
+              Modular.to.navigate('/home/main');
+            }
             Modular.to.navigate('/home/main');
           } else {
             //logout
             Modular.to.navigate('/home/login');
-            // return {"msg": "Something Went Wrong!!", "status": "error"};
           }
         }
       } else {
         Modular.to.navigate('/home/main');
       }
-      // "authEmail" -> "mridudixit15@gmail.com"
     } else {
       Modular.to.navigate('/home/login');
     }

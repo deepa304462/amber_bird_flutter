@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/user-verification-controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class EmailVerificationPage extends StatelessWidget {
   final String email;
@@ -15,10 +16,17 @@ class EmailVerificationPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          child: Column(
-            children: [Text(email), Text(code)],
+            child: SizedBox(
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          child: Lottie.network(
+            'https://assets6.lottiefiles.com/packages/lf20_x62chJ.json',
           ),
-        ),
+        )
+            // Column(
+            //   children: [Text(email), Text(code)],
+            // ),
+            ),
       ),
     );
   }
