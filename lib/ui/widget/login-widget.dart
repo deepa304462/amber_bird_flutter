@@ -44,8 +44,8 @@ class LoginWidget extends StatelessWidget {
                           TextInputType.emailAddress, false, false,callback)
                       : const SizedBox(),
                   LoginType.usernamePassword == authController.loginWith.value
-                      ? ITextBox('Username', 'userName', '', false,
-                          TextInputType.emailAddress, false, false,callback)
+                      ? ITextBox('Username', 'username', '', false,
+                          TextInputType.text, false, false,callback)
                       : const SizedBox(),
                   const SizedBox(
                     height: 10,

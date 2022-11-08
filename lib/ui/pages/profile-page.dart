@@ -130,7 +130,9 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       MaterialButton(
-                        onPressed: (() {}),
+                        onPressed: (() {
+                          Modular.to.navigate('../home/orders');
+                        }),
                         child: Row(
                           children: [
                             const Icon(
@@ -145,7 +147,9 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       MaterialButton(
-                        onPressed: (() {}),
+                        onPressed: (() {
+                          Modular.to.navigate('../home/wishlist');
+                        }),
                         child: Row(
                           children: [
                             const Icon(

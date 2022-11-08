@@ -56,14 +56,14 @@ class Controller extends GetxController {
     ClientService.token = authData['accessToken'] ?? '';
     if (userData['mappedTo'] != null) {
       syncUserProfile(userData['mappedTo']['_id']);
+      isActivate.value = userData['authEmailVerified'];
+      isEmailVerified.value = userData['authEmailVerified'];
+      isPhoneVerified.value = userData['mobileVerified'];
     }
 
     // update token
     //end update token
-    if (authData['emailVerified'] != null) {
-      isActivate.value = authData['emailVerified'];
-      isEmailVerified.value = authData['emailVerified'];
-      isPhoneVerified.value = authData['mobileVerified'];
+    if (authData['tokenManagerEntityId'] != null) {
       tokenManagerEntityId.value = authData['tokenManagerEntityId'];
     }
   }

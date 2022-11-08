@@ -187,7 +187,6 @@ class SignUp extends StatelessWidget {
                   await mController.checkValidityUsername();
                   if (mController.usernameValid.value) {
                     isLoading.value = true;
-
                     var data = await mController.signUp();
                     if (data['status'] == 'success') {
                       controller.isLogin.value = true;
