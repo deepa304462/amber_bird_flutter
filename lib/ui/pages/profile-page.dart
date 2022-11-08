@@ -131,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.navigate('../home/edit-orders');
+                          Modular.to.navigate('../home/orders');
                         }),
                         child: Row(
                           children: [

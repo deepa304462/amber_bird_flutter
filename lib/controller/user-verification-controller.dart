@@ -4,6 +4,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 class UserVerificationController extends GetxController {
@@ -37,18 +38,27 @@ class UserVerificationController extends GetxController {
                 controller.getLoginInfo();
               }
             } catch (error) {
+              FlutterNativeSplash.remove();
               Modular.to.navigate('/home/main');
             }
+            FlutterNativeSplash.remove();
             Modular.to.navigate('/home/main');
           } else {
             //logout
+            if (Get.isRegistered<Controller>()) {
+              var controller = Get.find<Controller>();
+              controller.logout();
+            }
+            FlutterNativeSplash.remove();
             Modular.to.navigate('/home/login');
           }
         }
       } else {
+        FlutterNativeSplash.remove();
         Modular.to.navigate('/home/main');
       }
     } else {
+      FlutterNativeSplash.remove();
       Modular.to.navigate('/home/login');
     }
   }
