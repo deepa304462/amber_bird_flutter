@@ -1,3 +1,5 @@
+import 'package:amber_bird/data/deal_product/geo_address.dart';
+import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:dio/dio.dart';
@@ -11,6 +13,9 @@ class LocationController extends GetxController {
   Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
   RxMap address = {}.obs;
+  Rx<Address> addressData = Address().obs;
+  Rx<Address> changeAddressData = Address().obs;
+
   Rx<bool> mapLoad = false.obs;
   late GoogleMapController mapController;
   Dio dio = Dio();
@@ -22,7 +27,6 @@ class LocationController extends GetxController {
   @override
   void onInit() {
     getLocation();
-
     super.onInit();
   }
 
@@ -34,15 +38,11 @@ class LocationController extends GetxController {
     var locationExists =
         await OfflineDBService.checkBox(OfflineDBService.location);
     if (locationExists) {
-      address.value = await OfflineDBService.get(OfflineDBService.location);
-      if (address.value['geometry'] != null) {
-        currentLatLang.value = LatLng(
-            address.value['geometry']['location']['lat'],
-            address.value['geometry']['location']['lng']);
-      }
-
-      currentPin.value =
-          Marker(markerId: const MarkerId('pin'), position: currentLatLang.value);
+      var data = await OfflineDBService.get(OfflineDBService.location);
+      address.value = data;
+      setAddressData(address.value);
+      currentPin.value = Marker(
+          markerId: const MarkerId('pin'), position: currentLatLang.value);
     }
     return locationExists;
   }
@@ -123,7 +123,27 @@ class LocationController extends GetxController {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         address.value = response.data["results"][0];
+        setAddressData(address.value);
       }
+    }
+  }
+
+  setAddressData(dynamic data) {
+    addressData.value.zipCode = findValueFromAddress('postal_code');
+    addressData.value.line1 = data['formatted_address'];
+    addressData.value.city = findValueFromAddress('locality') ??
+        findValueFromAddress('administrative_area_level_2');
+    addressData.value.country = findValueFromAddress('country');
+    addressData.value.geoAddress = GeoAddress.fromMap({
+      'type': '',
+      'coordinates': [
+        data['geometry']['location']['lat'],
+        data['geometry']['location']['lng']
+      ]
+    });
+    if (data['geometry'] != null) {
+      currentLatLang.value = LatLng(data['geometry']['location']['lat'],
+          data['geometry']['location']['lng']);
     }
   }
 
@@ -139,5 +159,29 @@ class LocationController extends GetxController {
 
   void checkAddress(LatLng coOrdinate) {
     getAddressFromLatLng(coOrdinate.latitude, coOrdinate.longitude);
+  }
+
+  setFielsvalue(String text, String name) {
+    if(text != null){
+      if (name == 'city') {
+        changeAddressData.value.city = text;
+      } else if (name == 'country') {
+        changeAddressData.value.country = text;
+      } else if (name == 'line1') {
+        changeAddressData.value.line1 = text;
+      } else if (name == 'line2') {
+        changeAddressData.value.line2 = text;
+      } else if (name == 'localArea') {
+        changeAddressData.value.localArea = text;
+      } else if (name == 'addressType') {
+        changeAddressData.value.addressType = text;
+      } else if (name == 'directionComment') {
+        changeAddressData.value.directionComment = text;
+      } else if (name == 'landMark') {
+        changeAddressData.value.landMark = text;
+      } else if (name == 'zipCode') {
+        changeAddressData.value.zipCode = text;
+      }
+    }
   }
 }

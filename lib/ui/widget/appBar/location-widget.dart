@@ -31,7 +31,7 @@ class locationWidget extends StatelessWidget {
                     Icons.location_pin,
                     color: AppColors.primeColor,
                   ),
-                  Text(location.findValueFromAddress('postal_code'),
+                  Text(location.addressData.value.zipCode.toString(),
                       style: TextStyles.body)
                 ],
               ),

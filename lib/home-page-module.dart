@@ -67,7 +67,6 @@ class HomePageModule extends Module {
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/orders', child: (_, args) => OrderListPage()),
       ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-      
       ChildRoute('/search', child: (_, args) => SearchPage()),
       ChildRoute('/signup', child: (_, args) => SignUp()),
     ]),
@@ -80,8 +79,8 @@ class AppOnboardingGuard extends RouteGuard {
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
     var onboardLocal = await (SharedData.read('onboardingDone'));
-    // bool onboard = onboardLocal.toString() != 'true';
-    bool onboard = false;
+    bool onboard = onboardLocal.toString() != 'true';
+    // bool onboard = false;
     FlutterNativeSplash.remove();
     return onboard;
   }

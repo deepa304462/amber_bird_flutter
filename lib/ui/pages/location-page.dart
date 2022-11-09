@@ -1,4 +1,6 @@
 import 'package:amber_bird/controller/location-controller.dart';
+import 'package:amber_bird/ui/element/i-text-box.dart';
+import 'package:amber_bird/ui/element/location-text-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -118,15 +120,22 @@ class LocationPage extends StatelessWidget {
             'Your address',
             style: TextStyles.titleXLargePrimary,
           ),
-          locationController.address.value['formatted_address'] != null
+          locationController.addressData.value.line1 != null
               ? ListTile(
                   title: Text(
-                    locationController.address.value['formatted_address'],
+                    locationController.addressData.value.line1 ?? '',
                     style: TextStyles.bodyFontBold,
                   ),
-                  subtitle: Text(
-                    'Edit',
-                    style: TextStyles.titleLight,
+                  subtitle: ElevatedButton(
+                    onPressed: () {
+                      locationController.changeAddressData.value =
+                          locationController.addressData.value;
+                      _displayDialog(context, locationController);
+                    },
+                    child: Text(
+                      'Edit',
+                      style: TextStyles.titleLight,
+                    ),
                   ),
                 )
               : LinearProgressIndicator(
@@ -168,4 +177,126 @@ class LocationPage extends StatelessWidget {
       ),
     );
   }
+
+  _displayDialog(BuildContext context, LocationController locationController) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false,
+      transitionDuration: Duration(milliseconds: 500),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: animation,
+            child: child,
+          ),
+        );
+      },
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Material(
+          type: MaterialType.transparency,
+          // make sure that the overlay content is not cut off
+          child: SafeArea(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.all(20),
+              color: Colors.white,
+              child: Center(
+                child: Obx(
+                  () => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      LocationTextBox(
+                          'Line1',
+                          'line1',
+                          locationController.changeAddressData.value.line1
+                              .toString(),
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
+                          'Line2',
+                          'line2',
+                          locationController.changeAddressData.value.line2
+                              .toString(),
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
+                          'City',
+                          'city',
+                          locationController.changeAddressData.value.city
+                              .toString(),
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
+                          'Country',
+                          'country',
+                          locationController.changeAddressData.value.country
+                              .toString(),
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
+                          'LandMark',
+                          'landMark',
+                          locationController.changeAddressData.value.landMark
+                              .toString(),
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
+                          'ZipCode',
+                          'zipCode',
+                          locationController.changeAddressData.value.zipCode
+                              .toString(),
+                          TextInputType.number,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          locationController.addressData.value =
+                              locationController.changeAddressData.value;
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "DISMISS",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  callback(String p1) {}
 }

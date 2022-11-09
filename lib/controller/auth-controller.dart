@@ -125,19 +125,13 @@ class AuthController extends GetxController {
         print(tokenResp);
         if (tokenResp.statusCode == 200) {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
-          SharedData.save(true.toString(), 'isLogin');
-          // getCustomerDate(tokenManagerEntityId);
-          // OfflineDBService.save(OfflineDBService.appManager, data.toJson());
+          SharedData.save(true.toString(), 'isLogin'); 
           return {"msg": "Login Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
         }
-      }
-      // var userUpdateResp = await ClientService.post(
-      //     path: 'user-profile/search', payload: searchPAyload);
-
-    } else {
-      print(loginResp);
+      }  
+    } else { 
       return {"msg": loginResp.data['description'], "status": "error"};
     }
   }
@@ -168,8 +162,7 @@ class AuthController extends GetxController {
         print(resp);
         var loginPayload = {
           "password": fieldValue['password'],
-          "userName": fieldValue['username'],
-          // "appName": "DIAGO_TEAM_WEB_APP"
+          "userName": fieldValue['username'], 
         };
         print(loginPayload);
         var loginResp = await ClientService.post(

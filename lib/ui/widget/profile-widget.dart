@@ -11,8 +11,9 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(children: [
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
                 onPressed: () {
@@ -20,45 +21,78 @@ class ProfileWidget extends StatelessWidget {
                 },
                 icon: const Icon(Icons.arrow_back))
           ]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Email', style: TextStyles.bodyFont),
-              Text(stateController.tokenManagerEntityId.value,
-                  style: TextStyles.bodyFontBold),
-            ],
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueAccent),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Email', style: TextStyles.bodyFont),
+                    Text(stateController.loggedInProfile.value.email ?? '',
+                        style: TextStyles.bodyFontBold),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Email verified', style: TextStyles.bodyFont),
+                    Switch(
+                      value: stateController.isEmailVerified.value,
+                      onChanged: null,
+                    ),
+                    !stateController.isEmailVerified.value
+                        ? TextButton(
+                            onPressed: () async {
+                              var data = await stateController.resendMail();
+                              if (data != null) {
+                                snackBarClass.showToast(context, data['msg']);
+                              }
+                            },
+                            child: Text('Verify Mail',
+                                style: TextStyles.bodyGreen),
+                          )
+                        : const SizedBox()
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Mobile verified'),
+                    Switch(
+                      value: stateController.isPhoneVerified.value,
+                      onChanged: null,
+                    ),
+                    !stateController.isPhoneVerified.value
+                        ? TextButton(
+                            onPressed: () async {
+                              var data = await stateController.resendMail();
+                              if (data != null) {
+                                snackBarClass.showToast(context, data['msg']);
+                              }
+                            },
+                            child: Text('Verify Mobile',
+                                style: TextStyles.bodyGreen),
+                          )
+                        : const SizedBox()
+                  ],
+                ),
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Email verified', style: TextStyles.bodyFont),
-              Switch(
-                value: stateController.isEmailVerified.value,
-                onChanged: null,
+          Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blueAccent),
+                borderRadius: BorderRadius.circular(5),
               ),
-              !stateController.isEmailVerified.value
-                  ? TextButton(
-                      onPressed: () async {
-                        var data = await stateController.resendMail();
-                        if (data != null) {
-                          var showToast =
-                              snackBarClass.showToast(context, data['msg']);
-                        }
-                      },
-                      child: Text('Verify Mail', style: TextStyles.bodyGreen))
-                  : const SizedBox()
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Mobile verified'),
-              Switch(
-                value: stateController.isPhoneVerified.value,
-                onChanged: null,
-              ),
-            ],
-          ),
-        ]));
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox())
+        ],
+      ),
+    );
   }
 }

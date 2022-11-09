@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class GeoAddress {
   String? type;
-  List<int>? coordinates;
+  List<dynamic>? coordinates;
 
   GeoAddress({this.type, this.coordinates});
 
@@ -11,7 +11,7 @@ class GeoAddress {
 
   factory GeoAddress.fromMap(Map<String, dynamic> data) => GeoAddress(
         type: data['type'] as String?,
-        coordinates: data['coordinates'] as List<int>?,
+        coordinates: data['coordinates'] as List<dynamic>?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -33,7 +33,7 @@ class GeoAddress {
 
   GeoAddress copyWith({
     String? type,
-    List<int>? coordinates,
+    List<dynamic>? coordinates,
   }) {
     return GeoAddress(
       type: type ?? this.type,
