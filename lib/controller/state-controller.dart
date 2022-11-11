@@ -177,7 +177,6 @@ class Controller extends GetxController {
           activePageName.value = 'login';
           Modular.to.navigate('/home/login');
         }
-
         break;
     }
   }
@@ -185,7 +184,6 @@ class Controller extends GetxController {
   addToCart(product) {
     product.quantity++;
     cartProducts.add(product);
-    // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     calculateTotalPrice();
   }
 

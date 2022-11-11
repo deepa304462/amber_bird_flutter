@@ -1,4 +1,7 @@
+import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +10,10 @@ import 'package:get/get.dart';
 
 class ProfileWidget extends StatelessWidget {
   final Controller stateController = Get.find();
+  final AuthController authController = Get.put(AuthController());
+  final CartController cartController = Get.find();
 
+  RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,15 +90,78 @@ class ProfileWidget extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 10,),
           Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.blueAccent),
                 borderRadius: BorderRadius.circular(5),
               ),
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox())
+              child: Column(
+                children: [
+                  ITextBox(
+                      'Full Name',
+                      'fullName',
+                      stateController.loggedInProfile.value.fullName.toString(),
+                      false,
+                      TextInputType.text,
+                      false,
+                      false,
+                      callback),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ITextBox(
+                      'Mobile',
+                      'mobile',
+                      stateController.loggedInProfile.value.mobile.toString(),
+                      false,
+                      TextInputType.phone,
+                      false,
+                      false,
+                      callback),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ITextBox(
+                      'Email',
+                      'email',
+                      stateController.loggedInProfile.value.email.toString(),
+                      false,
+                      TextInputType.emailAddress,
+                      false,
+                      authController.fieldValue['isThirdParty'] as bool,
+                      callback),
+                  TextButton(
+                    onPressed: () async {
+                      isLoading.value = true;
+                      var data = await authController.editProfile();
+                      if (data['status'] == 'success') {
+                        stateController.isLogin.value = true;
+                        stateController.getLoginInfo();
+                        stateController.setCurrentTab(0);
+                        cartController.fetchCart();
+                      }
+                      isLoading.value = false;
+                      snackBarClass.showToast(context, data['msg']);
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColors.primeColor)),
+                    child: Text(
+                      !isLoading.value ? 'Sign up' : 'Loading',
+                      style: TextStyles.bodyWhiteLarge,
+                    ),
+                  )
+                ],
+              ))
         ],
       ),
     );
   }
+
+  callback(String p1) {}
 }

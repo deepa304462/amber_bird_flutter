@@ -347,4 +347,27 @@ class AuthController extends GetxController {
       return chars[indexRandom];
     }).join('');
   }
+
+  editProfile(){
+    print(fieldValue.toString());
+     return {"msg": "Something Went Wrong!!", "status": "error"};
+    // var userPayload = resp.data['profile'];
+
+    //         inspect(userPayload);
+    //         var userUpdateResp = await ClientService.Put(
+    //             path: 'user-profile',
+    //             id: resp.data['profile']['_id'],
+    //             payload: userPayload);
+    //         print(userUpdateResp);
+    //         if (userUpdateResp.statusCode == 200) {
+    //           // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
+    //           SharedData.save(true.toString(), 'isLogin');
+    //           return {
+    //             "msg": "Account Created Successfully!!",
+    //             "status": "success"
+    //           };
+    //         } else {
+    //           return {"msg": "Something Went Wrong!!", "status": "error"};
+    //         }
+  }
 }

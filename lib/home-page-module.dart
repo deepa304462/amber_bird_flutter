@@ -11,6 +11,7 @@ import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/referral-page.dart';
+import 'package:amber_bird/ui/pages/reset-password-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
@@ -58,6 +59,7 @@ class HomePageModule extends Module {
         },
       ),
       ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
+      ChildRoute('/reset-password', child: (_, args) => ResetPasswordWidget()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),

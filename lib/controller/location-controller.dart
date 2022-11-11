@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/geo_address.dart';
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -145,6 +151,35 @@ class LocationController extends GetxController {
       currentLatLang.value = LatLng(data['geometry']['location']['lat'],
           data['geometry']['location']['lng']);
     }
+
+    setAddressCall();
+  }
+
+  setAddressCall() async {
+    if (Get.isRegistered<Controller>()) {
+      var controller = Get.find<Controller>();
+      if (controller.isLogin.value) {
+        var insightDetail =
+            await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+        Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+        // var payload = addressData.toJson();
+
+        cust.addresses!.add(addressData.value);
+        var payload = cust.toMap();
+        log(payload.toString());
+        print(payload);
+         var userData = jsonDecode(await (SharedData.read('userData')));
+        var response = await ClientService.Put(
+            path: 'customerInsight',
+            id: userData['mappedTo']['_id'],
+            payload: payload);
+
+        if (response.statusCode == 200) {
+          OfflineDBService.save(
+              OfflineDBService.customerInsightDetail, response.data);
+        }
+      }
+    }
   }
 
   void getNearbyWareHouseData(latitude, longitude, countryshortCode) async {
@@ -162,7 +197,7 @@ class LocationController extends GetxController {
   }
 
   setFielsvalue(String text, String name) {
-    if(text != null){
+    if (text != null) {
       if (name == 'city') {
         changeAddressData.value.city = text;
       } else if (name == 'country') {
