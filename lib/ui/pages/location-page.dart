@@ -269,7 +269,8 @@ class LocationPage extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          locationController.addressData.value = locationController.changeAddressData.value;
+                          locationController.addressData.value =
+                              locationController.changeAddressData.value;
                           locationController.setAddressCall();
                           Navigator.of(context).pop();
                         },

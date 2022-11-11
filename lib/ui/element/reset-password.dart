@@ -2,10 +2,9 @@ import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/ui/element/country-picker-dropdown.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class ITextBox extends StatelessWidget {
+class ResetPassTextBox extends StatelessWidget {
   final String label;
   final String value;
   final String keyName;
@@ -14,7 +13,7 @@ class ITextBox extends StatelessWidget {
   final bool isDisabled;
   final TextInputType keyboardType;
   Function(String) callback;
-  ITextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
+  ResetPassTextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
       this.keyboardType, this.isPassword, this.isDisabled, this.callback);
 
   final AuthController authController = Get.find();
@@ -26,7 +25,7 @@ class ITextBox extends StatelessWidget {
       // if (keyName == 'userName') {
       //   authController.checkValidityUsername();
       // }
-      authController.setFielsvalue(ipController.text, keyName);
+      authController.setResetPassvalue(ipController.text, keyName);
     });
 
     ipController.text = value;

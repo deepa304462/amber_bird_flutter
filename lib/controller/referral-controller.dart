@@ -17,7 +17,7 @@ class ReferralController extends GetxController {
 
   Future<void> syncShortLink() async {
     dynamic loggedInUser = jsonDecode(await SharedData.read('userData'));
-    if ( loggedInUser['mappedTo'] != null) {
+    if (loggedInUser['mappedTo'] != null) {
       ClientService.get(path: 'shortLink', id: loggedInUser['mappedTo']['_id'])
           .then((value) {
         isLoading.value = false;

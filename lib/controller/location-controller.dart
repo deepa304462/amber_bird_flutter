@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/customer/customer.insight.detail.dart';
+import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/geo_address.dart';
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -141,7 +141,6 @@ class LocationController extends GetxController {
         findValueFromAddress('administrative_area_level_2');
     addressData.value.country = findValueFromAddress('country');
     addressData.value.geoAddress = GeoAddress.fromMap({
-      'type': '',
       'coordinates': [
         data['geometry']['location']['lat'],
         data['geometry']['location']['lng']
@@ -160,15 +159,17 @@ class LocationController extends GetxController {
       var controller = Get.find<Controller>();
       if (controller.isLogin.value) {
         var insightDetail =
-            await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-        Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+            await OfflineDBService.get(OfflineDBService.customerInsight);
+        CustomerInsight cust =
+            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
         // var payload = addressData.toJson();
 
         cust.addresses!.add(addressData.value);
+        cust.addresses = [];
         var payload = cust.toMap();
         log(payload.toString());
         print(payload);
-         var userData = jsonDecode(await (SharedData.read('userData')));
+        var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],

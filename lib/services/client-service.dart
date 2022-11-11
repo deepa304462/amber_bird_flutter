@@ -182,7 +182,7 @@ class ClientService {
           return response;
         case RESTMethod.DOWNLOAD:
           throw Exception('no supported');
-       }
+      }
     } catch (e) {
       print(url + path);
       DioError error = e as DioError;
@@ -198,7 +198,7 @@ class ClientService {
         return error.response;
       } else {
         throw e;
-      } 
+      }
     }
   }
 

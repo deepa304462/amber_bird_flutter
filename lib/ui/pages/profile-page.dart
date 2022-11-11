@@ -26,8 +26,8 @@ class ProfilePage extends StatelessWidget {
           sectionCard('Help', 'Get help from our customer care team', () => {}),
           sectionCard(
               'Privacy policy', 'Explains legals and policies', () => {}),
-              Padding(
-            padding: const EdgeInsets.fromLTRB(8,0,8,0),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             child: Card(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,

@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class LoginWidget extends StatelessWidget {
   final AuthController authController = Get.find();
-    final CartController cartController = Get.find();
+  final CartController cartController = Get.find();
   final Controller controller = Get.find();
   RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
@@ -37,21 +37,21 @@ class LoginWidget extends StatelessWidget {
                   ),
                   LoginType.mobilePassword == authController.loginWith.value
                       ? ITextBox('contact number', 'mobile', '', false,
-                          TextInputType.phone, false,false, callback)
+                          TextInputType.phone, false, false, callback)
                       : const SizedBox(),
                   LoginType.emailPassword == authController.loginWith.value
                       ? ITextBox('Email', 'email', '', false,
-                          TextInputType.emailAddress, false, false,callback)
+                          TextInputType.emailAddress, false, false, callback)
                       : const SizedBox(),
                   LoginType.usernamePassword == authController.loginWith.value
                       ? ITextBox('Username', 'username', '', false,
-                          TextInputType.text, false, false,callback)
+                          TextInputType.text, false, false, callback)
                       : const SizedBox(),
                   const SizedBox(
                     height: 10,
                   ),
                   ITextBox('Password', 'password', '', false,
-                      TextInputType.visiblePassword, true,false, callback),
+                      TextInputType.visiblePassword, true, false, callback),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

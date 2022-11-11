@@ -90,7 +90,9 @@ class ProfileWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.blueAccent),

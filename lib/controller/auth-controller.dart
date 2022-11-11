@@ -17,6 +17,8 @@ enum LoginType {
 }
 
 class AuthController extends GetxController {
+  var resetPasswordValue =
+      {'currentPassword': '', 'newPassword': '', 'confirmPassword': ''}.obs;
   var fieldValue = {
     'fullName': '',
     'email': '',
@@ -100,8 +102,8 @@ class AuthController extends GetxController {
     } else if (loginWith.value == LoginType.mobilePassword) {
       loginPayload = {
         "password": fieldValue['password'],
-        "mobile": fieldValue['countryCode'].toString() +
-            fieldValue['mobile'].toString(),
+        "mobile":
+            '${fieldValue['countryCode'].toString()}@${fieldValue['mobile'].toString()}',
         // "appName": "DIAGO_TEAM_WEB_APP"
       };
     } else if (loginWith.value == LoginType.googleToken) {
@@ -125,13 +127,13 @@ class AuthController extends GetxController {
         print(tokenResp);
         if (tokenResp.statusCode == 200) {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
-          SharedData.save(true.toString(), 'isLogin'); 
+          SharedData.save(true.toString(), 'isLogin');
           return {"msg": "Login Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
         }
-      }  
-    } else { 
+      }
+    } else {
       return {"msg": loginResp.data['description'], "status": "error"};
     }
   }
@@ -145,8 +147,8 @@ class AuthController extends GetxController {
         "suggestedUsername": fieldValue['username'],
         "orgRef": {"name": "sbazar", "_id": "sbazar"},
         "email": fieldValue['email'],
-        "mobile": fieldValue['countryCode'].toString() +
-            fieldValue['mobile'].toString(),
+        "mobile":
+            '${fieldValue['countryCode'].toString()}-${fieldValue['mobile'].toString()}',
         "fullName": fieldValue['fullName'],
         "acls": ["user"],
         // "profileType": "DIAGO_APP_PROFILE",
@@ -162,7 +164,7 @@ class AuthController extends GetxController {
         print(resp);
         var loginPayload = {
           "password": fieldValue['password'],
-          "userName": fieldValue['username'], 
+          "userName": fieldValue['username'],
         };
         print(loginPayload);
         var loginResp = await ClientService.post(
@@ -326,6 +328,10 @@ class AuthController extends GetxController {
     fieldValue.value[name] = text;
   }
 
+  void setResetPassvalue(String text, String name) {
+    resetPasswordValue.value[name] = text;
+  }
+
   String generatePassword({
     bool letter = true,
     bool isNumber = true,
@@ -348,9 +354,10 @@ class AuthController extends GetxController {
     }).join('');
   }
 
-  editProfile(){
+  resetPassword() {}
+  editProfile() {
     print(fieldValue.toString());
-     return {"msg": "Something Went Wrong!!", "status": "error"};
+    return {"msg": "Something Went Wrong!!", "status": "error"};
     // var userPayload = resp.data['profile'];
 
     //         inspect(userPayload);

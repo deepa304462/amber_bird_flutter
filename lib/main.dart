@@ -29,7 +29,8 @@ void main() async {
   });
   // await FCMSyncService.tokenSync(Ref());
   final LocationController locationController = Get.put(LocationController());
-  final OnBoardingController onBoardingController = Get.put(OnBoardingController());
+  final OnBoardingController onBoardingController =
+      Get.put(OnBoardingController());
   runApp(
     ModularApp(module: AppModule(), child: AppWidget()),
   );
