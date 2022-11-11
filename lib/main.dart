@@ -13,6 +13,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 //flutter build apk --split-per-abi
+// sbazar_123 is the password for play store
 class ChangeLocale {
   static Function change = () {};
 }
