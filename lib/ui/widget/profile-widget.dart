@@ -120,7 +120,7 @@ class ProfileWidget extends StatelessWidget {
                       false,
                       TextInputType.phone,
                       false,
-                      false,
+                      true,
                       callback),
                   const SizedBox(
                     height: 10,
@@ -135,7 +135,7 @@ class ProfileWidget extends StatelessWidget {
                       false,
                       TextInputType.emailAddress,
                       false,
-                      authController.fieldValue['isThirdParty'] as bool,
+                      true,
                       callback),
                   TextButton(
                     onPressed: () async {
@@ -154,7 +154,7 @@ class ProfileWidget extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             AppColors.primeColor)),
                     child: Text(
-                      !isLoading.value ? 'Sign up' : 'Loading',
+                      !isLoading.value ? 'Edit Profile' : 'Loading',
                       style: TextStyles.bodyWhiteLarge,
                     ),
                   )

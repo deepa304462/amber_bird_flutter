@@ -177,7 +177,7 @@ class LocationController extends GetxController {
 
         if (response.statusCode == 200) {
           OfflineDBService.save(
-              OfflineDBService.customerInsightDetail, response.data);
+              OfflineDBService.customerInsight, response.data);
         }
       }
     }

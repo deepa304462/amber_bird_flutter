@@ -34,6 +34,8 @@ class AuthController extends GetxController {
   var usernameValid = true.obs;
   var suggestedUsername = ''.obs;
   var loginWith = LoginType.emailPassword.obs;
+  RxBool passMatch = true.obs;
+
   @override
   void onInit() {
     initializeFirebase();
@@ -330,6 +332,12 @@ class AuthController extends GetxController {
 
   void setResetPassvalue(String text, String name) {
     resetPasswordValue.value[name] = text;
+    if (resetPasswordValue.value['newPassword'] !=
+        resetPasswordValue.value['confirmPassword']) {
+      passMatch.value = false;
+    } else {
+      passMatch.value = true;
+    }
   }
 
   String generatePassword({
@@ -354,27 +362,35 @@ class AuthController extends GetxController {
     }).join('');
   }
 
-  resetPassword() {}
-  editProfile() {
-    print(fieldValue.toString());
+  resetPassword() {
+    print(resetPasswordValue.value.toString());
     return {"msg": "Something Went Wrong!!", "status": "error"};
-    // var userPayload = resp.data['profile'];
+  }
 
-    //         inspect(userPayload);
-    //         var userUpdateResp = await ClientService.Put(
-    //             path: 'user-profile',
-    //             id: resp.data['profile']['_id'],
-    //             payload: userPayload);
-    //         print(userUpdateResp);
-    //         if (userUpdateResp.statusCode == 200) {
-    //           // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
-    //           SharedData.save(true.toString(), 'isLogin');
-    //           return {
-    //             "msg": "Account Created Successfully!!",
-    //             "status": "success"
-    //           };
-    //         } else {
-    //           return {"msg": "Something Went Wrong!!", "status": "error"};
-    //         }
+  editProfile() async {
+    print(fieldValue.toString());
+
+    // user-profile/{id}
+    var userData = jsonDecode(await (SharedData.read('userData')));
+
+    var userResp = await ClientService.get(
+        path: 'user-profile', id: userData['mappedTo']['_id']);
+    print(userResp);
+    if (userResp.statusCode == 200) {
+      var payload = userResp.data;
+      payload['fullName'] = fieldValue.value['fullName'];
+      var userUpdateResp = await ClientService.Put(
+          path: 'user-profile',
+          id: userData['mappedTo']['_id'],
+          payload: payload);
+      print(userUpdateResp);
+      if (userUpdateResp.statusCode == 200) {
+        return {"msg": "Edited Successfully!!", "status": "success"};
+      } else {
+        return {"msg": "Something Went Wrong!!", "status": "error"};
+      }
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 }

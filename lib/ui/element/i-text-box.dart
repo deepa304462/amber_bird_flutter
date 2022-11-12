@@ -61,7 +61,7 @@ class ITextBox extends StatelessWidget {
             SizedBox(
               width: 50,
               child: CountryPickerDropdown(
-                value.split('-').length > 1 ? value.split('-')[1] : '91',
+                value.split('-').length > 1 ? value.split('-')[0] : '91',
                 (country) {
                   //countryCode
                   authController.setFielsvalue(country, 'countryCode');

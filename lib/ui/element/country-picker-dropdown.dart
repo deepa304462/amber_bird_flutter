@@ -36,7 +36,7 @@ class CountryPickerDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dropdownvalue.value = value;
+    dropdownvalue.value = value ?? '91';
     getCountryCode();
     return Obx(
       () => dropdownItems.isNotEmpty
