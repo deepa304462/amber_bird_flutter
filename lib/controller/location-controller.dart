@@ -45,8 +45,7 @@ class LocationController extends GetxController {
         await OfflineDBService.checkBox(OfflineDBService.customerInsight);
     if (locationExists) {
       var insight =
-          await OfflineDBService.get(OfflineDBService.customerInsight);
-      print(insight);
+          await OfflineDBService.get(OfflineDBService.customerInsight); 
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
@@ -146,7 +145,7 @@ class LocationController extends GetxController {
     if (lat != null && lng != null) {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
-        addressData.value = response.data["results"][0];
+        address.value = response.data["results"][0];
         setAddressData(address.value);
       }
     }
