@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -69,7 +70,7 @@ class ProfilePage extends StatelessWidget {
         child: Stack(
           children: [
             ImageBox(
-              'aa556b20-a25a-410d-8204-a419227932aa',
+              '${ClientService.cdnUrl}aa556b20-a25a-410d-8204-a419227932aa',
               width: MediaQuery.of(context).size.width,
               height: 170,
               fit: BoxFit.cover,
@@ -83,7 +84,8 @@ class ProfilePage extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: ImageBox(
-                          '35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
+                          stateController.loggedInProfile.value.profileIcon != '' ? '${ClientService.downloadUrl}${stateController.loggedInProfile.value.profileIcon}' :
+                              '${ClientService.cdnUrl}35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
                           width: MediaQuery.of(context).size.width * .2,
                         ),
                       ),

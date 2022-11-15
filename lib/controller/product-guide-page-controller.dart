@@ -7,8 +7,7 @@ class ProductGuidePageController extends GetxController {
   RxBool isLoading = true.obs;
 
   @override
-  void onInit() {
-    print('ok');
+  void onInit() { 
     ClientService.post(path: 'productGuide/search?locale=en', payload: {})
         .then((value) {
       for (var element in (value.data as List)) {

@@ -16,7 +16,7 @@ class ImageBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: '${ClientService.cdnUrl}$path',
+      imageUrl: '$path',
       width: width,
       height: height == 0 ? width * 1 : height,
       imageBuilder: (context, imageProvider) => Container(

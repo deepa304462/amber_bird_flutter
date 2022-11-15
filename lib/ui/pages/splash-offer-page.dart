@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -32,7 +33,7 @@ class SplashOfferPage extends StatelessWidget {
                     height: height,
                     color: colorList[index],
                     child: ImageBox(
-                      data.imageId!,
+                     '${ClientService.cdnUrl}${data.imageId!}',
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                     ),

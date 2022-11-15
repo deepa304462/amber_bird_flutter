@@ -4,6 +4,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
@@ -328,7 +329,7 @@ class ProductDetailScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: ImageBox(
-                  value.category!.logoId!,
+                  '${ClientService.cdnUrl}${value.category!.logoId!}',
                   width: 30,
                   height: 30,
                 ),
@@ -359,7 +360,7 @@ class ProductDetailScreen extends StatelessWidget {
           height: 5,
         ),
         ImageBox(
-          '383ba026-222a-4a16-8c24-b6f7f7227630',
+          '${ClientService.cdnUrl}383ba026-222a-4a16-8c24-b6f7f7227630',
           height: 50,
           width: 50,
         )
@@ -501,7 +502,7 @@ class ProductDetailScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ImageBox(
-              productController.product.value.brand!.logoId!,
+              '${ClientService.cdnUrl}${productController.product.value.brand!.logoId!}',
               width: 50,
               height: 50,
             ),

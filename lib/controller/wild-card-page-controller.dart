@@ -16,7 +16,7 @@ class WildCardPageController extends GetxController {
     if (givenUri.path.contains('refer')) {
       String referById = givenUri.path.split('/')[2];
       String existing = await SharedData.read('referBy');
-      if (existing!.isNotEmpty) {
+      if (existing.isNotEmpty) {
       } else {
         CodeHelp.toast(
             'Received reference, Thank you. Offer will apply while checkout.');

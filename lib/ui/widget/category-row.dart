@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/category-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class CategoryRow extends StatelessWidget {
                             myController.setCurrentTab(1);
                           },
                           child: ImageBox(
-                            categoryController.mainTabs[index].logoId!,
+                            '${ClientService.cdnUrl}${categoryController.mainTabs[index].logoId!}',
                             width: 50,
                             height: 50,
                           ),

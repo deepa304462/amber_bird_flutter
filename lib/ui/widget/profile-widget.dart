@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/image-picker.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -98,9 +101,14 @@ class ProfileWidget extends StatelessWidget {
                 border: Border.all(color: Colors.blueAccent),
                 borderRadius: BorderRadius.circular(5),
               ),
+              height: MediaQuery.of(context).size.height,
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
+                  SizedBox(
+                    // height: ,
+                    child: ImagePickerPage(imageCallboack),
+                  ),
                   ITextBox(
                       'Full Name',
                       'fullName',
@@ -113,30 +121,7 @@ class ProfileWidget extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  ITextBox(
-                      'Mobile',
-                      'mobile',
-                      stateController.loggedInProfile.value.mobile.toString(),
-                      false,
-                      TextInputType.phone,
-                      false,
-                      true,
-                      callback),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ITextBox(
-                      'Email',
-                      'email',
-                      stateController.loggedInProfile.value.email.toString(),
-                      false,
-                      TextInputType.emailAddress,
-                      false,
-                      true,
-                      callback),
+                 
                   TextButton(
                     onPressed: () async {
                       isLoading.value = true;
@@ -166,4 +151,12 @@ class ProfileWidget extends StatelessWidget {
   }
 
   callback(String p1) {}
+
+  imageCallboack(String p1) {
+
+    // 'profileImageId':''
+
+    authController.setFielsvalue(p1, 'profileImageId');
+    log(p1);
+  }
 }

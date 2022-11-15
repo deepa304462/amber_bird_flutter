@@ -59,7 +59,7 @@ class _ImageSlider extends State<ImageSlider> {
                     return Builder(
                       builder: (BuildContext context) {
                         return ImageBox(
-                          imageObj,
+                          '${ClientService.cdnUrl}${imageObj}',
                           width: widget.width,
                         );
                       },
@@ -88,7 +88,7 @@ class _ImageSlider extends State<ImageSlider> {
                           margin: EdgeInsets.symmetric(horizontal: 0.0),
                           decoration: BoxDecoration(color: Colors.transparent),
                           child: ImageBox(
-                            imageObj.imageId!,
+                            '${ClientService.cdnUrl}${imageObj.imageId!}',
                             width: widget.width,
                           ));
                     },

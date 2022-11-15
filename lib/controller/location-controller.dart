@@ -161,14 +161,11 @@ class LocationController extends GetxController {
         var insightDetail =
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
-            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
-        // var payload = addressData.toJson();
+            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>); 
 
-        cust.addresses!.add(addressData.value);
-        cust.addresses = [];
+        cust.addresses!.add(addressData.value); 
         var payload = cust.toMap();
-        log(payload.toString());
-        print(payload);
+        log(payload.toString()); 
         var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',

@@ -23,12 +23,11 @@ class UserVerificationController extends GetxController {
     var userData = jsonDecode(await (SharedData.read('userData')));
     if (userData['authEmail'] == emailId) {
       var response = await ClientService.get(
-          path: 'auth/confirm?email=${emailId}&token=${token}');
+          path: 'auth/confirm?email=$emailId&token=$token');
       if (response.statusCode == 200) {
         if (userData['username'] != null) {
           var tokenResp = await ClientService.get(
               path: 'auth', id: '${userData['username']}?locale=en');
-          print(tokenResp);
           if (tokenResp.statusCode == 200) {
             SharedData.save(jsonEncode(tokenResp.data), 'userData');
             SharedData.save(true.toString(), 'isLogin');

@@ -29,7 +29,8 @@ class AuthController extends GetxController {
     'mobile': '',
     'password': '',
     'username': '',
-    'countryCode': ''
+    'countryCode': '',
+    'profileImageId':''
   }.obs;
   var usernameValid = true.obs;
   var suggestedUsername = ''.obs;
@@ -78,12 +79,12 @@ class AuthController extends GetxController {
       'mobile': '',
       'password': '',
       'username': '',
-      'countryCode': ''
+      'countryCode': '',
+      'profileImageId': ''
     };
   }
 
   login() async {
-    print(fieldValue);
     var loginPayload = {
       "password": fieldValue['password'],
       "userName": fieldValue['username'],
@@ -92,21 +93,18 @@ class AuthController extends GetxController {
     if (loginWith.value == LoginType.usernamePassword) {
       loginPayload = {
         "password": fieldValue['password'],
-        "userName": fieldValue['username'],
-        // "appName": "DIAGO_TEAM_WEB_APP"
+        "userName": fieldValue['username']
       };
     } else if (loginWith.value == LoginType.emailPassword) {
       loginPayload = {
         "password": fieldValue['password'],
-        "email": fieldValue['email'],
-        // "appName": "DIAGO_TEAM_WEB_APP"
+        "email": fieldValue['email']
       };
     } else if (loginWith.value == LoginType.mobilePassword) {
       loginPayload = {
         "password": fieldValue['password'],
         "mobile":
-            '${fieldValue['countryCode'].toString()}@${fieldValue['mobile'].toString()}',
-        // "appName": "DIAGO_TEAM_WEB_APP"
+            '${fieldValue['countryCode'].toString()}@${fieldValue['mobile'].toString()}'
       };
     } else if (loginWith.value == LoginType.googleToken) {
       loginPayload = {
@@ -114,10 +112,8 @@ class AuthController extends GetxController {
         "appName": "DIAGO_TEAM_WEB_APP"
       };
     }
-    inspect(loginPayload);
     var loginResp = await ClientService.post(
         path: 'auth/authenticate', payload: loginPayload);
-    print(loginResp);
     if (loginResp.statusCode == 200) {
       ClientService.token = loginResp.data['accessToken'];
       SharedData.save(jsonEncode(loginResp.data), 'authData');
@@ -126,7 +122,6 @@ class AuthController extends GetxController {
         String tokenManagerEntityId = loginResp.data['tokenManagerEntityId'];
         var tokenResp = await ClientService.get(
             path: 'auth', id: '$tokenManagerEntityId?locale=en');
-        print(tokenResp);
         if (tokenResp.statusCode == 200) {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
           SharedData.save(true.toString(), 'isLogin');
@@ -158,21 +153,17 @@ class AuthController extends GetxController {
         "profileType": "CUSTOMER",
         "orgShortCode": ""
       };
-      print(payload);
       var resp =
           await ClientService.post(path: 'profile-auth', payload: payload);
       if (resp.statusCode == 200) {
         SharedData.save(jsonEncode(resp.data), 'ProfileAuthData');
-        print(resp);
         var loginPayload = {
           "password": fieldValue['password'],
           "userName": fieldValue['username'],
         };
-        print(loginPayload);
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
 
-        print(loginResp);
         if (loginResp.statusCode == 200) {
           ClientService.token = loginResp.data['accessToken'];
           SharedData.save(jsonEncode(loginResp.data), 'authData');
@@ -181,7 +172,6 @@ class AuthController extends GetxController {
                 loginResp.data['tokenManagerEntityId'];
             var tokenResp = await ClientService.get(
                 path: 'auth', id: '$tokenManagerEntityId?locale=en');
-            print(tokenResp);
             if (tokenResp.statusCode == 200) {
               SharedData.save(jsonEncode(tokenResp.data), 'userData');
             }
@@ -197,15 +187,12 @@ class AuthController extends GetxController {
             ];
             resp.data['profile']['socialMediaOAuths'] = socialdata;
             var userPayload = resp.data['profile'];
-
             inspect(userPayload);
             var userUpdateResp = await ClientService.Put(
                 path: 'user-profile',
                 id: resp.data['profile']['_id'],
                 payload: userPayload);
-            print(userUpdateResp);
             if (userUpdateResp.statusCode == 200) {
-              // SharedData.save(jsonEncode(userUpdateResp.data), 'userData');
               SharedData.save(true.toString(), 'isLogin');
               return {
                 "msg": "Account Created Successfully!!",
@@ -249,10 +236,9 @@ class AuthController extends GetxController {
         'mobile': '',
         'password': '',
         'username': '',
-        'countryCode': ''
+        'countryCode': '',
+        'profileImageId': ''
       };
-      print('fieldValue$fieldValue');
-      // return {"msg": "Please fill all field !!", "status": "success"};
       var respLogin = await login();
       return respLogin;
     } else {
@@ -278,7 +264,8 @@ class AuthController extends GetxController {
         'mobile': '',
         'password': '',
         'username': '',
-        'countryCode': ''
+        'countryCode': '',
+        'profileImageId': ''
       };
       print('fieldValue$fieldValue');
       // print('pw${pw}');
@@ -315,7 +302,8 @@ class AuthController extends GetxController {
         'mobile': '',
         'password': '',
         'username': '',
-        'countryCode': ''
+        'countryCode': '',
+        'profileImageId': ''
       };
       // final AccessToken accessToken = result.accessToken!;
       return {"msg": "Please fill all field !!", "status": "success"};
@@ -350,7 +338,6 @@ class AuthController extends GetxController {
     const letterUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const number = '0123456789';
     const special = '@#%^*>\$@?/[]=+';
-
     String chars = "";
     if (letter) chars += '$letterLowerCase$letterUpperCase';
     if (isNumber) chars += number;
@@ -368,22 +355,17 @@ class AuthController extends GetxController {
   }
 
   editProfile() async {
-    print(fieldValue.toString());
-
-    // user-profile/{id}
     var userData = jsonDecode(await (SharedData.read('userData')));
-
     var userResp = await ClientService.get(
         path: 'user-profile', id: userData['mappedTo']['_id']);
-    print(userResp);
     if (userResp.statusCode == 200) {
       var payload = userResp.data;
       payload['fullName'] = fieldValue.value['fullName'];
+      payload["profileIcon"] = fieldValue.value['profileImageId'];
       var userUpdateResp = await ClientService.Put(
           path: 'user-profile',
           id: userData['mappedTo']['_id'],
           payload: payload);
-      print(userUpdateResp);
       if (userUpdateResp.statusCode == 200) {
         return {"msg": "Edited Successfully!!", "status": "success"};
       } else {

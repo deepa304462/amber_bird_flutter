@@ -29,8 +29,7 @@ class ProductController extends GetxController {
             element.varientCode == product.value.defaultVarientCode);
         if (index1 != -1) {
           activeIndexVariant.value = index1;
-          print("Index $index1: ${product.value.varients![index1]}");
-        }
+         }
       }
     }
   }
