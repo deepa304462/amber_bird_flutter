@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class CountryPickerDropdown extends StatelessWidget {
   Function(String) callback;
   String value;
-  CountryPickerDropdown(this.value,this.callback);
+  CountryPickerDropdown(this.value, this.callback);
   var dropdownvalue = '91'.obs;
 
   // List of items in our dropdown menu
@@ -30,7 +30,7 @@ class CountryPickerDropdown extends StatelessWidget {
       dropdownItems.value = arr;
       callback(dropdownvalue
           .value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
-      print(dropdownItems.value.toString()); 
+      print(dropdownItems.value.toString());
     }
   }
 

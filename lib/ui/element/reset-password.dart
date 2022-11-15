@@ -13,8 +13,15 @@ class ResetPassTextBox extends StatelessWidget {
   final bool isDisabled;
   final TextInputType keyboardType;
   Function(String) callback;
-  ResetPassTextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
-      this.keyboardType, this.isPassword, this.isDisabled, this.callback);
+  ResetPassTextBox(
+      this.label,
+      this.keyName,
+      this.value,
+      this.iscomingFromThridParty,
+      this.keyboardType,
+      this.isPassword,
+      this.isDisabled,
+      this.callback);
 
   final AuthController authController = Get.find();
 

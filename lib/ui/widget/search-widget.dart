@@ -162,7 +162,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             onTap: () {
               close(context, null);
-              Modular.to.navigate('/product/${category.id}');
+              Modular.to.navigate('/categoryProduct/${category.id}');
             },
             leading: jsonDecode(category.extraData!)['logoId'] != null
                 ? ImageBox(
@@ -185,7 +185,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             onTap: () {
               close(context, null);
-              Modular.to.navigate('/product/${brand.id}');
+              Modular.to.navigate('/brandProduct/${brand.id}');
             },
             leading: jsonDecode(brand.extraData!)['logoId'] != null
                 ? ImageBox(
