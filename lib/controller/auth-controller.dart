@@ -17,6 +17,8 @@ enum LoginType {
 }
 
 class AuthController extends GetxController {
+  var resetPasswordValue =
+      {'currentPassword': '', 'newPassword': '', 'confirmPassword': ''}.obs;
   var fieldValue = {
     'fullName': '',
     'email': '',
@@ -32,6 +34,8 @@ class AuthController extends GetxController {
   var usernameValid = true.obs;
   var suggestedUsername = ''.obs;
   var loginWith = LoginType.emailPassword.obs;
+  RxBool passMatch = true.obs;
+
   @override
   void onInit() {
     initializeFirebase();
@@ -100,8 +104,8 @@ class AuthController extends GetxController {
     } else if (loginWith.value == LoginType.mobilePassword) {
       loginPayload = {
         "password": fieldValue['password'],
-        "mobile": fieldValue['countryCode'].toString() +
-            fieldValue['mobile'].toString(),
+        "mobile":
+            '${fieldValue['countryCode'].toString()}@${fieldValue['mobile'].toString()}',
         // "appName": "DIAGO_TEAM_WEB_APP"
       };
     } else if (loginWith.value == LoginType.googleToken) {
@@ -126,18 +130,12 @@ class AuthController extends GetxController {
         if (tokenResp.statusCode == 200) {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
           SharedData.save(true.toString(), 'isLogin');
-          // getCustomerDate(tokenManagerEntityId);
-          // OfflineDBService.save(OfflineDBService.appManager, data.toJson());
           return {"msg": "Login Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
         }
       }
-      // var userUpdateResp = await ClientService.post(
-      //     path: 'user-profile/search', payload: searchPAyload);
-
     } else {
-      print(loginResp);
       return {"msg": loginResp.data['description'], "status": "error"};
     }
   }
@@ -151,8 +149,8 @@ class AuthController extends GetxController {
         "suggestedUsername": fieldValue['username'],
         "orgRef": {"name": "sbazar", "_id": "sbazar"},
         "email": fieldValue['email'],
-        "mobile": fieldValue['countryCode'].toString() +
-            fieldValue['mobile'].toString(),
+        "mobile":
+            '${fieldValue['countryCode'].toString()}-${fieldValue['mobile'].toString()}',
         "fullName": fieldValue['fullName'],
         "acls": ["user"],
         // "profileType": "DIAGO_APP_PROFILE",
@@ -169,7 +167,6 @@ class AuthController extends GetxController {
         var loginPayload = {
           "password": fieldValue['password'],
           "userName": fieldValue['username'],
-          // "appName": "DIAGO_TEAM_WEB_APP"
         };
         print(loginPayload);
         var loginResp = await ClientService.post(
@@ -333,6 +330,16 @@ class AuthController extends GetxController {
     fieldValue.value[name] = text;
   }
 
+  void setResetPassvalue(String text, String name) {
+    resetPasswordValue.value[name] = text;
+    if (resetPasswordValue.value['newPassword'] !=
+        resetPasswordValue.value['confirmPassword']) {
+      passMatch.value = false;
+    } else {
+      passMatch.value = true;
+    }
+  }
+
   String generatePassword({
     bool letter = true,
     bool isNumber = true,
@@ -353,5 +360,37 @@ class AuthController extends GetxController {
       final indexRandom = Random.secure().nextInt(chars.length);
       return chars[indexRandom];
     }).join('');
+  }
+
+  resetPassword() {
+    print(resetPasswordValue.value.toString());
+    return {"msg": "Something Went Wrong!!", "status": "error"};
+  }
+
+  editProfile() async {
+    print(fieldValue.toString());
+
+    // user-profile/{id}
+    var userData = jsonDecode(await (SharedData.read('userData')));
+
+    var userResp = await ClientService.get(
+        path: 'user-profile', id: userData['mappedTo']['_id']);
+    print(userResp);
+    if (userResp.statusCode == 200) {
+      var payload = userResp.data;
+      payload['fullName'] = fieldValue.value['fullName'];
+      var userUpdateResp = await ClientService.Put(
+          path: 'user-profile',
+          id: userData['mappedTo']['_id'],
+          payload: payload);
+      print(userUpdateResp);
+      if (userUpdateResp.statusCode == 200) {
+        return {"msg": "Edited Successfully!!", "status": "success"};
+      } else {
+        return {"msg": "Something Went Wrong!!", "status": "error"};
+      }
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 }

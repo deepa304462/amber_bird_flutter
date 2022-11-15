@@ -18,13 +18,28 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(0),
-        child: Column(children: [
+      padding: const EdgeInsets.all(0),
+      child: Column(
+        children: [
           profileCard(context, stateController.loggedInProfile.value),
           sectionCard('FAQ', 'Get answer for your specific query', () => {}),
           sectionCard('Help', 'Get help from our customer care team', () => {}),
           sectionCard(
               'Privacy policy', 'Explains legals and policies', () => {}),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: TextButton(
+                  onPressed: () async {
+                    Modular.to.navigate('../home/reset-password');
+                  },
+                  child: Text("Reset Password", style: TextStyles.headingFont),
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -40,7 +55,9 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 
   profileCard(BuildContext context, UserProfile value) {

@@ -68,7 +68,7 @@ class Controller extends GetxController {
     }
   }
 
-  getCustomerData(tokenManagerEntityId) async {
+  getCustomerDetail(tokenManagerEntityId) async {
     var customerInsightDetail = await ClientService.post(
         path: 'customerInsight/detail',
         payload: {},
@@ -77,6 +77,15 @@ class Controller extends GetxController {
     if (customerInsightDetail.statusCode == 200) {
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+    }
+  }
+
+  getCustomerData(tokenManagerEntityId) async {
+    var customerInsight = await ClientService.get(
+        path: 'customerInsight', id: tokenManagerEntityId);
+    if (customerInsight.statusCode == 200) {
+      OfflineDBService.save(
+          OfflineDBService.customerInsight, customerInsight.data);
     }
   }
 
@@ -107,8 +116,6 @@ class Controller extends GetxController {
     SharedData.remove('ProfileAuthData');
     SharedData.remove('ProfileAuthData');
     changeTab(currentTab.toInt());
-    OfflineDBService.delete(OfflineDBService.customerInsightDetail,
-        OfflineDBService.customerInsightDetail);
   }
 
   bool isPriceOff(ProductSummary product) {
@@ -182,7 +189,6 @@ class Controller extends GetxController {
           activePageName.value = 'login';
           Modular.to.navigate('/home/login');
         }
-
         break;
     }
   }
@@ -190,7 +196,6 @@ class Controller extends GetxController {
   addToCart(product) {
     product.quantity++;
     cartProducts.add(product);
-    // cartProducts.assignAll(cartProducts.distinctBy((item) => item));
     calculateTotalPrice();
   }
 
@@ -209,6 +214,7 @@ class Controller extends GetxController {
       });
       FCMSyncService.tokenSync(data);
       getCustomerData(loggedInProfile.value.id);
+      getCustomerDetail(loggedInProfile.value.id);
     }).catchError((error) {
       logout();
     });
