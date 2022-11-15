@@ -12,9 +12,12 @@ class OfflineDBService {
 
   static Future<void> init() async {
     await Hive.initFlutter();
+    await Hive.openBox(customerInsight);
     await Hive.openBox(profileAuth);
     await Hive.openBox(appManager);
     await Hive.openBox(location);
+    
+    await Hive.openBox(customerInsightDetail);
     print('Hive initiated');
   }
 

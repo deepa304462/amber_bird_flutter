@@ -284,7 +284,6 @@ class ClientService {
               ));
       var response = await request.data;
       String dir = (await getApplicationDocumentsDirectory()).path;
-
       file = File('$dir/$id' + '.png');
       var raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response);

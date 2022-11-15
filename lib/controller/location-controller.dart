@@ -32,12 +32,30 @@ class LocationController extends GetxController {
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
   @override
   void onInit() {
-    getLocation();
     super.onInit();
+    setLocation();
   }
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  void setLocation() async {
+    var locationExists =
+        await OfflineDBService.checkBox(OfflineDBService.customerInsight);
+    if (locationExists) {
+      var insight =
+          await OfflineDBService.get(OfflineDBService.customerInsight);
+      print(insight);
+      CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
+      if (cust.addresses!.isNotEmpty) {
+        addressData.value = cust.addresses![cust.addresses!.length - 1];
+      } else {
+        getLocation();
+      }
+    } else {
+      getLocation();
+    }
   }
 
   Future<bool> getLocation() async {
@@ -128,7 +146,7 @@ class LocationController extends GetxController {
     if (lat != null && lng != null) {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
-        address.value = response.data["results"][0];
+        addressData.value = response.data["results"][0];
         setAddressData(address.value);
       }
     }
@@ -136,6 +154,7 @@ class LocationController extends GetxController {
 
   setAddressData(dynamic data) {
     addressData.value.zipCode = findValueFromAddress('postal_code');
+    addressData.value.name = '';
     addressData.value.line1 = data['formatted_address'];
     addressData.value.city = findValueFromAddress('locality') ??
         findValueFromAddress('administrative_area_level_2');
@@ -151,7 +170,7 @@ class LocationController extends GetxController {
           data['geometry']['location']['lng']);
     }
 
-    setAddressCall();
+    // setAddressCall();
   }
 
   setAddressCall() async {
@@ -161,11 +180,15 @@ class LocationController extends GetxController {
         var insightDetail =
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
-            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>); 
+            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+        if (cust.addresses!.isEmpty) {
+          cust.addresses = [addressData.value];
+        } else {
+          cust.addresses![cust.addresses!.length - 1] = (addressData.value);
+        }
 
-        cust.addresses!.add(addressData.value); 
         var payload = cust.toMap();
-        log(payload.toString()); 
+        log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',
@@ -214,6 +237,8 @@ class LocationController extends GetxController {
         changeAddressData.value.landMark = text;
       } else if (name == 'zipCode') {
         changeAddressData.value.zipCode = text;
+      } else if (name == 'name') {
+        changeAddressData.value.name = text;
       }
     }
   }
