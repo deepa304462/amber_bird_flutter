@@ -1,5 +1,4 @@
 import 'package:amber_bird/data/product_guide/chapter.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
@@ -30,7 +29,7 @@ class ProductGuideChapter extends StatelessWidget {
                     Column(
                       children: [
                         ImageBox(
-                          '${ClientService.cdnUrl}${chapter.images![0]}',
+                          chapter.images![0],
                           width: MediaQuery.of(context).size.width * .9,
                           height: 100,
                           fit: BoxFit.fitWidth,

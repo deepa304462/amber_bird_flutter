@@ -33,7 +33,7 @@ class SplashOfferPage extends StatelessWidget {
                     height: height,
                     color: colorList[index],
                     child: ImageBox(
-                     '${ClientService.cdnUrl}${data.imageId!}',
+                     '${data.imageId!}',
                       height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                     ),

@@ -6,7 +6,9 @@ import 'package:image_picker/image_picker.dart';
 
 class ImagePickerPage extends StatefulWidget {
   Function(String) callback;
-  ImagePickerPage(this.callback);
+  Function(bool) isLoading;
+  final String defaultImageId;
+  ImagePickerPage(this.defaultImageId, this.callback, this.isLoading);
 
   @override
   _MyPageState createState() => _MyPageState();
@@ -68,12 +70,20 @@ class _MyPageState extends State<ImagePickerPage> {
                         borderRadius: BorderRadius.circular(80),
                         //set border radius more than 50% of height and width to make circle
                       ),
-                      child: ImageBox(
-                        '${ClientService.downloadUrl}35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
-                        width: MediaQuery.of(context).size.width,
-                        height: 170,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.defaultImageId != ''
+                          ? ImageBox(
+                              widget.defaultImageId,
+                              width: MediaQuery.of(context).size.width,
+                              height: 170,
+                              type: 'download',
+                              fit: BoxFit.cover,
+                            )
+                          : ImageBox(
+                              '35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
+                              width: MediaQuery.of(context).size.width,
+                              height: 170,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   )
           ],
@@ -90,6 +100,7 @@ class _MyPageState extends State<ImagePickerPage> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
+      widget.isLoading(true);
       setState(() {
         imageFile = File(pickedFile.path);
       });
@@ -106,6 +117,7 @@ class _MyPageState extends State<ImagePickerPage> {
       if (resp.statusCode == 200) {
         widget.callback(resp.data['_id']);
       }
+      widget.isLoading(false);
     }
   }
 
@@ -117,6 +129,7 @@ class _MyPageState extends State<ImagePickerPage> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
+      widget.isLoading(true);
       setState(() {
         imageFile = File(pickedFile.path);
       });
@@ -132,6 +145,7 @@ class _MyPageState extends State<ImagePickerPage> {
       if (resp.statusCode == 200) {
         widget.callback(resp.data['_id']);
       }
+      widget.isLoading(false);
     }
   }
 

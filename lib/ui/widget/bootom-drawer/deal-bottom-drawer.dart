@@ -81,7 +81,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     ImageBox(
-                                      '${ClientService.cdnUrl}${product.images![0]}',
+                                      product.images![0],
                                       width: 120,
                                     ),
                                     Column(

@@ -70,7 +70,7 @@ class ProfilePage extends StatelessWidget {
         child: Stack(
           children: [
             ImageBox(
-              '${ClientService.cdnUrl}aa556b20-a25a-410d-8204-a419227932aa',
+              'aa556b20-a25a-410d-8204-a419227932aa',
               width: MediaQuery.of(context).size.width,
               height: 170,
               fit: BoxFit.cover,
@@ -82,12 +82,16 @@ class ProfilePage extends StatelessWidget {
                   Row(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: ImageBox(
-                          stateController.loggedInProfile.value.profileIcon != '' ? '${ClientService.downloadUrl}${stateController.loggedInProfile.value.profileIcon}' :
-                              '${ClientService.cdnUrl}35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
+                        borderRadius: BorderRadius.circular(50), 
+                        child:stateController.loggedInProfile.value.profileIcon != '' ? ImageBox(
+                           '${stateController.loggedInProfile.value.profileIcon}' ,
                           width: MediaQuery.of(context).size.width * .2,
-                        ),
+                          type: 'download',
+                        )
+                            :ImageBox(
+                           '35b50ba9-3bfe-4688-8b22-1d56f657f3bb' ,
+                          width: MediaQuery.of(context).size.width * .2,
+                        ) ,
                       ),
                       Expanded(
                         child: ListTile(

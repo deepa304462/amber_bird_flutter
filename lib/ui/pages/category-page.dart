@@ -298,7 +298,7 @@ class CategoryPage extends StatelessWidget {
                                         megaMenuController.mainTabs[index]);
                                   },
                                   child: ImageBox(
-                                    '${ClientService.cdnUrl}${megaMenuController.mainTabs[index].image!}',
+                                    megaMenuController.mainTabs[index].image!,
                                     width: 50,
                                     height: 50,
                                   ),
