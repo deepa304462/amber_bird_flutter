@@ -46,8 +46,7 @@ class CustomerInsight {
       currentPointLevel: data['currentPointLevel'] as int?,
       customerTrackerRef: data['customerTrackerRef'] == null
           ? null
-          : Ref.fromMap(
-              data['customerTrackerRef'] as Map<String, dynamic>),
+          : Ref.fromMap(data['customerTrackerRef'] as Map<String, dynamic>),
       email: data['email'] as String?,
       id: data['_id'] as String?,
     );

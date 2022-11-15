@@ -168,8 +168,13 @@ class Controller extends GetxController {
         Modular.to.navigate('/home/category');
         break;
       case 2:
-        activePageName.value = 'refer';
-        Modular.to.navigate('/home/refer');
+        if (isLogin.value) {
+          activePageName.value = 'refer';
+          Modular.to.navigate('/home/refer');
+        } else {
+          activePageName.value = 'profile';
+          Modular.to.navigate('/home/profile');
+        }
         break;
       case 3:
         if (isLogin.value) {

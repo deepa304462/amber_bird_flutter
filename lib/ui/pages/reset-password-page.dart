@@ -37,20 +37,42 @@ class ResetPasswordWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    ResetPassTextBox('Current Password', 'currentPassword', authController.resetPasswordValue['currentPassword'].toString(),
-                        false, TextInputType.text, true, false, callback),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ResetPassTextBox('New Password', 'newPassword', authController.resetPasswordValue['newPassword']
-                            .toString(), false,
-                        TextInputType.text, true, false, callback),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ResetPassTextBox('Confirm Password', 'confirmPassword', authController.resetPasswordValue['confirmPassword']
+                    ResetPassTextBox(
+                        'Current Password',
+                        'currentPassword',
+                        authController.resetPasswordValue['currentPassword']
                             .toString(),
-                        false, TextInputType.text, true, false, callback),
+                        false,
+                        TextInputType.text,
+                        true,
+                        false,
+                        callback),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ResetPassTextBox(
+                        'New Password',
+                        'newPassword',
+                        authController.resetPasswordValue['newPassword']
+                            .toString(),
+                        false,
+                        TextInputType.text,
+                        true,
+                        false,
+                        callback),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ResetPassTextBox(
+                        'Confirm Password',
+                        'confirmPassword',
+                        authController.resetPasswordValue['confirmPassword']
+                            .toString(),
+                        false,
+                        TextInputType.text,
+                        true,
+                        false,
+                        callback),
                     !authController.passMatch.value
                         ? const Text('Confirm p/w & new p/w mismatches')
                         : const SizedBox(),

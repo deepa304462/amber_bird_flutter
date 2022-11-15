@@ -1,5 +1,7 @@
+import 'package:amber_bird/ui/pages/brand-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
+import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
@@ -39,8 +41,21 @@ class HomePageModule extends Module {
         '/product/:id',
         child: (_, args) {
           String productId = args.params['id'];
-          print(productId);
           return ProductPage(productId, search: false);
+        },
+      ),
+      ChildRoute(
+        '/brandProduct/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          return BrandProductPage(productId);
+        },
+      ),
+      ChildRoute(
+        '/categoryProduct/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          return CategoryProductPage(productId);
         },
       ),
       ChildRoute(

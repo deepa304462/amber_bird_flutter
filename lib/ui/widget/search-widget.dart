@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:amber_bird/controller/search-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -66,17 +69,6 @@ class SearchWidget extends StatelessWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-// Demo list to show querying
-  List<String> searchTerms = [
-    "Apple",
-    "Banana",
-    "Mango",
-    "Pear",
-    "Watermelons",
-    "Blueberries",
-    "Pineapples",
-    "Strawberries"
-  ];
   final SearchController searchController = Get.find();
 
 // first overwrite to
@@ -108,11 +100,6 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     List<String> matchQuery = [];
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
     return ListView.builder(
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
@@ -128,38 +115,90 @@ class CustomSearchDelegate extends SearchDelegate {
 // querying process at the runtime
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    print(query);
     searchController.getsearchData(query);
-    for (var fruit in searchTerms) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
-    }
     return Obx(
-      () => ListView.builder(
-        itemCount: searchController.searchProductList.value.length,
-        itemBuilder: (context, index) {
-          var product = searchController.searchProductList.value[index];
-          return ListTile(
-              onTap: () {
-                close(context, null);
-                Modular.to
-                    .navigate('/home/product-detail', arguments: product.id);
-              },
-              title: Row(
-                children: [
-                  product.images!.length > 0
-                      ? Image.network(
-                          '${ClientService.cdnUrl}${product.images![0]}',
-                          height: 20,
-                          fit: BoxFit.fill)
-                      : const SizedBox(child: Icon(Icons.gif_box)),
-                  Text(product.name!.defaultText!.text!),
-                ],
-              ));
-        },
-      ),
+      () => searchController.searching.value
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView(
+              children: [
+                productResults(context, searchController),
+                categoryResults(context, searchController),
+                brandResults(context, searchController)
+              ],
+            ),
+    );
+  }
+
+  Widget productResults(
+      BuildContext context, SearchController searchController) {
+    return Column(
+      children:
+          searchController.productResp.value.response!.docs!.map((product) {
+        return ListTile(
+            onTap: () {
+              close(context, null);
+              Modular.to.navigate('product/${product.id}');
+            },
+            leading: ImageBox(
+              jsonDecode(product.extraData!)['images'][0],
+              width: 50,
+              height: 50,
+            ),
+            title: Text(
+              product.name!,
+              style: TextStyles.titleLargeBold,
+            ));
+      }).toList(),
+    );
+  }
+
+  Widget categoryResults(
+      BuildContext context, SearchController searchController) {
+    return Column(
+      children:
+          searchController.categoryResp.value.response!.docs!.map((category) {
+        return ListTile(
+            onTap: () {
+              close(context, null);
+              Modular.to.navigate('/categoryProduct/${category.id}');
+            },
+            leading: jsonDecode(category.extraData!)['logoId'] != null
+                ? ImageBox(
+                    jsonDecode(category.extraData!)['logoId'],
+                    width: 50,
+                    height: 50,
+                  )
+                : Icon(Icons.category),
+            title: Text(
+              category.name!,
+              style: TextStyles.titleLargeBold,
+            ));
+      }).toList(),
+    );
+  }
+
+  Widget brandResults(BuildContext context, SearchController searchController) {
+    return Column(
+      children: searchController.brandResp.value.response!.docs!.map((brand) {
+        return ListTile(
+            onTap: () {
+              close(context, null);
+              Modular.to.navigate('/brandProduct/${brand.id}');
+            },
+            leading: jsonDecode(brand.extraData!)['logoId'] != null
+                ? ImageBox(
+                    jsonDecode(brand.extraData!)['logoId'],
+                    width: 50,
+                    height: 50,
+                  )
+                : Icon(Icons.category),
+            title: Text(
+              brand.name!,
+              style: TextStyles.titleLargeBold,
+            ));
+      }).toList(),
     );
   }
 }

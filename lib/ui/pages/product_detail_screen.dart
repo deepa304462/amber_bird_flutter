@@ -5,6 +5,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -200,9 +201,12 @@ class ProductDetailScreen extends StatelessWidget {
                               return cartController.checkProductInCart(
                                       '${productController.product.value.id!}@${productController.varient.value.varientCode}')
                                   ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         IconButton(
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(4),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
                                             if (stateController.isLogin.value) {
@@ -225,14 +229,25 @@ class ProductDetailScreen extends StatelessWidget {
                                           },
                                           icon: const Icon(
                                               Icons.remove_circle_outline,
-                                              color: Colors.black),
+                                              size: 30,
+                                              color: Colors.white),
                                         ),
-                                        Text(cartController
-                                            .getCurrentQuantity(
-                                                '${productController.product.value.id!}@${productController.varient.value.varientCode}')
-                                            .toString()),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 6),
+                                          child: FitText(
+                                            cartController
+                                                .getCurrentQuantity(
+                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                                .toString(),
+                                            style: TextStyles.bodyWhiteLarge
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                          ),
+                                        ),
                                         IconButton(
-                                          padding: const EdgeInsets.all(8),
+                                          padding: const EdgeInsets.all(4),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
                                             if (stateController.isLogin.value) {
@@ -253,7 +268,8 @@ class ProductDetailScreen extends StatelessWidget {
                                           },
                                           icon: const Icon(
                                               Icons.add_circle_outline,
-                                              color: Colors.black),
+                                              size: 30,
+                                              color: Colors.white),
                                         ),
                                       ],
                                     )

@@ -13,6 +13,7 @@ class WildCardPageController extends GetxController {
   }
 
   Future<void> syncPath(Uri givenUri) async {
+    print(givenUri);
     if (givenUri.path.contains('refer')) {
       String referById = givenUri.path.split('/')[2];
       String existing = await SharedData.read('referBy');

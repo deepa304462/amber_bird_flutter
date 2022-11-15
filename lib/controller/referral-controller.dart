@@ -6,7 +6,7 @@ import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:get/get.dart';
 
 class ReferralController extends GetxController {
-  Rx<ShortLink> shortLink = new ShortLink().obs;
+  Rx<ShortLink> shortLink = ShortLink().obs;
   Rx<bool> isLoading = true.obs;
   @override
   void onInit() {
