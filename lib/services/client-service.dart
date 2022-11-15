@@ -253,9 +253,6 @@ class ClientService {
           filename: fileName, contentType:   MediaType("image", "jpeg")),
       'payload': jsonEncode(payload)
     });
-    log(payload.toString());
-    print(formData.toString());
-    print(formData.fields);
     try {
       //404
       return await dio.post('${url}$path/upload',
