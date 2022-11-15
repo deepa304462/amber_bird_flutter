@@ -67,7 +67,6 @@ class HomePageModule extends Module {
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/orders', child: (_, args) => OrderListPage()),
       ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-      
       ChildRoute('/search', child: (_, args) => SearchPage()),
       ChildRoute('/signup', child: (_, args) => SignUp()),
     ]),

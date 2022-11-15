@@ -115,6 +115,30 @@ class ClientService {
         method: RESTMethod.SEARCH);
   }
 
+  static Future<Response> solrSearch(
+      {required String path,
+      required String queryData,
+      _APIVersion ver = _APIVersion.V1}) async {
+    var response;
+    Map<String, dynamic> header = Map();
+    var method = RESTMethod.GET;
+    header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
+    try {
+      response = await dio.get(
+          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=indexData:*${queryData}*',
+          options: Options(headers: header));
+      return response;
+    } catch (e) {
+      print(url + path);
+      DioError error = e as DioError;
+      if (error.response?.statusCode == 401) {
+        return error.response!;
+      } else {
+        throw e;
+      }
+    }
+  }
+
   static _call(
       {required String path,
       Map<String, dynamic>? payload,
@@ -182,7 +206,7 @@ class ClientService {
           return response;
         case RESTMethod.DOWNLOAD:
           throw Exception('no supported');
-       }
+      }
     } catch (e) {
       print(url + path);
       DioError error = e as DioError;
@@ -198,7 +222,7 @@ class ClientService {
         return error.response;
       } else {
         throw e;
-      } 
+      }
     }
   }
 

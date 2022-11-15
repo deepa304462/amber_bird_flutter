@@ -41,8 +41,8 @@ class LocationController extends GetxController {
             address.value['geometry']['location']['lng']);
       }
 
-      currentPin.value =
-          Marker(markerId: const MarkerId('pin'), position: currentLatLang.value);
+      currentPin.value = Marker(
+          markerId: const MarkerId('pin'), position: currentLatLang.value);
     }
     return locationExists;
   }

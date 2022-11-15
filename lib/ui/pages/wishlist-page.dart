@@ -1,6 +1,5 @@
- 
 import 'package:flutter/material.dart';
- 
+
 class WishListPage extends StatelessWidget {
   bool search = false;
 

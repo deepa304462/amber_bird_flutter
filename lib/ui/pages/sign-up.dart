@@ -197,7 +197,8 @@ class SignUp extends StatelessWidget {
                     isLoading.value = false;
                     snackBarClass.showToast(context, data['msg']);
                   } else {
-                    snackBarClass.showToast(context, 'Please fill corrct username');
+                    snackBarClass.showToast(
+                        context, 'Please fill corrct username');
                   }
                 },
                 style: ButtonStyle(
