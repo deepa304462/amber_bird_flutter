@@ -111,7 +111,7 @@ class ProfileWidget extends StatelessWidget {
                       child: ImagePickerPage(
                           stateController.loggedInProfile.value.profileIcon ??
                               '',
-                          imageCallboack,
+                          imageCallback,
                           isLoadingCallback),
                     ),
                     ITextBox(
@@ -158,7 +158,7 @@ class ProfileWidget extends StatelessWidget {
 
   callback(String p1) {}
 
-  imageCallboack(String p1) {
+  imageCallback(String p1) {
     // 'profileImageId':''
 
     authController.setFielsvalue(p1, 'profileImageId');

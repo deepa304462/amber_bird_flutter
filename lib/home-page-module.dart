@@ -1,3 +1,4 @@
+import 'package:amber_bird/ui/pages/all-address-page.dart';
 import 'package:amber_bird/ui/pages/brand-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
@@ -74,6 +75,7 @@ class HomePageModule extends Module {
         },
       ),
       ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
+      ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
       ChildRoute('/reset-password', child: (_, args) => ResetPasswordWidget()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),

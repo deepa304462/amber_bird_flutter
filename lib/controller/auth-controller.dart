@@ -151,7 +151,8 @@ class AuthController extends GetxController {
         // "profileType": "DIAGO_APP_PROFILE",
         "password": fieldValue['password'],
         "profileType": "CUSTOMER",
-        "orgShortCode": ""
+        "orgShortCode": "",
+        "profileIcon": fieldValue['profileImageId']
       };
       var resp =
           await ClientService.post(path: 'profile-auth', payload: payload);
