@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/profile/ref.dart';
-
 import 'payment_gate_way_detail.dart';
 
 class Payment {

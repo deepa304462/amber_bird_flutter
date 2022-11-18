@@ -29,8 +29,6 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       mainTabs.value = (cList);
-
-      // print(categoryList);
     }
   }
 
@@ -59,7 +57,6 @@ class CategoryController extends GetxController {
     if (selectedSubCatergory.value != '' &&
         selectedSubCatergory.value != 'all') {
       payload = {
-        // "parentCategoryId": selectedCatergory.value.id ?? '',
         "productCategoryId": selectedSubCatergory.value,
       };
     } else if (selectedCatergory.value != '') {
@@ -67,7 +64,6 @@ class CategoryController extends GetxController {
         "parentCategoryId": selectedCatergory.value,
       };
     }
-    // {"parentCategoryId": catId};
     var response = await ClientService.searchQuery(
         path: 'cache/product/searchSummary', query: payload, lang: 'en');
 
@@ -76,7 +72,6 @@ class CategoryController extends GetxController {
               ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-
       productList.value = (pList);
     } else {
       print(response);

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class OrderListPage extends StatelessWidget {
@@ -23,6 +24,31 @@ class OrderListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox();
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            IconButton(
+                onPressed: () {
+                  Modular.to.navigate('../home/main');
+                },
+                icon: const Icon(Icons.arrow_back))
+          ]),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.blueAccent),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [],
+            ),
+          ),
+        ]),
+      ),
+    );
   }
 }
+
+ 

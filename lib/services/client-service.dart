@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
-
+import 'package:http_parser/http_parser.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,6 +37,7 @@ class ClientService {
 
   static String url = "https://prod.sbazar.app/";
   static String cdnUrl = "https://cdn2.sbazar.app/";
+  static String downloadUrl = "https://prod.sbazar.app/fileStorage/download/";
   static Dio dio = Dio();
   static DefaultCacheManager cacheManager = DefaultCacheManager();
   static String token = '';
@@ -240,20 +242,20 @@ class ClientService {
   }
 
   static Future<Response> postFile(
-      {required File file,
-      required String filePath,
+      {required String path,
+      required File file,
       required Map<String, dynamic> payload,
       _APIVersion ver = _APIVersion.V1}) async {
-    FormData formData = FormData.fromMap({
-      'data': jsonEncode(payload),
-      "files": await MultipartFile.fromFile(file.path,
-          filename: file.path
-              .substring(file.path.lastIndexOf("/") + 1, file.path.length)),
+    String fileName = file.path.substring(file.path.lastIndexOf("/") + 1,
+        file.path.length); //file.path.split('/').last;
+    FormData formData = await FormData.fromMap({
+      "file": await MultipartFile.fromFile(file.path,
+          filename: fileName, contentType:   MediaType("image", "jpeg")),
+      'payload': jsonEncode(payload)
     });
-
     try {
       //404
-      return await dio.post('${ver == _APIVersion.V1 ? url : urlV2}file',
+      return await dio.post('${url}$path/upload',
           data: formData, options: Options(contentType: 'multipart/form-data'));
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
@@ -282,7 +284,6 @@ class ClientService {
               ));
       var response = await request.data;
       String dir = (await getApplicationDocumentsDirectory()).path;
-
       file = File('$dir/$id' + '.png');
       var raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response);

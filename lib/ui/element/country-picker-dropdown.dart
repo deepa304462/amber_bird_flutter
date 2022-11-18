@@ -14,8 +14,7 @@ class CountryPickerDropdown extends StatelessWidget {
   // List of items in our dropdown menu
   var dropdownItems = [].obs;
 
-  getCountryCode() async {
-    print(dropdownvalue.value);
+  getCountryCode() async { 
     var payload = {"configId": "countries", "providerId": "sbazar"};
     var resp =
         await ClientService.post(path: 'FieldMap/search', payload: payload);
@@ -30,7 +29,6 @@ class CountryPickerDropdown extends StatelessWidget {
       dropdownItems.value = arr;
       callback(dropdownvalue
           .value); // (arr).map((e) =>  (e as Map<String, dynamic>)).toList();
-      print(dropdownItems.value.toString());
     }
   }
 

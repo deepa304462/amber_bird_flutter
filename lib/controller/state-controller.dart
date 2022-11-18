@@ -50,7 +50,6 @@ class Controller extends GetxController {
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
-
     var authData = jsonDecode(await (SharedData.read('authData')));
     var userData = jsonDecode(await (SharedData.read('userData')));
     ClientService.token = authData['accessToken'] ?? '';
@@ -60,7 +59,6 @@ class Controller extends GetxController {
       isEmailVerified.value = userData['authEmailVerified'];
       isPhoneVerified.value = userData['mobileVerified'];
     }
-
     // update token
     //end update token
     if (authData['tokenManagerEntityId'] != null) {
@@ -72,8 +70,7 @@ class Controller extends GetxController {
     var customerInsightDetail = await ClientService.post(
         path: 'customerInsight/detail',
         payload: {},
-        payloadAsString: tokenManagerEntityId);
-    print(customerInsightDetail.data);
+        payloadAsString: tokenManagerEntityId); 
     if (customerInsightDetail.statusCode == 200) {
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, customerInsightDetail.data);
@@ -93,8 +90,7 @@ class Controller extends GetxController {
     var resp = await ClientService.post(
         path:
             'profile-auth/resend/verificationEmail/${tokenManagerEntityId.value}',
-        payload: {});
-    print(resp);
+        payload: {}); 
     if (resp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
@@ -144,8 +140,7 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
   }
 
-  bool showSearch() {
-    print(activePageName);
+  bool showSearch() { 
     if (activePageName.value == 'main' ||
         activePageName.value == 'category' ||
         activePageName.value == 'refer') {

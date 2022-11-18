@@ -67,6 +67,7 @@ dependencies:
   mapbox_gl_web: ^0.16.0
   firebase_analytics: ^9.3.8
   share_plus: ^6.2.0
+  image_picker: ^0.8.6
   
 
 dev_dependencies:

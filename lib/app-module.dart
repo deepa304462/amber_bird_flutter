@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/home-page-module.dart';
 import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
