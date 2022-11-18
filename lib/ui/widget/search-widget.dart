@@ -117,17 +117,25 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     searchController.getsearchData(query);
     return Obx(
-      () => searchController.searching.value
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView(
-              children: [
-                productResults(context, searchController),
-                categoryResults(context, searchController),
-                brandResults(context, searchController)
-              ],
-            ),
+      () => ListView(
+        children: [
+          searchController.searchingProduct.value
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : productResults(context, searchController),
+          searchController.searchingCategory.value
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : categoryResults(context, searchController),
+          searchController.searchingBrand.value
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : brandResults(context, searchController)
+        ],
+      ),
     );
   }
 
@@ -139,7 +147,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             onTap: () {
               close(context, null);
-              Modular.to.navigate('product/${product.id}');
+              Modular.to.navigate('/home/product/${product.id}');
             },
             leading: ImageBox(
               jsonDecode(product.extraData!)['images'][0],
@@ -162,7 +170,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             onTap: () {
               close(context, null);
-              Modular.to.navigate('/categoryProduct/${category.id}');
+              Modular.to.navigate('/home/categoryProduct/${category.id}');
             },
             leading: jsonDecode(category.extraData!)['logoId'] != null
                 ? ImageBox(
@@ -185,7 +193,7 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             onTap: () {
               close(context, null);
-              Modular.to.navigate('/brandProduct/${brand.id}');
+              Modular.to.navigate('/home/brandProduct/${brand.id}');
             },
             leading: jsonDecode(brand.extraData!)['logoId'] != null
                 ? ImageBox(
