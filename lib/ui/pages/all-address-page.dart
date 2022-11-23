@@ -1,9 +1,9 @@
- import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
- import 'package:amber_bird/data/order/address.dart';
+import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -46,8 +46,7 @@ class AllAddressPage extends StatelessWidget {
                   itemCount: addressList.length,
                   itemBuilder: (_, index) {
                     var currentAddress = addressList[index];
-                    return addressCard(
-                        currentAddress, () => {});
+                    return addressCard(currentAddress, () => {});
                   },
                 ),
               ],
@@ -73,7 +72,7 @@ class AllAddressPage extends StatelessWidget {
               address.line1!,
               style: TextStyles.bodyFont,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: Icon(Icons.edit),
           ),
         ),
       ),
