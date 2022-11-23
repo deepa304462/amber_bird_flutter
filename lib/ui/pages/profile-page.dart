@@ -43,7 +43,8 @@ class ProfilePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: TextButton(
                         onPressed: () async {
-                          Modular.to.navigate('../home/reset-password');
+                          // Modular.to.navigate('../home/reset-password');
+                          snackBarClass.showToast(context, 'Please check your mail !,thanks');
                         },
                         child: Text("Reset Password",
                             style: TextStyles.headingFont),
@@ -115,7 +116,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: FitText(
-                            CodeHelp.titleCase(value.fullName!),
+                            CodeHelp.titleCase(value.fullName??''),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),

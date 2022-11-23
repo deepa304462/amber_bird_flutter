@@ -207,13 +207,16 @@ class LocationPage extends StatelessWidget {
                   () => Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                       LocationTextBox(
+                      LocationTextBox(
                           'Name',
                           'name',
                           locationController.changeAddressData.value.name
                               .toString(),
                           TextInputType.text,
                           callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       LocationTextBox(
                           'Line1',
                           'line1',

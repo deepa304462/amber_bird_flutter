@@ -19,6 +19,7 @@ class LocationController extends GetxController {
   Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
   RxMap address = {}.obs;
+  RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
 
@@ -45,7 +46,7 @@ class LocationController extends GetxController {
         await OfflineDBService.checkBox(OfflineDBService.customerInsight);
     if (locationExists) {
       var insight =
-          await OfflineDBService.get(OfflineDBService.customerInsight); 
+          await OfflineDBService.get(OfflineDBService.customerInsight);
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
@@ -197,6 +198,35 @@ class LocationController extends GetxController {
         if (response.statusCode == 200) {
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
+        }
+      }
+    }
+  }
+
+  editAddressCall() async {
+    if (Get.isRegistered<Controller>()) {
+      var controller = Get.find<Controller>();
+      if (controller.isLogin.value) {
+        var insightDetail =
+            await OfflineDBService.get(OfflineDBService.customerInsight);
+        CustomerInsight cust =
+            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+
+        cust.addresses![seelctedIndexToEdit.value] = (addressData.value);
+
+        var payload = cust.toMap();
+        log(payload.toString());
+        var userData = jsonDecode(await (SharedData.read('userData')));
+        var response = await ClientService.Put(
+            path: 'customerInsight',
+            id: userData['mappedTo']['_id'],
+            payload: payload);
+        if (response.statusCode == 200) {
+          OfflineDBService.save(
+              OfflineDBService.customerInsight, response.data);
+              return {"msg": "Updated Successfully!!", "status": "success"};
+        }else{
+           return {"msg": "Something Went Wrong!!", "status": "error"};
         }
       }
     }
