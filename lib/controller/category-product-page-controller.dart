@@ -12,11 +12,11 @@ class CategoryProductPageController extends GetxController {
 
   @override
   void onInit() {
-    getBrand();
+    getCategory();
     super.onInit();
   }
 
-  void getBrand() {
+  void getCategory() {
     isLoading.value = true;
     ClientService.get(path: 'productCategory', id: '$categoryId?locale=en')
         .then((value) {
@@ -28,7 +28,7 @@ class CategoryProductPageController extends GetxController {
   void searchProducts() {
     ClientService.searchQuery(
             path: 'cache/product/searchSummary',
-            query: {'productCategoryId': categoryId},
+            query: {'parentCategoryId': categoryId},
             lang: 'en')
         .then((value) {
       List<ProductSummary> pList = ((value.data as List<dynamic>?)
