@@ -1,3 +1,4 @@
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 
 class snackBarClass {
@@ -12,17 +13,22 @@ class snackBarClass {
         // ),
         content: Padding(
           padding: EdgeInsets.all(10),
-          child: Text(msg ?? "Please try again!"),
+          child: Text(
+            msg ?? "Please try again!",
+            style: TextStyles.title.copyWith(color: AppColors.primeColor),
+          ),
         ),
-        duration: const Duration(milliseconds: 1500),
-        width: 280.0, // Width of the SnackBar.
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0, // Inner padding for SnackBar content.
-        ),
+        duration: const Duration(milliseconds: 3000),
+        padding: const EdgeInsets.all(8),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+            side: BorderSide(
+              color: AppColors.grey,
+              width: 1,
+            )),
       ),
     );
   }
