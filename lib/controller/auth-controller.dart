@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,7 +31,7 @@ class AuthController extends GetxController {
     'password': '',
     'username': '',
     'countryCode': '',
-    'profileImageId':''
+    'profileImageId': ''
   }.obs;
   var usernameValid = true.obs;
   var suggestedUsername = ''.obs;
@@ -350,9 +351,22 @@ class AuthController extends GetxController {
     }).join('');
   }
 
-  resetPassword() {
+  resetPassword() async {
     print(resetPasswordValue.value.toString());
-    return {"msg": "Something Went Wrong!!", "status": "error"};
+    var controller = Get.find<Controller>();
+    var payload = {
+      'email': controller.loggedInProfile.value.email,
+      'password': resetPasswordValue.value['newPassword']
+    };
+    // payload['email'] = fieldValue.value['fullName'];
+    // payload["password"] = fieldValue.value['profileImageId'];
+    var userUpdateResp =
+        await ClientService.post(path: 'auth/passwordReset', payload: payload);
+    if (userUpdateResp.statusCode == 200) {
+      return {"msg": "Edited Successfully!!", "status": "success"};
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 
   editProfile() async {

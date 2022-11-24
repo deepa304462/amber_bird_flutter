@@ -70,7 +70,7 @@ class Controller extends GetxController {
     var customerInsightDetail = await ClientService.post(
         path: 'customerInsight/detail',
         payload: {},
-        payloadAsString: tokenManagerEntityId); 
+        payloadAsString: tokenManagerEntityId);
     if (customerInsightDetail.statusCode == 200) {
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, customerInsightDetail.data);
@@ -90,7 +90,7 @@ class Controller extends GetxController {
     var resp = await ClientService.post(
         path:
             'profile-auth/resend/verificationEmail/${tokenManagerEntityId.value}',
-        payload: {}); 
+        payload: {});
     if (resp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
@@ -140,7 +140,7 @@ class Controller extends GetxController {
     changeTab(currentTab.toInt());
   }
 
-  bool showSearch() { 
+  bool showSearch() {
     if (activePageName.value == 'main' ||
         activePageName.value == 'category' ||
         activePageName.value == 'refer') {
@@ -213,5 +213,24 @@ class Controller extends GetxController {
     }).catchError((error) {
       logout();
     });
+  }
+
+  resetPassInit() async {
+    var payload = {
+      "username": loggedInProfile.value.userName,
+      "mappedTo": {
+        '_id': loggedInProfile.value.id,
+        'name': loggedInProfile.value.fullName
+      },
+      "authEmail": loggedInProfile.value.email,
+      "authMobile": loggedInProfile.value.mobile
+    };
+    var tokenResp = await ClientService.post(
+        path: 'auth/passwordResetInit', payload: payload);
+    if (tokenResp.statusCode == 200) { 
+      return {"msg": "Mail sent Successfully!!", "status": "success"};
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
   }
 }

@@ -44,6 +44,7 @@ class ProfilePage extends StatelessWidget {
                       child: TextButton(
                         onPressed: () async {
                           // Modular.to.navigate('../home/reset-password');
+                          var data =await stateController.resetPassInit();
                           snackBarClass.showToast(context, 'Please check your mail !,thanks');
                         },
                         child: Text("Reset Password",

@@ -100,7 +100,7 @@ class AllAddressPage extends StatelessWidget {
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
-      transitionDuration: Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 500),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
           opacity: animation,

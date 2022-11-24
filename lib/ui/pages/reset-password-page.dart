@@ -99,7 +99,7 @@ class ResetPasswordWidget extends StatelessWidget {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               AppColors.primeColor)),
                       child: Text(
-                        !isLoading.value ? 'Reset Password' : 'Loading',
+                        !isLoading.value ? 'Update Password' : 'Loading',
                         style: TextStyles.bodyWhiteLarge,
                       ),
                     )
