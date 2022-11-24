@@ -103,7 +103,7 @@ class LocationPage extends StatelessWidget {
   Widget _showAddress(
       BuildContext context, LocationController locationController) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -118,23 +118,28 @@ class LocationPage extends StatelessWidget {
           ),
           Text(
             'Your address',
-            style: TextStyles.titleXLargePrimary,
+            style: TextStyles.titleXLargePrimary.copyWith(fontSize: 20),
           ),
           locationController.addressData.value.line1 != null
               ? ListTile(
-                  title: Text(
-                    locationController.addressData.value.line1 ?? '',
-                    style: TextStyles.bodyFontBold,
+                  visualDensity: VisualDensity.comfortable,
+                  title: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      locationController.addressData.value.line1 ?? '',
+                      style: TextStyles.bodyFontBold,
+                    ),
                   ),
-                  subtitle: ElevatedButton(
+                  trailing: IconButton(
                     onPressed: () {
                       locationController.changeAddressData.value =
                           locationController.addressData.value;
                       _displayDialog(context, locationController);
                     },
-                    child: Text(
-                      'Edit',
-                      style: TextStyles.titleLight,
+                    icon: Icon(
+                      Icons.edit,
+                      color: AppColors.primeColor,
+                      size: 20,
                     ),
                   ),
                 )
@@ -206,7 +211,13 @@ class LocationPage extends StatelessWidget {
                 child: Obx(
                   () => Column(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Text(
+                        'Edit address',
+                        style: TextStyles.titleXLargePrimary
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
                       LocationTextBox(
                           'Name',
                           'name',
@@ -277,27 +288,43 @@ class LocationPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          locationController.addressData.value =
-                              locationController.changeAddressData.value;
-                          locationController.setAddressCall();
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "Submit",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            color: AppColors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Text(
+                              "Close",
+                              style: TextStyles.titleWhite,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          MaterialButton(
+                            onPressed: () {
+                              locationController.addressData.value =
+                                  locationController.changeAddressData.value;
+                              locationController.setAddressCall();
+                              Navigator.of(context).pop();
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            color: AppColors.primeColor,
+                            child: Text(
+                              "Save",
+                              style: TextStyles.titleWhite
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          "DISMISS",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
                     ],
                   ),
                 ),

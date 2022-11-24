@@ -18,56 +18,57 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(0),
+    return SingleChildScrollView(
       child: Column(
         children: [
           profileCard(context, stateController.loggedInProfile.value),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                sectionCard('Address', 'Get list if saved address', () {
-                  Modular.to.navigate('../home/address-list');
-                  return {};
-                }),
-                sectionCard(
-                    'FAQ', 'Get answer for your specific query', () => {}),
-                sectionCard(
-                    'Help', 'Get help from our customer care team', () => {}),
-                sectionCard(
-                    'Privacy policy', 'Explains legals and policies', () => {}),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Card(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextButton(
-                        onPressed: () async {
-                          // Modular.to.navigate('../home/reset-password');
-                          snackBarClass.showToast(context, 'Please check your mail !,thanks');
-                        },
-                        child: Text("Reset Password",
-                            style: TextStyles.headingFont),
-                      ),
+          sectionCard('Address', 'Get list if saved address', () {
+            Modular.to.navigate('../home/address-list');
+            return {};
+          }),
+          sectionCard('FAQ', 'Get answer for your specific query', () => {}),
+          sectionCard('Help', 'Get help from our customer care team', () => {}),
+          sectionCard(
+              'Privacy policy', 'Explains legals and policies', () => {}),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () async {
+                      // Modular.to.navigate('../home/reset-password');
+                      snackBarClass.showToast(
+                          context, 'Please check your mail !,thanks');
+                    },
+                    child: Text(
+                      "Reset Password",
+                      style: TextStyles.headingFont,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextButton(
-                        onPressed: () async {
-                          stateController.logout();
-                          cartController.fetchCart();
-                        },
-                        child: Text("Logout", style: TextStyles.headingFont),
-                      ),
-                    ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () async {
+                      stateController.logout();
+                      cartController.fetchCart();
+                    },
+                    child: Text("Logout", style: TextStyles.headingFont),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],
@@ -116,7 +117,7 @@ class ProfilePage extends StatelessWidget {
                       Expanded(
                         child: ListTile(
                           title: FitText(
-                            CodeHelp.titleCase(value.fullName??''),
+                            CodeHelp.titleCase(value.fullName ?? ''),
                             style: TextStyles.titleXLargeWhite
                                 .copyWith(color: Colors.black),
                           ),
