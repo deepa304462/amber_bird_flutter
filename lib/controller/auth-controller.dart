@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:math';
-import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,8 +17,6 @@ enum LoginType {
 }
 
 class AuthController extends GetxController {
-  var resetPasswordValue =
-      {'currentPassword': '', 'newPassword': '', 'confirmPassword': ''}.obs;
   var fieldValue = {
     'fullName': '',
     'email': '',
@@ -36,7 +33,6 @@ class AuthController extends GetxController {
   var usernameValid = true.obs;
   var suggestedUsername = ''.obs;
   var loginWith = LoginType.emailPassword.obs;
-  RxBool passMatch = true.obs;
 
   @override
   void onInit() {
@@ -320,16 +316,6 @@ class AuthController extends GetxController {
     fieldValue.value[name] = text;
   }
 
-  void setResetPassvalue(String text, String name) {
-    resetPasswordValue.value[name] = text;
-    if (resetPasswordValue.value['newPassword'] !=
-        resetPasswordValue.value['confirmPassword']) {
-      passMatch.value = false;
-    } else {
-      passMatch.value = true;
-    }
-  }
-
   String generatePassword({
     bool letter = true,
     bool isNumber = true,
@@ -351,23 +337,22 @@ class AuthController extends GetxController {
     }).join('');
   }
 
-  resetPassword() async {
-    print(resetPasswordValue.value.toString());
-    var controller = Get.find<Controller>();
-    var payload = {
-      'email': controller.loggedInProfile.value.email,
-      'password': resetPasswordValue.value['newPassword']
-    };
-    // payload['email'] = fieldValue.value['fullName'];
-    // payload["password"] = fieldValue.value['profileImageId'];
-    var userUpdateResp =
-        await ClientService.post(path: 'auth/passwordReset', payload: payload);
-    if (userUpdateResp.statusCode == 200) {
-      return {"msg": "Edited Successfully!!", "status": "success"};
-    } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
-    }
-  }
+  // resetPassword(String token) async {
+  //   print(resetPasswordValue.value.toString());
+  //   var controller = Get.find<Controller>();
+  //   var payload = {
+  //     'email': controller.loggedInProfile.value.email,
+  //     'password': resetPasswordValue.value['newPassword'],
+  //     'token':token
+  //   };
+  //   var userUpdateResp =
+  //       await ClientService.post(path: 'auth/passwordReset', payload: payload);
+  //   if (userUpdateResp.statusCode == 200) {
+  //     return {"msg": "Edited Successfully!!", "status": "success"};
+  //   } else {
+  //     return {"msg": "Something Went Wrong!!", "status": "error"};
+  //   }
+  // }
 
   editProfile() async {
     var userData = jsonDecode(await (SharedData.read('userData')));

@@ -218,16 +218,20 @@ class Controller extends GetxController {
   resetPassInit() async {
     var payload = {
       "username": loggedInProfile.value.userName,
-      "mappedTo": {
-        '_id': loggedInProfile.value.id,
-        'name': loggedInProfile.value.fullName
-      },
+      "mappedTo": loggedInProfile.value.id,
+      "orgRefId": "sbazar",
+      "shortCode": '',
+      //  {
+      //   '_id': loggedInProfile.value.id,
+      //   'name': loggedInProfile.value.fullName
+      // },
       "authEmail": loggedInProfile.value.email,
       "authMobile": loggedInProfile.value.mobile
     };
+    print(payload);
     var tokenResp = await ClientService.post(
         path: 'auth/passwordResetInit', payload: payload);
-    if (tokenResp.statusCode == 200) { 
+    if (tokenResp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};

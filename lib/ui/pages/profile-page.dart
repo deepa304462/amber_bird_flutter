@@ -1,8 +1,6 @@
-import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -15,73 +13,47 @@ import 'package:get/get.dart';
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
   final CartController cartController = Get.find();
-
+  RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           profileCard(context, stateController.loggedInProfile.value),
-<<<<<<< HEAD
           SingleChildScrollView(
-            child: Column(
-              children: [
-                sectionCard('Address', 'Get list if saved address', () {
-                  Modular.to.navigate('../home/address-list');
-                  return {};
-                }),
-                sectionCard(
-                    'FAQ', 'Get answer for your specific query', () => {}),
-                sectionCard(
-                    'Help', 'Get help from our customer care team', () => {}),
-                sectionCard(
-                    'Privacy policy', 'Explains legals and policies', () => {}),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Card(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: TextButton(
-                        onPressed: () async {
-                          // Modular.to.navigate('../home/reset-password');
-                          var data =await stateController.resetPassInit();
-                          snackBarClass.showToast(context, 'Please check your mail !,thanks');
-                        },
-                        child: Text("Reset Password",
-                            style: TextStyles.headingFont),
-                      ),
-=======
-          sectionCard('Address', 'Get list if saved address', () {
-            Modular.to.navigate('../home/address-list');
-            return {};
-          }),
-          sectionCard('FAQ', 'Get answer for your specific query', () => {}),
-          sectionCard('Help', 'Get help from our customer care team', () => {}),
-          sectionCard(
-              'Privacy policy', 'Explains legals and policies', () => {}),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Card(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () async {
-                      // Modular.to.navigate('../home/reset-password');
-                      snackBarClass.showToast(
-                          context, 'Please check your mail !,thanks');
-                    },
-                    child: Text(
-                      "Reset Password",
-                      style: TextStyles.headingFont,
-                      textAlign: TextAlign.start,
->>>>>>> d6ffe72faa57bcc44291c7f4d2ade3751c5a9766
+            child: Column(children: [
+              sectionCard('Address', 'Get list if saved address', () {
+                Modular.to.navigate('../home/address-list');
+                return {};
+              }),
+              sectionCard(
+                  'FAQ', 'Get answer for your specific query', () => {}),
+              sectionCard(
+                  'Help', 'Get help from our customer care team', () => {}),
+              sectionCard(
+                  'Privacy policy', 'Explains legals and policies', () => {}),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: Card(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextButton(
+                      onPressed: () async {
+                        isLoading.value = true;
+                        // Modular.to.navigate('../home/reset-password');
+                        var data = await stateController.resetPassInit();
+                        isLoading.value = false;
+                        snackBarClass.showToast(
+                            context, 'Please check your mail !,thanks');
+                      },
+                      child: Text(
+                          isLoading.value ? "Loading" : "Reset Password",
+                          style: TextStyles.headingFont),
                     ),
                   ),
                 ),
               ),
-            ),
+            ]),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

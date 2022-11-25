@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/controller/update-password-controller.dart';
 import 'package:amber_bird/ui/element/country-picker-dropdown.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class ResetPassTextBox extends StatelessWidget {
       this.isDisabled,
       this.callback);
 
-  final AuthController authController = Get.find();
+  final UpdatePasswordController updatePassController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -32,65 +33,26 @@ class ResetPassTextBox extends StatelessWidget {
       // if (keyName == 'userName') {
       //   authController.checkValidityUsername();
       // }
-      authController.setResetPassvalue(ipController.text, keyName);
+      updatePassController.setResetPassvalue(ipController.text, keyName);
     });
 
     ipController.text = value;
-    if (keyName != 'mobile') {
-      return Container(
-        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.primeColor)),
-        child: TextField(
-          style: TextStyles.title,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: label,
-          ),
-          controller: ipController,
-          obscureText: isPassword,
-          keyboardType: keyboardType,
-          readOnly: isDisabled,
+    return Container(
+      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: AppColors.primeColor)),
+      child: TextField(
+        style: TextStyles.title,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          labelText: label,
         ),
-      );
-    } else {
-      ipController.text =
-          value.split('-').length > 1 ? value.split('-')[1] : value;
-      return Container(
-        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.primeColor)),
-        child: Row(
-          children: <Widget>[
-            SizedBox(
-              width: 50,
-              child: CountryPickerDropdown(
-                value.split('-').length > 1 ? value.split('-')[1] : '91',
-                (country) {
-                  //countryCode
-                  authController.setFielsvalue(country, 'countryCode');
-                },
-              ),
-            ),
-            Expanded(
-              child: TextField(
-                style: TextStyles.title,
-                maxLength: 15,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    labelText: label,
-                    counterText: ""),
-                controller: ipController,
-                obscureText: isPassword,
-                readOnly: isDisabled,
-                keyboardType: keyboardType,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+        controller: ipController,
+        obscureText: isPassword,
+        keyboardType: keyboardType,
+        readOnly: isDisabled,
+      ),
+    );
   }
 }
