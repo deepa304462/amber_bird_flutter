@@ -21,7 +21,7 @@ class ResetPasswordWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UpdatePasswordController updatePassController =
-        Get.put(UpdatePasswordController(  email, code ));
+        Get.put(UpdatePasswordController(email, code));
     return SafeArea(
       child: Scaffold(
         body: Obx(

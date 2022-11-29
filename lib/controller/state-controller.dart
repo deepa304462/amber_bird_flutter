@@ -221,14 +221,9 @@ class Controller extends GetxController {
       "mappedTo": loggedInProfile.value.id,
       "orgRefId": "sbazar",
       "shortCode": '',
-      //  {
-      //   '_id': loggedInProfile.value.id,
-      //   'name': loggedInProfile.value.fullName
-      // },
       "authEmail": loggedInProfile.value.email,
       "authMobile": loggedInProfile.value.mobile
     };
-    print(payload);
     var tokenResp = await ClientService.post(
         path: 'auth/passwordResetInit', payload: payload);
     if (tokenResp.statusCode == 200) {

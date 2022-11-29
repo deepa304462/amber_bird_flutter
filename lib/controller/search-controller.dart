@@ -1,4 +1,3 @@
-import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/data/solr_response/solr_response.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';

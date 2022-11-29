@@ -1,0 +1,164 @@
+import 'package:amber_bird/controller/coupon-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/utils/ui-style.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class CouponWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+    final CouponController couponController = Get.put(CouponController());
+    final Controller stateController = Get.find();
+    controller.text = couponController.search.toString();
+    var width = MediaQuery.of(context).size.width;
+    return Container(
+      width: width,
+      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      decoration: BoxDecoration(
+        color: AppColors.lightGrey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextField(
+        // controller: controller,
+        readOnly: true,
+        onTap: () {
+          showSearch(
+              context: context,
+              // delegate to customize the search bar
+              delegate: CustomSearchDelegate());
+        },
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+            onPressed: () {
+              print(controller.value.text);
+            },
+            icon: const Icon(Icons.search),
+          ),
+          labelText: "Search Coupon...",
+          contentPadding: const EdgeInsets.all(10.0),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+            borderSide: BorderSide(
+              color: Colors.grey,
+            ),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  final CouponController couponController = Get.find();
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(Icons.clear),
+      ),
+    ];
+  }
+
+// second overwrite to pop out of search menu
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: Icon(Icons.arrow_back),
+    );
+  }
+
+// third overwrite to show query result
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    print(query);
+    couponController.getsearchData(query);
+    return Obx(
+      () => ListView.builder(
+        itemCount: couponController.searchCouponList.value.length,
+        itemBuilder: (context, index) {
+          var coupon = couponController.searchCouponList.value[index];
+          return ListTile(
+            onTap: () {
+              close(context, null);
+            },
+            title: Row(
+              children: [
+                Text(coupon.couponCode ?? ''),
+                Text(coupon.reward!.discountPercent!.toString()),
+              ],
+            ),
+            subtitle: Column(
+              children: [
+                (coupon.description != null &&
+                        coupon.description!.defaultText != null)
+                    ? Text(coupon.description!.defaultText!.text! ?? '')
+                    : SizedBox(),
+                coupon.reward!.discountPercent != null
+                    ? Row(
+                        children: [
+                          Text('Discount Percent'),
+                          Text(coupon.reward!.discountPercent!.toString()),
+                        ],
+                      )
+                    : const SizedBox(),
+                coupon.reward!.discountUptos != null
+                    ? Row(
+                        children: [
+                          Text('Discount Upto'),
+                          Text(coupon.reward!.discountUptos!.toString()),
+                        ],
+                      )
+                    : const SizedBox(),
+                coupon.reward!.flatDiscount != null
+                    ? Row(
+                        children: [
+                          Text('Flat Discount'),
+                          Text(coupon.reward!.flatDiscount!.toString()),
+                        ],
+                      )
+                    : const SizedBox(),
+                ElevatedButton(
+                    onPressed: () async {
+                      var data =
+                          await couponController.isApplicableCoupun(coupon);
+                           snackBarClass.showToast(
+                          context, 'coupon is valid '+ data.toString());
+                    },
+                    child: const Text('Apply'))
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

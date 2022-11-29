@@ -224,9 +224,9 @@ class LocationController extends GetxController {
         if (response.statusCode == 200) {
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
-              return {"msg": "Updated Successfully!!", "status": "success"};
-        }else{
-           return {"msg": "Something Went Wrong!!", "status": "error"};
+          return {"msg": "Updated Successfully!!", "status": "success"};
+        } else {
+          return {"msg": "Something Went Wrong!!", "status": "error"};
         }
       }
     }
@@ -247,28 +247,26 @@ class LocationController extends GetxController {
   }
 
   setFielsvalue(String text, String name) {
-    if (text != null) {
-      if (name == 'city') {
-        changeAddressData.value.city = text;
-      } else if (name == 'country') {
-        changeAddressData.value.country = text;
-      } else if (name == 'line1') {
-        changeAddressData.value.line1 = text;
-      } else if (name == 'line2') {
-        changeAddressData.value.line2 = text;
-      } else if (name == 'localArea') {
-        changeAddressData.value.localArea = text;
-      } else if (name == 'addressType') {
-        changeAddressData.value.addressType = text;
-      } else if (name == 'directionComment') {
-        changeAddressData.value.directionComment = text;
-      } else if (name == 'landMark') {
-        changeAddressData.value.landMark = text;
-      } else if (name == 'zipCode') {
-        changeAddressData.value.zipCode = text;
-      } else if (name == 'name') {
-        changeAddressData.value.name = text;
-      }
+    if (name == 'city') {
+      changeAddressData.value.city = text;
+    } else if (name == 'country') {
+      changeAddressData.value.country = text;
+    } else if (name == 'line1') {
+      changeAddressData.value.line1 = text;
+    } else if (name == 'line2') {
+      changeAddressData.value.line2 = text;
+    } else if (name == 'localArea') {
+      changeAddressData.value.localArea = text;
+    } else if (name == 'addressType') {
+      changeAddressData.value.addressType = text;
+    } else if (name == 'directionComment') {
+      changeAddressData.value.directionComment = text;
+    } else if (name == 'landMark') {
+      changeAddressData.value.landMark = text;
+    } else if (name == 'zipCode') {
+      changeAddressData.value.zipCode = text;
+    } else if (name == 'name') {
+      changeAddressData.value.name = text;
     }
   }
 }

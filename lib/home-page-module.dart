@@ -76,7 +76,6 @@ class HomePageModule extends Module {
       ),
       ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
-      
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),

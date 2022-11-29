@@ -49,7 +49,6 @@ class AuthController extends GetxController {
       usernameValid.value = false;
       var resp = await ClientService.get(
           path: 'auth/usernameSuggest?username=${fieldValue['username']}');
-      print(resp);
       if (resp.statusCode == 200) {
         if (fieldValue['username'].toString() == resp.data['username']) {
           usernameValid.value = true;
@@ -265,8 +264,6 @@ class AuthController extends GetxController {
         'countryCode': '',
         'profileImageId': ''
       };
-      print('fieldValue$fieldValue');
-      // print('pw${pw}');
       return {"msg": "Please fill all field !!", "status": "success"};
       // var respSignup = await signUp();
       // return respSignup;

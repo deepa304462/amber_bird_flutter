@@ -14,7 +14,7 @@ class CountryPickerDropdown extends StatelessWidget {
   // List of items in our dropdown menu
   var dropdownItems = [].obs;
 
-  getCountryCode() async { 
+  getCountryCode() async {
     var payload = {"configId": "countries", "providerId": "sbazar"};
     var resp =
         await ClientService.post(path: 'FieldMap/search', payload: payload);
@@ -34,7 +34,7 @@ class CountryPickerDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    dropdownvalue.value = value ?? '91';
+    dropdownvalue.value = value;
     getCountryCode();
     return Obx(
       () => dropdownItems.isNotEmpty

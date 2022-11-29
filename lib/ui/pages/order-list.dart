@@ -50,5 +50,3 @@ class OrderListPage extends StatelessWidget {
     );
   }
 }
-
- 

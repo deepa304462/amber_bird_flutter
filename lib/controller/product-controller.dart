@@ -17,7 +17,6 @@ class ProductController extends GetxController {
   }
 
   getProduct(String id) async {
-    var payload = {"id": id};
     var response =
         await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {
@@ -29,7 +28,7 @@ class ProductController extends GetxController {
             element.varientCode == product.value.defaultVarientCode);
         if (index1 != -1) {
           activeIndexVariant.value = index1;
-         }
+        }
       }
     }
   }

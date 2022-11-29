@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -11,6 +12,8 @@ class CartWidget extends StatelessWidget {
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
   RxBool checkoutClicked = false.obs;
+  TextEditingController ipController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
@@ -19,7 +22,7 @@ class CartWidget extends StatelessWidget {
             () => Column(children: [
               SingleChildScrollView(
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height - 300,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
@@ -76,14 +79,6 @@ class CartWidget extends StatelessWidget {
                                                   ),
                                                   Text(
                                                       '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
-                                                  // IconButton(
-                                                  //     onPressed: () {
-                                                  //       cartController
-                                                  //           .removeProduct(
-                                                  //               currentKey);
-                                                  //     },
-                                                  //     icon: const Icon(
-                                                  //         Icons.close_rounded))
                                                 ]),
                                           ),
                                         );
@@ -148,49 +143,78 @@ class CartWidget extends StatelessWidget {
                 ),
               ),
               Align(
-                  alignment: Alignment.center,
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
                       Center(
                         child: ElevatedButton(
-                            onPressed: () {
-                              if (stateController.isActivate.value) {
-                                cartController.checkout();
-                                checkoutClicked.value = true;
-                              } else {
-                                snackBarClass.showToast(
-                                    context, 'Your profile is not active yet');
-                              }
-                            },
-                            child: Text(
-                              'Checkout',
-                              style: TextStyles.bodyFont,
-                            )),
+                          onPressed: () {
+                            if (stateController.isActivate.value) {
+                              cartController.checkout();
+                              checkoutClicked.value = true;
+                            } else {
+                              snackBarClass.showToast(
+                                  context, 'Your profile is not active yet');
+                            }
+                          },
+                          child: Text(
+                            'Checkout',
+                            style: TextStyles.bodyFont,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total Price',
+                            style: TextStyles.headingFontGray,
+                          ),
+                          Text(
+                            cartController.totalPrice.value.offerPrice
+                                .toString(),
+                            style: TextStyles.mrpStyle,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CouponWidget()
+                          // SizedBox(
+                          //   height: 120,
+                          //   width: MediaQuery.of(context).size.width * 0.5,
+                          //   child: TextField(
+                          //     style: TextStyles.title,
+                          //     decoration: InputDecoration(
+                          //       border: InputBorder.none,
+                          //       labelText: "Coupon name",
+                          //     ),
+                          //     controller: ipController,
+                          //     obscureText: true,
+                          //     // keyboardType: Ke,
+                          //     // readOnly: isDisabled,
+                          //   ),
+                          // ),
+                          // TextButton(
+                          //   onPressed: () {
+                          //     print(ipController.value);
+                          //     cartController.applyCoupon();
+                          //   },
+                          //   child: Text(
+                          //     'Apply coupon',
+                          //     style: TextStyles.headingFontGray,
+                          //   ),
+                          // ),
+                        ],
                       ),
                       cartController.checkoutData.value != null &&
                               cartController.checkoutData.value!.allAvailable ==
                                   true
                           ? Column(
                               children: [
-                                // Center(
-                                //   child: Text("All Product Availale",
-                                //       style: TextStyles.headingFontBlue),
-                                // ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Total Price',
-                                      style: TextStyles.headingFontGray,
-                                    ),
-                                    Text(
-                                      cartController.totalPrice.value.offerPrice
-                                          .toString(),
-                                      style: TextStyles.mrpStyle,
-                                    )
-                                  ],
-                                ),
                                 Center(
                                   child: ElevatedButton(
                                       onPressed: () async {
@@ -241,7 +265,9 @@ class CartWidget extends StatelessWidget {
                                 )
                               : const SizedBox()
                     ],
-                  ))
+                  ),
+                ),
+              ),
             ]),
           )
         : Padding(

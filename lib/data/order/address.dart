@@ -57,7 +57,7 @@ class Address {
 
   Map<String, dynamic> toMap() => {
         'line1': line1,
-        'name':name,
+        'name': name,
         'line2': line2,
         'landMark': landMark,
         'zipCode': zipCode,

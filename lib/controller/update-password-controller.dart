@@ -25,8 +25,6 @@ class UpdatePasswordController extends GetxController {
 
   checkUser() async {
     var data = jsonDecode(await SharedData.read('userData'));
-    print(data);
-    print(emailId);
     if (data['authEmail'] != emailId) {
       Modular.to.navigate('/home/main');
     }
@@ -43,7 +41,6 @@ class UpdatePasswordController extends GetxController {
   }
 
   resetPassword(String token) async {
-    print(resetPasswordValue.value.toString());
     var controller = Get.find<Controller>();
     var payload = {
       'email': controller.loggedInProfile.value.email,

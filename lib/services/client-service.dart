@@ -250,7 +250,7 @@ class ClientService {
         file.path.length); //file.path.split('/').last;
     FormData formData = await FormData.fromMap({
       "file": await MultipartFile.fromFile(file.path,
-          filename: fileName, contentType:   MediaType("image", "jpeg")),
+          filename: fileName, contentType: MediaType("image", "jpeg")),
       'payload': jsonEncode(payload)
     });
     try {

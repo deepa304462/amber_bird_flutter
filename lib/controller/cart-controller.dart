@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amber_bird/data/checkout/checkout.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -8,7 +9,6 @@ import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
-import 'package:amber_bird/data/checkout/checkout.availability.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -26,6 +26,8 @@ class CartController extends GetxController {
     super.onInit();
     fetchCart();
   }
+
+  applyCoupon() {}
 
   checkout() async {
     List<dynamic> listSumm = [];
@@ -152,9 +154,14 @@ class CartController extends GetxController {
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       log(cust.toString());
       if (cust.cart != null) {
+        Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
+          pr.actualPrice += element.price!.actualPrice;
+          pr.offerPrice += element.price!.actualPrice;
         }
+
+        totalPrice.value = pr;
       }
     } else {
       cartProducts.value = Map();

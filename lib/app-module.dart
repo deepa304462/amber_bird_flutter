@@ -25,9 +25,8 @@ class AppModule extends Module {
         WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
-        ChildRoute('/password-reset/index.html',
+        ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),
- 
       ];
 }

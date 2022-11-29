@@ -5,20 +5,26 @@ import 'package:flutter/material.dart';
 
 //https://pub.dev/documentation/disposable_cached_images/latest/
 class ImageBox extends StatelessWidget {
-     String path;
+  String path;
   final String type;
   double height;
   double width;
-  BoxFit fit; 
+  BoxFit fit;
   ImageBox(this.path,
-      {Key? key, this.height = 0, this.width = 0,this.type = 'cdn', this.fit = BoxFit.fitHeight})
+      {Key? key,
+      this.height = 0,
+      this.width = 0,
+      this.type = 'cdn',
+      this.fit = BoxFit.fitHeight})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if(type == 'download'){
+    if (type == 'download') {
       path = '${ClientService.downloadUrl}$path';
-    }else{ path = '${ClientService.cdnUrl}$path';}
+    } else {
+      path = '${ClientService.cdnUrl}$path';
+    }
     return CachedNetworkImage(
       imageUrl: '$path',
       width: width,

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:amber_bird/controller/search-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';

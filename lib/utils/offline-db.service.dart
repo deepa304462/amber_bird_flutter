@@ -16,7 +16,7 @@ class OfflineDBService {
     await Hive.openBox(profileAuth);
     await Hive.openBox(appManager);
     await Hive.openBox(location);
-    
+
     await Hive.openBox(customerInsightDetail);
     print('Hive initiated');
   }
