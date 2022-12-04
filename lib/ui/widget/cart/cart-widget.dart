@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
+import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -30,113 +31,204 @@ class CartWidget extends StatelessWidget {
                     itemBuilder: (_, index) {
                       var currentKey = cartController.cartProducts.value.keys
                           .elementAt(index);
+                      // var recommendedProd = cartController.getRecommendedProd(
+                      //     cartController.cartProducts.value[currentKey]!.ref);
                       return Padding(
                         padding: const EdgeInsets.only(left: 5),
-                        child: cartController.cartProducts.value[currentKey]!
-                                .products!.isNotEmpty
-                            ? Stack(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.all(2.0),
-                                    padding: const EdgeInsets.all(3.0),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: const Color.fromARGB(
-                                                255, 113, 116, 122))),
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: cartController.cartProducts
-                                          .value[currentKey]!.products!.length,
-                                      itemBuilder: (_, pIndex) {
-                                        var currentProduct = cartController
-                                            .cartProducts
-                                            .value[currentKey]!
-                                            .products![pIndex];
-                                        return Card(
-                                          color: Colors.white,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Image.network(
-                                                      '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                                      width: 80,
-                                                      height: 80,
-                                                      fit: BoxFit.fill),
-                                                  Column(
-                                                    children: [
-                                                      Text(currentProduct.name!
-                                                          .defaultText!.text!),
-                                                      Text(
-                                                          '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
-                                                      Text(
-                                                          '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                      '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
-                                                ]),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          cartController
-                                              .removeProduct(currentKey);
-                                        },
-                                        icon: const Icon(Icons.close_rounded)),
-                                  )
-                                ],
-                              )
-                            : Card(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                        child: Column(
+                          children: [
+                            cartController.cartProducts.value[currentKey]!
+                                    .products!.isNotEmpty
+                                ? Stack(
                                     children: [
-                                      Image.network(
-                                          '${ClientService.cdnUrl}${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
-                                          width: 80,
-                                          height: 80,
-                                          fit: BoxFit.fill),
-                                      Column(
-                                        children: [
-                                          Text(cartController
+                                      Container(
+                                        margin: const EdgeInsets.all(2.0),
+                                        padding: const EdgeInsets.all(3.0),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: const Color.fromARGB(
+                                                    255, 113, 116, 122))),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: cartController
                                               .cartProducts
                                               .value[currentKey]!
-                                              .product!
-                                              .name!
-                                              .defaultText!
-                                              .text!),
-                                          Text(
-                                              '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
-                                          Text(
-                                              '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
-                                        ],
+                                              .products!
+                                              .length,
+                                          itemBuilder: (_, pIndex) {
+                                            var currentProduct = cartController
+                                                .cartProducts
+                                                .value[currentKey]!
+                                                .products![pIndex];
+                                            return Card(
+                                              color: Colors.white,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16),
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Image.network(
+                                                          '${ClientService.cdnUrl}${currentProduct.images![0]}',
+                                                          width: 80,
+                                                          height: 80,
+                                                          fit: BoxFit.fill),
+                                                      Column(
+                                                        children: [
+                                                          Text(currentProduct
+                                                              .name!
+                                                              .defaultText!
+                                                              .text!),
+                                                          Text(
+                                                              '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
+                                                          Text(
+                                                              '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                                        ],
+                                                      ),
+                                                      Text(
+                                                          '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
+                                                    ]),
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
-                                      Text(
-                                          '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
-                                      IconButton(
-                                        onPressed: () {
-                                          cartController
-                                              .removeProduct(currentKey);
-                                        },
-                                        icon: const Icon(Icons.close_rounded),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: IconButton(
+                                            onPressed: () {
+                                              cartController
+                                                  .removeProduct(currentKey);
+                                            },
+                                            icon: const Icon(
+                                                Icons.close_rounded)),
                                       )
                                     ],
+                                  )
+                                : Card(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Image.network(
+                                              '${ClientService.cdnUrl}${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.fill),
+                                          Column(
+                                            children: [
+                                              Text(cartController
+                                                  .cartProducts
+                                                  .value[currentKey]!
+                                                  .product!
+                                                  .name!
+                                                  .defaultText!
+                                                  .text!),
+                                              Text(
+                                                  '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
+                                              Text(
+                                                  '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                            ],
+                                          ),
+                                          Text(
+                                              '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
+                                          IconButton(
+                                            onPressed: () {
+                                              cartController
+                                                  .removeProduct(currentKey);
+                                            },
+                                            icon:
+                                                const Icon(Icons.close_rounded),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
+                            checkoutClicked.value &&
+                                    !cartController.checktOrderRefAvailable(
+                                        cartController.cartProducts
+                                            .value[currentKey]!.ref)
+                                ? Column(
+                                    children: [
+                                      Text('Recommonded Products',
+                                          style: TextStyles.headingFont),
+                                      Container(
+                                        margin: const EdgeInsets.all(5.0),
+                                        height: 160,
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          children: [
+                                            cartController
+                                                        .getRecommendedProd(
+                                                            cartController
+                                                                .cartProducts
+                                                                .value[
+                                                                    currentKey]!
+                                                                .ref)
+                                                        .productAvailabilityStatus !=
+                                                    null
+                                                ? cartController
+                                                        .getRecommendedProd(
+                                                            cartController
+                                                                .cartProducts
+                                                                .value[
+                                                                    currentKey]!
+                                                                .ref)
+                                                        .productAvailabilityStatus!
+                                                        .recommendedProducts!
+                                                        .isNotEmpty
+                                                    ? ListView.builder(
+                                                        physics:
+                                                            const BouncingScrollPhysics(),
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        itemCount: cartController
+                                                            .getRecommendedProd(
+                                                                cartController
+                                                                    .cartProducts
+                                                                    .value[
+                                                                        currentKey]!
+                                                                    .ref)
+                                                            .productAvailabilityStatus!
+                                                            .recommendedProducts!
+                                                            .length,
+                                                        itemBuilder:
+                                                            (_, index) {
+                                                          var curProd = cartController
+                                                              .getRecommendedProd(
+                                                                  cartController
+                                                                      .cartProducts
+                                                                      .value[
+                                                                          currentKey]!
+                                                                      .ref)
+                                                              .productAvailabilityStatus!
+                                                              .recommendedProducts![index];
+                                                          return ProductCard(
+                                                              curProd,
+                                                              curProd.id,
+                                                              'RECOMMEDED_PRODUCT',
+                                                              curProd.varient!
+                                                                  .price!,
+                                                              null);
+                                                        })
+                                                    : Text('No Product available')
+                                                : const SizedBox()
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ) // ,
+                                //
+                                : const SizedBox()
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -150,9 +242,9 @@ class CartWidget extends StatelessWidget {
                     children: [
                       Center(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (stateController.isActivate.value) {
-                              cartController.checkout();
+                              await cartController.checkout();
                               checkoutClicked.value = true;
                             } else {
                               snackBarClass.showToast(

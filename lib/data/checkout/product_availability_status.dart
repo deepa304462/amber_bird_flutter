@@ -1,20 +1,22 @@
 import 'dart:convert';
 
- import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/product/product.dart';
 
-import 'recommended_product.dart';
  
 class ProductAvailabilityStatus {
+  String? productId;
   ProductSummary? productSummary;
   bool? available;
   int? availableProduct;
   String? availabilityText;
-  List<RecommendedProduct>? recommendedProducts;
+  List<ProductSummary>? recommendedProducts;
   List<Varient>? recommendedVarients;
   String? productInventoryId;
 
   ProductAvailabilityStatus({
+    this.productId,
     this.productSummary,
     this.available,
     this.availableProduct,
@@ -26,11 +28,12 @@ class ProductAvailabilityStatus {
 
   @override
   String toString() {
-    return 'ProductAvailabilityStatus(productSummary: $productSummary, available: $available, availableProduct: $availableProduct, availabilityText: $availabilityText, recommendedProducts: $recommendedProducts, recommendedVarients: $recommendedVarients, productInventoryId: $productInventoryId)';
+    return 'ProductAvailabilityStatus(productId: $productId, productSummary: $productSummary, available: $available, availableProduct: $availableProduct, availabilityText: $availabilityText, recommendedProducts: $recommendedProducts, recommendedVarients: $recommendedVarients, productInventoryId: $productInventoryId)';
   }
 
   factory ProductAvailabilityStatus.fromMap(Map<String, dynamic> data) {
     return ProductAvailabilityStatus(
+      productId: data['productId'] as String?,
       productSummary: data['productSummary'] == null
           ? null
           : ProductSummary.fromMap(
@@ -39,9 +42,9 @@ class ProductAvailabilityStatus {
       availableProduct: data['availableProduct'] as int?,
       availabilityText: data['availabilityText'] as String?,
       recommendedProducts: (data['recommendedProducts'] as List<dynamic>?)
-          ?.map((e) => RecommendedProduct.fromMap(e as Map<String, dynamic>))
+          ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
           .toList(),
-      recommendedVarients: (data['Varient'] as List<dynamic>?)
+      recommendedVarients: (data['recommendedVarients'] as List<dynamic>?)
           ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
           .toList(),
       productInventoryId: data['productInventoryId'] as String?,
@@ -49,6 +52,7 @@ class ProductAvailabilityStatus {
   }
 
   Map<String, dynamic> toMap() => {
+        'productId': productId,
         'productSummary': productSummary?.toMap(),
         'available': available,
         'availableProduct': availableProduct,
@@ -74,15 +78,17 @@ class ProductAvailabilityStatus {
   String toJson() => json.encode(toMap());
 
   ProductAvailabilityStatus copyWith({
+    String? productId,
     ProductSummary? productSummary,
     bool? available,
     int? availableProduct,
     String? availabilityText,
-    List<RecommendedProduct>? recommendedProducts,
+    List<ProductSummary>? recommendedProducts,
     List<Varient>? recommendedVarients,
     String? productInventoryId,
   }) {
     return ProductAvailabilityStatus(
+      productId: productId ?? this.productId,
       productSummary: productSummary ?? this.productSummary,
       available: available ?? this.available,
       availableProduct: availableProduct ?? this.availableProduct,

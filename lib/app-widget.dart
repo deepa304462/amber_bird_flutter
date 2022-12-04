@@ -40,7 +40,7 @@ class AppWidget extends StatelessWidget {
     return GetMaterialApp.router(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale('en'),
+      locale: const Locale('en'),
       routerDelegate: flutter_modular.Modular.routerDelegate,
       routeInformationParser: flutter_modular.Modular.routeInformationParser,
       title: "App",

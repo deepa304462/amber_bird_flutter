@@ -14,7 +14,6 @@ import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/pages/referral-page.dart';
-import 'package:amber_bird/ui/pages/reset-password-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';

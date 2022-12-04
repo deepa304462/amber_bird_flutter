@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class CouponController extends GetxController {
   var search = ''.obs;
   RxList<CouponCode> searchCouponList = <CouponCode>[].obs;
+  Rx<CouponCode> selectedCoupon = CouponCode().obs;
   Rx<bool> searchingProduct = true.obs;
 
   setSearchVal(val) {
@@ -33,10 +34,21 @@ class CouponController extends GetxController {
     if (Get.isRegistered<CartController>()) {
       var cartController = Get.find<CartController>();
       if (coupon.condition!.expireAtTime != null) {
-        valid = false;
+        String expire = coupon.condition!.expireAtTime ?? '';
+        var newDate = DateTime.now().toUtc();
+        var difference = DateTime.parse(expire).difference(newDate);
+        print(difference);
+        if (difference.isNegative) {
+          valid = false;
+        }
       } else if (coupon.condition!.maxCartAmount != null) {
         if (cartController.totalPrice.value.offerPrice <=
             coupon.condition!.maxCartAmount) {
+          valid = false;
+        }
+      } else if (coupon.reward!.discountUptos != null) {
+        if (coupon.reward!.discountUptos <=
+            cartController.totalPrice.value.offerPrice) {
           valid = false;
         }
       }

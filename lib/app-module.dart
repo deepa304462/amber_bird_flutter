@@ -17,7 +17,6 @@ class AppModule extends Module {
         // ChildRoute('/', child: (_, args) => LoginPageWidget()),
         ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
         ChildRoute('/verify', child: (_, args) {
-          print(args);
           return EmailVerificationPage(
               args.queryParams['email']!, args.queryParams['token']!);
         }),

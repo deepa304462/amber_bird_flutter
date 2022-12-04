@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amber_bird/data/checkout/checkout.dart';
+import 'package:amber_bird/data/checkout/order_product_availability_status.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -45,13 +46,16 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
+      // log(jsonEncode(payload).toString());
+
     var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
       OrderId.value = resp1.data['_id'];
-      log(jsonEncode(resp1.data).toString());
+      // print(resp1.data);
+      log( jsonEncode(resp1.data).toString());
       var resp =
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
-      log(jsonEncode(resp.data).toString());
+      // log(jsonEncode(resp.data).toString());
       if (resp.statusCode == 200) {
         log(resp.data.toString());
         Checkout data = Checkout.fromMap(resp.data);
@@ -270,5 +274,44 @@ class CartController extends GetxController {
     } else {
       return 0;
     }
+  }
+
+  checktOrderRefAvailable(Ref? ref) {
+    bool available = true;
+    print(checkoutData.value);
+    if (checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
+      // for()
+      checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
+        var data = elem;
+        // arr.add({'label': data['label'], 'value': data['value']});
+        if (elem.ref!.id == ref!.id) {
+          if (elem.productAvailabilityStatus != null) {
+            available = elem.productAvailabilityStatus!.available ?? true;
+          } else if (elem.productsAvailabilityStatus!.isNotEmpty) {
+            elem.productsAvailabilityStatus!.forEach((element) {
+              if (available) {
+                available = element.available ?? true;
+              }
+            });
+          }
+        }
+      });
+    }
+    return available;
+  }
+
+  OrderProductAvailabilityStatus getRecommendedProd(Ref? ref) {
+    var data= OrderProductAvailabilityStatus();
+    if (checkoutData.value != null) {
+      for (var elem in checkoutData.value!.orderProductAvailabilityStatus!) {
+        // var data = elem;
+        // arr.add({'label': data['label'], 'value': data['value']});
+        if (elem.ref!.id == ref!.id) {
+          data = elem;
+        }
+      }
+    }
+
+    return data;
   }
 }

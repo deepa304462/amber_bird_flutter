@@ -1,20 +1,23 @@
 import 'dart:convert';
 
-import 'product_availability_status.dart';
-import 'products_availability_status.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 
+import 'product_availability_status.dart';
+ 
 class OrderProductAvailabilityStatus {
   ProductAvailabilityStatus? productAvailabilityStatus;
-  List<ProductsAvailabilityStatus>? productsAvailabilityStatus;
+  List<ProductAvailabilityStatus>? productsAvailabilityStatus;
+  Ref? ref;
 
   OrderProductAvailabilityStatus({
     this.productAvailabilityStatus,
     this.productsAvailabilityStatus,
+    this.ref,
   });
 
   @override
   String toString() {
-    return 'OrderProductAvailabilityStatus(productAvailabilityStatus: $productAvailabilityStatus, productsAvailabilityStatus: $productsAvailabilityStatus)';
+    return 'OrderProductAvailabilityStatus(productAvailabilityStatus: $productAvailabilityStatus, productsAvailabilityStatus: $productsAvailabilityStatus, ref: $ref)';
   }
 
   factory OrderProductAvailabilityStatus.fromMap(Map<String, dynamic> data) {
@@ -26,8 +29,11 @@ class OrderProductAvailabilityStatus {
       productsAvailabilityStatus:
           (data['productsAvailabilityStatus'] as List<dynamic>?)
               ?.map((e) =>
-                  ProductsAvailabilityStatus.fromMap(e as Map<String, dynamic>))
+                  ProductAvailabilityStatus.fromMap(e as Map<String, dynamic>))
               .toList(),
+      ref: data['ref'] == null
+          ? null
+          : Ref.fromMap(data['ref'] as Map<String, dynamic>),
     );
   }
 
@@ -35,6 +41,7 @@ class OrderProductAvailabilityStatus {
         'productAvailabilityStatus': productAvailabilityStatus?.toMap(),
         'productsAvailabilityStatus':
             productsAvailabilityStatus?.map((e) => e.toMap()).toList(),
+        'ref': ref?.toMap(),
       };
 
   /// `dart:convert`
@@ -52,13 +59,15 @@ class OrderProductAvailabilityStatus {
 
   OrderProductAvailabilityStatus copyWith({
     ProductAvailabilityStatus? productAvailabilityStatus,
-    List<ProductsAvailabilityStatus>? productsAvailabilityStatus,
+    List<ProductAvailabilityStatus>? productsAvailabilityStatus,
+    Ref? ref,
   }) {
     return OrderProductAvailabilityStatus(
       productAvailabilityStatus:
           productAvailabilityStatus ?? this.productAvailabilityStatus,
       productsAvailabilityStatus:
           productsAvailabilityStatus ?? this.productsAvailabilityStatus,
+      ref: ref ?? this.ref,
     );
   }
 }

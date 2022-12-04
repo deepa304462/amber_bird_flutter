@@ -30,8 +30,10 @@ void main() async {
   });
   // await FCMSyncService.tokenSync(Ref());
 
+  // ignore: unused_local_variable
   final OnBoardingController onBoardingController =
       Get.put(OnBoardingController());
+  // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
   runApp(
     ModularApp(module: AppModule(), child: AppWidget()),

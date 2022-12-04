@@ -74,10 +74,6 @@ class MultiProductRow extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: multiprodController.multiProd.length,
             shrinkWrap: true,
-            // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //     crossAxisCount: 1,
-            //     childAspectRatio: 14.5 / 11,
-            //     crossAxisSpacing: 10),
             itemBuilder: (_, index) {
               Multi mProduct = multiprodController.multiProd[index];
               return Card(

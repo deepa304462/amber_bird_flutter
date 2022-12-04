@@ -12,7 +12,7 @@ class CouponWidget extends StatelessWidget {
     final CouponController couponController = Get.put(CouponController());
     final Controller stateController = Get.find();
     controller.text = couponController.search.toString();
-    var width = MediaQuery.of(context).size.width;
+    var width = MediaQuery.of(context).size.width *0.8;
     return Container(
       width: width,
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -25,8 +25,7 @@ class CouponWidget extends StatelessWidget {
         readOnly: true,
         onTap: () {
           showSearch(
-              context: context,
-              // delegate to customize the search bar
+              context: context, 
               delegate: CustomSearchDelegate());
         },
         decoration: InputDecoration(
@@ -64,7 +63,7 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -98,7 +97,7 @@ class CustomSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
+    // List<String> matchQuery = [];
     print(query);
     couponController.getsearchData(query);
     return Obx(
@@ -120,12 +119,12 @@ class CustomSearchDelegate extends SearchDelegate {
               children: [
                 (coupon.description != null &&
                         coupon.description!.defaultText != null)
-                    ? Text(coupon.description!.defaultText!.text! ?? '')
-                    : SizedBox(),
+                    ? Text(coupon.description!.defaultText!.text!)
+                    : const SizedBox(),
                 coupon.reward!.discountPercent != null
                     ? Row(
                         children: [
-                          Text('Discount Percent'),
+                          const Text('Discount Percent'),
                           Text(coupon.reward!.discountPercent!.toString()),
                         ],
                       )
@@ -133,7 +132,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 coupon.reward!.discountUptos != null
                     ? Row(
                         children: [
-                          Text('Discount Upto'),
+                          const Text('Discount Upto'),
                           Text(coupon.reward!.discountUptos!.toString()),
                         ],
                       )
@@ -141,7 +140,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 coupon.reward!.flatDiscount != null
                     ? Row(
                         children: [
-                          Text('Flat Discount'),
+                          const Text('Flat Discount'),
                           Text(coupon.reward!.flatDiscount!.toString()),
                         ],
                       )
@@ -150,8 +149,15 @@ class CustomSearchDelegate extends SearchDelegate {
                     onPressed: () async {
                       var data =
                           await couponController.isApplicableCoupun(coupon);
-                           snackBarClass.showToast(
-                          context, 'coupon is valid '+ data.toString());
+
+                      if (data) {
+                        snackBarClass.showToast(context, 'coupon is valid ');
+                        couponController.selectedCoupon.value = coupon;
+                        close(context, null);
+                      } else {
+                        snackBarClass.showToast(
+                            context, 'coupon is not valid ');
+                      }
                     },
                     child: const Text('Apply'))
               ],
