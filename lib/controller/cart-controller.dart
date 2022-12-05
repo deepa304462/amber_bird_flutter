@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:amber_bird/data/checkout/checkout.dart';
 import 'package:amber_bird/data/checkout/order_product_availability_status.dart';
+import 'package:amber_bird/data/coupon_code/coupon_code.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -22,6 +23,11 @@ class CartController extends GetxController {
   RxString OrderId = "".obs;
   Rx<Price> totalPrice = Price.fromMap({}).obs;
 
+  var couponName = ''.obs;
+  RxList<CouponCode> searchCouponList = <CouponCode>[].obs;
+  Rx<CouponCode> selectedCoupon = CouponCode().obs;
+  Rx<bool> searchingProduct = true.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -32,13 +38,14 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
-    Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+    // Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+    calculateTotalCost();
     for (var v in cartProducts.value.values) {
-      pr.actualPrice += v.price!.actualPrice;
-      pr.offerPrice += v.price!.actualPrice;
+      // pr.actualPrice += v.price!.actualPrice;
+      // pr.offerPrice += v.price!.actualPrice;
       listSumm.add((jsonDecode(v.toJson())));
     }
-    totalPrice.value = pr;
+    // totalPrice.value = pr;
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
@@ -46,13 +53,12 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
-      // log(jsonEncode(payload).toString());
 
     var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
       OrderId.value = resp1.data['_id'];
       // print(resp1.data);
-      log( jsonEncode(resp1.data).toString());
+      log(jsonEncode(resp1.data).toString());
       var resp =
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
       // log(jsonEncode(resp.data).toString());
@@ -66,6 +72,26 @@ class CartController extends GetxController {
 
   clearCheckout() {
     checkoutData.value = null;
+  }
+
+  calculateTotalCost() {
+    Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+    for (var v in cartProducts.value.values) {
+      pr.actualPrice += v.price!.actualPrice;
+      pr.offerPrice += v.price!.actualPrice;
+    }
+    if (selectedCoupon.value != null) {
+      var reward = selectedCoupon.value.reward;
+      if (reward?.discountUptos != null) {
+        pr.offerPrice -= reward?.discountUptos;
+      } else if (reward?.flatDiscount != null) {
+        pr.offerPrice -= reward?.discountUptos;
+      } else if (reward?.discountPercent != null) {
+        var disc = (pr.offerPrice * reward?.discountPercent) / 100;
+        pr.offerPrice -= disc;
+      }
+    }
+    totalPrice.value = pr;
   }
 
   createPayment() async {
@@ -158,14 +184,14 @@ class CartController extends GetxController {
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       log(cust.toString());
       if (cust.cart != null) {
-        Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+        // Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
-          pr.actualPrice += element.price!.actualPrice;
-          pr.offerPrice += element.price!.actualPrice;
+          // pr.actualPrice += element.price!.actualPrice;
+          // pr.offerPrice += element.price!.actualPrice;
         }
-
-        totalPrice.value = pr;
+        calculateTotalCost();
+        // totalPrice.value = pr;
       }
     } else {
       cartProducts.value = Map();
@@ -301,7 +327,7 @@ class CartController extends GetxController {
   }
 
   OrderProductAvailabilityStatus getRecommendedProd(Ref? ref) {
-    var data= OrderProductAvailabilityStatus();
+    var data = OrderProductAvailabilityStatus();
     if (checkoutData.value != null) {
       for (var elem in checkoutData.value!.orderProductAvailabilityStatus!) {
         // var data = elem;
@@ -313,5 +339,52 @@ class CartController extends GetxController {
     }
 
     return data;
+  }
+
+  setSearchVal(val) {
+    couponName.value = (val);
+  }
+
+  getsearchData(query) async {
+    var payload = {'keywords': query};
+    var response =
+        await ClientService.post(path: 'couponCode/search', payload: payload);
+
+    if (response.statusCode == 200) {
+      List<CouponCode> cList = ((response.data as List<dynamic>?)
+              ?.map((e) => CouponCode.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
+      searchCouponList.value = (cList);
+
+      // print(categoryList);
+    }
+  }
+
+  isApplicableCoupun(CouponCode coupon) {
+    bool valid = true;
+    if (Get.isRegistered<CartController>()) {
+      var cartController = Get.find<CartController>();
+      if (coupon.condition!.expireAtTime != null) {
+        String expire = coupon.condition!.expireAtTime ?? '';
+        var newDate = DateTime.now().toUtc();
+        var difference = DateTime.parse(expire).difference(newDate);
+        print(difference);
+        if (difference.isNegative) {
+          valid = false;
+        }
+      } else if (coupon.condition!.maxCartAmount != null) {
+        if (cartController.totalPrice.value.offerPrice <=
+            coupon.condition!.maxCartAmount) {
+          valid = false;
+        }
+      } else if (coupon.reward!.discountUptos != null) {
+        if (coupon.reward!.discountUptos <=
+            cartController.totalPrice.value.offerPrice) {
+          valid = false;
+        }
+      }
+    }
+    return valid;
   }
 }

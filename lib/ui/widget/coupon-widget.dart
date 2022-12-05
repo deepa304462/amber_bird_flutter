@@ -1,60 +1,60 @@
-import 'package:amber_bird/controller/coupon-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CouponWidget extends StatelessWidget {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-    final CouponController couponController = Get.put(CouponController());
-    final Controller stateController = Get.find();
-    controller.text = couponController.search.toString();
-    var width = MediaQuery.of(context).size.width *0.8;
-    return Container(
-      width: width,
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      decoration: BoxDecoration(
-        color: AppColors.lightGrey.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: TextField(
-        // controller: controller,
-        readOnly: true,
-        onTap: () {
-          showSearch(
-              context: context, 
-              delegate: CustomSearchDelegate());
-        },
-        decoration: InputDecoration(
-          suffixIcon: IconButton(
-            onPressed: () {
-              print(controller.value.text);
-            },
-            icon: const Icon(Icons.search),
-          ),
-          labelText: "Search Coupon...",
-          contentPadding: const EdgeInsets.all(10.0),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            borderSide: BorderSide(
-              color: Colors.grey,
+    final CartController cartController = Get.find();
+    // final Controller stateController = Get.find();
+    controller.text = cartController.couponName.toString();
+    var width = MediaQuery.of(context).size.width * 0.8;
+    return Obx(() {
+      controller.text = cartController.couponName.toString();
+      return Container(
+        width: width,
+        margin: const EdgeInsets.symmetric(horizontal: 20.0),
+        decoration: BoxDecoration(
+          color: AppColors.lightGrey.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: TextField(
+          controller: controller,
+          readOnly: true,
+          onTap: () {
+            showSearch(context: context, delegate: CustomSearchDelegate());
+          },
+          decoration: InputDecoration(
+            suffixIcon: IconButton(
+              onPressed: () {
+                print(controller.value.text);
+              },
+              icon: const Icon(Icons.search),
+            ),
+            labelText: "Search Coupon...",
+            contentPadding: const EdgeInsets.all(10.0),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderSide: BorderSide(
+                color: Colors.grey,
+              ),
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(color: Colors.blue),
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: BorderSide(color: Colors.blue),
-          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  final CouponController couponController = Get.find();
+  final CartController cartController = Get.find();
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -99,12 +99,12 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     // List<String> matchQuery = [];
     print(query);
-    couponController.getsearchData(query);
+    cartController.getsearchData(query);
     return Obx(
       () => ListView.builder(
-        itemCount: couponController.searchCouponList.value.length,
+        itemCount: cartController.searchCouponList.value.length,
         itemBuilder: (context, index) {
-          var coupon = couponController.searchCouponList.value[index];
+          var coupon = cartController.searchCouponList.value[index];
           return ListTile(
             onTap: () {
               close(context, null);
@@ -148,12 +148,14 @@ class CustomSearchDelegate extends SearchDelegate {
                 ElevatedButton(
                     onPressed: () async {
                       var data =
-                          await couponController.isApplicableCoupun(coupon);
+                          await cartController.isApplicableCoupun(coupon);
 
                       if (data) {
                         snackBarClass.showToast(context, 'coupon is valid ');
-                        couponController.selectedCoupon.value = coupon;
-                        close(context, null);
+                        cartController.selectedCoupon.value = coupon;
+                        // controller.text = cartController.couponName.toString();
+                        cartController.setSearchVal(coupon.couponCode);
+                        close(context, cartController.couponName.toString());
                       } else {
                         snackBarClass.showToast(
                             context, 'coupon is not valid ');

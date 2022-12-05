@@ -265,6 +265,11 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.headingFontGray,
                           ),
                           Text(
+                            cartController.totalPrice.value.actualPrice
+                                .toString(),
+                            style: TextStyles.prieLinThroughStyle,
+                          ),
+                          Text(
                             cartController.totalPrice.value.offerPrice
                                 .toString(),
                             style: TextStyles.mrpStyle,
