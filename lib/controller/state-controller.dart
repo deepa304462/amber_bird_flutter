@@ -127,10 +127,10 @@ class Controller extends GetxController {
     for (var element in cartProducts) {
       if (isPriceOff(element)) {
         totalPrice.value += (element.varient!.price!.offerPrice!)
-            as int; //element.quantity * element.off!;
+            as int;  
       } else {
         totalPrice.value += element.varient!.price!.offerPrice
-            as int; //element.quantity * element.price;
+            as int;  
       }
     }
   }

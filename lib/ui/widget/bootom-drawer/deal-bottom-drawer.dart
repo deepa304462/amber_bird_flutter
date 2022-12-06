@@ -39,251 +39,217 @@ class DealBottomDrawer extends StatelessWidget {
       ),
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
-      child: Stack(
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${name!.defaultText!.text}',
-                      style: TextStyles.headingFontGray,
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close_rounded),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+      child: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${name!.defaultText!.text}',
+                        style: TextStyles.headingFontGray,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: products!.map((product) {
-                      product.varient!.price = priceInfo;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ImageBox(
-                                      product.images![0],
-                                      width: 120,
-                                    ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      textDirection: TextDirection.ltr,
-                                      children: [
-                                        Visibility(
-                                          visible: name!.defaultText!.text !=
-                                              product.name!.defaultText!.text,
-                                          child: Text(
-                                            '${product.name!.defaultText!.text}',
-                                            style: TextStyles.headingFont,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: products!.map((product) {
+                        product.varient!.price = priceInfo;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Stack(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      ImageBox(
+                                        product.images![0],
+                                        width: 120,
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        textDirection: TextDirection.ltr,
+                                        children: [
+                                          Visibility(
+                                            visible: name!.defaultText!.text !=
+                                                product.name!.defaultText!.text,
+                                            child: Text(
+                                              '${product.name!.defaultText!.text}',
+                                              style: TextStyles.headingFont,
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          children: [
-                                            Image.network(
-                                              '${ClientService.cdnUrl}${product.category!.logoId}',
-                                              height: 20,
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              '${product.category!.name!.defaultText!.text}',
-                                              style: TextStyles.subHeadingFont,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 5),
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .5,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                          const SizedBox(height: 5),
+                                          Row(
                                             children: [
-                                              Card(
-                                                color: Colors.white,
-                                                margin: const EdgeInsets.all(5),
-                                                child: Center(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    child: Text(
-                                                        '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
-                                                  ),
-                                                ),
+                                              Image.network(
+                                                '${ClientService.cdnUrl}${product.category!.logoId}',
+                                                height: 20,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                '${product.category!.name!.defaultText!.text}',
+                                                style:
+                                                    TextStyles.subHeadingFont,
                                               ),
                                             ],
                                           ),
-                                        ),
-                                        const SizedBox(height: 5),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Positioned(
-                                    top: -12,
-                                    left: -12,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.favorite,
-                                        color: wishlistController
-                                                .checkIfProductWishlist(
-                                                    product.id)
-                                            ? Colors.redAccent
-                                            : AppColors.grey,
+                                          const SizedBox(height: 5),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .5,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Card(
+                                                  color: Colors.white,
+                                                  margin:
+                                                      const EdgeInsets.all(5),
+                                                  child: Center(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      child: Text(
+                                                          '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                        ],
                                       ),
-                                      onPressed: () => {
-                                        wishlistController.addToWishlist(
-                                            product.id, product)
-                                      },
-                                    ))
-                              ],
-                            ),
-                            Text(
-                              'Description',
-                              style: TextStyles.bodyFontBold,
-                            ),
-                            Text(
-                              product.description!.defaultText!.text ?? '',
-                              style: TextStyles.bodyFont,
-                              textAlign: TextAlign.justify,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                                    ],
+                                  ),
+                                  Positioned(
+                                      top: -12,
+                                      left: -12,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.favorite,
+                                          color: wishlistController
+                                                  .checkIfProductWishlist(
+                                                      product.id)
+                                              ? Colors.redAccent
+                                              : AppColors.grey,
+                                        ),
+                                        onPressed: () => {
+                                          wishlistController.addToWishlist(
+                                              product.id, product)
+                                        },
+                                      ))
+                                ],
+                              ),
+                              Text(
+                                'Description',
+                                style: TextStyles.bodyFontBold,
+                              ),
+                              Text(
+                                product.description!.defaultText!.text ?? '',
+                                style: TextStyles.bodyFont,
+                                textAlign: TextAlign.justify,
+                              ),
+                              const Divider(),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AppBar(
-                  shape: Border(top: BorderSide(color: AppColors.primeColor)),
-                  automaticallyImplyLeading: false,
-                  backgroundColor: Colors.white,
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      PriceTag(priceInfo!.offerPrice.toString(),
-                          priceInfo!.actualPrice.toString()),
-                      GetX<CartController>(builder: (cController) {
-                        return cController.checkProductInCart(refId)
-                            ? Obx(
-                                () => Row(
-                                  children: [
-                                    IconButton(
-                                      padding: const EdgeInsets.all(8),
-                                      constraints: const BoxConstraints(),
-                                      onPressed: () {
-                                        if (stateController.isLogin.value) {
-                                          if (addedFrom == 'MULTIPRODUCT') {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                -1,
-                                                priceInfo,
-                                                null,
-                                                products);
-                                          }
-                                          {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                -1,
-                                                priceInfo,
-                                                products![0],
-                                                null);
-                                          }
-                                          // cController.addToCart(
-                                          //     refId!,
-                                          //     addedFrom!,
-                                          //     -1,
-                                          //     priceInfo,
-                                          //     null, products);
-                                        } else {
-                                          stateController.setCurrentTab(3);
-                                          var showToast =
-                                              snackBarClass.showToast(context,
-                                                  'Please Login to preoceed');
-                                        }
-                                        // cController.addToCart(p, refId!, addedFrom!, -1);
-                                      },
-                                      icon: const Icon(
-                                          Icons.remove_circle_outline,
-                                          color: Colors.black),
-                                    ),
-                                    Text(cController
-                                        .getCurrentQuantity(refId)
-                                        .toString()),
-                                    IconButton(
-                                      padding: const EdgeInsets.all(8),
-                                      constraints: const BoxConstraints(),
-                                      onPressed: () {
-                                        if (stateController.isLogin.value) {
-                                          if (addedFrom == 'MULTIPRODUCT') {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                1,
-                                                priceInfo,
-                                                null,
-                                                products);
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AppBar(
+                    shape: Border(top: BorderSide(color: AppColors.primeColor)),
+                    automaticallyImplyLeading: false,
+                    backgroundColor: Colors.white,
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        PriceTag(priceInfo!.offerPrice.toString(),
+                            priceInfo!.actualPrice.toString()),
+                        GetX<CartController>(builder: (cController) {
+                          return cController.checkProductInCart(refId)
+                              ? Obx(
+                                  () => Row(
+                                    children: [
+                                      IconButton(
+                                        padding: const EdgeInsets.all(8),
+                                        constraints: const BoxConstraints(),
+                                        onPressed: () {
+                                          if (stateController.isLogin.value) {
+                                            if (addedFrom == 'MULTIPRODUCT') {
+                                              cartController.addToCart(
+                                                  refId!,
+                                                  addedFrom!,
+                                                  -1,
+                                                  priceInfo,
+                                                  null,
+                                                  products);
+                                            }
+                                            {
+                                              cartController.addToCart(
+                                                  refId!,
+                                                  addedFrom!,
+                                                  -1,
+                                                  priceInfo,
+                                                  products![0],
+                                                  null);
+                                            }
+                                            // cController.addToCart(
+                                            //     refId!,
+                                            //     addedFrom!,
+                                            //     -1,
+                                            //     priceInfo,
+                                            //     null, products);
                                           } else {
-                                            cartController.addToCart(
-                                                refId!,
-                                                addedFrom!,
-                                                1,
-                                                priceInfo,
-                                                products![0],
-                                                null);
+                                            stateController.setCurrentTab(3);
+                                            var showToast =
+                                                snackBarClass.showToast(context,
+                                                    'Please Login to preoceed');
                                           }
-                                        } else {
-                                          stateController.setCurrentTab(3);
-                                          snackBarClass.showToast(context,
-                                              'Please Login to preoceed');
-                                        }
-                                      },
-                                      icon: const Icon(Icons.add_circle_outline,
-                                          color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Obx(
-                                () => ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primeColor,
-                                      textStyle: TextStyles.bodyWhite),
-                                  onPressed: stateController.isLogin.value
-                                      ? () {
-                                          if (stateController
-                                              .isActivate.value) {
+                                          // cController.addToCart(p, refId!, addedFrom!, -1);
+                                        },
+                                        icon: const Icon(
+                                            Icons.remove_circle_outline,
+                                            color: Colors.black),
+                                      ),
+                                      Text(cController
+                                          .getCurrentQuantity(refId)
+                                          .toString()),
+                                      IconButton(
+                                        padding: const EdgeInsets.all(8),
+                                        constraints: const BoxConstraints(),
+                                        onPressed: () {
+                                          if (stateController.isLogin.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
                                                   refId!,
@@ -302,29 +268,69 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null);
                                             }
                                           } else {
-                                            Navigator.of(context).pop();
+                                            stateController.setCurrentTab(3);
                                             snackBarClass.showToast(context,
-                                                'Your profile is not active yet');
+                                                'Please Login to preoceed');
                                           }
-                                        }
-                                      : () {
-                                          Navigator.of(context).pop();
-                                          stateController.setCurrentTab(3);
-                                          snackBarClass.showToast(context,
-                                              'Please Login to preoceed');
                                         },
-                                  child: Text("Add to cart",
-                                      style: TextStyles.addTocartText),
-                                ),
-                              );
-                      }),
-                    ],
+                                        icon: const Icon(
+                                            Icons.add_circle_outline,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Obx(
+                                  () => ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primeColor,
+                                        textStyle: TextStyles.bodyWhite),
+                                    onPressed: stateController.isLogin.value
+                                        ? () {
+                                            if (stateController
+                                                .isActivate.value) {
+                                              if (addedFrom == 'MULTIPRODUCT') {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    1,
+                                                    priceInfo,
+                                                    null,
+                                                    products);
+                                              } else {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    1,
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
+                                              }
+                                            } else {
+                                              Navigator.of(context).pop();
+                                              snackBarClass.showToast(context,
+                                                  'Your profile is not active yet');
+                                            }
+                                          }
+                                        : () {
+                                            Navigator.of(context).pop();
+                                            stateController.setCurrentTab(3);
+                                            snackBarClass.showToast(context,
+                                                'Please Login to preoceed');
+                                          },
+                                    child: Text("Add to cart",
+                                        style: TextStyles.addTocartText),
+                                  ),
+                                );
+                        }),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

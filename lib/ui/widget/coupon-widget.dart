@@ -149,16 +149,15 @@ class CustomSearchDelegate extends SearchDelegate {
                     onPressed: () async {
                       var data =
                           await cartController.isApplicableCoupun(coupon);
-
                       if (data) {
                         snackBarClass.showToast(context, 'coupon is valid ');
                         cartController.selectedCoupon.value = coupon;
+                        cartController.calculateTotalCost();
                         // controller.text = cartController.couponName.toString();
                         cartController.setSearchVal(coupon.couponCode);
                         close(context, cartController.couponName.toString());
                       } else {
-                        snackBarClass.showToast(
-                            context, 'coupon is not valid ');
+                        snackBarClass.showToast(context, 'coupon is not valid ');
                       }
                     },
                     child: const Text('Apply'))

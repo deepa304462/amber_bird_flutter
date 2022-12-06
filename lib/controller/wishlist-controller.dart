@@ -6,8 +6,7 @@ class WishlistController extends GetxController {
       <String, WishlistProduct>{}.obs;
 
   @override
-  void onInit() {
-    // initializeFirebase();
+  void onInit() { 
     super.onInit();
   }
 

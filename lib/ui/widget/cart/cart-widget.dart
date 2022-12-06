@@ -218,7 +218,8 @@ class CartWidget extends StatelessWidget {
                                                                   .price!,
                                                               null);
                                                         })
-                                                    : Text('No Product available')
+                                                    : Text(
+                                                        'No Product available')
                                                 : const SizedBox()
                                           ],
                                         ),
@@ -276,36 +277,12 @@ class CartWidget extends StatelessWidget {
                           )
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CouponWidget()
-                          // SizedBox(
-                          //   height: 120,
-                          //   width: MediaQuery.of(context).size.width * 0.5,
-                          //   child: TextField(
-                          //     style: TextStyles.title,
-                          //     decoration: InputDecoration(
-                          //       border: InputBorder.none,
-                          //       labelText: "Coupon name",
-                          //     ),
-                          //     controller: ipController,
-                          //     obscureText: true,
-                          //     // keyboardType: Ke,
-                          //     // readOnly: isDisabled,
-                          //   ),
-                          // ),
-                          // TextButton(
-                          //   onPressed: () {
-                          //     print(ipController.value);
-                          //     cartController.applyCoupon();
-                          //   },
-                          //   child: Text(
-                          //     'Apply coupon',
-                          //     style: TextStyles.headingFontGray,
-                          //   ),
-                          // ),
-                        ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [CouponWidget()],
+                        ),
                       ),
                       cartController.checkoutData.value != null &&
                               cartController.checkoutData.value!.allAvailable ==

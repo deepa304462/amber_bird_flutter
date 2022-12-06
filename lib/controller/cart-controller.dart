@@ -27,6 +27,7 @@ class CartController extends GetxController {
   RxList<CouponCode> searchCouponList = <CouponCode>[].obs;
   Rx<CouponCode> selectedCoupon = CouponCode().obs;
   Rx<bool> searchingProduct = true.obs;
+  Rx<bool> couponIncludeCondition = false.obs;
 
   @override
   void onInit() {
@@ -66,6 +67,7 @@ class CartController extends GetxController {
         log(resp.data.toString());
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
+        calculateTotalCost();
       }
     }
   }
@@ -266,7 +268,6 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
-    //(jsonDecode(cart.toJson()));
     log(payload.toString());
     var resp = await ClientService.post(path: 'order', payload: payload);
     if (resp.statusCode == 200) {
@@ -309,16 +310,15 @@ class CartController extends GetxController {
       // for()
       checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
         var data = elem;
-        // arr.add({'label': data['label'], 'value': data['value']});
         if (elem.ref!.id == ref!.id) {
           if (elem.productAvailabilityStatus != null) {
             available = elem.productAvailabilityStatus!.available ?? true;
           } else if (elem.productsAvailabilityStatus!.isNotEmpty) {
-            elem.productsAvailabilityStatus!.forEach((element) {
+            for (var element in elem.productsAvailabilityStatus!) {
               if (available) {
                 available = element.available ?? true;
               }
-            });
+            }
           }
         }
       });
@@ -361,11 +361,11 @@ class CartController extends GetxController {
     }
   }
 
-  isApplicableCoupun(CouponCode coupon) {
+  isApplicableCoupun(CouponCode coupon) async {
     bool valid = true;
     if (Get.isRegistered<CartController>()) {
       var cartController = Get.find<CartController>();
-      if (coupon.condition!.expireAtTime != null) {
+      if (coupon.condition!.expireAtTime != null && valid) {
         String expire = coupon.condition!.expireAtTime ?? '';
         var newDate = DateTime.now().toUtc();
         var difference = DateTime.parse(expire).difference(newDate);
@@ -373,12 +373,35 @@ class CartController extends GetxController {
         if (difference.isNegative) {
           valid = false;
         }
-      } else if (coupon.condition!.maxCartAmount != null) {
+      }
+      if (coupon.condition!.maxCartAmount != null && valid) {
         if (cartController.totalPrice.value.offerPrice <=
             coupon.condition!.maxCartAmount) {
           valid = false;
         }
-      } else if (coupon.reward!.discountUptos != null) {
+      }
+      if (coupon.condition!.applicableForProfileRef != null) {
+        Ref custRef = await Helper.getCustomerRef();
+        if (coupon.condition!.applicableForProfileRef?.id != custRef.id) {
+          valid = false;
+        }
+      }
+      if (coupon.condition!.firstTimePurchase != null && valid) {
+        Ref custRef = await Helper.getCustomerRef();
+        var customerInsightDetail =
+            await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+        if (coupon.condition!.firstTimePurchase == true &&
+            customerInsightDetail['orders'] != null &&
+            customerInsightDetail['orders'].length != null) {
+          valid = false;
+        }
+      }
+      // else if (coupon.condition!.applicableForProfileRef != null) {
+      //   if (Get.isRegistered<Controller>()) {
+      //     var controller = Get.find<Controller>();
+      //   }
+      // }
+      if (coupon.reward!.discountUptos != null && valid) {
         if (coupon.reward!.discountUptos <=
             cartController.totalPrice.value.offerPrice) {
           valid = false;
