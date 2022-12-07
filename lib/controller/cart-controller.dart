@@ -39,14 +39,10 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
-    // Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
     calculateTotalCost();
     for (var v in cartProducts.value.values) {
-      // pr.actualPrice += v.price!.actualPrice;
-      // pr.offerPrice += v.price!.actualPrice;
       listSumm.add((jsonDecode(v.toJson())));
     }
-    // totalPrice.value = pr;
     Ref custRef = await Helper.getCustomerRef();
 
     var payload = {
@@ -54,10 +50,16 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
+    var resp1;
+    if (OrderId.value != '') {
+      resp1 = await ClientService.Put(
+          path: 'order', id: OrderId.value, payload: payload);
+    } else {
+      resp1 = await ClientService.post(path: 'order', payload: payload);
+    }
 
-    var resp1 = await ClientService.post(path: 'order', payload: payload);
     if (resp1.statusCode == 200) {
-      OrderId.value = resp1.data['_id'];
+      if (OrderId.value == '') OrderId.value = resp1.data['_id'];
       // print(resp1.data);
       log(jsonEncode(resp1.data).toString());
       var resp =
@@ -110,12 +112,18 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
-    var resp1 = await ClientService.post(path: 'order', payload: payload1);
+    var resp1; // = await ClientService.post(path: 'order', payload: payload1);
+    if (OrderId.value != '') {
+      resp1 = await ClientService.Put(
+          path: 'order', id: OrderId.value, payload: payload1);
+    } else {
+      resp1 = await ClientService.post(path: 'order', payload: payload1);
+    }
     if (resp1.statusCode == 200) {
-      OrderId.value = resp1.data['_id'];
+      if (OrderId.value == '') OrderId.value = resp1.data['_id'];
       var payload = {
         "paidBy": (jsonDecode(custRef.toJson())),
-        "order": {"name": "md", "_id": resp1.data['_id']},
+        "order": {"name": "md", "_id": OrderId.value},
         // "appliedCouponCode": {"name": "string", "_id": "string"},
         "discountAmount": 0,
         "totalAmount": total,
@@ -124,10 +132,9 @@ class CartController extends GetxController {
         // "currency": {"currencyCode": "USD"},
         "status": "OPEN",
         "appliedTaxAmount": 0,
-        "description": resp1.data['_id']
+        "description": OrderId.value
       };
       log(payload.toString());
-
       var resp = await ClientService.post(path: 'payment', payload: payload);
       if (resp.statusCode == 200) {
         paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
@@ -155,14 +162,7 @@ class CartController extends GetxController {
 
   removeProduct(currentKey) async {
     cartProducts.remove(currentKey);
-    //  var insightDetail =
-    //       await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    //   log(insightDetail.toString());
-    //   Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    //   cust.cart = Order.fromMap(resp.data);
-    //   log(cust.toString());
-    //   OfflineDBService.save(
-    //       OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+
     createOrder();
   }
 
@@ -269,9 +269,15 @@ class CartController extends GetxController {
       'products': listSumm
     };
     log(payload.toString());
-    var resp = await ClientService.post(path: 'order', payload: payload);
+    var resp; //= await ClientService.post(path: 'order', payload: payload);
+    if (OrderId.value != '') {
+      resp = await ClientService.Put(
+          path: 'order', id: OrderId.value, payload: payload);
+    } else {
+      resp = await ClientService.post(path: 'order', payload: payload);
+    }
     if (resp.statusCode == 200) {
-      OrderId.value = resp.data['_id'];
+      if (OrderId.value == '') OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
       var insightDetail =
@@ -279,6 +285,7 @@ class CartController extends GetxController {
       log(insightDetail.toString());
       Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
       cust.cart = Order.fromMap(resp.data);
+      calculateTotalCost();
       log(cust.toString());
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
