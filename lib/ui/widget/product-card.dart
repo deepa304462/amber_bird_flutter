@@ -95,7 +95,7 @@ class ProductCard extends StatelessWidget {
                     : const Color(0xFFA6A3A0),
               ),
               onPressed: () =>
-                  {wishlistController.addToWishlist(product.id, product)},
+                  {wishlistController.addToWishlist(product.id, product,null, addedFrom)},
             ),
           );
         }),

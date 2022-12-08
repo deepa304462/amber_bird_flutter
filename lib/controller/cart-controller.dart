@@ -44,12 +44,44 @@ class CartController extends GetxController {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
+    var payload;
+    if (selectedCoupon.value != null) {
+      payload = {
+        'status': 'CREATED',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm,
+        "payment": {
+          "paidBy": custRef,
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "discountAmount": totalPrice.value.offerPrice,
+          "totalAmount": totalPrice.value.actualPrice,
+          "paidAmount": totalPrice.value.offerPrice,
+          "currency": {},
+          "paidTo": {"name": "sbazar", "_id": "abazar"},
+          "status": "OPEN",
+          "description": "",
+        }
+      };
+    } else {
+      payload = {
+        'status': 'CREATED',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm,
+        "payment": {
+          "paidBy": custRef,
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "discountAmount": 0,
+          "totalAmount": 0,
+          "paidAmount": 0,
+          "currency": {},
+          "paidTo": {"name": "sbazar", "_id": "sbazar"},
+          "status": "OPEN",
+          "description": "",
+        }
+      };
+    }
 
-    var payload = {
-      'status': 'CREATED',
-      'customerRef': (jsonDecode(custRef.toJson())),
-      'products': listSumm
-    };
+    log(jsonEncode(payload).toString());
     var resp1;
     if (OrderId.value != '') {
       resp1 = await ClientService.Put(
@@ -66,7 +98,8 @@ class CartController extends GetxController {
           await ClientService.post(path: 'order/checkout', payload: resp1.data);
       // log(jsonEncode(resp.data).toString());
       if (resp.statusCode == 200) {
-        log(resp.data.toString());
+        // log(resp.data.toString());
+         log(jsonEncode(resp.data).toString());
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
         calculateTotalCost();
@@ -134,11 +167,11 @@ class CartController extends GetxController {
         "appliedTaxAmount": 0,
         "description": OrderId.value
       };
-      log(payload.toString());
+        log(jsonEncode(payload).toString());
       var resp = await ClientService.post(path: 'payment', payload: payload);
       if (resp.statusCode == 200) {
         paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
-        log(resp.data.toString());
+          log(jsonEncode(resp.data).toString());
         return ({'error': false, 'data': resp.data['checkoutUrl']});
       } else {
         return ({'error': true, 'data': ''});
@@ -186,11 +219,9 @@ class CartController extends GetxController {
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       log(cust.toString());
       if (cust.cart != null) {
-        // Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+        OrderId.value = cust.cart!.id ?? '';
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
-          // pr.actualPrice += element.price!.actualPrice;
-          // pr.offerPrice += element.price!.actualPrice;
         }
         calculateTotalCost();
         // totalPrice.value = pr;
@@ -268,7 +299,7 @@ class CartController extends GetxController {
       'customerRef': (jsonDecode(custRef.toJson())),
       'products': listSumm
     };
-    log(payload.toString());
+      log(jsonEncode(payload).toString());
     var resp; //= await ClientService.post(path: 'order', payload: payload);
     if (OrderId.value != '') {
       resp = await ClientService.Put(

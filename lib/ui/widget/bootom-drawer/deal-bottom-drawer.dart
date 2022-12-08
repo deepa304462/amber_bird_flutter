@@ -163,7 +163,8 @@ class DealBottomDrawer extends StatelessWidget {
                                         ),
                                         onPressed: () => {
                                           wishlistController.addToWishlist(
-                                              product.id, product)
+                                              product.id, product,null,
+                                              addedFrom)
                                         },
                                       ))
                                 ],

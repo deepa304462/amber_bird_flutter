@@ -67,7 +67,7 @@ class CategoryPage extends StatelessWidget {
                                       ),
                                       onPressed: () => {
                                         wishlistController.addToWishlist(
-                                            currentProduct.id, currentProduct)
+                                            currentProduct.id, currentProduct,null,'CATEGORY')
                                       },
                                     ),
                                   ),
