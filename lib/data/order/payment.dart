@@ -1,23 +1,25 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/payment/tax_detil.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
-import 'currency.dart';
+// import 'currency.dart';
 import 'order.dart';
 
 class Payment {
   Ref? paidBy;
   Order? order;
   Ref? appliedCouponCode;
-  int? discountAmount;
-  int? totalAmount;
-  int? paidAmount;
-  Currency? currency;
+  dynamic? discountAmount;
+  dynamic? totalAmount;
+  dynamic? paidAmount;
+  String? currency;
   Ref? paidTo;
   String? status;
-  int? appliedTaxAmount;
+  dynamic? appliedTaxAmount;
   String? description;
   String? bankTxnId;
+   List<TaxDetail>? appliedTaxDetail;
   String? id;
 
   Payment({
@@ -31,6 +33,7 @@ class Payment {
     this.paidTo,
     this.status,
     this.appliedTaxAmount,
+    this.appliedTaxDetail,
     this.description,
     this.bankTxnId,
     this.id,
@@ -38,7 +41,7 @@ class Payment {
 
   @override
   String toString() {
-    return 'Payment(paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, appliedTaxAmount: $appliedTaxAmount, description: $description, bankTxnId: $bankTxnId, id: $id)';
+    return 'Payment(paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, appliedTaxAmount: $appliedTaxAmount,appliedTaxDetail:$appliedTaxDetail, description: $description, bankTxnId: $bankTxnId, id: $id)';
   }
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
@@ -51,17 +54,21 @@ class Payment {
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
             : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
-        discountAmount: data['discountAmount'] as int?,
-        totalAmount: data['totalAmount'] as int?,
-        paidAmount: data['paidAmount'] as int?,
-        currency: data['currency'] == null
-            ? null
-            : Currency.fromMap(data['currency'] as Map<String, dynamic>),
+        discountAmount: data['discountAmount'] as dynamic?,
+        totalAmount: data['totalAmount'] as dynamic?,
+        paidAmount: data['paidAmount'] as dynamic?,
+        
+        currency: data['currency'] as String?,
+            // ? null
+            // : Currency.fromMap(data['currency'] as Map<String, dynamic>),
         paidTo: data['paidTo'] == null
             ? null
             : Ref.fromMap(data['paidTo'] as Map<String, dynamic>),
         status: data['status'] as String?,
-        appliedTaxAmount: data['appliedTaxAmount'] as int?,
+        appliedTaxAmount: data['appliedTaxAmount'] as dynamic?,
+        appliedTaxDetail: (data['appliedTaxDetail'] as List<dynamic>?)
+            ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
+            .toList(),
         description: data['description'] as String?,
         bankTxnId: data['bankTxnId'] as String?,
         id: data['_id'] as String?,
@@ -74,10 +81,11 @@ class Payment {
         'discountAmount': discountAmount,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,
-        'currency': currency?.toMap(),
+        'currency': currency,
         'paidTo': paidTo?.toMap(),
         'status': status,
         'appliedTaxAmount': appliedTaxAmount,
+        'appliedTaxDetail': appliedTaxDetail,
         'description': description,
         'bankTxnId': bankTxnId,
         '_id': id,
@@ -99,13 +107,14 @@ class Payment {
     Ref? paidBy,
     Order? order,
     Ref? appliedCouponCode,
-    int? discountAmount,
-    int? totalAmount,
-    int? paidAmount,
-    Currency? currency,
+    dynamic? discountAmount,
+    dynamic? totalAmount,
+    dynamic? paidAmount,
+    String? currency,
     Ref? paidTo,
     String? status,
-    int? appliedTaxAmount,
+    dynamic? appliedTaxAmount,
+    List<TaxDetail>? appliedTaxDetail,
     String? description,
     String? bankTxnId,
     String? id,
@@ -121,6 +130,7 @@ class Payment {
       paidTo: paidTo ?? this.paidTo,
       status: status ?? this.status,
       appliedTaxAmount: appliedTaxAmount ?? this.appliedTaxAmount,
+      appliedTaxDetail: appliedTaxDetail ?? this.appliedTaxDetail,
       description: description ?? this.description,
       bankTxnId: bankTxnId ?? this.bankTxnId,
       id: id ?? this.id,

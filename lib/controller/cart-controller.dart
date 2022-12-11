@@ -40,7 +40,7 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
-    calculateTotalCost();
+    // calculateTotalCost();
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -85,8 +85,8 @@ class CartController extends GetxController {
         'products': listSumm,
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
-          "order": {"name": custRef.id, "_id": OrderId.value}, 
-          "currency": "EUR",//{"currencyCode": "USD"},
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "currency": "EUR", //{"currencyCode": "USD"},
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
           "description": "",
@@ -112,6 +112,8 @@ class CartController extends GetxController {
 
     if (resp1.statusCode == 200) {
       if (OrderId.value == '') OrderId.value = resp1.data['_id'];
+       totalPrice.value.offerPrice = resp1.data['payment']['paidAmount'];
+      totalPrice.value.actualPrice = resp1.data['payment']['totalAmount'];
       // print(resp1.data);
       log(jsonEncode(resp1.data).toString());
       var resp =
@@ -122,7 +124,7 @@ class CartController extends GetxController {
         log(jsonEncode(resp.data).toString());
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
-        calculateTotalCost();
+        // calculateTotalCost();
       }
     }
   }
@@ -205,6 +207,8 @@ class CartController extends GetxController {
     }
     if (resp1.statusCode == 200) {
       if (OrderId.value == '') OrderId.value = resp1.data['_id'];
+       totalPrice.value.offerPrice = resp1.data['payment']['paidAmount'];
+      totalPrice.value.actualPrice = resp1.data['payment']['totalAmount'];
       var payload = {
         "paidBy": {"name": custRef.name, "_id": custRef.id},
         "order": {"name": custRef.name, "_id": OrderId.value},
@@ -273,11 +277,13 @@ class CartController extends GetxController {
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       log(cust.toString());
       if (cust.cart != null) {
+        totalPrice.value.offerPrice = cust.cart!.payment!.paidAmount;
+        totalPrice.value.actualPrice = cust.cart!.payment!.totalAmount;
         OrderId.value = cust.cart!.id ?? '';
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
         }
-        calculateTotalCost();
+        // calculateTotalCost();
         // totalPrice.value = pr;
       }
     } else {
@@ -399,9 +405,10 @@ class CartController extends GetxController {
       if (OrderId.value == '') OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
-
+      totalPrice.value.offerPrice = resp.data['payment']['paidAmount'];
+      totalPrice.value.actualPrice = resp.data['payment']['totalAmount'];
       cust.cart = Order.fromMap(resp.data);
-      calculateTotalCost();
+      // calculateTotalCost();
       log(cust.toString());
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
@@ -492,7 +499,7 @@ class CartController extends GetxController {
         String expire = coupon.condition!.expireAtTime ?? '';
         var newDate = DateTime.now().toUtc();
         var difference = DateTime.parse(expire).difference(newDate);
-         if (difference.isNegative) {
+        if (difference.isNegative) {
           valid = false;
         }
       }
