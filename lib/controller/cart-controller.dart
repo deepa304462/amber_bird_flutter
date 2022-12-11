@@ -60,12 +60,12 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         "payment": {
-          "paidBy": custRef,
+          "paidBy": (jsonDecode(custRef.toJson())),
           "order": {"name": custRef.id, "_id": OrderId.value},
-          "discountAmount": totalPrice.value.offerPrice,
-          "totalAmount": totalPrice.value.actualPrice,
-          "paidAmount": totalPrice.value.offerPrice,
-          "currency": {},
+          // "discountAmount": totalPrice.value.offerPrice,
+          // "totalAmount": totalPrice.value.actualPrice,
+          // "paidAmount": totalPrice.value.offerPrice,
+          "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "abazar"},
           "status": "OPEN",
           "description": "",
@@ -84,12 +84,9 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         "payment": {
-          "paidBy": custRef,
-          "order": {"name": custRef.id, "_id": OrderId.value},
-          "discountAmount": 0,
-          "totalAmount": 0,
-          "paidAmount": 0,
-          "currency": {},
+          "paidBy": (jsonDecode(custRef.toJson())),
+          "order": {"name": custRef.id, "_id": OrderId.value}, 
+          "currency": "EUR",//{"currencyCode": "USD"},
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
           "description": "",
@@ -178,6 +175,14 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         '_id': OrderId.value,
+        "payment": {
+          "paidBy": (jsonDecode(custRef.toJson())),
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "currency": "EUR",
+          "paidTo": {"name": "sbazar", "_id": "sbazar"},
+          "status": "OPEN",
+          "description": "",
+        },
         'metaData': (jsonDecode(cust.cart!.metaData!.toJson()))
       };
       resp1 = await ClientService.Put(
@@ -186,14 +191,22 @@ class CartController extends GetxController {
       payload1 = {
         'status': 'CREATED',
         'customerRef': (jsonDecode(custRef.toJson())),
-        'products': listSumm
+        'products': listSumm,
+        "payment": {
+          "paidBy": (jsonDecode(custRef.toJson())),
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "currency": "EUR",
+          "paidTo": {"name": "sbazar", "_id": "sbazar"},
+          "status": "OPEN",
+          "description": "",
+        },
       };
       resp1 = await ClientService.post(path: 'order', payload: payload1);
     }
     if (resp1.statusCode == 200) {
       if (OrderId.value == '') OrderId.value = resp1.data['_id'];
       var payload = {
-        "paidBy": (jsonDecode(custRef.toJson())),
+        "paidBy": {"name": custRef.name, "_id": custRef.id},
         "order": {"name": custRef.name, "_id": OrderId.value},
         "appliedCouponCode": {
           "name": selectedCoupon.value.couponCode,
@@ -202,8 +215,8 @@ class CartController extends GetxController {
         "discountAmount": 0,
         "totalAmount": total,
         "paidAmount": total,
-        "currency": "USD",
-        // "currency": {"currencyCode": "USD"},
+        // "currency": "USD",
+        "currency": "EUR",
         "status": "OPEN",
         "appliedTaxAmount": 0,
         "description": OrderId.value
@@ -352,7 +365,15 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         '_id': OrderId.value,
-        'metaData': (jsonDecode(cust.cart!.metaData!.toJson()))
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+        "payment": {
+          "paidBy": (jsonDecode(custRef.toJson())),
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "currency": "EUR",
+          "paidTo": {"name": "sbazar", "_id": "sbazar"},
+          "status": "OPEN",
+          "description": "",
+        },
       };
       log(jsonEncode(payload).toString());
       resp = await ClientService.Put(
@@ -361,7 +382,15 @@ class CartController extends GetxController {
       payload = {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
-        'products': listSumm
+        'products': listSumm,
+        "payment": {
+          "paidBy": (jsonDecode(custRef.toJson())),
+          "order": {"name": custRef.id, "_id": OrderId.value},
+          "currency": "EUR",
+          "paidTo": {"name": "sbazar", "_id": "sbazar"},
+          "status": "OPEN",
+          "description": "",
+        },
       };
       log(jsonEncode(payload).toString());
       resp = await ClientService.post(path: 'order', payload: payload);
@@ -463,8 +492,7 @@ class CartController extends GetxController {
         String expire = coupon.condition!.expireAtTime ?? '';
         var newDate = DateTime.now().toUtc();
         var difference = DateTime.parse(expire).difference(newDate);
-        print(difference);
-        if (difference.isNegative) {
+         if (difference.isNegative) {
           valid = false;
         }
       }

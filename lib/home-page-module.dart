@@ -72,7 +72,6 @@ class HomePageModule extends Module {
         '/guide/:id',
         child: (_, args) {
           String productId = args.params['id'];
-          print(productId);
           return ProductGuidePage(productId);
         },
       ),

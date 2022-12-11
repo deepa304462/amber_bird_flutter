@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:amber_bird/data/deal_product/meta_data.dart';
+import 'package:amber_bird/data/payment/tax_detil.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'payment_gate_way_detail.dart';
 
@@ -8,7 +8,7 @@ class Payment {
   MetaData? metaData;
   Ref? paidBy;
   Ref? order;
-  dynamic appliedCouponCode;
+  Ref? appliedCouponCode;
   dynamic? discountAmount;
   dynamic? totalAmount;
   dynamic? paidAmount;
@@ -17,9 +17,11 @@ class Payment {
   String? status;
   PaymentGateWayDetail? paymentGateWayDetail;
   dynamic? appliedTaxAmount;
+  List<TaxDetail>? appliedTaxDetail;
   String? description;
   dynamic businessId;
   String? checkoutUrl;
+  String? bankTxnId;
   String? id;
 
   Payment({
@@ -35,15 +37,17 @@ class Payment {
     this.status,
     this.paymentGateWayDetail,
     this.appliedTaxAmount,
+    this.appliedTaxDetail,
     this.description,
     this.businessId,
     this.checkoutUrl,
+    this.bankTxnId,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId, checkoutUrl: $checkoutUrl, id: $id)';
+    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
   }
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
@@ -57,12 +61,17 @@ class Payment {
             ? null
             : Ref.fromMap(data['order'] as Map<String, dynamic>),
         appliedCouponCode: data['appliedCouponCode'] as dynamic,
+        appliedTaxDetail: (data['appliedTaxDetail'] as List<dynamic>?)
+            ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
+            .toList(),
         discountAmount: data['discountAmount'] as dynamic?,
         totalAmount: data['totalAmount'] as dynamic?,
         paidAmount: data['paidAmount'] as dynamic?,
         currency: data['currency'] as String?,
         paidTo: data['paidTo'] as dynamic,
         status: data['status'] as String?,
+        bankTxnId: data['bankTxnId'] as String?,
+        
         paymentGateWayDetail: data['paymentGateWayDetail'] == null
             ? null
             : PaymentGateWayDetail.fromMap(
@@ -87,9 +96,11 @@ class Payment {
         'status': status,
         'paymentGateWayDetail': paymentGateWayDetail?.toMap(),
         'appliedTaxAmount': appliedTaxAmount,
+        'appliedTaxDetail': appliedTaxDetail,
         'description': description,
         'businessId': businessId,
         'checkoutUrl': checkoutUrl,
+        'bankTxnId':bankTxnId,
         '_id': id,
       };
 
@@ -118,9 +129,11 @@ class Payment {
     String? status,
     PaymentGateWayDetail? paymentGateWayDetail,
     dynamic? appliedTaxAmount,
+    List<TaxDetail>? appliedTaxDetail,
     String? description,
     dynamic businessId,
     String? checkoutUrl,
+    String? bankTxnId,
     String? id,
   }) {
     return Payment(
@@ -136,9 +149,11 @@ class Payment {
       status: status ?? this.status,
       paymentGateWayDetail: paymentGateWayDetail ?? this.paymentGateWayDetail,
       appliedTaxAmount: appliedTaxAmount ?? this.appliedTaxAmount,
+      appliedTaxDetail: appliedTaxDetail ?? this.appliedTaxDetail,
       description: description ?? this.description,
       businessId: businessId ?? this.businessId,
       checkoutUrl: checkoutUrl ?? this.checkoutUrl,
+      bankTxnId: bankTxnId ?? this.bankTxnId,
       id: id ?? this.id,
     );
   }
