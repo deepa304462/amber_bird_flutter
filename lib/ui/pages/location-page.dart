@@ -228,6 +228,21 @@ class LocationPage extends StatelessWidget {
                         height: 10,
                       ),
                       LocationTextBox(
+                          'Phone',
+                          'phoneNumber',
+                          locationController
+                                      .changeAddressData.value.phoneNumber !=
+                                  null
+                              ? locationController
+                                  .changeAddressData.value.phoneNumber
+                                  .toString()
+                              : '',
+                          TextInputType.text,
+                          callback),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      LocationTextBox(
                           'Line1',
                           'line1',
                           locationController.changeAddressData.value.line1

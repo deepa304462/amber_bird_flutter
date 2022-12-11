@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/data/checkout/checkout.dart';
 import 'package:amber_bird/data/checkout/order_product_availability_status.dart';
 import 'package:amber_bird/data/coupon_code/coupon_code.dart';
@@ -43,9 +44,17 @@ class CartController extends GetxController {
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
+    var selectedAdd;
+    if (Get.isRegistered<LocationController>()) {
+      var locationController = Get.find<LocationController>();
+      selectedAdd = locationController.addressData.value;
+    }
     Ref custRef = await Helper.getCustomerRef();
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     var payload;
-    if (selectedCoupon.value != null) {
+    if (selectedCoupon.value.id != null) {
       payload = {
         'status': 'CREATED',
         'customerRef': (jsonDecode(custRef.toJson())),
@@ -60,6 +69,13 @@ class CartController extends GetxController {
           "paidTo": {"name": "sbazar", "_id": "abazar"},
           "status": "OPEN",
           "description": "",
+        },
+        '_id': OrderId.value,
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+        'shipping': {
+          'destination': {
+            'customerAddress': (jsonDecode(selectedAdd.toJson())),
+          }
         }
       };
     } else {
@@ -77,6 +93,13 @@ class CartController extends GetxController {
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
           "description": "",
+        },
+        '_id': OrderId.value,
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+        'shipping': {
+          'destination': {
+            'customerAddress': (jsonDecode(selectedAdd.toJson())),
+          }
         }
       };
     }
@@ -139,17 +162,32 @@ class CartController extends GetxController {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
-
-    var payload1 = {
-      'status': 'CREATED',
-      'customerRef': (jsonDecode(custRef.toJson())),
-      'products': listSumm
-    };
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    var payload1;
+    //  = {
+    //   'status': 'CREATED',
+    //   'customerRef': (jsonDecode(custRef.toJson())),
+    //   'products': listSumm
+    // };
     var resp1; // = await ClientService.post(path: 'order', payload: payload1);
     if (OrderId.value != '') {
+      payload1 = {
+        'status': 'CREATED',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm,
+        '_id': OrderId.value,
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson()))
+      };
       resp1 = await ClientService.Put(
           path: 'order', id: OrderId.value, payload: payload1);
     } else {
+      payload1 = {
+        'status': 'CREATED',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm
+      };
       resp1 = await ClientService.post(path: 'order', payload: payload1);
     }
     if (resp1.statusCode == 200) {
@@ -276,9 +314,7 @@ class CartController extends GetxController {
         'product': product != null ? (jsonDecode(product.toJson())) : null,
         'count': quantity,
         'ref': {'_id': refId, 'name': addedFrom},
-        'productType':  li.isNotEmpty
-            ? null
-            : product!.type,
+        'productType': li.isNotEmpty ? null : product!.type,
         'price': {
           'actualPrice': price,
           'memberCoin': 0,
@@ -295,24 +331,23 @@ class CartController extends GetxController {
 
   createOrder() async {
     List<dynamic> listSumm = [];
-      var insightDetail =
+    var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    log(insightDetail.toString());
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
-    var payload ;
+    var payload;
     // = {
     //   'status': 'TEMPORARY_OR_CART',
     //   'customerRef': (jsonDecode(custRef.toJson())),
     //   'products': listSumm
     // };
-    
+
     var resp; //= await ClientService.post(path: 'order', payload: payload);
     if (OrderId.value != '') {
-       payload = {
+      payload = {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
@@ -323,7 +358,7 @@ class CartController extends GetxController {
       resp = await ClientService.Put(
           path: 'order', id: OrderId.value, payload: payload);
     } else {
-       payload = {
+      payload = {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm
@@ -335,7 +370,7 @@ class CartController extends GetxController {
       if (OrderId.value == '') OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
-    
+
       cust.cart = Order.fromMap(resp.data);
       calculateTotalCost();
       log(cust.toString());

@@ -296,6 +296,8 @@ class LocationController extends GetxController {
       changeAddressData.value.zipCode = text;
     } else if (name == 'name') {
       changeAddressData.value.name = text;
+    }else if (name == 'phoneNumber') {
+      changeAddressData.value.phoneNumber = text;
     }
   }
 }
