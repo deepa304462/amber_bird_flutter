@@ -29,13 +29,26 @@ class AllAddressPage extends StatelessWidget {
         child: Column(children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
-                onPressed: () {
-                  Modular.to.navigate('../home/main');
-                },
-                icon: const Icon(Icons.arrow_back))
+              onPressed: () {
+                Modular.to.navigate('../home/main');
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+            Text(
+              'Address List',
+              style: TextStyles.headingFont,
+            ),
+            TextButton.icon(
+              onPressed: () {
+                locationController.changeAddressData.value = Address();
+                _displayDialog(context, locationController, 'Add');
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Add Address'),
+            ),
           ]),
           Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height * 0.70,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.blueAccent),
               borderRadius: BorderRadius.circular(5),
@@ -49,8 +62,14 @@ class AllAddressPage extends StatelessWidget {
                   itemCount: addressList.length,
                   itemBuilder: (_, index) {
                     var currentAddress = addressList[index];
-                    return addressCard(context, locationController, index,
-                        currentAddress, () => {});
+                    return addressCard(
+                        context, locationController, index, currentAddress, () {
+                      locationController.addressData.value = currentAddress;
+                      // Modular.to.pop(context);
+                      // Navigator.of(context).pop();
+                      Modular.to.navigate('/home/cart');
+                      return {};
+                    });
                   },
                 ),
               ],
@@ -73,29 +92,32 @@ class AllAddressPage extends StatelessWidget {
         onTap: onTap,
         child: Card(
           child: ListTile(
-              title: Text(
-                address.name!,
-                style: TextStyles.titleLargeBold,
-              ),
-              subtitle: Text(
-                address.line1!,
-                style: TextStyles.bodyFont,
-              ),
-              trailing: IconButton(
-                  onPressed: () {
-                    locationController.seelctedIndexToEdit.value = index;
-                    print(index);
-                    locationController.changeAddressData.value =
-                        locationController.addressData.value;
-                    _displayDialog(context, locationController);
-                  },
-                  icon: Icon(Icons.edit))),
+            title: Text(
+              address.name!,
+              style: TextStyles.titleLargeBold,
+            ),
+            subtitle: Text(
+              address.line1!,
+              style: TextStyles.bodyFont,
+            ),
+            trailing: IconButton(
+              onPressed: () {
+                locationController.seelctedIndexToEdit.value = index;
+                print(index);
+                locationController.changeAddressData.value =
+                    locationController.addressData.value;
+                _displayDialog(context, locationController, 'Add');
+              },
+              icon: Icon(Icons.edit),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  _displayDialog(BuildContext context, LocationController locationController) {
+  _displayDialog(BuildContext context, LocationController locationController,
+      String type) {
     RxBool isLoading = false.obs;
     showGeneralDialog(
       context: context,
@@ -125,11 +147,21 @@ class AllAddressPage extends StatelessWidget {
                   () => Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+                      Text(
+                        '${type} Address',
+                        style: TextStyles.headingFont,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
                       LocationTextBox(
                           'Name',
                           'name',
-                          locationController.changeAddressData.value.name
-                              .toString(),
+                          locationController.changeAddressData.value.name !=
+                                  null
+                              ? locationController.changeAddressData.value.name
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -138,8 +170,11 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'Line1',
                           'line1',
-                          locationController.changeAddressData.value.line1
-                              .toString(),
+                          locationController.changeAddressData.value.line1 !=
+                                  null
+                              ? locationController.changeAddressData.value.line1
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -148,8 +183,11 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'Line2',
                           'line2',
-                          locationController.changeAddressData.value.line2
-                              .toString(),
+                          locationController.changeAddressData.value.line2 !=
+                                  null
+                              ? locationController.changeAddressData.value.line2
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -158,8 +196,11 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'City',
                           'city',
-                          locationController.changeAddressData.value.city
-                              .toString(),
+                          locationController.changeAddressData.value.city !=
+                                  null
+                              ? locationController.changeAddressData.value.city
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -168,8 +209,12 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'Country',
                           'country',
-                          locationController.changeAddressData.value.country
-                              .toString(),
+                          locationController.changeAddressData.value.country !=
+                                  null
+                              ? locationController
+                                  .changeAddressData.value.country
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -178,8 +223,12 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'LandMark',
                           'landMark',
-                          locationController.changeAddressData.value.landMark
-                              .toString(),
+                          locationController.changeAddressData.value.landMark !=
+                                  null
+                              ? locationController
+                                  .changeAddressData.value.landMark
+                                  .toString()
+                              : '',
                           TextInputType.text,
                           callback),
                       const SizedBox(
@@ -188,8 +237,12 @@ class AllAddressPage extends StatelessWidget {
                       LocationTextBox(
                           'ZipCode',
                           'zipCode',
-                          locationController.changeAddressData.value.zipCode
-                              .toString(),
+                          locationController.changeAddressData.value.zipCode !=
+                                  null
+                              ? locationController
+                                  .changeAddressData.value.zipCode
+                                  .toString()
+                              : '',
                           TextInputType.number,
                           callback),
                       const SizedBox(
@@ -200,10 +253,14 @@ class AllAddressPage extends StatelessWidget {
                           isLoading.value = true;
                           locationController.addressData.value =
                               locationController.changeAddressData.value;
-                          var data = await locationController.editAddressCall();
+                          var data;
+                          if (type == 'ADD') {
+                            data = await locationController.editAddressCall();
+                          } else {
+                            data = await locationController.addAddressCall();
+                          }
                           if (data['status'] == 'success') {}
                           isLoading.value = false;
-
                           snackBarClass.showToast(context, data['msg']);
                           Navigator.of(context).pop();
                         },

@@ -232,6 +232,35 @@ class LocationController extends GetxController {
     }
   }
 
+  addAddressCall() async {
+    if (Get.isRegistered<Controller>()) {
+      var controller = Get.find<Controller>();
+      if (controller.isLogin.value) {
+        var insightDetail =
+            await OfflineDBService.get(OfflineDBService.customerInsight);
+        CustomerInsight cust =
+            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+
+        cust.addresses!.add(addressData.value);
+
+        var payload = cust.toMap();
+        log(payload.toString());
+        var userData = jsonDecode(await (SharedData.read('userData')));
+        var response = await ClientService.Put(
+            path: 'customerInsight',
+            id: userData['mappedTo']['_id'],
+            payload: payload);
+        if (response.statusCode == 200) {
+          OfflineDBService.save(
+              OfflineDBService.customerInsight, response.data);
+          return {"msg": "Updated Successfully!!", "status": "success"};
+        } else {
+          return {"msg": "Something Went Wrong!!", "status": "error"};
+        }
+      }
+    }
+  }
+
   void getNearbyWareHouseData(latitude, longitude, countryshortCode) async {
     var payload = {
       "userCoordinates": [latitude, longitude],

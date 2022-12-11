@@ -1,4 +1,6 @@
-import 'dart:convert';
+import 'dart:convert'; 
+
+import 'package:amber_bird/data/brand/brand.dart';
 
 import 'category.dart';
 import 'description.dart';
@@ -11,6 +13,9 @@ class ProductSummary {
   List<dynamic>? images;
   Varient? varient;
   Category? category;
+  Brand? brand;
+  bool? multiVarientExists;
+  String? type;
   String? countryCode;
   String? id;
 
@@ -20,13 +25,15 @@ class ProductSummary {
     this.images,
     this.varient,
     this.category,
+    this.multiVarientExists,
+    this.type,
     this.countryCode,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, id: $id)';
+    return 'Product(name: $name, description: $description, images: $images, varient: $varient,  multiVarientExists:$multiVarientExists, type:$type, category: $category, countryCode: $countryCode, id: $id)';
   }
 
   factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
@@ -43,6 +50,8 @@ class ProductSummary {
         category: data['category'] == null
             ? null
             : Category.fromMap(data['category'] as Map<String, dynamic>),
+        multiVarientExists: data['multiVarientExists'] as bool?,
+        type: data['type'] as String?,
         countryCode: data['countryCode'] as String?,
         id: data['_id'] as String?,
       );
@@ -53,6 +62,8 @@ class ProductSummary {
         'images': images,
         'varient': varient?.toMap(),
         'category': category?.toMap(),
+        'multiVarientExists': multiVarientExists,
+        'type': type,
         'countryCode': countryCode,
         '_id': id,
       };
@@ -75,6 +86,8 @@ class ProductSummary {
     List<String>? images,
     Varient? varient,
     Category? category,
+    bool? multiVarientExists,
+    String? type,
     String? countryCode,
     String? id,
   }) {
@@ -84,6 +97,8 @@ class ProductSummary {
       images: images ?? this.images,
       varient: varient ?? this.varient,
       category: category ?? this.category,
+      multiVarientExists: multiVarientExists ?? this.multiVarientExists,
+      type: type ?? this.type,
       countryCode: countryCode ?? this.countryCode,
       id: id ?? this.id,
     );

@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -19,71 +22,68 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     cartController.clearCheckout();
     return SingleChildScrollView(
-      child: cartController.cartProducts.isNotEmpty
-          ? Obx(
-              () => Column(children: [
-                SingleChildScrollView(
-                  child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.5,
-                      child: cartData(context, cartController)),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (stateController.isActivate.value) {
-                                await cartController.checkout();
-                                checkoutClicked.value = true;
-                              } else {
-                                snackBarClass.showToast(
-                                    context, 'Your profile is not active yet');
-                              }
-                            },
-                            child: Text(
-                              'Checkout',
-                              style: TextStyles.bodyFont,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: cartController.cartProducts.isNotEmpty
+            ? Obx(
+                () => Column(
+                  children: [
+                    cartData(context, cartController),
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        children: [
+                          shippingAddress(context),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (stateController.isActivate.value) {
+                                  await cartController.checkout();
+                                  checkoutClicked.value = true;
+                                } else {
+                                  snackBarClass.showToast(context,
+                                      'Your profile is not active yet');
+                                }
+                              },
+                              child: Text(
+                                'Checkout',
+                                style: TextStyles.bodyFont,
+                              ),
                             ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Total Price',
-                              style: TextStyles.headingFontGray,
-                            ),
-                            Text(
-                              cartController.totalPrice.value.actualPrice
-                                  .toString(),
-                              style: TextStyles.prieLinThroughStyle,
-                            ),
-                            Text(
-                              cartController.totalPrice.value.offerPrice
-                                  .toString(),
-                              style: TextStyles.mrpStyle,
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [CouponWidget()],
+                            children: [
+                              Text(
+                                'Total Price',
+                                style: TextStyles.headingFontGray,
+                              ),
+                              Text(
+                                cartController.totalPrice.value.actualPrice
+                                    .toString(),
+                                style: TextStyles.prieLinThroughStyle,
+                              ),
+                              Text(
+                                  cartController.totalPrice.value.offerPrice
+                                      .toString(),
+                                  style: TextStyles.mrpStyle),
+                            ],
                           ),
-                        ),
-                        cartController.checkoutData.value != null &&
-                                cartController
-                                        .checkoutData.value!.allAvailable ==
-                                    true
-                            ? Column(
-                                children: [
-                                  Center(
-                                    child: ElevatedButton(
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [CouponWidget()],
+                            ),
+                          ),
+                          cartController.checkoutData.value != null &&
+                                  cartController
+                                          .checkoutData.value!.allAvailable ==
+                                      true
+                              ? Column(
+                                  children: [
+                                    Center(
+                                      child: ElevatedButton(
                                         onPressed: () async {
                                           var data = await cartController
                                               .createPayment();
@@ -94,54 +94,57 @@ class CartWidget extends StatelessWidget {
                                         child: Text(
                                           'Payment',
                                           style: TextStyles.bodyFont,
-                                        )),
-                                  )
-                                ],
-                              )
-                            : checkoutClicked.value
-                                ? Column(
-                                    children: [
-                                      Center(
-                                        child: Text(" Product Not Availale",
-                                            style: TextStyles.headingFontBlue),
+                                        ),
                                       ),
-                                    ],
-                                  )
-                                : const SizedBox()
-                      ],
-                    ),
-                  ),
-                ),
-              ]),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(10),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Your Cart is Empty',
-                      style: TextStyles.bodyFont,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primeColor,
-                          textStyle: TextStyles.bodyWhite),
-                      onPressed: () {
-                        Modular.to.navigate('../home/main');
-                      },
-                      child: Text(
-                        'Add Products',
-                        style: TextStyles.bodyWhiteLarge,
+                                    ),
+                                  ],
+                                )
+                              : checkoutClicked.value
+                                  ? Column(
+                                      children: [
+                                        Center(
+                                          child: Text(" Product Not Availale",
+                                              style:
+                                                  TextStyles.headingFontBlue),
+                                        ),
+                                      ],
+                                    )
+                                  : const SizedBox()
+                        ],
                       ),
                     ),
                   ],
                 ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(10),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Your Cart is Empty',
+                        style: TextStyles.bodyFont,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primeColor,
+                            textStyle: TextStyles.bodyWhite),
+                        onPressed: () {
+                          Modular.to.navigate('../home/main');
+                        },
+                        child: Text(
+                          'Add Products',
+                          style: TextStyles.bodyWhiteLarge,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
+      ),
     );
   }
 
@@ -277,7 +280,8 @@ class CartWidget extends StatelessWidget {
       children: [
         Text('Recommonded Products', style: TextStyles.headingFont),
         Container(
-          margin: const EdgeInsets.all(5.0),
+          // margin: const EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(5),
           height: 160,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -307,6 +311,33 @@ class CartWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  shippingAddress(context) {
+    LocationController locationController = Get.find();
+    log(locationController.addressData.toString());
+    var add = locationController.addressData;
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(3.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: const Color.fromARGB(255, 113, 116, 122)),
+      ),
+      child: Column(
+        children: [
+          Text('Address',style: TextStyles.titleLargeBold,),
+          Text(add.value.name ?? '', style: TextStyles.headingFont),
+          Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
+          Text('ZipCode: ${add.value.zipCode ?? ''}',
+              style: TextStyles.headingFont),
+          IconButton(
+              onPressed: (() => {Modular.to.navigate('../home/address-list')}),
+              icon: const Icon(Icons.change_circle))
+        ],
+      ),
     );
   }
 }

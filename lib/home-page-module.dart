@@ -18,6 +18,7 @@ import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
+import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
@@ -33,9 +34,11 @@ class HomePageModule extends Module {
     ChildRoute('/',
         child: (_, args) => SplashOfferPage(), guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
+
     // ChildRoute('/search-location',
     //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
+      ChildRoute('/add-address', child: (_, args) => AddAddress()),
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
         '/product/:id',

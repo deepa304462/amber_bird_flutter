@@ -73,8 +73,6 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       productList.value = (pList);
-    } else {
-      print(response);
-    }
+    }  
   }
 }

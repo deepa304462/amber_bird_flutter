@@ -8,8 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 
 class UpdatePasswordController extends GetxController {
-  var resetPasswordValue =
-      {'currentPassword': '', 'newPassword': '', 'confirmPassword': ''}.obs;
+  var resetPasswordValue = {'currentPassword': '', 'newPassword': '', 'confirmPassword': ''}.obs;
   RxBool passMatch = true.obs;
   final emailId;
   final token;

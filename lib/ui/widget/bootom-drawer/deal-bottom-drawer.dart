@@ -224,13 +224,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   priceInfo,
                                                   products![0],
                                                   null);
-                                            }
-                                            // cController.addToCart(
-                                            //     refId!,
-                                            //     addedFrom!,
-                                            //     -1,
-                                            //     priceInfo,
-                                            //     null, products);
+                                            } 
                                           } else {
                                             stateController.setCurrentTab(3);
                                             var showToast =

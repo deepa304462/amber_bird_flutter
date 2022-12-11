@@ -99,7 +99,7 @@ class CartController extends GetxController {
       // log(jsonEncode(resp.data).toString());
       if (resp.statusCode == 200) {
         // log(resp.data.toString());
-         log(jsonEncode(resp.data).toString());
+        log(jsonEncode(resp.data).toString());
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
         calculateTotalCost();
@@ -156,8 +156,11 @@ class CartController extends GetxController {
       if (OrderId.value == '') OrderId.value = resp1.data['_id'];
       var payload = {
         "paidBy": (jsonDecode(custRef.toJson())),
-        "order": {"name": "md", "_id": OrderId.value},
-        // "appliedCouponCode": {"name": "string", "_id": "string"},
+        "order": {"name": custRef.name, "_id": OrderId.value},
+        "appliedCouponCode": {
+          "name": selectedCoupon.value.couponCode,
+          "_id": selectedCoupon.value.id
+        },
         "discountAmount": 0,
         "totalAmount": total,
         "paidAmount": total,
@@ -167,11 +170,11 @@ class CartController extends GetxController {
         "appliedTaxAmount": 0,
         "description": OrderId.value
       };
-        log(jsonEncode(payload).toString());
+      log(jsonEncode(payload).toString());
       var resp = await ClientService.post(path: 'payment', payload: payload);
       if (resp.statusCode == 200) {
         paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
-          log(jsonEncode(resp.data).toString());
+        log(jsonEncode(resp.data).toString());
         return ({'error': false, 'data': resp.data['checkoutUrl']});
       } else {
         return ({'error': true, 'data': ''});
@@ -272,8 +275,10 @@ class CartController extends GetxController {
             : (jsonDecode(li.toString())),
         'product': product != null ? (jsonDecode(product.toJson())) : null,
         'count': quantity,
-        'ref': {'_id': refId, 'name': null},
-        'productType': addedFrom,
+        'ref': {'_id': refId, 'name': addedFrom},
+        'productType':  li.isNotEmpty
+            ? null
+            : product!.type,
         'price': {
           'actualPrice': price,
           'memberCoin': 0,
@@ -290,31 +295,47 @@ class CartController extends GetxController {
 
   createOrder() async {
     List<dynamic> listSumm = [];
+      var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    log(insightDetail.toString());
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
-    var payload = {
-      'status': 'TEMPORARY_OR_CART',
-      'customerRef': (jsonDecode(custRef.toJson())),
-      'products': listSumm
-    };
-      log(jsonEncode(payload).toString());
+    var payload ;
+    // = {
+    //   'status': 'TEMPORARY_OR_CART',
+    //   'customerRef': (jsonDecode(custRef.toJson())),
+    //   'products': listSumm
+    // };
+    
     var resp; //= await ClientService.post(path: 'order', payload: payload);
     if (OrderId.value != '') {
+       payload = {
+        'status': 'TEMPORARY_OR_CART',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm,
+        '_id': OrderId.value,
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson()))
+      };
+      log(jsonEncode(payload).toString());
       resp = await ClientService.Put(
           path: 'order', id: OrderId.value, payload: payload);
     } else {
+       payload = {
+        'status': 'TEMPORARY_OR_CART',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'products': listSumm
+      };
+      log(jsonEncode(payload).toString());
       resp = await ClientService.post(path: 'order', payload: payload);
     }
     if (resp.statusCode == 200) {
       if (OrderId.value == '') OrderId.value = resp.data['_id'];
       log(resp.data.toString());
       //  update Cart
-      var insightDetail =
-          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-      log(insightDetail.toString());
-      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    
       cust.cart = Order.fromMap(resp.data);
       calculateTotalCost();
       log(cust.toString());

@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/location-controller.dart';
-import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/location-text-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
