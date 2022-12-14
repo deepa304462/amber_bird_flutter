@@ -75,7 +75,7 @@ class CartController extends GetxController {
               "currency": "EUR",
               "paidTo": {"name": "sbazar", "_id": "sbazar"},
               "status": "OPEN",
-              "description": "",
+              "description": OrderId.value,
               selectedCoupon.value != null
                   ? "appliedCouponCode"
                   : {
@@ -102,7 +102,7 @@ class CartController extends GetxController {
               "currency": "EUR", //{"currencyCode": "USD"},
               "paidTo": {"name": "sbazar", "_id": "sbazar"},
               "status": "OPEN",
-              "description": "",
+              "description": OrderId.value,
               "appliedCouponCode": selectedCoupon.value.couponCode != null
                   ? {
                       "name": selectedCoupon.value.couponCode,
@@ -414,7 +414,7 @@ class CartController extends GetxController {
           "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
-          "description": "",
+          "description": OrderId.value,
         },
       };
       log(jsonEncode(payload).toString());
@@ -431,7 +431,7 @@ class CartController extends GetxController {
           "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
-          "description": "",
+          "description": OrderId.value,
         },
       };
       log(jsonEncode(payload).toString());
