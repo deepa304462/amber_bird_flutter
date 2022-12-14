@@ -64,7 +64,6 @@ class CartWidget extends StatelessWidget {
                                     .toString(),
                                 style: TextStyles.mrpStyle,
                               ),
-                              
                             ],
                           ),
                           Row(
@@ -97,6 +96,45 @@ class CartWidget extends StatelessWidget {
                               ),
                             ],
                           ),
+                         (cartController.calculatedPayment.value
+                                      .appliedTaxDetail!=null && cartController.calculatedPayment.value
+                                      .appliedTaxDetail!.length >
+                                  0)
+                              ? Container(
+                                  margin: const EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(3.0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 113, 116, 122))),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: cartController.calculatedPayment
+                                        .value.appliedTaxDetail!.length,
+                                    itemBuilder: (_, pIndex) {
+                                      var currentTax = cartController
+                                          .calculatedPayment
+                                          .value
+                                          .appliedTaxDetail![pIndex];
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            currentTax.description ?? '',
+                                            style: TextStyles.headingFontGray,
+                                          ),
+                                          Text(
+                                            currentTax.amount,
+                                            style: TextStyles.bodyFontBold,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                )
+                              : const SizedBox(),
                           Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Row(
