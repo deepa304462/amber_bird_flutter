@@ -267,7 +267,7 @@ class CartController extends GetxController {
           log(jsonEncode(resp.data).toString());
           paymentData.value =
               Payment.fromMap(resp.data[0] as Map<String, dynamic>);
-          return ({'error': false, 'data': resp.data['checkoutUrl']});
+          return ({'error': false, 'data': resp.data[0]['checkoutUrl']});
         } else {
           return ({'error': true, 'data': ''});
         }
