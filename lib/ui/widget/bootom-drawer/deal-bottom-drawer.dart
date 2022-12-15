@@ -11,6 +11,7 @@ import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 class DealBottomDrawer extends StatelessWidget {
@@ -163,7 +164,9 @@ class DealBottomDrawer extends StatelessWidget {
                                         ),
                                         onPressed: () => {
                                           wishlistController.addToWishlist(
-                                              product.id, product,null,
+                                              product.id,
+                                              product,
+                                              null,
                                               addedFrom)
                                         },
                                       ))
@@ -173,11 +176,15 @@ class DealBottomDrawer extends StatelessWidget {
                                 'Description',
                                 style: TextStyles.bodyFontBold,
                               ),
-                              Text(
-                                product.description!.defaultText!.text ?? '',
-                                style: TextStyles.bodyFont,
-                                textAlign: TextAlign.justify,
+                              Html(
+                                data: product.description!.defaultText!.text ??
+                                    '',
                               ),
+                              // Text(
+                              //   product.description!.defaultText!.text ?? '',
+                              //   style: TextStyles.bodyFont,
+                              //   textAlign: TextAlign.justify,
+                              // ),
                               const Divider(),
                             ],
                           ),
@@ -224,7 +231,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   priceInfo,
                                                   products![0],
                                                   null);
-                                            } 
+                                            }
                                           } else {
                                             stateController.setCurrentTab(3);
                                             var showToast =

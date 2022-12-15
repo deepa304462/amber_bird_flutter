@@ -68,6 +68,7 @@ dependencies:
   firebase_analytics: ^9.3.8
   share_plus: ^6.2.0
   image_picker: ^0.8.6
+  flutter_html: 
   
 
 dev_dependencies:

@@ -59,16 +59,82 @@ class CartWidget extends StatelessWidget {
                                 style: TextStyles.headingFontGray,
                               ),
                               Text(
-                                cartController.totalPrice.value.actualPrice
+                                cartController
+                                    .calculatedPayment.value.totalAmount
                                     .toString(),
-                                style: TextStyles.prieLinThroughStyle,
+                                style: TextStyles.mrpStyle,
                               ),
-                              Text(
-                                  cartController.totalPrice.value.offerPrice
-                                      .toString(),
-                                  style: TextStyles.mrpStyle),
                             ],
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Discount Amount',
+                                style: TextStyles.headingFontGray,
+                              ),
+                              Text(
+                                cartController
+                                    .calculatedPayment.value.discountAmount
+                                    .toString(),
+                                style: TextStyles.mrpStyle,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Tax',
+                                style: TextStyles.headingFontGray,
+                              ),
+                              Text(
+                                cartController
+                                    .calculatedPayment.value.appliedTaxAmount
+                                    .toString(),
+                                style: TextStyles.mrpStyle,
+                              ),
+                            ],
+                          ),
+                         (cartController.calculatedPayment.value
+                                      .appliedTaxDetail!=null && cartController.calculatedPayment.value
+                                      .appliedTaxDetail!.length >
+                                  0)
+                              ? Container(
+                                  margin: const EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(3.0),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 113, 116, 122))),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: cartController.calculatedPayment
+                                        .value.appliedTaxDetail!.length,
+                                    itemBuilder: (_, pIndex) {
+                                      var currentTax = cartController
+                                          .calculatedPayment
+                                          .value
+                                          .appliedTaxDetail![pIndex];
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            currentTax.description ?? '',
+                                            style: TextStyles.headingFontGray,
+                                          ),
+                                          Text(
+                                            currentTax.amount,
+                                            style: TextStyles.bodyFontBold,
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                )
+                              : const SizedBox(),
                           Padding(
                             padding: const EdgeInsets.only(top: 5),
                             child: Row(
@@ -328,7 +394,10 @@ class CartWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text('Address',style: TextStyles.titleLargeBold,),
+          Text(
+            'Address',
+            style: TextStyles.titleLargeBold,
+          ),
           Text(add.value.name ?? '', style: TextStyles.headingFont),
           Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
           Text('ZipCode: ${add.value.zipCode ?? ''}',

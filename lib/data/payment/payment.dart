@@ -60,8 +60,10 @@ class Payment {
         order: data['order'] == null
             ? null
             : Ref.fromMap(data['order'] as Map<String, dynamic>),
-        appliedCouponCode: data['appliedCouponCode'] as dynamic,
-        appliedTaxDetail: (data['appliedTaxDetail'] as List<dynamic>?)
+        appliedCouponCode:  data['appliedCouponCode'] == null
+            ? null
+            : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
+         appliedTaxDetail: (data['appliedTaxDetail'] as List<dynamic>?)
             ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
             .toList(),
         discountAmount: data['discountAmount'] as dynamic?,
@@ -120,7 +122,7 @@ class Payment {
     MetaData? metaData,
     Ref? paidBy,
     Ref? order,
-    dynamic appliedCouponCode,
+    Ref? appliedCouponCode,
     dynamic? discountAmount,
     dynamic? totalAmount,
     dynamic? paidAmount,
