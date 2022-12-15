@@ -1,5 +1,6 @@
 import 'package:amber_bird/app-module.dart';
 import 'package:amber_bird/app-widget.dart';
+import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
@@ -35,6 +36,7 @@ void main() async {
       Get.put(OnBoardingController());
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
+  final AuthController authController = Get.put(AuthController());
   runApp(
     ModularApp(module: AppModule(), child: AppWidget()),
   );

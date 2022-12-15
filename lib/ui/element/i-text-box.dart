@@ -13,23 +13,17 @@ class ITextBox extends StatelessWidget {
   final bool isPassword;
   final bool isDisabled;
   final TextInputType keyboardType;
-  Function(String) callback;
+  TextEditingController ipController = TextEditingController();
+  Function callback;
   ITextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
-      this.keyboardType, this.isPassword, this.isDisabled, this.callback);
+      this.keyboardType, this.isPassword, this.isDisabled, this.callback) {
+    ipController.text = value;
+  }
 
   final AuthController authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController ipController = TextEditingController();
-    ipController.addListener(() {
-      // if (keyName == 'userName') {
-      //   authController.checkValidityUsername();
-      // }
-      authController.setFielsvalue(ipController.text, keyName);
-    });
-
-    ipController.text = value;
     if (keyName != 'mobile') {
       return Container(
         padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
@@ -42,7 +36,9 @@ class ITextBox extends StatelessWidget {
             border: InputBorder.none,
             labelText: label,
           ),
-          controller: ipController,
+          onChanged: ((textChanged) {
+            callback(textChanged);
+          }),
           obscureText: isPassword,
           keyboardType: keyboardType,
           readOnly: isDisabled,
@@ -76,8 +72,10 @@ class ITextBox extends StatelessWidget {
                     border: InputBorder.none,
                     labelText: label,
                     counterText: ""),
-                controller: ipController,
                 obscureText: isPassword,
+                onChanged: ((textChanged) {
+                  callback(textChanged);
+                }),
                 readOnly: isDisabled,
                 keyboardType: keyboardType,
               ),

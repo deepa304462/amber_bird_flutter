@@ -15,6 +15,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
+//https://maps.googleapis.com/maps/api/geocode/json?address=226010&sensor=true&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo
+
+//https://stackoverflow.com/questions/73612276/flutter-google-maps-how-to-show-active-areas-with-border
 class LocationController extends GetxController {
   Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
@@ -22,8 +25,10 @@ class LocationController extends GetxController {
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
+  Rx<String> pinCode = ''.obs;
 
   Rx<bool> mapLoad = false.obs;
+  Rx<bool> addressAvaiable = false.obs;
   late GoogleMapController mapController;
   Dio dio = Dio();
   LatLng latLng = const LatLng(0, 0);
@@ -39,6 +44,27 @@ class LocationController extends GetxController {
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  Future<void> findLocalityFromPinCode() async {
+    String host = 'https://maps.google.com/maps/api/geocode/json';
+    final url =
+        '$host?address=${pinCode.value}&sensor=true&key=$mapKey&language=en';
+    var response = await dio.get(url);
+    if (response.statusCode == 200) {
+      dynamic southwest =
+          response.data['results'][0]['geometry']['bounds']['southwest'];
+      dynamic northeast =
+          response.data['results'][0]['geometry']['bounds']['northeast'];
+      mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
+          LatLngBounds(
+              southwest: LatLng(southwest['lat'], southwest['lng']),
+              northeast: LatLng(northeast['lat'], northeast['lng'])),
+          1));
+      dynamic centerLocation =
+          response.data['results'][0]['geometry']['location'];
+      checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
+    }
   }
 
   void setLocation() async {
@@ -65,8 +91,8 @@ class LocationController extends GetxController {
       var data = await OfflineDBService.get(OfflineDBService.location);
       address.value = data;
       setAddressData(address.value);
-      currentPin.value = Marker(
-          markerId: const MarkerId('pin'), position: currentLatLang.value);
+      pinCode.value = addressData.value.zipCode!;
+      addressAvaiable.value = true;
     }
     return locationExists;
   }
@@ -85,39 +111,18 @@ class LocationController extends GetxController {
         markerId: const MarkerId('pin'),
         position:
             LatLng(_position.target.latitude, _position.target.longitude));
-    checkAddress(_position.target);
   }
 
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
     mapLoad.value = true;
-    Location location = Location();
-    bool? serviceEnabled;
-    PermissionStatus? permissionGranted;
 
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-    }
-
-    // Get the current user location
-    LocationData locationData = await location.getLocation();
-    LatLng currentLocation =
-        LatLng(locationData.latitude!, locationData.longitude!);
-    currentLatLang.value = currentLocation;
-    currentPin.value =
-        Marker(markerId: const MarkerId('pin'), position: currentLocation);
-    getAddressFromLatLng(locationData.latitude!, locationData.longitude!);
     mapLoad.value = false;
   }
 
   saveAddress() {
     OfflineDBService.save(OfflineDBService.location, address.value);
+
     Modular.to.navigate('home/main');
   }
 
@@ -153,9 +158,11 @@ class LocationController extends GetxController {
   }
 
   setAddressData(dynamic data) {
+    addressAvaiable.value = true;
     addressData.value.zipCode = findValueFromAddress('postal_code');
     addressData.value.name = '';
     addressData.value.line1 = data['formatted_address'];
+    addressData.value.localArea = findValueFromAddress('sublocality_level_1');
     addressData.value.city = findValueFromAddress('locality') ??
         findValueFromAddress('administrative_area_level_2');
     addressData.value.country = findValueFromAddress('country');
@@ -296,7 +303,7 @@ class LocationController extends GetxController {
       changeAddressData.value.zipCode = text;
     } else if (name == 'name') {
       changeAddressData.value.name = text;
-    }else if (name == 'phoneNumber') {
+    } else if (name == 'phoneNumber') {
       changeAddressData.value.phoneNumber = text;
     }
   }
