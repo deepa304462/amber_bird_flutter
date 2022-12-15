@@ -13,6 +13,7 @@ import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -429,13 +430,14 @@ class ProductDetailScreen extends StatelessWidget {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Text(
-                      productController
-                              .product.value.description!.defaultText!.text ??
-                          '',
-                      style: TextStyles.body,
-                      textAlign: TextAlign.justify,
-                    ),
+                    child: Html( data: productController.product.value.description!.defaultText!.text ?? '',),
+// Text(
+//                       productController
+//                               .product.value.description!.defaultText!.text ??
+//                           '',
+//                       style: TextStyles.body,
+//                       textAlign: TextAlign.justify,
+//                     ),
                   ),
                 )
               ]),

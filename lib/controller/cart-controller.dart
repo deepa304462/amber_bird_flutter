@@ -281,8 +281,9 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
       log(resp.data.toString());
-      resetCart();
       // resetCart();
+      // resetCart();
+      /// todo add api call and set cart insightdetail
       return ({'error': false, 'data': resp.data});
     } else {
       return ({'error': true, 'data': ''});

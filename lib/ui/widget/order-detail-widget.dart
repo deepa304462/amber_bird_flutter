@@ -130,11 +130,11 @@ class OrderDetailWidget extends StatelessWidget {
                                       ? [
                                           Text('Shipping'),
                                           Text(
-                                              'Source ${orderController.orderDetail.value.shipping!.source!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.source!.customerAddress!.city}'),
-                                          Text(
-                                              'Destination ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}'),
-                                          Text(
-                                              'Current Location ${orderController.orderDetail.value.shipping!.lastMovement!.locationName} ${orderController.orderDetail.value.shipping!.lastMovement!.time} ${orderController.orderDetail.value.shipping!.lastMovement!.status}'),
+                                              orderController.orderDetail.value.shipping!.source!= null ? 'Source ${orderController.orderDetail.value.shipping!.source!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.source!.customerAddress!.city}':''),
+                                          Text(orderController.orderDetail.value.shipping!.destination != null?
+                                              'Destination ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}':''),
+                                          Text(orderController.orderDetail.value.shipping!.lastMovement != null?
+                                              'Current Location ${orderController.orderDetail.value.shipping!.lastMovement!.locationName} ${orderController.orderDetail.value.shipping!.lastMovement!.time} ${orderController.orderDetail.value.shipping!.lastMovement!.status}':""),
                                           Text(
                                             'Status ${orderController.orderDetail.value.shipping!.finalStatus}',
                                             style: TextStyles.titleLargeBold,
@@ -144,7 +144,7 @@ class OrderDetailWidget extends StatelessWidget {
                                           Text(
                                               'Shipping Information Not availbale'),
                                         ],
-                            ))
+                            ),),
                       ],
                     ),
                   ),
