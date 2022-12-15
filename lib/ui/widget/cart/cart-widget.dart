@@ -96,10 +96,12 @@ class CartWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                         (cartController.calculatedPayment.value
-                                      .appliedTaxDetail!=null && cartController.calculatedPayment.value
-                                      .appliedTaxDetail!.length >
-                                  0)
+                          (cartController.calculatedPayment.value
+                                          .appliedTaxDetail !=
+                                      null &&
+                                  cartController.calculatedPayment.value
+                                          .appliedTaxDetail!.length >
+                                      0)
                               ? Container(
                                   margin: const EdgeInsets.all(2.0),
                                   padding: const EdgeInsets.all(3.0),
@@ -154,8 +156,13 @@ class CartWidget extends StatelessWidget {
                                           var data = await cartController
                                               .createPayment();
                                           print(data);
-                                          Modular.to.navigate('/home/inapp',
-                                              arguments: data['data']);
+                                          if (data['error']) {
+                                            snackBarClass.showToast(
+                                                context, data['msg']);
+                                          } else {
+                                            Modular.to.navigate('/home/inapp',
+                                                arguments: data['data']);
+                                          }
                                         },
                                         child: Text(
                                           'Payment',

@@ -188,7 +188,7 @@ class LocationController extends GetxController {
         }
 
         var payload = cust.toMap();
-        log(payload.toString());
+        // log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',
@@ -215,7 +215,7 @@ class LocationController extends GetxController {
         cust.addresses![seelctedIndexToEdit.value] = (addressData.value);
 
         var payload = cust.toMap();
-        log(payload.toString());
+        // log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',
@@ -244,7 +244,7 @@ class LocationController extends GetxController {
         cust.addresses!.add(addressData.value);
 
         var payload = cust.toMap();
-        log(payload.toString());
+        // log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
         var response = await ClientService.Put(
             path: 'customerInsight',

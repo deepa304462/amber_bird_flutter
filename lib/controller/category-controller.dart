@@ -24,11 +24,26 @@ class CategoryController extends GetxController {
         path: 'cache/productCategory/search', query: payload, lang: 'en');
 
     if (response.statusCode == 200) {
-      List<ProductCategory> cList = ((response.data as List<dynamic>?)
-              ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
-              .toList() ??
-          []);
-      mainTabs.value = (cList);
+      if (response.data.length > 1) {
+        List<ProductCategory> cList = ((response.data as List<dynamic>?)
+                ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
+                .toList() ??
+            []);
+        mainTabs.value = (cList);
+      } else {
+        var payload = {"parentCategoryId": response.data[0]['id']};
+        var response1 = await ClientService.searchQuery(
+            path: 'cache/productCategory/search', query: payload, lang: 'en');
+
+        if (response1.statusCode == 200) {
+          List<ProductCategory> cList = ((response1.data as List<dynamic>?)
+                  ?.map(
+                      (e) => ProductCategory.fromMap(e as Map<String, dynamic>))
+                  .toList() ??
+              []);
+          mainTabs.value = (cList);
+        }
+      }
     }
   }
 
@@ -73,6 +88,6 @@ class CategoryController extends GetxController {
               .toList() ??
           []);
       productList.value = (pList);
-    }  
+    }
   }
 }

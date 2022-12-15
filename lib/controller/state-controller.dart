@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -74,6 +77,21 @@ class Controller extends GetxController {
     if (customerInsightDetail.statusCode == 200) {
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+
+      if (Get.isRegistered<CartController>()) {
+        var cartController = Get.find<CartController>();
+        Customer cust = Customer.fromMap(
+            (jsonDecode(jsonEncode(customerInsightDetail.data)))
+                as Map<String, dynamic>);
+        if (cust.cart != null) {
+          cartController.calculatedPayment.value =
+              cust.cart!.payment != null ? cust.cart!.payment! : Payment();
+          cartController.OrderId.value = cust.cart!.id ?? '';
+          for (var element in cust.cart!.products!) {
+            cartController.cartProducts[element.ref!.id ?? ''] = element;
+          }
+        }
+      }
     }
   }
 
@@ -126,11 +144,9 @@ class Controller extends GetxController {
     totalPrice.value = 0;
     for (var element in cartProducts) {
       if (isPriceOff(element)) {
-        totalPrice.value += (element.varient!.price!.offerPrice!)
-            as int;  
+        totalPrice.value += (element.varient!.price!.offerPrice!) as int;
       } else {
-        totalPrice.value += element.varient!.price!.offerPrice
-            as int;  
+        totalPrice.value += element.varient!.price!.offerPrice as int;
       }
     }
   }
