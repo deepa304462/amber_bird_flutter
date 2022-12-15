@@ -1,9 +1,11 @@
 import 'package:amber_bird/controller/location-controller.dart';
+import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/location-text-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 
@@ -13,40 +15,95 @@ class LocationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Obx(() {
-      return Stack(
-        children: [
-          Column(children: [
-            Expanded(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: locationController.currentLatLang.value.latitude != 0
-                    ? GoogleMap(
-                        onMapCreated: locationController.onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: locationController.currentLatLang.value,
-                          zoom: 18.0,
-                        ),
-                        onCameraMove: locationController.updatePosition,
-                        markers: Set.of([locationController.currentPin.value]),
-                      )
-                    : Lottie.network(
-                        'https://assets1.lottiefiles.com/packages/lf20_is82b4.json',
-                        frameRate: FrameRate(50),
-                        repeat: false),
+      return SafeArea(
+        child: Stack(
+          children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: GoogleMap(
+                      onMapCreated: locationController.onMapCreated,
+                      initialCameraPosition: CameraPosition(
+                        target: locationController.currentLatLang.value,
+                        zoom: 18.0,
+                      ),
+                      onCameraMove: locationController.updatePosition,
+                      markers: Set.of([
+                        GoogleMapLib.Marker(
+                          markerId: MarkerId('value'),
+                        )
+                      ]),
+                    )),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Enter pincode of your area',
+                      style: TextStyles.title,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ITextBox('Pincode', '', '', false, TextInputType.number,
+                            false, false, (value) {
+                          locationController.pinCode.value = value;
+                        }),
+                        MaterialButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          onPressed: locationController.pinCode.isEmpty
+                              ? null
+                              : () {
+                                  locationController.findLocalityFromPinCode();
+                                },
+                          child: Text(
+                            'Okay',
+                            style: TextStyles.titleXLargeWhite,
+                          ),
+                          color: locationController.pinCode.isEmpty
+                              ? AppColors.grey
+                              : AppColors.primeColor,
+                        ),
+                        locationController.currentLatLang.value.latitude != 0
+                            ? _showAddress(context, locationController)
+                            : _accessingLocation(context),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
 
-            // Image.asset(
-            //   "assets/top-view-map-blue-background.jpg",
-            //   width: 250,
-            // ),
-            locationController.currentLatLang.value.latitude != 0
-                ? _showAddress(context, locationController)
-                : locationController.mapLoad.value
-                    ? _accessingLocation(context)
-                    : _askLocationWidgetUi(context, locationController),
-          ]),
-        ],
+              // Image.asset(
+              //   "assets/top-view-map-blue-background.jpg",
+              //   width: 250,
+              // ),
+              Visibility(
+                visible: locationController.addressAvaiable.value,
+                child: AppBar(
+                    automaticallyImplyLeading: false,
+                    backgroundColor: AppColors.primeColor,
+                    centerTitle: true,
+                    title: ListTile(
+                      title: Text(
+                        'Save & Continue',
+                        style: TextStyles.titleXLargeWhite,
+                        textAlign: TextAlign.center,
+                      ),
+                      onTap: () {
+                        locationController.saveAddress();
+                      },
+                    )),
+              )
+            ]),
+          ],
+        ),
       );
     }));
   }
@@ -101,74 +158,27 @@ class LocationPage extends StatelessWidget {
 
   Widget _showAddress(
       BuildContext context, LocationController locationController) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Drag map pin to change address',
-              style: TextStyles.headingFontGray,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              'Your area according to pincode',
+              style: TextStyles.titleXLargePrimary.copyWith(fontSize: 20),
             ),
-          ),
-          Text(
-            'Your address',
-            style: TextStyles.titleXLargePrimary.copyWith(fontSize: 20),
-          ),
-          locationController.addressData.value.line1 != null
-              ? ListTile(
-                  visualDensity: VisualDensity.comfortable,
-                  title: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      locationController.addressData.value.line1 ?? '',
-                      style: TextStyles.bodyFontBold,
-                    ),
+            locationController.addressData.value.line1 != null
+                ? Text(
+                    '${locationController.addressData.value.localArea}, ${locationController.addressData.value.city}, ${locationController.addressData.value.country}, ${locationController.addressData.value.zipCode}' ??
+                        '',
+                    style: TextStyles.titleLarge,
+                  )
+                : LinearProgressIndicator(
+                    color: AppColors.primeColor,
                   ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      locationController.changeAddressData.value =
-                          locationController.addressData.value;
-                      _displayDialog(context, locationController);
-                    },
-                    icon: Icon(
-                      Icons.edit,
-                      color: AppColors.primeColor,
-                      size: 20,
-                    ),
-                  ),
-                )
-              : LinearProgressIndicator(
-                  color: AppColors.primeColor,
-                ),
-          Align(
-            alignment: Alignment.center,
-            child: ElevatedButton.icon(
-              icon: const Icon(
-                Icons.location_searching,
-                color: Colors.white,
-                size: 30.0,
-              ),
-              label:
-                  Text('Save & Continue', style: TextStyles.titleXLargeWhite),
-              onPressed: () async {
-                locationController.saveAddress();
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  backgroundColor: AppColors.primeColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-                  textStyle: TextStyles.bodyWhite),
-            ),
-          )
-        ],
-      ),
+          ]),
     );
   }
 
