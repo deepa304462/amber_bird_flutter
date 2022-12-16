@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -171,5 +173,7 @@ class LoginWidget extends StatelessWidget {
     );
   }
 
-  callback(String p1) {}
+  callback(String name, String text) { 
+    authController.setFielsvalue(text, name);
+  }
 }

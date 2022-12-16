@@ -37,7 +37,7 @@ class ITextBox extends StatelessWidget {
             labelText: label,
           ),
           onChanged: ((textChanged) {
-            callback(textChanged);
+            callback(keyName,textChanged);
           }),
           obscureText: isPassword,
           keyboardType: keyboardType,
@@ -74,7 +74,7 @@ class ITextBox extends StatelessWidget {
                     counterText: ""),
                 obscureText: isPassword,
                 onChanged: ((textChanged) {
-                  callback(textChanged);
+                  callback(keyName,textChanged);
                 }),
                 readOnly: isDisabled,
                 keyboardType: keyboardType,

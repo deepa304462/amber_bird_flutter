@@ -86,27 +86,36 @@ class AuthController extends GetxController {
       "userName": fieldValue['username'],
       // "appName": "DIAGO_TEAM_WEB_APP"
     };
-    if (loginWith.value == LoginType.usernamePassword) {
+    if (loginWith.value == LoginType.usernamePassword &&
+        fieldValue['password'] != '' &&
+        fieldValue['userName'] != '') {
       loginPayload = {
         "password": fieldValue['password'],
         "userName": fieldValue['username']
       };
-    } else if (loginWith.value == LoginType.emailPassword) {
+    } else if (loginWith.value == LoginType.emailPassword &&
+        fieldValue['password'] != '' &&
+        fieldValue['email'] != '') {
       loginPayload = {
         "password": fieldValue['password'],
         "email": fieldValue['email']
       };
-    } else if (loginWith.value == LoginType.mobilePassword) {
+    } else if (loginWith.value == LoginType.mobilePassword &&
+        fieldValue['password'] != '' &&
+        fieldValue['mobile'] != '') {
       loginPayload = {
         "password": fieldValue['password'],
         "mobile":
             '${fieldValue['countryCode'].toString()}@${fieldValue['mobile'].toString()}'
       };
-    } else if (loginWith.value == LoginType.googleToken) {
+    } else if (loginWith.value == LoginType.googleToken &&
+        fieldValue['thirdPartyId'] != '') {
       loginPayload = {
         "socialMediaId": fieldValue['thirdPartyId'].toString(),
         "appName": "DIAGO_TEAM_WEB_APP"
       };
+    } else {
+      return {"msg": "Please fill all Field", "status": "error"};
     }
     var loginResp = await ClientService.post(
         path: 'auth/authenticate', payload: loginPayload);
