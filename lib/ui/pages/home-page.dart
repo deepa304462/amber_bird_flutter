@@ -65,7 +65,7 @@ class HomePage extends StatelessWidget {
   // to keep track of active tab index
   // Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final Controller myController = Get.put(Controller());
- 
+
   final WishlistController wishlistController = Get.put(WishlistController());
   final CartController cartController = Get.put(CartController());
   @override

@@ -65,7 +65,8 @@ class HomePageModule extends Module {
         '/order-detail',
         child: (_, args) {
           String orderId = args.data['id'];
-          return OrderDetailPage(orderId, search: false);
+          String navigateTo = args.data['navigateTo'] ?? '';
+          return OrderDetailPage(orderId, navigateTo, search: false);
         },
       ),
       ChildRoute(

@@ -172,7 +172,8 @@ class AllAddressPage extends StatelessWidget {
                         LocationTextBox(
                             'Phone',
                             'phoneNumber',
-                            locationController.changeAddressData.value.phoneNumber !=
+                            locationController
+                                        .changeAddressData.value.phoneNumber !=
                                     null
                                 ? locationController
                                     .changeAddressData.value.phoneNumber

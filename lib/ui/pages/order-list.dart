@@ -16,7 +16,8 @@ class OrderListPage extends StatelessWidget {
   getOrderList() async {
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
-        path: 'order/search', payload: {"customerId": custRef.id, "onlyCart": false});
+        path: 'order/search',
+        payload: {"customerId": custRef.id, "onlyCart": false});
     if (response.statusCode == 200) {
       log(response.data.toString());
       List<Order> oList = ((response.data as List<dynamic>?)

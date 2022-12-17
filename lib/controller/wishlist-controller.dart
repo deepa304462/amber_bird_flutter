@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer/favorite.insight.detail.dart';
 import 'package:amber_bird/data/customer/wish_list.insight.detail.dart';
-import 'package:amber_bird/data/profile/ref.dart'; 
+import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -93,7 +93,7 @@ class WishlistController extends GetxController {
     if (resp.statusCode == 200) {
       if (wishlistId.value == '') wishlistId.value = resp.data['_id'];
 
-      cust.wishList = WishList.fromMap(resp.data); 
+      cust.wishList = WishList.fromMap(resp.data);
       //  log(jsonEncode(cust).toString());
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));

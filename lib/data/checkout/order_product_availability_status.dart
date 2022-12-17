@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/profile/ref.dart';
 
 import 'product_availability_status.dart';
- 
+
 class OrderProductAvailabilityStatus {
   ProductAvailabilityStatus? productAvailabilityStatus;
   List<ProductAvailabilityStatus>? productsAvailabilityStatus;

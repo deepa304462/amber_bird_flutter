@@ -5,7 +5,6 @@ import 'package:flutter_modular/flutter_modular.dart' as flutter_modular;
 import 'package:get/get.dart';
 
 class AppWidget extends StatelessWidget {
- 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp.router(

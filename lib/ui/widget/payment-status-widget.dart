@@ -77,8 +77,10 @@ class PaymentStatusWidget extends StatelessWidget {
                       backgroundColor: AppColors.darkOrange,
                       textStyle: TextStyles.bodyWhite),
                   onPressed: () async {
-                    Modular.to.navigate('/home/order-detail',
-                        arguments: {'id': cartController.OrderId.value});
+                    Modular.to.navigate('/home/order-detail', arguments: {
+                      'id': cartController.OrderId.value,
+                      'navigateTo': 'HOME'
+                    });
                   },
                   child: Text(
                     "Check Order",

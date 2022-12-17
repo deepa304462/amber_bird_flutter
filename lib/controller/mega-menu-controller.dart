@@ -18,16 +18,27 @@ class MegaMenuController extends GetxController {
   RxString selectedSubMenu = "".obs;
   @override
   Future<void> onInit() async {
-    getCategory();
     super.onInit();
+    getCategory();
   }
 
   getCategory() async {
     var payload = {'onlyParentCategories': true};
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
-
+    var resp;
     if (response.statusCode == 200) {
+      if (response.data.length > 1) {
+        resp = response.data;
+      } else {
+        var payload = {"parentCategoryId": response.data[0]['id']};
+        var response1 = await ClientService.searchQuery(
+            path: 'cache/productCategory/search', query: payload, lang: 'en');
+
+        if (response1.statusCode == 200) {
+          resp = response1.data;
+        }
+      }
       List<GenericTab> cList = [];
       cList.add(GenericTab(
           image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
@@ -49,7 +60,7 @@ class MegaMenuController extends GetxController {
           id: multiProductName.COMBO.name,
           type: 'MULTI',
           text: 'Combo'));
-      ((response.data as List<dynamic>?)?.map((e) {
+      ((resp as List<dynamic>?)?.map((e) {
             ProductCategory category =
                 ProductCategory.fromMap(e as Map<String, dynamic>);
             cList.add(GenericTab(

@@ -20,7 +20,7 @@ class ResetPasswordWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final UpdatePasswordController updatePassController =
         Get.put(UpdatePasswordController(email, code));
-        
+
     callback(String val, String label) {
       updatePassController.setResetPassvalue(val, label);
     }

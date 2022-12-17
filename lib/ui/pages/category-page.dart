@@ -14,6 +14,7 @@ import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class CategoryPage extends StatelessWidget {
   bool isLoading = false;
@@ -23,376 +24,374 @@ class CategoryPage extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
 
-  Widget _productList(
-      MegaMenuController categoryController, BuildContext context) {
-    return SizedBox(
-        height: MediaQuery.of(context).size.height * .42,
-        child: ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: categoryController.productList.length,
-            itemBuilder: (_, index) {
-              var currentProduct = categoryController.productList[index];
-              return Container(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                height: 200,
-                width: double.maxFinite,
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(7),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Stack(
-                              children: [
-                                currentProduct.images!.isNotEmpty
-                                    ? Image.network(
-                                        '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                        width: 100,
-                                        fit: BoxFit.fill)
-                                    : const SizedBox(
-                                        child: Text('Empty image')),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Obx(
-                                    () => IconButton(
-                                      icon: Icon(
-                                        Icons.favorite,
-                                        color: wishlistController
-                                                .checkIfProductWishlist(
-                                                    currentProduct.id)
-                                            ? AppColors.primeColor
-                                            : AppColors.grey,
-                                      ),
-                                      onPressed: () => {
-                                        wishlistController.addToWishlist(
-                                            currentProduct.id, currentProduct,null,'CATEGORY')
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  currentProduct.name!.defaultText!.text!,
-                                  style: TextStyles.headingFont,
-                                ),
-                                Row(children: [
-                                  Image.network(
-                                    '${ClientService.cdnUrl}${currentProduct.category!.logoId}',
-                                    height: 20,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '${currentProduct.category!.name!.defaultText!.text}',
-                                    style: TextStyles.subHeadingFont,
-                                  ),
-                                ]),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Divider(),
-                        currentProduct.varient != null
-                            ? Obx(() => Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                            '\$${currentProduct.varient!.price!.offerPrice!}'),
-                                        Text(
-                                          '\$${currentProduct.varient!.price!.actualPrice!}',
-                                          style: TextStyles.prieLinThroughStyle,
-                                        ),
-                                      ],
-                                    ),
-                                    cartController.checkProductInCart(
-                                            currentProduct.id)
-                                        ? Row(
-                                            children: [
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () {
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    cartController.addToCart(
-                                                        currentProduct.id!,
-                                                        'CATEGORY',
-                                                        -1,
-                                                        currentProduct
-                                                            .varient!.price,
-                                                        currentProduct,
-                                                        []);
-                                                  } else {
-                                                    stateController
-                                                        .setCurrentTab(3);
+  // Widget _productList(
+  //     MegaMenuController categoryController, BuildContext context) {
+  //   return SizedBox(
+  //       height: MediaQuery.of(context).size.height * .42,
+  //       child: ListView.builder(
+  //           scrollDirection: Axis.vertical,
+  //           itemCount: categoryController.productList.length,
+  //           itemBuilder: (_, index) {
+  //             var currentProduct = categoryController.productList[index];
+  //             return Container(
+  //               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+  //               height: 200,
+  //               width: double.maxFinite,
+  //               child: Card(
+  //                 elevation: 5,
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(7),
+  //                   child: Column(
+  //                     children: [
+  //                       Row(
+  //                         children: [
+  //                           Stack(
+  //                             children: [
+  //                               currentProduct.images!.isNotEmpty
+  //                                   ? Image.network(
+  //                                       '${ClientService.cdnUrl}${currentProduct.images![0]}',
+  //                                       width: 100,
+  //                                       fit: BoxFit.fill)
+  //                                   : const SizedBox(
+  //                                       child: Text('Empty image')),
+  //                               Align(
+  //                                 alignment: Alignment.centerLeft,
+  //                                 child: Obx(
+  //                                   () => IconButton(
+  //                                     icon: Icon(
+  //                                       Icons.favorite,
+  //                                       color: wishlistController
+  //                                               .checkIfProductWishlist(
+  //                                                   currentProduct.id)
+  //                                           ? AppColors.primeColor
+  //                                           : AppColors.grey,
+  //                                     ),
+  //                                     onPressed: () => {
+  //                                       wishlistController.addToWishlist(
+  //                                           currentProduct.id,
+  //                                           currentProduct,
+  //                                           null,
+  //                                           'CATEGORY')
+  //                                     },
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ],
+  //                           ),
+  //                           Column(
+  //                             children: [
+  //                               Text(
+  //                                 currentProduct.name!.defaultText!.text!,
+  //                                 style: TextStyles.headingFont,
+  //                               ),
+  //                               Row(children: [
+  //                                 Image.network(
+  //                                   '${ClientService.cdnUrl}${currentProduct.category!.logoId}',
+  //                                   height: 20,
+  //                                 ),
+  //                                 const SizedBox(
+  //                                   width: 5,
+  //                                 ),
+  //                                 Text(
+  //                                   '${currentProduct.category!.name!.defaultText!.text}',
+  //                                   style: TextStyles.subHeadingFont,
+  //                                 ),
+  //                               ]),
+  //                             ],
+  //                           ),
+  //                         ],
+  //                       ),
+  //                       const Divider(),
+  //                       currentProduct.varient != null
+  //                           ? Obx(() => Row(
+  //                                 mainAxisAlignment:
+  //                                     MainAxisAlignment.spaceBetween,
+  //                                 children: [
+  //                                   Row(
+  //                                     children: [
+  //                                       Text(
+  //                                           '\$${currentProduct.varient!.price!.offerPrice!}'),
+  //                                       Text(
+  //                                         '\$${currentProduct.varient!.price!.actualPrice!}',
+  //                                         style: TextStyles.prieLinThroughStyle,
+  //                                       ),
+  //                                     ],
+  //                                   ),
+  //                                   cartController.checkProductInCart(
+  //                                           currentProduct.id)
+  //                                       ? Row(
+  //                                           children: [
+  //                                             IconButton(
+  //                                               padding:
+  //                                                   const EdgeInsets.all(8),
+  //                                               constraints:
+  //                                                   const BoxConstraints(),
+  //                                               onPressed: () {
+  //                                                 if (stateController
+  //                                                     .isLogin.value) {
+  //                                                   cartController.addToCart(
+  //                                                       currentProduct.id!,
+  //                                                       'CATEGORY',
+  //                                                       -1,
+  //                                                       currentProduct
+  //                                                           .varient!.price,
+  //                                                       currentProduct,
+  //                                                       []);
+  //                                                 } else {
+  //                                                   stateController
+  //                                                       .setCurrentTab(3);
 
-                                                    snackBarClass.showToast(
-                                                        context,
-                                                        'Please Login to preoceed');
-                                                  }
-                                                  // cController.addToCart(p, refId!, addedFrom!, -1);
-                                                },
-                                                icon: const Icon(
-                                                    Icons.remove_circle_outline,
-                                                    color: Colors.black),
-                                              ),
-                                              Text(cartController
-                                                  .getCurrentQuantity(
-                                                      currentProduct.id)
-                                                  .toString()),
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () {
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    cartController.addToCart(
-                                                        currentProduct.id!,
-                                                        'CATEGORY',
-                                                        1,
-                                                        currentProduct
-                                                            .varient!.price,
-                                                        currentProduct,
-                                                        []);
-                                                  } else {
-                                                    stateController
-                                                        .setCurrentTab(3);
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context,
-                                                            'Please Login to preoceed');
-                                                  }
-                                                  // cController.addToCart(p, refId!, addedFrom!, 1);
-                                                },
-                                                icon: const Icon(
-                                                    Icons.add_circle_outline,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          )
-                                        : ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    AppColors.primeColor,
-                                                textStyle:
-                                                    TextStyles.bodyWhite),
-                                            onPressed: currentProduct
-                                                        .varient!.currentStock >
-                                                    0
-                                                ? () {
-                                                    if (stateController
-                                                        .isLogin.value) {
-                                                      cartController.addToCart(
-                                                          currentProduct.id!,
-                                                          'CATEGORY',
-                                                          1,
-                                                          currentProduct
-                                                              .varient!.price,
-                                                          currentProduct,
-                                                          []);
-                                                    } else {
-                                                      stateController
-                                                          .setCurrentTab(3);
+  //                                                   snackBarClass.showToast(
+  //                                                       context,
+  //                                                       'Please Login to preoceed');
+  //                                                 }
+  //                                                 // cController.addToCart(p, refId!, addedFrom!, -1);
+  //                                               },
+  //                                               icon: const Icon(
+  //                                                   Icons.remove_circle_outline,
+  //                                                   color: Colors.black),
+  //                                             ),
+  //                                             Text(cartController
+  //                                                 .getCurrentQuantity(
+  //                                                     currentProduct.id)
+  //                                                 .toString()),
+  //                                             IconButton(
+  //                                               padding:
+  //                                                   const EdgeInsets.all(8),
+  //                                               constraints:
+  //                                                   const BoxConstraints(),
+  //                                               onPressed: () {
+  //                                                 if (stateController
+  //                                                     .isLogin.value) {
+  //                                                   cartController.addToCart(
+  //                                                       currentProduct.id!,
+  //                                                       'CATEGORY',
+  //                                                       1,
+  //                                                       currentProduct
+  //                                                           .varient!.price,
+  //                                                       currentProduct,
+  //                                                       []);
+  //                                                 } else {
+  //                                                   stateController
+  //                                                       .setCurrentTab(3);
+  //                                                   var showToast =
+  //                                                       snackBarClass.showToast(
+  //                                                           context,
+  //                                                           'Please Login to preoceed');
+  //                                                 }
+  //                                                 // cController.addToCart(p, refId!, addedFrom!, 1);
+  //                                               },
+  //                                               icon: const Icon(
+  //                                                   Icons.add_circle_outline,
+  //                                                   color: Colors.black),
+  //                                             ),
+  //                                           ],
+  //                                         )
+  //                                       : ElevatedButton(
+  //                                           style: ElevatedButton.styleFrom(
+  //                                               backgroundColor:
+  //                                                   AppColors.primeColor,
+  //                                               textStyle:
+  //                                                   TextStyles.bodyWhite),
+  //                                           onPressed: currentProduct
+  //                                                       .varient!.currentStock >
+  //                                                   0
+  //                                               ? () {
+  //                                                   if (stateController
+  //                                                       .isLogin.value) {
+  //                                                     cartController.addToCart(
+  //                                                         currentProduct.id!,
+  //                                                         'CATEGORY',
+  //                                                         1,
+  //                                                         currentProduct
+  //                                                             .varient!.price,
+  //                                                         currentProduct,
+  //                                                         []);
+  //                                                   } else {
+  //                                                     stateController
+  //                                                         .setCurrentTab(3);
 
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please Login to preoceed');
-                                                    }
-                                                  }
-                                                : () {
-                                                    print(
-                                                        'nnnnn${stateController.isLogin.value}');
-                                                    if (stateController
-                                                        .isLogin.value) {
-                                                      cartController.addToCart(
-                                                          currentProduct.id!,
-                                                          'CATEGORY',
-                                                          1,
-                                                          currentProduct
-                                                              .varient!.price,
-                                                          currentProduct,
-                                                          []);
-                                                    } else {
-                                                      stateController
-                                                          .setCurrentTab(3);
+  //                                                     snackBarClass.showToast(
+  //                                                         context,
+  //                                                         'Please Login to preoceed');
+  //                                                   }
+  //                                                 }
+  //                                               : () {
+  //                                                   print(
+  //                                                       'nnnnn${stateController.isLogin.value}');
+  //                                                   if (stateController
+  //                                                       .isLogin.value) {
+  //                                                     cartController.addToCart(
+  //                                                         currentProduct.id!,
+  //                                                         'CATEGORY',
+  //                                                         1,
+  //                                                         currentProduct
+  //                                                             .varient!.price,
+  //                                                         currentProduct,
+  //                                                         []);
+  //                                                   } else {
+  //                                                     stateController
+  //                                                         .setCurrentTab(3);
 
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please Login to preoceed');
-                                                    }
-                                                  },
-                                            child: Text("Add to cart",
-                                                style:
-                                                    TextStyles.addTocartText),
-                                          ),
-                                  ],
-                                ))
-                            : const SizedBox(),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }));
-  }
+  //                                                     snackBarClass.showToast(
+  //                                                         context,
+  //                                                         'Please Login to preoceed');
+  //                                                   }
+  //                                                 },
+  //                                           child: Text("Add to cart",
+  //                                               style:
+  //                                                   TextStyles.addTocartText),
+  //                                         ),
+  //                                 ],
+  //                               ))
+  //                           : const SizedBox(),
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ),
+  //             );
+  //           }));
+  // }
 
   Widget _productGrid(
       MegaMenuController categoryController, BuildContext context) {
     return GridView.builder(
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-        scrollDirection: Axis.vertical,
-        itemCount: categoryController.productList.length,
-        shrinkWrap: true,
-        itemBuilder: (_, index) {
-          var currentProduct = categoryController.productList[index];
-          if (currentProduct.varient != null) {
-            return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
-                currentProduct.varient!.price!, null);
-          } else {
-            return const SizedBox();
-          }
-        });
+      // physics: ScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+      scrollDirection: Axis.vertical,
+      itemCount: categoryController.productList.length,
+      shrinkWrap: true,
+      itemBuilder: (_, index) {
+        var currentProduct = categoryController.productList[index];
+        if (currentProduct.varient != null) {
+          return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
+              currentProduct.varient!.price!, null);
+        } else {
+          return const SizedBox();
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Obx(
-          () {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: SizedBox(
-                height: 70,
-                child: megaMenuController.mainTabs.isNotEmpty
-                    ? ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: megaMenuController.mainTabs.length,
-                        itemBuilder: (_, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    megaMenuController.selectedParentTab.value =
-                                        megaMenuController.mainTabs[index].id ??
-                                            '';
-                                    megaMenuController.getSubMenu(
-                                        megaMenuController.mainTabs[index]);
-                                  },
-                                  child: ImageBox(
-                                    megaMenuController.mainTabs[index].image!,
-                                    width: 50,
-                                    height: 50,
-                                  ),
+    return Obx(() {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: SizedBox(
+              height: 70,
+              child: megaMenuController.mainTabs.isNotEmpty
+                  ? ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: megaMenuController.mainTabs.length,
+                      itemBuilder: (_, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  megaMenuController.selectedParentTab.value =
+                                      megaMenuController.mainTabs[index].id ??
+                                          '';
+                                  megaMenuController.getSubMenu(
+                                      megaMenuController.mainTabs[index]);
+                                },
+                                child: ImageBox(
+                                  megaMenuController.mainTabs[index].image!,
+                                  width: 50,
+                                  height: 50,
                                 ),
-                                Obx(() => Center(
-                                      child: Text(
-                                        megaMenuController
-                                            .mainTabs[index].text!,
-                                        style: (megaMenuController
-                                                    .selectedParentTab.value ==
-                                                megaMenuController
-                                                    .mainTabs[index].id)
-                                            ? TextStyles.headingFontGray
-                                                .copyWith(
-                                                    color: AppColors.primeColor)
-                                            : TextStyles.headingFontGray,
-                                      ),
-                                    ))
-                              ],
-                            ),
-                          );
-                        },
-                      )
-                    : const SizedBox(),
-              ),
-            );
-          },
-        ),
-        Obx(() => megaMenuController.subMenuList.isNotEmpty
-            ? SizedBox(
-                height: 58,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: megaMenuController.subMenuList.length,
-                  itemBuilder: (_, index) {
-                    return Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.lightGrey),
-                      child: Row(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              megaMenuController.selectedSubMenu.value =
-                                  megaMenuController.subMenuList[index].id ??
-                                      '';
-                              megaMenuController.getAllProducts(
-                                  megaMenuController.subMenuList[index],
-                                  GenericTab(
-                                      id: megaMenuController
-                                          .selectedParentTab.value,
-                                      type: megaMenuController
-                                          .selectedType.value));
-                            },
-                            child: Obx(
-                              () => Text(
-                                  megaMenuController.subMenuList[index].text!,
-                                  style: (megaMenuController
-                                              .selectedSubMenu.value ==
-                                          megaMenuController
-                                              .subMenuList[index].id)
-                                      ? TextStyles.titleGreen
-                                      : TextStyles.title),
-                            ),
+                              ),
+                              Obx(() => Center(
+                                    child: Text(
+                                      megaMenuController.mainTabs[index].text!,
+                                      style: (megaMenuController
+                                                  .selectedParentTab.value ==
+                                              megaMenuController
+                                                  .mainTabs[index].id)
+                                          ? TextStyles.headingFontGray.copyWith(
+                                              color: AppColors.primeColor)
+                                          : TextStyles.headingFontGray,
+                                    ),
+                                  ))
+                            ],
                           ),
-                          const SizedBox(width: 5),
-                          InkWell(
-                            onTap: () {
-                              megaMenuController.selectedSubMenu.value =
-                                  megaMenuController.subMenuList[index].id ??
-                                      '';
-                            },
-                            child: Image.network(
-                                '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
-                                width: 25,
-                                height: 25,
-                                fit: BoxFit.fill),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              )
-            : const SizedBox()),
-        Obx(
-          () {
-            return showResults(megaMenuController, context);
-          },
-        )
-      ],
-    );
+                        );
+                      },
+                    )
+                  : Lottie.network(
+                      'https://assets6.lottiefiles.com/packages/lf20_x62chJ.json',
+                    ),
+            ),
+          ),
+          megaMenuController.subMenuList.isNotEmpty
+              ? SizedBox(
+                  height: 58,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: megaMenuController.subMenuList.length,
+                    itemBuilder: (_, index) {
+                      return Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppColors.lightGrey),
+                        child: Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                megaMenuController.selectedSubMenu.value =
+                                    megaMenuController.subMenuList[index].id ??
+                                        '';
+                                megaMenuController.getAllProducts(
+                                    megaMenuController.subMenuList[index],
+                                    GenericTab(
+                                        id: megaMenuController
+                                            .selectedParentTab.value,
+                                        type: megaMenuController
+                                            .selectedType.value));
+                              },
+                              child: Obx(
+                                () => Text(
+                                    megaMenuController.subMenuList[index].text!,
+                                    style: (megaMenuController
+                                                .selectedSubMenu.value ==
+                                            megaMenuController
+                                                .subMenuList[index].id)
+                                        ? TextStyles.titleGreen
+                                        : TextStyles.title),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            InkWell(
+                              onTap: () {
+                                megaMenuController.selectedSubMenu.value =
+                                    megaMenuController.subMenuList[index].id ??
+                                        '';
+                              },
+                              child: Image.network(
+                                  '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
+                                  width: 25,
+                                  height: 25,
+                                  fit: BoxFit.fill),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : const SizedBox(),
+          showResults(megaMenuController, context),
+        ],
+      );
+    });
   }
 
   Widget showResults(
@@ -409,34 +408,44 @@ class CategoryPage extends StatelessWidget {
 
   Widget categoryProducts(
       MegaMenuController megaMenuController, BuildContext context) {
-    return Column(
-      children: [_productGrid(megaMenuController, context)],
+    return SingleChildScrollView(
+      child: Column(
+        children: [_productGrid(megaMenuController, context)],
+      ),
     );
   }
 
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
-    return GridView.builder(
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-        scrollDirection: Axis.vertical,
-        itemCount: megaMenuController.dealProductList.length,
-        shrinkWrap: true,
-        itemBuilder: (_, index) {
-          DealProduct dealProduct = megaMenuController.dealProductList[0];
-          if (dealProduct.product != null) {
-            return ProductCard(dealProduct.product, dealProduct.product!.id,
-                'DEAL', dealProduct.product!.varient!.price!, null);
-          } else {
-            return const SizedBox();
-          }
-        });
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.75,
+        child: GridView.builder(
+          physics: const BouncingScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+          scrollDirection: Axis.vertical,
+          itemCount: megaMenuController.dealProductList.length,
+          shrinkWrap: true,
+          itemBuilder: (_, index) {
+            DealProduct dealProduct = megaMenuController.dealProductList[0];
+            if (dealProduct.product != null) {
+              return ProductCard(dealProduct.product, dealProduct.product!.id,
+                  'DEAL', dealProduct.product!.varient!.price!, null);
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
+      ),
+    );
   }
 
   Widget _multiProductList(
       MegaMenuController megaMenuController, BuildContext context) {
-    return Expanded(
+    return SingleChildScrollView(
+        child: SizedBox(
+      height: MediaQuery.of(context).size.height * 0.75,
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -550,6 +559,6 @@ class CategoryPage extends StatelessWidget {
           );
         },
       ),
-    );
+    ));
   }
 }

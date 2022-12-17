@@ -173,7 +173,7 @@ class LoginWidget extends StatelessWidget {
     );
   }
 
-  callback(String name, String text) { 
+  callback(String name, String text) {
     authController.setFielsvalue(text, name);
   }
 }

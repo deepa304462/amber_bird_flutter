@@ -100,10 +100,10 @@ class Controller extends GetxController {
             (jsonDecode(jsonEncode(customerInsightDetail.data)))
                 as Map<String, dynamic>);
         if (cust.cart != null) {
-          
           waishlistController.wishlistId.value = cust.wishList!.id ?? '';
           for (var element in cust.wishList!.favorites!) {
-            waishlistController.wishlistProducts[element.ref!.id ?? ''] = element;
+            waishlistController.wishlistProducts[element.ref!.id ?? ''] =
+                element;
           }
         }
       }

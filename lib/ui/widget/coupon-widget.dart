@@ -157,7 +157,8 @@ class CustomSearchDelegate extends SearchDelegate {
                         cartController.setSearchVal(coupon.couponCode);
                         close(context, cartController.couponName.toString());
                       } else {
-                        snackBarClass.showToast(context, 'coupon is not valid ');
+                        snackBarClass.showToast(
+                            context, 'coupon is not valid ');
                       }
                     },
                     child: const Text('Apply'))

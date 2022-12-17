@@ -3,13 +3,9 @@ import 'dart:convert';
 class TaxDetail {
   dynamic amount;
   String? taxType;
-  String? description; 
+  String? description;
 
-  TaxDetail({
-    this.amount,
-    this.taxType,
-    this.description
-  });
+  TaxDetail({this.amount, this.taxType, this.description});
 
   @override
   String toString() {
@@ -20,22 +16,21 @@ class TaxDetail {
     return TaxDetail(
       amount: data['amount'] as dynamic,
       description: data['description'] as String?,
-      taxType: data['taxType'] as String?, 
+      taxType: data['taxType'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() => {
         'amount': amount,
         'taxType': taxType,
-        'description': description, 
+        'description': description,
       };
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [TaxDetail].
   factory TaxDetail.fromJson(String data) {
-    return TaxDetail.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return TaxDetail.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -46,12 +41,12 @@ class TaxDetail {
   TaxDetail copyWith({
     dynamic amount,
     String? description,
-    String? taxType, 
+    String? taxType,
   }) {
     return TaxDetail(
       amount: amount ?? this.amount,
       description: description ?? this.description,
-      taxType: taxType ?? this.taxType, 
+      taxType: taxType ?? this.taxType,
     );
   }
 }

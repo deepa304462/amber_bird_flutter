@@ -432,7 +432,11 @@ class ProductDetailScreen extends StatelessWidget {
                 TableCell(
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: Html( data: productController.product.value.description!.defaultText!.text ?? '',),
+                    child: Html(
+                      data: productController
+                              .product.value.description!.defaultText!.text ??
+                          '',
+                    ),
 // Text(
 //                       productController
 //                               .product.value.description!.defaultText!.text ??
@@ -539,10 +543,11 @@ class ProductDetailScreen extends StatelessWidget {
             IconButton(
                 onPressed: () {},
                 icon: Icon(
-                   Icons.favorite,
-                  color:  wishlistController.checkIfProductWishlist(productController.product.value.id)
-                                            ? AppColors.primeColor
-                                            : AppColors.grey,
+                  Icons.favorite,
+                  color: wishlistController.checkIfProductWishlist(
+                          productController.product.value.id)
+                      ? AppColors.primeColor
+                      : AppColors.grey,
                 )),
             const SizedBox(
               width: 5,

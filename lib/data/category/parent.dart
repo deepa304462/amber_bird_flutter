@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'name.dart';
+import 'package:amber_bird/data/deal_product/name.dart';
 
-class Category {
+ 
+class Parent {
   Name? name;
   String? logoId;
   bool? subCategory;
@@ -10,7 +11,7 @@ class Category {
   String? parent;
   String? id;
 
-  Category({
+  Parent({
     this.name,
     this.logoId,
     this.subCategory,
@@ -21,10 +22,10 @@ class Category {
 
   @override
   String toString() {
-    return 'Category(name: $name, logoId: $logoId, subCategory: $subCategory, parentCategoryId: $parentCategoryId, parent: $parent, id: $id)';
+    return 'Parent(name: $name, logoId: $logoId, subCategory: $subCategory, parentCategoryId: $parentCategoryId, parent: $parent, id: $id)';
   }
 
-  factory Category.fromMap(Map<String, dynamic> data) => Category(
+  factory Parent.fromMap(Map<String, dynamic> data) => Parent(
         name: data['name'] == null
             ? null
             : Name.fromMap(data['name'] as Map<String, dynamic>),
@@ -32,7 +33,7 @@ class Category {
         subCategory: data['subCategory'] as bool?,
         parentCategoryId: data['parentCategoryId'] as String?,
         parent: data['parent'] as String?,
-        id: data['id'] as String?,
+        id: data['_id'] as String?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -41,22 +42,22 @@ class Category {
         'subCategory': subCategory,
         'parentCategoryId': parentCategoryId,
         'parent': parent,
-        'id': id,
+        '_id': id,
       };
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Category].
-  factory Category.fromJson(String data) {
-    return Category.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [Parent].
+  factory Parent.fromJson(String data) {
+    return Parent.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [Category] to a JSON string.
+  /// Converts [Parent] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Category copyWith({
+  Parent copyWith({
     Name? name,
     String? logoId,
     bool? subCategory,
@@ -64,7 +65,7 @@ class Category {
     String? parent,
     String? id,
   }) {
-    return Category(
+    return Parent(
       name: name ?? this.name,
       logoId: logoId ?? this.logoId,
       subCategory: subCategory ?? this.subCategory,

@@ -19,7 +19,7 @@ class Payment {
   dynamic? appliedTaxAmount;
   String? description;
   String? bankTxnId;
-   List<TaxDetail>? appliedTaxDetail;
+  List<TaxDetail>? appliedTaxDetail;
   String? id;
 
   Payment({
@@ -57,10 +57,10 @@ class Payment {
         discountAmount: data['discountAmount'] as dynamic?,
         totalAmount: data['totalAmount'] as dynamic?,
         paidAmount: data['paidAmount'] as dynamic?,
-        
+
         currency: data['currency'] as String?,
-            // ? null
-            // : Currency.fromMap(data['currency'] as Map<String, dynamic>),
+        // ? null
+        // : Currency.fromMap(data['currency'] as Map<String, dynamic>),
         paidTo: data['paidTo'] == null
             ? null
             : Ref.fromMap(data['paidTo'] as Map<String, dynamic>),

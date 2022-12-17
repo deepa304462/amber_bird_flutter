@@ -118,33 +118,42 @@ class OrderDetailWidget extends StatelessWidget {
                           ),
                         ),
                         Container(
-                            margin: const EdgeInsets.all(2.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Color.fromARGB(255, 113, 116, 122))),
-                            child: Column(
-                              children:
-                                  orderController.orderDetail.value.shipping !=
-                                          null
-                                      ? [
-                                          Text('Shipping'),
-                                          Text(
-                                              orderController.orderDetail.value.shipping!.source!= null ? 'Source ${orderController.orderDetail.value.shipping!.source!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.source!.customerAddress!.city}':''),
-                                          Text(orderController.orderDetail.value.shipping!.destination != null?
-                                              'Destination ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}':''),
-                                          Text(orderController.orderDetail.value.shipping!.lastMovement != null?
-                                              'Current Location ${orderController.orderDetail.value.shipping!.lastMovement!.locationName} ${orderController.orderDetail.value.shipping!.lastMovement!.time} ${orderController.orderDetail.value.shipping!.lastMovement!.status}':""),
-                                          Text(
-                                            'Status ${orderController.orderDetail.value.shipping!.finalStatus}',
-                                            style: TextStyles.titleLargeBold,
-                                          )
-                                        ]
-                                      : [
-                                          Text(
-                                              'Shipping Information Not availbale'),
-                                        ],
-                            ),),
+                          margin: const EdgeInsets.all(2.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromARGB(255, 113, 116, 122))),
+                          child: Column(
+                            children: orderController
+                                        .orderDetail.value.shipping !=
+                                    null
+                                ? [
+                                    Text('Shipping'),
+                                    Text(orderController.orderDetail.value
+                                                .shipping!.source !=
+                                            null
+                                        ? 'Source ${orderController.orderDetail.value.shipping!.source!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.source!.customerAddress!.city}'
+                                        : ''),
+                                    Text(orderController.orderDetail.value
+                                                .shipping!.destination !=
+                                            null
+                                        ? 'Destination ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode} ${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}'
+                                        : ''),
+                                    Text(orderController.orderDetail.value
+                                                .shipping!.lastMovement !=
+                                            null
+                                        ? 'Current Location ${orderController.orderDetail.value.shipping!.lastMovement!.locationName} ${orderController.orderDetail.value.shipping!.lastMovement!.time} ${orderController.orderDetail.value.shipping!.lastMovement!.status}'
+                                        : ""),
+                                    Text(
+                                      'Status ${orderController.orderDetail.value.shipping!.finalStatus}',
+                                      style: TextStyles.titleLargeBold,
+                                    )
+                                  ]
+                                : [
+                                    Text('Shipping Information Not availbale'),
+                                  ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
