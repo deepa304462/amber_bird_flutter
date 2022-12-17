@@ -349,16 +349,18 @@ class CartController extends GetxController {
           if (getData != null) {
             quantity = getData.count!;
             quantity = quantity + addQuantity;
-            price = price + element.varient!.price!.offerPrice * quantity;
+            // price = price + element.varient!.price!.offerPrice * quantity;
+            price = price + element.varient!.price!.offerPrice ;
           } else {
-            price = price + element.varient!.price!.offerPrice * quantity;
+            // price = price + element.varient!.price!.offerPrice * quantity;
+            price = price + element.varient!.price!.offerPrice ;
           }
         }
       } else {
         if (getData != null) {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
-          price = price * quantity;
+          // price = price * quantity;
         }
       }
       // log(li.toString());

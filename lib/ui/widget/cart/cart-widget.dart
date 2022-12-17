@@ -276,7 +276,7 @@ class CartWidget extends StatelessWidget {
                                           ],
                                         ),
                                         Text(
-                                            '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
+                                            '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                                       ]),
                                 ),
                               );
@@ -321,7 +321,7 @@ class CartWidget extends StatelessWidget {
                               ],
                             ),
                             Text(
-                                '\$${cartController.cartProducts[currentKey]!.price!.offerPrice.toString()}'),
+                                '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice* cartController.cartProducts[currentKey]!.count).toString()}'),
                             IconButton(
                               onPressed: () {
                                 cartController.removeProduct(currentKey);
