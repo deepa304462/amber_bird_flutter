@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/payment/payment.dart';
@@ -89,6 +90,20 @@ class Controller extends GetxController {
           cartController.OrderId.value = cust.cart!.id ?? '';
           for (var element in cust.cart!.products!) {
             cartController.cartProducts[element.ref!.id ?? ''] = element;
+          }
+        }
+      }
+
+      if (Get.isRegistered<WishlistController>()) {
+        var waishlistController = Get.find<WishlistController>();
+        Customer cust = Customer.fromMap(
+            (jsonDecode(jsonEncode(customerInsightDetail.data)))
+                as Map<String, dynamic>);
+        if (cust.cart != null) {
+          
+          waishlistController.wishlistId.value = cust.wishList!.id ?? '';
+          for (var element in cust.wishList!.favorites!) {
+            waishlistController.wishlistProducts[element.ref!.id ?? ''] = element;
           }
         }
       }

@@ -91,7 +91,7 @@ class ProductCard extends StatelessWidget {
               icon: Icon(
                 Icons.favorite,
                 color: wishlistController.checkIfProductWishlist(product.id)
-                    ? Colors.redAccent
+                    ? AppColors.primeColor
                     : const Color(0xFFA6A3A0),
               ),
               onPressed: () =>

@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
@@ -21,6 +22,7 @@ class ProductDetailScreen extends StatelessWidget {
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
+  final WishlistController wishlistController = Get.find();
 
   final String? pId;
   // final Price? dealPrice;
@@ -537,8 +539,10 @@ class ProductDetailScreen extends StatelessWidget {
             IconButton(
                 onPressed: () {},
                 icon: Icon(
-                  CupertinoIcons.heart,
-                  color: AppColors.primeColor,
+                   Icons.favorite,
+                  color:  wishlistController.checkIfProductWishlist(productController.product.value.id)
+                                            ? AppColors.primeColor
+                                            : AppColors.grey,
                 )),
             const SizedBox(
               width: 5,

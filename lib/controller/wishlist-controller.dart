@@ -4,9 +4,9 @@ import 'dart:developer';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer/favorite.insight.detail.dart';
 import 'package:amber_bird/data/customer/wish_list.insight.detail.dart';
-import 'package:amber_bird/data/profile/ref.dart';
-import 'package:amber_bird/data/wishlist-product.dart';
+import 'package:amber_bird/data/profile/ref.dart'; 
 import 'package:amber_bird/helpers/helper.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
@@ -39,26 +39,64 @@ class WishlistController extends GetxController {
     }
   }
 
-  addToWishlist(pid, product, products,type) async{
+  addToWishlist(pid, product, products, type) async {
     if (pid != null) {
       Favorite? wishlistRowcheck = wishlistProducts[pid];
       if (wishlistRowcheck != null) {
         wishlistProducts.remove(pid);
       } else {
-        // WishlistProduct wishlistRow = WishlistProduct.fromMap(
-        //     {'product': product.toMap(), 'isChecked': true});
-        // wishlistProducts[pid] = wishlistRow;
         Ref custRef = await Helper.getCustomerRef();
-        Favorite fav =Favorite.fromMap({
-          'product': product,
-          'products': products,
+        Favorite fav = Favorite.fromMap({
+          'product': product != null ? (jsonDecode(product.toJson())) : null,
+          'products': products != null ? (jsonDecode(products.toJson())) : null,
           'productType': type,
-          'ref':custRef,
-          'addedOnTime': DateTime.now().toUtc()
+          'ref': (jsonDecode(custRef.toJson())),
+          'addedOnTime': DateTime.now().toUtc().toString()
         });
-         wishlistProducts[pid] = fav;
-
+        wishlistProducts[pid] = fav;
       }
+      saveWishlist();
+    }
+  }
+
+  saveWishlist() async {
+    List<dynamic> listProd = [];
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    for (var v in wishlistProducts.value.values) {
+      listProd.add((jsonDecode(v.toJson())));
+    }
+    Ref custRef = await Helper.getCustomerRef();
+    var payload, resp;
+
+    if (wishlistId.value != '') {
+      payload = {
+        'status': 'TEMPORARY_OR_CART',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'favorites': listProd,
+        '_id': wishlistId.value,
+        'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+      };
+      log(jsonEncode(payload).toString());
+      resp = await ClientService.Put(
+          path: 'wishList', id: wishlistId.value, payload: payload);
+    } else {
+      payload = {
+        'status': 'TEMPORARY_OR_CART',
+        'customerRef': (jsonDecode(custRef.toJson())),
+        'favorites': listProd,
+      };
+      log(jsonEncode(payload).toString());
+      resp = await ClientService.post(path: 'wishList', payload: payload);
+    }
+    if (resp.statusCode == 200) {
+      if (wishlistId.value == '') wishlistId.value = resp.data['_id'];
+
+      cust.wishList = WishList.fromMap(resp.data); 
+      //  log(jsonEncode(cust).toString());
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     }
   }
 

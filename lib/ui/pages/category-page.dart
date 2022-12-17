@@ -62,7 +62,7 @@ class CategoryPage extends StatelessWidget {
                                         color: wishlistController
                                                 .checkIfProductWishlist(
                                                     currentProduct.id)
-                                            ? Colors.redAccent
+                                            ? AppColors.primeColor
                                             : AppColors.grey,
                                       ),
                                       onPressed: () => {

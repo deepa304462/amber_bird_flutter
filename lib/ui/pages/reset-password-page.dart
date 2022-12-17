@@ -1,10 +1,8 @@
-import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/update-password-controller.dart';
-import 'package:amber_bird/ui/element/reset-password.dart';
+import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -22,6 +20,11 @@ class ResetPasswordWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final UpdatePasswordController updatePassController =
         Get.put(UpdatePasswordController(email, code));
+        
+    callback(String val, String label) {
+      updatePassController.setResetPassvalue(val, label);
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Obx(
@@ -63,7 +66,7 @@ class ResetPasswordWidget extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        ResetPassTextBox(
+                        ITextBox(
                             'New Password',
                             'newPassword',
                             updatePassController
@@ -77,7 +80,7 @@ class ResetPasswordWidget extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        ResetPassTextBox(
+                        ITextBox(
                             'Confirm Password',
                             'confirmPassword',
                             updatePassController
@@ -128,6 +131,4 @@ class ResetPasswordWidget extends StatelessWidget {
       ),
     );
   }
-
-  callback(String p1) {}
 }

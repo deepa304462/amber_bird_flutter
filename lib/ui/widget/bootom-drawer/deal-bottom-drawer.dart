@@ -159,7 +159,7 @@ class DealBottomDrawer extends StatelessWidget {
                                           color: wishlistController
                                                   .checkIfProductWishlist(
                                                       product.id)
-                                              ? Colors.redAccent
+                                              ? AppColors.primeColor
                                               : AppColors.grey,
                                         ),
                                         onPressed: () => {
