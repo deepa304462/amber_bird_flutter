@@ -135,12 +135,8 @@ class CartController extends GetxController {
 
           cust.cart = Order.fromMap(resp1.data);
           calculatedPayment.value = cust.cart!.payment!;
-          // calculateTotalCost();
-          // log(cust.toString());
           OfflineDBService.save(OfflineDBService.customerInsightDetail,
               (jsonDecode(cust.toJson())));
-
-          // log(jsonEncode(resp1.data).toString());
         }
       }
     }
@@ -291,7 +287,7 @@ class CartController extends GetxController {
 
   removeProduct(currentKey) async {
     cartProducts.remove(currentKey);
-    createOrder();
+    await createOrder();
   }
 
   resetCart() async {
@@ -302,7 +298,7 @@ class CartController extends GetxController {
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     cust.cart = null;
     // log(cust.toString());
-    createOrder();
+    await createOrder();
     OfflineDBService.save(
         OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
   }
@@ -350,10 +346,10 @@ class CartController extends GetxController {
             quantity = getData.count!;
             quantity = quantity + addQuantity;
             // price = price + element.varient!.price!.offerPrice * quantity;
-            price = price + element.varient!.price!.offerPrice ;
+            price = price + element.varient!.price!.offerPrice;
           } else {
             // price = price + element.varient!.price!.offerPrice * quantity;
-            price = price + element.varient!.price!.offerPrice ;
+            price = price + element.varient!.price!.offerPrice;
           }
         }
       } else {
@@ -383,7 +379,7 @@ class CartController extends GetxController {
       });
       cartProducts[refId] = cartRow;
     } else {}
-    createOrder();
+    await createOrder();
   }
 
   createOrder() async {

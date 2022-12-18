@@ -17,6 +17,7 @@ class WishlistController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // resetWishlist();
     fetchWishlist();
   }
 
@@ -30,7 +31,6 @@ class WishlistController extends GetxController {
       if (cust.wishList != null) {
         wishlistId.value = cust.wishList!.id ?? '';
         for (var element in cust.wishList!.favorites!) {
-          wishlistProducts[element.ref!.id ?? ''] = element;
         }
         // totalPrice.value = pr;
       }
@@ -50,13 +50,26 @@ class WishlistController extends GetxController {
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'products': products != null ? (jsonDecode(products.toJson())) : null,
           'productType': type,
-          'ref': (jsonDecode(custRef.toJson())),
+          'ref': {'name' : 'fav','_id': pid},
           'addedOnTime': DateTime.now().toUtc().toString()
         });
         wishlistProducts[pid] = fav;
       }
-      saveWishlist();
+      await saveWishlist();
     }
+  }
+
+  resetWishlist() async {
+    wishlistProducts.clear();
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    // log(insightDetail.toString());
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    cust.wishList = null;
+    // log(cust.toString());
+    await saveWishlist();
+    OfflineDBService.save(
+        OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
   }
 
   saveWishlist() async {
@@ -72,18 +85,16 @@ class WishlistController extends GetxController {
 
     if (wishlistId.value != '') {
       payload = {
-        'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'favorites': listProd,
         '_id': wishlistId.value,
-        'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+        'metaData': (jsonDecode(cust.wishList!.metaData!.toJson())),
       };
       log(jsonEncode(payload).toString());
       resp = await ClientService.Put(
           path: 'wishList', id: wishlistId.value, payload: payload);
     } else {
       payload = {
-        'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'favorites': listProd,
       };
@@ -94,9 +105,8 @@ class WishlistController extends GetxController {
       if (wishlistId.value == '') wishlistId.value = resp.data['_id'];
 
       cust.wishList = WishList.fromMap(resp.data);
-      //  log(jsonEncode(cust).toString());
-      OfflineDBService.save(
-          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+       log(jsonEncode(cust).toString());
+      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     }
   }
 
