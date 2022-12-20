@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,25 @@ class DealController extends GetxController {
               .toList() ??
           []);
       dealProd.value = (dList);
+    }
+  }
+
+  checkValidDeal(DealProduct dealProduct) {
+    if (dealProduct.ruleConfig != null) {
+      if (dealProduct.ruleConfig!.minCartAmount != null &&
+          dealProduct.ruleConfig!.minCartAmount != 0) {
+        if (Get.isRegistered<CartController>()) {
+          var cartController = Get.find<CartController>();
+          if (cartController.calculatedPayment.value.totalAmount <
+              dealProduct.ruleConfig!.minCartAmount) {
+            return ({
+              'error': true,
+              'msg':
+                  'Required min cart amount ${dealProduct.ruleConfig!.minCartAmount}'
+            });
+          }
+        }
+      }
     }
   }
 }

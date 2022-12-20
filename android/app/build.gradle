@@ -5,7 +5,11 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
@@ -53,6 +57,12 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+//        release {
+//            keyAlias keystoreProperties.getProperty('keyAlias')
+//            keyPassword keystoreProperties.getProperty('keyPassword')
+//            storeFile keystoreProperties.getProperty('storeFile') ? file(keystoreProperties.getProperty('storeFile')) : null
+//            storePassword keystoreProperties.getProperty('storePassword')
+//        }
     }
 }
 dependencies {

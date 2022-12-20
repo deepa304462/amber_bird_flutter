@@ -31,7 +31,7 @@ class CategoryController extends GetxController {
             []);
         mainTabs.value = (cList);
       } else {
-        var payload = {"parentCategoryId": response.data[0]['id']};
+        var payload = {"parentCategoryId": response.data[0]['_id']};
         var response1 = await ClientService.searchQuery(
             path: 'cache/productCategory/search', query: payload, lang: 'en');
 

@@ -156,7 +156,9 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  callback(String p1) {}
+  callback(String name, String text) {
+    authController.setFielsvalue(text, name);
+  }
 
   imageCallback(String p1) {
     // 'profileImageId':''

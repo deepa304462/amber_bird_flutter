@@ -52,7 +52,7 @@ class LocationPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         ITextBox('Pincode', '', '', false, TextInputType.number,
-                            false, false, (value) {
+                            false, false, (key,value) {
                           locationController.pinCode.value = value;
                         }),
                         MaterialButton(
