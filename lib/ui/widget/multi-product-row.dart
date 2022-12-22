@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -79,10 +80,14 @@ class MultiProductRow extends StatelessWidget {
               return Card(
                 child: Column(
                   children: [
-                    Image.network(
-                      '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                    ImageBox(
+                      mProduct.displayImageId!,
                       height: 80,
                     ),
+                    // Image.network(
+                    //   '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                    //   height: 80,
+                    // ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
                       height: 160,
@@ -208,9 +213,13 @@ class MultiProductRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(
-                '${ClientService.cdnUrl}${multiProd.displayImageId}',
-                fit: BoxFit.fill,
+              // Image.network(
+              //   '${ClientService.cdnUrl}${multiProd.displayImageId}',
+              //   fit: BoxFit.fill,
+              //   height: 100,
+              // ),
+              ImageBox(
+                multiProd.displayImageId!,
                 height: 100,
               ),
               Column(

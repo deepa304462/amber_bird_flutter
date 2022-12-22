@@ -1,5 +1,4 @@
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/utils/ui-style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

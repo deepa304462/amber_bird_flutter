@@ -7,6 +7,7 @@ import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -38,9 +39,13 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   width: 120,
                   height: 120,
-                  child: Image.network(
-                    '${ClientService.cdnUrl}${product.images![0]}',
-                    fit: BoxFit.fitHeight,
+                  child: 
+                  // Image.network(
+                  //   '${ClientService.cdnUrl}${product.images![0]}',
+                  //   fit: BoxFit.fitHeight,
+                  // ),
+                  ImageBox(
+                    product.images![0] 
                   ),
                 ),
               )

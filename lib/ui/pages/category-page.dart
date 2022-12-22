@@ -375,11 +375,16 @@ class CategoryPage extends StatelessWidget {
                                     megaMenuController.subMenuList[index].id ??
                                         '';
                               },
-                              child: Image.network(
-                                  '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
-                                  width: 25,
-                                  height: 25,
-                                  fit: BoxFit.fill),
+                              child: ImageBox(
+                                '${megaMenuController.subMenuList[index].image}',
+                                width: 25,
+                                height: 25,
+                              ),
+                              // Image.network(
+                              //     '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
+                              //     width: 25,
+                              //     height: 25,
+                              //     fit: BoxFit.fill),
                             ),
                           ],
                         ),
@@ -457,10 +462,14 @@ class CategoryPage extends StatelessWidget {
           return Card(
             child: Column(
               children: [
-                Image.network(
-                  '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                ImageBox(
+                  '${mProduct.displayImageId}',
                   height: 80,
                 ),
+                // Image.network(
+                //   '${ClientService.cdnUrl}${mProduct.displayImageId}',
+                //   height: 80,
+                // ),
                 Container(
                   margin: const EdgeInsets.all(5.0),
                   height: 160,

@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/order-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,11 +70,16 @@ class OrderDetailWidget extends StatelessWidget {
                                           currentProducts.products![index];
                                       return Row(
                                         children: [
-                                          Image.network(
-                                              '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                              width: 80,
-                                              height: 80,
-                                              fit: BoxFit.fill),
+                                          ImageBox(
+                                            currentProduct.images![0],
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          // Image.network(
+                                          //     '${ClientService.cdnUrl}${currentProduct.images![0]}',
+                                          //     width: 80,
+                                          //     height: 80,
+                                          //     fit: BoxFit.fill),
                                           const SizedBox(
                                             width: 5,
                                           ),
@@ -98,11 +104,17 @@ class OrderDetailWidget extends StatelessWidget {
                                           Border.all(color: Colors.blueAccent)),
                                   child: Row(
                                     children: [
-                                      Image.network(
-                                          '${ClientService.cdnUrl}${currentProducts.product!.images![0]}',
-                                          width: 80,
-                                          height: 80,
-                                          fit: BoxFit.fill),
+                                      ImageBox(
+                                       currentProducts.product!.images![0],
+                                        width: 80,
+                                        height: 80,
+                                      ),
+                                      // Image.network(
+
+                                      //     '${ClientService.cdnUrl}${currentProducts.product!.images![0]}',
+                                      //     width: 80,
+                                      //     height: 80,
+                                      //     fit: BoxFit.fill),
                                       const SizedBox(
                                         width: 5,
                                       ),

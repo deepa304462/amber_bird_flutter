@@ -105,10 +105,14 @@ class DealBottomDrawer extends StatelessWidget {
                                           const SizedBox(height: 5),
                                           Row(
                                             children: [
-                                              Image.network(
-                                                '${ClientService.cdnUrl}${product.category!.logoId}',
-                                                height: 20,
+                                              ImageBox(
+                                                product.category!.logoId!,
+                                                width: 20,
                                               ),
+                                              // Image.network(
+                                              //   '${ClientService.cdnUrl}${product.category!.logoId}',
+                                              //   height: 20,
+                                              // ),
                                               const SizedBox(
                                                 width: 5,
                                               ),

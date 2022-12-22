@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -260,11 +261,16 @@ class CartWidget extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Image.network(
-                                            '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.fill),
+                                        ImageBox(
+                                           '${currentProduct.images![0]}',
+                                          width: 80,
+                                          height: 80,
+                                        ),
+                                        // Image.network(
+                                        //     '${ClientService.cdnUrl}${currentProduct.images![0]}',
+                                        //     width: 80,
+                                        //     height: 80,
+                                        //     fit: BoxFit.fill),
                                         Column(
                                           children: [
                                             Text(currentProduct
@@ -300,11 +306,16 @@ class CartWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.network(
-                                '${ClientService.cdnUrl}${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.fill),
+                              ImageBox(
+                             '${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
+                              width: 80,
+                              height: 80,
+                            ),
+                            // Image.network(
+                            //     '${ClientService.cdnUrl}${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
+                            //     width: 80,
+                            //     height: 80,
+                            //     fit: BoxFit.fill),
                             Column(
                               children: [
                                 Text(cartController

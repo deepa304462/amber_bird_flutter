@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -29,10 +30,14 @@ class LoginWidget extends StatelessWidget {
           child: Obx(() => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.network(
-                    'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                  // Image.network(
+                  //   'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                  //   width: 200,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  ImageBox(
+                    '383ba026-222a-4a16-8c24-b6f7f7227630',
                     width: 200,
-                    fit: BoxFit.cover,
                   ),
                   Text(
                     'Get access',
