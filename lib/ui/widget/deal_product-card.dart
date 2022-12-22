@@ -12,7 +12,7 @@ class DealProductCard extends StatelessWidget {
   final CartController cartController = Get.find();
 
   final DealController con;
-  final dealName currentdealName;
+  final String currentdealName;
   DealProductCard(this.con, this.currentdealName, {super.key});
 
   @override

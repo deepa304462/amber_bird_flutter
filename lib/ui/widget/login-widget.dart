@@ -5,6 +5,7 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -96,6 +97,34 @@ class LoginWidget extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      showModalBottomSheet<void>(
+                        // context and builder are
+                        // required properties in this widget
+                        context: context,
+                        useRootNavigator: true,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(13)),
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        elevation: 3,
+                        builder: (context) {
+                          return ForgotPassDrawer();
+                        },
+                      );
+                      // authController.resetFieldValue();
+                      // Modular.to.navigate('/home/signup');
+                    },
+                    // style: ButtonStyle(
+                    //     backgroundColor: MaterialStateProperty.all<Color>(
+                    //         AppColors.lightGrey)),
+                    child: Text(
+                      'Forgot Password',
+                      style: TextStyles.bodyGreen,
+                    ),
                   ),
                   TextButton(
                     style: TextButton.styleFrom(

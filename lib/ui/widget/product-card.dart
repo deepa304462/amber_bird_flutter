@@ -55,7 +55,7 @@ class ProductCard extends StatelessWidget {
   Widget _gridItemHeader(ProductSummary product) {
     String timeLeft = '';
     var difference;
-    if (addedFrom == dealName.FLASH.toString()) {
+    if (addedFrom == dealName.FLASH.name) {
       String expire = ruleConfig!.willExpireAt ?? '';
       var newDate = DateTime.now().toUtc();
       difference = DateTime.parse(expire).difference(newDate);
@@ -63,7 +63,7 @@ class ProductCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        addedFrom == dealName.FLASH.toString()
+        addedFrom == dealName.FLASH.name
             ? CardColorAnimated(
                 Padding(
                   padding:

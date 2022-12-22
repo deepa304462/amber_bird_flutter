@@ -23,6 +23,8 @@ enum dealName {
   CUSTOM_RULE_DEAL
 }
 
+enum memberShipType { Paid, Prime, Gold, Silver, No_Membership }
+
 enum multiProductName { COMBO, BUNDLE, COLLECTION, STORIES }
 
 class ClientService {

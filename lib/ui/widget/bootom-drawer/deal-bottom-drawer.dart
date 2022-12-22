@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
@@ -212,7 +213,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
                                         constraints: const BoxConstraints(),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (stateController.isLogin.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
@@ -222,15 +223,33 @@ class DealBottomDrawer extends StatelessWidget {
                                                   priceInfo,
                                                   null,
                                                   products);
-                                            }
-                                            {
-                                              cartController.addToCart(
-                                                  refId!,
-                                                  addedFrom!,
-                                                  -1,
-                                                  priceInfo,
-                                                  products![0],
-                                                  null);
+                                            } else {
+                                              var valid = false;
+                                              var msg = 'Something went wrong!';
+                                              if (Get.isRegistered<
+                                                      DealController>(
+                                                  tag: addedFrom!)) {
+                                                var dealController =
+                                                    Get.find<DealController>(
+                                                        tag: addedFrom!);
+
+                                                var data = await dealController
+                                                    .checkValidDeal(refId!);
+                                                valid = !data['error'];
+                                                msg = data['msg'];
+                                              }
+                                              if (valid) {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    -1,
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
+                                              } else {
+                                                snackBarClass.showToast(
+                                                    context, msg);
+                                              }
                                             }
                                           } else {
                                             stateController.setCurrentTab(3);
@@ -250,7 +269,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
                                         constraints: const BoxConstraints(),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           if (stateController.isLogin.value) {
                                             if (addedFrom == 'MULTIPRODUCT') {
                                               cartController.addToCart(
@@ -261,13 +280,32 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   products);
                                             } else {
-                                              cartController.addToCart(
-                                                  refId!,
-                                                  addedFrom!,
-                                                  1,
-                                                  priceInfo,
-                                                  products![0],
-                                                  null);
+                                              var valid = false;
+                                              var msg = 'Something went wrong!';
+                                              if (Get.isRegistered<
+                                                      DealController>(
+                                                  tag: addedFrom!)) {
+                                                var dealController =
+                                                    Get.find<DealController>(
+                                                        tag: addedFrom!);
+
+                                                var data = await dealController
+                                                    .checkValidDeal(refId!);
+                                                valid = !data['error'];
+                                                msg = data['msg'];
+                                              }
+                                              if (valid) {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    1,
+                                                    priceInfo,
+                                                    products![0],
+                                                    null);
+                                              } else {
+                                                snackBarClass.showToast(
+                                                    context, msg);
+                                              }
                                             }
                                           } else {
                                             stateController.setCurrentTab(3);
@@ -288,7 +326,7 @@ class DealBottomDrawer extends StatelessWidget {
                                         backgroundColor: AppColors.primeColor,
                                         textStyle: TextStyles.bodyWhite),
                                     onPressed: stateController.isLogin.value
-                                        ? () {
+                                        ? () async {
                                             if (stateController
                                                 .isActivate.value) {
                                               if (addedFrom == 'MULTIPRODUCT') {
@@ -300,13 +338,35 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     products);
                                               } else {
-                                                cartController.addToCart(
-                                                    refId!,
-                                                    addedFrom!,
-                                                    1,
-                                                    priceInfo,
-                                                    products![0],
-                                                    null);
+                                                // this.refId, this.addedFrom,
+                                                var valid = false;
+                                                var msg =
+                                                    'Something went wrong!';
+                                                if (Get.isRegistered<
+                                                    DealController>()) {
+                                                  var dealController =
+                                                      Get.find<DealController>(
+                                                          tag: addedFrom!);
+
+                                                  var data =
+                                                      await dealController
+                                                          .checkValidDeal(
+                                                              refId!);
+                                                  valid = !data['error'];
+                                                  msg = data['msg'];
+                                                }
+                                                if (valid) {
+                                                  cartController.addToCart(
+                                                      refId!,
+                                                      addedFrom!,
+                                                      1,
+                                                      priceInfo,
+                                                      products![0],
+                                                      null);
+                                                } else {
+                                                  snackBarClass.showToast(
+                                                      context, msg);
+                                                }
                                               }
                                             } else {
                                               Navigator.of(context).pop();

@@ -59,6 +59,10 @@ class TextStyles {
       fontFamily: Fonts.title,
       fontSize: FontSizes.xLarge,
       color: AppColors.primeColor);
+      static TextStyle get titleXLargeGreen => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.xLarge,
+      color: Colors.green);
   static TextStyle get titleXLargePrimaryBold => TextStyle(
       fontFamily: Fonts.title,
       fontWeight: FontWeight.w900,

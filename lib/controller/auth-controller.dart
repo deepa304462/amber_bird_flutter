@@ -343,22 +343,24 @@ class AuthController extends GetxController {
     }).join('');
   }
 
-  // resetPassword(String token) async {
-  //   print(resetPasswordValue.value.toString());
-  //   var controller = Get.find<Controller>();
-  //   var payload = {
-  //     'email': controller.loggedInProfile.value.email,
-  //     'password': resetPasswordValue.value['newPassword'],
-  //     'token':token
-  //   };
-  //   var userUpdateResp =
-  //       await ClientService.post(path: 'auth/passwordReset', payload: payload);
-  //   if (userUpdateResp.statusCode == 200) {
-  //     return {"msg": "Edited Successfully!!", "status": "success"};
-  //   } else {
-  //     return {"msg": "Something Went Wrong!!", "status": "error"};
-  //   }
-  // }
+  resetPassInit() async {
+    var payload = {
+      // "username": fieldValue['username'],
+      // "mappedTo": loggedInProfile.value.id,
+      "orgRefId": "sbazar",
+      "shortCode": '',
+      "authEmail": fieldValue['email'],
+      // "authMobile": loggedInProfile.value.mobile
+    };
+    print(payload);
+    var tokenResp = await ClientService.post(
+        path: 'auth/passwordResetInit', payload: payload);
+    if (tokenResp.statusCode == 200) {
+      return {"msg": "Mail sent Successfully!!", "status": "success"};
+    } else {
+      return {"msg": "Something Went Wrong!!", "status": "error"};
+    }
+  }
 
   editProfile() async {
     var userData = jsonDecode(await (SharedData.read('userData')));
