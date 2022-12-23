@@ -87,6 +87,7 @@ class CartController extends GetxController {
             '_id': OrderId.value,
             'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
             'shipping': {
+              'orderRef': {"name": custRef.id, "_id": OrderId.value},
               'destination': {
                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
               }
@@ -114,6 +115,7 @@ class CartController extends GetxController {
             '_id': OrderId.value,
             'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
             'shipping': {
+              'orderRef': {"name": custRef.id, "_id": OrderId.value},
               'destination': {
                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
               }
@@ -238,14 +240,14 @@ class CartController extends GetxController {
       checkoutData.value = data;
 
       if (data.allAvailable == true) {
-        var resp = await ClientService.post(
+        var resp1 = await ClientService.post(
             path: 'payment/search', payload: {"orderId": OrderId.value});
-        if (resp.statusCode == 200) {
+        if (resp1.statusCode == 200) {
           // log(jsonEncode(resp.data).toString());
-          if (resp.data[0]) {
+          if (resp1.data[0] != null) {
             paymentData.value =
-                Payment.fromMap(resp.data[0] as Map<String, dynamic>);
-            return ({'error': false, 'data': resp.data[0]['checkoutUrl']});
+                Payment.fromMap(resp1.data[0] as Map<String, dynamic>);
+            return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
           } else {
             return ({'error': true, 'msg': 'Please try again in some time'});
           }

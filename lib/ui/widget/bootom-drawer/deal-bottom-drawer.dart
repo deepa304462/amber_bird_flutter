@@ -219,30 +219,30 @@ class DealBottomDrawer extends StatelessWidget {
                                         constraints: const BoxConstraints(),
                                         onPressed: () async {
                                           if (stateController.isLogin.value) {
-                                            if (addedFrom == 'MULTIPRODUCT') {
-                                              cartController.addToCart(
-                                                  refId!,
-                                                  addedFrom!,
-                                                  -1,
-                                                  priceInfo,
-                                                  null,
-                                                  products);
-                                            } else {
-                                              var valid = false;
-                                              var msg = 'Something went wrong!';
-                                              if (Get.isRegistered<
-                                                      DealController>(
-                                                  tag: addedFrom!)) {
-                                                var dealController =
-                                                    Get.find<DealController>(
-                                                        tag: addedFrom!);
+                                            var valid = false;
+                                            var msg = 'Something went wrong!';
+                                            if (Get.isRegistered<
+                                                    DealController>(
+                                                tag: addedFrom!)) {
+                                              var dealController =
+                                                  Get.find<DealController>(
+                                                      tag: addedFrom!);
 
-                                                var data = await dealController
-                                                    .checkValidDeal(refId!);
-                                                valid = !data['error'];
-                                                msg = data['msg'];
-                                              }
-                                              if (valid) {
+                                              var data = await dealController
+                                                  .checkValidDeal(refId!);
+                                              valid = !data['error'];
+                                              msg = data['msg'];
+                                            }
+                                            if (valid) {
+                                              if (addedFrom == 'MULTIPRODUCT') {
+                                                cartController.addToCart(
+                                                    refId!,
+                                                    addedFrom!,
+                                                    -1,
+                                                    priceInfo,
+                                                    null,
+                                                    products);
+                                              } else {
                                                 cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
@@ -250,10 +250,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                     priceInfo,
                                                     products![0],
                                                     null);
-                                              } else {
-                                                snackBarClass.showToast(
-                                                    context, msg);
                                               }
+                                            } else {
+                                              snackBarClass.showToast(
+                                                  context, msg);
                                             }
                                           } else {
                                             stateController.setCurrentTab(3);

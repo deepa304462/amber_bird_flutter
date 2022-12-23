@@ -262,7 +262,7 @@ class CartWidget extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         ImageBox(
-                                           '${currentProduct.images![0]}',
+                                          '${currentProduct.images![0]}',
                                           width: 80,
                                           height: 80,
                                         ),
@@ -306,8 +306,9 @@ class CartWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                              ImageBox(
-                             '${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
+                            ImageBox(
+                              cartController.cartProducts.value[currentKey]!
+                                  .product!.images![0],
                               width: 80,
                               height: 80,
                             ),
@@ -332,7 +333,7 @@ class CartWidget extends StatelessWidget {
                               ],
                             ),
                             Text(
-                                '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice* cartController.cartProducts[currentKey]!.count).toString()}'),
+                                '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                             IconButton(
                               onPressed: () {
                                 cartController.removeProduct(currentKey);
@@ -422,7 +423,7 @@ class CartWidget extends StatelessWidget {
               style: TextStyles.headingFont),
           IconButton(
               onPressed: (() => {Modular.to.navigate('../home/address-list')}),
-              icon: const Icon(Icons.change_circle))
+              icon: const Icon(Icons.edit))
         ],
       ),
     );
