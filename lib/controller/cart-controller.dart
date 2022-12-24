@@ -42,8 +42,7 @@ class CartController extends GetxController {
   applyCoupon() {}
 
   checkout() async {
-    List<dynamic> listSumm = [];
-    // calculateTotalCost();
+    List<dynamic> listSumm = []; 
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -59,8 +58,7 @@ class CartController extends GetxController {
     var payload;
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
-    if (resp.statusCode == 200) {
-      // log(jsonEncode(resp.data).toString());
+    if (resp.statusCode == 200) { 
       Checkout data = Checkout.fromMap(resp.data);
       checkoutData.value = data;
 
