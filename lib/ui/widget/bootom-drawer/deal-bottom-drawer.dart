@@ -5,7 +5,6 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -152,25 +151,26 @@ class DealBottomDrawer extends StatelessWidget {
                                     ],
                                   ),
                                   Positioned(
-                                      top: -12,
-                                      left: -12,
-                                      child: IconButton(
-                                        icon: Icon(
-                                          Icons.favorite,
-                                          color: wishlistController
-                                                  .checkIfProductWishlist(
-                                                      product.id)
-                                              ? AppColors.primeColor
-                                              : AppColors.grey,
-                                        ),
-                                        onPressed: () => {
-                                          wishlistController.addToWishlist(
-                                              product.id,
-                                              product,
-                                              null,
-                                              addedFrom)
-                                        },
-                                      ))
+                                    top: -12,
+                                    left: -12,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: wishlistController
+                                                .checkIfProductWishlist(
+                                                    product.id)
+                                            ? AppColors.primeColor
+                                            : AppColors.grey,
+                                      ),
+                                      onPressed: () => {
+                                        wishlistController.addToWishlist(
+                                            product.id,
+                                            product,
+                                            null,
+                                            addedFrom)
+                                      },
+                                    ),
+                                  ),
                                 ],
                               ),
                               Text(
@@ -180,12 +180,7 @@ class DealBottomDrawer extends StatelessWidget {
                               Html(
                                 data: product.description!.defaultText!.text ??
                                     '',
-                              ),
-                              // Text(
-                              //   product.description!.defaultText!.text ?? '',
-                              //   style: TextStyles.bodyFont,
-                              //   textAlign: TextAlign.justify,
-                              // ),
+                              ), 
                               const Divider(),
                             ],
                           ),
@@ -334,7 +329,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               var valid = false;
                                               var msg = 'Something went wrong!';
                                               if (Get.isRegistered<
-                                                  DealController>(
+                                                      DealController>(
                                                   tag: addedFrom!)) {
                                                 var dealController =
                                                     Get.find<DealController>(

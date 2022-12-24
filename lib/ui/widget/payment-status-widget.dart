@@ -78,7 +78,7 @@ class PaymentStatusWidget extends StatelessWidget {
                       textStyle: TextStyles.bodyWhite),
                   onPressed: () async {
                     Modular.to.navigate('/home/order-detail', arguments: {
-                      'id': cartController.OrderId.value,
+                      'id': cartController.orderId.value,
                       'navigateTo': 'HOME'
                     });
                   },

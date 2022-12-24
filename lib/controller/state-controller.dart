@@ -87,7 +87,7 @@ class Controller extends GetxController {
         if (cust.cart != null) {
           cartController.calculatedPayment.value =
               cust.cart!.payment != null ? cust.cart!.payment! : Payment();
-          cartController.OrderId.value = cust.cart!.id ?? '';
+          cartController.cartId.value = cust.cart!.id ?? '';
           for (var element in cust.cart!.products!) {
             cartController.cartProducts[element.ref!.id ?? ''] = element;
           }

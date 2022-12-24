@@ -66,7 +66,7 @@ class _MyAppState extends State<InApp> {
                 log(controller.toString());
                 log(url.toString());
                 if (url.toString() ==
-                    'https://prod.sbazar.app/order/${cartController.OrderId.value}') {
+                    'https://prod.sbazar.app/order/${cartController.orderId.value}') {
                   CartController cartController = Get.find();
                   cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');
