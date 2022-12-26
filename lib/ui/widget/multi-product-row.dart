@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/multi-product-controller.dart';
+import 'package:amber_bird/data/checkout/constraint.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
@@ -164,6 +165,7 @@ class MultiProductRow extends StatelessWidget {
                                                 mProduct.id,
                                                 'MULTIPRODUCT',
                                                 mProduct.price,
+                                                mProduct.constraint,
                                                 mProduct.name);
                                           },
                                         );

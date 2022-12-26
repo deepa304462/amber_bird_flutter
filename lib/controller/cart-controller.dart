@@ -23,7 +23,7 @@ class CartController extends GetxController {
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
   RxString orderId = "".obs;
-  RxString cartId = "".obs;
+  // RxString cartId = "".obs;
   Rx<Price> totalPrice = Price.fromMap({}).obs;
   Rx<Payment> calculatedPayment = Payment.fromMap({}).obs;
 
@@ -134,8 +134,8 @@ class CartController extends GetxController {
         if (resp1.statusCode == 200) {
           if (orderId.value == '') orderId.value = resp1.data['_id'];
 
-          // cust.cart = Order.fromMap(resp1.data);
-          calculatedPayment.value = resp1.data['_id']['payment'];
+          var ord = Order.fromMap(resp1.data);
+          calculatedPayment.value = ord.payment!;
           // OfflineDBService.save(OfflineDBService.customerInsightDetail,
           //     (jsonDecode(cust.toJson())));
         }
@@ -258,7 +258,7 @@ class CartController extends GetxController {
       if (cust.cart != null) {
         calculatedPayment.value =
             cust.cart!.payment != null ? cust.cart!.payment! : Payment();
-        cartId.value = cust.cart!.id ?? '';
+        orderId.value = cust.cart!.id ?? '';
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
         }
@@ -335,25 +335,25 @@ class CartController extends GetxController {
     var payload;
 
     var resp;
-    if (cartId.value != '') {
+    if (orderId.value != '') {
       payload = {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
-        '_id': cartId.value,
+        '_id': orderId.value,
         'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
-          "order": {"name": custRef.id, "_id": cartId.value},
+          "order": {"name": custRef.id, "_id": orderId.value},
           "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
-          "description": cartId.value,
+          "description": orderId.value,
         },
       };
       log(jsonEncode(payload).toString());
       resp = await ClientService.Put(
-          path: 'order', id: cartId.value, payload: payload);
+          path: 'order', id: orderId.value, payload: payload);
     } else {
       payload = {
         'status': 'TEMPORARY_OR_CART',
@@ -361,18 +361,18 @@ class CartController extends GetxController {
         'products': listSumm,
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
-          "order": {"name": custRef.id, "_id": cartId.value},
+          "order": {"name": custRef.id, "_id": orderId.value},
           "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
-          "description": cartId.value,
+          "description": orderId.value,
         },
       };
       log(jsonEncode(payload).toString());
       resp = await ClientService.post(path: 'order', payload: payload);
     }
     if (resp.statusCode == 200) {
-      if (cartId.value == '') cartId.value = resp.data['_id'];
+      if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);
       calculatedPayment.value = cust.cart!.payment!;
       OfflineDBService.save(

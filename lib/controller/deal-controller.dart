@@ -90,7 +90,7 @@ class DealController extends GetxController {
                     : int.parse(
                         dealProduct.constraint!.minimumOrder.toString() ??
                             '0'));
-            if ((cartController.cartProducts.value[id]!.count ?? 0) <
+            if ((dealProduct.constraint!.maximumOrder ?? 0) <
                 newCount) {
               return ({
                 'error': true,

@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/checkout/constraint.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -19,9 +20,10 @@ class DealBottomDrawer extends StatelessWidget {
   final String? refId;
   final String? addedFrom;
   final Price? priceInfo;
+  final Constraint? constraint;
   final Name? name;
-  DealBottomDrawer(
-      this.products, this.refId, this.addedFrom, this.priceInfo, this.name,
+  DealBottomDrawer(this.products, this.refId, this.addedFrom, this.priceInfo,
+      this.constraint, this.name,
       {super.key});
 
   @override
@@ -180,7 +182,7 @@ class DealBottomDrawer extends StatelessWidget {
                               Html(
                                 data: product.description!.defaultText!.text ??
                                     '',
-                              ), 
+                              ),
                               const Divider(),
                             ],
                           ),
@@ -229,7 +231,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                 cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
-                                                    -1,
+                                                    ( -(constraint?.minimumOrder ?? 1)) ??
+                                                        -1,
                                                     priceInfo,
                                                     null,
                                                     products);
@@ -237,7 +240,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                 cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
-                                                    -1,
+                                                   -(constraint?.minimumOrder ??
+                                                            1) ?? 1,
                                                     priceInfo,
                                                     products![0],
                                                     null);
@@ -286,7 +290,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                 cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
-                                                    1,
+                                                   constraint!.minimumOrder ??
+                                                        1,
                                                     priceInfo,
                                                     null,
                                                     products);
@@ -294,7 +299,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                 cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
-                                                    1,
+                                                    constraint!.minimumOrder ??
+                                                        1,
                                                     priceInfo,
                                                     products![0],
                                                     null);
@@ -346,7 +352,9 @@ class DealBottomDrawer extends StatelessWidget {
                                                   cartController.addToCart(
                                                       refId!,
                                                       addedFrom!,
-                                                      1,
+                                                      constraint!
+                                                              .minimumOrder ??
+                                                          1,
                                                       priceInfo,
                                                       null,
                                                       products);
@@ -356,7 +364,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   cartController.addToCart(
                                                       refId!,
                                                       addedFrom!,
-                                                      1,
+                                                      constraint!.minimumOrder ?? 1,
                                                       priceInfo,
                                                       products![0],
                                                       null);

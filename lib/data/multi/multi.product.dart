@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/checkout/constraint.dart';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
@@ -14,7 +15,7 @@ class Multi {
   bool? active;
   String? type;
   dynamic businessId;
-  dynamic constraint;
+  Constraint? constraint;
   String? id;
 
   Multi({
@@ -52,7 +53,9 @@ class Multi {
         active: data['active'] as bool?,
         type: data['type'] as String?,
         businessId: data['businessId'] as dynamic,
-        constraint: data['constraint'] as dynamic,
+        constraint: data['constraint'] == null
+            ? null
+            : Constraint.fromMap(data['constraint'] as Map<String, dynamic>),
         id: data['_id'] as String?,
       );
 
@@ -90,7 +93,7 @@ class Multi {
     bool? active,
     String? type,
     dynamic businessId,
-    dynamic constraint,
+    Constraint? constraint,
     String? id,
   }) {
     return Multi(

@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/checkout/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
@@ -193,7 +194,7 @@ class ProductCard extends StatelessWidget {
                         builder: (context) {
                           // return _bottomSheetAddToCart(product, context);
                           return DealBottomDrawer([product!], refId, addedFrom,
-                              dealPrice, product!.name);
+                              dealPrice,Constraint(), product!.name);
                         },
                       );
                     },

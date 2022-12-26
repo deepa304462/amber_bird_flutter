@@ -87,7 +87,7 @@ class Controller extends GetxController {
         if (cust.cart != null) {
           cartController.calculatedPayment.value =
               cust.cart!.payment != null ? cust.cart!.payment! : Payment();
-          cartController.cartId.value = cust.cart!.id ?? '';
+          cartController.orderId.value = cust.cart!.id ?? '';
           for (var element in cust.cart!.products!) {
             cartController.cartProducts[element.ref!.id ?? ''] = element;
           }
@@ -239,6 +239,7 @@ class Controller extends GetxController {
         'name': loggedInProfile.value.fullName
       });
       FCMSyncService.tokenSync(data);
+      tokenManagerEntityId.value = loggedInProfile.value.id!;
       getCustomerData(loggedInProfile.value.id);
       getCustomerDetail(loggedInProfile.value.id);
     }).catchError((error) {

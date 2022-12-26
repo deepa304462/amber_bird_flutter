@@ -546,6 +546,7 @@ class CategoryPage extends StatelessWidget {
                                             mProduct.id,
                                             'MULTIPRODUCT',
                                             mProduct.price,
+                                            mProduct.constraint,
                                             mProduct.name);
                                       },
                                     );
