@@ -191,35 +191,30 @@ class CategoryPage extends StatelessWidget {
 
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
-        child: GridView.builder(
-          physics: const BouncingScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-          scrollDirection: Axis.vertical,
-          itemCount: megaMenuController.dealProductList.length,
-          shrinkWrap: true,
-          itemBuilder: (_, index) {
-            DealProduct dealProduct = megaMenuController.dealProductList[0];
-            if (dealProduct.product != null) {
-              return ProductCard(dealProduct.product, dealProduct.product!.id,
-                  'DEAL', dealProduct.product!.varient!.price!, null);
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+    return Expanded(
+      child: GridView.builder(
+        physics: const BouncingScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+        scrollDirection: Axis.vertical,
+        itemCount: megaMenuController.dealProductList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          DealProduct dealProduct = megaMenuController.dealProductList[0];
+          if (dealProduct.product != null) {
+            return ProductCard(dealProduct.product, dealProduct.product!.id,
+                'DEAL', dealProduct.product!.varient!.price!, null);
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }
 
   Widget _multiProductList(
       MegaMenuController megaMenuController, BuildContext context) {
-    return SingleChildScrollView(
-        child: SizedBox(
-      height: MediaQuery.of(context).size.height * 0.75,
+    return Expanded(
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -338,6 +333,6 @@ class CategoryPage extends StatelessWidget {
           );
         },
       ),
-    ));
+    );
   }
 }

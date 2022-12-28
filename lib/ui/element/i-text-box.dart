@@ -55,7 +55,7 @@ class ITextBox extends StatelessWidget {
         child: Row(
           children: <Widget>[
             SizedBox(
-              width: 50,
+              width: 60,
               child: CountryPickerDropdown(
                 value.split('-').length > 1 ? value.split('-')[0] : '91',
                 (country) {
