@@ -45,17 +45,23 @@ class CategoryProductPage extends StatelessWidget {
     );
   }
 
-  productList(RxList<ProductSummary> productList, BuildContext context) {
-    return Wrap(
-      direction: Axis.horizontal,
-      children: productList
-          .map((product) => SizedBox(
-              width: MediaQuery.of(context).size.width * .5,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ProductCard(product, product.id, 'CATEGORY', null, null),
-              )))
-          .toList(),
+  Widget productList(RxList<ProductSummary> productList, BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Wrap(
+        direction: Axis.horizontal,
+        spacing: 8,
+        runSpacing: 12,
+        children: productList
+            .map((product) => SizedBox(
+                width: MediaQuery.of(context).size.width * .5,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child:
+                      ProductCard(product, product.id, 'CATEGORY', null, null),
+                )))
+            .toList(),
+      ),
     );
   }
 }
