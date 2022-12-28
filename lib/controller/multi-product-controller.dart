@@ -1,5 +1,12 @@
+import 'dart:convert';
+
+import 'package:amber_bird/data/customer_insight/customer_insight.dart';
+import 'package:amber_bird/data/deal_product/constraint.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class MultiProductController extends GetxController {
@@ -49,4 +56,29 @@ class MultiProductController extends GetxController {
       return "Flash Deal";
     }
   }
+
+  checkValidDeal(String id) async {
+    RuleConfig? ruleConfig;
+    Constraint? constraint;  
+        List outputList = multiProd.value
+            .where((o) => o.id == id)
+            .toList();
+
+        Multi multiProduct = outputList[0];
+        ruleConfig = RuleConfig();
+        constraint = multiProduct.constraint;
+   
+
+    // DealProduct();
+    var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
+    CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
+
+    dynamic data =
+        await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
+    return data;
+    // else {
+    return ({'error': false, 'msg': ''});
+    // }
+  }
+
 }

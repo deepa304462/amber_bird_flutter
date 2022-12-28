@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/multi-product-controller.dart';
-import 'package:amber_bird/data/checkout/constraint.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
@@ -85,31 +84,28 @@ class MultiProductRow extends StatelessWidget {
                       mProduct.displayImageId!,
                       height: 80,
                     ),
-                    // Image.network(
-                    //   '${ClientService.cdnUrl}${mProduct.displayImageId}',
-                    //   height: 80,
-                    // ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
                       height: 160,
                       child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          children: [
-                            for (var i = 0;
-                                i < mProduct.products!.length;
-                                i++) ...[
-                              SizedBox(
-                                width: 150,
-                                child: ProductCard(
-                                    mProduct.products![i],
-                                    mProduct.products![i].id,
-                                    'MULTIPRODUCT',
-                                    mProduct.products![i].varient!.price!,
-                                    null),
-                              ),
-                            ],
-                          ]),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          for (var i = 0;
+                              i < mProduct.products!.length;
+                              i++) ...[
+                            SizedBox(
+                              width: 150,
+                              child: ProductCard(
+                                  mProduct.products![i],
+                                  mProduct.products![i].id,
+                                  'MULTIPRODUCT',
+                                  mProduct.products![i].varient!.price!,
+                                  null),
+                            ),
+                          ],
+                        ],
+                      ),
                     ),
                     Align(
                       alignment: AlignmentDirectional.bottomCenter,
@@ -177,11 +173,11 @@ class MultiProductRow extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               );
@@ -195,15 +191,19 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-        height: 120,
-        child: Obx(() => ListView.builder(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            itemCount: multiprodController.multiProd.length,
-            itemBuilder: (_, index) {
-              return multiProductTile(
-                  multiprodController.multiProd[index], context);
-            })));
+      height: 120,
+      child: Obx(
+        () => ListView.builder(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          itemCount: multiprodController.multiProd.length,
+          itemBuilder: (_, index) {
+            return multiProductTile(
+                multiprodController.multiProd[index], context);
+          },
+        ),
+      ),
+    );
   }
 
   Widget multiProductTile(Multi multiProd, BuildContext context) {
@@ -248,7 +248,7 @@ class MultiProductRow extends StatelessWidget {
                         child: Text('BUY', style: TextStyles.bodyWhiteLarge),
                       )
                     ],
-                  )
+                  ),
                 ],
               )
             ],

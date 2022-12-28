@@ -1,8 +1,8 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
-import 'package:amber_bird/data/checkout/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
+import 'package:amber_bird/data/deal_product/constraint.dart';
+ import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
