@@ -27,6 +27,7 @@ class ImageBox extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: '$path',
       width: width,
+      cacheKey: path,
       height: height == 0 ? width * 1 : height,
       imageBuilder: (context, imageProvider) => Container(
         decoration: BoxDecoration(

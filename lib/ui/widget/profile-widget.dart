@@ -22,7 +22,7 @@ class ProfileWidget extends StatelessWidget {
     return Obx(
       () => Container(
         padding: const EdgeInsets.all(10),
-        child: Column(
+        child: ListView(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               IconButton(
@@ -102,7 +102,6 @@ class ProfileWidget extends StatelessWidget {
                   border: Border.all(color: Colors.blueAccent),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
