@@ -257,33 +257,34 @@ class CartWidget extends StatelessWidget {
                                 color: Colors.white,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ImageBox(
-                                          '${currentProduct.images![0]}',
-                                          width: 80,
-                                          height: 80,
-                                        ),
-                                        // Image.network(
-                                        //     '${ClientService.cdnUrl}${currentProduct.images![0]}',
-                                        //     width: 80,
-                                        //     height: 80,
-                                        //     fit: BoxFit.fill),
-                                        Column(
-                                          children: [
-                                            Text(currentProduct
-                                                .name!.defaultText!.text!),
-                                            Text(
-                                                '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
-                                            Text(
-                                                '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
-                                          ],
-                                        ),
-                                        Text(
-                                            '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
-                                      ]),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          ImageBox(
+                                            '${currentProduct.images![0]}',
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(currentProduct
+                                                  .name!.defaultText!.text!),
+                                              Text(
+                                                  '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
+                                              Text(
+                                                  '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                            ],
+                                          ),
+                                          Text(
+                                              '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                        ],
+                                      ),
+                                      
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -296,6 +297,10 @@ class CartWidget extends StatelessWidget {
                                 cartController.removeProduct(currentKey);
                               },
                               icon: const Icon(Icons.close_rounded)),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: cartButtons(context),
                         )
                       ],
                     )
@@ -303,45 +308,43 @@ class CartWidget extends StatelessWidget {
                       color: Colors.white,
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ImageBox(
-                              cartController.cartProducts.value[currentKey]!
-                                  .product!.images![0],
-                              width: 80,
-                              height: 80,
-                            ),
-                            // Image.network(
-                            //     '${ClientService.cdnUrl}${cartController.cartProducts.value[currentKey]!.product!.images![0]}',
-                            //     width: 80,
-                            //     height: 80,
-                            //     fit: BoxFit.fill),
-                            Column(
-                              children: [
-                                Text(cartController
-                                    .cartProducts
-                                    .value[currentKey]!
-                                    .product!
-                                    .name!
-                                    .defaultText!
-                                    .text!),
-                                Text(
-                                    '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
-                                Text(
-                                    '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
-                              ],
-                            ),
-                            Text(
-                                '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
-                            IconButton(
-                              onPressed: () {
-                                cartController.removeProduct(currentKey);
-                              },
-                              icon: const Icon(Icons.close_rounded),
-                            )
-                          ],
-                        ),
+                        child: Column(children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ImageBox(
+                                cartController.cartProducts.value[currentKey]!
+                                    .product!.images![0],
+                                width: 80,
+                                height: 80,
+                              ),
+                              Column(
+                                children: [
+                                  Text(cartController
+                                      .cartProducts
+                                      .value[currentKey]!
+                                      .product!
+                                      .name!
+                                      .defaultText!
+                                      .text!),
+                                  Text(
+                                      '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
+                                  Text(
+                                      '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                ],
+                              ),
+                              Text(
+                                  '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                              IconButton(
+                                onPressed: () {
+                                  cartController.removeProduct(currentKey);
+                                },
+                                icon: const Icon(Icons.close_rounded),
+                              )
+                            ],
+                          ),
+                          cartButtons(context)
+                        ]),
                       ),
                     ),
               checkoutClicked.value &&
@@ -426,6 +429,21 @@ class CartWidget extends StatelessWidget {
               icon: const Icon(Icons.edit))
         ],
       ),
+    );
+  }
+
+  cartButtons(context) {
+    return Row(
+      children: [
+        TextButton.icon(
+            onPressed: () => {},
+            icon: Icon(Icons.flash_on),
+            label: Text(' "Buy it now"')),
+        TextButton.icon(
+            onPressed: () => {},
+            icon: Icon(Icons.outbox),
+            label: Text("Save for later"))
+      ],
     );
   }
 }

@@ -306,12 +306,14 @@ class CategoryPage extends StatelessWidget {
                                       builder: (context) {
                                         // return _bottomSheetAddToCart(product, context);
                                         return DealBottomDrawer(
-                                            mProduct.products,
-                                            mProduct.id,
-                                            'MULTIPRODUCT',
-                                            mProduct.price,
-                                            mProduct.constraint,
-                                            mProduct.name);
+                                          mProduct.products,
+                                          mProduct.id,
+                                          'CATEGORY',
+                                          mProduct.price,
+                                          mProduct.constraint,
+                                          mProduct.name,
+                                          'MULTIPRODUCT',
+                                        );
                                       },
                                     );
                                     // cartController.addToCart(product!, refId!, addedFrom!);

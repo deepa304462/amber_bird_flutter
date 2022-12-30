@@ -24,14 +24,14 @@ class Helper {
         {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});
   }
 
-
-   static Future<dynamic> checkProductValidtoAddinCart(RuleConfig? ruleConfig,Constraint? constraint,String id) async {
-    if (ruleConfig != null) {
-       var insight =
+  static Future<dynamic> checkProductValidtoAddinCart(
+      RuleConfig? ruleConfig, Constraint? constraint, String id) async {
+    if (ruleConfig != null && ruleConfig.forWeekDays != null) {
+      var insight =
           await OfflineDBService.get(OfflineDBService.customerInsight);
       CustomerInsight custInsight =
           CustomerInsight.fromJson(jsonEncode(insight));
-    
+
       if (ruleConfig.forWeekDays!.length > 0) {
         DateTime date = DateTime.now();
         print("weekday is ${date.weekday}");
@@ -46,35 +46,12 @@ class Helper {
               ruleConfig.minCartAmount) {
             return ({
               'error': true,
-              'msg':
-                  'Required min cart amount ${ruleConfig!.minCartAmount}'
+              'msg': 'Required min cart amount ${ruleConfig!.minCartAmount}'
             });
           }
         }
       }
-      if (constraint!.maximumOrder != null &&
-          constraint!.maximumOrder != 0) {
-        if (Get.isRegistered<CartController>()) {
-          var cartController = Get.find<CartController>();
-          if (cartController.cartProducts.value[id] != null) {
-            var newCount = (cartController.cartProducts.value[id] == null
-                    ? 0
-                    : (cartController.cartProducts.value[id]!.count! ?? 0)) +
-                (constraint!.minimumOrder == 0
-                    ? 1
-                    : int.parse(
-                        constraint!.minimumOrder.toString() ??
-                            '0'));
-            if ((constraint!.maximumOrder ?? 0) < newCount) {
-              return ({
-                'error': true,
-                'msg':
-                    'Max ${constraint!.maximumOrder} can be added!'
-              });
-            }
-          }
-        }
-      }
+
       if (ruleConfig.onlyForGoldenMember == true &&
           custInsight.membershipType != memberShipType.Gold.name) {
         return ({
@@ -97,7 +74,25 @@ class Helper {
         });
       }
     }
+    if (constraint!.maximumOrder != null && constraint!.maximumOrder != 0) {
+      if (Get.isRegistered<CartController>()) {
+        var cartController = Get.find<CartController>();
+        if (cartController.cartProducts.value[id] != null) {
+          var newCount = (cartController.cartProducts.value[id] == null
+                  ? 0
+                  : (cartController.cartProducts.value[id]!.count! ?? 0)) +
+              (constraint!.minimumOrder == 0
+                  ? 1
+                  : int.parse(constraint!.minimumOrder.toString() ?? '0'));
+          if ((constraint!.maximumOrder ?? 0) < newCount) {
+            return ({
+              'error': true,
+              'msg': 'Max ${constraint!.maximumOrder} can be added!'
+            });
+          }
+        }
+      }
+    }
     return ({'error': false, 'msg': ''});
-
   }
 }

@@ -20,11 +20,12 @@ class DealBottomDrawer extends StatelessWidget {
   final List<ProductSummary>? products;
   final String? refId;
   final String? addedFrom;
+  final String? type;
   final Price? priceInfo;
   final Constraint? constraint;
   final Name? name;
   DealBottomDrawer(this.products, this.refId, this.addedFrom, this.priceInfo,
-      this.constraint, this.name,
+      this.constraint, this.name, this.type,
       {super.key});
 
   @override
@@ -215,7 +216,7 @@ class DealBottomDrawer extends StatelessWidget {
                                           if (stateController.isLogin.value) {
                                             var valid = false;
                                             var msg = 'Something went wrong!';
-                                            if (addedFrom == 'MULTIPRODUCT') {
+                                            if (type == 'MULTIPRODUCT') {
                                               var multiController = Get.find<
                                                       MultiProductController>(
                                                   tag: addedFrom!);
@@ -289,7 +290,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             var valid = false;
                                             var msg = 'Something went wrong!';
 
-                                            if (addedFrom == 'MULTIPRODUCT') {
+                                            if (type == 'MULTIPRODUCT') {
                                               var multiController = Get.find<
                                                       MultiProductController>(
                                                   tag: addedFrom!);
@@ -360,7 +361,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               var valid = false;
                                               var msg = 'Something went wrong!';
 
-                                              if (addedFrom == 'MULTIPRODUCT') {
+                                              if (type == 'MULTIPRODUCT') {
                                                 var multiController = Get.find<
                                                         MultiProductController>(
                                                     tag: addedFrom!);

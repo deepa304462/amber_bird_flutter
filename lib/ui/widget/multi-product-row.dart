@@ -53,10 +53,10 @@ class MultiProductRow extends StatelessWidget {
 
   Widget childListing(
       MultiProductController multiprodController, BuildContext context) {
-    if (currenttypeName == multiProductName.COMBO) {
+    if (currenttypeName == multiProductName.COMBO.name) {
       return twoProductListing(multiprodController, context);
-    } else if (currenttypeName == multiProductName.COLLECTION ||
-        currenttypeName == multiProductName.BUNDLE) {
+    } else if (currenttypeName == multiProductName.COLLECTION.name ||
+        currenttypeName == multiProductName.BUNDLE.name) {
       return multiProductListing(multiprodController, context);
     } else {
       return const Text('No implemented');
@@ -159,10 +159,12 @@ class MultiProductRow extends StatelessWidget {
                                             return DealBottomDrawer(
                                                 mProduct.products,
                                                 mProduct.id,
-                                                'MULTIPRODUCT',
+                                                currenttypeName,
                                                 mProduct.price,
                                                 mProduct.constraint,
-                                                mProduct.name);
+                                                mProduct.name,
+                                              'MULTIPRODUCT',
+                                            );
                                           },
                                         );
                                       },

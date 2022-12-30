@@ -17,10 +17,10 @@ class MultiProductController extends GetxController {
   MultiProductController(this.tag);
   @override
   void onInit() {
-    if (tag == multiProductName.COMBO) {
+    if (tag == multiProductName.COMBO.name) {
       getmultiProductProduct('COMBO');
     }
-    if (tag == multiProductName.BUNDLE) {
+    if (tag == multiProductName.BUNDLE.name) {
       getmultiProductProduct('BUNDLE');
     }
     if (tag == multiProductName.COLLECTION) {
@@ -46,11 +46,11 @@ class MultiProductController extends GetxController {
   }
 
   getProductName(name) {
-    if (multiProductName.COMBO == name) {
+    if (multiProductName.COMBO.name == name) {
       return "Combo Deal";
-    } else if (multiProductName.BUNDLE == name) {
+    } else if (multiProductName.BUNDLE.name == name) {
       return "Bundle Deal";
-    } else if (multiProductName.COLLECTION == name) {
+    } else if (multiProductName.COLLECTION.name == name) {
       return "Collections";
     } else {
       return "Flash Deal";

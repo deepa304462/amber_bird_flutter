@@ -194,7 +194,8 @@ class ProductCard extends StatelessWidget {
                         builder: (context) {
                           // return _bottomSheetAddToCart(product, context);
                           return DealBottomDrawer([product!], refId, addedFrom,
-                              dealPrice,Constraint(), product!.name);
+                              dealPrice,Constraint(), product!.name,
+                              addedFrom!);
                         },
                       );
                     },
