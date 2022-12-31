@@ -12,7 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-
+// https://cdn2.sbazar.app/0ad51820-35be-4a37-8a41-fb3915c1b2a0
 //flutter build apk --split-per-abi
 // sbazar_123 is the password for play store
 class ChangeLocale {

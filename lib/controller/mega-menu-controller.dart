@@ -31,7 +31,7 @@ class MegaMenuController extends GetxController {
       if (response.data.length > 1) {
         resp = response.data;
       } else {
-        var payload = {"parentCategoryId": response.data[0]['id']};
+        var payload = {"parentCategoryId": response.data[0]['_id']};
         var response1 = await ClientService.searchQuery(
             path: 'cache/productCategory/search', query: payload, lang: 'en');
 
@@ -71,7 +71,6 @@ class MegaMenuController extends GetxController {
             return;
           }).toList() ??
           []);
-
       mainTabs.value = cList;
       getSubMenu(mainTabs.value[0]);
     }

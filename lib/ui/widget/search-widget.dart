@@ -33,7 +33,7 @@ class SearchWidget extends StatelessWidget {
                   delegate: CustomSearchDelegate());
             },
             decoration: InputDecoration(
-              suffixIcon: IconButton(
+              prefixIcon: IconButton(
                 onPressed: () {
                   // searchController.setSearchVal(controller.value.text);
                   // if(stateController.activePageName.value != 'search'){
@@ -43,7 +43,7 @@ class SearchWidget extends StatelessWidget {
                 },
                 icon: Icon(
                   Icons.search_outlined,
-                  color: AppColors.primeColor,
+                  color: AppColors.grey,
                 ),
               ),
               labelText: "Search Product here...",

@@ -22,8 +22,7 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
-  RxString orderId = "".obs;
-  // RxString cartId = "".obs;
+  RxString orderId = "".obs; 
   Rx<Price> totalPrice = Price.fromMap({}).obs;
   Rx<Payment> calculatedPayment = Payment.fromMap({}).obs;
 
@@ -70,7 +69,7 @@ class CartController extends GetxController {
         var resp1;
         if (orderId.value != '') {
           payload = {
-            'status': 'CREATED',
+            'status': 'INIT',
             'customerRef': (jsonDecode(custRef.toJson())),
             'products': listSumm,
             "payment": {
@@ -104,7 +103,7 @@ class CartController extends GetxController {
               path: 'order', id: orderId.value, payload: payload);
         } else {
           payload = {
-            'status': 'CREATED',
+            'status': 'INIT',
             'customerRef': (jsonDecode(custRef.toJson())),
             'products': listSumm,
             "payment": {

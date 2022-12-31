@@ -5,8 +5,6 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
-import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -150,12 +148,7 @@ class CategoryPage extends StatelessWidget {
                                 '${megaMenuController.subMenuList[index].image}',
                                 width: 25,
                                 height: 25,
-                              ),
-                              // Image.network(
-                              //     '${ClientService.cdnUrl}${megaMenuController.subMenuList[index].image}',
-                              //     width: 25,
-                              //     height: 25,
-                              //     fit: BoxFit.fill),
+                              ), 
                             ),
                           ],
                         ),
@@ -229,11 +222,7 @@ class CategoryPage extends StatelessWidget {
                 ImageBox(
                   '${mProduct.displayImageId}',
                   height: 80,
-                ),
-                // Image.network(
-                //   '${ClientService.cdnUrl}${mProduct.displayImageId}',
-                //   height: 80,
-                // ),
+                ), 
                 Container(
                   margin: const EdgeInsets.all(5.0),
                   height: 160,
@@ -257,8 +246,7 @@ class CategoryPage extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.bottomCenter,
                   child: Container(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    // margin: const EdgeInsets.only(left: 3, right: 3),
+                    padding: const EdgeInsets.only(left: 15, right: 15), 
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -279,8 +267,7 @@ class CategoryPage extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Row( 
                             children: [
                               PriceTag(mProduct.price!.offerPrice.toString(),
                                   mProduct.price!.actualPrice.toString()),

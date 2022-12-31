@@ -79,6 +79,7 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 120,
           titleSpacing: 5,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,

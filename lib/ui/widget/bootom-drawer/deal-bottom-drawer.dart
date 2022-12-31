@@ -435,7 +435,7 @@ class DealBottomDrawer extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
