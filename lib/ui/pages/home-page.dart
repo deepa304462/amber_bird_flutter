@@ -8,13 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
 import 'package:get/get.dart';
 
-// class HomePage extends StatelessWidget {
-//   HomePage({Key? key}) : super(key: key);
-
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-
 PreferredSize _appBar(address) {
   // var dropdownvalue;
   return PreferredSize(
@@ -92,33 +85,37 @@ class HomePage extends StatelessWidget {
             index: mcontroller.currentTab.toInt(),
             backgroundColor: Colors.white,
             showElevation: true,
-            navBarHeight: 75.0,
+            navBarHeight: 60.0,
             radius: 30.0,
             onTap: (i) {
               mcontroller.setCurrentTab(i);
             },
             items: [
               BottomNavItem(
-                  imgIcon:
-                      'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                  // imgIcon:
+                  //     'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
                   icon: Icons.home,
                   label: "Home",
                   selectedColor: Colors.red.shade900),
               BottomNavItem(
-                  icon: Icons.category,
+                  icon: Icons.manage_search,
+                  suffix: '',
+                  label: "Search",
+                  selectedColor: Colors.red.shade900),
+              BottomNavItem(
+                  icon: Icons.storefront_sharp,
                   suffix: '',
                   label: "Category",
-                  selectedColor: Colors.green),
+                  selectedColor: Colors.red.shade900),
               BottomNavItem(
-                  icon: Icons.share,
-                  label: "Refer",
-                  // suffix: cartController!.cartProducts!.length.toString() ?? '0',
-                  selectedColor: Colors.amber.shade800),
+                  icon: Icons.shopping_cart,
+                  label: "Cart",
+                  selectedColor: Colors.red.shade900),
               BottomNavItem(
                   icon: Icons.account_circle,
                   suffix: '',
                   label: "Profile",
-                  selectedColor: Colors.blue),
+                  selectedColor: Colors.red.shade900),
             ],
           );
         }),

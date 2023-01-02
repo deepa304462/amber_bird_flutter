@@ -22,10 +22,8 @@ class CartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: cartController.cartProducts.isNotEmpty
+    return 
+         cartController.cartProducts.isNotEmpty
             ? Obx(
                 () => Column(
                   children: [
@@ -217,9 +215,8 @@ class CartWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-      ),
-    );
+              );
+       
   }
 
   cartData(context, cartController) {
@@ -282,7 +279,6 @@ class CartWidget extends StatelessWidget {
                                               '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                                         ],
                                       ),
-                                      
                                     ],
                                   ),
                                 ),
@@ -300,7 +296,7 @@ class CartWidget extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: cartButtons(context),
+                          child: cartButtons(context, cartController, currentKey),
                         )
                       ],
                     )
@@ -343,7 +339,7 @@ class CartWidget extends StatelessWidget {
                               )
                             ],
                           ),
-                          cartButtons(context)
+                          cartButtons(context, cartController,currentKey)
                         ]),
                       ),
                     ),
@@ -432,7 +428,7 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  cartButtons(context) {
+  cartButtons(context, cartController, currentKey) {
     return Row(
       children: [
         TextButton.icon(
@@ -440,7 +436,7 @@ class CartWidget extends StatelessWidget {
             icon: Icon(Icons.flash_on),
             label: Text(' "Buy it now"')),
         TextButton.icon(
-            onPressed: () => {},
+            onPressed: () => {cartController.createSaveLater(cartController.cartProducts[currentKey],currentKey)},
             icon: Icon(Icons.outbox),
             label: Text("Save for later"))
       ],

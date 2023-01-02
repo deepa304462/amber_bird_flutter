@@ -5,6 +5,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class AppBarWidget extends StatelessWidget {
@@ -25,8 +26,11 @@ class AppBarWidget extends StatelessWidget {
             SizedBox(
               child: Row(
                 children: [
-                  cartWidget(context),
-                  IconButton(onPressed: () => {}, icon: Icon(Icons.share))
+                  // cartWidget(context),
+                  IconButton(
+                      onPressed: () => {Modular.to.navigate('/home/refer')},
+                      icon: Icon(Icons.share)),
+                  IconButton(onPressed: () => {}, icon: Icon(Icons.layers))
                 ],
               ),
             )

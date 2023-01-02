@@ -199,15 +199,26 @@ class Controller extends GetxController {
         Modular.to.navigate('/home/category');
         break;
       case 2:
+        // if (isLogin.value) {
+        //   activePageName.value = 'refer';
+        //   Modular.to.navigate('/home/refer');
+        // } else {
+        //   activePageName.value = 'profile';
+        //   Modular.to.navigate('/home/profile');
+        // }
+        activePageName.value = 'category';
+        Modular.to.navigate('/home/category');
+        break; 
+      case 3:
         if (isLogin.value) {
-          activePageName.value = 'refer';
-          Modular.to.navigate('/home/refer');
+          activePageName.value = 'cart';
+          Modular.to.navigate('/home/cart');
         } else {
-          activePageName.value = 'profile';
-          Modular.to.navigate('/home/profile');
+          activePageName.value = 'login';
+          Modular.to.navigate('/home/login');
         }
         break;
-      case 3:
+      case 4:
         if (isLogin.value) {
           activePageName.value = 'profile';
           Modular.to.navigate('/home/profile');

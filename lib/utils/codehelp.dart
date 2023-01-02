@@ -34,7 +34,9 @@ class CodeHelp {
   }
 
   static titleCase(String text) {
+    if(text != null && text.length>0)
     return "${text[0].toUpperCase()}${text.substring(1).toLowerCase()}";
+    else return text;
   }
 
   randomColor() {

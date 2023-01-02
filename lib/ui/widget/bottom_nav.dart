@@ -174,13 +174,13 @@ class _BottomBarItemState extends State<BottomBarItem>
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Color.fromRGBO(
-            widget.color.red,
-            widget.color.green,
-            widget.color.blue,
-            animation.value / 2.5,
-          ),
-          borderRadius: BorderRadius.circular(widget.radius),
+          // color: Color.fromRGBO(
+          //   widget.color.red,
+          //   widget.color.green,
+          //   widget.color.blue,
+          //   animation.value / 2.5,
+          // ),
+          // borderRadius: BorderRadius.circular(widget.radius),
         ),
         padding: EdgeInsets.all(8.0),
         child: Row(
@@ -189,7 +189,9 @@ class _BottomBarItemState extends State<BottomBarItem>
               padding: const EdgeInsets.all(4.0),
               child: widget.imageIcon.isEmpty
                   ? Icon(widget.icon,
-                      color: widget.color, size: widget.height / 2)
+                      color:
+                          animation.value == 0.0 ? Colors.black : widget.color,
+                      size: widget.height / 2)
                   : ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),
                       child: Image.network(
@@ -205,20 +207,20 @@ class _BottomBarItemState extends State<BottomBarItem>
             //       ? Text(widget.suffix?? '')
             //       : SizedBox(),
             // ),
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: animation.value != 0.0
-                  ? Text(
-                      widget.label,
-                      style: TextStyle(
-                        color: widget.color,
-                        fontFamily: Fonts.title,
-                        fontWeight: FontWeight.bold,
-                        fontSize: (widget.height / 5.5) * animation.value,
-                      ),
-                    )
-                  : Container(),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(6.0),
+            //   child: animation.value != 0.0
+            //       ? Text(
+            //           widget.label,
+            //           style: TextStyle(
+            //             color: widget.color,
+            //             fontFamily: Fonts.title,
+            //             fontWeight: FontWeight.bold,
+            //             fontSize: (widget.height / 5.5) * animation.value,
+            //           ),
+            //         )
+            //       : Container(),
+            // ),
           ],
         ),
       ),

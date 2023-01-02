@@ -10,6 +10,7 @@ import 'wish_list.insight.detail.dart';
 class Customer {
   List<Address>? addresses;
   List<OrderSummary>? orders;
+  Order? saveLater;
   Order? cart;
   WishList? wishList;
   PersonalInfo? personalInfo;
@@ -17,6 +18,7 @@ class Customer {
   Customer({
     this.addresses,
     this.orders,
+    this.saveLater,
     this.cart,
     this.wishList,
     this.personalInfo,
@@ -24,7 +26,7 @@ class Customer {
 
   @override
   String toString() {
-    return 'Customer(addresses: $addresses, orders: $orders, cart: $cart, wishList: $wishList, personalInfo: $personalInfo)';
+    return 'Customer(addresses: $addresses, orders: $orders, saveLater: $saveLater, cart: $cart, wishList: $wishList, personalInfo: $personalInfo)';
   }
 
   factory Customer.fromMap(Map<String, dynamic> data) => Customer(
@@ -34,6 +36,9 @@ class Customer {
         orders: (data['orders'] as List<dynamic>?)
             ?.map((e) => OrderSummary.fromMap(e as Map<String, dynamic>))
             .toList(),
+        saveLater: data['saveLater'] == null
+            ? null
+            : Order.fromMap(data['saveLater'] as Map<String, dynamic>),
         cart: data['cart'] == null
             ? null
             : Order.fromMap(data['cart'] as Map<String, dynamic>),
@@ -49,6 +54,7 @@ class Customer {
   Map<String, dynamic> toMap() => {
         'addresses': addresses?.map((e) => e.toMap()).toList(),
         'orders': orders?.map((e) => e.toMap()).toList(),
+        'saveLater': saveLater?.toMap(),
         'cart': cart?.toMap(),
         'wishList': wishList?.toMap(),
         'personalInfo': personalInfo?.toMap(),
@@ -69,6 +75,7 @@ class Customer {
   Customer copyWith({
     List<Address>? addresses,
     List<OrderSummary>? orders,
+    Order? saveLater,
     Order? cart,
     WishList? wishList,
     PersonalInfo? personalInfo,
@@ -76,6 +83,7 @@ class Customer {
     return Customer(
       addresses: addresses ?? this.addresses,
       orders: orders ?? this.orders,
+      saveLater: saveLater ?? this.saveLater,
       cart: cart ?? this.cart,
       wishList: wishList ?? this.wishList,
       personalInfo: personalInfo ?? this.personalInfo,
