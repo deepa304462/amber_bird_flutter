@@ -1,5 +1,7 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final Color? defaultColor = Colors.grey[700];
 
@@ -88,10 +90,19 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.items.map((element) {
                 int item = widget.items.indexOf(element);
-                return BottomBarItem(element.icon, element.imgIcon,
-                    element.suffix, widget.navBarHeight, element.label, () {
-                  widget.onTap(item);
-                }, element.selectedColor, _controllers[item], widget.radius);
+                return BottomBarItem(
+                  element.icon,
+                  element.imgIcon,
+                  element.suffix,
+                  widget.navBarHeight,
+                  element.label,
+                  () {
+                    widget.onTap(item);
+                  },
+                  element.selectedColor,
+                  _controllers[item],
+                  widget.radius,
+                );
               }).toList(),
             ),
           ),
@@ -168,60 +179,79 @@ class _BottomBarItemState extends State<BottomBarItem>
 
   @override
   Widget build(BuildContext context) {
+    final CartController cartController = Get.put(CartController());
     return InkWell(
       onTap: () {
         widget.onTap();
       },
       child: Container(
         decoration: BoxDecoration(
-          // color: Color.fromRGBO(
-          //   widget.color.red,
-          //   widget.color.green,
-          //   widget.color.blue,
-          //   animation.value / 2.5,
-          // ),
-          // borderRadius: BorderRadius.circular(widget.radius),
-        ),
+            // color: Color.fromRGBO(
+            //   widget.color.red,
+            //   widget.color.green,
+            //   widget.color.blue,
+            //   animation.value / 2.5,
+            // ),
+            // borderRadius: BorderRadius.circular(widget.radius),
+            ),
         padding: EdgeInsets.all(8.0),
         child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: widget.imageIcon.isEmpty
-                  ? Icon(widget.icon,
-                      color:
-                          animation.value == 0.0 ? Colors.black : widget.color,
-                      size: widget.height / 2)
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.network(
-                        widget.imageIcon,
-                        height: widget.height / 2,
-                        fit: BoxFit.fill,
-                      ),
+          children: widget.label == 'Cart'
+              ? <Widget>[
+                  Obx(
+                    () => Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        widget.imageIcon.isEmpty
+                            ? Icon(widget.icon,
+                                color: animation.value == 0.0
+                                    ? Colors.black
+                                    : widget.color,
+                                size: widget.height / 2)
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.network(
+                                  widget.imageIcon,
+                                  height: widget.height / 2,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                        Positioned(
+                          top: -10,
+                          right: -4,
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(
+                                  cartController.cartProducts.value.length
+                                      .toString(),
+                                  style: TextStyles.bodySm),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.all(4.0),
-            //   child: widget.suffix.isNotEmpty
-            //       ? Text(widget.suffix?? '')
-            //       : SizedBox(),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(6.0),
-            //   child: animation.value != 0.0
-            //       ? Text(
-            //           widget.label,
-            //           style: TextStyle(
-            //             color: widget.color,
-            //             fontFamily: Fonts.title,
-            //             fontWeight: FontWeight.bold,
-            //             fontSize: (widget.height / 5.5) * animation.value,
-            //           ),
-            //         )
-            //       : Container(),
-            // ),
-          ],
+                  )
+                ]
+              : [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: widget.imageIcon.isEmpty
+                        ? Icon(widget.icon,
+                            color: animation.value == 0.0
+                                ? Colors.black
+                                : widget.color,
+                            size: widget.height / 2)
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.network(
+                              widget.imageIcon,
+                              height: widget.height / 2,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                  ),
+                ],
         ),
       ),
     );

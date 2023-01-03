@@ -21,23 +21,20 @@ class AppBarWidget extends StatelessWidget {
             ImageBox(
               "0ad51820-35be-4a37-8a41-fb3915c1b2a0",
               width: 200,
-              height: 50,
+              height: 40,
             ),
-            SizedBox(
-              child: Row(
-                children: [
-                  // cartWidget(context),
-                  IconButton(
-                      onPressed: () => {Modular.to.navigate('/home/refer')},
-                      icon: Icon(Icons.share)),
-                  IconButton(onPressed: () => {}, icon: Icon(Icons.layers))
-                ],
-              ),
-            )
+            Row(
+              children: [ 
+                IconButton(
+                    onPressed: () => {Modular.to.navigate('/home/refer')},
+                    icon: const Icon(Icons.share)),
+                IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
+              ],
+            ),
           ],
         ),
-        SizedBox(
-          height: 2,
+        const SizedBox(
+          height: 5,
         ),
         Row(
           mainAxisSize: MainAxisSize.max,

@@ -16,49 +16,46 @@ class SearchWidget extends StatelessWidget {
     final Controller stateController = Get.find();
     controller.text = searchController.search.toString();
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: TextField(
-            // controller: controller,
-            readOnly: true,
-            onTap: () {
-              showSearch(
-                  context: context,
-                  // delegate to customize the search bar
-                  delegate: CustomSearchDelegate());
-            },
-            decoration: InputDecoration(
-              prefixIcon: IconButton(
-                onPressed: () {
-                  // searchController.setSearchVal(controller.value.text);
-                  // if(stateController.activePageName.value != 'search'){
-                  //   Modular.to.navigate('/home/search',
-                  //       arguments: controller.value.text);
-                  // }
-                },
-                icon: Icon(
-                  Icons.search_outlined,
-                  color: AppColors.grey,
-                ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.lightGrey.withOpacity(0.1),
+          // borderRadius: BorderRadius.circular(0),
+        ),
+        child: TextField(
+          // controller: controller,
+          readOnly: true,
+          onTap: () {
+            showSearch(
+                context: context,
+                // delegate to customize the search bar
+                delegate: CustomSearchDelegate());
+          },
+          decoration: InputDecoration(
+            prefixIcon: IconButton(
+              onPressed: () {
+                // searchController.setSearchVal(controller.value.text);
+                // if(stateController.activePageName.value != 'search'){
+                //   Modular.to.navigate('/home/search',
+                //       arguments: controller.value.text);
+                // }
+              },
+              icon: Icon(
+                Icons.search_outlined,
+                color: AppColors.grey,
               ),
-              labelText: "Search Product here...",
-              contentPadding: const EdgeInsets.all(8.0),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-                borderSide: BorderSide(
-                  color: AppColors.grey,
-                ),
+            ),
+            labelText: "Search Product here...",
+            contentPadding: const EdgeInsets.all(2.0),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(0)),
+              borderSide: BorderSide(
+                color: AppColors.grey,
               ),
-              hintStyle: TextStyle(color: AppColors.primeColor),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: AppColors.grey),
-              ),
+            ),
+            hintStyle: TextStyle(color: AppColors.primeColor),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+              borderSide: BorderSide(color: AppColors.grey),
             ),
           ),
         ),

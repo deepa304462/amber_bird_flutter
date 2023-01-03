@@ -431,10 +431,10 @@ class CartWidget extends StatelessWidget {
   cartButtons(context, cartController, currentKey) {
     return Row(
       children: [
-        TextButton.icon(
-            onPressed: () => {},
-            icon: Icon(Icons.flash_on),
-            label: Text(' "Buy it now"')),
+        // TextButton.icon(
+        //     onPressed: () => {},
+        //     icon: Icon(Icons.flash_on),
+        //     label: Text(' "Buy it now"')),
         TextButton.icon(
             onPressed: () => {cartController.createSaveLater(cartController.cartProducts[currentKey],currentKey)},
             icon: Icon(Icons.outbox),

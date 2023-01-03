@@ -22,9 +22,9 @@ class SaveLater extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
-    return cartController.saveLaterProducts.isNotEmpty
-        ? Obx(
-            () => Column(
+    return Obx(
+      () => cartController.saveLaterProducts.length > 0
+          ? Column(
               children: [
                 Text(
                   'Saved Products',
@@ -32,14 +32,14 @@ class SaveLater extends StatelessWidget {
                 ),
                 saveLaterData(context, cartController),
               ],
+            )
+          : Container(
+              child: Text(
+                'Saved Products',
+                style: TextStyles.titleGreen,
+              ),
             ),
-          )
-        : Container(
-            child: Text(
-              'Saved Products',
-              style: TextStyles.titleGreen,
-            ),
-          );
+    );
   }
 
   saveLaterData(context, cartController) {
@@ -183,12 +183,12 @@ class SaveLater extends StatelessWidget {
     return Row(
       children: [
         TextButton.icon(
-            onPressed: () => {},
+            onPressed: () => {cartController.addTocartSaveLater(currentKey)},
             icon: Icon(Icons.flash_on),
             label: Text(' "Add to cart"')),
         TextButton.icon(
             onPressed: () => {
-                  // cartController.deleteSaveLater(  currentKey)
+                  cartController.removeSaveLater(currentKey)
                 },
             icon: Icon(Icons.outbox),
             label: Text("Delete"))

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/checkout/checkout.dart';
@@ -180,16 +179,13 @@ class CartController extends GetxController {
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     var payload1;
-
     var resp1;
-
     var payload;
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
     if (resp.statusCode == 200) {
       Checkout data = Checkout.fromMap(resp.data);
       checkoutData.value = data;
-
       if (data.allAvailable == true) {
         var resp1 = await ClientService.post(
             path: 'payment/search', payload: {"orderId": orderId.value});
@@ -239,6 +235,18 @@ class CartController extends GetxController {
     await createOrder();
   }
 
+  removeSaveLater(currentKey) async {
+    saveLaterProducts.remove(currentKey);
+    await saveLaterCall();
+  }
+
+  addTocartSaveLater(key) async {
+    cartProducts[key] = saveLaterProducts.value[key] ?? ProductOrder();
+    await createOrder();
+    saveLaterProducts.remove(key);
+    await saveLaterCall();
+  }
+
   resetCart() async {
     cartProducts.clear();
     var insightDetail =
@@ -267,7 +275,7 @@ class CartController extends GetxController {
       if (cust.saveLater != null) {
         saveLaterId.value = cust.saveLater!.id ?? '';
         for (var element in cust.saveLater!.products!) {
-          cartProducts[element.ref!.id ?? ''] = element;
+          saveLaterProducts[element.ref!.id ?? ''] = element;
         }
       }
     } else {
@@ -330,27 +338,17 @@ class CartController extends GetxController {
     await createOrder();
   }
 
-  createSaveLater(cartRow, refId) async {
+  saveLaterCall() async {
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    if (customerInsightDetail['_id'] == null) {
-      var getData = cartProducts[refId];
-      saveLaterProducts[refId] = cartRow;
-    } else {}
-
-    // var insightDetail =
-    //     await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    Customer cust = Customer.fromMap(customerInsightDetail as Map<String, dynamic>);
-    // for (var v in cartProducts.value.values) {
-    //   listSumm.add((jsonDecode(v.toJson())));
-    // }
+    Customer cust =
+        Customer.fromMap(customerInsightDetail as Map<String, dynamic>);
     List<dynamic> listSumm = [];
     for (var v in saveLaterProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
     var payload;
-
     var resp;
     if (saveLaterId.value != '') {
       payload = {
@@ -372,14 +370,24 @@ class CartController extends GetxController {
     }
     if (resp.statusCode == 200) {
       log(jsonEncode(resp.data).toString());
-      // if (orderId.value == '') orderId.value = resp.data['_id'];
-      // cust.cart = Order.fromMap(resp.data);
-      // calculatedPayment.value = cust.cart!.payment!;
-      // OfflineDBService.save(
-      //     OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      if (saveLaterId.value == '') saveLaterId.value = resp.data['_id'];
+      cust.saveLater = Order.fromMap(resp.data);
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }
+  }
+
+  createSaveLater(cartRow, refId) async {
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    if (customerInsightDetail['_id'] == null) {
+      var getData = cartProducts[refId];
+      saveLaterProducts[refId] = cartRow;
+    } else {}
+    saveLaterCall();
+    removeProduct(refId);
   }
 
   createOrder() async {
@@ -392,7 +400,6 @@ class CartController extends GetxController {
     }
     Ref custRef = await Helper.getCustomerRef();
     var payload;
-
     var resp;
     if (orderId.value != '') {
       payload = {
@@ -488,7 +495,6 @@ class CartController extends GetxController {
         }
       }
     }
-
     return data;
   }
 
@@ -500,7 +506,6 @@ class CartController extends GetxController {
     var payload = {'keywords': query};
     var response =
         await ClientService.post(path: 'couponCode/search', payload: payload);
-
     if (response.statusCode == 200) {
       List<CouponCode> cList = ((response.data as List<dynamic>?)
               ?.map((e) => CouponCode.fromMap(e as Map<String, dynamic>))

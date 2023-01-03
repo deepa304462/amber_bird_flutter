@@ -258,7 +258,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     addedFrom!,
                                                     -(constraint?.minimumOrder ??
                                                             1) ??
-                                                        1,
+                                                        -1,
                                                     priceInfo,
                                                     products![0],
                                                     null);
