@@ -6,9 +6,9 @@ import '../widget/cart/cart-widget.dart';
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * .7,
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .7,
+      child: SingleChildScrollView(
         child: Column(children: [CartWidget(), SaveLater()]),
       ),
     );

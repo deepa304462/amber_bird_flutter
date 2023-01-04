@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 120,
+          toolbarHeight: 100,
           titleSpacing: 5,
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
@@ -85,8 +85,8 @@ class HomePage extends StatelessWidget {
             index: mcontroller.currentTab.toInt(),
             backgroundColor: Colors.white,
             showElevation: true,
-            navBarHeight: 60.0,
-            radius: 30.0,
+            navBarHeight: 50.0,
+            // radius: 30.0,
             onTap: (i) {
               mcontroller.setCurrentTab(i);
             },

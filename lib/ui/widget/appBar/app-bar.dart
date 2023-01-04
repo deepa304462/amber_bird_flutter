@@ -9,13 +9,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class AppBarWidget extends StatelessWidget {
+  final Controller stateController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             locationWidget(),
             ImageBox(
@@ -24,7 +25,7 @@ class AppBarWidget extends StatelessWidget {
               height: 40,
             ),
             Row(
-              children: [ 
+              children: [
                 IconButton(
                     onPressed: () => {Modular.to.navigate('/home/refer')},
                     icon: const Icon(Icons.share)),

@@ -129,11 +129,9 @@ class CartController extends GetxController {
           };
           resp1 = await ClientService.post(path: 'order', payload: payload);
         }
-        log(jsonEncode(payload).toString());
-        // log(jsonEncode(resp1).toString());
+        log(jsonEncode(payload).toString()); 
         if (resp1.statusCode == 200) {
           if (orderId.value == '') orderId.value = resp1.data['_id'];
-
           var ord = Order.fromMap(resp1.data);
           calculatedPayment.value = ord.payment!;
           // OfflineDBService.save(OfflineDBService.customerInsightDetail,

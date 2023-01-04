@@ -17,8 +17,9 @@ class SearchWidget extends StatelessWidget {
     controller.text = searchController.search.toString();
     return Expanded(
       child: Container(
+        height: 40,
         decoration: BoxDecoration(
-          color: AppColors.lightGrey.withOpacity(0.1),
+          color: AppColors.lightGrey.withAlpha(99),
           // borderRadius: BorderRadius.circular(0),
         ),
         child: TextField(

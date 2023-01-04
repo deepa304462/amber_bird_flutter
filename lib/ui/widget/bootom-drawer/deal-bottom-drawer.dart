@@ -138,9 +138,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                       const EdgeInsets.all(5),
                                                   child: Center(
                                                     child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
+                                                      padding:   const EdgeInsets.all(8),
                                                       child: Text(
                                                           '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
                                                     ),

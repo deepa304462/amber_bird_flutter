@@ -69,14 +69,15 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
       right: false,
       top: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 0),
         child: Container(
           height: widget.navBarHeight,
           decoration: BoxDecoration(
             color: widget.backgroundColor,
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            border: Border.all(color: Colors.grey),
+            // borderRadius: BorderRadius.only(
+            //     topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             boxShadow: [
               if (widget.showElevation)
                 const BoxShadow(
