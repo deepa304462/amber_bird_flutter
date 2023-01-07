@@ -16,7 +16,7 @@ class AppWidget extends StatelessWidget {
       title: "App",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'Barlow',
+        fontFamily: 'Poppins',
         primarySwatch: Colors.grey,
       ),
     );

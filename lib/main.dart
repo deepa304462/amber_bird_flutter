@@ -3,6 +3,7 @@ import 'package:amber_bird/app-widget.dart';
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
 // https://cdn2.sbazar.app/0ad51820-35be-4a37-8a41-fb3915c1b2a0
 //flutter build apk --split-per-abi
 // sbazar_123 is the password for play store
@@ -37,7 +40,40 @@ void main() async {
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
   final AuthController authController = Get.put(AuthController());
+  final Controller controller = Get.put(Controller());
   runApp(
-    ModularApp(module: AppModule(), child: AppWidget()),
+    ModularApp(
+      module: AppModule(),
+      child: Stack(
+        textDirection: TextDirection.ltr,
+        alignment: AlignmentDirectional.topStart,
+        children: [
+          AppWidget(),
+          Obx(
+            () => controller.showLoader.value
+                ? Expanded(
+                    flex: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: Colors
+                                  .transparent), //color is transparent so that it does not blend with the actual color specified
+
+                          color: Color.fromARGB(126, 186, 179,
+                              179) // Specifies the background color and the opacity
+                          ),
+                      // height: MediaQuery.of(context).size.width * 0.65,//200.0,
+                      child: Lottie.network(
+                          'https://assets6.lottiefiles.com/packages/lf20_34qRI0i4ti.json',
+                          frameRate: FrameRate(50),
+                          repeat: true),
+                    ),
+                  )
+                : SizedBox(),
+          ),
+        ],
+      ),
+    ),
   );
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Fonts {
-  static String get body => "Nunito";
-  static String get title => "Nunito";
+  static String get body => "Poppins";
+  static String get title => "Poppins";
 }
 
 class AppColors {
-  static Color primeColor = Colors.red.shade800;
+  static Color primeColor =  HexColor("#8e192d");//Colors.red.shade800;
   static Color white = Colors.white;
   static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
@@ -127,4 +127,15 @@ class TextStyles {
       fontSize: FontSizes.body,
       decoration: TextDecoration.lineThrough,
       color: Color.fromARGB(255, 196, 186, 186));
+}
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

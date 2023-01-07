@@ -23,6 +23,7 @@ class Controller extends GetxController {
   var isActivate = false.obs;
   var isEmailVerified = false.obs;
   var isPhoneVerified = false.obs;
+  var showLoader = false.obs;
   var backButtonPress = 0.obs;
   RxString tokenManagerEntityId = ''.obs;
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;

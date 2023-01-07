@@ -5,7 +5,6 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class AppBarWidget extends StatelessWidget {
@@ -16,7 +15,7 @@ class AppBarWidget extends StatelessWidget {
       children: [
         Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             locationWidget(),
             ImageBox(
@@ -24,14 +23,16 @@ class AppBarWidget extends StatelessWidget {
               width: 200,
               height: 40,
             ),
-            Row(
-              children: [
-                IconButton(
-                    onPressed: () => {Modular.to.navigate('/home/refer')},
-                    icon: const Icon(Icons.share)),
-                IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
-              ],
-            ),
+             IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     IconButton(
+            //         onPressed: () => {Modular.to.navigate('/home/refer')},
+            //         icon: const Icon(Icons.share)),
+            //     IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
+            //   ],
+            // ),
           ],
         ),
         const SizedBox(
@@ -43,7 +44,7 @@ class AppBarWidget extends StatelessWidget {
           children: [
             SearchWidget(),
           ],
-        )
+        ),
       ],
     );
   }
@@ -51,41 +52,45 @@ class AppBarWidget extends StatelessWidget {
   cartWidget(context) {
     final CartController cartController = Get.find();
     final Controller stateController = Get.find();
-    return Obx(() {
-      return Stack(
-        alignment: AlignmentDirectional.topEnd,
-        children: [
-          InkWell(
-            onTap: () {
-              if (stateController.isLogin.value) {
-                stateController.navigateToUrl('/home/cart');
-              }
-            },
-            child: Card(
-              color: AppColors.primeColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.shopping_bag_rounded,
-                  color: AppColors.white,
+    return Obx(
+      () {
+        return Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            InkWell(
+              onTap: () {
+                if (stateController.isLogin.value) {
+                  stateController.navigateToUrl('/home/cart');
+                }
+              },
+              child: Card(
+                color: AppColors.primeColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.shopping_bag_rounded,
+                    color: AppColors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: -2,
-            right: -2,
-            child: Card(
+            Positioned(
+              top: -2,
+              right: -2,
+              child: Card(
                 child: Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Text(cartController.cartProducts.value.length.toString(),
-                  style: TextStyles.bodyFontBold),
-            )),
-          ),
-        ],
-      );
-    });
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                      cartController.cartProducts.value.length.toString(),
+                      style: TextStyles.bodyFontBold),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

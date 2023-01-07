@@ -51,7 +51,7 @@ class DealController extends GetxController {
     }
   }
 
-  checkValidDeal(String id) async {
+  checkValidDeal(String id, String type) async {
     RuleConfig? ruleConfig;
     Constraint? constraint;
 
@@ -65,12 +65,12 @@ class DealController extends GetxController {
     // DealProduct();
     var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
     CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
-
-    dynamic data =
-        await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
-    return data;
-    // else {
-    return ({'error': false, 'msg': ''});
-    // }
+    if (type == 'positive') {
+      dynamic data =
+          await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
+      return data;
+    } else {
+      return ({'error': false, 'msg': ''});
+    }
   }
 }

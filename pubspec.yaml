@@ -69,6 +69,7 @@ dependencies:
   share_plus: ^6.2.0
   image_picker: ^0.8.6
   flutter_html: 
+  skeletons: ^0.0.3
   
 
 dev_dependencies:
@@ -106,6 +107,12 @@ flutter:
         - asset: fonts/Nunito-Black.ttf
         - asset: fonts/Nunito-Bold.ttf
         - asset: fonts/Nunito-SemiBold.ttf
+    - family: Poppins
+      fonts: 
+        - asset: fonts/Poppins-Regular.ttf  
+        - asset: fonts/Poppins-Black.ttf
+        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-SemiBold.ttf  
 
   # To add assets to your application, add an assets section, like this:
   # assets:

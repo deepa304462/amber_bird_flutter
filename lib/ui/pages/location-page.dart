@@ -29,11 +29,11 @@ class LocationPage extends StatelessWidget {
                         zoom: 18.0,
                       ),
                       onCameraMove: locationController.updatePosition,
-                      markers: Set.of([
-                        GoogleMapLib.Marker(
+                      markers: {
+                        const GoogleMapLib.Marker(
                           markerId: MarkerId('value'),
                         )
-                      ]),
+                      },
                     )),
               ),
               Padding(
@@ -63,13 +63,13 @@ class LocationPage extends StatelessWidget {
                               : () {
                                   locationController.findLocalityFromPinCode();
                                 },
+                          color: locationController.pinCode.isEmpty
+                              ? AppColors.grey
+                              : AppColors.primeColor,
                           child: Text(
                             'Okay',
                             style: TextStyles.titleXLargeWhite,
                           ),
-                          color: locationController.pinCode.isEmpty
-                              ? AppColors.grey
-                              : AppColors.primeColor,
                         ),
                         locationController.currentLatLang.value.latitude != 0
                             ? _showAddress(context, locationController)

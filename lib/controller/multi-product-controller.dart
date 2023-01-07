@@ -57,28 +57,24 @@ class MultiProductController extends GetxController {
     }
   }
 
-  checkValidDeal(String id) async {
+  checkValidDeal(String id, String type) async {
     RuleConfig? ruleConfig;
-    Constraint? constraint;  
-        List outputList = multiProd.value
-            .where((o) => o.id == id)
-            .toList();
+    Constraint? constraint;
+    List outputList = multiProd.value.where((o) => o.id == id).toList();
 
-        Multi multiProduct = outputList[0];
-        ruleConfig = RuleConfig();
-        constraint = multiProduct.constraint;
-   
+    Multi multiProduct = outputList[0];
+    ruleConfig = RuleConfig();
+    constraint = multiProduct.constraint;
 
     // DealProduct();
     var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
     CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
-
-    dynamic data =
-        await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
-    return data;
-    // else {
-    return ({'error': false, 'msg': ''});
-    // }
+    if (type == 'positive') {
+      dynamic data =
+          await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
+      return data;
+    } else {
+      return ({'error': false, 'msg': ''});
+    }
   }
-
 }

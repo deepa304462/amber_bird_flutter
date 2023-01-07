@@ -219,7 +219,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                       MultiProductController>(
                                                   tag: addedFrom!);
                                               var data = await multiController
-                                                  .checkValidDeal(refId!);
+                                                  .checkValidDeal(refId!,'negative');
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
@@ -246,7 +246,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     Get.find<DealController>(
                                                         tag: addedFrom!);
                                                 var data = await dealController
-                                                    .checkValidDeal(refId!);
+                                                    .checkValidDeal(refId!, 'negative');
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                               }
@@ -293,7 +293,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                       MultiProductController>(
                                                   tag: addedFrom!);
                                               var data = await multiController
-                                                  .checkValidDeal(refId!);
+                                                  .checkValidDeal(refId!, 'positive');
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
@@ -318,7 +318,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     Get.find<DealController>(
                                                         tag: addedFrom!);
                                                 var data = await dealController
-                                                    .checkValidDeal(refId!);
+                                                    .checkValidDeal(refId!, 'positive');
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                               }
@@ -364,7 +364,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                         MultiProductController>(
                                                     tag: addedFrom!);
                                                 var data = await multiController
-                                                    .checkValidDeal(refId!);
+                                                    .checkValidDeal(refId!, 'positive');
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                                 if (valid) {
@@ -393,7 +393,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                   var data =
                                                       await dealController
                                                           .checkValidDeal(
-                                                              refId!);
+                                                              refId!,
+                                                              'positive');
                                                   valid = !data['error'];
                                                   msg = data['msg'];
                                                 }
