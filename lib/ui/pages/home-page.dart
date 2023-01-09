@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
             index: mcontroller.currentTab.toInt(),
             backgroundColor: Colors.white,
             showElevation: true,
-            navBarHeight: 50.0,
+            navBarHeight: 45.0,
             // radius: 30.0,
             onTap: (i) {
               mcontroller.setCurrentTab(i);

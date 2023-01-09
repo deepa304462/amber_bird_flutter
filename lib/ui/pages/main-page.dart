@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
 import 'package:amber_bird/ui/widget/product-guide-row.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey.shade200,
+      color: AppColors.backgroundGrey,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -28,13 +29,19 @@ class MainPage extends StatelessWidget {
                           .onboardingData.value.pageWiseConfig!.coverImages!,
                       MediaQuery.of(context).size.width,
                       isImagePath: false,
-                      height: 180,
+                      height: 160,
                     )
                   : const SizedBox(),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: CategoryRow(),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              color: AppColors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: CategoryRow(),
+              ),
             ),
             DealRow(dealName.FLASH.name),
             DealRow(dealName.SALES.name),

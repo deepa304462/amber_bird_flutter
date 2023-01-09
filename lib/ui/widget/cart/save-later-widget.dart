@@ -114,8 +114,10 @@ class SaveLater extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: IconButton(
-                              onPressed: () {
-                                cartController.removeProduct(currentKey);
+                              onPressed: () async {
+                                stateController.showLoader.value = true;
+                                await cartController.removeProduct(currentKey);
+                                stateController.showLoader.value = false;
                               },
                               icon: const Icon(Icons.close_rounded)),
                         ),
@@ -159,8 +161,11 @@ class SaveLater extends StatelessWidget {
                                 Text(
                                     '\$${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
                                 IconButton(
-                                  onPressed: () {
-                                    cartController.removeProduct(currentKey);
+                                  onPressed: () async {
+                                    stateController.showLoader.value = true;
+                                    await cartController
+                                        .removeProduct(currentKey);
+                                    stateController.showLoader.value = false;
                                   },
                                   icon: const Icon(Icons.close_rounded),
                                 )
@@ -183,13 +188,19 @@ class SaveLater extends StatelessWidget {
     return Row(
       children: [
         TextButton.icon(
-            onPressed: () => {cartController.addTocartSaveLater(currentKey)},
+            onPressed: () async {
+              stateController.showLoader.value = true;
+              await cartController.addTocartSaveLater(currentKey);
+              stateController.showLoader.value = false;
+            },
             icon: Icon(Icons.flash_on),
             label: Text(' "Add to cart"')),
         TextButton.icon(
-            onPressed: () => {
-                  cartController.removeSaveLater(currentKey)
-                },
+            onPressed: () async {
+              stateController.showLoader.value = true;
+              await cartController.removeSaveLater(currentKey);
+              stateController.showLoader.value = false;
+            },
             icon: Icon(Icons.outbox),
             label: Text("Delete"))
       ],

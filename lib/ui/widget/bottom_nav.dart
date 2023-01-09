@@ -69,7 +69,7 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
       right: false,
       top: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 01),
         child: Container(
           height: widget.navBarHeight,
           decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
           ),
           child: Center(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: widget.items.map((element) {
                 int item = widget.items.indexOf(element);
                 return BottomBarItem(
@@ -195,8 +195,9 @@ class _BottomBarItemState extends State<BottomBarItem>
             // ),
             // borderRadius: BorderRadius.circular(widget.radius),
             ),
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.fromLTRB(15.0, 0, 015, 0),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: widget.label == 'Cart'
               ? <Widget>[
                   Obx(
@@ -208,17 +209,17 @@ class _BottomBarItemState extends State<BottomBarItem>
                                 color: animation.value == 0.0
                                     ? Colors.black
                                     : widget.color,
-                                size: widget.height / 2)
+                                size: widget.height / 1.5)
                             : ClipRRect(
                                 borderRadius: BorderRadius.circular(20.0),
                                 child: Image.network(
                                   widget.imageIcon,
-                                  height: widget.height / 2,
+                                  height: widget.height / 1.5,
                                   fit: BoxFit.fill,
                                 ),
                               ),
                         Positioned(
-                          top: -10,
+                          top: -7,
                           right: -4,
                           child: Card(
                             child: Padding(
@@ -236,18 +237,18 @@ class _BottomBarItemState extends State<BottomBarItem>
                 ]
               : [
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(0),
                     child: widget.imageIcon.isEmpty
                         ? Icon(widget.icon,
                             color: animation.value == 0.0
                                 ? Colors.black
                                 : widget.color,
-                            size: widget.height / 2)
+                            size: widget.height / 1.5)
                         : ClipRRect(
                             borderRadius: BorderRadius.circular(20.0),
                             child: Image.network(
                               widget.imageIcon,
-                              height: widget.height / 2,
+                              height: widget.height / 1.5,
                               fit: BoxFit.fill,
                             ),
                           ),

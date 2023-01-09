@@ -54,6 +54,7 @@ void main() async {
                 ? Expanded(
                     flex: 1,
                     child: Container(
+                      height: 900,
                       decoration: BoxDecoration(
                           border: Border.all(
                               width: 1,

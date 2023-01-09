@@ -16,47 +16,57 @@ class SearchWidget extends StatelessWidget {
     final Controller stateController = Get.find();
     controller.text = searchController.search.toString();
     return Expanded(
-      child: Container(
-        height: 40,
-        decoration: BoxDecoration(
-          color: AppColors.lightGrey.withAlpha(99),
-          // borderRadius: BorderRadius.circular(0),
-        ),
-        child: TextField(
-          // controller: controller,
-          readOnly: true,
-          onTap: () {
-            showSearch(
-                context: context,
-                // delegate to customize the search bar
-                delegate: CustomSearchDelegate());
-          },
-          decoration: InputDecoration(
-            prefixIcon: IconButton(
-              onPressed: () {
-                // searchController.setSearchVal(controller.value.text);
-                // if(stateController.activePageName.value != 'search'){
-                //   Modular.to.navigate('/home/search',
-                //       arguments: controller.value.text);
-                // }
-              },
-              icon: Icon(
-                Icons.search_outlined,
-                color: AppColors.grey,
+      child: Card(
+        elevation: 10,
+        child: Container(
+          height: 35,
+          decoration: BoxDecoration(
+              color: AppColors.lightGrey,
+              borderRadius: BorderRadius.circular(0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade200,
+                  blurRadius: 20.0,
+                ),
+              ]),
+          child: TextField(
+            // controller: controller,
+            readOnly: true,
+            onTap: () {
+              showSearch(
+                  context: context,
+                  // delegate to customize the search bar
+                  delegate: CustomSearchDelegate());
+            },
+            decoration: InputDecoration(
+              prefixIcon: IconButton(
+                onPressed: () {
+                  // searchController.setSearchVal(controller.value.text);
+                  // if(stateController.activePageName.value != 'search'){
+                  //   Modular.to.navigate('/home/search',
+                  //       arguments: controller.value.text);
+                  // }
+                },
+                icon: Icon(
+                  Icons.search_outlined,
+                  color: AppColors.grey,
+                  size: 20,
+                ),
               ),
-            ),
-            labelText: "Search Product here...",
-            contentPadding: const EdgeInsets.all(2.0),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(0)),
-              borderSide: BorderSide(
-                color: AppColors.grey,
+              labelText: "Search...",
+              labelStyle: TextStyles.bodyFont,
+              // contentPadding: const EdgeInsets.all(2.0),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(0)),
+                borderSide: BorderSide(
+                  color: AppColors.grey,
+                ),
               ),
-            ),
-            hintStyle: TextStyle(color: AppColors.primeColor),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-              borderSide: BorderSide(color: AppColors.grey),
+              hintStyle: TextStyle(color: AppColors.primeColor),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                borderSide: BorderSide(color: AppColors.grey),
+              ),
             ),
           ),
         ),
@@ -77,7 +87,7 @@ class CustomSearchDelegate extends SearchDelegate {
         onPressed: () {
           query = '';
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -89,7 +99,7 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 
@@ -117,17 +127,17 @@ class CustomSearchDelegate extends SearchDelegate {
       () => ListView(
         children: [
           searchController.searchingProduct.value
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : productResults(context, searchController),
           searchController.searchingCategory.value
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : categoryResults(context, searchController),
           searchController.searchingBrand.value
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator(),
                 )
               : brandResults(context, searchController)
@@ -175,7 +185,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     width: 50,
                     height: 50,
                   )
-                : Icon(Icons.category),
+                : const Icon(Icons.category),
             title: Text(
               category.name!,
               style: TextStyles.titleLargeBold,
@@ -198,7 +208,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     width: 50,
                     height: 50,
                   )
-                : Icon(Icons.category),
+                : const Icon(Icons.category),
             title: Text(
               brand.name!,
               style: TextStyles.titleLargeBold,

@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -22,23 +23,26 @@ class locationWidget extends StatelessWidget {
               onTap: () {
                 Modular.to.pushNamed('/location');
               },
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Icon(
                     Icons.location_pin,
-                    color: AppColors.primeColor,
+                    color: AppColors.black,
                   ),
-                  Text(location.addressData.value.zipCode ?? '',
-                      style: TextStyles.body)
+                  FitText(
+                    location.addressData.value.zipCode ?? '',
+                    style: TextStyles.body,
+                  ),
+                  // Text(location.addressData.value.zipCode ?? '',
+                  //     style: TextStyles.body)
                 ],
               ),
             );
           },
         ),
-       
       ],
     );
   }

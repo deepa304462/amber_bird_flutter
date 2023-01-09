@@ -11,14 +11,17 @@ class AppColors {
   static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
   static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
-  static Color grey = Color.fromARGB(212, 120, 119, 117);
+  static Color grey = HexColor("#989898");
+  static Color golden = HexColor("#e1b530");
+  static Color backgroundGrey = HexColor("#efefef");
+  static Color black = HexColor("#000000");
 }
 
 class FontSizes {
   static double scale = 1;
 
-  static double get body => 14 * scale;
-  static double get bodySm => 12 * scale;
+  static double get body => 12 * scale;
+  static double get bodySm => 10 * scale;
 
   static double get title => 16 * scale;
   static double get xLarge => 28 * scale;

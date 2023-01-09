@@ -14,7 +14,7 @@ class CategoryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       return SizedBox(
-        height: 70,
+        height: 75,
         child: !isLoading
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -22,7 +22,7 @@ class CategoryRow extends StatelessWidget {
                 itemCount: categoryController.mainTabs.length,
                 itemBuilder: (_, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.only(left: 10),
                     child: Column(
                       children: [
                         InkWell(
@@ -45,10 +45,19 @@ class CategoryRow extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            categoryController
-                                    .mainTabs[index].name!.defaultText!.text ??
-                                '',
-                            style: TextStyles.titleFont,
+                            (categoryController.mainTabs[index].name!
+                                                .defaultText!.text ??
+                                            '')
+                                        .length >
+                                   7
+                                ? '${(categoryController.mainTabs[index].name!
+                                                .defaultText!.text ??
+                                            '')
+                                        .substring(0, 6)}...'
+                                : categoryController.mainTabs[index].name!
+                                        .defaultText!.text ??
+                                    '',
+                            style: TextStyles.body,
                           ),
                         )
                       ],
@@ -56,7 +65,7 @@ class CategoryRow extends StatelessWidget {
                   );
                 },
               )
-            : SizedBox(),
+            : const SizedBox(),
       );
     });
   }

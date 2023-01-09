@@ -237,8 +237,9 @@ class CartController extends GetxController {
   addTocartSaveLater(key) async {
     cartProducts[key] = saveLaterProducts.value[key] ?? ProductOrder();
     await createOrder();
-    saveLaterProducts.remove(key);
-    await saveLaterCall();
+    await removeSaveLater(key);
+    // saveLaterProducts.remove(key);
+    // await saveLaterCall();
   }
 
   resetCart() async {
@@ -380,8 +381,8 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       saveLaterProducts[refId] = cartRow;
     } else {}
-    saveLaterCall();
-    removeProduct(refId);
+    await saveLaterCall();
+    await removeProduct(refId);
   }
 
   createOrder() async {

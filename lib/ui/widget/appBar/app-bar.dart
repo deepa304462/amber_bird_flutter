@@ -5,6 +5,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class AppBarWidget extends StatelessWidget {
@@ -17,22 +18,29 @@ class AppBarWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Expanded(
+      child:
             locationWidget(),
-            ImageBox(
-              "0ad51820-35be-4a37-8a41-fb3915c1b2a0",
-              width: 200,
-              height: 40,
             ),
-             IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     IconButton(
-            //         onPressed: () => {Modular.to.navigate('/home/refer')},
-            //         icon: const Icon(Icons.share)),
-            //     IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
-            //   ],
-            // ),
+           Expanded(
+      child: ImageBox(
+                "0ad51820-35be-4a37-8a41-fb3915c1b2a0",
+                width: 200,
+                height: 40,
+                fit:BoxFit.contain
+              ),
+            ),
+            //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
+           Expanded(
+      child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () => {Modular.to.navigate('/home/refer')},
+                    icon: const Icon(Icons.share)),
+                IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
+              ],
+            ),),
           ],
         ),
         const SizedBox(
