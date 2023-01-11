@@ -33,12 +33,21 @@ class DealRow extends StatelessWidget {
                     children: [
                       Text(
                         dealController.getDealName(currentdealName),
-                        style: TextStyles.titleLargeBold,
+                        style: TextStyles.titleLargeSemiBold,
                       ),
-                      Text(
-                        'More >',
-                        style: TextStyles.headingFontBlue,
+                      ElevatedButton(
+                        onPressed: () => {},
+                        child: Text('View More',style: TextStyles.bodyWhite,),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:  AppColors.primeColor,
+                           // This is what you need!
+                        ),
                       ),
+
+                      // Text(
+                      //   'View More',
+                      //   style: TextStyles.headingFontBlue,
+                      // ),
                     ],
                   ),
                 ),

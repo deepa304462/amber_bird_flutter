@@ -24,6 +24,7 @@ class FontSizes {
   static double get bodySm => 10 * scale;
 
   static double get title => 16 * scale;
+  static double get title2 => 20 * scale;
   static double get xLarge => 28 * scale;
   static double get large => 22 * scale;
 }
@@ -83,6 +84,10 @@ class TextStyles {
       fontFamily: Fonts.title,
       fontSize: FontSizes.large,
       fontWeight: FontWeight.bold);
+  static TextStyle get titleLargeSemiBold => TextStyle(
+      fontFamily: Fonts.title,
+      fontSize: FontSizes.title2,
+      fontWeight: FontWeight.w600);
   static TextStyle get title => titleFont.copyWith(fontSize: FontSizes.title);
   static TextStyle get titleLast =>
       titleFont.copyWith(fontSize: FontSizes.body);

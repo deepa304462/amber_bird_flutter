@@ -72,8 +72,7 @@ class ProductCard extends StatelessWidget {
         addedFrom == dealName.FLASH.name
             ? CardColorAnimated(
                 Padding(
-                  padding:
-                      EdgeInsets.only(right: 5, top: 1, bottom: 1, left: 2),
+                  padding: const EdgeInsets.only(right: 5, top: 1, bottom: 1, left: 2),
                   child: Text(
                     difference.inHours != null
                         ? '${difference.inHours}H left'

@@ -21,53 +21,54 @@ class SearchWidget extends StatelessWidget {
         child: Container(
           height: 35,
           decoration: BoxDecoration(
-              color: AppColors.lightGrey,
-              borderRadius: BorderRadius.circular(0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade200,
-                  blurRadius: 20.0,
-                ),
-              ]),
-          child: TextField(
-            // controller: controller,
-            readOnly: true,
-            onTap: () {
-              showSearch(
-                  context: context,
-                  // delegate to customize the search bar
-                  delegate: CustomSearchDelegate());
-            },
-            decoration: InputDecoration(
-              prefixIcon: IconButton(
-                onPressed: () {
-                  // searchController.setSearchVal(controller.value.text);
-                  // if(stateController.activePageName.value != 'search'){
-                  //   Modular.to.navigate('/home/search',
-                  //       arguments: controller.value.text);
-                  // }
+            color: AppColors.lightGrey,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.shade200,
+                blurRadius: 20.0,
+              ),
+            ],
+          ),
+          child: Obx(
+            () {
+              return TextField(
+                // controller: controller,
+                readOnly: true,
+                controller:
+                    TextEditingController(text: searchController.search.value),
+                onTap: () {
+                  showSearch(
+                      context: context,
+                      // delegate to customize the search bar
+                      delegate: CustomSearchDelegate());
                 },
-                icon: Icon(
-                  Icons.search_outlined,
-                  color: AppColors.grey,
-                  size: 20,
+                decoration: InputDecoration(
+                  prefixIcon: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.search_outlined,
+                      color: AppColors.grey,
+                      size: 20,
+                    ),
+                  ),
+                  labelText: "Search...",
+                  labelStyle: TextStyles.bodyFont,
+                  // contentPadding: const EdgeInsets.all(2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(0)),
+                    borderSide: BorderSide(
+                      color: AppColors.grey,
+                    ),
+                  ),
+                  hintStyle: TextStyle(color: AppColors.primeColor),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                    borderSide: BorderSide(color: AppColors.grey),
+                  ),
                 ),
-              ),
-              labelText: "Search...",
-              labelStyle: TextStyles.bodyFont,
-              // contentPadding: const EdgeInsets.all(2.0),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(0)),
-                borderSide: BorderSide(
-                  color: AppColors.grey,
-                ),
-              ),
-              hintStyle: TextStyle(color: AppColors.primeColor),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                borderSide: BorderSide(color: AppColors.grey),
-              ),
-            ),
+              );
+            },
           ),
         ),
       ),
@@ -126,6 +127,8 @@ class CustomSearchDelegate extends SearchDelegate {
     return Obx(
       () => ListView(
         children: [
+          Text('Popular searches: ',style: TextStyles.titleGreen,),
+          PopularSearchWidget(context, searchController),
           searchController.searchingProduct.value
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -146,12 +149,39 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
+  Widget PopularSearchWidget(context, searchController) {
+    return Wrap(
+        // direction: Axis.vertical,
+        children: searchController.popularItems.map<Widget>(
+      (data) {
+        return Container(
+          height: 40,
+          padding: const EdgeInsets.all(0),
+          margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+          decoration: BoxDecoration(
+            border: Border.all(width: 1, color: AppColors.grey),
+            color: query == data['value']
+                ? Colors.green[100]
+                : AppColors.lightGrey,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: TextButton(
+            onPressed: () {
+              query = data['value'];
+            },
+            child: Text(data['label']),
+          ),
+        );
+      },
+    ).toList());
+  }
+
   Widget productResults(
       BuildContext context, SearchController searchController) {
     return Column(
-      children:
-          searchController.productResp.value.response!.docs!.map((product) {
-        return ListTile(
+      children: searchController.productResp.value.response!.docs!.map(
+        (product) {
+          return ListTile(
             onTap: () {
               close(context, null);
               Modular.to.navigate('/home/product/${product.id}');
@@ -164,40 +194,44 @@ class CustomSearchDelegate extends SearchDelegate {
             title: Text(
               product.name!,
               style: TextStyles.titleLargeBold,
-            ));
-      }).toList(),
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 
   Widget categoryResults(
       BuildContext context, SearchController searchController) {
     return Column(
-      children:
-          searchController.categoryResp.value.response!.docs!.map((category) {
-        return ListTile(
-            onTap: () {
-              close(context, null);
-              Modular.to.navigate('/home/categoryProduct/${category.id}');
-            },
-            leading: jsonDecode(category.extraData!)['logoId'] != null
-                ? ImageBox(
-                    jsonDecode(category.extraData!)['logoId'],
-                    width: 50,
-                    height: 50,
-                  )
-                : const Icon(Icons.category),
-            title: Text(
-              category.name!,
-              style: TextStyles.titleLargeBold,
-            ));
-      }).toList(),
+      children: searchController.categoryResp.value.response!.docs!.map(
+        (category) {
+          return ListTile(
+              onTap: () {
+                close(context, null);
+                Modular.to.navigate('/home/categoryProduct/${category.id}');
+              },
+              leading: jsonDecode(category.extraData!)['logoId'] != null
+                  ? ImageBox(
+                      jsonDecode(category.extraData!)['logoId'],
+                      width: 50,
+                      height: 50,
+                    )
+                  : const Icon(Icons.category),
+              title: Text(
+                category.name!,
+                style: TextStyles.titleLargeBold,
+              ));
+        },
+      ).toList(),
     );
   }
 
   Widget brandResults(BuildContext context, SearchController searchController) {
     return Column(
-      children: searchController.brandResp.value.response!.docs!.map((brand) {
-        return ListTile(
+      children: searchController.brandResp.value.response!.docs!.map(
+        (brand) {
+          return ListTile(
             onTap: () {
               close(context, null);
               Modular.to.navigate('/home/brandProduct/${brand.id}');
@@ -212,8 +246,10 @@ class CustomSearchDelegate extends SearchDelegate {
             title: Text(
               brand.name!,
               style: TextStyles.titleLargeBold,
-            ));
-      }).toList(),
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 }
