@@ -153,48 +153,69 @@ class LoginWidget extends StatelessWidget {
                   //     style: (TextStyles.bodyFont),
                   //   ),
                   // ),
+                  const SizedBox(
+                    height: 35,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: IconButton(
-                          icon: isLoading.value
-                              ? Icon(Icons.refresh_outlined)
-                              : Image.asset(
-                                  "assets/google_logo.png",
-                                  width: 25,
-                                ),
-                          iconSize: 10,
-                          onPressed: () async {
-                            isLoading.value = true;
-                            var data = await authController.LoginWithGoogle();
-                            if (data['status'] == 'success') {
-                              controller.isLogin.value = true;
-                              controller.getLoginInfo();
-                              controller.setCurrentTab(0);
-                              cartController.fetchCart();
-                            }
-                            isLoading.value = false;
-                            snackBarClass.showToast(context, data['msg']);
-                          },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: AppColors.white)),
+                          child: IconButton(
+                            icon: isLoading.value
+                                ? Icon(Icons.refresh_outlined)
+                                : Image.asset(
+                                    "assets/google_logo.png",
+                                    width: 25,
+                                  ),
+                            iconSize: 10,
+                            onPressed: () async {
+                              isLoading.value = true;
+                              var data = await authController.LoginWithGoogle();
+                              if (data['status'] == 'success') {
+                                controller.isLogin.value = true;
+                                controller.getLoginInfo();
+                                controller.setCurrentTab(0);
+                                cartController.fetchCart();
+                              }
+                              isLoading.value = false;
+                              snackBarClass.showToast(context, data['msg']);
+                            },
+                          ),
                         ),
                       ),
+                      const SizedBox(
+                        width: 15,
+                      ),
                       Expanded(
-                        child: const Icon(Icons.facebook),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: AppColors.white)),
+                          child: IconButton(
+                            icon: Icon(Icons.facebook),
+                            onPressed: () {},
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 30,
+                    height: 60,
                   ),
                   RichText(
                     text: TextSpan(
-                      style: TextStyles.bodyWhiteLarge,
+                      style: TextStyles.bodyWhiteTitle2,
                       children: <TextSpan>[
                         TextSpan(text: "Don't have an account? "),
                         TextSpan(
                             text: 'Sign up',
-                            style: TextStyles.titleGreen,
+                            style: TextStyles.title2Green,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 authController.resetFieldValue();

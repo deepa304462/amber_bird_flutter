@@ -37,18 +37,21 @@ class ProfilePage extends StatelessWidget {
                 child: Card(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: TextButton(
-                      onPressed: () async {
-                        isLoading.value = true;
-                        // Modular.to.navigate('../home/reset-password');
-                        var data = await stateController.resetPassInit();
-                        isLoading.value = false;
-                        snackBarClass.showToast(
-                            context, 'Please check your mail !,thanks');
-                      },
-                      child: Text(
-                          isLoading.value ? "Loading" : "Reset Password",
-                          style: TextStyles.headingFont),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () async {
+                          isLoading.value = true;
+                          // Modular.to.navigate('../home/reset-password');
+                          var data = await stateController.resetPassInit();
+                          isLoading.value = false;
+                          snackBarClass.showToast(
+                              context, 'Please check your mail !,thanks');
+                        },
+                        child: Text(
+                            isLoading.value ? "Loading" : "Reset Password",
+                            style: TextStyles.headingFont),
+                      ),
                     ),
                   ),
                 ),

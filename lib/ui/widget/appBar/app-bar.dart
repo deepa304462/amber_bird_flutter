@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/location-widget.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
@@ -10,37 +11,74 @@ import 'package:get/get.dart';
 
 class AppBarWidget extends StatelessWidget {
   final Controller stateController = Get.find();
+  final WishlistController wishlistController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
-          mainAxisSize: MainAxisSize.max,
+          // mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-      child:
-            locationWidget(),
+              child: locationWidget(),
             ),
-           Expanded(
-      child: ImageBox(
-                "0ad51820-35be-4a37-8a41-fb3915c1b2a0",
-                width: 200,
-                height: 40,
-                fit:BoxFit.contain
-              ),
+            Expanded(
+              child: ImageBox("0ad51820-35be-4a37-8a41-fb3915c1b2a0",
+                  height: 40, fit: BoxFit.contain),
             ),
             //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
-           Expanded(
-      child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                    onPressed: () => {Modular.to.navigate('/home/refer')},
-                    icon: const Icon(Icons.share)),
-                IconButton(onPressed: () => {}, icon: const Icon(Icons.layers))
-              ],
-            ),),
+            FittedBox(
+              alignment: Alignment.centerRight,
+              fit: BoxFit.fitHeight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Stack(
+                    fit: StackFit.loose,
+                    children: [
+                      IconButton(
+                        // padding: EdgeInsets.all(0),
+                        icon: const Icon(
+                          Icons.favorite,
+                          // color:  AppColors.black,
+                        ),
+                        onPressed: () =>
+                            {Modular.to.navigate('../home/wishlist')},
+                      ),
+                      Positioned(
+                        top: 7,
+                        left: 4,
+                        child: Card(
+                          color: Colors.yellow[700],
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Text(
+                                wishlistController.wishlistProducts.length
+                                    .toString(),
+                                style: TextStyles.bodySm),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                      // padding: EdgeInsets.all(0),
+                      onPressed: () => {Modular.to.navigate('/home/refer')},
+                      icon: const Icon(
+                        Icons.share,
+                      )),
+                  IconButton(
+                      // padding: EdgeInsets.all(0),
+                      onPressed: () => {},
+                      icon: const Icon(
+                        Icons.layers,
+                      ))
+                ],
+              ),
+            ),
           ],
         ),
         const SizedBox(

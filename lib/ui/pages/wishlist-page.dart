@@ -26,8 +26,10 @@ class WishListPage extends StatelessWidget {
       //         ?.map((e) => WishList.fromMap(e as Map<String, dynamic>))
       //         .toList() ??
       //     []);
-      wishList.value =
-          WishList.fromMap(response.data[0] as Map<String, dynamic>);
+      if (response.data.length > 0) {
+        wishList.value =
+            WishList.fromMap(response.data[0] as Map<String, dynamic>);
+      }
     }
   }
 

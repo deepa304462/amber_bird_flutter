@@ -6,7 +6,7 @@ class Fonts {
 }
 
 class AppColors {
-  static Color primeColor =  HexColor("#8e192d");//Colors.red.shade800;
+  static Color primeColor = HexColor("#8e192d"); //Colors.red.shade800;
   static Color white = Colors.white;
   static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
@@ -63,10 +63,8 @@ class TextStyles {
       fontFamily: Fonts.title,
       fontSize: FontSizes.xLarge,
       color: AppColors.primeColor);
-      static TextStyle get titleXLargeGreen => TextStyle(
-      fontFamily: Fonts.title,
-      fontSize: FontSizes.xLarge,
-      color: Colors.green);
+  static TextStyle get titleXLargeGreen => TextStyle(
+      fontFamily: Fonts.title, fontSize: FontSizes.xLarge, color: Colors.green);
   static TextStyle get titleXLargePrimaryBold => TextStyle(
       fontFamily: Fonts.title,
       fontWeight: FontWeight.w900,
@@ -108,6 +106,10 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.w500,
       color: Colors.green);
+      static TextStyle get title2Green => titleFont.copyWith(
+      fontSize: FontSizes.title2,
+      fontWeight: FontWeight.w500,
+      color: Colors.green);
   static TextStyle get bodyWhite => bodyFont.copyWith(
       fontSize: FontSizes.body,
       fontWeight: FontWeight.w300,
@@ -120,7 +122,11 @@ class TextStyles {
       fontSize: FontSizes.large,
       fontWeight: FontWeight.w300,
       color: Colors.white);
-      static TextStyle get bodyWhiteLargeBold => bodyFont.copyWith(
+  static TextStyle get bodyWhiteTitle2 => bodyFont.copyWith(
+      fontSize: FontSizes.title2,
+      fontWeight: FontWeight.w300,
+      color: Colors.white);
+  static TextStyle get bodyWhiteLargeBold => bodyFont.copyWith(
       fontSize: FontSizes.large,
       fontWeight: FontWeight.w700,
       color: Colors.white);
@@ -144,6 +150,7 @@ class TextStyles {
       decoration: TextDecoration.lineThrough,
       color: Color.fromARGB(255, 196, 186, 186));
 }
+
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");

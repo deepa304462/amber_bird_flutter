@@ -16,6 +16,6 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 # update
- - From the Product page, able to add the product to my Wishlist.
- - product page my postal code is not reflected
- - country code bug on sign up
+ - login page design 
+ - sighnup page design
+ - appbar wishlist icon
