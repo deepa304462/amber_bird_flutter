@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -23,7 +24,7 @@ class ProductDetailScreen extends StatelessWidget {
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
-
+  LocationController locationController = Get.find();
   final String? pId;
   // final Price? dealPrice;
   final String? refId;
@@ -318,7 +319,7 @@ class ProductDetailScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Ship to Your address, 226010',
+          'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
           style: TextStyles.titleLarge,
         ),
         const SizedBox(
@@ -541,7 +542,13 @@ class ProductDetailScreen extends StatelessWidget {
         Row(
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  wishlistController.addToWishlist(
+                      productController.product.value.id,
+                      productController.product.value,
+                      null,
+                      addedFrom);
+                },
                 icon: Icon(
                   Icons.favorite,
                   color: wishlistController.checkIfProductWishlist(

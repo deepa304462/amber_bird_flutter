@@ -8,6 +8,7 @@ import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -18,30 +19,25 @@ class LoginWidget extends StatelessWidget {
   final Controller controller = Get.find();
   RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      color: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
+    return Container(
+      color: AppColors.primeColor,
+      height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
+          padding: const EdgeInsets.only(left: 8.0, right: 8, top: 48),
           child: Obx(() => Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Image.network(
-                  //   'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
-                  //   width: 200,
-                  //   fit: BoxFit.cover,
-                  // ),
-                  ImageBox(
-                    '383ba026-222a-4a16-8c24-b6f7f7227630',
-                    width: 200,
+                  Text(
+                    'Welcome',
+                    style: TextStyles.bodyWhiteLargeBold,
                   ),
                   Text(
-                    'Get access',
-                    style: TextStyles.titleXLargePrimary,
+                    'Glad to see You!',
+                    style: TextStyles.bodyWhiteLarge,
+                  ),
+                  SizedBox(
+                    height: 20,
                   ),
                   LoginType.mobilePassword == authController.loginWith.value
                       ? ITextBox('contact number', 'mobile', '', false,
@@ -60,146 +56,195 @@ class LoginWidget extends StatelessWidget {
                   ),
                   ITextBox('Password', 'password', '', false,
                       TextInputType.visiblePassword, true, false, callback),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () async {
+                        showModalBottomSheet<void>(
+                          // context and builder are
+                          // required properties in this widget
+                          context: context,
+                          useRootNavigator: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13)),
+                          backgroundColor: Colors.white,
+                          isScrollControlled: true,
+                          elevation: 3,
+                          builder: (context) {
+                            return ForgotPassDrawer();
+                          },
+                        );
+                      },
+                      child: Text(
+                        'Forgot Password ?',
+                        style: TextStyles.bodyWhiteBold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: TextButton(
+                      onPressed: () async {
+                        isLoading.value = true;
+                        var data = await authController.login();
+                        print(data);
+                        if (data['status'] == 'success') {
+                          controller.getLoginInfo();
+                          controller.isLogin.value = true;
+                          controller.setCurrentTab(0);
+                          cartController.fetchCart();
+                        }
+                        isLoading.value = false;
+                        snackBarClass.showToast(context, data['msg']);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(AppColors.white),
+                      ),
+                      child: Text(
+                        isLoading.value ? 'Loading' : 'Login',
+                        style: TextStyles.headingFont,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(children: <Widget>[
+                    Expanded(
+                      child: Container(
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
+                          child: Divider(
+                            color: AppColors.white,
+                            height: 36,
+                          )),
+                    ),
+                    Text(
+                      "Or Login with",
+                      style: TextStyles.bodyWhite,
+                    ),
+                    Expanded(
+                      child: Container(
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 10.0),
+                          child: Divider(
+                            color: AppColors.white,
+                            height: 36,
+                          )),
+                    ),
+                  ]),
+                  // TextButton(
+                  //   style: TextButton.styleFrom(
+                  //       padding: EdgeInsets.zero,
+                  //       minimumSize: Size(50, 30),
+                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //       alignment: Alignment.centerLeft),
+                  //   onPressed: () {
+                  //     authController.setLoginWith(LoginType.usernamePassword);
+                  //   },
+                  //   child: Text(
+                  //     'Login with Username & Password',
+                  //     style: (TextStyles.bodyFont),
+                  //   ),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextButton(
-                        onPressed: () async {
-                          isLoading.value = true;
-                          var data = await authController.login();
-                          print(data);
-                          if (data['status'] == 'success') {
-                            controller.getLoginInfo();
-                            controller.isLogin.value = true;
-                            controller.setCurrentTab(0);
-                            cartController.fetchCart();
-                          }
-                          isLoading.value = false;
-                          snackBarClass.showToast(context, data['msg']);
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                AppColors.primeColor)),
-                        child: Text(
-                          isLoading.value ? 'Loading' : 'Login',
-                          style: TextStyles.bodyWhiteLarge,
+                      Expanded(
+                        child: IconButton(
+                          icon: isLoading.value
+                              ? Icon(Icons.refresh_outlined)
+                              : Image.asset(
+                                  "assets/google_logo.png",
+                                  width: 25,
+                                ),
+                          iconSize: 10,
+                          onPressed: () async {
+                            isLoading.value = true;
+                            var data = await authController.LoginWithGoogle();
+                            if (data['status'] == 'success') {
+                              controller.isLogin.value = true;
+                              controller.getLoginInfo();
+                              controller.setCurrentTab(0);
+                              cartController.fetchCart();
+                            }
+                            isLoading.value = false;
+                            snackBarClass.showToast(context, data['msg']);
+                          },
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          authController.resetFieldValue();
-                          Modular.to.navigate('/home/signup');
-                        },
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                AppColors.lightGrey)),
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyles.titleLarge,
-                        ),
+                      Expanded(
+                        child: const Icon(Icons.facebook),
                       ),
                     ],
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      showModalBottomSheet<void>(
-                        // context and builder are
-                        // required properties in this widget
-                        context: context,
-                        useRootNavigator: true,
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(13)),
-                        backgroundColor: Colors.white,
-                        isScrollControlled: true,
-                        elevation: 3,
-                        builder: (context) {
-                          return ForgotPassDrawer();
-                        },
-                      );
-                      // authController.resetFieldValue();
-                      // Modular.to.navigate('/home/signup');
-                    },
-                    // style: ButtonStyle(
-                    //     backgroundColor: MaterialStateProperty.all<Color>(
-                    //         AppColors.lightGrey)),
-                    child: Text(
-                      'Forgot Password',
-                      style: TextStyles.bodyGreen,
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyles.bodyWhiteLarge,
+                      children: <TextSpan>[
+                        TextSpan(text: "Don't have an account? "),
+                        TextSpan(
+                            text: 'Sign up',
+                            style: TextStyles.titleGreen,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                authController.resetFieldValue();
+                                Modular.to.navigate('/home/signup');
+                                print('Sign up"');
+                              }),
+                      ],
                     ),
                   ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(50, 30),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        alignment: Alignment.centerLeft),
-                    onPressed: () {
-                      authController.setLoginWith(LoginType.usernamePassword);
-                    },
-                    child: Text(
-                      'Login with Username & Password',
-                      style: (TextStyles.bodyFont),
-                    ),
-                  ),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(50, 30),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        alignment: Alignment.centerLeft),
-                    onPressed: () {
-                      authController.setLoginWith(LoginType.emailPassword);
-                    },
-                    child: Text(
-                      'Login with Email & Password',
-                      style: (TextStyles.bodyFont),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      authController.setLoginWith(LoginType.mobilePassword);
-                    },
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(50, 30),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        alignment: Alignment.centerLeft),
-                    child: Text(
-                      'Login with Mobile & Password',
-                      style: (TextStyles.bodyFont),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: isLoading.value
-                            ? Icon(Icons.refresh_outlined)
-                            : Image.asset(
-                                "assets/google_logo.png",
-                                width: 25,
-                              ),
-                        iconSize: 10,
-                        onPressed: () async {
-                          isLoading.value = true;
-                          var data = await authController.LoginWithGoogle();
-                          if (data['status'] == 'success') {
-                            controller.isLogin.value = true;
-                            controller.getLoginInfo();
-                            controller.setCurrentTab(0);
-                            cartController.fetchCart();
-                          }
-                          isLoading.value = false;
-                          snackBarClass.showToast(context, data['msg']);
-                        },
-                      ),
-                      const Icon(Icons.facebook),
-                    ],
-                  ),
+                  // TextButton(
+                  //   onPressed: () async {
+                  //     authController.resetFieldValue();
+                  //     Modular.to.navigate('/home/signup');
+                  //   },
+                  //   style: ButtonStyle(
+                  //       backgroundColor: MaterialStateProperty.all<Color>(
+                  //           AppColors.lightGrey)),
+                  //   child: Text(
+                  //     'Sign Up',
+                  //     style: TextStyles.titleLarge,
+                  //   ),
+                  // ),
+                  // TextButton(
+                  //   style: TextButton.styleFrom(
+                  //       padding: EdgeInsets.zero,
+                  //       minimumSize: Size(50, 30),
+                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //       alignment: Alignment.centerLeft),
+                  //   onPressed: () {
+                  //     authController.setLoginWith(LoginType.emailPassword);
+                  //   },
+                  //   child: Text(
+                  //     'Login with Email & Password',
+                  //     style: (TextStyles.bodyFont),
+                  //   ),
+                  // ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     authController.setLoginWith(LoginType.mobilePassword);
+                  //   },
+                  //   style: TextButton.styleFrom(
+                  //       padding: EdgeInsets.zero,
+                  //       minimumSize: Size(50, 30),
+                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  //       alignment: Alignment.centerLeft),
+                  //   child: Text(
+                  //     'Login with Mobile & Password',
+                  //     style: (TextStyles.bodyFont),
+                  //   ),
+                  // ),
                 ],
               )),
         ),

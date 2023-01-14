@@ -112,9 +112,17 @@ class TextStyles {
       fontSize: FontSizes.body,
       fontWeight: FontWeight.w300,
       color: Colors.white);
+  static TextStyle get bodyWhiteBold => bodyFont.copyWith(
+      fontSize: FontSizes.body,
+      fontWeight: FontWeight.w600,
+      color: Colors.white);
   static TextStyle get bodyWhiteLarge => bodyFont.copyWith(
       fontSize: FontSizes.large,
       fontWeight: FontWeight.w300,
+      color: Colors.white);
+      static TextStyle get bodyWhiteLargeBold => bodyFont.copyWith(
+      fontSize: FontSizes.large,
+      fontWeight: FontWeight.w700,
       color: Colors.white);
   static TextStyle get addTocartText => bodyFont.copyWith(
       fontSize: FontSizes.title,

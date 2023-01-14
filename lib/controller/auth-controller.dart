@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
@@ -159,6 +159,7 @@ class AuthController extends GetxController {
         "orgShortCode": "",
         "profileIcon": fieldValue['profileImageId']
       };
+      dev.log(jsonEncode(payload).toString()); 
       var resp =
           await ClientService.post(path: 'profile-auth', payload: payload);
       if (resp.statusCode == 200) {
@@ -169,7 +170,8 @@ class AuthController extends GetxController {
         };
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
-
+        dev.log(jsonEncode(loginPayload).toString());
+        print(loginPayload);
         if (loginResp.statusCode == 200) {
           ClientService.token = loginResp.data['accessToken'];
           SharedData.save(jsonEncode(loginResp.data), 'authData');
@@ -193,7 +195,7 @@ class AuthController extends GetxController {
             ];
             resp.data['profile']['socialMediaOAuths'] = socialdata;
             var userPayload = resp.data['profile'];
-            inspect(userPayload);
+            dev.inspect(userPayload);
             var userUpdateResp = await ClientService.Put(
                 path: 'user-profile',
                 id: resp.data['profile']['_id'],
@@ -230,7 +232,7 @@ class AuthController extends GetxController {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
-    inspect(googleSignInAccount);
+    dev.inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
@@ -257,7 +259,7 @@ class AuthController extends GetxController {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
-    inspect(googleSignInAccount);
+    dev.inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
       // var pw = generatePassword();
       fieldValue.value = {
@@ -312,7 +314,7 @@ class AuthController extends GetxController {
       // final AccessToken accessToken = result.accessToken!;
       return {"msg": "Please fill all field !!", "status": "success"};
     } else {
-      inspect(result);
+      dev.inspect(result);
       print('${result.message}');
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
@@ -322,11 +324,8 @@ class AuthController extends GetxController {
     fieldValue.value[name] = text;
   }
 
-  String generatePassword({
-    bool letter = true,
-    bool isNumber = true,
-    bool isSpecial = true,
-  }) {
+  String generatePassword(
+      {bool letter = true, bool isNumber = true, bool isSpecial = true}) {
     const length = 20;
     const letterLowerCase = "abcdefghijklmnopqrstuvwxyz";
     const letterUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

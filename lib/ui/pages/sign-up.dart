@@ -5,7 +5,6 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/image-picker.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,7 @@ class SignUp extends StatelessWidget {
     return GetX<AuthController>(builder: (mController) {
       return Card(
         elevation: 5,
-        color: Colors.white,
+        color: AppColors.primeColor,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15))),
         child: SingleChildScrollView(
@@ -83,7 +82,9 @@ class SignUp extends StatelessWidget {
                 mController.usernameValid.value
                     ? const SizedBox()
                     : Text(
-                        'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}'),
+                        'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
+                        style: TextStyles.bodyWhite,
+                      ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -137,21 +138,27 @@ class SignUp extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Image(
-                        image: AssetImage("assets/google_logo.png"),
-                        height: 35.0,
+                      Expanded(
+                        child: const Image(
+                          image: AssetImage("assets/google_logo.png"),
+                          height: 35.0,
+                        ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          !isLoading.value ? 'Sign in with Google' : 'Loading',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w600,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            !isLoading.value
+                                ? 'Sign in with Google'
+                                : 'Loading',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -203,7 +210,6 @@ class SignUp extends StatelessWidget {
                       isLoading.value = true;
                       var data = await mController.signUp();
                       if (data['status'] == 'success') {
-                        controller.isLogin.value = true;
                         controller.getLoginInfo();
                         controller.setCurrentTab(0);
                         cartController.fetchCart();

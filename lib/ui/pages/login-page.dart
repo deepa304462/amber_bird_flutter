@@ -13,22 +13,23 @@ class LoginPageWidget extends StatelessWidget {
     return SafeArea(
       child: Scaffold(body: Builder(
         builder: (context) {
-          return Stack(
-            children: [
-              Container(
-                child: Lottie.network(
-                    'https://cdn2.sbazar.app/4ac75c41-c312-4655-aeab-2c0717f7b07b'),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12.0, vertical: 10),
-                  child: LoginWidget(),
-                ),
-              ),
-            ],
-          );
+          return LoginWidget();
+          // Stack(
+          //   children: [
+          //     Container(
+          //       child: Lottie.network(
+          //           'https://cdn2.sbazar.app/4ac75c41-c312-4655-aeab-2c0717f7b07b'),
+          //     ),
+          //     Align(
+          //       alignment: Alignment.bottomCenter,
+          //       child: Padding(
+          //         padding: const EdgeInsets.symmetric(
+          //             horizontal: 12.0, vertical: 10),
+          //         child: LoginWidget(),
+          //       ),
+          //     ),
+          //   ],
+          // );
         },
       )),
     );

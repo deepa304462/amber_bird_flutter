@@ -26,16 +26,18 @@ class ITextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     if (keyName != 'mobile') {
       return Container(
+        height: 55,
         padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
         decoration: BoxDecoration(
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.primeColor)),
+            border: Border.all(color: AppColors.white)),
         child: TextField(
           style: TextStyles.title,
           decoration: InputDecoration(
-            border: InputBorder.none,
-            labelText: label,
-          ),
+              border: InputBorder.none,
+              labelText: label,
+              labelStyle: TextStyles.headingFont),
           onChanged: ((textChanged) {
             callback(keyName, textChanged);
           }),
@@ -48,16 +50,22 @@ class ITextBox extends StatelessWidget {
       ipController.text =
           value.split('-').length > 1 ? value.split('-')[1] : value;
       return Container(
+        height: 55,
         padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
         decoration: BoxDecoration(
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.primeColor)),
+            border: Border.all(color: AppColors.white)),
         child: Row(
           children: <Widget>[
             SizedBox(
               width: 60,
               child: CountryPickerDropdown(
-                value.split('-').length > 1 ? value.split('-')[0] : '91',
+                value.split('-').length > 1
+                    ? value.split('-')[0]
+                    : (authController.fieldValue['countryCode'].toString() != ''
+                        ? authController.fieldValue['countryCode'].toString()
+                        : '91'),
                 (country) {
                   //countryCode
                   authController.setFielsvalue(country, 'countryCode');
@@ -70,6 +78,7 @@ class ITextBox extends StatelessWidget {
                 maxLength: 15,
                 decoration: InputDecoration(
                     border: InputBorder.none,
+                    labelStyle: TextStyles.headingFont,
                     labelText: label,
                     counterText: ""),
                 obscureText: isPassword,
