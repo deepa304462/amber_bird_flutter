@@ -26,12 +26,10 @@ class WishlistController extends GetxController {
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (insightDetailloc != null) {
       Customer cust = Customer.fromMap(
-          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
-      log(cust.toString());
+          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>); 
       if (cust.wishList != null) {
         wishlistId.value = cust.wishList!.id ?? '';
-        for (var element in cust.wishList!.favorites!) {
-        }
+        for (var element in cust.wishList!.favorites!) {}
         // totalPrice.value = pr;
       }
     } else {
@@ -50,13 +48,18 @@ class WishlistController extends GetxController {
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'products': products != null ? (jsonDecode(products.toJson())) : null,
           'productType': type,
-          'ref': {'name' : 'fav','_id': pid},
+          'ref': {'name': 'fav', '_id': pid},
           'addedOnTime': DateTime.now().toUtc().toString()
         });
         wishlistProducts[pid] = fav;
       }
       await saveWishlist();
     }
+  }
+
+  removeWishList(pid) async {
+    wishlistProducts.remove(pid);
+    await saveWishlist();
   }
 
   resetWishlist() async {
@@ -89,24 +92,23 @@ class WishlistController extends GetxController {
         'favorites': listProd,
         '_id': wishlistId.value,
         'metaData': (jsonDecode(cust.wishList!.metaData!.toJson())),
-      };
-      log(jsonEncode(payload).toString());
+      }; 
       resp = await ClientService.Put(
           path: 'wishList', id: wishlistId.value, payload: payload);
     } else {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
         'favorites': listProd,
-      };
-      log(jsonEncode(payload).toString());
+      }; 
       resp = await ClientService.post(path: 'wishList', payload: payload);
     }
     if (resp.statusCode == 200) {
       if (wishlistId.value == '') wishlistId.value = resp.data['_id'];
 
       cust.wishList = WishList.fromMap(resp.data);
-       log(jsonEncode(cust).toString());
-      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      // log(jsonEncode(cust).toString());
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     }
   }
 

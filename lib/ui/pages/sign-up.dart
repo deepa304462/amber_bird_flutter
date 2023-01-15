@@ -352,8 +352,7 @@ class SignUp extends StatelessWidget {
   }
 
   imageCallback(String p1) {
-    authController.setFielsvalue(p1, 'profileImageId');
-    log(p1);
+    authController.setFielsvalue(p1, 'profileImageId'); 
   }
 
   isLoadingCallback(bool val) {

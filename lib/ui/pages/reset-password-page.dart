@@ -27,7 +27,7 @@ class ResetPasswordWidget extends StatelessWidget {
 
     callback(String name, String text) {
       // authController.setFielsvalue(text, name);
-       updatePassController.setResetPassvalue(text, name);
+      updatePassController.setResetPassvalue(text, name);
     }
 
     return SafeArea(

@@ -2,7 +2,7 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
- import 'package:amber_bird/data/deal_product/price.dart';
+import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -40,14 +40,12 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   width: 120,
                   height: 120,
-                  child: 
-                  // Image.network(
-                  //   '${ClientService.cdnUrl}${product.images![0]}',
-                  //   fit: BoxFit.fitHeight,
-                  // ),
-                  ImageBox(
-                    product.images![0] 
-                  ),
+                  child:
+                      // Image.network(
+                      //   '${ClientService.cdnUrl}${product.images![0]}',
+                      //   fit: BoxFit.fitHeight,
+                      // ),
+                      ImageBox(product.images![0]),
                 ),
               )
             : const SizedBox(
@@ -72,7 +70,8 @@ class ProductCard extends StatelessWidget {
         addedFrom == dealName.FLASH.name
             ? CardColorAnimated(
                 Padding(
-                  padding: const EdgeInsets.only(right: 5, top: 1, bottom: 1, left: 2),
+                  padding: const EdgeInsets.only(
+                      right: 5, top: 1, bottom: 1, left: 2),
                   child: Text(
                     difference.inHours != null
                         ? '${difference.inHours}H left'
@@ -192,8 +191,13 @@ class ProductCard extends StatelessWidget {
                         elevation: 3,
                         builder: (context) {
                           // return _bottomSheetAddToCart(product, context);
-                          return DealBottomDrawer([product!], refId, addedFrom,
-                              dealPrice,Constraint(), product!.name,
+                          return DealBottomDrawer(
+                              [product!],
+                              refId,
+                              addedFrom,
+                              dealPrice,
+                              Constraint(),
+                              product!.name,
                               addedFrom!);
                         },
                       );

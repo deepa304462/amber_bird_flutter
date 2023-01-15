@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/name.dart';
 
- 
 class Parent {
   Name? name;
   String? logoId;

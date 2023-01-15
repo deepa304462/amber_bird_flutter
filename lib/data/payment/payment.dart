@@ -20,6 +20,8 @@ class Payment {
   List<TaxDetail>? appliedTaxDetail;
   String? description;
   dynamic businessId;
+  dynamic totalSCoins;
+  dynamic totalSPoints;
   String? checkoutUrl;
   String? bankTxnId;
   String? id;
@@ -40,6 +42,8 @@ class Payment {
     this.appliedTaxDetail,
     this.description,
     this.businessId,
+    this.totalSCoins,
+    this.totalSPoints,
     this.checkoutUrl,
     this.bankTxnId,
     this.id,
@@ -47,7 +51,7 @@ class Payment {
 
   @override
   String toString() {
-    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
+    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId,totalSCoins: $totalSCoins,totalSPoints: $totalSPoints, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
   }
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
@@ -80,6 +84,8 @@ class Payment {
         appliedTaxAmount: data['appliedTaxAmount'] as dynamic?,
         description: data['description'] as String?,
         businessId: data['businessId'] as dynamic,
+        totalSCoins: data['totalSCoins'] as dynamic,
+        totalSPoints: data['totalSPoints'] as dynamic,
         checkoutUrl: data['checkoutUrl'] as String?,
         id: data['_id'] as String?,
       );
@@ -100,6 +106,8 @@ class Payment {
         'appliedTaxDetail': appliedTaxDetail,
         'description': description,
         'businessId': businessId,
+        'totalSCoins': totalSCoins,
+        'totalSPoints': totalSPoints,
         'checkoutUrl': checkoutUrl,
         'bankTxnId': bankTxnId,
         '_id': id,
@@ -133,6 +141,8 @@ class Payment {
     List<TaxDetail>? appliedTaxDetail,
     String? description,
     dynamic businessId,
+    dynamic totalSCoins,
+    dynamic totalSPoints,
     String? checkoutUrl,
     String? bankTxnId,
     String? id,
@@ -154,6 +164,8 @@ class Payment {
       description: description ?? this.description,
       businessId: businessId ?? this.businessId,
       checkoutUrl: checkoutUrl ?? this.checkoutUrl,
+      totalSPoints: totalSPoints ?? this.totalSPoints,
+      totalSCoins: totalSCoins ?? this.totalSCoins,
       bankTxnId: bankTxnId ?? this.bankTxnId,
       id: id ?? this.id,
     );

@@ -157,12 +157,12 @@ class MultiProductRow extends StatelessWidget {
                                           elevation: 3,
                                           builder: (context) {
                                             return DealBottomDrawer(
-                                                mProduct.products,
-                                                mProduct.id,
-                                                currenttypeName,
-                                                mProduct.price,
-                                                mProduct.constraint,
-                                                mProduct.name,
+                                              mProduct.products,
+                                              mProduct.id,
+                                              currenttypeName,
+                                              mProduct.price,
+                                              mProduct.constraint,
+                                              mProduct.name,
                                               'MULTIPRODUCT',
                                             );
                                           },

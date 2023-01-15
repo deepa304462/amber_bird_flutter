@@ -12,8 +12,7 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class Helper {
-  static Product conertToProductSummary() {
-    print("1234");
+  static Product conertToProductSummary() { 
     return Product();
   }
 
@@ -46,7 +45,7 @@ class Helper {
               ruleConfig.minCartAmount) {
             return ({
               'error': true,
-              'msg': 'Required min cart amount ${ruleConfig!.minCartAmount}'
+              'msg': 'Required min cart amount ${ruleConfig.minCartAmount}'
             });
           }
         }
@@ -74,20 +73,20 @@ class Helper {
         });
       }
     }
-    if (constraint!.maximumOrder != null && constraint!.maximumOrder != 0) {
+    if (constraint!.maximumOrder != null && constraint.maximumOrder != 0) {
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
         if (cartController.cartProducts.value[id] != null) {
           var newCount = (cartController.cartProducts.value[id] == null
                   ? 0
                   : (cartController.cartProducts.value[id]!.count! ?? 0)) +
-              (constraint!.minimumOrder == 0
+              (constraint.minimumOrder == 0
                   ? 1
-                  : int.parse(constraint!.minimumOrder.toString() ?? '0'));
-          if ((constraint!.maximumOrder ?? 0) < newCount) {
+                  : int.parse(constraint.minimumOrder.toString() ?? '0'));
+          if ((constraint.maximumOrder ?? 0) < newCount) {
             return ({
               'error': true,
-              'msg': 'Max ${constraint!.maximumOrder} can be added!'
+              'msg': 'Max ${constraint.maximumOrder} can be added!'
             });
           }
         }

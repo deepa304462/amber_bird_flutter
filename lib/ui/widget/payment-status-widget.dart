@@ -14,7 +14,7 @@ class PaymentStatusWidget extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Obx(() {
-      print(cartController.paymentData.value!.status);
+      // print(cartController.paymentData.value!.status);
       if (cartController.paymentData.value!.status == 'OPEN') {
         return Padding(
             padding: const EdgeInsets.only(top: 10),

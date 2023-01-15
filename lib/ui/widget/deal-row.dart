@@ -37,10 +37,13 @@ class DealRow extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () => {},
-                        child: Text('View More',style: TextStyles.bodyWhite,),
+                        child: Text(
+                          'View More',
+                          style: TextStyles.bodyWhite,
+                        ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:  AppColors.primeColor,
-                           // This is what you need!
+                          backgroundColor: AppColors.primeColor,
+                          // This is what you need!
                         ),
                       ),
 

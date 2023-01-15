@@ -45,8 +45,14 @@ class AppBarWidget extends StatelessWidget {
                           Icons.favorite,
                           // color:  AppColors.black,
                         ),
-                        onPressed: () =>
-                            {Modular.to.navigate('../home/wishlist')},
+                        onPressed: () {
+                          if (stateController.isLogin.value) {
+                            Modular.to.navigate('/home/wishlist');
+                          } else {
+                            Modular.to.navigate('/home/login');
+                          }
+                          // Modular.to.navigate('../home/wishlist')
+                        },
                       ),
                       Positioned(
                         top: 7,
@@ -55,10 +61,12 @@ class AppBarWidget extends StatelessWidget {
                           color: Colors.yellow[700],
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: Text(
-                                wishlistController.wishlistProducts.length
-                                    .toString(),
-                                style: TextStyles.bodySm),
+                            child: Obx(
+                              () => Text(
+                                  wishlistController.wishlistProducts.length
+                                      .toString(),
+                                  style: TextStyles.bodySm),
+                            ),
                           ),
                         ),
                       ),

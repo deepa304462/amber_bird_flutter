@@ -127,7 +127,10 @@ class CustomSearchDelegate extends SearchDelegate {
     return Obx(
       () => ListView(
         children: [
-          Text('Popular searches: ',style: TextStyles.titleGreen,),
+          Text(
+            'Popular searches: ',
+            style: TextStyles.titleGreen,
+          ),
           PopularSearchWidget(context, searchController),
           searchController.searchingProduct.value
               ? const Center(

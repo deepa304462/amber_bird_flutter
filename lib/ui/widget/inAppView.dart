@@ -29,8 +29,7 @@ class _MyAppState extends State<InApp> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic args = ModalRoute.of(context)!.settings.arguments;
-    log(args.toString());
+    dynamic args = ModalRoute.of(context)!.settings.arguments; 
     return Container(
       child: Column(children: <Widget>[
         // Container(
@@ -63,15 +62,15 @@ class _MyAppState extends State<InApp> {
               onProgressChanged:
                   (InAppWebViewController controller, int progress) {},
               onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                log(controller.toString());
-                log(url.toString());
+                // log(controller.toString());
+                // log(url.toString());
                 if (url.toString() ==
                     'https://prod.sbazar.app/order/${cartController.orderId.value}') {
                   CartController cartController = Get.find();
                   cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');
                 }
-                log(androidIsReload.toString());
+                // log(androidIsReload.toString());
                 // setState(() {
                 //   this.url = url.toString();
                 //   urlController.text = this.url;

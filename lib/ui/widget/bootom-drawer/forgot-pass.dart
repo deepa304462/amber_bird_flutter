@@ -15,14 +15,15 @@ class ForgotPassDrawer extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
-             const SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Forgot Password',
               style: TextStyles.titleXLargeGreen,
             ),
             const SizedBox(height: 20),
-            ITextBox('Email', 'email', '', false,TextInputType.emailAddress, false, false, callback),
-                //           ITextBox(
+            ITextBox('Email', 'email', '', false, TextInputType.emailAddress,
+                false, false, callback),
+            //           ITextBox(
             // 'Username',
             // 'username',
             // authController.fieldValue['username'].toString(),
@@ -37,7 +38,8 @@ class ForgotPassDrawer extends StatelessWidget {
                 isLoading.value = true;
                 var data = await authController.resetPassInit();
                 isLoading.value = false;
-                snackBarClass.showToast(context, 'Please check your mail! ,thanks');
+                snackBarClass.showToast(
+                    context, 'Please check your mail! ,thanks');
                 Navigator.of(context).pop();
               },
               style: ButtonStyle(

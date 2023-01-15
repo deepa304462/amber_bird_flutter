@@ -106,7 +106,7 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.w500,
       color: Colors.green);
-      static TextStyle get title2Green => titleFont.copyWith(
+  static TextStyle get title2Green => titleFont.copyWith(
       fontSize: FontSizes.title2,
       fontWeight: FontWeight.w500,
       color: Colors.green);

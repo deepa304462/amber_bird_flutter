@@ -49,11 +49,8 @@ class CategoryRow extends StatelessWidget {
                                                 .defaultText!.text ??
                                             '')
                                         .length >
-                                   7
-                                ? '${(categoryController.mainTabs[index].name!
-                                                .defaultText!.text ??
-                                            '')
-                                        .substring(0, 6)}...'
+                                    7
+                                ? '${(categoryController.mainTabs[index].name!.defaultText!.text ?? '').substring(0, 6)}...'
                                 : categoryController.mainTabs[index].name!
                                         .defaultText!.text ??
                                     '',

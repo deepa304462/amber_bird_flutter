@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/data/category/category.dart';
- 
- import 'description.dart';
+
+import 'description.dart';
 import 'name.dart';
 import 'varient.dart';
 

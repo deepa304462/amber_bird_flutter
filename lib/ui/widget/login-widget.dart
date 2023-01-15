@@ -220,7 +220,7 @@ class LoginWidget extends StatelessWidget {
                               ..onTap = () {
                                 authController.resetFieldValue();
                                 Modular.to.navigate('/home/signup');
-                                print('Sign up"');
+                                // print('Sign up"');
                               }),
                       ],
                     ),

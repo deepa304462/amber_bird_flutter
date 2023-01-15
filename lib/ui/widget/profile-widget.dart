@@ -162,8 +162,7 @@ class ProfileWidget extends StatelessWidget {
   imageCallback(String p1) {
     // 'profileImageId':''
 
-    authController.setFielsvalue(p1, 'profileImageId');
-    log(p1);
+    authController.setFielsvalue(p1, 'profileImageId'); 
   }
 
   isLoadingCallback(bool val) {

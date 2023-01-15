@@ -159,7 +159,7 @@ class AuthController extends GetxController {
         "orgShortCode": "",
         "profileIcon": fieldValue['profileImageId']
       };
-      dev.log(jsonEncode(payload).toString()); 
+      dev.log(jsonEncode(payload).toString());
       var resp =
           await ClientService.post(path: 'profile-auth', payload: payload);
       if (resp.statusCode == 200) {
@@ -170,8 +170,7 @@ class AuthController extends GetxController {
         };
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
-        dev.log(jsonEncode(loginPayload).toString());
-        print(loginPayload);
+        dev.log(jsonEncode(loginPayload).toString()); 
         if (loginResp.statusCode == 200) {
           ClientService.token = loginResp.data['accessToken'];
           SharedData.save(jsonEncode(loginResp.data), 'authData');
@@ -314,8 +313,7 @@ class AuthController extends GetxController {
       // final AccessToken accessToken = result.accessToken!;
       return {"msg": "Please fill all field !!", "status": "success"};
     } else {
-      dev.inspect(result);
-      print('${result.message}');
+      dev.inspect(result); 
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
@@ -350,8 +348,7 @@ class AuthController extends GetxController {
       "shortCode": '',
       "authEmail": fieldValue['email'],
       // "authMobile": loggedInProfile.value.mobile
-    };
-    print(payload);
+    }; 
     var tokenResp = await ClientService.post(
         path: 'auth/passwordResetInit', payload: payload);
     if (tokenResp.statusCode == 200) {

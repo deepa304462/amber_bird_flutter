@@ -19,7 +19,7 @@ class OrderListPage extends StatelessWidget {
         path: 'order/search',
         payload: {"customerId": custRef.id, "onlyCart": false});
     if (response.statusCode == 200) {
-      log(response.data.toString());
+      // log(response.data.toString());
       List<Order> oList = ((response.data as List<dynamic>?)
               ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
               .toList() ??

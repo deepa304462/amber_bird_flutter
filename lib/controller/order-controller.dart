@@ -18,7 +18,7 @@ class OrderController extends GetxController {
   getOrder(String id) async {
     var response = await ClientService.get(path: 'order', id: id);
     if (response.statusCode == 200) {
-      log(response.data.toString());
+      // log(response.data.toString());
       orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);
     }
   }

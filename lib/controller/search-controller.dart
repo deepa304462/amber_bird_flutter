@@ -37,9 +37,10 @@ class SearchController extends GetxController {
         var data = jsonDecode(elem['extraData']);
         arr.add({'label': data['label'], 'value': data['value']});
       });
-      popularItems.value = arr; 
+      popularItems.value = arr;
     }
   }
+
   getsearchData(query) async {
     ClientService.solrSearch(path: 'product', queryData: query).then((value) {
       productResp.value = SolrResponse.fromMap(value.data);

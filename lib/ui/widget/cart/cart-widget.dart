@@ -22,201 +22,196 @@ class CartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
-    return 
-         cartController.cartProducts.isNotEmpty
-            ? Obx(
-                () => Column(
-                  children: [
-                    cartData(context, cartController),
-                    Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Column(
+    return cartController.cartProducts.isNotEmpty
+        ? Obx(
+            () => Column(
+              children: [
+                cartData(context, cartController),
+                Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Column(
+                    children: [
+                      shippingAddress(context),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            if (stateController.isActivate.value) {
+                              await cartController.checkout();
+                              checkoutClicked.value = true;
+                            } else {
+                              snackBarClass.showToast(
+                                  context, 'Your profile is not active yet');
+                            }
+                          },
+                          child: Text(
+                            'Checkout',
+                            style: TextStyles.bodyFont,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          shippingAddress(context),
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (stateController.isActivate.value) {
-                                  await cartController.checkout();
-                                  checkoutClicked.value = true;
-                                } else {
-                                  snackBarClass.showToast(context,
-                                      'Your profile is not active yet');
-                                }
-                              },
-                              child: Text(
-                                'Checkout',
-                                style: TextStyles.bodyFont,
-                              ),
-                            ),
+                          Text(
+                            'Total Price',
+                            style: TextStyles.headingFontGray,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Total Price',
-                                style: TextStyles.headingFontGray,
-                              ),
-                              Text(
-                                cartController
-                                    .calculatedPayment.value.totalAmount
-                                    .toString(),
-                                style: TextStyles.mrpStyle,
-                              ),
-                            ],
+                          Text(
+                            cartController.calculatedPayment.value.totalAmount
+                                .toString(),
+                            style: TextStyles.mrpStyle,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Discount Amount',
-                                style: TextStyles.headingFontGray,
-                              ),
-                              Text(
-                                cartController
-                                    .calculatedPayment.value.discountAmount
-                                    .toString(),
-                                style: TextStyles.mrpStyle,
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Discount Amount',
+                            style: TextStyles.headingFontGray,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Tax',
-                                style: TextStyles.headingFontGray,
-                              ),
-                              Text(
-                                cartController
-                                    .calculatedPayment.value.appliedTaxAmount
-                                    .toString(),
-                                style: TextStyles.mrpStyle,
-                              ),
-                            ],
+                          Text(
+                            cartController
+                                .calculatedPayment.value.discountAmount
+                                .toString(),
+                            style: TextStyles.mrpStyle,
                           ),
-                          (cartController.calculatedPayment.value
-                                          .appliedTaxDetail !=
-                                      null &&
-                                  cartController.calculatedPayment.value
-                                          .appliedTaxDetail!.length >
-                                      0)
-                              ? Container(
-                                  margin: const EdgeInsets.all(2.0),
-                                  padding: const EdgeInsets.all(3.0),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: const Color.fromARGB(
-                                              255, 113, 116, 122))),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: cartController.calculatedPayment
-                                        .value.appliedTaxDetail!.length,
-                                    itemBuilder: (_, pIndex) {
-                                      var currentTax = cartController
-                                          .calculatedPayment
-                                          .value
-                                          .appliedTaxDetail![pIndex];
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            currentTax.description ?? '',
-                                            style: TextStyles.headingFontGray,
-                                          ),
-                                          Text(
-                                            currentTax.amount,
-                                            style: TextStyles.bodyFontBold,
-                                          ),
-                                        ],
-                                      );
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Tax',
+                            style: TextStyles.headingFontGray,
+                          ),
+                          Text(
+                            cartController
+                                .calculatedPayment.value.appliedTaxAmount
+                                .toString(),
+                            style: TextStyles.mrpStyle,
+                          ),
+                        ],
+                      ),
+                      (cartController.calculatedPayment.value
+                                      .appliedTaxDetail !=
+                                  null &&
+                              cartController.calculatedPayment.value
+                                      .appliedTaxDetail!.length >
+                                  0)
+                          ? Container(
+                              margin: const EdgeInsets.all(2.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 113, 116, 122))),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: cartController.calculatedPayment
+                                    .value.appliedTaxDetail!.length,
+                                itemBuilder: (_, pIndex) {
+                                  var currentTax = cartController
+                                      .calculatedPayment
+                                      .value
+                                      .appliedTaxDetail![pIndex];
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        currentTax.description ?? '',
+                                        style: TextStyles.headingFontGray,
+                                      ),
+                                      Text(
+                                        currentTax.amount,
+                                        style: TextStyles.bodyFontBold,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
+                          : const SizedBox(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [CouponWidget()],
+                        ),
+                      ),
+                      cartController.checkoutData.value != null &&
+                              cartController.checkoutData.value!.allAvailable ==
+                                  true
+                          ? Column(
+                              children: [
+                                Center(
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      var data =
+                                          await cartController.createPayment();
+                                      // print(data);
+                                      if (data['error']) {
+                                        snackBarClass.showToast(
+                                            context, data['msg']);
+                                      } else {
+                                        Modular.to.navigate('/home/inapp',
+                                            arguments: data['data']);
+                                      }
                                     },
+                                    child: Text(
+                                      'Payment',
+                                      style: TextStyles.bodyFont,
+                                    ),
                                   ),
-                                )
-                              : const SizedBox(),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [CouponWidget()],
-                            ),
-                          ),
-                          cartController.checkoutData.value != null &&
-                                  cartController
-                                          .checkoutData.value!.allAvailable ==
-                                      true
+                                ),
+                              ],
+                            )
+                          : checkoutClicked.value
                               ? Column(
                                   children: [
                                     Center(
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          var data = await cartController
-                                              .createPayment();
-                                          print(data);
-                                          if (data['error']) {
-                                            snackBarClass.showToast(
-                                                context, data['msg']);
-                                          } else {
-                                            Modular.to.navigate('/home/inapp',
-                                                arguments: data['data']);
-                                          }
-                                        },
-                                        child: Text(
-                                          'Payment',
-                                          style: TextStyles.bodyFont,
-                                        ),
-                                      ),
+                                      child: Text(" Product Not Availale",
+                                          style: TextStyles.headingFontBlue),
                                     ),
                                   ],
                                 )
-                              : checkoutClicked.value
-                                  ? Column(
-                                      children: [
-                                        Center(
-                                          child: Text(" Product Not Availale",
-                                              style:
-                                                  TextStyles.headingFontBlue),
-                                        ),
-                                      ],
-                                    )
-                                  : const SizedBox()
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Your Cart is Empty',
-                        style: TextStyles.bodyFont,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primeColor,
-                            textStyle: TextStyles.bodyWhite),
-                        onPressed: () {
-                          Modular.to.navigate('../home/main');
-                        },
-                        child: Text(
-                          'Add Products',
-                          style: TextStyles.bodyWhiteLarge,
-                        ),
-                      ),
+                              : const SizedBox()
                     ],
                   ),
                 ),
-              );
-       
+              ],
+            ),
+          )
+        : Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    'Your Cart is Empty',
+                    style: TextStyles.bodyFont,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primeColor,
+                        textStyle: TextStyles.bodyWhite),
+                    onPressed: () {
+                      Modular.to.navigate('../home/main');
+                    },
+                    child: Text(
+                      'Add Products',
+                      style: TextStyles.bodyWhiteLarge,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 
   cartData(context, cartController) {
@@ -296,7 +291,8 @@ class CartWidget extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: cartButtons(context, cartController, currentKey),
+                          child:
+                              cartButtons(context, cartController, currentKey),
                         )
                       ],
                     )
@@ -339,7 +335,7 @@ class CartWidget extends StatelessWidget {
                               )
                             ],
                           ),
-                          cartButtons(context, cartController,currentKey)
+                          cartButtons(context, cartController, currentKey)
                         ]),
                       ),
                     ),
@@ -436,7 +432,10 @@ class CartWidget extends StatelessWidget {
         //     icon: Icon(Icons.flash_on),
         //     label: Text(' "Buy it now"')),
         TextButton.icon(
-            onPressed: () => {cartController.createSaveLater(cartController.cartProducts[currentKey],currentKey)},
+            onPressed: () => {
+                  cartController.createSaveLater(
+                      cartController.cartProducts[currentKey], currentKey)
+                },
             icon: Icon(Icons.outbox),
             label: Text("Save for later"))
       ],

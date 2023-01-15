@@ -126,12 +126,11 @@ class CartController extends GetxController {
             }
           };
           resp1 = await ClientService.post(path: 'order', payload: payload);
-        }
-        log(jsonEncode(payload).toString()); 
+        } 
         if (resp1.statusCode == 200) {
           if (orderId.value == '') orderId.value = resp1.data['_id'];
           var ord = Order.fromMap(resp1.data);
-          calculatedPayment.value = ord.payment!; 
+          calculatedPayment.value = ord.payment!;
         }
       }
     }
@@ -352,19 +351,17 @@ class CartController extends GetxController {
         '_id': saveLaterId.value,
         'metaData': (jsonDecode(cust.saveLater!.metaData!.toJson())),
       };
-      log(jsonEncode(payload).toString());
+      // log(jsonEncode(payload).toString());
       resp = await ClientService.Put(
           path: 'saveLater', id: saveLaterId.value, payload: payload);
     } else {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
-      };
-      log(jsonEncode(payload).toString());
+      }; 
       resp = await ClientService.post(path: 'saveLater', payload: payload);
     }
-    if (resp.statusCode == 200) {
-      log(jsonEncode(resp.data).toString());
+    if (resp.statusCode == 200) { 
       if (saveLaterId.value == '') saveLaterId.value = resp.data['_id'];
       cust.saveLater = Order.fromMap(resp.data);
       OfflineDBService.save(
@@ -411,8 +408,7 @@ class CartController extends GetxController {
           "status": "OPEN",
           "description": orderId.value,
         },
-      };
-      log(jsonEncode(payload).toString());
+      }; 
       resp = await ClientService.Put(
           path: 'order', id: orderId.value, payload: payload);
     } else {
@@ -428,8 +424,7 @@ class CartController extends GetxController {
           "status": "OPEN",
           "description": orderId.value,
         },
-      };
-      log(jsonEncode(payload).toString());
+      }; 
       resp = await ClientService.post(path: 'order', payload: payload);
     }
     if (resp.statusCode == 200) {

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';

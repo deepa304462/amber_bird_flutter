@@ -209,7 +209,7 @@ class Controller extends GetxController {
         // }
         activePageName.value = 'category';
         Modular.to.navigate('/home/category');
-        break; 
+        break;
       case 3:
         if (isLogin.value) {
           activePageName.value = 'cart';

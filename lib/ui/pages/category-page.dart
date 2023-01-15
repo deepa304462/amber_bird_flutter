@@ -148,7 +148,7 @@ class CategoryPage extends StatelessWidget {
                                 '${megaMenuController.subMenuList[index].image}',
                                 width: 25,
                                 height: 25,
-                              ), 
+                              ),
                             ),
                           ],
                         ),
@@ -222,7 +222,7 @@ class CategoryPage extends StatelessWidget {
                 ImageBox(
                   '${mProduct.displayImageId}',
                   height: 80,
-                ), 
+                ),
                 Container(
                   margin: const EdgeInsets.all(5.0),
                   height: 160,
@@ -246,7 +246,7 @@ class CategoryPage extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.bottomCenter,
                   child: Container(
-                    padding: const EdgeInsets.only(left: 15, right: 15), 
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
@@ -267,7 +267,7 @@ class CategoryPage extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: Row( 
+                          child: Row(
                             children: [
                               PriceTag(mProduct.price!.offerPrice.toString(),
                                   mProduct.price!.actualPrice.toString()),

@@ -108,7 +108,7 @@ class AllAddressPage extends StatelessWidget {
                     locationController.addressData.value;
                 _displayDialog(context, locationController, 'Add');
               },
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
             ),
           ),
         ),
