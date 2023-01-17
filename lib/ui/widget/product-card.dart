@@ -7,6 +7,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/product-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -191,14 +192,18 @@ class ProductCard extends StatelessWidget {
                         elevation: 3,
                         builder: (context) {
                           // return _bottomSheetAddToCart(product, context);
-                          return DealBottomDrawer(
-                              [product!],
-                              refId,
-                              addedFrom,
-                              dealPrice,
-                              Constraint(),
-                              product!.name,
-                              addedFrom!);
+                          if (addedFrom == 'CATEGORY') {
+                            return ProductBottomDrawer(refId);
+                          } else {
+                            return DealBottomDrawer(
+                                [product!],
+                                refId,
+                                addedFrom,
+                                dealPrice,
+                                Constraint(),
+                                product!.name,
+                                addedFrom!);
+                          }
                         },
                       );
                     },

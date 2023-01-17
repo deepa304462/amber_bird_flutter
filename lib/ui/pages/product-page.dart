@@ -1,17 +1,5 @@
 import 'package:amber_bird/ui/pages/product_detail_screen.dart';
 import 'package:flutter/material.dart';
-
-// class ProductPage extends StatefulWidget {
-//   String word = '';
-//   bool search = false;
-//   ProductPage({Key? key, required bool search, required word})
-//       : super(key: key);
-
-//   @override
-//   State<ProductPage> createState() => _ProductPageState();
-// }
-
-// class _ProductPageState extends State<ProductPage> {
 class ProductPage extends StatelessWidget {
   final String productId;
   bool search = false;

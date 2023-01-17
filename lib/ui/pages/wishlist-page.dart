@@ -79,7 +79,6 @@ class WishListPage extends StatelessWidget {
                           wishlistController.wishlistProducts.value.length,
                       shrinkWrap: true,
                       // ListView.builder(
-
                       //               scrollDirection: Axis.vertical,
                       //               physics: const BouncingScrollPhysics(),
                       //               itemCount: wishList.length,
@@ -146,8 +145,7 @@ class WishListPage extends StatelessWidget {
                   price = curwishList.products![0].varient!.price!;
                 } else {
                   price = curwishList.product!.varient!.price!;
-                }
-
+                } 
                 await cartController.addToCart(
                     curwishList.ref!.id ?? '',
                     'WISHLIST',
@@ -158,7 +156,24 @@ class WishListPage extends StatelessWidget {
                 await wishlistController
                     .removeWishList(curwishList.ref!.id ?? '');
               },
-              child: const Text('move to cart'),
+              child: Row(
+                children: [
+                  const Text('Move to cart'),
+                  IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: wishlistController
+                              .checkIfProductWishlist(curwishList.product!.id)
+                          ? AppColors.primeColor
+                          : const Color(0xFFA6A3A0),
+                    ),
+                    onPressed: () => {
+                      wishlistController.addToWishlist(curwishList.product!.id,
+                          curwishList.product, null, '')
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
