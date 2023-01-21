@@ -78,12 +78,39 @@ class AppBarWidget extends StatelessWidget {
                       icon: const Icon(
                         Icons.share,
                       )),
-                  IconButton(
-                      // padding: EdgeInsets.all(0),
-                      onPressed: () => {},
-                      icon: const Icon(
-                        Icons.layers,
-                      ))
+                  Stack(
+                    fit: StackFit.loose,
+                    children: [
+                      IconButton(
+                        // padding: EdgeInsets.all(0),
+                        onPressed: () => {},
+                        icon: const Icon(
+                          Icons.layers,
+                        ),
+                      ),
+                      Positioned(
+                        top: 7,
+                        left: 4,
+                        child: Card(
+                          color: Colors.yellow[700],
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Obx(
+                              () => Text(
+                                  stateController.customerDetail.value
+                                              .personalInfo !=
+                                          null
+                                      ? stateController.customerDetail.value
+                                          .personalInfo!.scoins
+                                          .toString()
+                                      : '0',
+                                  style: TextStyles.bodySm),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

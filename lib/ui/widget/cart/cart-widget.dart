@@ -302,7 +302,7 @@ class CartWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                         child: Column(children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               ImageBox(
                                 cartController.cartProducts.value[currentKey]!
@@ -327,11 +327,15 @@ class CartWidget extends StatelessWidget {
                               ),
                               Text(
                                   '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
-                              IconButton(
-                                onPressed: () {
-                                  cartController.removeProduct(currentKey);
-                                },
-                                icon: const Icon(Icons.close_rounded),
+                              Positioned(
+                                right: 990,
+                                top: 50,
+                                child: IconButton(
+                                  onPressed: () {
+                                    cartController.removeProduct(currentKey);
+                                  },
+                                  icon: const Icon(Icons.close_rounded),
+                                ),
                               )
                             ],
                           ),

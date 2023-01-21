@@ -1,4 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/deal-controller.dart';
+import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
@@ -6,6 +8,7 @@ import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/product-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
@@ -39,8 +42,8 @@ class ProductCard extends StatelessWidget {
                   Modular.to.pushNamed('product/${product.id}');
                 },
                 child: SizedBox(
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   child:
                       // Image.network(
                       //   '${ClientService.cdnUrl}${product.images![0]}',
@@ -170,52 +173,196 @@ class ProductCard extends StatelessWidget {
           children: [
             _gridItemBody(product!, context),
             _gridItemHeader(product!),
-            Positioned(
-              right: 0,
-              top: 50,
-              child: Visibility(
+            Obx(
+              () => Visibility(
                 visible: checkBuyProductVisibility(),
-                child: CircleAvatar(
-                  backgroundColor: Colors.red.shade900,
-                  radius: 20,
-                  child: IconButton(
-                    constraints: const BoxConstraints(),
-                    color: Colors.white,
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        context: context,
-                        useRootNavigator: true,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13)),
-                        backgroundColor: Colors.white,
-                        isScrollControlled: true,
-                        elevation: 3,
-                        builder: (context) {
-                          // return _bottomSheetAddToCart(product, context);
-                          if (addedFrom == 'CATEGORY') {
-                            return ProductBottomDrawer(refId);
-                          } else {
-                            return DealBottomDrawer(
-                                [product!],
-                                refId,
-                                addedFrom,
-                                dealPrice,
-                                Constraint(),
-                                product!.name,
-                                addedFrom!);
-                          }
-                        },
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      size: 25,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                child: cartController.checkProductInCart(refId)
+                    ? Positioned(
+                        right: 0,
+                        top: 50,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              padding: const EdgeInsets.all(8),
+                              constraints: const BoxConstraints(),
+                              onPressed: () async {
+                                if (stateController.isLogin.value) {
+                                  var valid = false;
+                                  var msg = 'Something went wrong!';
+
+                                  if (Get.isRegistered<DealController>(
+                                      tag: addedFrom!)) {
+                                    var dealController =
+                                        Get.find<DealController>(
+                                            tag: addedFrom!);
+                                    var data = await dealController
+                                        .checkValidDeal(refId!, 'negative');
+                                    valid = !data['error'];
+                                    msg = data['msg'];
+                                  }
+                                  if (valid) {
+                                    cartController.addToCart(refId!, addedFrom!,
+                                        -1, dealPrice, product, null);
+                                  } else {
+                                    Navigator.of(context).pop();
+                                    snackBarClass.showToast(context, msg);
+                                  }
+                                } else {
+                                  stateController.setCurrentTab(3);
+                                  var showToast = snackBarClass.showToast(
+                                      context, 'Please Login to preoceed');
+                                }
+                              },
+                              icon: const Icon(Icons.remove_circle_outline,
+                                  color: Colors.black),
+                            ),
+                            Text(cartController
+                                .getCurrentQuantity(refId)
+                                .toString()),
+                            IconButton(
+                              padding: const EdgeInsets.all(8),
+                              constraints: const BoxConstraints(),
+                              onPressed: () async {
+                                if (stateController.isLogin.value) {
+                                  var valid = false;
+                                  var msg = 'Something went wrong!';
+
+                                  if (Get.isRegistered<DealController>(
+                                      tag: addedFrom!)) {
+                                    var dealController =
+                                        Get.find<DealController>(
+                                            tag: addedFrom!);
+                                    var data = await dealController
+                                        .checkValidDeal(refId!, 'positive');
+                                    valid = !data['error'];
+                                    msg = data['msg'];
+                                  }
+                                  if (valid) {
+                                    cartController.addToCart(refId!, addedFrom!,
+                                        1, dealPrice, product, null);
+                                  } else {
+                                    stateController.setCurrentTab(3);
+                                    snackBarClass.showToast(
+                                        context, 'Please Login to preoceed');
+                                  }
+                                }
+                              },
+                              icon: const Icon(Icons.add_circle_outline,
+                                  color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Positioned(
+                        right: 0,
+                        top: 50,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.red.shade900,
+                          radius: 20,
+                          child: IconButton(
+                            constraints: const BoxConstraints(),
+                            color: Colors.white,
+
+                            onPressed: stateController.isLogin.value
+                                ? () async {
+                                    if (stateController.isActivate.value) {
+                                      var valid = false;
+                                      var msg = 'Something went wrong!';
+
+                                      if (addedFrom == 'MULTIPRODUCT') {
+                                        // var multiController =
+                                        //     Get.find<MultiProductController>(
+                                        //         tag: addedFrom!);
+                                        // var data = await multiController.checkValidDeal(
+                                        //     refId!, 'positive');
+                                        // valid = !data['error'];
+                                        // msg = data['msg'];
+                                        // if (valid) {
+                                        //   cartController.addToCart(
+                                        //       refId!,
+                                        //       addedFrom!,
+                                        //         1,
+                                        //       dealPrice,
+                                        //       null,
+                                        //       products);
+                                        // } else {
+                                        //   Navigator.of(context).pop();
+                                        //   snackBarClass.showToast(context, msg);
+                                        // }
+                                      } else {
+                                        // this.refId, this.addedFrom,
+                                        if (Get.isRegistered<DealController>(
+                                            tag: addedFrom!)) {
+                                          var dealController =
+                                              Get.find<DealController>(
+                                                  tag: addedFrom!);
+                                          var data = await dealController
+                                              .checkValidDeal(
+                                                  refId!, 'positive');
+                                          valid = !data['error'];
+                                          msg = data['msg'];
+                                        }
+                                        if (valid) {
+                                          cartController.addToCart(
+                                              refId!,
+                                              addedFrom!,
+                                              1,
+                                              dealPrice,
+                                              product,
+                                              null);
+                                        } else {
+                                          Navigator.of(context).pop();
+                                          snackBarClass.showToast(context, msg);
+                                        }
+                                      }
+                                    } else {
+                                      Navigator.of(context).pop();
+                                      snackBarClass.showToast(context,
+                                          'Your profile is not active yet');
+                                    }
+                                  }
+                                : () {
+                                    Navigator.of(context).pop();
+                                    stateController.setCurrentTab(3);
+                                    snackBarClass.showToast(
+                                        context, 'Please Login to preoceed');
+                                  },
+
+                            // onPressed: () {
+                            //   showModalBottomSheet<void>(
+                            //     context: context,
+                            //     useRootNavigator: true,
+                            //     shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(13)),
+                            //     backgroundColor: Colors.white,
+                            //     isScrollControlled: true,
+                            //     elevation: 3,
+                            //     builder: (context) {
+                            //       if (addedFrom == 'CATEGORY') {
+                            //         return ProductBottomDrawer(refId);
+                            //       } else {
+                            //         return DealBottomDrawer(
+                            //             [product!],
+                            //             refId,
+                            //             addedFrom,
+                            //             dealPrice,
+                            //             Constraint(),
+                            //             product!.name,
+                            //             addedFrom!);
+                            //       }
+                            //     },
+                            //   );
+                            // },
+                            icon: const Icon(
+                              Icons.add,
+                              size: 25,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
               ),
-            )
+            ),
           ],
         ),
       ),
