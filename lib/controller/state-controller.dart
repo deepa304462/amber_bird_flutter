@@ -32,6 +32,7 @@ class Controller extends GetxController {
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt productImageDefaultIndex = 0.obs;
   Rx<UserProfile> loggedInProfile = UserProfile().obs;
+  Rx<Customer> customerDetail = Customer().obs;
 
   @override
   void onInit() {
@@ -79,12 +80,13 @@ class Controller extends GetxController {
     if (customerInsightDetail.statusCode == 200) {
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, customerInsightDetail.data);
-
+      Customer cust = Customer.fromMap(
+          (jsonDecode(jsonEncode(customerInsightDetail.data)))
+              as Map<String, dynamic>);
+      customerDetail.value = cust;
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
-        Customer cust = Customer.fromMap(
-            (jsonDecode(jsonEncode(customerInsightDetail.data)))
-                as Map<String, dynamic>);
+
         if (cust.cart != null) {
           cartController.calculatedPayment.value =
               cust.cart!.payment != null ? cust.cart!.payment! : Payment();

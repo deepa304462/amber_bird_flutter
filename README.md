@@ -16,5 +16,8 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 # update 
- - wishlist move to cart button
- - product drawer added
+ - scoind added //not updating
+ - remove bootom drawer show only when multi variant exist
+ - 
+
+# previous update
