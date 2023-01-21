@@ -70,6 +70,7 @@ dependencies:
   image_picker: ^0.8.6
   flutter_html: 
   skeletons: ^0.0.3
+  masonry_grid: ^1.0.0
   
 
 dev_dependencies:
