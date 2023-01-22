@@ -104,9 +104,11 @@ class ProductCard extends StatelessWidget {
                     ? AppColors.primeColor
                     : const Color(0xFFA6A3A0),
               ),
-              onPressed: () => {
-                wishlistController.addToWishlist(
-                    product.id, product, null, addedFrom)
+              onPressed: () async {
+                stateController.showLoader.value = true;
+                await wishlistController.addToWishlist(
+                    product.id, product, null, addedFrom);
+                stateController.showLoader.value = false;
               },
             ),
           );
@@ -196,6 +198,7 @@ class ProductCard extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               constraints: const BoxConstraints(),
                               onPressed: () async {
+                                stateController.showLoader.value = true;
                                 if (stateController.isLogin.value) {
                                   var valid = false;
                                   var msg = 'Something went wrong!';
@@ -220,8 +223,7 @@ class ProductCard extends StatelessWidget {
                                         dealPrice,
                                         product,
                                         null);
-                                  } else {
-                                    Navigator.of(context).pop();
+                                  } else { 
                                     snackBarClass.showToast(context, msg);
                                   }
                                 } else {
@@ -229,6 +231,7 @@ class ProductCard extends StatelessWidget {
                                   var showToast = snackBarClass.showToast(
                                       context, 'Please Login to preoceed');
                                 }
+                                stateController.showLoader.value = false;
                               },
                               icon: const Icon(Icons.remove_circle_outline,
                                   color: Colors.black),
@@ -241,6 +244,7 @@ class ProductCard extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               constraints: const BoxConstraints(),
                               onPressed: () async {
+                                stateController.showLoader.value = true;
                                 if (stateController.isLogin.value) {
                                   var valid = false;
                                   var msg = 'Something went wrong!';
@@ -270,6 +274,7 @@ class ProductCard extends StatelessWidget {
                                     snackBarClass.showToast(context, msg);
                                   }
                                 }
+                                stateController.showLoader.value = false;
                               },
                               icon: const Icon(Icons.add_circle_outline,
                                   color: Colors.black),
@@ -289,6 +294,7 @@ class ProductCard extends StatelessWidget {
 
                             onPressed: stateController.isLogin.value
                                 ? () async {
+                                    stateController.showLoader.value = true;
                                     if (stateController.isActivate.value) {
                                       var valid = false;
                                       var msg = 'Something went wrong!';
@@ -342,19 +348,18 @@ class ProductCard extends StatelessWidget {
                                               dealPrice,
                                               product,
                                               null);
-                                        } else {
-                                          Navigator.of(context).pop();
+                                        } else { 
                                           snackBarClass.showToast(context, msg);
                                         }
                                       }
                                     } else {
-                                      Navigator.of(context).pop();
+                                      // Navigator.of(context).pop();
                                       snackBarClass.showToast(context,
                                           'Your profile is not active yet');
                                     }
+                                    stateController.showLoader.value = false;
                                   }
-                                : () {
-                                    Navigator.of(context).pop();
+                                : () { 
                                     stateController.setCurrentTab(3);
                                     snackBarClass.showToast(
                                         context, 'Please Login to preoceed');

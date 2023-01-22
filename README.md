@@ -20,11 +20,11 @@ samples, guidance on mobile development, and a full API reference.
  - scoins not updating 
  - show scoin on cart
 # update 
- - cart will not go below 0
- - add payment method dropdown 
- - remove bootom drawer
- - 
+ - cart add functionality
+ - multicart add
 
 # previous update
-
 - remove bootom drawer show only when multi variant exist
+- cart will not go below 0
+- add payment method dropdown 
+- remove bootom drawer
