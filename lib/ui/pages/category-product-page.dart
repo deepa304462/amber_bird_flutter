@@ -53,13 +53,16 @@ class CategoryProductPage extends StatelessWidget {
         spacing: 8,
         runSpacing: 12,
         children: productList
-            .map((product) => SizedBox(
+            .map(
+              (product) => SizedBox(
                 width: MediaQuery.of(context).size.width * .5,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child:
                       ProductCard(product, product.id, 'CATEGORY', null, null),
-                )))
+                ),
+              ),
+            )
             .toList(),
       ),
     );

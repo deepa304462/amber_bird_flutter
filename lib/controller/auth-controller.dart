@@ -170,7 +170,7 @@ class AuthController extends GetxController {
         };
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
-        dev.log(jsonEncode(loginPayload).toString()); 
+        dev.log(jsonEncode(loginPayload).toString());
         if (loginResp.statusCode == 200) {
           ClientService.token = loginResp.data['accessToken'];
           SharedData.save(jsonEncode(loginResp.data), 'authData');
@@ -313,7 +313,7 @@ class AuthController extends GetxController {
       // final AccessToken accessToken = result.accessToken!;
       return {"msg": "Please fill all field !!", "status": "success"};
     } else {
-      dev.inspect(result); 
+      dev.inspect(result);
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
@@ -348,7 +348,7 @@ class AuthController extends GetxController {
       "shortCode": '',
       "authEmail": fieldValue['email'],
       // "authMobile": loggedInProfile.value.mobile
-    }; 
+    };
     var tokenResp = await ClientService.post(
         path: 'auth/passwordResetInit', payload: payload);
     if (tokenResp.statusCode == 200) {

@@ -4,7 +4,6 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
@@ -141,65 +140,178 @@ class MultiProductRow extends StatelessWidget {
                                       mProduct.price!.offerPrice.toString(),
                                       mProduct.price!.actualPrice.toString()),
                                   const Spacer(),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.red.shade900,
-                                    radius: 20,
-                                    child: IconButton(
-                                      padding: const EdgeInsets.all(1),
-                                      constraints: const BoxConstraints(),
-                                      onPressed: () async {
-                                        if (stateController.isActivate.value) {
-                                          var valid = false;
-                                          var msg = 'Something went wrong!';
- 
-                                          var data = await multiprodController
-                                              .checkValidDeal(
-                                                  mProduct.id!, 'positive');
-                                          valid = !data['error'];
-                                          msg = data['msg'];
-                                          if (valid) {
-                                            cartController.addToCart(
-                                                mProduct.id!,
-                                                'MULTIPRODUCT',
-                                                1,
-                                                mProduct.price,
-                                                null,
-                                                mProduct.products);
-                                          } else {
-                                            Navigator.of(context).pop();
-                                            snackBarClass.showToast(
-                                                context, msg);
-                                          }
-                                        }
-                                        //   showModalBottomSheet<void>(
-                                        //     // context and builder are
-                                        //     // required properties in this widget
-                                        //     context: context,
-                                        //     useRootNavigator: true,
-                                        //     shape: RoundedRectangleBorder(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(13)),
-                                        //     backgroundColor: Colors.white,
-                                        //     isScrollControlled: true,
-                                        //     elevation: 3,
-                                        //     builder: (context) {
-                                        //       return DealBottomDrawer(
-                                        //         mProduct.products,
-                                        //         mProduct.id,
-                                        //         currenttypeName,
-                                        //         mProduct.price,
-                                        //         mProduct.constraint,
-                                        //         mProduct.name,
-                                        //         'MULTIPRODUCT',
-                                        //       );
-                                        //     },
-                                        //   );
-                                      },
-                                      icon: const Icon(
-                                        Icons.add,
-                                      ),
-                                    ),
-                                  ),
+                                  Obx(
+                                    () => cartController
+                                            .checkProductInCart(mProduct.id)
+                                        ? Row(
+                                            children: [
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    var valid = false;
+                                                    var msg =
+                                                        'Something went wrong!';
+
+                                                    var data =
+                                                        await multiprodController
+                                                            .checkValidDeal(
+                                                                mProduct.id!,
+                                                                'negative',
+                                                                mProduct.id!);
+                                                    valid = !data['error'];
+                                                    msg = data['msg'];
+                                                    if (valid) {
+                                                      cartController.addToCart(
+                                                          mProduct.id!,
+                                                          'MULTIPRODUCT',
+                                                          (-(mProduct.constraint
+                                                                      ?.minimumOrder ??
+                                                                  1)) ??
+                                                              -1,
+                                                          mProduct.price,
+                                                          null,
+                                                          mProduct.products);
+                                                    } else {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      snackBarClass.showToast(
+                                                          context, msg);
+                                                    }
+                                                  } else {
+                                                    stateController
+                                                        .setCurrentTab(3);
+                                                    var showToast =
+                                                        snackBarClass.showToast(
+                                                            context,
+                                                            'Please Login to preoceed');
+                                                  }
+                                                },
+                                                icon: const Icon(
+                                                    Icons.remove_circle_outline,
+                                                    color: Colors.black),
+                                              ),
+                                              Text(cartController
+                                                  .getCurrentQuantity(
+                                                      mProduct.id)
+                                                  .toString()),
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    var valid = false;
+                                                    var msg =
+                                                        'Something went wrong!';
+
+                                                    var data =
+                                                        await multiprodController
+                                                            .checkValidDeal(
+                                                                mProduct.id!,
+                                                                'positive',
+                                                                mProduct.id!);
+                                                    valid = !data['error'];
+                                                    msg = data['msg'];
+                                                    if (valid) {
+                                                      cartController.addToCart(
+                                                          mProduct.id!,
+                                                          'MULTIPRODUCT',
+                                                          mProduct.constraint!
+                                                                  .minimumOrder ??
+                                                              1,
+                                                          mProduct.price,
+                                                          null,
+                                                          mProduct.products);
+                                                    } else {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      snackBarClass.showToast(
+                                                          context, msg);
+                                                    }
+                                                  }
+                                                },
+                                                icon: const Icon(
+                                                    Icons.add_circle_outline,
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          )
+                                        : CircleAvatar(
+                                            backgroundColor:
+                                                Colors.red.shade900,
+                                            radius: 20,
+                                            child: IconButton(
+                                              padding: const EdgeInsets.all(1),
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              onPressed: () async {
+                                                if (stateController
+                                                    .isActivate.value) {
+                                                  var valid = false;
+                                                  var msg =
+                                                      'Something went wrong!';
+
+                                                  var data =
+                                                      await multiprodController
+                                                          .checkValidDeal(
+                                                              mProduct.id!,
+                                                              'positive',
+                                                              mProduct.id!);
+                                                  valid = !data['error'];
+                                                  msg = data['msg'];
+                                                  if (valid) {
+                                                    cartController.addToCart(
+                                                        mProduct.id!,
+                                                        'MULTIPRODUCT',
+                                                        mProduct.constraint!
+                                                                .minimumOrder ??
+                                                            1,
+                                                        mProduct.price,
+                                                        null,
+                                                        mProduct.products);
+                                                  } else {
+                                                    Navigator.of(context).pop();
+                                                    snackBarClass.showToast(
+                                                        context, msg);
+                                                  }
+                                                }
+                                                //   showModalBottomSheet<void>(
+                                                //     // context and builder are
+                                                //     // required properties in this widget
+                                                //     context: context,
+                                                //     useRootNavigator: true,
+                                                //     shape: RoundedRectangleBorder(
+                                                //         borderRadius:
+                                                //             BorderRadius.circular(13)),
+                                                //     backgroundColor: Colors.white,
+                                                //     isScrollControlled: true,
+                                                //     elevation: 3,
+                                                //     builder: (context) {
+                                                //       return DealBottomDrawer(
+                                                //         mProduct.products,
+                                                //         mProduct.id,
+                                                //         currenttypeName,
+                                                //         mProduct.price,
+                                                //         mProduct.constraint,
+                                                //         mProduct.name,
+                                                //         'MULTIPRODUCT',
+                                                //       );
+                                                //     },
+                                                //   );
+                                              },
+                                              icon: const Icon(
+                                                Icons.add,
+                                              ),
+                                            ),
+                                          ),
+                                  )
                                 ],
                               ),
                             ),

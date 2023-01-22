@@ -15,9 +15,16 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+
+# todo  
+ - scoins not updating 
+ - show scoin on cart
 # update 
- - scoind added //not updating
- - remove bootom drawer show only when multi variant exist
+ - cart will not go below 0
+ - add payment method dropdown 
+ - remove bootom drawer
  - 
 
 # previous update
+
+- remove bootom drawer show only when multi variant exist

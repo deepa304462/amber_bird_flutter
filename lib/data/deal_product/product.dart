@@ -2,21 +2,21 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/data/category/category.dart';
-
-import 'description.dart';
-import 'name.dart';
-import 'varient.dart';
-
+import 'package:amber_bird/data/deal_product/description.dart';
+import 'package:amber_bird/data/deal_product/name.dart';
+import 'package:amber_bird/data/deal_product/varient.dart';
+  
 class ProductSummary {
   Name? name;
   Description? description;
   List<dynamic>? images;
   Varient? varient;
   Category? category;
+  String? countryCode;
   Brand? brand;
   bool? multiVarientExists;
   String? type;
-  String? countryCode;
+  List<Varient>? varients;
   String? id;
 
   ProductSummary({
@@ -25,15 +25,17 @@ class ProductSummary {
     this.images,
     this.varient,
     this.category,
+    this.countryCode,
+    this.brand,
     this.multiVarientExists,
     this.type,
-    this.countryCode,
+    this.varients,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, images: $images, varient: $varient,  multiVarientExists:$multiVarientExists, type:$type, category: $category, countryCode: $countryCode, id: $id)';
+    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists, type: $type, varients: $varients, id: $id)';
   }
 
   factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
@@ -50,9 +52,15 @@ class ProductSummary {
         category: data['category'] == null
             ? null
             : Category.fromMap(data['category'] as Map<String, dynamic>),
+        countryCode: data['countryCode'] as String?,
+        brand: data['brand'] == null
+            ? null
+            : Brand.fromMap(data['brand'] as Map<String, dynamic>),
         multiVarientExists: data['multiVarientExists'] as bool?,
         type: data['type'] as String?,
-        countryCode: data['countryCode'] as String?,
+        varients: (data['varients'] as List<dynamic>?)
+            ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
+            .toList(),
         id: data['_id'] as String?,
       );
 
@@ -62,33 +70,37 @@ class ProductSummary {
         'images': images,
         'varient': varient?.toMap(),
         'category': category?.toMap(),
+        'countryCode': countryCode,
+        'brand': brand?.toMap(),
         'multiVarientExists': multiVarientExists,
         'type': type,
-        'countryCode': countryCode,
+        'varients': varients?.map((e) => e.toMap()).toList(),
         '_id': id,
       };
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [ProductSummary].
+  /// Parses the string and returns the resulting Json object as [Product].
   factory ProductSummary.fromJson(String data) {
     return ProductSummary.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [ProductSummary] to a JSON string.
+  /// Converts [Product] to a JSON string.
   String toJson() => json.encode(toMap());
 
   ProductSummary copyWith({
     Name? name,
     Description? description,
-    List<String>? images,
+    List<dynamic>? images,
     Varient? varient,
     Category? category,
+    String? countryCode,
+    Brand? brand,
     bool? multiVarientExists,
     String? type,
-    String? countryCode,
+    List<Varient>? varients,
     String? id,
   }) {
     return ProductSummary(
@@ -97,9 +109,11 @@ class ProductSummary {
       images: images ?? this.images,
       varient: varient ?? this.varient,
       category: category ?? this.category,
+      countryCode: countryCode ?? this.countryCode,
+      brand: brand ?? this.brand,
       multiVarientExists: multiVarientExists ?? this.multiVarientExists,
       type: type ?? this.type,
-      countryCode: countryCode ?? this.countryCode,
+      varients: varients ?? this.varients,
       id: id ?? this.id,
     );
   }

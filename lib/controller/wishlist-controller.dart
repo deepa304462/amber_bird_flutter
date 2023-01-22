@@ -25,8 +25,11 @@ class WishlistController extends GetxController {
     var insightDetailloc =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (insightDetailloc != null) {
+      // log((jsonDecode(jsonEncode(insightDetailloc))));
+      // log(insightDetailloc.toString());
       Customer cust = Customer.fromMap(
-          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>); 
+          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
+
       if (cust.wishList != null) {
         wishlistId.value = cust.wishList!.id ?? '';
         for (var element in cust.wishList!.favorites!) {}
@@ -92,14 +95,14 @@ class WishlistController extends GetxController {
         'favorites': listProd,
         '_id': wishlistId.value,
         'metaData': (jsonDecode(cust.wishList!.metaData!.toJson())),
-      }; 
+      };
       resp = await ClientService.Put(
           path: 'wishList', id: wishlistId.value, payload: payload);
     } else {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
         'favorites': listProd,
-      }; 
+      };
       resp = await ClientService.post(path: 'wishList', payload: payload);
     }
     if (resp.statusCode == 200) {

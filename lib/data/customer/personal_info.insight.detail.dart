@@ -7,7 +7,10 @@ class PersonalInfo {
   int? scoins;
   int? spoints;
 
-  PersonalInfo({this.name, this.membershipType, this.currentPointLevel,
+  PersonalInfo(
+      {this.name,
+      this.membershipType,
+      this.currentPointLevel,
       this.scoins,
       this.spoints});
 
@@ -52,11 +55,10 @@ class PersonalInfo {
     int? spoints,
   }) {
     return PersonalInfo(
-      name: name ?? this.name,
-      membershipType: membershipType ?? this.membershipType,
-      currentPointLevel: currentPointLevel ?? this.currentPointLevel,
-      scoins: scoins ?? this.scoins,
-      spoints: spoints ?? this.spoints
-    );
+        name: name ?? this.name,
+        membershipType: membershipType ?? this.membershipType,
+        currentPointLevel: currentPointLevel ?? this.currentPointLevel,
+        scoins: scoins ?? this.scoins,
+        spoints: spoints ?? this.spoints);
   }
 }

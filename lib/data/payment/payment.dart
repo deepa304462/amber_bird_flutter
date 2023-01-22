@@ -67,9 +67,11 @@ class Payment {
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
             : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
-        appliedTaxDetail: (data['appliedTaxDetail'] as List<dynamic>?)
-            ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
-            .toList(),
+        appliedTaxDetail: data['appliedTaxDetail'] == null
+            ? null
+            : (data['appliedTaxDetail'] as List<dynamic>?)
+                ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
+                .toList(),
         discountAmount: data['discountAmount'] as dynamic?,
         totalAmount: data['totalAmount'] as dynamic?,
         paidAmount: data['paidAmount'] as dynamic?,
@@ -103,7 +105,7 @@ class Payment {
         'status': status,
         'paymentGateWayDetail': paymentGateWayDetail?.toMap(),
         'appliedTaxAmount': appliedTaxAmount,
-        'appliedTaxDetail': appliedTaxDetail,
+        'appliedTaxDetail': appliedTaxDetail?.map((e) => e.toMap()).toList(),
         'description': description,
         'businessId': businessId,
         'totalSCoins': totalSCoins,

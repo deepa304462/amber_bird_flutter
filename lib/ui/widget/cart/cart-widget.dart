@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
@@ -32,6 +33,30 @@ class CartWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       shippingAddress(context),
+                      Obx(
+                        () => cartController
+                                .paymentGateWaydropdownItems.isNotEmpty
+                            ? DropdownButton(
+                                value:
+                                    cartController.selectedPaymentMethod.value,
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                items: cartController
+                                    .paymentGateWaydropdownItems
+                                    .map((items) {
+                                  return DropdownMenuItem(
+                                    value: items['value'],
+                                    child: Text(items['label'] ?? ''),
+                                  );
+                                }).toList(),
+                                onChanged: (dynamic newValue) {
+                                  checkoutClicked.value = false;
+                                  cartController.clearCheckout();
+                                  cartController.selectedPaymentMethod.value =
+                                      newValue!;
+                                },
+                              )
+                            : const SizedBox(),
+                      ),
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
@@ -125,7 +150,9 @@ class CartWidget extends StatelessWidget {
                                         style: TextStyles.headingFontGray,
                                       ),
                                       Text(
-                                        currentTax.amount,
+                                        Helper.getFormattedNumber(
+                                                currentTax.amount)
+                                            .toString(),
                                         style: TextStyles.bodyFontBold,
                                       ),
                                     ],
@@ -151,7 +178,6 @@ class CartWidget extends StatelessWidget {
                                     onPressed: () async {
                                       var data =
                                           await cartController.createPayment();
-                                      // print(data);
                                       if (data['error']) {
                                         snackBarClass.showToast(
                                             context, data['msg']);
@@ -262,8 +288,11 @@ class CartWidget extends StatelessWidget {
                                           ),
                                           Column(
                                             children: [
-                                              Text(currentProduct
-                                                  .name!.defaultText!.text!),
+                                              SizedBox(
+                                                width: 160,
+                                                child: Text(currentProduct
+                                                    .name!.defaultText!.text!),
+                                              ),
                                               Text(
                                                   '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                               Text(
@@ -271,7 +300,7 @@ class CartWidget extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                              '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                              '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                                         ],
                                       ),
                                     ],
@@ -312,13 +341,23 @@ class CartWidget extends StatelessWidget {
                               ),
                               Column(
                                 children: [
-                                  Text(cartController
-                                      .cartProducts
-                                      .value[currentKey]!
-                                      .product!
-                                      .name!
-                                      .defaultText!
-                                      .text!),
+                                  // Text(cartController
+                                  //     .cartProducts
+                                  //     .value[currentKey]!
+                                  //     .product!
+                                  //     .name!
+                                  //     .defaultText!
+                                  //     .text!),
+                                  SizedBox(
+                                    width: 160,
+                                    child: Text(cartController
+                                        .cartProducts
+                                        .value[currentKey]!
+                                        .product!
+                                        .name!
+                                        .defaultText!
+                                        .text!),
+                                  ),
                                   Text(
                                       '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                   Text(
@@ -326,7 +365,7 @@ class CartWidget extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                  '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                  '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                               Positioned(
                                 right: 990,
                                 top: 50,
