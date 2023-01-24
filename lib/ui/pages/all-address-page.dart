@@ -50,7 +50,7 @@ class AllAddressPage extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height * 0.70,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.blueAccent),
+              border: Border.all(color: AppColors.primeColor),
               borderRadius: BorderRadius.circular(5),
             ),
             padding: const EdgeInsets.all(8.0),

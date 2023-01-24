@@ -1,7 +1,9 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -40,10 +42,39 @@ class MultiProductRow extends StatelessWidget {
                     multiprodController.getProductName(currenttypeName),
                     style: TextStyles.titleLargeBold,
                   ),
-                  Text(
-                    'More >',
-                    style: TextStyles.headingFontBlue,
+                   ElevatedButton(
+                    onPressed: () {
+                      MegaMenuController megaMenuController;
+                      if (Get.isRegistered<MegaMenuController>()) {
+                        megaMenuController = Get.find();
+                      } else {
+                        megaMenuController = Get.put(MegaMenuController());
+                      }
+                      megaMenuController.selectedParentTab.value =
+                          currenttypeName;
+                      if (currenttypeName == multiProductName.COMBO.name) {
+                        megaMenuController.getSubMenu(GenericTab(
+                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                            id: multiProductName.COMBO.name,
+                            type: 'MULTI',
+                            text: 'Combo'));
+                      }
+                      stateController.setCurrentTab(2);
+                    },
+                    child: Text(
+                      'View More',
+                      style: TextStyles.bodyWhite,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primeColor,
+                      // This is what you need!
+                    ),
                   ),
+
+                  // Text(
+                  //   'More >',
+                  //   style: TextStyles.headingFontBlue,
+                  // ),
                 ],
               ),
             ),
