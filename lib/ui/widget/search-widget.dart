@@ -127,9 +127,12 @@ class CustomSearchDelegate extends SearchDelegate {
     return Obx(
       () => ListView(
         children: [
-          Text(
-            'Popular searches: ',
-            style: TextStyles.titleGreen,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Text(
+              'Popular searches: ',
+              style: TextStyles.titleGreen,
+            ),
           ),
           PopularSearchWidget(context, searchController),
           searchController.searchingProduct.value
@@ -184,19 +187,22 @@ class CustomSearchDelegate extends SearchDelegate {
     return Column(
       children: searchController.productResp.value.response!.docs!.map(
         (product) {
-          return ListTile(
-            onTap: () {
-              close(context, null);
-              Modular.to.navigate('/home/product/${product.id}');
-            },
-            leading: ImageBox(
-              jsonDecode(product.extraData!)['images'][0],
-              width: 50,
-              height: 50,
-            ),
-            title: Text(
-              product.name!,
-              style: TextStyles.titleLargeBold,
+          return Container(
+            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            child: ListTile(
+              onTap: () {
+                close(context, null);
+                Modular.to.navigate('/home/product/${product.id}');
+              },
+              leading: ImageBox(
+                jsonDecode(product.extraData!)['images'][0],
+                width: 30,
+                height: 30,
+              ),
+              title: Text(
+                product.name!,
+                style: TextStyles.bodyFont,
+              ),
             ),
           );
         },
@@ -209,21 +215,24 @@ class CustomSearchDelegate extends SearchDelegate {
     return Column(
       children: searchController.categoryResp.value.response!.docs!.map(
         (category) {
-          return ListTile(
-              onTap: () {
-                close(context, null);
-                Modular.to.navigate('/home/categoryProduct/${category.id}');
-              },
-              leading: jsonDecode(category.extraData!)['logoId'] != null
-                  ? ImageBox(
-                      jsonDecode(category.extraData!)['logoId'],
-                      width: 50,
-                      height: 50,
-                    )
-                  : const Icon(Icons.category),
-              title: Text(
-                category.name!,
-                style: TextStyles.titleLargeBold,
+          return Container(
+              decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+              child: ListTile(
+                onTap: () {
+                  close(context, null);
+                  Modular.to.navigate('/home/categoryProduct/${category.id}');
+                },
+                leading: jsonDecode(category.extraData!)['logoId'] != null
+                    ? ImageBox(
+                        jsonDecode(category.extraData!)['logoId'],
+                        width: 30,
+                        height: 30,
+                      )
+                    : const Icon(Icons.category),
+                title: Text(
+                  category.name!,
+                  style: TextStyles.bodyFont,
+                ),
               ));
         },
       ).toList(),
@@ -234,21 +243,24 @@ class CustomSearchDelegate extends SearchDelegate {
     return Column(
       children: searchController.brandResp.value.response!.docs!.map(
         (brand) {
-          return ListTile(
-            onTap: () {
-              close(context, null);
-              Modular.to.navigate('/home/brandProduct/${brand.id}');
-            },
-            leading: jsonDecode(brand.extraData!)['logoId'] != null
-                ? ImageBox(
-                    jsonDecode(brand.extraData!)['logoId'],
-                    width: 50,
-                    height: 50,
-                  )
-                : const Icon(Icons.category),
-            title: Text(
-              brand.name!,
-              style: TextStyles.titleLargeBold,
+          return Container(
+            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            child: ListTile(
+              onTap: () {
+                close(context, null);
+                Modular.to.navigate('/home/brandProduct/${brand.id}');
+              },
+              leading: jsonDecode(brand.extraData!)['logoId'] != null
+                  ? ImageBox(
+                      jsonDecode(brand.extraData!)['logoId'],
+                      width: 30,
+                      height: 30,
+                    )
+                  : const Icon(Icons.category),
+              title: Text(
+                brand.name!,
+                style: TextStyles.bodyFont,
+              ),
             ),
           );
         },

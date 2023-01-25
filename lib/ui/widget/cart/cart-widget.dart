@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -32,9 +32,36 @@ class CartWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       shippingAddress(context),
+                      Obx(
+                        () => cartController
+                                .paymentGateWaydropdownItems.isNotEmpty
+                            ? DropdownButton(
+                                value:
+                                    cartController.selectedPaymentMethod.value,
+                                icon: const Icon(Icons.keyboard_arrow_down),
+                                items: cartController
+                                    .paymentGateWaydropdownItems
+                                    .map((items) {
+                                  return DropdownMenuItem(
+                                    value: items['value'],
+                                    child: Text(items['label'] ?? ''),
+                                  );
+                                }).toList(),
+                                onChanged: (dynamic newValue) {
+                                  stateController.showLoader.value = true;
+                                  checkoutClicked.value = false;
+                                  cartController.clearCheckout();
+                                  cartController.selectedPaymentMethod.value =
+                                      newValue!;
+                                  stateController.showLoader.value = false;
+                                },
+                              )
+                            : const SizedBox(),
+                      ),
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
+                            stateController.showLoader.value = true;
                             if (stateController.isActivate.value) {
                               await cartController.checkout();
                               checkoutClicked.value = true;
@@ -42,6 +69,7 @@ class CartWidget extends StatelessWidget {
                               snackBarClass.showToast(
                                   context, 'Your profile is not active yet');
                             }
+                            stateController.showLoader.value = false;
                           },
                           child: Text(
                             'Checkout',
@@ -86,8 +114,8 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.headingFontGray,
                           ),
                           Text(
-                            cartController
-                                .calculatedPayment.value.appliedTaxAmount
+                            Helper.getFormattedNumber(cartController
+                                    .calculatedPayment.value.appliedTaxAmount)
                                 .toString(),
                             style: TextStyles.mrpStyle,
                           ),
@@ -125,7 +153,9 @@ class CartWidget extends StatelessWidget {
                                         style: TextStyles.headingFontGray,
                                       ),
                                       Text(
-                                        currentTax.amount,
+                                        Helper.getFormattedNumber(
+                                                currentTax.amount)
+                                            .toString(),
                                         style: TextStyles.bodyFontBold,
                                       ),
                                     ],
@@ -134,6 +164,18 @@ class CartWidget extends StatelessWidget {
                               ),
                             )
                           : const SizedBox(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Text(
+                              'You will rewarded with ${cartController.calculatedPayment.value.totalSCoins} SCOINS & ${cartController.calculatedPayment.value.totalSPoints} SPOINTS on this order',
+                              style: TextStyles.body,
+                            ),
+                          ),
+                        ],
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Row(
@@ -151,7 +193,6 @@ class CartWidget extends StatelessWidget {
                                     onPressed: () async {
                                       var data =
                                           await cartController.createPayment();
-                                      // print(data);
                                       if (data['error']) {
                                         snackBarClass.showToast(
                                             context, data['msg']);
@@ -262,8 +303,11 @@ class CartWidget extends StatelessWidget {
                                           ),
                                           Column(
                                             children: [
-                                              Text(currentProduct
-                                                  .name!.defaultText!.text!),
+                                              SizedBox(
+                                                width: 160,
+                                                child: Text(currentProduct
+                                                    .name!.defaultText!.text!),
+                                              ),
                                               Text(
                                                   '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                               Text(
@@ -271,7 +315,7 @@ class CartWidget extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                              '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                              '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                                         ],
                                       ),
                                     ],
@@ -284,13 +328,16 @@ class CartWidget extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerRight,
                           child: IconButton(
-                              onPressed: () {
-                                cartController.removeProduct(currentKey);
+                              onPressed: () async {
+                                stateController.showLoader.value = true;
+                                await cartController.removeProduct(currentKey);
+                                stateController.showLoader.value = false;
                               },
                               icon: const Icon(Icons.close_rounded)),
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
                           child:
                               cartButtons(context, cartController, currentKey),
                         )
@@ -312,13 +359,23 @@ class CartWidget extends StatelessWidget {
                               ),
                               Column(
                                 children: [
-                                  Text(cartController
-                                      .cartProducts
-                                      .value[currentKey]!
-                                      .product!
-                                      .name!
-                                      .defaultText!
-                                      .text!),
+                                  // Text(cartController
+                                  //     .cartProducts
+                                  //     .value[currentKey]!
+                                  //     .product!
+                                  //     .name!
+                                  //     .defaultText!
+                                  //     .text!),
+                                  SizedBox(
+                                    width: 160,
+                                    child: Text(cartController
+                                        .cartProducts
+                                        .value[currentKey]!
+                                        .product!
+                                        .name!
+                                        .defaultText!
+                                        .text!),
+                                  ),
                                   Text(
                                       '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                   Text(
@@ -326,13 +383,16 @@ class CartWidget extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                  '\$${(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                  '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                               Positioned(
                                 right: 990,
                                 top: 50,
                                 child: IconButton(
-                                  onPressed: () {
-                                    cartController.removeProduct(currentKey);
+                                  onPressed: () async {
+                                    stateController.showLoader.value = true;
+                                    await cartController
+                                        .removeProduct(currentKey);
+                                    stateController.showLoader.value = false;
                                   },
                                   icon: const Icon(Icons.close_rounded),
                                 ),
@@ -436,10 +496,12 @@ class CartWidget extends StatelessWidget {
         //     icon: Icon(Icons.flash_on),
         //     label: Text(' "Buy it now"')),
         TextButton.icon(
-            onPressed: () => {
-                  cartController.createSaveLater(
-                      cartController.cartProducts[currentKey], currentKey)
-                },
+            onPressed: () async {
+              stateController.showLoader.value = true;
+              await cartController.createSaveLater(
+                  cartController.cartProducts[currentKey], currentKey);
+              stateController.showLoader.value = true;
+            },
             icon: Icon(Icons.outbox),
             label: Text("Save for later"))
       ],

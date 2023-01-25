@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:amber_bird/controller/deal-controller.dart';
+import 'package:amber_bird/controller/mega-menu-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/deal_product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +12,7 @@ import 'package:get/get.dart';
 
 class DealRow extends StatelessWidget {
   bool isLoading = false;
+  final Controller stateController = Get.find();
   final currentdealName;
 
   DealRow(this.currentdealName, {super.key});
@@ -36,7 +41,24 @@ class DealRow extends StatelessWidget {
                         style: TextStyles.titleLargeSemiBold,
                       ),
                       ElevatedButton(
-                        onPressed: () => {},
+                        onPressed: () {
+                          MegaMenuController megaMenuController;
+                          if (Get.isRegistered<MegaMenuController>()) {
+                            megaMenuController = Get.find();
+                          } else {
+                            megaMenuController = Get.put(MegaMenuController());
+                          }
+                          megaMenuController.selectedParentTab.value =
+                              currentdealName;
+                          if (currentdealName == dealName.FLASH.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                                id: dealName.FLASH.name,
+                                type: 'DEAL',
+                                text: 'Flash'));
+                          } 
+                          stateController.setCurrentTab(2);
+                        },
                         child: Text(
                           'View More',
                           style: TextStyles.bodyWhite,

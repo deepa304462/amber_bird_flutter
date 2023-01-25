@@ -51,7 +51,7 @@ class DealController extends GetxController {
     }
   }
 
-  checkValidDeal(String id, String type) async {
+  checkValidDeal(String id, String type,String cartId) async {
     RuleConfig? ruleConfig;
     Constraint? constraint;
 
@@ -67,7 +67,7 @@ class DealController extends GetxController {
     CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
     if (type == 'positive') {
       dynamic data =
-          await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id);
+          await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id, cartId);
       return data;
     } else {
       return ({'error': false, 'msg': ''});

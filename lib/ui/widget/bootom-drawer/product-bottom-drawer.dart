@@ -236,202 +236,159 @@ class ProductBottomDrawer extends StatelessWidget {
                                   productController
                                       .varient.value.price!.actualPrice
                                       .toString()),
-                              cartController.checkProductInCart('$pId@${productController.varient.value.varientCode}')
-                                    ? Row(
-                                          children: [
-                                            IconButton(
-                                              padding: const EdgeInsets.all(8),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  var valid = false;
-                                                  var msg =
-                                                      'Something went wrong!';
+                              cartController.checkProductInCart(
+                                      '$pId@${productController.varient.value.varientCode}')
+                                  ? Row(
+                                      children: [
+                                        IconButton(
+                                          padding: const EdgeInsets.all(8),
+                                          constraints: const BoxConstraints(),
+                                          onPressed: () async {
+                                            if (stateController.isLogin.value) {
+                                              var valid = false;
+                                              var msg = 'Something went wrong!';
 
-                                                  ProductSummary summary =
-                                                      ProductSummary.fromMap({
-                                                    "name": productController
-                                                        .product.value.name!
-                                                        .toMap(),
-                                                    "description":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .description!
-                                                            .toMap(),
-                                                    "images": productController
-                                                        .product.value.images,
-                                                    "varient": productController
-                                                        .varient.value
-                                                        .toMap(),
-                                                    "category":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .category!
-                                                            .toMap(),
-                                                    "countryCode":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .countryCode,
-                                                    "id": productController
-                                                        .product.value.id
-                                                  });
-                                                  cartController.addToCart(
-                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                      'PRODUCT',
-                                                      -1,
-                                                      productController
-                                                          .varient.value.price!,
-                                                      summary,
-                                                      null);
-                                                }
-                                              },
-                                              icon: const Icon(
-                                                  Icons.remove_circle_outline,
-                                                  color: Colors.black),
-                                            ),
-                                            Text(cartController
-                                                .getCurrentQuantity(
-                                                '$pId@${productController.varient.value.varientCode}')
-                                                .toString()),
-                                            IconButton(
-                                              padding: const EdgeInsets.all(8),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  var valid = false;
-                                                  var msg =
-                                                      'Something went wrong!';
-                                                  ProductSummary summary =
-                                                      ProductSummary.fromMap({
-                                                    "name": productController
-                                                        .product.value.name!
-                                                        .toMap(),
-                                                    "description":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .description!
-                                                            .toMap(),
-                                                    "images": productController
-                                                        .product.value.images,
-                                                    "varient": productController
-                                                        .varient.value
-                                                        .toMap(),
-                                                    "category":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .category!
-                                                            .toMap(),
-                                                    "countryCode":
-                                                        productController
-                                                            .product
-                                                            .value
-                                                            .countryCode,
-                                                    "id": productController
-                                                        .product.value.id
-                                                  });
-
-                                                  cartController.addToCart(
-                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                      'PRODUCT',
-                                                      1,
-                                                      productController
-                                                          .varient.value.price!,
-                                                      summary,
-                                                      null);
-                                                }
-                                              },
-                                              icon: const Icon(
-                                                  Icons.add_circle_outline,
-                                                  color: Colors.black),
-                                            ),
-                                          ],
-                                        )
-                                      
-                                    : ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  AppColors.primeColor,
-                                              textStyle: TextStyles.bodyWhite),
-                                          onPressed: stateController
-                                                  .isLogin.value
-                                              ? () async {
-                                                  if (stateController
-                                                      .isActivate.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
-                                                    ProductSummary summary =
-                                                        ProductSummary.fromMap({
-                                                      "name": productController
-                                                          .product.value.name!
-                                                          .toMap(),
-                                                      "description":
-                                                          productController
-                                                              .product
-                                                              .value
-                                                              .description!
-                                                              .toMap(),
-                                                      "images":
-                                                          productController
-                                                              .product
-                                                              .value
-                                                              .images,
-                                                      "varient":
-                                                          productController
-                                                              .varient.value
-                                                              .toMap(),
-                                                      "category":
-                                                          productController
-                                                              .product
-                                                              .value
-                                                              .category!
-                                                              .toMap(),
-                                                      "countryCode":
-                                                          productController
-                                                              .product
-                                                              .value
-                                                              .countryCode,
-                                                      "id": productController
-                                                          .product.value.id
-                                                    });
-                                                    cartController.addToCart(
-                                                        '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                        'PRODUCT',
-                                                        1,
-                                                        productController
-                                                            .varient
-                                                            .value
-                                                            .price!,
-                                                        summary,
-                                                        null);
-                                                  } else {
-                                                    Navigator.of(context).pop();
-                                                    snackBarClass.showToast(
-                                                        context,
-                                                        'Your profile is not active yet');
-                                                  }
-                                                }
-                                              : () {
-                                                  Navigator.of(context).pop();
-                                                  stateController
-                                                      .setCurrentTab(3);
-                                                  snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
-                                                },
-                                          child: Text("Add to cart",
-                                              style: TextStyles.addTocartText),
+                                              ProductSummary summary =
+                                                  ProductSummary.fromMap({
+                                                "name": productController
+                                                    .product.value.name!
+                                                    .toMap(),
+                                                "description": productController
+                                                    .product.value.description!
+                                                    .toMap(),
+                                                "images": productController
+                                                    .product.value.images,
+                                                "varient": productController
+                                                    .varient.value
+                                                    .toMap(),
+                                                "category": productController
+                                                    .product.value.category!
+                                                    .toMap(),
+                                                "countryCode": productController
+                                                    .product.value.countryCode,
+                                                "id": productController
+                                                    .product.value.id
+                                              });
+                                              cartController.addToCart(
+                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                  'PRODUCT',
+                                                  -1,
+                                                  productController
+                                                      .varient.value.price!,
+                                                  summary,
+                                                  null);
+                                            }
+                                          },
+                                          icon: const Icon(
+                                              Icons.remove_circle_outline,
+                                              color: Colors.black),
                                         ),
-                              
+                                        Text(cartController
+                                            .getCurrentQuantity(
+                                                '$pId@${productController.varient.value.varientCode}')
+                                            .toString()),
+                                        IconButton(
+                                          padding: const EdgeInsets.all(8),
+                                          constraints: const BoxConstraints(),
+                                          onPressed: () async {
+                                            if (stateController.isLogin.value) {
+                                              var valid = false;
+                                              var msg = 'Something went wrong!';
+                                              ProductSummary summary =
+                                                  ProductSummary.fromMap({
+                                                "name": productController
+                                                    .product.value.name!
+                                                    .toMap(),
+                                                "description": productController
+                                                    .product.value.description!
+                                                    .toMap(),
+                                                "images": productController
+                                                    .product.value.images,
+                                                "varient": productController
+                                                    .varient.value
+                                                    .toMap(),
+                                                "category": productController
+                                                    .product.value.category!
+                                                    .toMap(),
+                                                "countryCode": productController
+                                                    .product.value.countryCode,
+                                                "id": productController
+                                                    .product.value.id
+                                              });
+
+                                              cartController.addToCart(
+                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                  'PRODUCT',
+                                                  1,
+                                                  productController
+                                                      .varient.value.price!,
+                                                  summary,
+                                                  null);
+                                            }
+                                          },
+                                          icon: const Icon(
+                                              Icons.add_circle_outline,
+                                              color: Colors.black),
+                                        ),
+                                      ],
+                                    )
+                                  : ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.primeColor,
+                                          textStyle: TextStyles.bodyWhite),
+                                      onPressed: stateController.isLogin.value
+                                          ? () async {
+                                              if (stateController
+                                                  .isActivate.value) {
+                                                var valid = false;
+                                                var msg =
+                                                    'Something went wrong!';
+                                                ProductSummary summary =
+                                                    ProductSummary.fromMap({
+                                                  "name": productController
+                                                      .product.value.name!
+                                                      .toMap(),
+                                                  "description":
+                                                      productController.product
+                                                          .value.description!
+                                                          .toMap(),
+                                                  "images": productController
+                                                      .product.value.images,
+                                                  "varient": productController
+                                                      .varient.value
+                                                      .toMap(),
+                                                  "category": productController
+                                                      .product.value.category!
+                                                      .toMap(),
+                                                  "countryCode":
+                                                      productController.product
+                                                          .value.countryCode,
+                                                  "id": productController
+                                                      .product.value.id
+                                                });
+                                                cartController.addToCart(
+                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                    'PRODUCT',
+                                                    1,
+                                                    productController
+                                                        .varient.value.price!,
+                                                    summary,
+                                                    null);
+                                              } else {
+                                                Navigator.of(context).pop();
+                                                snackBarClass.showToast(context,
+                                                    'Your profile is not active yet');
+                                              }
+                                            }
+                                          : () {
+                                              Navigator.of(context).pop();
+                                              stateController.setCurrentTab(3);
+                                              snackBarClass.showToast(context,
+                                                  'Please Login to preoceed');
+                                            },
+                                      child: Text("Add to cart",
+                                          style: TextStyles.addTocartText),
+                                    ),
                             ],
                           ),
                         ),

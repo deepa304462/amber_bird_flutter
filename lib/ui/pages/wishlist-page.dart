@@ -145,7 +145,7 @@ class WishListPage extends StatelessWidget {
                   price = curwishList.products![0].varient!.price!;
                 } else {
                   price = curwishList.product!.varient!.price!;
-                } 
+                }
                 await cartController.addToCart(
                     curwishList.ref!.id ?? '',
                     'WISHLIST',

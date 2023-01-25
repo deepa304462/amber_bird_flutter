@@ -18,7 +18,7 @@ import 'package:lottie/lottie.dart';
 class CategoryPage extends StatelessWidget {
   bool isLoading = false;
 
-  final MegaMenuController megaMenuController = Get.put(MegaMenuController());
+  final MegaMenuController megaMenuController = Get.find();
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
@@ -50,7 +50,7 @@ class CategoryPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: SizedBox(
-              height: 70,
+              height: 75,
               child: megaMenuController.mainTabs.isNotEmpty
                   ? ListView.builder(
                       physics: const BouncingScrollPhysics(),

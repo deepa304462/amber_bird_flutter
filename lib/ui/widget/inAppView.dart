@@ -29,7 +29,7 @@ class _MyAppState extends State<InApp> {
 
   @override
   Widget build(BuildContext context) {
-    dynamic args = ModalRoute.of(context)!.settings.arguments; 
+    dynamic args = ModalRoute.of(context)!.settings.arguments;
     return Container(
       child: Column(children: <Widget>[
         // Container(

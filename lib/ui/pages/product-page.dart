@@ -1,5 +1,6 @@
 import 'package:amber_bird/ui/pages/product_detail_screen.dart';
 import 'package:flutter/material.dart';
+
 class ProductPage extends StatelessWidget {
   final String productId;
   bool search = false;

@@ -8,10 +8,12 @@ import 'package:get/get.dart';
 
 class MegaMenuController extends GetxController {
   RxList<GenericTab> mainTabs = <GenericTab>[].obs; //RxList([]);
+  RxList<ProductCategory> catList = <ProductCategory>[].obs;
   RxList<GenericTab> subMenuList = <GenericTab>[].obs;
   RxList<DealProduct> dealProductList = <DealProduct>[].obs;
   RxList<Multi> multiProd = <Multi>[].obs;
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
+  
 
   RxString selectedParentTab = "".obs;
   RxString selectedType = "".obs;
@@ -39,6 +41,12 @@ class MegaMenuController extends GetxController {
           resp = response1.data;
         }
       }
+      List<ProductCategory> list = ((resp as List<dynamic>?)
+              ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
+      catList.value = (list);
+
       List<GenericTab> cList = [];
       cList.add(GenericTab(
           image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',

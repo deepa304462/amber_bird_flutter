@@ -12,8 +12,12 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class Helper {
-  static Product conertToProductSummary() { 
+  static Product conertToProductSummary() {
     return Product();
+  }
+
+  static double getFormattedNumber(num) {
+    return double.parse((num).toStringAsFixed(2));
   }
 
   static Future<Ref> getCustomerRef() async {
@@ -24,7 +28,7 @@ class Helper {
   }
 
   static Future<dynamic> checkProductValidtoAddinCart(
-      RuleConfig? ruleConfig, Constraint? constraint, String id) async {
+      RuleConfig? ruleConfig, Constraint? constraint, String id,String cartId) async {
     if (ruleConfig != null && ruleConfig.forWeekDays != null) {
       var insight =
           await OfflineDBService.get(OfflineDBService.customerInsight);
@@ -76,10 +80,10 @@ class Helper {
     if (constraint!.maximumOrder != null && constraint.maximumOrder != 0) {
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
-        if (cartController.cartProducts.value[id] != null) {
-          var newCount = (cartController.cartProducts.value[id] == null
+        if (cartController.cartProducts.value[cartId] != null) {
+          var newCount = (cartController.cartProducts.value[cartId] == null
                   ? 0
-                  : (cartController.cartProducts.value[id]!.count! ?? 0)) +
+                  : (cartController.cartProducts.value[cartId]!.count! ?? 0)) +
               (constraint.minimumOrder == 0
                   ? 1
                   : int.parse(constraint.minimumOrder.toString() ?? '0'));

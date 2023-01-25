@@ -22,7 +22,11 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
-
+  var paymentGateWaydropdownItems = [
+    // {'value': 'STRIPE', 'label': 'Stripe'},
+    {'value': 'MOLLIE', 'label': 'Mollie'},
+  ].obs;
+  RxString selectedPaymentMethod = "MOLLIE".obs;
   RxString orderId = "".obs;
   RxString saveLaterId = "".obs;
   Rx<Price> totalPrice = Price.fromMap({}).obs;
@@ -45,6 +49,9 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
+    paymentGateWaydropdownItems.value = [
+      {'value': 'MOLLIE', 'label': 'Mollie'},
+    ];
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -57,6 +64,7 @@ class CartController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    log(jsonEncode(cust).toString());
     var payload;
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
@@ -80,6 +88,9 @@ class CartController extends GetxController {
               "paidTo": {"name": "sbazar", "_id": "sbazar"},
               "status": "OPEN",
               "description": "order created",
+              "paymentGateWayDetail": {
+                "usedPaymentGateWay": selectedPaymentMethod.value,
+              },
               "appliedCouponCode": selectedCoupon.value.couponCode != null
                   ? {
                       "name": selectedCoupon.value.couponCode,
@@ -107,11 +118,13 @@ class CartController extends GetxController {
             'products': listSumm,
             "payment": {
               "paidBy": (jsonDecode(custRef.toJson())),
-
               "currency": "EUR", //{"currencyCode": "USD"},
               "paidTo": {"name": "sbazar", "_id": "sbazar"},
               "status": "OPEN",
               "description": "order created",
+              "paymentGateWayDetail": {
+                "usedPaymentGateWay": selectedPaymentMethod.value,
+              },
               "appliedCouponCode": selectedCoupon.value.couponCode != null
                   ? {
                       "name": selectedCoupon.value.couponCode,
@@ -126,11 +139,18 @@ class CartController extends GetxController {
             }
           };
           resp1 = await ClientService.post(path: 'order', payload: payload);
-        } 
+        }
         if (resp1.statusCode == 200) {
           if (orderId.value == '') orderId.value = resp1.data['_id'];
           var ord = Order.fromMap(resp1.data);
           calculatedPayment.value = ord.payment!;
+          if (calculatedPayment.value.totalAmount <=
+              cust.personalInfo!.scoins!) {
+            paymentGateWaydropdownItems
+                .add({'value': 'SCOINS', 'label': 'Scoins'});
+          }
+
+          //
         }
       }
     }
@@ -262,8 +282,8 @@ class CartController extends GetxController {
         calculatedPayment.value =
             cust.cart!.payment != null ? cust.cart!.payment! : Payment();
         orderId.value = cust.cart!.id ?? '';
-        for (var element in cust.cart!.products!) {
-          cartProducts[element.ref!.id ?? ''] = element;
+        for (var element in cust.cart!.products!) { 
+            cartProducts[element.ref!.id ?? ''] = element;
         }
       }
       if (cust.saveLater != null) {
@@ -285,6 +305,8 @@ class CartController extends GetxController {
     ProductSummary? product,
     List<ProductSummary>? products,
   ) async {
+    // bool createOrderRequired = true;
+    clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
@@ -310,24 +332,29 @@ class CartController extends GetxController {
           quantity = quantity + addQuantity;
         }
       }
-      ProductOrder cartRow = ProductOrder.fromMap({
-        'products': li.isNotEmpty
-            ? (jsonDecode(li.toString()))
-            : (jsonDecode(li.toString())),
-        'product': product != null ? (jsonDecode(product.toJson())) : null,
-        'count': quantity,
-        'ref': {'_id': refId, 'name': addedFrom},
-        'productType': li.isNotEmpty ? null : product!.type,
-        'price': {
-          'actualPrice': price,
-          'memberCoin': 0,
-          'primeMemberCoin': 0,
-          'goldMemberCoin': 0,
-          'silverMemberCoin': 0,
-          'offerPrice': price
-        }
-      });
-      cartProducts[refId] = cartRow;
+      if (quantity > 0) {
+        ProductOrder cartRow = ProductOrder.fromMap({
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
+          'product': product != null ? (jsonDecode(product.toJson())) : null,
+          'count': quantity,
+          'ref': {'_id': refId, 'name': addedFrom},
+          'productType': li.isNotEmpty ? null : product!.type,
+          'price': {
+            'actualPrice': price,
+            'memberCoin': 0,
+            'primeMemberCoin': 0,
+            'goldMemberCoin': 0,
+            'silverMemberCoin': 0,
+            'offerPrice': price
+          }
+        });
+        cartProducts[refId] = cartRow;
+      } else {
+        removeProduct(refId);
+        return;
+      }
     } else {}
     await createOrder();
   }
@@ -358,10 +385,10 @@ class CartController extends GetxController {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
-      }; 
+      };
       resp = await ClientService.post(path: 'saveLater', payload: payload);
     }
-    if (resp.statusCode == 200) { 
+    if (resp.statusCode == 200) {
       if (saveLaterId.value == '') saveLaterId.value = resp.data['_id'];
       cust.saveLater = Order.fromMap(resp.data);
       OfflineDBService.save(
@@ -407,8 +434,11 @@ class CartController extends GetxController {
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
           "description": orderId.value,
+          "paymentGateWayDetail": {
+            "usedPaymentGateWay": selectedPaymentMethod.value,
+          },
         },
-      }; 
+      };
       resp = await ClientService.Put(
           path: 'order', id: orderId.value, payload: payload);
     } else {
@@ -423,8 +453,11 @@ class CartController extends GetxController {
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
           "description": orderId.value,
+          "paymentGateWayDetail": {
+            "usedPaymentGateWay": selectedPaymentMethod.value,
+          },
         },
-      }; 
+      };
       resp = await ClientService.post(path: 'order', payload: payload);
     }
     if (resp.statusCode == 200) {
@@ -457,7 +490,8 @@ class CartController extends GetxController {
   checktOrderRefAvailable(Ref? ref) {
     bool available = true;
     print(checkoutData.value);
-    if (checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
+    if (checkoutData.value != null &&
+        checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
       checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
         var data = elem;
         if (elem.ref!.id == ref!.id) {
