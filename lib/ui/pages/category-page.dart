@@ -11,6 +11,7 @@ import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -24,13 +25,11 @@ class CategoryPage extends StatelessWidget {
 
   Widget _productGrid(
       MegaMenuController categoryController, BuildContext context) {
-    return GridView.builder(
-      // physics: ScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-      scrollDirection: Axis.vertical,
+    return MasonryGridView.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
       itemCount: categoryController.productList.length,
-      shrinkWrap: true,
       itemBuilder: (_, index) {
         var currentProduct = categoryController.productList[index];
         if (currentProduct.varient != null) {

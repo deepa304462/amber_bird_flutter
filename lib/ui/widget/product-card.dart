@@ -26,9 +26,10 @@ class ProductCard extends StatelessWidget {
   final String? addedFrom;
   final Price? dealPrice;
   final RuleConfig? ruleConfig;
+  final bool fixedHeight;
   ProductCard(
       this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig,
-      {super.key});
+      {super.key, this.fixedHeight = false});
 
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
@@ -128,8 +129,8 @@ class ProductCard extends StatelessWidget {
         children: [
           Text(
             product.name!.defaultText!.text ?? '',
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+            overflow:
+                this.fixedHeight ? TextOverflow.ellipsis : TextOverflow.visible,
             style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),

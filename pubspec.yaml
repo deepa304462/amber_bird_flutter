@@ -71,6 +71,8 @@ dependencies:
   flutter_html: 
   skeletons: ^0.0.3
   masonry_grid: ^1.0.0
+  flutter_staggered_grid_view: ^0.6.2
+  
   
 
 dev_dependencies:

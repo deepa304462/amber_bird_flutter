@@ -35,7 +35,7 @@ class CategoryRow extends StatelessWidget {
                             categoryController.selectedSubCatergory.value =
                                 'all';
                             categoryController.getProductList();
-                            myController.setCurrentTab(1);
+                            myController.setCurrentTab(2);
                           },
                           child: ImageBox(
                             categoryController.mainTabs[index].logoId!,

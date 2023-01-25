@@ -28,6 +28,7 @@ class DealProductCard extends StatelessWidget {
             return SizedBox(
               width: 150,
               child: ProductCard(
+                  fixedHeight: true,
                   dProduct.product,
                   dProduct.id,
                   currentdealName.toString(),
