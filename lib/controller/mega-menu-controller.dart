@@ -13,7 +13,6 @@ class MegaMenuController extends GetxController {
   RxList<DealProduct> dealProductList = <DealProduct>[].obs;
   RxList<Multi> multiProd = <Multi>[].obs;
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
-  
 
   RxString selectedParentTab = "".obs;
   RxString selectedType = "".obs;
@@ -63,6 +62,36 @@ class MegaMenuController extends GetxController {
           id: dealName.SUPER_DEAL.name,
           type: 'DEAL',
           text: 'Hot'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.EXCLUSIVE_DEAL.name,
+          type: 'DEAL',
+          text: 'Exclus'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.WEEKLY_DEAL.name,
+          type: 'DEAL',
+          text: 'Weekly')); 
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.ONLY_COIN_DEAL.name,
+          type: 'DEAL',
+          text: 'Coin'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.MEMBER_DEAL.name,
+          type: 'DEAL',
+          text: 'Member'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.PRIME_MEMBER_DEAL.name,
+          type: 'DEAL',
+          text: 'Prime'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: dealName.CUSTOM_RULE_DEAL.name,
+          type: 'DEAL',
+          text: 'Custom'));
       cList.add(GenericTab(
           image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
           id: multiProductName.COMBO.name,

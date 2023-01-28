@@ -7,7 +7,7 @@ class Parent {
   String? logoId;
   bool? subCategory;
   String? parentCategoryId;
-  String? parent;
+  Parent? parent;
   String? id;
 
   Parent({
@@ -31,7 +31,9 @@ class Parent {
         logoId: data['logoId'] as String?,
         subCategory: data['subCategory'] as bool?,
         parentCategoryId: data['parentCategoryId'] as String?,
-        parent: data['parent'] as String?,
+        parent: data['parent'] == null
+            ? null
+            : Parent.fromMap(data['parent'] as Map<String, dynamic>), 
         id: data['_id'] as String?,
       );
 
@@ -61,7 +63,7 @@ class Parent {
     String? logoId,
     bool? subCategory,
     String? parentCategoryId,
-    String? parent,
+    Parent? parent,
     String? id,
   }) {
     return Parent(

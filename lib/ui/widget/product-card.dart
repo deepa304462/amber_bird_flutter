@@ -90,9 +90,11 @@ class ProductCard extends StatelessWidget {
                 Colors.red,
                 Colors.indigo,
                 const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(12),
-                        bottomRight: Radius.circular(12))),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
               )
             : const SizedBox(),
         Obx(() {

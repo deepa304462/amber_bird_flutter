@@ -10,6 +10,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 class WishListPage extends StatelessWidget {
@@ -37,8 +38,6 @@ class WishListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // getWishList();
-    print(wishlistController.wishlistProducts.value.length);
     return Obx(
       () => Container(
         padding: const EdgeInsets.all(10),
@@ -60,29 +59,20 @@ class WishListPage extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blueAccent),
+                border: Border.all(color: AppColors.primeColor),
                 borderRadius: BorderRadius.circular(5),
               ),
               constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * .70),
               padding: const EdgeInsets.all(8.0),
               child: wishlistController.wishlistProducts.value.length > 0
-                  ? GridView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 6 / 8,
-                              crossAxisSpacing: 10),
-                      scrollDirection: Axis.vertical,
+                  ? MasonryGridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 4,
+                      crossAxisSpacing: 4,
                       itemCount:
                           wishlistController.wishlistProducts.value.length,
-                      shrinkWrap: true,
-                      // ListView.builder(
-                      //               scrollDirection: Axis.vertical,
-                      //               physics: const BouncingScrollPhysics(),
-                      //               itemCount: wishList.length,
-                      itemBuilder: (data, index) {
+                      itemBuilder: (_, index) {
                         var currentKey = wishlistController
                             .wishlistProducts.value.keys
                             .elementAt(index);
@@ -113,17 +103,7 @@ class WishListPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppColors.grey)),
         child: Column(
-          children: [
-            // Text(
-            //   '#${curwishList.id}',
-            //   style: TextStyles.bodySm,
-            // ),
-            // Text(
-            //   '# ${curwishList.id}',
-            //   style: TextStyles.body,
-            // ),
-            // 0ad51820-35be-4a37-8a41-fb3915c1b2a0
-            // )
+          children: [ 
             ImageBox(
               curwishList.product != null
                   ? curwishList.product!.images![0] ?? ''
@@ -132,14 +112,7 @@ class WishListPage extends StatelessWidget {
               height: 150,
             ),
             TextButton(
-              onPressed: () async {
-                // addToCart(
-                // String refId,
-                // String addedFrom,
-                // int? addQuantity,
-                // Price? priceInfo,
-                // ProductSummary? product,
-                // List<ProductSummary>? products,
+              onPressed: () async { 
                 Price price = Price();
                 if (curwishList.products!.length > 0) {
                   price = curwishList.products![0].varient!.price!;
@@ -157,8 +130,9 @@ class WishListPage extends StatelessWidget {
                     .removeWishList(curwishList.ref!.id ?? '');
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Move to cart'),
+                  const Text('Add to cart'),
                   IconButton(
                     icon: Icon(
                       Icons.favorite,

@@ -8,6 +8,7 @@ import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -97,11 +98,11 @@ class SaveLater extends StatelessWidget {
                                               Text(
                                                   '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                               Text(
-                                                  '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                                  '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${currentProduct.varient!.price!.offerPrice!} ')
                                             ],
                                           ),
                                           Text(
-                                              '\$${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
+                                              '${CodeHelp.euro}${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
                                         ],
                                       ),
                                     ],
@@ -155,11 +156,11 @@ class SaveLater extends StatelessWidget {
                                     Text(
                                         '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
                                     Text(
-                                        '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * \$${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                        '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                   ],
                                 ),
                                 Text(
-                                    '\$${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
+                                    '${CodeHelp.euro}${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
                                 IconButton(
                                   onPressed: () async {
                                     stateController.showLoader.value = true;

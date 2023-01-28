@@ -8,6 +8,7 @@ import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -85,8 +86,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.headingFontGray,
                           ),
                           Text(
-                            cartController.calculatedPayment.value.totalAmount
-                                .toString(),
+                            '${CodeHelp.euro}${cartController.calculatedPayment.value.totalAmount.toString()}',
                             style: TextStyles.mrpStyle,
                           ),
                         ],
@@ -99,9 +99,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.headingFontGray,
                           ),
                           Text(
-                            cartController
-                                .calculatedPayment.value.discountAmount
-                                .toString(),
+                            '${CodeHelp.euro}${cartController.calculatedPayment.value.discountAmount.toString()}',
                             style: TextStyles.mrpStyle,
                           ),
                         ],
@@ -153,9 +151,7 @@ class CartWidget extends StatelessWidget {
                                         style: TextStyles.headingFontGray,
                                       ),
                                       Text(
-                                        Helper.getFormattedNumber(
-                                                currentTax.amount)
-                                            .toString(),
+                                        '${CodeHelp.euro}${Helper.getFormattedNumber(currentTax.amount).toString()}',
                                         style: TextStyles.bodyFontBold,
                                       ),
                                     ],
@@ -273,7 +269,7 @@ class CartWidget extends StatelessWidget {
                       children: [
                         Container(
                           margin: const EdgeInsets.all(2.0),
-                          padding: const EdgeInsets.all(3.0),
+                          padding: const EdgeInsets.fromLTRB(3.0, 3, 3, 20),
                           decoration: BoxDecoration(
                               border: Border.all(
                                   color: const Color.fromARGB(
@@ -311,11 +307,9 @@ class CartWidget extends StatelessWidget {
                                               Text(
                                                   '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                               Text(
-                                                  '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${currentProduct.varient!.price!.offerPrice!} ')
+                                                  '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${currentProduct.varient!.price!.offerPrice!} ')
                                             ],
                                           ),
-                                          Text(
-                                              '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                                         ],
                                       ),
                                     ],
@@ -334,6 +328,12 @@ class CartWidget extends StatelessWidget {
                                 stateController.showLoader.value = false;
                               },
                               icon: const Icon(Icons.close_rounded)),
+                        ),
+                        Positioned(
+                          left: 10,
+                          bottom: 0,
+                          child: Text(
+                              'Total: ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                         ),
                         Positioned(
                           right: 0,
@@ -379,11 +379,11 @@ class CartWidget extends StatelessWidget {
                                   Text(
                                       '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                   Text(
-                                      '${cartController.cartProducts[currentKey]!.count!.toString()} * \$${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                      '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                 ],
                               ),
                               Text(
-                                  '\$${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
+                                  '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                               Positioned(
                                 right: 990,
                                 top: 50,

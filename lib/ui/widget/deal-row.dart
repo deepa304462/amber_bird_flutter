@@ -56,7 +56,56 @@ class DealRow extends StatelessWidget {
                                 id: dealName.FLASH.name,
                                 type: 'DEAL',
                                 text: 'Flash'));
-                          } 
+                          } else if (currentdealName ==
+                              dealName.EXCLUSIVE_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.EXCLUSIVE_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Exclusive'));
+                          } else if (currentdealName ==
+                              dealName.WEEKLY_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.WEEKLY_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Weekly deal'));
+                          } else if (currentdealName ==
+                              dealName.SUPER_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.SUPER_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Super deal'));
+                          } else if (currentdealName ==
+                              dealName.ONLY_COIN_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.ONLY_COIN_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Coin deal'));
+                          } else if (currentdealName ==
+                              dealName.MEMBER_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.MEMBER_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Member deal'));
+                          } else if (currentdealName ==
+                              dealName.PRIME_MEMBER_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.PRIME_MEMBER_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Prime deal'));
+                          } else if (currentdealName ==
+                              dealName.CUSTOM_RULE_DEAL.name) {
+                            megaMenuController.getSubMenu(GenericTab(
+                                image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                id: dealName.CUSTOM_RULE_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Custom deal'));
+                          }
                           stateController.setCurrentTab(2);
                         },
                         child: Text(

@@ -23,6 +23,20 @@ class DealController extends GetxController {
       getDealProduct('FLASH');
     } else if (tag == dealName.SALES.name) {
       getDealProduct('SALES');
+    } else if (tag == dealName.WEEKLY_DEAL.name) {
+      getDealProduct('WEEKLY_DEAL');
+    } else if (tag == dealName.SUPER_DEAL.name) {
+      getDealProduct('SUPER_DEAL');
+    } else if (tag == dealName.ONLY_COIN_DEAL.name) {
+      getDealProduct('ONLY_COIN_DEAL');
+    } else if (tag == dealName.EXCLUSIVE_DEAL.name) {
+      getDealProduct('EXCLUSIVE_DEAL');
+    } else if (tag == dealName.MEMBER_DEAL.name) {
+      getDealProduct('MEMBER_DEAL');
+    } else if (tag == dealName.PRIME_MEMBER_DEAL.name) {
+      getDealProduct('PRIME_MEMBER_DEAL');
+    } else if (tag == dealName.CUSTOM_RULE_DEAL.name) {
+      getDealProduct('CUSTOM_RULE_DEAL ');
     }
 
     super.onInit();
@@ -33,6 +47,20 @@ class DealController extends GetxController {
       return "Flash Deal";
     } else if (dealName.SALES.name == name) {
       return "Sales Deal";
+    } else if (tag == dealName.WEEKLY_DEAL.name) {
+      return  'Weekly Deal';
+    } else if (tag == dealName.SUPER_DEAL.name) {
+      return 'Super Deal';
+    } else if (tag == dealName.ONLY_COIN_DEAL.name) {
+      return 'Coin Deal';
+    } else if (tag == dealName.EXCLUSIVE_DEAL.name) {
+      return 'Exclusive Deal';
+    } else if (tag == dealName.MEMBER_DEAL.name) {
+      return 'Member Deal';
+    } else if (tag == dealName.PRIME_MEMBER_DEAL.name) {
+      return 'Prime Member Deal';
+    } else if (tag == dealName.CUSTOM_RULE_DEAL.name) {
+     return 'Custom Rule Deal';
     } else {
       return "Flash Deal";
     }
@@ -54,14 +82,12 @@ class DealController extends GetxController {
   checkValidDeal(String id, String type,String cartId) async {
     RuleConfig? ruleConfig;
     Constraint? constraint;
-
     DealProduct dealProduct =
         dealProd.firstWhere((element) => element.id == id, orElse: () {
       return DealProduct();
     });
     ruleConfig = dealProduct.ruleConfig;
     constraint = dealProduct.constraint;
-
     // DealProduct();
     var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
     CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));

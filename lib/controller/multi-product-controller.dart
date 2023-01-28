@@ -23,7 +23,7 @@ class MultiProductController extends GetxController {
     if (tag == multiProductName.BUNDLE.name) {
       getmultiProductProduct('BUNDLE');
     }
-    if (tag == multiProductName.COLLECTION) {
+    if (tag == multiProductName.COLLECTION.name) {
       getmultiProductProduct('COLLECTION');
     } else if (tag == dealName.SALES.name) {
       getmultiProductProduct('SALES');
