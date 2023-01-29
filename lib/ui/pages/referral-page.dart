@@ -33,7 +33,7 @@ class ReferralPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Obx(() {
                 return controller.isLoading.value
-                    ? LinearProgressIndicator()
+                    ? const LinearProgressIndicator()
                     : Column(
                         children: [
                           Text(

@@ -2,7 +2,7 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/order/address.dart';
-import 'package:amber_bird/ui/element/location-text-box.dart';
+import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -106,7 +106,7 @@ class AllAddressPage extends StatelessWidget {
                 print(index);
                 locationController.changeAddressData.value =
                     locationController.addressData.value;
-                _displayDialog(context, locationController, 'Add');
+                _displayDialog(context, locationController, 'Edit');
               },
               icon: const Icon(Icons.edit),
             ),
@@ -141,21 +141,21 @@ class AllAddressPage extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                padding: EdgeInsets.all(20),
-                color: Colors.white,
+                padding: const EdgeInsets.all(20),
+                color: AppColors.primeColor,
                 child: Center(
                   child: Obx(
                     () => Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          '${type} Address',
-                          style: TextStyles.headingFont,
+                          '$type Address',
+                          style: TextStyles.bodyWhiteLarge,
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'Name',
                             'name',
                             locationController.changeAddressData.value.name !=
@@ -164,12 +164,15 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.name
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'Phone',
                             'phoneNumber',
                             locationController
@@ -179,12 +182,15 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.phoneNumber
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'Line1',
                             'line1',
                             locationController.changeAddressData.value.line1 !=
@@ -193,12 +199,15 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.line1
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'Line2',
                             'line2',
                             locationController.changeAddressData.value.line2 !=
@@ -207,12 +216,15 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.line2
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'City',
                             'city',
                             locationController.changeAddressData.value.city !=
@@ -221,12 +233,15 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.city
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
+                        ITextBox(
                             'Country',
                             'country',
                             locationController
@@ -236,13 +251,16 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.country
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
-                            'LandMark',
+                        ITextBox(
+                            'Land Mark',
                             'landMark',
                             locationController
                                         .changeAddressData.value.landMark !=
@@ -251,13 +269,16 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.landMark
                                     .toString()
                                 : '',
+                            false,
                             TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
                         ),
-                        LocationTextBox(
-                            'ZipCode',
+                        ITextBox(
+                            'zip Code',
                             'zipCode',
                             locationController
                                         .changeAddressData.value.zipCode !=
@@ -266,7 +287,10 @@ class AllAddressPage extends StatelessWidget {
                                     .changeAddressData.value.zipCode
                                     .toString()
                                 : '',
-                            TextInputType.number,
+                            false,
+                            TextInputType.text,
+                            false,
+                            false,
                             callback),
                         const SizedBox(
                           height: 10,
@@ -278,9 +302,9 @@ class AllAddressPage extends StatelessWidget {
                                 locationController.changeAddressData.value;
                             var data;
                             if (type == 'ADD') {
-                              data = await locationController.editAddressCall();
-                            } else {
                               data = await locationController.addAddressCall();
+                            } else {
+                              data = await locationController.editAddressCall();
                             }
                             if (data['status'] == 'success') {}
                             isLoading.value = false;
@@ -313,5 +337,7 @@ class AllAddressPage extends StatelessWidget {
     );
   }
 
-  callback(String p1) {}
+  callback(String name, String text) {
+    locationController.setFielsvalue(text, name);
+  }
 }

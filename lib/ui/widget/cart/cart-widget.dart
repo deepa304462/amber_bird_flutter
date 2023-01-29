@@ -190,6 +190,7 @@ class CartWidget extends StatelessWidget {
                                       var data =
                                           await cartController.createPayment();
                                       if (data['error']) {
+                                        // ignore: use_build_context_synchronously
                                         snackBarClass.showToast(
                                             context, data['msg']);
                                       } else {
@@ -425,7 +426,7 @@ class CartWidget extends StatelessWidget {
         Text('Recommonded Products', style: TextStyles.headingFont),
         Container(
           // margin: const EdgeInsets.all(5.0),
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           height: 160,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -449,7 +450,7 @@ class CartWidget extends StatelessWidget {
                                 curProd.varient!.price!,
                                 null);
                           })
-                      : Text('No Product available')
+                      : const Text('No Product available')
                   : const SizedBox()
             ],
           ),
@@ -502,8 +503,8 @@ class CartWidget extends StatelessWidget {
                   cartController.cartProducts[currentKey], currentKey);
               stateController.showLoader.value = true;
             },
-            icon: Icon(Icons.outbox),
-            label: Text("Save for later"))
+            icon: const Icon(Icons.outbox),
+            label: const Text("Save for later"))
       ],
     );
   }

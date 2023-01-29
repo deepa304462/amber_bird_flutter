@@ -20,8 +20,10 @@ class LocationTextBox extends StatelessWidget {
     ipController.addListener(() {
       locationController.setFielsvalue(ipController.text, keyName);
     });
-
-    ipController.text = value;
+    // if (keyboardType == TextInputType.number)
+    //   ipController.text = int.parse(value);
+    // else
+      // ipController.text = value;
 
     return Container(
       padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),

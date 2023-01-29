@@ -71,7 +71,6 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       Checkout data = Checkout.fromMap(resp.data);
       checkoutData.value = data;
-
       if (data.allAvailable == true) {
         var resp1;
         if (orderId.value != '') {
@@ -141,6 +140,8 @@ class CartController extends GetxController {
           resp1 = await ClientService.post(path: 'order', payload: payload);
         }
         if (resp1.statusCode == 200) {
+           log(jsonEncode(payload).toString());
+            log(jsonEncode(resp1.data).toString());
           if (orderId.value == '') orderId.value = resp1.data['_id'];
           var ord = Order.fromMap(resp1.data);
           calculatedPayment.value = ord.payment!;
@@ -149,8 +150,6 @@ class CartController extends GetxController {
             paymentGateWaydropdownItems
                 .add({'value': 'SCOINS', 'label': 'Scoins'});
           }
-
-          //
         }
       }
     }

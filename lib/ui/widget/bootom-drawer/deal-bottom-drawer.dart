@@ -272,8 +272,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             }
                                           } else {
                                             stateController.setCurrentTab(3);
-                                            var showToast =
-                                                snackBarClass.showToast(context,
+                                            snackBarClass.showToast(context,
                                                     'Please Login to preoceed');
                                           }
                                         },

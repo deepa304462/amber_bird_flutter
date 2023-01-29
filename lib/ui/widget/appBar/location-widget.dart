@@ -33,7 +33,7 @@ class locationWidget extends StatelessWidget {
                     color: AppColors.black,
                   ),
                   FitText(
-                    location.addressData.value.zipCode ?? '',
+                    location.addressData.value.zipCode ?? '0',
                     style: TextStyles.body,
                   ),
                   // Text(location.addressData.value.zipCode ?? '',

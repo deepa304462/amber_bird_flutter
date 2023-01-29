@@ -169,7 +169,7 @@ class ProfilePage extends StatelessWidget {
                               onPressed: () {
                                 Modular.to.navigate('../home/edit-profile');
                               },
-                              icon: Icon(Icons.edit)),
+                              icon: const Icon(Icons.edit)),
                         ),
                       ),
                     ],
@@ -253,7 +253,7 @@ class ProfilePage extends StatelessWidget {
               subtitle,
               style: TextStyles.bodyFont,
             ),
-            trailing: Icon(Icons.chevron_right),
+            trailing: const Icon(Icons.chevron_right),
           ),
         ),
       ),

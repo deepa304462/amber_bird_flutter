@@ -1,17 +1,11 @@
-import 'dart:developer';
+ 
 
-import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/location-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/coupon-widget.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/controller/cart-controller.dart'; 
+import 'package:amber_bird/controller/state-controller.dart'; 
+import 'package:amber_bird/ui/widget/image-box.dart'; 
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter/material.dart'; 
 import 'package:get/get.dart';
 
 class SaveLater extends StatelessWidget {
@@ -202,8 +196,8 @@ class SaveLater extends StatelessWidget {
               await cartController.removeSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: Icon(Icons.outbox),
-            label: Text("Delete"))
+            icon: const Icon(Icons.outbox),
+            label: const Text("Delete"))
       ],
     );
   }

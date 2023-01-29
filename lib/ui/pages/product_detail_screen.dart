@@ -399,8 +399,8 @@ class ProductDetailScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Table(
-            columnWidths: {
-              0: const FractionColumnWidth(.30),
+            columnWidths: const {
+              0:  FractionColumnWidth(.30),
             },
             border: TableBorder.all(
               borderRadius: BorderRadius.circular(12),

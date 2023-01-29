@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -39,7 +37,7 @@ class SignUp extends StatelessWidget {
                   'To get started now!',
                   style: TextStyles.bodyWhiteLarge,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 // SizedBox(
@@ -132,8 +130,10 @@ class SignUp extends StatelessWidget {
                           cartController.fetchCart();
                         }
                         isLoading.value = false;
+                        // ignore: use_build_context_synchronously
                         snackBarClass.showToast(context, data['msg']);
                       } else {
+                        // ignore: use_build_context_synchronously
                         snackBarClass.showToast(
                             context, 'Please fill corrct username');
                       }
@@ -195,8 +195,7 @@ class SignUp extends StatelessWidget {
                             onPressed: () async {
                               try {
                                 isLoading.value = true;
-                                var data = await mController.signInWithGoogle();
-                                print(data);
+                                var data = await mController.signInWithGoogle(); 
                                 if (data['status'] == 'success') {}
                                 isLoading.value = false;
 
@@ -244,7 +243,7 @@ class SignUp extends StatelessWidget {
                   text: TextSpan(
                     style: TextStyles.title,
                     children: <TextSpan>[
-                      TextSpan(text: "Already have an account? "),
+                      const TextSpan(text: "Already have an account? "),
                       TextSpan(
                           text: 'Login now',
                           style: TextStyles.titleGreen,

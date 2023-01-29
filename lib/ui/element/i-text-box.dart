@@ -44,6 +44,7 @@ class ITextBox extends StatelessWidget {
           obscureText: isPassword,
           keyboardType: keyboardType,
           readOnly: isDisabled,
+          controller: ipController,
         ),
       );
     } else {
