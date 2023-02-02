@@ -140,6 +140,8 @@ class ProductCard extends StatelessWidget {
             style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),
+          addedFrom == 'MULTIPRODUCT'?Text('${
+            product.defaultPurchaseCount.toString()} * ${product.varient!.price!.offerPrice!}',style: TextStyles.bodySm,):const SizedBox(),
           Wrap(
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
@@ -304,31 +306,14 @@ class ProductCard extends StatelessWidget {
 
                                       // this.refId, this.addedFrom,
                                       if (addedFrom == 'CATEGORY') {
-                                        // if (product!.multiVarientExists ==
-                                        //     true) {
-                                        //   showModalBottomSheet<void>(
-                                        //       context: context,
-                                        //       useRootNavigator: true,
-                                        //       shape: RoundedRectangleBorder(
-                                        //           borderRadius:
-                                        //               BorderRadius.circular(
-                                        //                   13)),
-                                        //       backgroundColor: Colors.white,
-                                        //       isScrollControlled: true,
-                                        //       elevation: 3,
-                                        //       builder: (context) {
-                                        //         return ProductBottomDrawer(
-                                        //             refId);
-                                        //       });
-                                        // } else {
+                                       
                                         cartController.addToCart(
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
                                             1,
                                             dealPrice,
                                             product,
-                                            null);
-                                        // }
+                                            null); 
                                       } else {
                                         if (Get.isRegistered<DealController>(
                                             tag: addedFrom!)) {

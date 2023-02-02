@@ -21,11 +21,13 @@ class ProfilePage extends StatelessWidget {
         children: [
           profileCard(context, stateController.loggedInProfile.value),
           SingleChildScrollView(
-            child: Column(children: [
+            child: Column(
+            children: [
               sectionCard('Address', 'Get list if saved address', () {
                 Modular.to.navigate('../home/address-list');
                 return {};
-              }),
+              }
+              ),
               sectionCard(
                   'FAQ', 'Get answer for your specific query', () => {}),
               sectionCard(
@@ -152,6 +154,7 @@ class ProfilePage extends StatelessWidget {
                                     ],
                                   ),
                                   Row(
+                                    mainAxisSize: MainAxisSize.max,
                                     children: [
                                       const Icon(
                                         Icons.email,

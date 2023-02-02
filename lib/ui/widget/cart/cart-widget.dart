@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/helpers/helper.dart';
@@ -33,32 +34,32 @@ class CartWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       shippingAddress(context),
-                      Obx(
-                        () => cartController
-                                .paymentGateWaydropdownItems.isNotEmpty
-                            ? DropdownButton(
-                                value:
-                                    cartController.selectedPaymentMethod.value,
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                items: cartController
-                                    .paymentGateWaydropdownItems
-                                    .map((items) {
-                                  return DropdownMenuItem(
-                                    value: items['value'],
-                                    child: Text(items['label'] ?? ''),
-                                  );
-                                }).toList(),
-                                onChanged: (dynamic newValue) {
-                                  stateController.showLoader.value = true;
-                                  checkoutClicked.value = false;
-                                  cartController.clearCheckout();
-                                  cartController.selectedPaymentMethod.value =
-                                      newValue!;
-                                  stateController.showLoader.value = false;
-                                },
-                              )
-                            : const SizedBox(),
-                      ),
+                      // Obx(
+                      //   () => cartController
+                      //           .paymentGateWaydropdownItems.isNotEmpty
+                      //       ? DropdownButton(
+                      //           value:
+                      //               cartController.selectedPaymentMethod.value,
+                      //           icon: const Icon(Icons.keyboard_arrow_down),
+                      //           items: cartController
+                      //               .paymentGateWaydropdownItems
+                      //               .map((items) {
+                      //             return DropdownMenuItem(
+                      //               value: items['value'],
+                      //               child: Text(items['label'] ?? ''),
+                      //             );
+                      //           }).toList(),
+                      //           onChanged: (dynamic newValue) {
+                      //             stateController.showLoader.value = true;
+                      //             checkoutClicked.value = false;
+                      //             cartController.clearCheckout();
+                      //             cartController.selectedPaymentMethod.value =
+                      //                 newValue!;
+                      //             stateController.showLoader.value = false;
+                      //           },
+                      //         )
+                      //       : const SizedBox(),
+                      // ),
                       Center(
                         child: ElevatedButton(
                           onPressed: () async {
@@ -337,10 +338,70 @@ class CartWidget extends StatelessWidget {
                               'Total: ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
                         ),
                         Positioned(
-                          right: 0,
-                          bottom: 0,
+                          right: 10,
+                          bottom: -5,
                           child:
                               cartButtons(context, cartController, currentKey),
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 100,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                padding: const EdgeInsets.all(8),
+                                constraints: const BoxConstraints(),
+                                onPressed: () async {
+                                  stateController.showLoader.value = true;
+                                  if (stateController.isLogin.value) {
+                                    cartController.addToCart(
+                                        '${cartController.cartProducts[currentKey].ref!.id}',
+                                        cartController.cartProducts[currentKey]
+                                            .ref!.name!,
+                                        -1,
+                                        cartController
+                                            .cartProducts[currentKey].price,
+                                        null,
+                                        cartController.cartProducts
+                                            .value[currentKey]!.products);
+                                  } else {
+                                    stateController.setCurrentTab(3);
+                                    var showToast = snackBarClass.showToast(
+                                        context, 'Please Login to preoceed');
+                                  }
+                                  stateController.showLoader.value = false;
+                                },
+                                icon: const Icon(Icons.remove_circle_outline,
+                                    color: Colors.black),
+                              ),
+                              Text(cartController
+                                  .getCurrentQuantity(
+                                      '${cartController.cartProducts[currentKey].ref!.id}')
+                                  .toString()),
+                              IconButton(
+                                padding: const EdgeInsets.all(8),
+                                constraints: const BoxConstraints(),
+                                onPressed: () async {
+                                  stateController.showLoader.value = true;
+                                  if (stateController.isLogin.value) {
+                                    cartController.addToCart(
+                                        '${cartController.cartProducts[currentKey].ref!.id}',
+                                        cartController.cartProducts[currentKey]
+                                            .ref!.name!,
+                                        1,
+                                        cartController
+                                            .cartProducts[currentKey].price,
+                                        null,
+                                        cartController.cartProducts
+                                            .value[currentKey]!.products);
+                                  }
+                                  stateController.showLoader.value = false;
+                                },
+                                icon: const Icon(Icons.add_circle_outline,
+                                    color: Colors.black),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     )
@@ -381,6 +442,77 @@ class CartWidget extends StatelessWidget {
                                       '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                   Text(
                                       '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        padding: const EdgeInsets.all(8),
+                                        constraints: const BoxConstraints(),
+                                        onPressed: () async {
+                                          stateController.showLoader.value =
+                                              true;
+                                          if (stateController.isLogin.value) {
+                                            cartController.addToCart(
+                                                '${cartController.cartProducts[currentKey].ref!.id}',
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .ref!
+                                                    .name!,
+                                                -1,
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .price,
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .product,
+                                                null);
+                                          } else {
+                                            stateController.setCurrentTab(3);
+                                            var showToast =
+                                                snackBarClass.showToast(context,
+                                                    'Please Login to preoceed');
+                                          }
+                                          stateController.showLoader.value =
+                                              false;
+                                        },
+                                        icon: const Icon(
+                                            Icons.remove_circle_outline,
+                                            color: Colors.black),
+                                      ),
+                                      Text(cartController
+                                          .getCurrentQuantity(
+                                              '${cartController.cartProducts[currentKey].ref!.id}')
+                                          .toString()),
+                                      IconButton(
+                                        padding: const EdgeInsets.all(8),
+                                        constraints: const BoxConstraints(),
+                                        onPressed: () async {
+                                          stateController.showLoader.value =
+                                              true;
+                                          if (stateController.isLogin.value) {
+                                            cartController.addToCart(
+                                                '${cartController.cartProducts[currentKey].ref!.id}',
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .ref!
+                                                    .name!,
+                                                1,
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .price,
+                                                cartController
+                                                    .cartProducts[currentKey]
+                                                    .product,
+                                                null);
+                                          }
+                                          stateController.showLoader.value =
+                                              false;
+                                        },
+                                        icon: const Icon(
+                                            Icons.add_circle_outline,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
                               Text(

@@ -14,12 +14,14 @@ class FitText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(
-        text,
-        style: style,
-      ),
-    );
+    return text != null && text != ''
+        ? FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              text,
+              style: style,
+            ),
+          )
+        : const SizedBox();
   }
 }

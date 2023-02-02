@@ -27,10 +27,12 @@ class AllAddressPage extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(10),
         child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+          children: [
             IconButton(
               onPressed: () {
-                Modular.to.navigate('../home/main');
+                // Modular.to.navigate('../home/main');
+                Modular.to.pop();
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -64,9 +66,7 @@ class AllAddressPage extends StatelessWidget {
                     var currentAddress = addressList[index];
                     return addressCard(
                         context, locationController, index, currentAddress, () {
-                      locationController.addressData.value = currentAddress;
-                      // Modular.to.pop(context);
-                      // Navigator.of(context).pop();
+                      locationController.addressData.value = currentAddress; 
                       Modular.to.navigate('/home/cart');
                       return {};
                     });

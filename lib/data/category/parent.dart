@@ -42,7 +42,7 @@ class Parent {
         'logoId': logoId,
         'subCategory': subCategory,
         'parentCategoryId': parentCategoryId,
-        'parent': parent,
+        'parent': parent?.toMap(),
         '_id': id,
       };
 

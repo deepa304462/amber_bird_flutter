@@ -5,7 +5,7 @@ import 'package:amber_bird/data/category/category.dart';
 import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
-  
+
 class ProductSummary {
   Name? name;
   Description? description;
@@ -15,6 +15,7 @@ class ProductSummary {
   String? countryCode;
   Brand? brand;
   bool? multiVarientExists;
+  dynamic? defaultPurchaseCount;
   String? type;
   List<Varient>? varients;
   String? id;
@@ -28,6 +29,7 @@ class ProductSummary {
     this.countryCode,
     this.brand,
     this.multiVarientExists,
+    this.defaultPurchaseCount,
     this.type,
     this.varients,
     this.id,
@@ -35,7 +37,7 @@ class ProductSummary {
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists, type: $type, varients: $varients, id: $id)';
+    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists,defaultPurchaseCount: $defaultPurchaseCount, type: $type, varients: $varients, id: $id)';
   }
 
   factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
@@ -57,6 +59,7 @@ class ProductSummary {
             ? null
             : Brand.fromMap(data['brand'] as Map<String, dynamic>),
         multiVarientExists: data['multiVarientExists'] as bool?,
+        defaultPurchaseCount: data['defaultPurchaseCount'] as dynamic?,
         type: data['type'] as String?,
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
@@ -73,6 +76,7 @@ class ProductSummary {
         'countryCode': countryCode,
         'brand': brand?.toMap(),
         'multiVarientExists': multiVarientExists,
+        'defaultPurchaseCount': defaultPurchaseCount,
         'type': type,
         'varients': varients?.map((e) => e.toMap()).toList(),
         '_id': id,
@@ -99,6 +103,7 @@ class ProductSummary {
     String? countryCode,
     Brand? brand,
     bool? multiVarientExists,
+    dynamic? defaultPurchaseCount,
     String? type,
     List<Varient>? varients,
     String? id,
@@ -112,6 +117,7 @@ class ProductSummary {
       countryCode: countryCode ?? this.countryCode,
       brand: brand ?? this.brand,
       multiVarientExists: multiVarientExists ?? this.multiVarientExists,
+      defaultPurchaseCount: defaultPurchaseCount ?? this.defaultPurchaseCount,
       type: type ?? this.type,
       varients: varients ?? this.varients,
       id: id ?? this.id,
