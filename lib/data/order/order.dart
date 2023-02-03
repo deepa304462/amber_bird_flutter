@@ -18,6 +18,8 @@ class Order {
 
   Ref? shareLink;
   String? businessId;
+  String? referredById;
+  String? userFriendlyOrderId;
   String? id;
 
   Order({
@@ -29,12 +31,14 @@ class Order {
     this.customerRef,
     this.shareLink,
     this.businessId,
+    this.referredById,
+    this.userFriendlyOrderId,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Order(metaData: $metaData, payment: $payment, products: $products, status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, id: $id)';
+    return 'Order(metaData: $metaData, payment: $payment, products: $products, status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
   }
 
   factory Order.fromMap(Map<String, dynamic> data) => Order(
@@ -58,6 +62,8 @@ class Order {
             ? null
             : Ref.fromMap(data['shareLink'] as Map<String, dynamic>),
         businessId: data['businessId'] as String?,
+        referredById: data['referredById'] as String?,
+        userFriendlyOrderId: data['userFriendlyOrderId'] as String?,
         id: data['_id'] as String?,
       );
 
@@ -70,6 +76,8 @@ class Order {
         'customerRef': customerRef?.toMap(),
         'shareLink': shareLink?.toMap(),
         'businessId': businessId,
+        'referredById': referredById,
+        'userFriendlyOrderId': userFriendlyOrderId,
         '_id': id,
       };
 
@@ -94,6 +102,8 @@ class Order {
     Ref? customerRef,
     Ref? shareLink,
     String? businessId,
+    String? referredById,
+    String? userFriendlyOrderId,
     String? id,
   }) {
     return Order(
@@ -105,6 +115,8 @@ class Order {
       customerRef: customerRef ?? this.customerRef,
       shareLink: shareLink ?? this.shareLink,
       businessId: businessId ?? this.businessId,
+      referredById: referredById ?? this.referredById,
+      userFriendlyOrderId: userFriendlyOrderId ?? this.userFriendlyOrderId,
       id: id ?? this.id,
     );
   }

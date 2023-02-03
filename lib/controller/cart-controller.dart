@@ -14,6 +14,7 @@ import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
@@ -22,10 +23,10 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
-  var paymentGateWaydropdownItems = [
-    // {'value': 'STRIPE', 'label': 'Stripe'},
-    {'value': 'MOLLIE', 'label': 'Mollie'},
-  ].obs;
+  // var paymentGateWaydropdownItems = [
+  //   // {'value': 'STRIPE', 'label': 'Stripe'},
+  //   {'value': 'MOLLIE', 'label': 'Mollie'},
+  // ].obs;
   RxString selectedPaymentMethod = "MOLLIE".obs;
   RxString orderId = "".obs;
   RxString saveLaterId = "".obs;
@@ -49,9 +50,9 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
-    paymentGateWaydropdownItems.value = [
-      {'value': 'MOLLIE', 'label': 'Mollie'},
-    ];
+    // paymentGateWaydropdownItems.value = [
+    //   {'value': 'MOLLIE', 'label': 'Mollie'},
+    // ];
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -63,6 +64,7 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var referredbyId = await SharedData.read('referredbyId');
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     log(jsonEncode(cust).toString());
     var payload;
@@ -106,7 +108,8 @@ class CartController extends GetxController {
               'destination': {
                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
               }
-            }
+            },
+            'referredById': referredbyId != null ? referredbyId : null,
           };
           resp1 = await ClientService.Put(
               path: 'order', id: orderId.value, payload: payload);
@@ -131,6 +134,7 @@ class CartController extends GetxController {
                     }
                   : null,
             },
+            'referredById': referredbyId != null ? referredbyId : null,
             'shipping': {
               'destination': {
                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
@@ -140,16 +144,16 @@ class CartController extends GetxController {
           resp1 = await ClientService.post(path: 'order', payload: payload);
         }
         if (resp1.statusCode == 200) {
-           log(jsonEncode(payload).toString());
-            log(jsonEncode(resp1.data).toString());
+          log(jsonEncode(payload).toString());
+          log(jsonEncode(resp1.data).toString());
           if (orderId.value == '') orderId.value = resp1.data['_id'];
           var ord = Order.fromMap(resp1.data);
           calculatedPayment.value = ord.payment!;
-          if (calculatedPayment.value.totalAmount <=
-              cust.personalInfo!.scoins!) {
-            paymentGateWaydropdownItems
-                .add({'value': 'SCOINS', 'label': 'Scoins'});
-          }
+          // if (calculatedPayment.value.totalAmount <=
+          //     cust.personalInfo!.scoins!) {
+          //   paymentGateWaydropdownItems
+          //       .add({'value': 'SCOINS', 'label': 'Scoins'});
+          // }
         }
       }
     }
@@ -281,8 +285,8 @@ class CartController extends GetxController {
         calculatedPayment.value =
             cust.cart!.payment != null ? cust.cart!.payment! : Payment();
         orderId.value = cust.cart!.id ?? '';
-        for (var element in cust.cart!.products!) { 
-            cartProducts[element.ref!.id ?? ''] = element;
+        for (var element in cust.cart!.products!) {
+          cartProducts[element.ref!.id ?? ''] = element;
         }
       }
       if (cust.saveLater != null) {
