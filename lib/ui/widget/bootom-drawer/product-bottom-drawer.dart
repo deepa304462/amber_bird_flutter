@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/deal-controller.dart';
-import 'package:amber_bird/controller/multi-product-controller.dart';
+import 'package:amber_bird/controller/cart-controller.dart'; 
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -338,8 +336,12 @@ class ProductBottomDrawer extends StatelessWidget {
                                           textStyle: TextStyles.bodyWhite),
                                       onPressed: stateController.isLogin.value
                                           ? () async {
-                                              if (stateController
-                                                  .isActivate.value) {
+                                              stateController.showLoader.value =
+                                                  true;
+                                              bool isCheckedActivate =
+                                                  await stateController
+                                                      .getUserIsActive();
+                                              if (isCheckedActivate) {
                                                 var valid = false;
                                                 var msg =
                                                     'Something went wrong!';
@@ -379,6 +381,8 @@ class ProductBottomDrawer extends StatelessWidget {
                                                 snackBarClass.showToast(context,
                                                     'Your profile is not active yet');
                                               }
+                                              stateController.showLoader.value =
+                                                  false;
                                             }
                                           : () {
                                               Navigator.of(context).pop();

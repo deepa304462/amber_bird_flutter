@@ -43,7 +43,7 @@ class AllAddressPage extends StatelessWidget {
             TextButton.icon(
               onPressed: () {
                 locationController.changeAddressData.value = Address();
-                _displayDialog(context, locationController, 'Add');
+                _displayDialog(context, locationController, 'ADD');
               },
               icon: const Icon(Icons.add),
               label: const Text('Add Address'),
@@ -288,7 +288,7 @@ class AllAddressPage extends StatelessWidget {
                                     .toString()
                                 : '',
                             false,
-                            TextInputType.text,
+                            TextInputType.number,
                             false,
                             false,
                             callback),

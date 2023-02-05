@@ -18,6 +18,10 @@ class ITextBox extends StatelessWidget {
   ITextBox(this.label, this.keyName, this.value, this.iscomingFromThridParty,
       this.keyboardType, this.isPassword, this.isDisabled, this.callback) {
     ipController.text = value;
+
+    //   ipController.addListener(() {
+    //   print("CONTROLLER: $ipController");
+    // });
   }
 
   final AuthController authController = Get.find();
@@ -43,8 +47,8 @@ class ITextBox extends StatelessWidget {
           }),
           obscureText: isPassword,
           keyboardType: keyboardType,
-          readOnly: isDisabled,
-          controller: ipController,
+          // readOnly: isDisabled,
+          // controller: ipController,
         ),
       );
     } else {

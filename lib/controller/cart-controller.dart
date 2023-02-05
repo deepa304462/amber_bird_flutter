@@ -67,6 +67,7 @@ class CartController extends GetxController {
     var referredbyId = await SharedData.read('referredbyId');
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     log(jsonEncode(cust).toString());
+    log(jsonEncode(cust.cart));
     var payload;
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
@@ -238,7 +239,7 @@ class CartController extends GetxController {
       var customerInsightDetail = await ClientService.post(
           path: 'customerInsight/detail',
           payload: {},
-          payloadAsString: controller.tokenManagerEntityId.value);
+          payloadAsString: controller.loggedInPRofileId.value);
       if (customerInsightDetail.statusCode == 200) {
         OfflineDBService.save(
             OfflineDBService.customerInsightDetail, customerInsightDetail.data);

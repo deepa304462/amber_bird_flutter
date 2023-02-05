@@ -283,8 +283,12 @@ class MultiProductRow extends StatelessWidget {
                                               constraints:
                                                   const BoxConstraints(),
                                               onPressed: () async {
-                                                if (stateController
-                                                    .isActivate.value) {
+                                                stateController
+                                                    .showLoader.value = true;
+                                                bool isCheckedActivate =
+                                                    await stateController
+                                                        .getUserIsActive();
+                                                if (isCheckedActivate) {
                                                   var valid = false;
                                                   var msg =
                                                       'Something went wrong!';
@@ -313,6 +317,8 @@ class MultiProductRow extends StatelessWidget {
                                                         context, msg);
                                                   }
                                                 }
+                                                 stateController
+                                                    .showLoader.value = false;
                                                 //   showModalBottomSheet<void>(
                                                 //     // context and builder are
                                                 //     // required properties in this widget

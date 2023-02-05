@@ -140,8 +140,11 @@ class ProductCard extends StatelessWidget {
             style: const TextStyle(
                 fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           ),
-          addedFrom == 'MULTIPRODUCT'?Text('${
-            product.defaultPurchaseCount.toString()} * ${product.varient!.price!.offerPrice!}',style: TextStyles.bodySm,):const SizedBox(),
+          addedFrom == 'MULTIPRODUCT'
+              ? Text(
+                  '${product.defaultPurchaseCount.toString()} * ${product.varient!.price!.offerPrice!}',
+                  style: TextStyles.bodySm)
+              : const SizedBox(),
           Wrap(
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
@@ -159,7 +162,7 @@ class ProductCard extends StatelessWidget {
                         )
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               checkPriceVisibility()
                   ? addedFrom == 'DEAL'
                       ? PriceTag(dealPrice!.offerPrice!.toString(),
@@ -300,20 +303,22 @@ class ProductCard extends StatelessWidget {
                             onPressed: stateController.isLogin.value
                                 ? () async {
                                     stateController.showLoader.value = true;
-                                    if (stateController.isActivate.value) {
+                                    bool isCheckedActivate =
+                                       await  stateController.getUserIsActive();
+                                    if (isCheckedActivate) {
+                                      // if (stateController.isActivate.value) {
                                       var valid = false;
                                       var msg = 'Something went wrong!';
 
                                       // this.refId, this.addedFrom,
                                       if (addedFrom == 'CATEGORY') {
-                                       
                                         cartController.addToCart(
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
                                             1,
                                             dealPrice,
                                             product,
-                                            null); 
+                                            null);
                                       } else {
                                         if (Get.isRegistered<DealController>(
                                             tag: addedFrom!)) {

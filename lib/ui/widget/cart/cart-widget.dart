@@ -64,7 +64,8 @@ class CartWidget extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () async {
                             stateController.showLoader.value = true;
-                            if (stateController.isActivate.value) {
+                            bool isCheckedActivate = await stateController.getUserIsActive();
+                            if (isCheckedActivate) {
                               await cartController.checkout();
                               checkoutClicked.value = true;
                             } else {

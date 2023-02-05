@@ -26,6 +26,8 @@ class Controller extends GetxController {
   var showLoader = false.obs;
   var backButtonPress = 0.obs;
   RxString tokenManagerEntityId = ''.obs;
+  RxString loggedInPRofileId = ''.obs;
+
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
   RxInt totalPrice = 0.obs;
@@ -40,6 +42,29 @@ class Controller extends GetxController {
     getLoginInfo();
     changeTab(currentTab.toInt());
     super.onInit();
+  }
+
+  getUserIsActive() async {
+    if (!isActivate.value) {
+      await checkAuth();
+    }
+    return isActivate.value;
+  }
+
+  checkAuth() async {
+    if (loggedInPRofileId.value != null) {
+      var tokenResp =
+          await ClientService.get(path: 'auth', id: tokenManagerEntityId.value);
+      if (tokenResp.statusCode == 200) {
+        var userData = tokenResp.data;
+        if (userData['mappedTo'] != null) {
+          isActivate.value = userData['authEmailVerified'];
+          isEmailVerified.value = userData['authEmailVerified'];
+          isPhoneVerified.value = userData['mobileVerified'];
+        }
+      }
+    }
+    return null;
   }
 
   backPressed() {
@@ -243,8 +268,6 @@ class Controller extends GetxController {
     productImageDefaultIndex.value = index;
   }
 
-  void checkAuth() {}
-
   void syncUserProfile(profileId) {
     ClientService.get(path: 'user-profile', id: profileId).then((value) {
       loggedInProfile.value = UserProfile.fromMap(value.data);
@@ -253,9 +276,13 @@ class Controller extends GetxController {
         'name': loggedInProfile.value.fullName
       });
       FCMSyncService.tokenSync(data);
-      tokenManagerEntityId.value = loggedInProfile.value.id!;
+      loggedInPRofileId.value = loggedInProfile.value.id!;
+      // tokenManagerEntityId.value = loggedInProfile.value.id!;
+
+// tokenManagerEntityId.value
       getCustomerData(loggedInProfile.value.id);
       getCustomerDetail(loggedInProfile.value.id);
+      // checkAuth();
     }).catchError((error) {
       logout();
     });
