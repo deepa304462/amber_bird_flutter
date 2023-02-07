@@ -1,13 +1,17 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
 class ProductOrder {
   ProductSummary? product;
   List<ProductSummary>? products;
   String? productType;
+  RuleConfig? ruleConfig;
+  Constraint? constraint;
   Ref? ref;
   int? count;
   Price? price;
@@ -16,6 +20,8 @@ class ProductOrder {
     this.product,
     this.products,
     this.productType,
+    this.ruleConfig,
+    this.constraint,
     this.ref,
     this.count,
     this.price,
@@ -23,7 +29,7 @@ class ProductOrder {
 
   @override
   String toString() {
-    return 'Product(product: $product, products: $products, productType: $productType, ref: $ref, count: $count, price: $price)';
+    return 'Product(product: $product, products: $products, productType: $productType,ruleConfig: $ruleConfig,constraint: $constraint, ref: $ref, count: $count, price: $price)';
   }
 
   factory ProductOrder.fromMap(Map<String, dynamic> data) => ProductOrder(
@@ -37,6 +43,12 @@ class ProductOrder {
                 ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
                 .toList(),
         productType: data['productType'] as String?,
+        ruleConfig: data['ruleConfig'] == null
+            ? null
+            : RuleConfig.fromMap(data['ruleConfig'] as Map<String, dynamic>),
+        constraint: data['constraint'] == null
+            ? null
+            : Constraint.fromMap(data['constraint'] as Map<String, dynamic>),
         ref: data['ref'] == null
             ? null
             : Ref.fromMap(data['ref'] as Map<String,
@@ -52,6 +64,8 @@ class ProductOrder {
         'product': product?.toMap(),
         'products': products?.map((e) => e.toMap()).toList(),
         'productType': productType,
+        'ruleConfig': ruleConfig?.toMap(),
+        'constraint': constraint?.toMap(),
         'ref': ref?.toMap(),
         'count': count,
         'price': price?.toMap(),
@@ -74,6 +88,8 @@ class ProductOrder {
     List<ProductSummary>? products,
     String? productType,
     Ref? ref,
+    RuleConfig? ruleConfig,
+    Constraint? constraint,
     int? count,
     Price? price,
   }) {
@@ -81,6 +97,8 @@ class ProductOrder {
       product: product ?? this.product,
       products: products ?? this.products,
       productType: productType ?? this.productType,
+      ruleConfig: ruleConfig ?? this.ruleConfig,
+      constraint: constraint ?? this.constraint,
       ref: ref ?? this.ref,
       count: count ?? this.count,
       price: price ?? this.price,

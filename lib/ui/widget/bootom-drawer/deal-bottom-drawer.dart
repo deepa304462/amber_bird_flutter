@@ -235,7 +235,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                         -1,
                                                     priceInfo,
                                                     null,
-                                                    products);
+                                                    products,null,null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -263,7 +263,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                         -1,
                                                     priceInfo,
                                                     products![0],
-                                                    null);
+                                                    null,null,null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -308,7 +308,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                         1,
                                                     priceInfo,
                                                     null,
-                                                    products);
+                                                    products,null,null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -335,7 +335,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                         1,
                                                     priceInfo,
                                                     products![0],
-                                                    null);
+                                                    null,null,null);
                                               } else {
                                                 stateController
                                                     .setCurrentTab(3);
@@ -386,7 +386,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                           1,
                                                       priceInfo,
                                                       null,
-                                                      products);
+                                                      products,null,null);
                                                 } else {
                                                   Navigator.of(context).pop();
                                                   snackBarClass.showToast(
@@ -418,7 +418,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                           1,
                                                       priceInfo,
                                                       products![0],
-                                                      null);
+                                                      null,null,null);
                                                 } else {
                                                   Navigator.of(context).pop();
                                                   snackBarClass.showToast(

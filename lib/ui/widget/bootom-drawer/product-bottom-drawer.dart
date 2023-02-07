@@ -267,14 +267,14 @@ class ProductBottomDrawer extends StatelessWidget {
                                                 "id": productController
                                                     .product.value.id
                                               });
-                                              cartController.addToCart(
-                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                  'PRODUCT',
-                                                  -1,
-                                                  productController
-                                                      .varient.value.price!,
-                                                  summary,
-                                                  null);
+                                              // cartController.addToCart(
+                                              //     '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                              //     'PRODUCT',
+                                              //     -1,
+                                              //     productController
+                                              //         .varient.value.price!,
+                                              //     summary,
+                                              //     null);
                                             }
                                           },
                                           icon: const Icon(
@@ -314,14 +314,14 @@ class ProductBottomDrawer extends StatelessWidget {
                                                     .product.value.id
                                               });
 
-                                              cartController.addToCart(
-                                                  '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                  'PRODUCT',
-                                                  1,
-                                                  productController
-                                                      .varient.value.price!,
-                                                  summary,
-                                                  null);
+                                              // cartController.addToCart(
+                                              //     '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                              //     'PRODUCT',
+                                              //     1,
+                                              //     productController
+                                              //         .varient.value.price!,
+                                              //     summary,
+                                              //     null);
                                             }
                                           },
                                           icon: const Icon(
@@ -368,14 +368,14 @@ class ProductBottomDrawer extends StatelessWidget {
                                                   "id": productController
                                                       .product.value.id
                                                 });
-                                                cartController.addToCart(
-                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                    'PRODUCT',
-                                                    1,
-                                                    productController
-                                                        .varient.value.price!,
-                                                    summary,
-                                                    null);
+                                                // cartController.addToCart(
+                                                //     '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                //     'PRODUCT',
+                                                //     1,
+                                                //     productController
+                                                //         .varient.value.price!,
+                                                //     summary,
+                                                //     null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(context,

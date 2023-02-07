@@ -51,7 +51,7 @@ class BrandProductPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * .5,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ProductCard(product, product.id, 'BRAND', null, null),
+                child: ProductCard(product, product.id, 'BRAND', null, null,null),
               )))
           .toList(),
     );

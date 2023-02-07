@@ -27,10 +27,12 @@ class ProductCard extends StatelessWidget {
   final String? addedFrom;
   final Price? dealPrice;
   final RuleConfig? ruleConfig;
+  final Constraint? constraint;
+  
   final bool fixedHeight;
   Rx<Varient> activeVariant = Varient().obs;
   ProductCard(
-      this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig,
+      this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig, this.constraint,
       {super.key, this.fixedHeight = false});
 
   final CartController cartController = Get.find();
@@ -230,7 +232,9 @@ class ProductCard extends StatelessWidget {
                                         -1,
                                         dealPrice,
                                         product,
-                                        null);
+                                        null,
+                                        ruleConfig,
+                                        constraint);
                                   } else {
                                     snackBarClass.showToast(context, msg);
                                   }
@@ -276,7 +280,9 @@ class ProductCard extends StatelessWidget {
                                         1,
                                         dealPrice,
                                         product,
-                                        null);
+                                        null,
+                                        ruleConfig,
+                                        constraint);
                                   } else {
                                     stateController.setCurrentTab(3);
                                     snackBarClass.showToast(context, msg);
@@ -318,7 +324,9 @@ class ProductCard extends StatelessWidget {
                                             1,
                                             dealPrice,
                                             product,
-                                            null);
+                                            null,
+                                            ruleConfig,
+                                            constraint);
                                       } else {
                                         if (Get.isRegistered<DealController>(
                                             tag: addedFrom!)) {
@@ -340,7 +348,9 @@ class ProductCard extends StatelessWidget {
                                               1,
                                               dealPrice,
                                               product,
-                                              null);
+                                              null,
+                                              ruleConfig,
+                                              constraint);
                                         } else {
                                           snackBarClass.showToast(context, msg);
                                         }

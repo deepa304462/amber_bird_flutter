@@ -221,6 +221,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                   productController
                                                       .varient.value.price!,
                                                   summary,
+                                                  null,
+                                                  null,
                                                   null);
                                             } else {
                                               stateController.setCurrentTab(3);
@@ -262,6 +264,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                   productController
                                                       .varient.value.price!,
                                                   summary,
+                                                  null,
+                                                  null,
                                                   null);
                                             } else {
                                               stateController.setCurrentTab(3);
@@ -287,6 +291,8 @@ class ProductDetailScreen extends StatelessWidget {
                                               productController
                                                   .varient.value.price!,
                                               summary,
+                                              null,
+                                              null,
                                               null);
                                         } else {
                                           stateController.setCurrentTab(3);
@@ -400,7 +406,7 @@ class ProductDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Table(
             columnWidths: const {
-              0:  FractionColumnWidth(.30),
+              0: FractionColumnWidth(.30),
             },
             border: TableBorder.all(
               borderRadius: BorderRadius.circular(12),

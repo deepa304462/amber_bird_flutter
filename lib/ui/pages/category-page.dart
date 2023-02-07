@@ -34,7 +34,7 @@ class CategoryPage extends StatelessWidget {
         var currentProduct = categoryController.productList[index];
         if (currentProduct.varient != null) {
           return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
-              currentProduct.varient!.price!, null);
+              currentProduct.varient!.price!, null,null);
         } else {
           return const SizedBox();
         }
@@ -195,7 +195,7 @@ class CategoryPage extends StatelessWidget {
           DealProduct dealProduct = megaMenuController.dealProductList[0];
           if (dealProduct.product != null) {
             return ProductCard(dealProduct.product, dealProduct.product!.id,
-                'DEAL', dealProduct.product!.varient!.price!, null);
+                'DEAL', dealProduct.product!.varient!.price!, dealProduct.ruleConfig,dealProduct.constraint);
           } else {
             return const SizedBox();
           }
@@ -237,6 +237,7 @@ class CategoryPage extends StatelessWidget {
                                 mProduct.products![i].id,
                                 'MULTIPRODUCT',
                                 mProduct.products![i].varient!.price!,
+                                null,
                                 null),
                           )
                         ]

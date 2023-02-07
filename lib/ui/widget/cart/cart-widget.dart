@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/helpers/helper.dart';
@@ -64,7 +63,8 @@ class CartWidget extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () async {
                             stateController.showLoader.value = true;
-                            bool isCheckedActivate = await stateController.getUserIsActive();
+                            bool isCheckedActivate =
+                                await stateController.getUserIsActive();
                             if (isCheckedActivate) {
                               await cartController.checkout();
                               checkoutClicked.value = true;
@@ -355,6 +355,36 @@ class CartWidget extends StatelessWidget {
                                 onPressed: () async {
                                   stateController.showLoader.value = true;
                                   if (stateController.isLogin.value) {
+                                    var valid = false;
+                                    var msg = 'Something went wrong!';
+
+                                    if (cartController.cartProducts[currentKey]
+                                                .ruleConfig !=
+                                            null ||
+                                        cartController.cartProducts[currentKey]
+                                                .constraint !=
+                                            null) {
+                                      dynamic data = await Helper
+                                          .checkProductValidtoAddinCart(
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ruleConfig,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .constraint,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ref!
+                                                  .id,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ref!
+                                                  .id);
+                                      valid = !data['error'];
+                                      msg = data['msg'];
+                                    }
+
+                                    // if (valid) {
                                     cartController.addToCart(
                                         '${cartController.cartProducts[currentKey].ref!.id}',
                                         cartController.cartProducts[currentKey]
@@ -365,6 +395,11 @@ class CartWidget extends StatelessWidget {
                                         null,
                                         cartController.cartProducts
                                             .value[currentKey]!.products);
+                                    // } else {
+                                    //   stateController.setCurrentTab(3);
+                                    //   var showToast =
+                                    //       snackBarClass.showToast(context, msg);
+                                    // }
                                   } else {
                                     stateController.setCurrentTab(3);
                                     var showToast = snackBarClass.showToast(
@@ -385,16 +420,52 @@ class CartWidget extends StatelessWidget {
                                 onPressed: () async {
                                   stateController.showLoader.value = true;
                                   if (stateController.isLogin.value) {
-                                    cartController.addToCart(
-                                        '${cartController.cartProducts[currentKey].ref!.id}',
+                                    var valid = false;
+                                    var msg = 'Something went wrong!';
+
+                                    if (cartController.cartProducts[currentKey]
+                                                .ruleConfig !=
+                                            null ||
                                         cartController.cartProducts[currentKey]
-                                            .ref!.name!,
-                                        1,
-                                        cartController
-                                            .cartProducts[currentKey].price,
-                                        null,
-                                        cartController.cartProducts
-                                            .value[currentKey]!.products);
+                                                .constraint !=
+                                            null) {
+                                      dynamic data = await Helper
+                                          .checkProductValidtoAddinCart(
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ruleConfig,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .constraint,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ref!
+                                                  .id,
+                                              cartController
+                                                  .cartProducts[currentKey]
+                                                  .ref!
+                                                  .id);
+                                      valid = !data['error'];
+                                      msg = data['msg'];
+                                    }
+
+                                    if (valid) {
+                                      cartController.addToCart(
+                                          '${cartController.cartProducts[currentKey].ref!.id}',
+                                          cartController
+                                              .cartProducts[currentKey]
+                                              .ref!
+                                              .name!,
+                                          1,
+                                          cartController
+                                              .cartProducts[currentKey].price,
+                                          null,
+                                          cartController.cartProducts
+                                              .value[currentKey]!.products);
+                                    } else {
+                                      var showToast =
+                                          snackBarClass.showToast(context, msg);
+                                    }
                                   }
                                   stateController.showLoader.value = false;
                                 },
@@ -490,20 +561,62 @@ class CartWidget extends StatelessWidget {
                                           stateController.showLoader.value =
                                               true;
                                           if (stateController.isLogin.value) {
-                                            cartController.addToCart(
-                                                '${cartController.cartProducts[currentKey].ref!.id}',
+                                            var valid = false;
+                                            var msg = 'Something went wrong!';
+
+                                            if (cartController
+                                                        .cartProducts[
+                                                            currentKey]
+                                                        .ruleConfig !=
+                                                    null ||
                                                 cartController
-                                                    .cartProducts[currentKey]
-                                                    .ref!
-                                                    .name!,
-                                                1,
-                                                cartController
-                                                    .cartProducts[currentKey]
-                                                    .price,
-                                                cartController
-                                                    .cartProducts[currentKey]
-                                                    .product,
-                                                null);
+                                                        .cartProducts[
+                                                            currentKey]
+                                                        .constraint !=
+                                                    null) {
+                                              dynamic data = await Helper
+                                                  .checkProductValidtoAddinCart(
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]
+                                                          .ruleConfig,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]
+                                                          .constraint,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]
+                                                          .ref!
+                                                          .id,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]
+                                                          .ref!
+                                                          .id);
+                                              valid = !data['error'];
+                                              msg = data['msg'];
+                                            }
+
+                                            if (valid) {
+                                              cartController.addToCart(
+                                                  '${cartController.cartProducts[currentKey].ref!.id}',
+                                                  cartController
+                                                      .cartProducts[currentKey]
+                                                      .ref!
+                                                      .name!,
+                                                  1,
+                                                  cartController
+                                                      .cartProducts[currentKey]
+                                                      .price,
+                                                  cartController
+                                                      .cartProducts[currentKey]
+                                                      .product,
+                                                  null);
+                                            } else {
+                                              var showToast = snackBarClass
+                                                  .showToast(context, msg);
+                                            }
                                           }
                                           stateController.showLoader.value =
                                               false;
@@ -581,6 +694,7 @@ class CartWidget extends StatelessWidget {
                                 curProd.id,
                                 'RECOMMEDED_PRODUCT',
                                 curProd.varient!.price!,
+                                null,
                                 null);
                           })
                       : const Text('No Product available')

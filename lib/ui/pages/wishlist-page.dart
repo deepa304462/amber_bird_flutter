@@ -125,7 +125,7 @@ class WishListPage extends StatelessWidget {
                     1,
                     price,
                     curwishList.product,
-                    curwishList.products);
+                    curwishList.products,null,null);
                 await wishlistController
                     .removeWishList(curwishList.ref!.id ?? '');
               },

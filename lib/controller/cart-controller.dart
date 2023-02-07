@@ -6,8 +6,10 @@ import 'package:amber_bird/data/checkout/checkout.dart';
 import 'package:amber_bird/data/checkout/order_product_availability_status.dart';
 import 'package:amber_bird/data/coupon_code/coupon_code.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
+import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/order/product_order.dart';
@@ -23,16 +25,11 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
-  // var paymentGateWaydropdownItems = [
-  //   // {'value': 'STRIPE', 'label': 'Stripe'},
-  //   {'value': 'MOLLIE', 'label': 'Mollie'},
-  // ].obs;
   RxString selectedPaymentMethod = "MOLLIE".obs;
   RxString orderId = "".obs;
   RxString saveLaterId = "".obs;
   Rx<Price> totalPrice = Price.fromMap({}).obs;
   Rx<Payment> calculatedPayment = Payment.fromMap({}).obs;
-
   var couponName = ''.obs;
   RxList<CouponCode> searchCouponList = <CouponCode>[].obs;
   Rx<CouponCode> selectedCoupon = CouponCode().obs;
@@ -42,7 +39,6 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // resetCart();
     fetchCart();
   }
 
@@ -50,9 +46,6 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
-    // paymentGateWaydropdownItems.value = [
-    //   {'value': 'MOLLIE', 'label': 'Mollie'},
-    // ];
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -302,13 +295,14 @@ class CartController extends GetxController {
   }
 
   Future<void> addToCart(
-    String refId,
-    String addedFrom,
-    int? addQuantity,
-    Price? priceInfo,
-    ProductSummary? product,
-    List<ProductSummary>? products,
-  ) async {
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint) async {
     // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
@@ -344,6 +338,8 @@ class CartController extends GetxController {
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'count': quantity,
           'ref': {'_id': refId, 'name': addedFrom},
+          'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
+          'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
           'price': {
             'actualPrice': price,

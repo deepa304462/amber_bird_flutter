@@ -59,7 +59,7 @@ class CategoryProductPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child:
-                      ProductCard(product, product.id, 'CATEGORY', null, null),
+                      ProductCard(product, product.id, 'CATEGORY', null, null,null),
                 ),
               ),
             )

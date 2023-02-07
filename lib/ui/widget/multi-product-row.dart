@@ -42,7 +42,7 @@ class MultiProductRow extends StatelessWidget {
                     multiprodController.getProductName(currenttypeName),
                     style: TextStyles.titleLargeBold,
                   ),
-                   ElevatedButton(
+                  ElevatedButton(
                     onPressed: () {
                       MegaMenuController megaMenuController;
                       if (Get.isRegistered<MegaMenuController>()) {
@@ -135,7 +135,8 @@ class MultiProductRow extends StatelessWidget {
                                   mProduct.products![i].id,
                                   'MULTIPRODUCT',
                                   mProduct.products![i].varient!.price!,
-                                  null),
+                                  null,
+                                  mProduct.constraint),
                             ),
                           ],
                         ],
@@ -206,7 +207,9 @@ class MultiProductRow extends StatelessWidget {
                                                               -1,
                                                           mProduct.price,
                                                           null,
-                                                          mProduct.products);
+                                                          mProduct.products,
+                                                          null,
+                                                          mProduct.constraint);
                                                     } else {
                                                       Navigator.of(context)
                                                           .pop();
@@ -259,7 +262,9 @@ class MultiProductRow extends StatelessWidget {
                                                               1,
                                                           mProduct.price,
                                                           null,
-                                                          mProduct.products);
+                                                          mProduct.products,
+                                                          null,
+                                                          mProduct.constraint);
                                                     } else {
                                                       Navigator.of(context)
                                                           .pop();
@@ -310,14 +315,16 @@ class MultiProductRow extends StatelessWidget {
                                                             1,
                                                         mProduct.price,
                                                         null,
-                                                        mProduct.products);
+                                                        mProduct.products,
+                                                        null,
+                                                        mProduct.constraint);
                                                   } else {
                                                     Navigator.of(context).pop();
                                                     snackBarClass.showToast(
                                                         context, msg);
                                                   }
                                                 }
-                                                 stateController
+                                                stateController
                                                     .showLoader.value = false;
                                                 //   showModalBottomSheet<void>(
                                                 //     // context and builder are

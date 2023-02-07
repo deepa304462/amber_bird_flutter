@@ -32,7 +32,8 @@ class DealProductCard extends StatelessWidget {
                   dProduct.id,
                   currentdealName.toString(),
                   dProduct.dealPrice,
-                  dProduct.ruleConfig),
+                  dProduct.ruleConfig,
+                  dProduct.constraint),
             );
           },
         ),

@@ -77,7 +77,8 @@ class Helper {
         });
       }
     }
-    if (constraint!.maximumOrder != null && constraint.maximumOrder != 0) {
+    if (constraint != null &&
+        constraint.maximumOrder != null && constraint.maximumOrder != 0) {
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
         if (cartController.cartProducts.value[cartId] != null) {
