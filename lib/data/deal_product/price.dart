@@ -3,41 +3,45 @@ import 'dart:convert';
 class Price {
   dynamic? actualPrice;
   dynamic? offerPrice;
-  dynamic? memberCoin;
-  dynamic? primeMemberCoin;
+  dynamic? noMemberCoin;
+  dynamic? platinumMemberCoin;
   dynamic? goldMemberCoin;
   dynamic? silverMemberCoin;
+  dynamic? paidMemberCoin;
 
   Price({
     this.actualPrice,
     this.offerPrice,
-    this.memberCoin,
-    this.primeMemberCoin,
+    this.noMemberCoin,
+    this.platinumMemberCoin,
     this.goldMemberCoin,
     this.silverMemberCoin,
+    this.paidMemberCoin,
   });
 
   @override
   String toString() {
-    return 'Price(actualPrice: $actualPrice, offerPrice: $offerPrice, memberCoin: $memberCoin, primeMemberCoin: $primeMemberCoin, goldMemberCoin: $goldMemberCoin, silverMemberCoin: $silverMemberCoin)';
+    return 'Price(actualPrice: $actualPrice, offerPrice: $offerPrice, noMemberCoin: $noMemberCoin, platinumMemberCoin: $platinumMemberCoin, goldMemberCoin: $goldMemberCoin, silverMemberCoin: $silverMemberCoin,paidMemberCoin:$paidMemberCoin)';
   }
 
   factory Price.fromMap(Map<String, dynamic> data) => Price(
         actualPrice: data['actualPrice'] as dynamic?,
         offerPrice: data['offerPrice'] as dynamic?,
-        memberCoin: data['memberCoin'] as dynamic?,
-        primeMemberCoin: data['primeMemberCoin'] as dynamic?,
+        noMemberCoin: data['noMemberCoin'] as dynamic?,
+        platinumMemberCoin: data['platinumMemberCoin'] as dynamic?,
         goldMemberCoin: data['goldMemberCoin'] as dynamic?,
         silverMemberCoin: data['silverMemberCoin'] as dynamic?,
+        paidMemberCoin: data['paidMemberCoin'] as dynamic?,
       );
 
   Map<String, dynamic> toMap() => {
         'actualPrice': actualPrice,
         'offerPrice': offerPrice,
-        'memberCoin': memberCoin,
-        'primeMemberCoin': primeMemberCoin,
+        'noMemberCoin': noMemberCoin,
+        'platinumMemberCoin': platinumMemberCoin,
         'goldMemberCoin': goldMemberCoin,
         'silverMemberCoin': silverMemberCoin,
+        'paidMemberCoin': paidMemberCoin,
       };
 
   /// `dart:convert`
@@ -55,18 +59,20 @@ class Price {
   Price copyWith({
     dynamic? actualPrice,
     dynamic? offerPrice,
-    dynamic? memberCoin,
-    dynamic? primeMemberCoin,
+    dynamic? noMemberCoin,
+    dynamic? platinumMemberCoin, 
     dynamic? goldMemberCoin,
     dynamic? silverMemberCoin,
+    dynamic? paidMemberCoin,
   }) {
     return Price(
       actualPrice: actualPrice ?? this.actualPrice,
       offerPrice: offerPrice ?? this.offerPrice,
-      memberCoin: memberCoin ?? this.memberCoin,
-      primeMemberCoin: primeMemberCoin ?? this.primeMemberCoin,
+      noMemberCoin: noMemberCoin ?? this.noMemberCoin,
+      platinumMemberCoin: platinumMemberCoin ?? this.platinumMemberCoin,
       goldMemberCoin: goldMemberCoin ?? this.goldMemberCoin,
       silverMemberCoin: silverMemberCoin ?? this.silverMemberCoin,
+      paidMemberCoin: paidMemberCoin ?? this.paidMemberCoin,
     );
   }
 }

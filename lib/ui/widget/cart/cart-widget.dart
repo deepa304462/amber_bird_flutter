@@ -460,8 +460,7 @@ class CartWidget extends StatelessWidget {
                                           cartController
                                               .cartProducts[currentKey].price,
                                           null,
-                                          cartController.cartProducts
-                                              .value[currentKey]!.products);
+                                          cartController.cartProducts.value[currentKey]!.products);
                                     } else {
                                       var showToast =
                                           snackBarClass.showToast(context, msg);

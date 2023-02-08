@@ -192,10 +192,10 @@ class CategoryPage extends StatelessWidget {
         itemCount: megaMenuController.dealProductList.length,
         shrinkWrap: true,
         itemBuilder: (_, index) {
-          DealProduct dealProduct = megaMenuController.dealProductList[0];
+          DealProduct dealProduct = megaMenuController.dealProductList[index];
           if (dealProduct.product != null) {
             return ProductCard(dealProduct.product, dealProduct.product!.id,
-                'DEAL', dealProduct.product!.varient!.price!, dealProduct.ruleConfig,dealProduct.constraint);
+                megaMenuController.selectedParentTab.value, dealProduct.product!.varient!.price!, dealProduct.ruleConfig,dealProduct.constraint);
           } else {
             return const SizedBox();
           }
