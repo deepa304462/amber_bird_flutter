@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
 import 'package:amber_bird/ui/widget/product-guide-row.dart';
+import 'package:amber_bird/ui/widget/scoin-product-row.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,7 @@ class MainPage extends StatelessWidget {
             DealRow(dealName.SUPER_DEAL.name),
             DealRow(dealName.ONLY_COIN_DEAL.name),
             DealRow(dealName.EXCLUSIVE_DEAL.name),
+            ScoinProductRow(),
             MultiProductRow(multiProductName.COMBO.name),
             MultiProductRow(multiProductName.BUNDLE.name),
             const ProductGuideRow(),

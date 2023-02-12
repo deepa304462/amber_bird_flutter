@@ -21,6 +21,7 @@ import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
+import 'package:amber_bird/ui/widget/scoin-checkout-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -77,6 +78,7 @@ class HomePageModule extends Module {
         },
       ),
       ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
+      ChildRoute('/scoin-checkout', child: (_, args) => ScoinCheckoutWidget()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),

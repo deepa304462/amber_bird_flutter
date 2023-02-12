@@ -25,6 +25,9 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
+  final scoinCheckoutData = Rxn<Checkout>();
+  final scoinPaymentData = Rxn<Payment>();
+  final scoinOrderData = Rxn<Order>();
   RxString selectedPaymentMethod = "MOLLIE".obs;
   RxString orderId = "".obs;
   RxString saveLaterId = "".obs;
@@ -149,6 +152,129 @@ class CartController extends GetxController {
           //       .add({'value': 'SCOINS', 'label': 'Scoins'});
           // }
         }
+      }
+    }
+  }
+
+  scoinProductCartCreate(ProductSummary product, RuleConfig ruleConfig,
+      Constraint constraint) async {
+    var referredbyId = await SharedData.read('referredbyId');
+    var selectedAdd;
+    if (Get.isRegistered<LocationController>()) {
+      var locationController = Get.find<LocationController>();
+      selectedAdd = locationController.addressData.value;
+    }
+
+    Ref custRef = await Helper.getCustomerRef();
+    var payload = {
+      'status': 'INIT',
+      'customerRef': (jsonDecode(custRef.toJson())),
+      'products': [
+        {
+          'products': null,
+          'product': product != null ? (jsonDecode(product.toJson())) : null,
+          'count': 1,
+          'ref': {'_id': product.id, 'name': 'SCOIN'},
+          'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
+          'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
+          'productType': product!.type,
+          'price': {
+            'actualPrice': product.varient!.price!.actualPrice,
+            'memberCoin': 0,
+            'primeMemberCoin': 0,
+            'goldMemberCoin': 0,
+            'silverMemberCoin': 0,
+            'offerPrice': product.varient!.price!.offerPrice
+          }
+        }
+      ],
+      '_id': orderId.value,
+      "payment": {
+        "paidBy": (jsonDecode(custRef.toJson())),
+        "order": {"name": custRef.id, "_id": orderId.value},
+        "currency": "EUR",
+        "paidTo": {"name": "sbazar", "_id": "sbazar"},
+        "status": "OPEN",
+        "description": orderId.value,
+        "paymentGateWayDetail": {
+          "usedPaymentGateWay": selectedPaymentMethod.value,
+        },
+      },
+    };
+    var resp =
+        await ClientService.post(path: 'order/checkout', payload: payload);
+    if (resp.statusCode == 200) {
+      Checkout data = Checkout.fromMap(resp.data);
+      scoinCheckoutData.value = data;
+      if (data.allAvailable == true) {
+        var resp1;
+
+        payload = {
+          'status': 'INIT',
+          'customerRef': (jsonDecode(custRef.toJson())),
+          'products': [
+            {
+              'products': null,
+              'product':
+                  product != null ? (jsonDecode(product.toJson())) : null,
+              'count': 1,
+              'ref': {'_id': product.id, 'name': 'SCOIN'},
+              'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
+              'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
+              'productType': product!.type,
+              'price': {
+                'actualPrice': product.varient!.price!.actualPrice,
+                'memberCoin': 0,
+                'primeMemberCoin': 0,
+                'goldMemberCoin': 0,
+                'silverMemberCoin': 0,
+                'offerPrice': product.varient!.price!.offerPrice
+              }
+            }
+          ],
+          "payment": {
+            "paidBy": (jsonDecode(custRef.toJson())),
+            "currency": "EUR", //{"currencyCode": "USD"},
+            "paidTo": {"name": "sbazar", "_id": "sbazar"},
+            "status": "OPEN",
+            "description": "order created",
+            "paymentGateWayDetail": {
+              "usedPaymentGateWay": selectedPaymentMethod.value,
+            },
+            "appliedCouponCode": selectedCoupon.value.couponCode != null
+                ? {
+                    "name": selectedCoupon.value.couponCode,
+                    "_id": selectedCoupon.value.id
+                  }
+                : null,
+          },
+          'referredById': referredbyId != null ? referredbyId : null,
+          'shipping': {
+            'destination': {
+              'customerAddress': (jsonDecode(selectedAdd.toJson())),
+            }
+          }
+        };
+        resp1 = await ClientService.post(path: 'order', payload: payload);
+
+        if (resp1.statusCode == 200) {
+          log(jsonEncode(payload).toString());
+          log(jsonEncode(resp1.data).toString());
+          scoinOrderData.value = resp1.data;
+          // if (orderId.value == '') orderId.value = resp1.data['_id'];
+          // var ord = Order.fromMap(resp1.data);
+          // calculatedPayment.value = ord.payment!;
+          // if (calculatedPayment.value.totalAmount <=
+          //     cust.personalInfo!.scoins!) {
+          //   paymentGateWaydropdownItems
+          //       .add({'value': 'SCOINS', 'label': 'Scoins'});
+          // }
+
+          return ({'error': false, 'data': '', 'msg': ' '});
+        }else{
+          return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+        }
+
       }
     }
   }
