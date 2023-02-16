@@ -22,6 +22,7 @@ import 'package:get/get.dart';
 
 class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
+  RxMap<String, ProductOrder> cartProductsScoins = <String, ProductOrder>{}.obs;
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
@@ -49,6 +50,7 @@ class CartController extends GetxController {
 
   checkout() async {
     List<dynamic> listSumm = [];
+    List<dynamic> listScoins = [];
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
@@ -77,6 +79,7 @@ class CartController extends GetxController {
             'status': 'INIT',
             'customerRef': (jsonDecode(custRef.toJson())),
             'products': listSumm,
+            'productsViaSCoins': listScoins,
             "payment": {
               "paidBy": (jsonDecode(custRef.toJson())),
               "order": orderId.value != ''
@@ -115,6 +118,7 @@ class CartController extends GetxController {
             'status': 'INIT',
             'customerRef': (jsonDecode(custRef.toJson())),
             'products': listSumm,
+            'productsViaSCoins': listScoins,
             "payment": {
               "paidBy": (jsonDecode(custRef.toJson())),
               "currency": "EUR", //{"currencyCode": "USD"},
@@ -152,129 +156,6 @@ class CartController extends GetxController {
           //       .add({'value': 'SCOINS', 'label': 'Scoins'});
           // }
         }
-      }
-    }
-  }
-
-  scoinProductCartCreate(ProductSummary product, RuleConfig ruleConfig,
-      Constraint constraint) async {
-    var referredbyId = await SharedData.read('referredbyId');
-    var selectedAdd;
-    if (Get.isRegistered<LocationController>()) {
-      var locationController = Get.find<LocationController>();
-      selectedAdd = locationController.addressData.value;
-    }
-
-    Ref custRef = await Helper.getCustomerRef();
-    var payload = {
-      'status': 'INIT',
-      'customerRef': (jsonDecode(custRef.toJson())),
-      'products': [
-        {
-          'products': null,
-          'product': product != null ? (jsonDecode(product.toJson())) : null,
-          'count': 1,
-          'ref': {'_id': product.id, 'name': 'SCOIN'},
-          'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
-          'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
-          'productType': product!.type,
-          'price': {
-            'actualPrice': product.varient!.price!.actualPrice,
-            'memberCoin': 0,
-            'primeMemberCoin': 0,
-            'goldMemberCoin': 0,
-            'silverMemberCoin': 0,
-            'offerPrice': product.varient!.price!.offerPrice
-          }
-        }
-      ],
-      '_id': orderId.value,
-      "payment": {
-        "paidBy": (jsonDecode(custRef.toJson())),
-        "order": {"name": custRef.id, "_id": orderId.value},
-        "currency": "EUR",
-        "paidTo": {"name": "sbazar", "_id": "sbazar"},
-        "status": "OPEN",
-        "description": orderId.value,
-        "paymentGateWayDetail": {
-          "usedPaymentGateWay": selectedPaymentMethod.value,
-        },
-      },
-    };
-    var resp =
-        await ClientService.post(path: 'order/checkout', payload: payload);
-    if (resp.statusCode == 200) {
-      Checkout data = Checkout.fromMap(resp.data);
-      scoinCheckoutData.value = data;
-      if (data.allAvailable == true) {
-        var resp1;
-
-        payload = {
-          'status': 'INIT',
-          'customerRef': (jsonDecode(custRef.toJson())),
-          'products': [
-            {
-              'products': null,
-              'product':
-                  product != null ? (jsonDecode(product.toJson())) : null,
-              'count': 1,
-              'ref': {'_id': product.id, 'name': 'SCOIN'},
-              'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
-              'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
-              'productType': product!.type,
-              'price': {
-                'actualPrice': product.varient!.price!.actualPrice,
-                'memberCoin': 0,
-                'primeMemberCoin': 0,
-                'goldMemberCoin': 0,
-                'silverMemberCoin': 0,
-                'offerPrice': product.varient!.price!.offerPrice
-              }
-            }
-          ],
-          "payment": {
-            "paidBy": (jsonDecode(custRef.toJson())),
-            "currency": "EUR", //{"currencyCode": "USD"},
-            "paidTo": {"name": "sbazar", "_id": "sbazar"},
-            "status": "OPEN",
-            "description": "order created",
-            "paymentGateWayDetail": {
-              "usedPaymentGateWay": selectedPaymentMethod.value,
-            },
-            "appliedCouponCode": selectedCoupon.value.couponCode != null
-                ? {
-                    "name": selectedCoupon.value.couponCode,
-                    "_id": selectedCoupon.value.id
-                  }
-                : null,
-          },
-          'referredById': referredbyId != null ? referredbyId : null,
-          'shipping': {
-            'destination': {
-              'customerAddress': (jsonDecode(selectedAdd.toJson())),
-            }
-          }
-        };
-        resp1 = await ClientService.post(path: 'order', payload: payload);
-
-        if (resp1.statusCode == 200) {
-          log(jsonEncode(payload).toString());
-          log(jsonEncode(resp1.data).toString());
-          scoinOrderData.value = resp1.data;
-          // if (orderId.value == '') orderId.value = resp1.data['_id'];
-          // var ord = Order.fromMap(resp1.data);
-          // calculatedPayment.value = ord.payment!;
-          // if (calculatedPayment.value.totalAmount <=
-          //     cust.personalInfo!.scoins!) {
-          //   paymentGateWaydropdownItems
-          //       .add({'value': 'SCOINS', 'label': 'Scoins'});
-          // }
-
-          return ({'error': false, 'data': '', 'msg': ' '});
-        }else{
-          return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
-        }
-
       }
     }
   }
@@ -368,6 +249,11 @@ class CartController extends GetxController {
 
   removeProduct(currentKey) async {
     cartProducts.remove(currentKey);
+    await createOrder();
+  }
+
+  removeProductFromScoin(currentKey) async {
+    cartProductsScoins.remove(currentKey);
     await createOrder();
   }
 
@@ -485,6 +371,71 @@ class CartController extends GetxController {
     await createOrder();
   }
 
+  Future<void> addToCartScoins(
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint) async {
+    // bool createOrderRequired = true;
+    clearCheckout();
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    if (customerInsightDetail['_id'] == null) {
+      var getData = cartProducts[refId];
+      int quantity = 0 + addQuantity!;
+      double price = (priceInfo!.offerPrice).toDouble();
+      List li = [];
+      if (products != null) {
+        price = 0;
+        for (var element in products) {
+          li.add(element.toJson());
+          if (getData != null) {
+            quantity = getData.count!;
+            quantity = quantity + addQuantity;
+            price = price + element.varient!.price!.offerPrice;
+          } else {
+            price = price + element.varient!.price!.offerPrice;
+          }
+        }
+      } else {
+        if (getData != null) {
+          quantity = getData.count!;
+          quantity = quantity + addQuantity;
+        }
+      }
+      if (quantity > 0) {
+        ProductOrder cartRow = ProductOrder.fromMap({
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
+          'product': product != null ? (jsonDecode(product.toJson())) : null,
+          'count': quantity,
+          'ref': {'_id': refId, 'name': addedFrom},
+          'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
+          'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
+          'productType': li.isNotEmpty ? null : product!.type,
+          'price': {
+            'actualPrice': price,
+            'memberCoin': 0,
+            'primeMemberCoin': 0,
+            'goldMemberCoin': 0,
+            'silverMemberCoin': 0,
+            'offerPrice': price
+          }
+        });
+        cartProductsScoins[refId] = cartRow;
+      } else {
+        removeProductFromScoin(refId);
+        return;
+      }
+    } else {}
+    await createOrder();
+  }
+
   saveLaterCall() async {
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -537,11 +488,16 @@ class CartController extends GetxController {
 
   createOrder() async {
     List<dynamic> listSumm = [];
+    List<dynamic> listScoins = [];
+
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
+    }
+    for (var v in cartProductsScoins.value.values) {
+      listScoins.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
     var payload;
@@ -551,6 +507,7 @@ class CartController extends GetxController {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
+        'productsViaSCoins': listScoins,
         '_id': orderId.value,
         'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
         "payment": {
@@ -572,6 +529,7 @@ class CartController extends GetxController {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
+        'productsViaSCoins': listScoins,
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
           "order": {"name": custRef.id, "_id": orderId.value},
@@ -597,11 +555,19 @@ class CartController extends GetxController {
     }
   }
 
-  bool checkProductInCart(key) {
-    if (cartProducts[key] != null) {
-      return true;
+  bool checkProductInCart(key, type) {
+    if (type == 'SCOIN') {
+      if (cartProductsScoins[key] != null) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      if (cartProducts[key] != null) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 

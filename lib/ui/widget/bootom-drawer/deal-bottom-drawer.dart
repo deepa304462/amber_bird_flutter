@@ -205,7 +205,7 @@ class DealBottomDrawer extends StatelessWidget {
                         PriceTag(priceInfo!.offerPrice.toString(),
                             priceInfo!.actualPrice.toString()),
                         GetX<CartController>(builder: (cController) {
-                          return cController.checkProductInCart(refId)
+                          return cController.checkProductInCart(refId,addedFrom)
                               ? Obx(
                                   () => Row(
                                     children: [

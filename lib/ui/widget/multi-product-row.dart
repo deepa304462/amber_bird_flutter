@@ -174,7 +174,7 @@ class MultiProductRow extends StatelessWidget {
                                   const Spacer(),
                                   Obx(
                                     () => cartController
-                                            .checkProductInCart(mProduct.id)
+                                            .checkProductInCart(mProduct.id,'')
                                         ? Row(
                                             children: [
                                               IconButton(

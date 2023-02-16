@@ -1,6 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
-import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
@@ -10,8 +9,6 @@ import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/product-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -28,11 +25,11 @@ class ProductCard extends StatelessWidget {
   final Price? dealPrice;
   final RuleConfig? ruleConfig;
   final Constraint? constraint;
-  
+
   final bool fixedHeight;
   Rx<Varient> activeVariant = Varient().obs;
-  ProductCard(
-      this.product, this.refId, this.addedFrom, this.dealPrice, this.ruleConfig, this.constraint,
+  ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice,
+      this.ruleConfig, this.constraint,
       {super.key, this.fixedHeight = false});
 
   final CartController cartController = Get.find();
@@ -166,11 +163,15 @@ class ProductCard extends StatelessWidget {
                     )
                   : const SizedBox(),
               checkPriceVisibility()
-                  ? addedFrom == 'DEAL'
-                      ? PriceTag(dealPrice!.offerPrice!.toString(),
+                  ? (addedFrom == 'PRODUCT'|| addedFrom == 'CATEGORY')
+                      ?   Text(
+                          "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
+                          style: TextStyles.titleLargeBold,
+                        ):PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
-                      : PriceTag(product.varient!.price!.offerPrice!.toString(),
-                          product.varient!.price!.actualPrice!.toString())
+
+                  // PriceTag(product.varient!.price!.offerPrice!.toString(),
+                  //     product.varient!.price!.actualPrice!.toString())
                   : const SizedBox(),
             ],
           ),
@@ -198,7 +199,7 @@ class ProductCard extends StatelessWidget {
               () => Visibility(
                 visible: checkBuyProductVisibility(),
                 child: cartController.checkProductInCart(
-                        '$refId@${activeVariant.value.varientCode}')
+                        '$refId@${activeVariant.value.varientCode}', addedFrom)
                     ? Positioned(
                         right: 0,
                         top: 50,
@@ -226,15 +227,27 @@ class ProductCard extends StatelessWidget {
                                     msg = data['msg'];
                                   }
                                   if (valid) {
-                                    cartController.addToCart(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        dealPrice,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint);
+                                    if (addedFrom == 'SCOIN') {
+                                      cartController.addToCartScoins(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          -1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    } else {
+                                      cartController.addToCart(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          -1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    }
                                   } else {
                                     snackBarClass.showToast(context, msg);
                                   }
@@ -274,15 +287,27 @@ class ProductCard extends StatelessWidget {
                                     msg = data['msg'];
                                   }
                                   if (valid) {
-                                    cartController.addToCart(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        1,
-                                        dealPrice,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint);
+                                    if (addedFrom == 'SCOIN') {
+                                      cartController.addToCartScoins(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          -1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    } else {
+                                      cartController.addToCart(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    }
                                   } else {
                                     stateController.setCurrentTab(3);
                                     snackBarClass.showToast(context, msg);
@@ -310,7 +335,7 @@ class ProductCard extends StatelessWidget {
                                 ? () async {
                                     stateController.showLoader.value = true;
                                     bool isCheckedActivate =
-                                       await  stateController.getUserIsActive();
+                                        await stateController.getUserIsActive();
                                     if (isCheckedActivate) {
                                       // if (stateController.isActivate.value) {
                                       var valid = false;
@@ -322,6 +347,16 @@ class ProductCard extends StatelessWidget {
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
                                             1,
+                                            dealPrice,
+                                            product,
+                                            null,
+                                            ruleConfig,
+                                            constraint);
+                                      } else if (addedFrom == 'SCOIN') {
+                                        cartController.addToCartScoins(
+                                            '$refId@${activeVariant.value.varientCode}',
+                                            addedFrom!,
+                                            -1,
                                             dealPrice,
                                             product,
                                             null,

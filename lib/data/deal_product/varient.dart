@@ -12,6 +12,7 @@ class Varient {
   Price? price;
   Dimension? dimension;
   bool? applyExtraShipping;
+  bool? scoinPurchaseEnable;
   String? skuId;
   Constraint? constraint;
 
@@ -23,13 +24,14 @@ class Varient {
     this.price,
     this.dimension,
     this.applyExtraShipping,
+    this.scoinPurchaseEnable,
     this.skuId,
     this.constraint,
   });
 
   @override
   String toString() {
-    return 'Varient(varientCode: $varientCode, weight: $weight, unit: $unit, currentStock: $currentStock, price: $price, dimension: $dimension, applyExtraShipping: $applyExtraShipping, skuId: $skuId, constraint: $constraint)';
+    return 'Varient(varientCode: $varientCode, weight: $weight, unit: $unit, currentStock: $currentStock, price: $price, dimension: $dimension, applyExtraShipping: $applyExtraShipping,scoinPurchaseEnable:$scoinPurchaseEnable skuId: $skuId, constraint: $constraint)';
   }
 
   factory Varient.fromMap(Map<String, dynamic> data) => Varient(
@@ -44,6 +46,8 @@ class Varient {
             ? null
             : Dimension.fromMap(data['dimension'] as Map<String, dynamic>),
         applyExtraShipping: data['applyExtraShipping'] as bool?,
+        scoinPurchaseEnable: data['scoinPurchaseEnable'] as bool?,
+        
         skuId: data['skuId'] as String?,
         constraint: data['constraint'] == null
             ? null
@@ -58,6 +62,7 @@ class Varient {
         'price': price?.toMap(),
         'dimension': dimension?.toMap(),
         'applyExtraShipping': applyExtraShipping,
+        'scoinPurchaseEnable':scoinPurchaseEnable,
         'skuId': skuId,
         'constraint': constraint?.toMap(),
       };
@@ -82,6 +87,7 @@ class Varient {
     Price? price,
     Dimension? dimension,
     bool? applyExtraShipping,
+    bool? scoinPurchaseEnable,
     String? skuId,
     Constraint? constraint,
   }) {
@@ -93,6 +99,7 @@ class Varient {
       price: price ?? this.price,
       dimension: dimension ?? this.dimension,
       applyExtraShipping: applyExtraShipping ?? this.applyExtraShipping,
+      scoinPurchaseEnable: scoinPurchaseEnable ?? this.scoinPurchaseEnable,
       skuId: skuId ?? this.skuId,
       constraint: constraint ?? this.constraint,
     );

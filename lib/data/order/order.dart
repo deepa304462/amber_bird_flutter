@@ -13,9 +13,9 @@ class Order {
   Payment? payment;
   Ref? customerRef;
   List<ProductOrder>? products;
+  List<ProductOrder>? productsViaSCoins;
   String? status;
   Shipping? shipping;
-
   Ref? shareLink;
   String? businessId;
   String? referredById;
@@ -26,6 +26,7 @@ class Order {
     this.metaData,
     this.payment,
     this.products,
+    this.productsViaSCoins,
     this.status,
     this.shipping,
     this.customerRef,
@@ -38,7 +39,7 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(metaData: $metaData, payment: $payment, products: $products, status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
+    return 'Order(metaData: $metaData, payment: $payment, products: $products,productsViaSCoins: $productsViaSCoins, status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
   }
 
   factory Order.fromMap(Map<String, dynamic> data) => Order(
@@ -49,6 +50,9 @@ class Order {
             ? null
             : Payment.fromMap(data['payment'] as Map<String, dynamic>),
         products: (data['products'] as List<dynamic>?)
+            ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        productsViaSCoins: (data['productsViaSCoins'] as List<dynamic>?)
             ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
             .toList(),
         status: data['status'] as String?,
@@ -71,6 +75,7 @@ class Order {
         'metaData': metaData?.toMap(),
         'payment': payment?.toMap(),
         'products': products?.map((e) => e.toMap()).toList(),
+        'productsViaSCoins': productsViaSCoins?.map((e) => e.toMap()).toList(),
         'status': status,
         'shipping': shipping?.toMap(),
         'customerRef': customerRef?.toMap(),
@@ -97,6 +102,7 @@ class Order {
     MetaData? metaData,
     Payment? payment,
     List<ProductOrder>? products,
+    List<ProductOrder>? productsViaSCoins,
     String? status,
     Shipping? shipping,
     Ref? customerRef,
@@ -110,6 +116,7 @@ class Order {
       metaData: metaData ?? this.metaData,
       payment: payment ?? this.payment,
       products: products ?? this.products,
+      productsViaSCoins: productsViaSCoins ?? this.productsViaSCoins,
       status: status ?? this.status,
       shipping: shipping ?? this.shipping,
       customerRef: customerRef ?? this.customerRef,

@@ -43,7 +43,7 @@ class ScoinCheckoutWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text('Id: ${cartController.scoinOrderData.value!.id}'),
-                  Text('Id: ${cartController.scoinOrderData.value!.payment!.totalSCoins}'),
+                  Text('Id: ${cartController.scoinOrderData.value!.payment!.totalSCoinsPaid}'),
                   TextButton(onPressed: ()=>{}, child: Text('Payment'))
                 ],
               ),

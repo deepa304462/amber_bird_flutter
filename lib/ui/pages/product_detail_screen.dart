@@ -174,15 +174,19 @@ class ProductDetailScreen extends StatelessWidget {
                           children: [
                             Card(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: PriceTag(
-                                    productController
-                                        .varient.value.price!.offerPrice
-                                        .toString(),
-                                    productController
-                                        .varient.value.price!.actualPrice
-                                        .toString()),
-                              ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${CodeHelp.euro}${productController.varient!.value.price!.actualPrice!.toString()}",
+                                    style: TextStyles.titleLargeBold,
+                                  )
+                                  //  PriceTag(
+                                  //             productController
+                                  //                 .varient.value.price!.offerPrice
+                                  //                 .toString(),
+                                  //             productController
+                                  //                 .varient.value.price!.actualPrice
+                                  //                 .toString()),
+                                  ),
                             ),
                             Obx(() {
                               ProductSummary summary = ProductSummary.fromMap({
@@ -203,7 +207,8 @@ class ProductDetailScreen extends StatelessWidget {
                                 "id": productController.product.value.id
                               });
                               return cartController.checkProductInCart(
-                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                      addedFrom)
                                   ? Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:

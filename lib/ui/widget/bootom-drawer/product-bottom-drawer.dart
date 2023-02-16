@@ -235,7 +235,7 @@ class ProductBottomDrawer extends StatelessWidget {
                                       .varient.value.price!.actualPrice
                                       .toString()),
                               cartController.checkProductInCart(
-                                      '$pId@${productController.varient.value.varientCode}')
+                                      '$pId@${productController.varient.value.varientCode}','')
                                   ? Row(
                                       children: [
                                         IconButton(
