@@ -38,13 +38,12 @@ class CartWidget extends StatelessWidget {
                     const Text('Scoins Products'),
                     Expanded(child: scoinPRoductList(context, cartController)),
 
-                    Container(
+                    Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: Column(
-
                           children: [
-                            // shippingAddress(context),
+                            shippingAddress(context),
                             Center(
                               child: ElevatedButton(
                                 onPressed: () async {
@@ -217,7 +216,7 @@ class CartWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // SaveLater(),
+                    SaveLater(),
                   ],
                 ),
               ),
