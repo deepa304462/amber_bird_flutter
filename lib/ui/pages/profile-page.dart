@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
@@ -19,15 +20,14 @@ class ProfilePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          profileCard(context, stateController.loggedInProfile.value),
+          profileCard(context, stateController.loggedInProfile.value,
+              stateController.customerInsight.value),
           SingleChildScrollView(
-            child: Column(
-            children: [
+            child: Column(children: [
               sectionCard('Address', 'Get list if saved address', () {
                 Modular.to.navigate('../home/address-list');
                 return {};
-              }
-              ),
+              }),
               sectionCard(
                   'FAQ', 'Get answer for your specific query', () => {}),
               sectionCard(
@@ -83,7 +83,8 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  profileCard(BuildContext context, UserProfile value) {
+  profileCard(
+      BuildContext context, UserProfile value, CustomerInsight insight) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -141,6 +142,19 @@ class ProfilePage extends StatelessWidget {
                                       style: TextStyles.bodyFontBold),
                                 ],
                               ),
+                              insight.userFriendlyCustomerId != null
+                                  ? Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.person,
+                                          size: 15,
+                                        ),
+                                        FitText(
+                                            '#${insight.userFriendlyCustomerId}',
+                                            style: TextStyles.bodyFontBold),
+                                      ],
+                                    )
+                                  : SizedBox(),
                               Column(
                                 children: [
                                   Row(

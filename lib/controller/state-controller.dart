@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
+import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/profile/ref.dart';
@@ -35,6 +36,7 @@ class Controller extends GetxController {
   RxInt productImageDefaultIndex = 0.obs;
   Rx<UserProfile> loggedInProfile = UserProfile().obs;
   Rx<Customer> customerDetail = Customer().obs;
+  Rx<CustomerInsight> customerInsight = CustomerInsight().obs;
 
   @override
   void onInit() {
@@ -139,11 +141,14 @@ class Controller extends GetxController {
   }
 
   getCustomerData(tokenManagerEntityId) async {
-    var customerInsight = await ClientService.get(
+    var customerInsightData = await ClientService.get(
         path: 'customerInsight', id: tokenManagerEntityId);
-    if (customerInsight.statusCode == 200) {
+    if (customerInsightData.statusCode == 200) {
       OfflineDBService.save(
-          OfflineDBService.customerInsight, customerInsight.data);
+          OfflineDBService.customerInsight, customerInsightData.data); 
+      CustomerInsight cust = CustomerInsight.fromMap(
+          customerInsightData.data as Map<String, dynamic>);
+      customerInsight.value= cust;
     }
   }
 

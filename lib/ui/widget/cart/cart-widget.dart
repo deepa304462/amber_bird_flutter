@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/cart/save-later-widget.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
@@ -25,203 +27,200 @@ class CartWidget extends StatelessWidget {
     cartController.clearCheckout();
     return cartController.cartProducts.isNotEmpty
         ? Obx(
-            () => Column(
-              children: [
-                cartData(context, cartController),
-                Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Column(
-                    children: [
-                      shippingAddress(context),
-                      // Obx(
-                      //   () => cartController
-                      //           .paymentGateWaydropdownItems.isNotEmpty
-                      //       ? DropdownButton(
-                      //           value:
-                      //               cartController.selectedPaymentMethod.value,
-                      //           icon: const Icon(Icons.keyboard_arrow_down),
-                      //           items: cartController
-                      //               .paymentGateWaydropdownItems
-                      //               .map((items) {
-                      //             return DropdownMenuItem(
-                      //               value: items['value'],
-                      //               child: Text(items['label'] ?? ''),
-                      //             );
-                      //           }).toList(),
-                      //           onChanged: (dynamic newValue) {
-                      //             stateController.showLoader.value = true;
-                      //             checkoutClicked.value = false;
-                      //             cartController.clearCheckout();
-                      //             cartController.selectedPaymentMethod.value =
-                      //                 newValue!;
-                      //             stateController.showLoader.value = false;
-                      //           },
-                      //         )
-                      //       : const SizedBox(),
-                      // ),
-                      Center(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            stateController.showLoader.value = true;
-                            bool isCheckedActivate =
-                                await stateController.getUserIsActive();
-                            if (isCheckedActivate) {
-                              await cartController.checkout();
-                              checkoutClicked.value = true;
-                            } else {
-                              snackBarClass.showToast(
-                                  context, 'Your profile is not active yet');
-                            }
-                            stateController.showLoader.value = false;
-                          },
-                          child: Text(
-                            'Checkout',
-                            style: TextStyles.bodyFont,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total Price',
-                            style: TextStyles.headingFontGray,
-                          ),
-                          Text(
-                            '${CodeHelp.euro}${cartController.calculatedPayment.value.totalAmount.toString()}',
-                            style: TextStyles.mrpStyle,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Discount Amount',
-                            style: TextStyles.headingFontGray,
-                          ),
-                          Text(
-                            '${CodeHelp.euro}${cartController.calculatedPayment.value.discountAmount.toString()}',
-                            style: TextStyles.mrpStyle,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Tax',
-                            style: TextStyles.headingFontGray,
-                          ),
-                          Text(
-                            Helper.getFormattedNumber(cartController
-                                    .calculatedPayment.value.appliedTaxAmount)
-                                .toString(),
-                            style: TextStyles.mrpStyle,
-                          ),
-                        ],
-                      ),
-                      (cartController.calculatedPayment.value
-                                      .appliedTaxDetail !=
-                                  null &&
-                              cartController.calculatedPayment.value
-                                      .appliedTaxDetail!.length >
-                                  0)
-                          ? Container(
-                              margin: const EdgeInsets.all(2.0),
-                              padding: const EdgeInsets.all(3.0),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: const Color.fromARGB(
-                                          255, 113, 116, 122))),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemCount: cartController.calculatedPayment
-                                    .value.appliedTaxDetail!.length,
-                                itemBuilder: (_, pIndex) {
-                                  var currentTax = cartController
-                                      .calculatedPayment
-                                      .value
-                                      .appliedTaxDetail![pIndex];
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        currentTax.description ?? '',
-                                        style: TextStyles.headingFontGray,
-                                      ),
-                                      Text(
-                                        '${CodeHelp.euro}${Helper.getFormattedNumber(currentTax.amount).toString()}',
-                                        style: TextStyles.bodyFontBold,
-                                      ),
-                                    ],
-                                  );
+            () => SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * .7,
+                child: Column(
+                  children: [
+                    // cartData(context, cartController),
+                    const Text('Products'),
+                    Expanded(child: productListWidget(context, cartController)),
+                    const Text('Scoins Products'),
+                    Expanded(child: scoinPRoductList(context, cartController)),
+
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Column(
+
+                          children: [
+                            // shippingAddress(context),
+                            Center(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  stateController.showLoader.value = true;
+                                  bool isCheckedActivate =
+                                      await stateController.getUserIsActive();
+                                  if (isCheckedActivate) {
+                                    await cartController.checkout();
+                                    checkoutClicked.value = true;
+                                  } else {
+                                    snackBarClass.showToast(context,
+                                        'Your profile is not active yet');
+                                  }
+                                  stateController.showLoader.value = false;
                                 },
+                                child: Text(
+                                  'Checkout',
+                                  style: TextStyles.bodyFont,
+                                ),
                               ),
-                            )
-                          : const SizedBox(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            child: Text(
-                              'You will rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order',
-                              style: TextStyles.body,
                             ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [CouponWidget()],
-                        ),
-                      ),
-                      cartController.checkoutData.value != null &&
-                              cartController.checkoutData.value!.allAvailable ==
-                                  true
-                          ? Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Center(
-                                  child: ElevatedButton(
-                                    onPressed: () async {
-                                      var data =
-                                          await cartController.createPayment();
-                                      if (data['error']) {
-                                        // ignore: use_build_context_synchronously
-                                        snackBarClass.showToast(
-                                            context, data['msg']);
-                                      } else {
-                                        Modular.to.navigate('/home/inapp',
-                                            arguments: data['data']);
-                                      }
-                                    },
-                                    child: Text(
-                                      'Payment',
-                                      style: TextStyles.bodyFont,
+                                Text(
+                                  'Total Price',
+                                  style: TextStyles.headingFontGray,
+                                ),
+                                Text(
+                                  '${CodeHelp.euro}${cartController.calculatedPayment.value.totalAmount.toString()}',
+                                  style: TextStyles.mrpStyle,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Discount Amount',
+                                  style: TextStyles.headingFontGray,
+                                ),
+                                Text(
+                                  '${CodeHelp.euro}${cartController.calculatedPayment.value.discountAmount.toString()}',
+                                  style: TextStyles.mrpStyle,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Tax',
+                                  style: TextStyles.headingFontGray,
+                                ),
+                                Text(
+                                  Helper.getFormattedNumber(cartController
+                                          .calculatedPayment
+                                          .value
+                                          .appliedTaxAmount)
+                                      .toString(),
+                                  style: TextStyles.mrpStyle,
+                                ),
+                              ],
+                            ),
+                            (cartController.calculatedPayment.value
+                                            .appliedTaxDetail !=
+                                        null &&
+                                    cartController.calculatedPayment.value
+                                            .appliedTaxDetail!.length >
+                                        0)
+                                ? Container(
+                                    margin: const EdgeInsets.all(2.0),
+                                    padding: const EdgeInsets.all(3.0),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: const Color.fromARGB(
+                                                255, 113, 116, 122))),
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: cartController
+                                          .calculatedPayment
+                                          .value
+                                          .appliedTaxDetail!
+                                          .length,
+                                      itemBuilder: (_, pIndex) {
+                                        var currentTax = cartController
+                                            .calculatedPayment
+                                            .value
+                                            .appliedTaxDetail![pIndex];
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              currentTax.description ?? '',
+                                              style: TextStyles.headingFontGray,
+                                            ),
+                                            Text(
+                                              '${CodeHelp.euro}${Helper.getFormattedNumber(currentTax.amount).toString()}',
+                                              style: TextStyles.bodyFontBold,
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     ),
+                                  )
+                                : const SizedBox(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: Text(
+                                    'You will rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order',
+                                    style: TextStyles.body,
                                   ),
                                 ),
                               ],
-                            )
-                          : checkoutClicked.value
-                              ? Column(
-                                  children: [
-                                    Center(
-                                      child: Text(" Product Not Availale",
-                                          style: TextStyles.headingFontBlue),
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox()
-                    ],
-                  ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [CouponWidget()],
+                              ),
+                            ),
+                            cartController.checkoutData.value != null &&
+                                    cartController
+                                            .checkoutData.value!.allAvailable ==
+                                        true
+                                ? Column(
+                                    children: [
+                                      Center(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            var data = await cartController
+                                                .createPayment();
+                                            if (data['error']) {
+                                              // ignore: use_build_context_synchronously
+                                              snackBarClass.showToast(
+                                                  context, data['msg']);
+                                            } else {
+                                              Modular.to.navigate('/home/inapp',
+                                                  arguments: data['data']);
+                                            }
+                                          },
+                                          child: Text(
+                                            'Payment',
+                                            style: TextStyles.bodyFont,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : checkoutClicked.value
+                                    ? Column(
+                                        children: [
+                                          Center(
+                                            child: Text(" Product Not Availale",
+                                                style:
+                                                    TextStyles.headingFontBlue),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox()
+                          ],
+                        ),
+                      ),
+                    ),
+                    // SaveLater(),
+                  ],
                 ),
-              ],
+              ),
             ),
           )
         : Padding(
@@ -258,6 +257,7 @@ class CartWidget extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
+      // physics: const NeverScrollableScrollPhysics(),
       itemCount: cartController.cartProductsScoins.length,
       itemBuilder: (_, index) {
         var currentKey =
@@ -423,7 +423,8 @@ class CartWidget extends StatelessWidget {
                               ),
                               Text(cartController
                                   .getCurrentQuantity(
-                                      '${cartController.cartProductsScoins[currentKey].ref!.id}')
+                                      '${cartController.cartProductsScoins[currentKey].ref!.id}',
+                                      'SCOIN')
                                   .toString()),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
@@ -566,7 +567,8 @@ class CartWidget extends StatelessWidget {
                                       ),
                                       Text(cartController
                                           .getCurrentQuantity(
-                                              '${cartController.cartProductsScoins[currentKey].ref!.id}')
+                                              '${cartController.cartProductsScoins[currentKey].ref!.id}',
+                                              'SCOIN')
                                           .toString()),
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
@@ -681,9 +683,10 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  productListWidget(context, CartController) {
-    ListView.builder(
-      shrinkWrap: true,
+  productListWidget(context, cartController) {
+    return ListView.builder(
+      shrinkWrap: false,
+      // physics: const NeverScrollableScrollPhysics(),
       scrollDirection: Axis.vertical,
       itemCount: cartController.cartProducts.length,
       itemBuilder: (_, index) {
@@ -800,13 +803,15 @@ class CartWidget extends StatelessWidget {
                                                   .cartProducts[currentKey]!
                                                   .constraint,
                                               cartController
-                                                  .cartProducts[currentKey]!
-                                                  .ref!
-                                                  .id ?? '',
+                                                      .cartProducts[currentKey]!
+                                                      .ref!
+                                                      .id ??
+                                                  '',
                                               cartController
-                                                  .cartProducts[currentKey]!
-                                                  .ref!
-                                                  .id??'');
+                                                      .cartProducts[currentKey]!
+                                                      .ref!
+                                                      .id ??
+                                                  '');
                                       valid = !data['error'];
                                       msg = data['msg'];
                                     }
@@ -821,7 +826,9 @@ class CartWidget extends StatelessWidget {
                                             .cartProducts[currentKey]!.price,
                                         null,
                                         cartController.cartProducts
-                                            .value[currentKey]!.products,null,null);
+                                            .value[currentKey]!.products,
+                                        null,
+                                        null);
                                     // } else {
                                     //   stateController.setCurrentTab(3);
                                     //   var showToast =
@@ -839,7 +846,8 @@ class CartWidget extends StatelessWidget {
                               ),
                               Text(cartController
                                   .getCurrentQuantity(
-                                      '${cartController.cartProducts[currentKey]!.ref!.id}')
+                                      '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                      '')
                                   .toString()),
                               IconButton(
                                 padding: const EdgeInsets.all(8),
@@ -967,7 +975,9 @@ class CartWidget extends StatelessWidget {
                                                 cartController
                                                     .cartProducts[currentKey]!
                                                     .product,
-                                                null,null,null);
+                                                null,
+                                                null,
+                                                null);
                                           } else {
                                             stateController.setCurrentTab(3);
                                             var showToast =
@@ -983,7 +993,8 @@ class CartWidget extends StatelessWidget {
                                       ),
                                       Text(cartController
                                           .getCurrentQuantity(
-                                              '${cartController.cartProducts[currentKey]!.ref!.id}')
+                                              '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                              '')
                                           .toString()),
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
@@ -1016,15 +1027,17 @@ class CartWidget extends StatelessWidget {
                                                               currentKey]!
                                                           .constraint,
                                                       cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .ref!
-                                                          .id??"",
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .ref!
+                                                              .id ??
+                                                          "",
                                                       cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .ref!
-                                                          .id??'');
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .ref!
+                                                              .id ??
+                                                          '');
                                               valid = !data['error'];
                                               msg = data['msg'];
                                             }
@@ -1043,7 +1056,9 @@ class CartWidget extends StatelessWidget {
                                                   cartController
                                                       .cartProducts[currentKey]!
                                                       .product,
-                                                  null,null,null);
+                                                  null,
+                                                  null,
+                                                  null);
                                             } else {
                                               var showToast = snackBarClass
                                                   .showToast(context, msg);
@@ -1096,14 +1111,38 @@ class CartWidget extends StatelessWidget {
   }
 
   cartData(context, cartController) {
-    return Column(
-      children: [
-        Text('Products'),
-        productListWidget(context, cartController),
-        Text('Scoins Products'),
-        scoinPRoductList(context, cartController)
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          // Some widgets here
+          const Text('Products'),
+          // list1 here
+          // ...cartController.cartProducts.map((String data, ProductOrder odr) {
+          //     Text('list1');
+          //     return odr;
+          // }).toList(),
+          productListWidget(context, cartController),
+          // Some widgets between them
+          const Text('Scoins Products'),
+          // list2 here
+          // ...cartController.cartProductsScoins.map((data, ProductOrder odr) {
+          //   inspect(data);
+          //     Text('LIST2${data}');
+          //     return odr;
+          // }).toList(),
+          scoinPRoductList(context, cartController)
+        ],
+      ),
     );
+
+    // Column(
+    //   children: [
+    //     Text('Products'),
+    //     Expanded(child: productListWidget(context, cartController)),
+    //     Text('Scoins Products'),
+    //     Expanded(child: scoinPRoductList(context, cartController))
+    //   ],
+    // );
   }
 
   recpmmondedProduct(context, cartController, currentKey) {
@@ -1197,4 +1236,5 @@ class CartWidget extends StatelessWidget {
       ],
     );
   }
+
 }

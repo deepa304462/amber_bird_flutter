@@ -13,6 +13,9 @@ class CustomerInsight {
   int? currentPointLevel;
   Ref? customerTrackerRef;
   String? email;
+  String? userFriendlyCustomerId;
+  dynamic? scoins;
+  dynamic? spoints;
   String? id;
 
   CustomerInsight({
@@ -24,12 +27,15 @@ class CustomerInsight {
     this.currentPointLevel,
     this.customerTrackerRef,
     this.email,
+    this.userFriendlyCustomerId,
+    this.scoins,
+    this.spoints,
     this.id,
   });
 
   @override
   String toString() {
-    return 'CustomerInsight(metaData: $metaData, name: $name, addresses: $addresses, businessId: $businessId, membershipType: $membershipType, currentPointLevel: $currentPointLevel, customerTrackerRef: $customerTrackerRef, email: $email, id: $id)';
+    return 'CustomerInsight(metaData: $metaData, name: $name, addresses: $addresses, businessId: $businessId, membershipType: $membershipType, currentPointLevel: $currentPointLevel, customerTrackerRef: $customerTrackerRef, email: $email,userFriendlyCustomerId:$userFriendlyCustomerId,scoins:$scoins,spoints:$spoints, id: $id)';
   }
 
   factory CustomerInsight.fromMap(Map<String, dynamic> data) {
@@ -48,6 +54,9 @@ class CustomerInsight {
           ? null
           : Ref.fromMap(data['customerTrackerRef'] as Map<String, dynamic>),
       email: data['email'] as String?,
+      userFriendlyCustomerId: data['userFriendlyCustomerId'] as String?,
+      scoins: data['scoins'] as dynamic?,
+      spoints: data['spoints'] as dynamic?,
       id: data['_id'] as String?,
     );
   }
@@ -61,6 +70,9 @@ class CustomerInsight {
         'currentPointLevel': currentPointLevel,
         'customerTrackerRef': customerTrackerRef?.toMap(),
         'email': email,
+        'userFriendlyCustomerId': userFriendlyCustomerId,
+        'scoins': scoins,
+        'spoints': spoints,
         '_id': id,
       };
 
@@ -85,6 +97,9 @@ class CustomerInsight {
     int? currentPointLevel,
     Ref? customerTrackerRef,
     String? email,
+    String? userFriendlyCustomerId,
+    dynamic? scoins,
+    dynamic? spoints,
     String? id,
   }) {
     return CustomerInsight(
@@ -96,6 +111,9 @@ class CustomerInsight {
       currentPointLevel: currentPointLevel ?? this.currentPointLevel,
       customerTrackerRef: customerTrackerRef ?? this.customerTrackerRef,
       email: email ?? this.email,
+      userFriendlyCustomerId: userFriendlyCustomerId ?? this.userFriendlyCustomerId,
+      scoins: scoins ?? this.scoins,
+      spoints: spoints ?? this.spoints,
       id: id ?? this.id,
     );
   }

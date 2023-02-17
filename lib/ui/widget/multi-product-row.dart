@@ -231,7 +231,7 @@ class MultiProductRow extends StatelessWidget {
                                               ),
                                               Text(cartController
                                                   .getCurrentQuantity(
-                                                      mProduct.id)
+                                                      mProduct.id,'')
                                                   .toString()),
                                               IconButton(
                                                 padding:

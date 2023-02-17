@@ -281,7 +281,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             color: Colors.black),
                                       ),
                                       Text(cController
-                                          .getCurrentQuantity(refId)
+                                          .getCurrentQuantity(refId,'')
                                           .toString()),
                                       IconButton(
                                         padding: const EdgeInsets.all(8),

@@ -176,7 +176,7 @@ class ProductDetailScreen extends StatelessWidget {
                               child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${CodeHelp.euro}${productController.varient!.value.price!.actualPrice!.toString()}",
+                                    "${CodeHelp.euro}${productController.varient.value.price!.actualPrice!.toString()}",
                                     style: TextStyles.titleLargeBold,
                                   )
                                   //  PriceTag(
@@ -249,7 +249,7 @@ class ProductDetailScreen extends StatelessWidget {
                                           child: FitText(
                                             cartController
                                                 .getCurrentQuantity(
-                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}')
+                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}','')
                                                 .toString(),
                                             style: TextStyles.bodyWhiteLarge
                                                 .copyWith(

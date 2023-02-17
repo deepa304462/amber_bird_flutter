@@ -5,11 +5,14 @@ import '../widget/cart/cart-widget.dart';
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      // height: MediaQuery.of(context).size.height * .7,
-      child: SingleChildScrollView(
-        child: Column(children: [CartWidget(), SaveLater()]),
-      ),
-    );
+    return CartWidget();
+    //  SizedBox(
+    //   height: MediaQuery.of(context).size.height * .7,
+    //   child: SingleChildScrollView(
+    //     child: 
+        
+    //     Column(children: [CartWidget(), SaveLater()]),
+    //   ),
+    // );
   }
 }

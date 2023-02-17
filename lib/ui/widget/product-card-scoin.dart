@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCardScoin extends StatelessWidget {
   final ProductSummary? product;
   final String? refId;
   final String? addedFrom;
@@ -28,7 +28,7 @@ class ProductCard extends StatelessWidget {
 
   final bool fixedHeight;
   Rx<Varient> activeVariant = Varient().obs;
-  ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice,
+  ProductCardScoin(this.product, this.refId, this.addedFrom, this.dealPrice,
       this.ruleConfig, this.constraint,
       {super.key, this.fixedHeight = false});
 
@@ -46,12 +46,7 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child:
-                      // Image.network(
-                      //   '${ClientService.cdnUrl}${product.images![0]}',
-                      //   fit: BoxFit.fitHeight,
-                      // ),
-                      ImageBox(product.images![0]),
+                  child: ImageBox(product.images![0]),
                 ),
               )
             : const SizedBox(
@@ -122,7 +117,6 @@ class ProductCard extends StatelessWidget {
   Widget _gridItemFooter(ProductSummary product, BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      // margin: const EdgeInsets.only(left: 3, right: 3),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -163,15 +157,13 @@ class ProductCard extends StatelessWidget {
                     )
                   : const SizedBox(),
               checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT'|| addedFrom == 'CATEGORY')
-                      ?   Text(
+                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
+                      ? Text(
                           "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
                           style: TextStyles.titleLargeBold,
-                        ):PriceTag(dealPrice!.offerPrice!.toString(),
+                        )
+                      : PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
-
-                  // PriceTag(product.varient!.price!.offerPrice!.toString(),
-                  //     product.varient!.price!.actualPrice!.toString())
                   : const SizedBox(),
             ],
           ),
@@ -185,7 +177,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    activeVariant.value = product!.varient!;
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
       child: ClipRRect(
@@ -263,7 +254,7 @@ class ProductCard extends StatelessWidget {
                             ),
                             Text(cartController
                                 .getCurrentQuantity(
-                                    '$refId@${activeVariant.value.varientCode}','')
+                                    '$refId@${activeVariant.value.varientCode}','SCOIN')
                                 .toString()),
                             IconButton(
                               padding: const EdgeInsets.all(8),
@@ -291,7 +282,7 @@ class ProductCard extends StatelessWidget {
                                       cartController.addToCartScoins(
                                           '$refId@${activeVariant.value.varientCode}',
                                           addedFrom!,
-                                          -1,
+                                          1,
                                           dealPrice,
                                           product,
                                           null,
@@ -330,7 +321,6 @@ class ProductCard extends StatelessWidget {
                           child: IconButton(
                             constraints: const BoxConstraints(),
                             color: Colors.white,
-
                             onPressed: stateController.isLogin.value
                                 ? () async {
                                     stateController.showLoader.value = true;
@@ -356,7 +346,7 @@ class ProductCard extends StatelessWidget {
                                         cartController.addToCartScoins(
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
-                                            -1,
+                                            1,
                                             dealPrice,
                                             product,
                                             null,
@@ -391,7 +381,6 @@ class ProductCard extends StatelessWidget {
                                         }
                                       }
                                     } else {
-                                      // Navigator.of(context).pop();
                                       snackBarClass.showToast(context,
                                           'Your profile is not active yet');
                                     }
@@ -402,32 +391,6 @@ class ProductCard extends StatelessWidget {
                                     snackBarClass.showToast(
                                         context, 'Please Login to preoceed');
                                   },
-
-                            // onPressed: () {
-                            //   showModalBottomSheet<void>(
-                            //     context: context,
-                            //     useRootNavigator: true,
-                            //     shape: RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.circular(13)),
-                            //     backgroundColor: Colors.white,
-                            //     isScrollControlled: true,
-                            //     elevation: 3,
-                            //     builder: (context) {
-                            //       if (addedFrom == 'CATEGORY') {
-                            //         return ProductBottomDrawer(refId);
-                            //       } else {
-                            //         return DealBottomDrawer(
-                            //             [product!],
-                            //             refId,
-                            //             addedFrom,
-                            //             dealPrice,
-                            //             Constraint(),
-                            //             product!.name,
-                            //             addedFrom!);
-                            //       }
-                            //     },
-                            //   );
-                            // },
                             icon: const Icon(
                               Icons.add,
                               size: 25,
@@ -445,47 +408,50 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget productVarientView(List<Varient> varientList) {
+    activeVariant.value = varientList[0];
+
     return SizedBox(
       height: 50,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: varientList.length,
-          shrinkWrap: true,
-          itemBuilder: (_, index) {
-            var currentVarient = varientList[index];
-            return Obx(
-              () => InkWell(
-                onTap: () {
-                  activeVariant.value = currentVarient;
-                  // productController.setVarient(currentVarient);
-                },
-                child: SizedBox(
-                  height: 50,
-                  child: Card(
-                    color: currentVarient.varientCode ==
-                            activeVariant.value.varientCode
-                        ? AppColors.primeColor
-                        : Colors.white,
-                    margin: const EdgeInsets.all(5),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: currentVarient.varientCode !=
-                                      activeVariant.value.varientCode
-                                  ? AppColors.primeColor
-                                  : Colors.white),
-                        ),
+        scrollDirection: Axis.horizontal,
+        itemCount: varientList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var currentVarient = varientList[index];
+          return Obx(
+            () => InkWell(
+              onTap: () {
+                activeVariant.value = currentVarient;
+                // productController.setVarient(currentVarient);
+              },
+              child: SizedBox(
+                height: 50,
+                child: Card(
+                  color: currentVarient.varientCode ==
+                          activeVariant.value.varientCode
+                      ? AppColors.primeColor
+                      : Colors.white,
+                  margin: const EdgeInsets.all(5),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: currentVarient.varientCode !=
+                                    activeVariant.value.varientCode
+                                ? AppColors.primeColor
+                                : Colors.white),
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 

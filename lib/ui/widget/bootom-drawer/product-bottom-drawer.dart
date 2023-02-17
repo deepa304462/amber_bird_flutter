@@ -283,7 +283,7 @@ class ProductBottomDrawer extends StatelessWidget {
                                         ),
                                         Text(cartController
                                             .getCurrentQuantity(
-                                                '$pId@${productController.varient.value.varientCode}')
+                                                '$pId@${productController.varient.value.varientCode}','')
                                             .toString()),
                                         IconButton(
                                           padding: const EdgeInsets.all(8),

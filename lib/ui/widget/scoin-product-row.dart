@@ -9,6 +9,7 @@ import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
+import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -100,7 +101,7 @@ class ScoinProductRow extends StatelessWidget {
             ProductSummary dProduct = scoinController.sCoinProd[index];
             return SizedBox(
                 width: 150,
-                child: ProductCard(
+                child: ProductCardScoin(
                     fixedHeight: true,
                     dProduct,
                     dProduct.id,

@@ -54,6 +54,17 @@ class CartController extends GetxController {
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
+    for (var v in cartProductsScoins.value.values) {
+      listScoins.add((jsonDecode(v.toJson())));
+    }
+
+    if (listScoins.length > 0 && listSumm.length > 0) {
+      selectedPaymentMethod.value = 'STRIPE';
+    } else if (listScoins.length > 0) {
+      selectedPaymentMethod.value = 'SCOINS ';
+    } else if (listSumm.length > 0) {
+      selectedPaymentMethod.value = 'MOLLIE';
+    }
     var selectedAdd;
     if (Get.isRegistered<LocationController>()) {
       var locationController = Get.find<LocationController>();
@@ -294,6 +305,9 @@ class CartController extends GetxController {
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
         }
+        for (var element in cust.cart!.productsViaSCoins!) {
+          cartProductsScoins[element.ref!.id ?? ''] = element;
+        }
       }
       if (cust.saveLater != null) {
         saveLaterId.value = cust.saveLater!.id ?? '';
@@ -380,31 +394,57 @@ class CartController extends GetxController {
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
       Constraint? constraint) async {
-    // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
-      double price = (priceInfo!.offerPrice).toDouble();
       List li = [];
+      var userType = null;
+      var priceObj = {
+        'actualPrice': 0,
+        'offerPrice': 0,
+        'noMemberCoin': 0,
+        'platinumMemberCoin': 0,
+        'goldMemberCoin': 0,
+        'silverMemberCoin': 0,
+        'paidMemberCoin': 0,
+      };
+      if (customerInsightDetail['personalInfo'] != null) {
+        userType = customerInsightDetail['personalInfo']['membershipType'];
+      }
       if (products != null) {
-        price = 0;
-        for (var element in products) {
-          li.add(element.toJson());
-          if (getData != null) {
-            quantity = getData.count!;
-            quantity = quantity + addQuantity;
-            price = price + element.varient!.price!.offerPrice;
-          } else {
-            price = price + element.varient!.price!.offerPrice;
-          }
-        }
+        //  TODO
       } else {
         if (getData != null) {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
+          if (userType == memberShipType.Gold.name) {
+            priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin;
+            priceObj['platinumMemberCoin'] = priceInfo.goldMemberCoin;
+            priceObj['noMemberCoin'] = priceInfo.goldMemberCoin;
+            priceObj['silverMemberCoin'] = priceInfo.goldMemberCoin;
+            priceObj['paidMemberCoin'] = priceInfo.goldMemberCoin;
+          } else if (userType == memberShipType.Prime.name) {
+            priceObj['goldMemberCoin'] = priceInfo!.platinumMemberCoin;
+            priceObj['platinumMemberCoin'] = priceInfo.platinumMemberCoin;
+            priceObj['noMemberCoin'] = priceInfo.platinumMemberCoin;
+            priceObj['silverMemberCoin'] = priceInfo.platinumMemberCoin;
+            priceObj['paidMemberCoin'] = priceInfo.platinumMemberCoin;
+          } else if (userType == memberShipType.Silver.name) {
+            priceObj['goldMemberCoin'] = priceInfo!.silverMemberCoin;
+            priceObj['platinumMemberCoin'] = priceInfo.silverMemberCoin;
+            priceObj['noMemberCoin'] = priceInfo.silverMemberCoin;
+            priceObj['silverMemberCoin'] = priceInfo.silverMemberCoin;
+            priceObj['paidMemberCoin'] = priceInfo.silverMemberCoin;
+          } else {
+            priceObj['goldMemberCoin'] = priceInfo!.noMemberCoin;
+            priceObj['platinumMemberCoin'] = priceInfo.noMemberCoin;
+            priceObj['noMemberCoin'] = priceInfo.noMemberCoin;
+            priceObj['silverMemberCoin'] = priceInfo.noMemberCoin;
+            priceObj['paidMemberCoin'] = priceInfo.noMemberCoin;
+          }
         }
       }
       if (quantity > 0) {
@@ -418,14 +458,7 @@ class CartController extends GetxController {
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
-          'price': {
-            'actualPrice': price,
-            'memberCoin': 0,
-            'primeMemberCoin': 0,
-            'goldMemberCoin': 0,
-            'silverMemberCoin': 0,
-            'offerPrice': price
-          }
+          'price': (jsonDecode(jsonEncode(priceObj)) ?? "{}")
         });
         cartProductsScoins[refId] = cartRow;
       } else {
@@ -499,6 +532,13 @@ class CartController extends GetxController {
     for (var v in cartProductsScoins.value.values) {
       listScoins.add((jsonDecode(v.toJson())));
     }
+    if (listScoins.length > 0 && listSumm.length > 0) {
+      selectedPaymentMethod.value = 'STRIPE';
+    } else if (listScoins.length > 0) {
+      selectedPaymentMethod.value = 'SCOINS ';
+    } else if (listSumm.length > 0) {
+      selectedPaymentMethod.value = 'MOLLIE';
+    }
     Ref custRef = await Helper.getCustomerRef();
     var payload;
     var resp;
@@ -571,11 +611,19 @@ class CartController extends GetxController {
     }
   }
 
-  int getCurrentQuantity(key) {
-    if (cartProducts[key] != null) {
-      return cartProducts[key]!.count!;
+  int getCurrentQuantity(key, type) {
+    if (type == 'SCOIN') {
+      if (cartProductsScoins[key] != null) {
+        return cartProductsScoins[key]!.count!;
+      } else {
+        return 0;
+      }
     } else {
-      return 0;
+      if (cartProducts[key] != null) {
+        return cartProducts[key]!.count!;
+      } else {
+        return 0;
+      }
     }
   }
 
