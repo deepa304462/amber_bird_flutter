@@ -15,14 +15,14 @@ class PriceTag extends StatelessWidget {
       verticalDirection: VerticalDirection.up,
       children: [
         Text(
-          "${CodeHelp.euro}${showPrice}",
+          "${CodeHelp.euro}${num.parse(showPrice).toStringAsFixed(2)}",
           style: TextStyles.titleLargeBold,
         ),
         const SizedBox(width: 3),
         Visibility(
           visible: realPrice != '' ? true : false,
           child: Text(
-            "${realPrice}",
+            "${num.parse(realPrice).toStringAsFixed(2)}",
             textHeightBehavior:
                 TextHeightBehavior(applyHeightToFirstAscent: true),
             style: const TextStyle(

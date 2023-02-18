@@ -163,11 +163,12 @@ class ProductCard extends StatelessWidget {
                     )
                   : const SizedBox(),
               checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT'|| addedFrom == 'CATEGORY')
-                      ?   Text(
+                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
+                      ? Text(
                           "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
                           style: TextStyles.titleLargeBold,
-                        ):PriceTag(dealPrice!.offerPrice!.toString(),
+                        )
+                      : PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
 
                   // PriceTag(product.varient!.price!.offerPrice!.toString(),
@@ -263,7 +264,8 @@ class ProductCard extends StatelessWidget {
                             ),
                             Text(cartController
                                 .getCurrentQuantity(
-                                    '$refId@${activeVariant.value.varientCode}','')
+                                    '$refId@${activeVariant.value.varientCode}',
+                                    '')
                                 .toString()),
                             IconButton(
                               padding: const EdgeInsets.all(8),
