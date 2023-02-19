@@ -76,6 +76,7 @@ class _CartWidget extends State<CartWidget> {
     return Obx(() => (cartController.cartProducts.isNotEmpty ||
             cartController.cartProductsScoins.isNotEmpty)
         ? CustomScrollView(
+            physics: const BouncingScrollPhysics(),
             slivers: innerLists,
           )
         : Padding(
@@ -102,6 +103,7 @@ class _CartWidget extends State<CartWidget> {
                       style: TextStyles.bodyWhiteLarge,
                     ),
                   ),
+                  SaveLater()
                 ],
               ),
             ),
@@ -159,7 +161,7 @@ class _CartWidget extends State<CartWidget> {
                                       onPressed: () async {
                                         stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
-                                           cartController.addToCartScoins(
+                                          cartController.addToCartScoins(
                                               cartController
                                                   .cartProductsScoins[
                                                       currentKey]
@@ -217,11 +219,11 @@ class _CartWidget extends State<CartWidget> {
                                                   .id,
                                               'SCOIN',
                                               1,
-                                               cartController
+                                              cartController
                                                   .cartProductsScoins[
                                                       currentKey]
                                                   .price,
-                                               cartController
+                                              cartController
                                                   .cartProductsScoins[
                                                       currentKey]
                                                   .product,
@@ -231,9 +233,9 @@ class _CartWidget extends State<CartWidget> {
                                               cartController
                                                   .cartProductsScoins[
                                                       currentKey]
-                                                  .product.varient);
+                                                  .product
+                                                  .varient);
 
-                                              
                                           // cartController.addToCartScoins(
                                           //     '${cartController.cartProductsScoins[currentKey].ref!.id}',
                                           //     cartController
@@ -256,8 +258,9 @@ class _CartWidget extends State<CartWidget> {
                                           //             currentKey]
                                           //         .product.varient);
                                         } else {
-                                          var showToast = snackBarClass
-                                              .showToast(context, 'Please Login');
+                                          var showToast =
+                                              snackBarClass.showToast(
+                                                  context, 'Please Login');
                                         }
 
                                         stateController.showLoader.value =
@@ -781,6 +784,7 @@ class _CartWidget extends State<CartWidget> {
           child: ListView(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
             children: [
               prod.productAvailabilityStatus != null
                   ? prod.productAvailabilityStatus!.recommendedProducts!
@@ -1037,7 +1041,7 @@ class _CartWidget extends State<CartWidget> {
                         ? Column(
                             children: [
                               Center(
-                                child: Text(" Product Not Availale",
+                                child: Text("Product Not Availale",
                                     style: TextStyles.headingFontBlue),
                               ),
                             ],

@@ -1,9 +1,9 @@
-import 'package:amber_bird/controller/cart-controller.dart'; 
-import 'package:amber_bird/controller/state-controller.dart'; 
-import 'package:amber_bird/ui/widget/image-box.dart'; 
+import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SaveLater extends StatelessWidget {
@@ -27,9 +27,9 @@ class SaveLater extends StatelessWidget {
               ],
             )
           : Text(
-            'Saved Products',
-            style: TextStyles.titleGreen,
-          ),
+              'Saved Products',
+              style: TextStyles.titleGreen,
+            ),
     );
   }
 
@@ -37,6 +37,7 @@ class SaveLater extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
+      physics: const BouncingScrollPhysics(),
       itemCount: cartController.saveLaterProducts.length,
       itemBuilder: (_, index) {
         var currentKey =
@@ -154,8 +155,8 @@ class SaveLater extends StatelessWidget {
                                 IconButton(
                                   onPressed: () async {
                                     stateController.showLoader.value = true;
-                                    await cartController
-                                        .removeProduct(currentKey,'');
+                                    await cartController.removeProduct(
+                                        currentKey, '');
                                     stateController.showLoader.value = false;
                                   },
                                   icon: const Icon(Icons.close_rounded),
