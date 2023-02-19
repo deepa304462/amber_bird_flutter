@@ -7,6 +7,7 @@ import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
 import 'package:amber_bird/ui/widget/product-guide-row.dart';
 import 'package:amber_bird/ui/widget/scoin-product-row.dart';
+import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,10 @@ class MainPage extends StatelessWidget {
                       isImagePath: false,
                       height: 160,
                     )
-                  : const SizedBox(),
+                  : ShimmerWidget(
+                      heightOfTheRow: 160,
+                      radiusOfcell: 12,
+                      widthOfCell: MediaQuery.of(context).size.width),
             ),
             const SizedBox(
               height: 10,

@@ -15,18 +15,18 @@ class snackBarClass {
           padding: EdgeInsets.all(10),
           child: Text(
             msg ?? "Please try again!",
-            style: TextStyles.title.copyWith(color: AppColors.primeColor),
+            style: TextStyles.title
+                .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
           ),
         ),
         duration: const Duration(milliseconds: 3000),
         padding: const EdgeInsets.all(8),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.primeColor,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+            borderRadius: BorderRadius.circular(12),
             side: BorderSide(
-              color: AppColors.grey,
+              color: AppColors.white,
               width: 1,
             )),
       ),

@@ -1,6 +1,8 @@
 import 'package:amber_bird/services/client-service.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 //https://pub.dev/documentation/disposable_cached_images/latest/
 class ImageBox extends StatelessWidget {
@@ -24,24 +26,26 @@ class ImageBox extends StatelessWidget {
     } else {
       path = '${ClientService.cdnUrl}$path';
     }
-    return CachedNetworkImage(
-      imageUrl: '$path',
+    // print((FastCachedImageConfig.isCached(imageUrl: path).toString() +
+    //     ' cached ' +
+    //     path));
+    return FastCachedImage(
+      url: '$path',
+      fit: fit,
+      isAntiAlias: true,
       width: width,
-      cacheKey: path,
+      fadeInDuration: const Duration(milliseconds: 20),
       height: height == 0 ? width * 1 : height,
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: fit,
-          ),
-        ),
-      ),
-      placeholder: (context, url) => Container(
-          color: Colors.white,
-          child: Center(child: const CircularProgressIndicator())),
-      errorWidget: (context, url, error) =>
-          Center(child: const Icon(Icons.error)),
+      errorBuilder: (context, exception, stacktrace) {
+        return Icon(Icons.error);
+      },
+      loadingBuilder: (context, progress) {
+        return Lottie.asset(
+          'assets/ripple-loading.json',
+          height: height == 0 ? width * 1 : height,
+          fit: BoxFit.fill,
+        );
+      },
     );
   }
 }

@@ -155,19 +155,35 @@ class ProductCardScoin extends StatelessWidget {
                         )
                       ],
                     )
-                  : const SizedBox(),
+                  : product.varients!.length == 1
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('${product.varients![0].weight}'),
+                            Text(
+                              '${CodeHelp.formatUnit(product.varients![0].unit)}',
+                              style: const TextStyle(
+                                  color: Colors.blue, fontSize: 12),
+                            )
+                          ],
+                        )
+                      : const SizedBox(),
               checkPriceVisibility()
                   ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
                       ? Text(
                           "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
                           style: TextStyles.titleLargeBold,
                         )
-                      : PriceTag(dealPrice!.offerPrice!.toString(),
-                          dealPrice!.actualPrice!.toString())
+                      : PriceTag(
+                          dealPrice!.offerPrice!.toString(),
+                          dealPrice!.actualPrice!.toString(),
+                          scoin: dealPrice?.paidMemberCoin!,
+                        )
                   : const SizedBox(),
             ],
           ),
-          product.varients!.length > 0
+          product.varients!.length > 1
               ? productVarientView(product.varients!)
               : SizedBox()
         ],
@@ -187,13 +203,13 @@ class ProductCardScoin extends StatelessWidget {
             _gridItemBody(product!, context),
             _gridItemHeader(product!),
             Obx(
-              () => Visibility(
-                visible: checkBuyProductVisibility(),
-                child: cartController.checkProductInCart(
+              () {
+                Widget counterOrAdd = cartController.checkProductInCart(
                         '$refId@${activeVariant.value.varientCode}', addedFrom)
-                    ? Positioned(
-                        right: 0,
-                        top: 50,
+                    ? Card(
+                        color: AppColors.primeColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                         child: Row(
                           children: [
                             IconButton(
@@ -249,13 +265,21 @@ class ProductCardScoin extends StatelessWidget {
                                 }
                                 stateController.showLoader.value = false;
                               },
-                              icon: const Icon(Icons.remove_circle_outline,
-                                  color: Colors.black),
+                              icon: const Icon(
+                                Icons.remove_circle_outline,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
-                            Text(cartController
-                                .getCurrentQuantity(
-                                    '$refId@${activeVariant.value.varientCode}','SCOIN')
-                                .toString()),
+                            Text(
+                              cartController
+                                  .getCurrentQuantity(
+                                      '$refId@${activeVariant.value.varientCode}',
+                                      'SCOIN')
+                                  .toString(),
+                              style:
+                                  TextStyles.bodyWhite.copyWith(fontSize: 20),
+                            ),
                             IconButton(
                               padding: const EdgeInsets.all(8),
                               constraints: const BoxConstraints(),
@@ -306,33 +330,67 @@ class ProductCardScoin extends StatelessWidget {
                                 }
                                 stateController.showLoader.value = false;
                               },
-                              icon: const Icon(Icons.add_circle_outline,
-                                  color: Colors.black),
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),
                       )
-                    : Positioned(
-                        right: 0,
-                        top: 50,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red.shade900,
-                          radius: 20,
-                          child: IconButton(
-                            constraints: const BoxConstraints(),
-                            color: Colors.white,
-                            onPressed: stateController.isLogin.value
-                                ? () async {
-                                    stateController.showLoader.value = true;
-                                    bool isCheckedActivate =
-                                        await stateController.getUserIsActive();
-                                    if (isCheckedActivate) {
-                                      // if (stateController.isActivate.value) {
-                                      var valid = false;
-                                      var msg = 'Something went wrong!';
+                    : CircleAvatar(
+                        backgroundColor: AppColors.primeColor,
+                        radius: 20,
+                        child: IconButton(
+                          constraints: const BoxConstraints(),
+                          color: Colors.white,
+                          onPressed: stateController.isLogin.value
+                              ? () async {
+                                  stateController.showLoader.value = true;
+                                  bool isCheckedActivate =
+                                      await stateController.getUserIsActive();
+                                  if (isCheckedActivate) {
+                                    // if (stateController.isActivate.value) {
+                                    var valid = false;
+                                    var msg = 'Something went wrong!';
 
-                                      // this.refId, this.addedFrom,
-                                      if (addedFrom == 'CATEGORY') {
+                                    // this.refId, this.addedFrom,
+                                    if (addedFrom == 'CATEGORY') {
+                                      cartController.addToCart(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    } else if (addedFrom == 'SCOIN') {
+                                      cartController.addToCartScoins(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint);
+                                    } else {
+                                      if (Get.isRegistered<DealController>(
+                                          tag: addedFrom!)) {
+                                        var dealController =
+                                            Get.find<DealController>(
+                                                tag: addedFrom!);
+                                        var data =
+                                            await dealController.checkValidDeal(
+                                                refId!,
+                                                'positive',
+                                                '$refId@${activeVariant.value.varientCode}');
+                                        valid = !data['error'];
+                                        msg = data['msg'];
+                                      }
+                                      if (valid) {
                                         cartController.addToCart(
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
@@ -342,64 +400,39 @@ class ProductCardScoin extends StatelessWidget {
                                             null,
                                             ruleConfig,
                                             constraint);
-                                      } else if (addedFrom == 'SCOIN') {
-                                        cartController.addToCartScoins(
-                                            '$refId@${activeVariant.value.varientCode}',
-                                            addedFrom!,
-                                            1,
-                                            dealPrice,
-                                            product,
-                                            null,
-                                            ruleConfig,
-                                            constraint);
                                       } else {
-                                        if (Get.isRegistered<DealController>(
-                                            tag: addedFrom!)) {
-                                          var dealController =
-                                              Get.find<DealController>(
-                                                  tag: addedFrom!);
-                                          var data = await dealController
-                                              .checkValidDeal(
-                                                  refId!,
-                                                  'positive',
-                                                  '$refId@${activeVariant.value.varientCode}');
-                                          valid = !data['error'];
-                                          msg = data['msg'];
-                                        }
-                                        if (valid) {
-                                          cartController.addToCart(
-                                              '$refId@${activeVariant.value.varientCode}',
-                                              addedFrom!,
-                                              1,
-                                              dealPrice,
-                                              product,
-                                              null,
-                                              ruleConfig,
-                                              constraint);
-                                        } else {
-                                          snackBarClass.showToast(context, msg);
-                                        }
+                                        snackBarClass.showToast(context, msg);
                                       }
-                                    } else {
-                                      snackBarClass.showToast(context,
-                                          'Your profile is not active yet');
                                     }
-                                    stateController.showLoader.value = false;
+                                  } else {
+                                    snackBarClass.showToast(context,
+                                        'Your profile is not active yet');
                                   }
-                                : () {
-                                    stateController.setCurrentTab(3);
-                                    snackBarClass.showToast(
-                                        context, 'Please Login to preoceed');
-                                  },
-                            icon: const Icon(
-                              Icons.add,
-                              size: 25,
-                              color: Colors.white,
-                            ),
+                                  stateController.showLoader.value = false;
+                                }
+                              : () {
+                                  stateController.setCurrentTab(3);
+                                  snackBarClass.showToast(
+                                      context, 'Please Login to preoceed');
+                                },
+                          icon: const Icon(
+                            Icons.add,
+                            size: 25,
+                            color: Colors.white,
                           ),
                         ),
+                      );
+                return Visibility(
+                    visible: checkBuyProductVisibility(),
+                    child: Positioned(
+                      right: 0,
+                      top: 50,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: counterOrAdd,
                       ),
-              ),
+                    ));
+              },
             ),
           ],
         ),

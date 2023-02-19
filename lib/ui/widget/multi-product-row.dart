@@ -9,9 +9,11 @@ import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
@@ -33,7 +35,7 @@ class MultiProductRow extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,34 +44,24 @@ class MultiProductRow extends StatelessWidget {
                     multiprodController.getProductName(currenttypeName),
                     style: TextStyles.titleLargeBold,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      MegaMenuController megaMenuController;
-                      if (Get.isRegistered<MegaMenuController>()) {
-                        megaMenuController = Get.find();
-                      } else {
-                        megaMenuController = Get.put(MegaMenuController());
-                      }
-                      megaMenuController.selectedParentTab.value =
-                          currenttypeName;
-                      if (currenttypeName == multiProductName.COMBO.name) {
-                        megaMenuController.getSubMenu(GenericTab(
-                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
-                            id: multiProductName.COMBO.name,
-                            type: 'MULTI',
-                            text: 'Combo'));
-                      }
-                      stateController.setCurrentTab(2);
-                    },
-                    child: Text(
-                      'View More',
-                      style: TextStyles.bodyWhite,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primeColor,
-                      // This is what you need!
-                    ),
-                  ),
+                  ViewMoreWidget(onTap: () {
+                    MegaMenuController megaMenuController;
+                    if (Get.isRegistered<MegaMenuController>()) {
+                      megaMenuController = Get.find();
+                    } else {
+                      megaMenuController = Get.put(MegaMenuController());
+                    }
+                    megaMenuController.selectedParentTab.value =
+                        currenttypeName;
+                    if (currenttypeName == multiProductName.COMBO.name) {
+                      megaMenuController.getSubMenu(GenericTab(
+                          image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                          id: multiProductName.COMBO.name,
+                          type: 'MULTI',
+                          text: 'Combo'));
+                    }
+                    stateController.setCurrentTab(2);
+                  }),
 
                   // Text(
                   //   'More >',
@@ -112,11 +104,21 @@ class MultiProductRow extends StatelessWidget {
             itemBuilder: (_, index) {
               Multi mProduct = multiprodController.multiProd[index];
               return Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 child: Column(
                   children: [
-                    ImageBox(
-                      mProduct.displayImageId!,
-                      height: 80,
+                    Container(
+                      color: Colors.white,
+                      child: ImageBox(
+                        mProduct.displayImageId != null &&
+                                mProduct.displayImageId!.length > 3
+                            ? mProduct.displayImageId!
+                            : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
+                        height: 60,
+                        width: MediaQuery.of(context).size.width * .6,
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
@@ -133,6 +135,7 @@ class MultiProductRow extends StatelessWidget {
                               child: ProductCard(
                                   mProduct.products![i],
                                   mProduct.products![i].id,
+                                  fixedHeight: true,
                                   'MULTIPRODUCT',
                                   mProduct.products![i].varient!.price!,
                                   null,
@@ -165,7 +168,7 @@ class MultiProductRow extends StatelessWidget {
                                   color: Colors.grey),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * .8,
+                              width: MediaQuery.of(context).size.width * .6,
                               child: Row(
                                 children: [
                                   PriceTag(
@@ -173,188 +176,213 @@ class MultiProductRow extends StatelessWidget {
                                       mProduct.price!.actualPrice.toString()),
                                   const Spacer(),
                                   Obx(
-                                    () => cartController
-                                            .checkProductInCart(mProduct.id,'')
-                                        ? Row(
-                                            children: [
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
+                                    () {
+                                      return AnimatedSwitcher(
+                                        duration:
+                                            const Duration(milliseconds: 200),
+                                        child: cartController
+                                                .checkProductInCart(
+                                                    mProduct.id, '')
+                                            ? Card(
+                                                color: AppColors.primeColor,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12)),
+                                                child: Row(
+                                                  children: [
+                                                    IconButton(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      onPressed: () async {
+                                                        if (stateController
+                                                            .isLogin.value) {
+                                                          var valid = false;
+                                                          var msg =
+                                                              'Something went wrong!';
 
-                                                    var data =
-                                                        await multiprodController
-                                                            .checkValidDeal(
+                                                          var data =
+                                                              await multiprodController
+                                                                  .checkValidDeal(
+                                                                      mProduct
+                                                                          .id!,
+                                                                      'negative',
+                                                                      mProduct
+                                                                          .id!);
+                                                          valid =
+                                                              !data['error'];
+                                                          msg = data['msg'];
+                                                          if (valid) {
+                                                            cartController.addToCart(
                                                                 mProduct.id!,
-                                                                'negative',
-                                                                mProduct.id!);
-                                                    valid = !data['error'];
-                                                    msg = data['msg'];
-                                                    if (valid) {
-                                                      cartController.addToCart(
-                                                          mProduct.id!,
-                                                          'MULTIPRODUCT',
-                                                          (-(mProduct.constraint
-                                                                      ?.minimumOrder ??
-                                                                  1)) ??
-                                                              -1,
-                                                          mProduct.price,
-                                                          null,
-                                                          mProduct.products,
-                                                          null,
-                                                          mProduct.constraint);
-                                                    } else {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      snackBarClass.showToast(
-                                                          context, msg);
-                                                    }
-                                                  } else {
-                                                    stateController
-                                                        .setCurrentTab(3);
-                                                    var showToast =
+                                                                'MULTIPRODUCT',
+                                                                (-(mProduct.constraint
+                                                                            ?.minimumOrder ??
+                                                                        1)) ??
+                                                                    -1,
+                                                                mProduct.price,
+                                                                null,
+                                                                mProduct
+                                                                    .products,
+                                                                null,
+                                                                mProduct
+                                                                    .constraint);
+                                                          } else {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            snackBarClass
+                                                                .showToast(
+                                                                    context,
+                                                                    msg);
+                                                          }
+                                                        } else {
+                                                          stateController
+                                                              .setCurrentTab(3);
+                                                          var showToast =
+                                                              snackBarClass
+                                                                  .showToast(
+                                                                      context,
+                                                                      'Please Login to preoceed');
+                                                        }
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons
+                                                            .remove_circle_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cartController
+                                                          .getCurrentQuantity(
+                                                              mProduct.id, '')
+                                                          .toString(),
+                                                      style: TextStyles
+                                                          .bodyWhite
+                                                          .copyWith(
+                                                              fontSize: 20),
+                                                    ),
+                                                    IconButton(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      constraints:
+                                                          const BoxConstraints(),
+                                                      onPressed: () async {
+                                                        if (stateController
+                                                            .isLogin.value) {
+                                                          var valid = false;
+                                                          var msg =
+                                                              'Something went wrong!';
+
+                                                          var data =
+                                                              await multiprodController
+                                                                  .checkValidDeal(
+                                                                      mProduct
+                                                                          .id!,
+                                                                      'positive',
+                                                                      mProduct
+                                                                          .id!);
+                                                          valid =
+                                                              !data['error'];
+                                                          msg = data['msg'];
+                                                          if (valid) {
+                                                            cartController.addToCart(
+                                                                mProduct.id!,
+                                                                'MULTIPRODUCT',
+                                                                mProduct.constraint!
+                                                                        .minimumOrder ??
+                                                                    1,
+                                                                mProduct.price,
+                                                                null,
+                                                                mProduct
+                                                                    .products,
+                                                                null,
+                                                                mProduct
+                                                                    .constraint);
+                                                          } else {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            snackBarClass
+                                                                .showToast(
+                                                                    context,
+                                                                    msg);
+                                                          }
+                                                        }
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons
+                                                            .add_circle_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            : CircleAvatar(
+                                                backgroundColor:
+                                                    AppColors.primeColor,
+                                                radius: 20,
+                                                child: IconButton(
+                                                  padding:
+                                                      const EdgeInsets.all(1),
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  onPressed: () async {
+                                                    stateController.showLoader
+                                                        .value = true;
+                                                    bool isCheckedActivate =
+                                                        await stateController
+                                                            .getUserIsActive();
+                                                    if (isCheckedActivate) {
+                                                      var valid = false;
+                                                      var msg =
+                                                          'Something went wrong!';
+
+                                                      var data =
+                                                          await multiprodController
+                                                              .checkValidDeal(
+                                                                  mProduct.id!,
+                                                                  'positive',
+                                                                  mProduct.id!);
+                                                      valid = !data['error'];
+                                                      msg = data['msg'];
+                                                      if (valid) {
+                                                        cartController.addToCart(
+                                                            mProduct.id!,
+                                                            'MULTIPRODUCT',
+                                                            mProduct.constraint!
+                                                                    .minimumOrder ??
+                                                                1,
+                                                            mProduct.price,
+                                                            null,
+                                                            mProduct.products,
+                                                            null,
+                                                            mProduct
+                                                                .constraint);
+                                                      } else {
+                                                        Navigator.of(context)
+                                                            .pop();
                                                         snackBarClass.showToast(
-                                                            context,
-                                                            'Please Login to preoceed');
-                                                  }
-                                                },
-                                                icon: const Icon(
-                                                    Icons.remove_circle_outline,
-                                                    color: Colors.black),
-                                              ),
-                                              Text(cartController
-                                                  .getCurrentQuantity(
-                                                      mProduct.id,'')
-                                                  .toString()),
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
-
-                                                    var data =
-                                                        await multiprodController
-                                                            .checkValidDeal(
-                                                                mProduct.id!,
-                                                                'positive',
-                                                                mProduct.id!);
-                                                    valid = !data['error'];
-                                                    msg = data['msg'];
-                                                    if (valid) {
-                                                      cartController.addToCart(
-                                                          mProduct.id!,
-                                                          'MULTIPRODUCT',
-                                                          mProduct.constraint!
-                                                                  .minimumOrder ??
-                                                              1,
-                                                          mProduct.price,
-                                                          null,
-                                                          mProduct.products,
-                                                          null,
-                                                          mProduct.constraint);
-                                                    } else {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      snackBarClass.showToast(
-                                                          context, msg);
+                                                            context, msg);
+                                                      }
                                                     }
-                                                  }
-                                                },
-                                                icon: const Icon(
-                                                    Icons.add_circle_outline,
-                                                    color: Colors.black),
+                                                    stateController.showLoader
+                                                        .value = false;
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.add,
+                                                  ),
+                                                ),
                                               ),
-                                            ],
-                                          )
-                                        : CircleAvatar(
-                                            backgroundColor:
-                                                Colors.red.shade900,
-                                            radius: 20,
-                                            child: IconButton(
-                                              padding: const EdgeInsets.all(1),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                bool isCheckedActivate =
-                                                    await stateController
-                                                        .getUserIsActive();
-                                                if (isCheckedActivate) {
-                                                  var valid = false;
-                                                  var msg =
-                                                      'Something went wrong!';
-
-                                                  var data =
-                                                      await multiprodController
-                                                          .checkValidDeal(
-                                                              mProduct.id!,
-                                                              'positive',
-                                                              mProduct.id!);
-                                                  valid = !data['error'];
-                                                  msg = data['msg'];
-                                                  if (valid) {
-                                                    cartController.addToCart(
-                                                        mProduct.id!,
-                                                        'MULTIPRODUCT',
-                                                        mProduct.constraint!
-                                                                .minimumOrder ??
-                                                            1,
-                                                        mProduct.price,
-                                                        null,
-                                                        mProduct.products,
-                                                        null,
-                                                        mProduct.constraint);
-                                                  } else {
-                                                    Navigator.of(context).pop();
-                                                    snackBarClass.showToast(
-                                                        context, msg);
-                                                  }
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                                //   showModalBottomSheet<void>(
-                                                //     // context and builder are
-                                                //     // required properties in this widget
-                                                //     context: context,
-                                                //     useRootNavigator: true,
-                                                //     shape: RoundedRectangleBorder(
-                                                //         borderRadius:
-                                                //             BorderRadius.circular(13)),
-                                                //     backgroundColor: Colors.white,
-                                                //     isScrollControlled: true,
-                                                //     elevation: 3,
-                                                //     builder: (context) {
-                                                //       return DealBottomDrawer(
-                                                //         mProduct.products,
-                                                //         mProduct.id,
-                                                //         currenttypeName,
-                                                //         mProduct.price,
-                                                //         mProduct.constraint,
-                                                //         mProduct.name,
-                                                //         'MULTIPRODUCT',
-                                                //       );
-                                                //     },
-                                                //   );
-                                              },
-                                              icon: const Icon(
-                                                Icons.add,
-                                              ),
-                                            ),
-                                          ),
+                                      );
+                                    },
                                   )
                                 ],
                               ),

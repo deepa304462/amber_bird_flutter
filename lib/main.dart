@@ -7,6 +7,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,6 +30,7 @@ void main() async {
   await Firebase.initializeApp();
   await FCMSyncService.init();
   await OfflineDBService.init();
+  await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
   AnalyticsService.logEvent('initalization', {
     "message": 'initalized App',
   });

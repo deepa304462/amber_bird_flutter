@@ -10,6 +10,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -91,13 +92,12 @@ class ProfilePage extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
+          alignment: Alignment.center,
           children: [
-            ImageBox(
-              'aa556b20-a25a-410d-8204-a419227932aa',
-              width: MediaQuery.of(context).size.width,
-              height: 170,
-              fit: BoxFit.cover,
-            ),
+            Lottie.asset('assets/profile-cover-background.json',
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                fit: BoxFit.cover),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

@@ -25,8 +25,11 @@ class AppBarWidget extends StatelessWidget {
               child: locationWidget(),
             ),
             Expanded(
-              child: ImageBox("0ad51820-35be-4a37-8a41-fb3915c1b2a0",
-                  height: 40, fit: BoxFit.contain),
+              child: Image.asset(
+                'assets/app-bar-logo.png',
+                width: 40,
+                fit: BoxFit.cover,
+              ),
             ),
             //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
             FittedBox(

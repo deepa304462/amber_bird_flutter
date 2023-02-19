@@ -11,6 +11,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -38,37 +39,28 @@ class ScoinProductRow extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Scoin",
+                        "Member Special Deals",
                         style: TextStyles.titleLargeSemiBold,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          MegaMenuController megaMenuController;
-                          if (Get.isRegistered<MegaMenuController>()) {
-                            megaMenuController = Get.find();
-                          } else {
-                            megaMenuController = Get.put(MegaMenuController());
-                          }
-                          // megaMenuController.selectedParentTab.value =
-                          //     currentdealName;
+                      ViewMoreWidget(onTap: () {
+                        MegaMenuController megaMenuController;
+                        if (Get.isRegistered<MegaMenuController>()) {
+                          megaMenuController = Get.find();
+                        } else {
+                          megaMenuController = Get.put(MegaMenuController());
+                        }
+                        // megaMenuController.selectedParentTab.value =
+                        //     currentdealName;
 
-                          stateController.setCurrentTab(2);
-                        },
-                        child: Text(
-                          'View More',
-                          style: TextStyles.bodyWhite,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primeColor,
-                          // This is what you need!
-                        ),
-                      ),
+                        stateController.setCurrentTab(2);
+                      }),
 
                       // Text(
                       //   'View More',

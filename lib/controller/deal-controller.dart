@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 
 class DealController extends GetxController {
   RxList<DealProduct> dealProd = <DealProduct>[].obs;
+  RxBool isLoading = true.obs;
 
   final tag;
 
@@ -44,25 +45,25 @@ class DealController extends GetxController {
 
   String getDealName(name) {
     if (dealName.FLASH.name == name) {
-      return "Flash Deal";
+      return "Flash Deals";
     } else if (dealName.SALES.name == name) {
-      return "Sales Deal";
+      return "Sales Deals";
     } else if (tag == dealName.WEEKLY_DEAL.name) {
-      return  'Weekly Deal';
+      return 'Weekly Deals';
     } else if (tag == dealName.SUPER_DEAL.name) {
-      return 'Super Deal';
+      return 'Super Deals';
     } else if (tag == dealName.ONLY_COIN_DEAL.name) {
-      return 'Coin Deal';
+      return 'Coin Deals';
     } else if (tag == dealName.EXCLUSIVE_DEAL.name) {
-      return 'Exclusive Deal';
+      return 'Exclusive Deals';
     } else if (tag == dealName.MEMBER_DEAL.name) {
-      return 'Member Deal';
+      return 'Member Deals';
     } else if (tag == dealName.PRIME_MEMBER_DEAL.name) {
-      return 'Prime Member Deal';
+      return 'Prime Member Deals';
     } else if (tag == dealName.CUSTOM_RULE_DEAL.name) {
-     return 'Custom Rule Deal';
+      return 'Custom Rule Deals';
     } else {
-      return "Flash Deal";
+      return "Flash Deals";
     }
   }
 
@@ -76,10 +77,11 @@ class DealController extends GetxController {
               .toList() ??
           []);
       dealProd.value = (dList);
+      isLoading.value = false;
     }
   }
 
-  checkValidDeal(String id, String type,String cartId) async {
+  checkValidDeal(String id, String type, String cartId) async {
     RuleConfig? ruleConfig;
     Constraint? constraint;
     DealProduct dealProduct =
@@ -92,8 +94,8 @@ class DealController extends GetxController {
     var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
     CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
     if (type == 'positive') {
-      dynamic data =
-          await Helper.checkProductValidtoAddinCart(ruleConfig, constraint, id, cartId);
+      dynamic data = await Helper.checkProductValidtoAddinCart(
+          ruleConfig, constraint, id, cartId);
       return data;
     } else {
       return ({'error': false, 'msg': ''});

@@ -17,6 +17,7 @@ class MegaMenuController extends GetxController {
   RxString selectedParentTab = "".obs;
   RxString selectedType = "".obs;
   RxString selectedSubMenu = "".obs;
+  RxBool isLoading = true.obs;
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -71,7 +72,7 @@ class MegaMenuController extends GetxController {
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
           id: dealName.WEEKLY_DEAL.name,
           type: 'DEAL',
-          text: 'Weekly')); 
+          text: 'Weekly'));
       cList.add(GenericTab(
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
           id: dealName.ONLY_COIN_DEAL.name,
@@ -110,6 +111,7 @@ class MegaMenuController extends GetxController {
           []);
       mainTabs.value = cList;
       getSubMenu(mainTabs.value[0]);
+      isLoading.value = false;
     }
   }
 

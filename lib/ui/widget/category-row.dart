@@ -1,13 +1,13 @@
- import 'package:amber_bird/controller/mega-menu-controller.dart';
+import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryRow extends StatelessWidget {
-  bool isLoading = false;
   final MegaMenuController megaMenuController = Get.put(MegaMenuController());
   // final CategoryController categoryController = Get.put(CategoryController());
   final Controller myController = Get.find();
@@ -17,7 +17,7 @@ class CategoryRow extends StatelessWidget {
     return Obx(() {
       return SizedBox(
         height: 75,
-        child: !isLoading
+        child: !megaMenuController.isLoading.value
             ? ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
@@ -68,7 +68,8 @@ class CategoryRow extends StatelessWidget {
                   );
                 },
               )
-            : const SizedBox(),
+            : ShimmerWidget(
+                heightOfTheRow: 75, radiusOfcell: 50, widthOfCell: 50),
       );
     });
   }

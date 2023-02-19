@@ -16,8 +16,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class CategoryPage extends StatelessWidget {
-  bool isLoading = false;
-
   final MegaMenuController megaMenuController = Get.find();
   final CartController cartController = Get.find();
   final Controller stateController = Get.find();
@@ -34,7 +32,7 @@ class CategoryPage extends StatelessWidget {
         var currentProduct = categoryController.productList[index];
         if (currentProduct.varient != null) {
           return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
-              currentProduct.varient!.price!, null,null);
+              currentProduct.varient!.price!, null, null);
         } else {
           return const SizedBox();
         }
@@ -194,8 +192,13 @@ class CategoryPage extends StatelessWidget {
         itemBuilder: (_, index) {
           DealProduct dealProduct = megaMenuController.dealProductList[index];
           if (dealProduct.product != null) {
-            return ProductCard(dealProduct.product, dealProduct.product!.id,
-                megaMenuController.selectedParentTab.value, dealProduct.product!.varient!.price!, dealProduct.ruleConfig,dealProduct.constraint);
+            return ProductCard(
+                dealProduct.product,
+                dealProduct.product!.id,
+                megaMenuController.selectedParentTab.value,
+                dealProduct.product!.varient!.price!,
+                dealProduct.ruleConfig,
+                dealProduct.constraint);
           } else {
             return const SizedBox();
           }
@@ -214,13 +217,16 @@ class CategoryPage extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (_, index) {
           Multi mProduct = megaMenuController.multiProd[index];
-          // var curProduct = dProduct!.product;
           return Card(
             child: Column(
               children: [
                 ImageBox(
-                  '${mProduct.displayImageId}',
-                  height: 80,
+                  mProduct.displayImageId != null &&
+                          mProduct.displayImageId!.length > 3
+                      ? mProduct.displayImageId!
+                      : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
                 ),
                 Container(
                   margin: const EdgeInsets.all(5.0),
@@ -236,6 +242,7 @@ class CategoryPage extends StatelessWidget {
                                 mProduct.products![i],
                                 mProduct.products![i].id,
                                 'MULTIPRODUCT',
+                                fixedHeight: true,
                                 mProduct.products![i].varient!.price!,
                                 null,
                                 null),
@@ -273,7 +280,7 @@ class CategoryPage extends StatelessWidget {
                                   mProduct.price!.actualPrice.toString()),
                               const Spacer(),
                               CircleAvatar(
-                                backgroundColor: Colors.red.shade900,
+                                backgroundColor: AppColors.primeColor,
                                 radius: 20,
                                 child: IconButton(
                                   padding: const EdgeInsets.all(1),
