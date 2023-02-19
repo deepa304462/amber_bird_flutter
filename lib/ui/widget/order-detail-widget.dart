@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/order-controller.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +40,14 @@ class OrderDetailWidget extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                                'Order Id #${orderId} Status ${orderController.orderDetail.value.status}'),
+                                'Order Id #$orderId Status ${orderController.orderDetail.value.status}'),
                             Container(
                               margin: const EdgeInsets.all(2.0),
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
-                                          Color.fromARGB(255, 113, 116, 122))),
+                                      color: const Color.fromARGB(
+                                          255, 113, 116, 122))),
                               child: ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 itemCount: orderController
@@ -87,7 +86,7 @@ class OrderDetailWidget extends StatelessWidget {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
@@ -139,14 +138,14 @@ class OrderDetailWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
+                                      color: const
                                           Color.fromARGB(255, 113, 116, 122))),
                               child: Column(
                                 children: orderController
                                             .orderDetail.value.shipping !=
                                         null
                                     ? [
-                                        Text('Shipping'),
+                                        const Text('Shipping'),
                                         Text(orderController.orderDetail.value
                                                     .shipping!.source !=
                                                 null
@@ -168,7 +167,7 @@ class OrderDetailWidget extends StatelessWidget {
                                         )
                                       ]
                                     : [
-                                        Text(
+                                        const Text(
                                             'Shipping Information Not availbale'),
                                       ],
                               ),

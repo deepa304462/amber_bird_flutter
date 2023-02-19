@@ -22,7 +22,7 @@ enum dealName {
   CUSTOM_RULE_DEAL
 }
 
-enum memberShipType { Paid, Prime, Gold, Silver, No_Membership }
+enum memberShipType { Paid, Platinum, Gold, Silver, No_Membership }
 
 enum multiProductName { COMBO, BUNDLE, COLLECTION, STORIES }
 

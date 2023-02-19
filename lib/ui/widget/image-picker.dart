@@ -37,13 +37,13 @@ class _MyPageState extends State<ImagePickerPage> {
                   onPressed: () {
                     _getFromGallery();
                   },
-                  child: Text("PICK FROM GALLERY"),
+                  child: const Text("PICK FROM GALLERY"),
                 ),
                 ElevatedButton(
                   onPressed: () {
                     _getFromCamera();
                   },
-                  child: Text("PICK FROM CAMERA"),
+                  child: const Text("PICK FROM CAMERA"),
                 )
               ],
             ),

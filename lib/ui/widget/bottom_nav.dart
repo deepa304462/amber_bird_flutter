@@ -225,7 +225,9 @@ class _BottomBarItemState extends State<BottomBarItem>
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: Text(
-                                  cartController.cartProducts.value.length
+                                  (cartController.cartProducts.value.length+
+                                          cartController
+                                              .cartProductsScoins.value.length)
                                       .toString(),
                                   style: TextStyles.bodySm),
                             ),

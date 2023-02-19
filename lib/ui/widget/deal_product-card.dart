@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart'; 

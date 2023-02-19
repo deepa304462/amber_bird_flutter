@@ -1,5 +1,3 @@
- 
-
 import 'package:amber_bird/controller/cart-controller.dart'; 
 import 'package:amber_bird/controller/state-controller.dart'; 
 import 'package:amber_bird/ui/widget/image-box.dart'; 
@@ -28,12 +26,10 @@ class SaveLater extends StatelessWidget {
                 saveLaterData(context, cartController),
               ],
             )
-          : Container(
-              child: Text(
-                'Saved Products',
-                style: TextStyles.titleGreen,
-              ),
-            ),
+          : Text(
+            'Saved Products',
+            style: TextStyles.titleGreen,
+          ),
     );
   }
 
@@ -159,7 +155,7 @@ class SaveLater extends StatelessWidget {
                                   onPressed: () async {
                                     stateController.showLoader.value = true;
                                     await cartController
-                                        .removeProduct(currentKey);
+                                        .removeProduct(currentKey,'');
                                     stateController.showLoader.value = false;
                                   },
                                   icon: const Icon(Icons.close_rounded),
@@ -188,8 +184,8 @@ class SaveLater extends StatelessWidget {
               await cartController.addTocartSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: Icon(Icons.flash_on),
-            label: Text(' "Add to cart"')),
+            icon: const Icon(Icons.flash_on),
+            label: const Text(' "Add to cart"')),
         TextButton.icon(
             onPressed: () async {
               stateController.showLoader.value = true;

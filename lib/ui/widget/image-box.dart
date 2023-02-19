@@ -25,7 +25,7 @@ class ImageBox extends StatelessWidget {
       path = '${ClientService.cdnUrl}$path';
     }
     return CachedNetworkImage(
-      imageUrl: '$path',
+      imageUrl: path,
       width: width,
       cacheKey: path,
       height: height == 0 ? width * 1 : height,
@@ -39,9 +39,9 @@ class ImageBox extends StatelessWidget {
       ),
       placeholder: (context, url) => Container(
           color: Colors.white,
-          child: Center(child: const CircularProgressIndicator())),
+          child: const Center(child: CircularProgressIndicator())),
       errorWidget: (context, url, error) =>
-          Center(child: const Icon(Icons.error)),
+          const Center(child: Icon(Icons.error)),
     );
   }
 }

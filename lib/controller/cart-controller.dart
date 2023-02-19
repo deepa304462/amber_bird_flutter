@@ -10,6 +10,7 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
+import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/order/product_order.dart';
@@ -59,7 +60,7 @@ class CartController extends GetxController {
     }
 
     if (listScoins.length > 0 && listSumm.length > 0) {
-      selectedPaymentMethod.value = 'STRIPE';
+      selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
     } else if (listScoins.length > 0) {
       selectedPaymentMethod.value = 'SCOINS ';
     } else if (listSumm.length > 0) {
@@ -159,13 +160,12 @@ class CartController extends GetxController {
           log(jsonEncode(payload).toString());
           log(jsonEncode(resp1.data).toString());
           if (orderId.value == '') orderId.value = resp1.data['_id'];
-          var ord = Order.fromMap(resp1.data);
-          calculatedPayment.value = ord.payment!;
-          // if (calculatedPayment.value.totalAmount <=
-          //     cust.personalInfo!.scoins!) {
-          //   paymentGateWaydropdownItems
-          //       .add({'value': 'SCOINS', 'label': 'Scoins'});
-          // }
+          // var ord = Order.fromMap(resp1.data);
+          cust.cart = Order.fromMap(resp1.data);
+          calculatedPayment.value = cust.cart!.payment!;
+          OfflineDBService.save(OfflineDBService.customerInsightDetail,
+              (jsonDecode(cust.toJson())));
+          // calculatedPayment.value = ord.payment!;
         }
       }
     }
@@ -258,13 +258,13 @@ class CartController extends GetxController {
     }
   }
 
-  removeProduct(currentKey) async {
-    cartProducts.remove(currentKey);
-    await createOrder();
-  }
+  removeProduct(currentKey, key) async {
+    if (key == 'SCOIN') {
+      cartProductsScoins.remove(currentKey);
+    } else {
+      cartProducts.remove(currentKey);
+    }
 
-  removeProductFromScoin(currentKey) async {
-    cartProductsScoins.remove(currentKey);
     await createOrder();
   }
 
@@ -378,7 +378,7 @@ class CartController extends GetxController {
         });
         cartProducts[refId] = cartRow;
       } else {
-        removeProduct(refId);
+        removeProduct(refId, '');
         return;
       }
     } else {}
@@ -393,12 +393,13 @@ class CartController extends GetxController {
       ProductSummary? product,
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
-      Constraint? constraint) async {
+      Constraint? constraint,
+      Varient? varient) async {
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
-      var getData = cartProducts[refId];
+      var getData = cartProductsScoins[refId];
       int quantity = 0 + addQuantity!;
       List li = [];
       var userType = null;
@@ -411,42 +412,33 @@ class CartController extends GetxController {
         'silverMemberCoin': 0,
         'paidMemberCoin': 0,
       };
-      if (customerInsightDetail['personalInfo'] != null) {
-        userType = customerInsightDetail['personalInfo']['membershipType'];
+      if (Get.isRegistered<Controller>()) {
+        var stateController = Get.find<Controller>();
+        userType = stateController.userType.value;
       }
-      if (products != null) {
-        //  TODO
-      } else {
-        if (getData != null) {
-          quantity = getData.count!;
-          quantity = quantity + addQuantity;
-          if (userType == memberShipType.Gold.name) {
-            priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin;
-            priceObj['platinumMemberCoin'] = priceInfo.goldMemberCoin;
-            priceObj['noMemberCoin'] = priceInfo.goldMemberCoin;
-            priceObj['silverMemberCoin'] = priceInfo.goldMemberCoin;
-            priceObj['paidMemberCoin'] = priceInfo.goldMemberCoin;
-          } else if (userType == memberShipType.Prime.name) {
-            priceObj['goldMemberCoin'] = priceInfo!.platinumMemberCoin;
-            priceObj['platinumMemberCoin'] = priceInfo.platinumMemberCoin;
-            priceObj['noMemberCoin'] = priceInfo.platinumMemberCoin;
-            priceObj['silverMemberCoin'] = priceInfo.platinumMemberCoin;
-            priceObj['paidMemberCoin'] = priceInfo.platinumMemberCoin;
-          } else if (userType == memberShipType.Silver.name) {
-            priceObj['goldMemberCoin'] = priceInfo!.silverMemberCoin;
-            priceObj['platinumMemberCoin'] = priceInfo.silverMemberCoin;
-            priceObj['noMemberCoin'] = priceInfo.silverMemberCoin;
-            priceObj['silverMemberCoin'] = priceInfo.silverMemberCoin;
-            priceObj['paidMemberCoin'] = priceInfo.silverMemberCoin;
-          } else {
-            priceObj['goldMemberCoin'] = priceInfo!.noMemberCoin;
-            priceObj['platinumMemberCoin'] = priceInfo.noMemberCoin;
-            priceObj['noMemberCoin'] = priceInfo.noMemberCoin;
-            priceObj['silverMemberCoin'] = priceInfo.noMemberCoin;
-            priceObj['paidMemberCoin'] = priceInfo.noMemberCoin;
-          }
+      if (getData != null) {
+        quantity = getData.count!;
+        quantity = quantity + addQuantity;
+      }
+      
+      if (userType != null) {
+        if (userType == memberShipType.Gold.name) {
+          priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin;
+        } else if (userType == memberShipType.Platinum.name) {
+          priceObj['platinumMemberCoin'] = priceInfo!.platinumMemberCoin;
+        } else if (userType == memberShipType.Silver.name) {
+          priceObj['silverMemberCoin'] = priceInfo!.silverMemberCoin;
+        } else if (userType == memberShipType.Paid.name) {
+          priceObj['paidMemberCoin'] = priceInfo!.paidMemberCoin;
+        } else {
+          priceObj['noMemberCoin'] = priceInfo!.noMemberCoin;
         }
+      } else {
+        priceObj['noMemberCoin'] = priceInfo!.noMemberCoin;
       }
+
+      product!.varient = varient;
+      // }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
           'products': li.isNotEmpty
@@ -462,7 +454,7 @@ class CartController extends GetxController {
         });
         cartProductsScoins[refId] = cartRow;
       } else {
-        removeProductFromScoin(refId);
+        removeProduct(refId, 'SCOIN');
         return;
       }
     } else {}
@@ -516,7 +508,7 @@ class CartController extends GetxController {
       saveLaterProducts[refId] = cartRow;
     } else {}
     await saveLaterCall();
-    await removeProduct(refId);
+    await removeProduct(refId, '');
   }
 
   createOrder() async {
@@ -533,9 +525,9 @@ class CartController extends GetxController {
       listScoins.add((jsonDecode(v.toJson())));
     }
     if (listScoins.length > 0 && listSumm.length > 0) {
-      selectedPaymentMethod.value = 'STRIPE';
+      selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
     } else if (listScoins.length > 0) {
-      selectedPaymentMethod.value = 'SCOINS ';
+      selectedPaymentMethod.value = 'SCOINS';
     } else if (listSumm.length > 0) {
       selectedPaymentMethod.value = 'MOLLIE';
     }

@@ -228,27 +228,15 @@ class ProductCard extends StatelessWidget {
                                     msg = data['msg'];
                                   }
                                   if (valid) {
-                                    if (addedFrom == 'SCOIN') {
-                                      cartController.addToCartScoins(
-                                          '$refId@${activeVariant.value.varientCode}',
-                                          addedFrom!,
-                                          -1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint);
-                                    } else {
-                                      cartController.addToCart(
-                                          '$refId@${activeVariant.value.varientCode}',
-                                          addedFrom!,
-                                          -1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint);
-                                    }
+                                    cartController.addToCart(
+                                        '$refId@${activeVariant.value.varientCode}',
+                                        addedFrom!,
+                                        -1,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint);
                                   } else {
                                     snackBarClass.showToast(context, msg);
                                   }
@@ -289,27 +277,15 @@ class ProductCard extends StatelessWidget {
                                     msg = data['msg'];
                                   }
                                   if (valid) {
-                                    if (addedFrom == 'SCOIN') {
-                                      cartController.addToCartScoins(
-                                          '$refId@${activeVariant.value.varientCode}',
-                                          addedFrom!,
-                                          -1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint);
-                                    } else {
-                                      cartController.addToCart(
-                                          '$refId@${activeVariant.value.varientCode}',
-                                          addedFrom!,
-                                          1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint);
-                                    }
+                                    cartController.addToCart(
+                                        '$refId@${activeVariant.value.varientCode}',
+                                        addedFrom!,
+                                        1,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint);
                                   } else {
                                     stateController.setCurrentTab(3);
                                     snackBarClass.showToast(context, msg);
@@ -349,16 +325,6 @@ class ProductCard extends StatelessWidget {
                                             '$refId@${activeVariant.value.varientCode}',
                                             addedFrom!,
                                             1,
-                                            dealPrice,
-                                            product,
-                                            null,
-                                            ruleConfig,
-                                            constraint);
-                                      } else if (addedFrom == 'SCOIN') {
-                                        cartController.addToCartScoins(
-                                            '$refId@${activeVariant.value.varientCode}',
-                                            addedFrom!,
-                                            -1,
                                             dealPrice,
                                             product,
                                             null,

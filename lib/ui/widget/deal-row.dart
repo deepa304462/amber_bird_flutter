@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';

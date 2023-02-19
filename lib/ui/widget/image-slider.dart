@@ -73,7 +73,7 @@ class _ImageSlider extends State<ImageSlider> {
                     height: widget.height,
                     viewportFraction: 1,
                     autoPlay: true,
-                    scrollPhysics: BouncingScrollPhysics(),
+                    scrollPhysics: const BouncingScrollPhysics(),
                     onPageChanged: (index, reason) {
                       setState(() {
                         currentPos = index;
@@ -85,8 +85,9 @@ class _ImageSlider extends State<ImageSlider> {
                     builder: (BuildContext context) {
                       return Container(
                           width: widget.width,
-                          margin: EdgeInsets.symmetric(horizontal: 0.0),
-                          decoration: BoxDecoration(color: Colors.transparent),
+                          margin: const EdgeInsets.symmetric(horizontal: 0.0),
+                          decoration:
+                              const BoxDecoration(color: Colors.transparent),
                           child: ImageBox(
                             imageObj.imageId!,
                             width: widget.width,
@@ -108,13 +109,13 @@ class _ImageSlider extends State<ImageSlider> {
                       child: Container(
                         width: 8.0,
                         height: 8.0,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 2.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: currentPos == widget.images.indexOf(e)
-                              ? Color.fromRGBO(0, 0, 0, 0.9)
-                              : Color.fromRGBO(0, 0, 0, 0.4),
+                              ? const Color.fromRGBO(0, 0, 0, 0.9)
+                              : const Color.fromRGBO(0, 0, 0, 0.4),
                         ),
                       ),
                     ))
@@ -138,13 +139,13 @@ class _ImageSlider extends State<ImageSlider> {
           maxScale: widget.maxScale,
         );
       },
-      backgroundDecoration: BoxDecoration(color: Colors.white),
+      backgroundDecoration: const BoxDecoration(color: Colors.white),
       itemCount: widget.images.length,
       loadingBuilder: (context, event) => Center(
         child: Container(
           width: 20.0,
           height: 20.0,
-          child: CircularProgressIndicator(),
+          child: const CircularProgressIndicator(),
         ),
       ),
     ));
