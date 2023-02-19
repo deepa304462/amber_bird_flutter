@@ -1,6 +1,5 @@
 import 'package:amber_bird/data/product_guide/chapter.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,7 @@ class ProductGuideChapter extends StatelessWidget {
         children: [
           Card(
             clipBehavior: Clip.hardEdge,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12))),

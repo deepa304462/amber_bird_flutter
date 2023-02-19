@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart'; 
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -91,8 +88,7 @@ class LoginWidget extends StatelessWidget {
                     child: TextButton(
                       onPressed: () async {
                         isLoading.value = true;
-                        var data = await authController.login();
-                        print(data);
+                        var data = await authController.login(); 
                         if (data['status'] == 'success') {
                           controller.getLoginInfo();
                           controller.isLogin.value = true;
@@ -167,7 +163,7 @@ class LoginWidget extends StatelessWidget {
                               border: Border.all(color: AppColors.white)),
                           child: IconButton(
                             icon: isLoading.value
-                                ? Icon(Icons.refresh_outlined)
+                                ? const Icon(Icons.refresh_outlined)
                                 : Image.asset(
                                     "assets/google_logo.png",
                                     width: 25,
@@ -198,7 +194,7 @@ class LoginWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(color: AppColors.white)),
                           child: IconButton(
-                            icon: Icon(Icons.facebook),
+                            icon: const Icon(Icons.facebook),
                             onPressed: () {},
                           ),
                         ),
@@ -212,7 +208,7 @@ class LoginWidget extends StatelessWidget {
                     text: TextSpan(
                       style: TextStyles.bodyWhiteTitle2,
                       children: <TextSpan>[
-                        TextSpan(text: "Don't have an account? "),
+                        const TextSpan(text: "Don't have an account? "),
                         TextSpan(
                             text: 'Sign up',
                             style: TextStyles.title2Green,

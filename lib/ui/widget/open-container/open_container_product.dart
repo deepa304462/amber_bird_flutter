@@ -2,8 +2,7 @@ import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-
-import '../../pages/product_detail_screen.dart';
+ 
 
 class OpenContainerProduct extends StatelessWidget {
   const OpenContainerProduct(
@@ -38,7 +37,7 @@ class OpenContainerProduct extends StatelessWidget {
         );
       },
       openBuilder: (BuildContext context, VoidCallback _) {
-        return SizedBox();
+        return const SizedBox();
         // ProductDetailScreen(product, refId!, addedFrom!);
       },
     );

@@ -17,7 +17,10 @@ class Helper {
   }
 
   static double getFormattedNumber(num) {
-    return double.parse((num).toStringAsFixed(2));
+    if (num != null) {
+      return double.parse((num).toStringAsFixed(2));
+    } else
+      return 0;
   }
 
   static Future<Ref> getCustomerRef() async {
@@ -27,8 +30,8 @@ class Helper {
         {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});
   }
 
-  static Future<dynamic> checkProductValidtoAddinCart(
-      RuleConfig? ruleConfig, Constraint? constraint, String id,String cartId) async {
+  static Future<dynamic> checkProductValidtoAddinCart(RuleConfig? ruleConfig,
+      Constraint? constraint, String id, String cartId) async {
     if (ruleConfig != null && ruleConfig.forWeekDays != null) {
       var insight =
           await OfflineDBService.get(OfflineDBService.customerInsight);
@@ -55,15 +58,15 @@ class Helper {
         }
       }
 
-      if (ruleConfig.onlyForGoldenMember == true &&
+      if (ruleConfig.onlyForGoldMember == true &&
           custInsight.membershipType != memberShipType.Gold.name) {
         return ({
           'error': true,
           'msg': 'Deal is applicable for only Golden member'
         });
       }
-      if (ruleConfig.onlyForPrimeMember == true &&
-          custInsight.membershipType != memberShipType.Prime.name) {
+      if (ruleConfig.onlyForPlatinumMember == true &&
+          custInsight.membershipType != memberShipType.Platinum.name) {
         return ({
           'error': true,
           'msg': 'Deal is applicable for only Prime member'
@@ -78,7 +81,8 @@ class Helper {
       }
     }
     if (constraint != null &&
-        constraint.maximumOrder != null && constraint.maximumOrder != 0) {
+        constraint.maximumOrder != null &&
+        constraint.maximumOrder != 0) {
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
         if (cartController.cartProducts.value[cartId] != null) {

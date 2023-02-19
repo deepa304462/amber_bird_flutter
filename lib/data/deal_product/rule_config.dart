@@ -6,9 +6,11 @@ class RuleConfig {
   String? willExpireAt;
   String? willStartAt;
   dynamic? minCartAmount;
-  bool? onlyForPrimeMember;
+  bool? onlyForPlatinumMember;
   bool? onlyForSilverMember;
-  bool? onlyForGoldenMember;
+  bool? onlyForGoldMember;
+  bool? onlyForPaidMember;
+  bool? onlyForNoMember;
   List<dynamic>? forWeekDays;
   ApplyOnlyForLocation? applyOnlyForLocation;
 
@@ -16,25 +18,29 @@ class RuleConfig {
     this.willExpireAt,
     this.willStartAt,
     this.minCartAmount,
-    this.onlyForPrimeMember,
+    this.onlyForPlatinumMember,
     this.onlyForSilverMember,
-    this.onlyForGoldenMember,
+    this.onlyForGoldMember,
+    this.onlyForNoMember,
+    this.onlyForPaidMember,
     this.forWeekDays,
     this.applyOnlyForLocation,
   });
 
   @override
   String toString() {
-    return 'RuleConfig(willExpireAt: $willExpireAt, willStartAt: $willStartAt, minCartAmount: $minCartAmount, onlyForPrimeMember: $onlyForPrimeMember, onlyForSilverMember: $onlyForSilverMember, onlyForGoldenMember: $onlyForGoldenMember, forWeekDays: $forWeekDays, applyOnlyForLocation: $applyOnlyForLocation)';
+    return 'RuleConfig(willExpireAt: $willExpireAt, willStartAt: $willStartAt, minCartAmount: $minCartAmount, onlyForPlatinumMember: $onlyForPlatinumMember, onlyForSilverMember: $onlyForSilverMember, onlyForGoldMember: $onlyForGoldMember, onlyForNoMember: $onlyForNoMember, onlyForPaidMember: $onlyForPaidMember, forWeekDays: $forWeekDays, applyOnlyForLocation: $applyOnlyForLocation)';
   }
 
   factory RuleConfig.fromMap(Map<String, dynamic> data) => RuleConfig(
         willExpireAt: data['willExpireAt'] as String?,
         willStartAt: data['willStartAt'] as String?,
         minCartAmount: data['minCartAmount'] as dynamic?,
-        onlyForPrimeMember: data['onlyForPrimeMember'] as bool?,
+        onlyForPlatinumMember: data['onlyForPlatinumMember'] as bool?,
         onlyForSilverMember: data['onlyForSilverMember'] as bool?,
-        onlyForGoldenMember: data['onlyForGoldenMember'] as bool?,
+        onlyForGoldMember: data['onlyForGoldMember'] as bool?,
+        onlyForNoMember: data['onlyForNoMember'] as bool?,
+        onlyForPaidMember: data['onlyForPaidMember'] as bool?,
         forWeekDays: data['forWeekDays'] as List<dynamic>?,
         applyOnlyForLocation: data['applyOnlyForLocation'] == null
             ? null
@@ -46,9 +52,11 @@ class RuleConfig {
         'willExpireAt': willExpireAt,
         'willStartAt': willStartAt,
         'minCartAmount': minCartAmount,
-        'onlyForPrimeMember': onlyForPrimeMember,
+        'onlyForPlatinumMember': onlyForPlatinumMember,
         'onlyForSilverMember': onlyForSilverMember,
-        'onlyForGoldenMember': onlyForGoldenMember,
+        'onlyForGoldMember': onlyForGoldMember,
+        'onlyForNoMember': onlyForNoMember,
+        'onlyForPaidMember': onlyForPaidMember,
         'forWeekDays': forWeekDays,
         'applyOnlyForLocation': applyOnlyForLocation?.toMap(),
       };
@@ -69,9 +77,11 @@ class RuleConfig {
     String? willExpireAt,
     String? willStartAt,
     dynamic? minCartAmount,
-    bool? onlyForPrimeMember,
+    bool? onlyForPlatinumMember,
     bool? onlyForSilverMember,
-    bool? onlyForGoldenMember,
+    bool? onlyForGoldMember,
+    bool? onlyForNoMember,
+    bool? onlyForPaidMember,
     List<dynamic>? forWeekDays,
     ApplyOnlyForLocation? applyOnlyForLocation,
   }) {
@@ -79,9 +89,11 @@ class RuleConfig {
       willExpireAt: willExpireAt ?? this.willExpireAt,
       willStartAt: willStartAt ?? this.willStartAt,
       minCartAmount: minCartAmount ?? this.minCartAmount,
-      onlyForPrimeMember: onlyForPrimeMember ?? this.onlyForPrimeMember,
+      onlyForPlatinumMember: onlyForPlatinumMember ?? this.onlyForPlatinumMember,
       onlyForSilverMember: onlyForSilverMember ?? this.onlyForSilverMember,
-      onlyForGoldenMember: onlyForGoldenMember ?? this.onlyForGoldenMember,
+      onlyForGoldMember: onlyForGoldMember ?? this.onlyForGoldMember,
+      onlyForNoMember: onlyForNoMember ?? this.onlyForNoMember,
+      onlyForPaidMember: onlyForPaidMember ?? this.onlyForPaidMember,
       forWeekDays: forWeekDays ?? this.forWeekDays,
       applyOnlyForLocation: applyOnlyForLocation ?? this.applyOnlyForLocation,
     );

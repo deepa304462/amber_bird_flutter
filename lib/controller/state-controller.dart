@@ -28,6 +28,7 @@ class Controller extends GetxController {
   var backButtonPress = 0.obs;
   RxString tokenManagerEntityId = ''.obs;
   RxString loggedInPRofileId = ''.obs;
+  RxString userType = ''.obs;
 
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
@@ -111,6 +112,9 @@ class Controller extends GetxController {
           (jsonDecode(jsonEncode(customerInsightDetail.data)))
               as Map<String, dynamic>);
       customerDetail.value = cust;
+      if (customerDetail.value.personalInfo != null) {
+        userType.value = customerDetail.value.personalInfo!.membershipType!;
+      }
       if (Get.isRegistered<CartController>()) {
         var cartController = Get.find<CartController>();
 
@@ -145,10 +149,10 @@ class Controller extends GetxController {
         path: 'customerInsight', id: tokenManagerEntityId);
     if (customerInsightData.statusCode == 200) {
       OfflineDBService.save(
-          OfflineDBService.customerInsight, customerInsightData.data); 
+          OfflineDBService.customerInsight, customerInsightData.data);
       CustomerInsight cust = CustomerInsight.fromMap(
           customerInsightData.data as Map<String, dynamic>);
-      customerInsight.value= cust;
+      customerInsight.value = cust;
     }
   }
 
@@ -281,6 +285,7 @@ class Controller extends GetxController {
         'name': loggedInProfile.value.fullName
       });
       FCMSyncService.tokenSync(data);
+
       loggedInPRofileId.value = loggedInProfile.value.id!;
       // tokenManagerEntityId.value = loggedInProfile.value.id!;
 

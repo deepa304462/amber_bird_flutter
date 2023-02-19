@@ -24,7 +24,7 @@ class ProductGuideRow extends StatelessWidget {
                 () => ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: productGuideController.productGuides.value
                       .map((e) => ProductGuideCard(e))
                       .toList(),

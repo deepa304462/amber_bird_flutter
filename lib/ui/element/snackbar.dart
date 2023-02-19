@@ -12,7 +12,7 @@ class snackBarClass {
         //   },
         // ),
         content: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Text(
             msg ?? "Please try again!",
             style: TextStyles.title
@@ -24,7 +24,8 @@ class snackBarClass {
         behavior: SnackBarBehavior.floating,
         backgroundColor: AppColors.primeColor,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12), topRight: Radius.circular(12)),
             side: BorderSide(
               color: AppColors.white,
               width: 1,

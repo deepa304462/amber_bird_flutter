@@ -186,7 +186,7 @@ class SignUp extends StatelessWidget {
                             border: Border.all(color: AppColors.white)),
                         child: IconButton(
                             icon: isLoading.value
-                                ? Icon(Icons.refresh_outlined)
+                                ? const Icon(Icons.refresh_outlined)
                                 : Image.asset(
                                     "assets/google_logo.png",
                                     width: 25,
@@ -218,7 +218,7 @@ class SignUp extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: AppColors.white)),
                         child: IconButton(
-                          icon: Icon(Icons.facebook),
+                          icon: const Icon(Icons.facebook),
                           onPressed: () async {
                             isLoading.value = true;
                             var data = await mController.signInWithFacebook();

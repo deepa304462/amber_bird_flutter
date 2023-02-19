@@ -8,9 +8,9 @@ class Fonts {
 class AppColors {
   static Color primeColor = HexColor("#8e192d"); //Colors.red.shade800;
   static Color white = Colors.white;
-  static Color secondaryColor = Color.fromARGB(255, 244, 182, 218);
+  static Color secondaryColor = const Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
-  static Color darkOrange = Color.fromARGB(213, 255, 192, 46);
+  static Color darkOrange = const Color.fromARGB(213, 255, 192, 46);
   static Color grey = HexColor("#989898");
   static Color golden = HexColor("#e1b530");
   static Color backgroundGrey = HexColor("#efefef");
@@ -34,8 +34,7 @@ class TextStyles {
       fontFamily: Fonts.title,
       fontSize: FontSizes.xLarge,
       fontWeight: FontWeight.bold,
-      color: Color.fromARGB(255, 56, 53, 53));
-
+      color: const Color.fromARGB(255, 56, 53, 53));
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
   static TextStyle get bodyFontBold =>
       TextStyle(fontFamily: Fonts.body, fontWeight: FontWeight.bold);
@@ -93,7 +92,6 @@ class TextStyles {
       titleFont.copyWith(fontSize: FontSizes.title, color: Colors.white);
   static TextStyle get titleLight =>
       title.copyWith(fontWeight: FontWeight.w300);
-
   static TextStyle get body =>
       bodyFont.copyWith(fontSize: FontSizes.body, fontWeight: FontWeight.w300);
   static TextStyle get bodyGreen => bodyFont.copyWith(
@@ -142,23 +140,21 @@ class TextStyles {
   static TextStyle get mrpStyle => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.body,
-      color: Color.fromARGB(255, 104, 35, 35));
-
+      color: const Color.fromARGB(255, 104, 35, 35));
   static TextStyle get prieLinThroughStyle => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.body,
       decoration: TextDecoration.lineThrough,
-      color: Color.fromARGB(255, 196, 186, 186));
+      color: const Color.fromARGB(255, 196, 186, 186));
 }
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
+      hexColor = "FF$hexColor";
     }
     return int.parse(hexColor, radix: 16);
   }
-
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

@@ -109,7 +109,7 @@ class PaymentStatusWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   height: 170,
-                  padding: EdgeInsets.all(35),
+                  padding: const EdgeInsets.all(35),
                   decoration: BoxDecoration(
                     color: AppColors.primeColor,
                     shape: BoxShape.circle,
@@ -131,14 +131,14 @@ class PaymentStatusWidget extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.01),
                 Text(
                   "Payment is ${cartController.paymentData.value!.status}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.w400,
                     fontSize: 17,
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.05),
-                Text(
+                const Text(
                   "You will be redirected to the home page shortly\nor click here to return to home page",
                   textAlign: TextAlign.center,
                   style: TextStyle(

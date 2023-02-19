@@ -1,4 +1,3 @@
-import 'package:amber_bird/data/deal_product/deal_price.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:animations/animations.dart';

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -130,6 +131,7 @@ class AuthController extends GetxController {
         if (tokenResp.statusCode == 200) {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
           SharedData.save(true.toString(), 'isLogin');
+          FCMSyncService.subcribeTopic('all');
           return {"msg": "Login Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
@@ -201,6 +203,7 @@ class AuthController extends GetxController {
                 payload: userPayload);
             if (userUpdateResp.statusCode == 200) {
               SharedData.save(true.toString(), 'isLogin');
+              FCMSyncService.subcribeTopic('all');
               return {
                 "msg": "Account Created Successfully!!",
                 "status": "success"
@@ -210,6 +213,7 @@ class AuthController extends GetxController {
             }
           } else {
             SharedData.save(true.toString(), 'isLogin');
+            FCMSyncService.subcribeTopic('all');
             return {
               "msg": "Account Created Successfully!!",
               "status": "success"

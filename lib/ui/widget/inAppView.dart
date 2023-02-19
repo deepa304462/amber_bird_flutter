@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -31,17 +28,7 @@ class _MyAppState extends State<InApp> {
   Widget build(BuildContext context) {
     dynamic args = ModalRoute.of(context)!.settings.arguments;
     return Container(
-      child: Column(children: <Widget>[
-        // Container(
-        //   padding: EdgeInsets.all(20.0),
-        //   child: Text(
-        //       "CURRENT URL\n${(url.length > 50) ? url.substring(0, 50) + "..." : url}"),
-        // ),
-        // Container(
-        //     padding: EdgeInsets.all(10.0),
-        //     child: progress < 1.0
-        //         ? LinearProgressIndicator(value: progress)
-        //         : Container()),
+      child: Column(children: <Widget>[ 
         Expanded(
           child: Container(
             margin: const EdgeInsets.all(10.0),
@@ -69,45 +56,11 @@ class _MyAppState extends State<InApp> {
                   CartController cartController = Get.find();
                   cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');
-                }
-                // log(androidIsReload.toString());
-                // setState(() {
-                //   this.url = url.toString();
-                //   urlController.text = this.url;
-                // });
+                } 
               },
             ),
           ),
-        ),
-        // ButtonBar(
-        //   alignment: MainAxisAlignment.center,
-        //   children: <Widget>[
-        //     ElevatedButton(
-        //       child: Icon(Icons.arrow_back),
-        //       onPressed: () {
-        //         if (_webViewController != null) {
-        //           _webViewController.goBack();
-        //         }
-        //       },
-        //     ),
-        //     ElevatedButton(
-        //       child: Icon(Icons.arrow_forward),
-        //       onPressed: () {
-        //         if (_webViewController != null) {
-        //           _webViewController.goForward();
-        //         }
-        //       },
-        //     ),
-        //     ElevatedButton(
-        //       child: Icon(Icons.refresh),
-        //       onPressed: () {
-        //         if (_webViewController != null) {
-        //           _webViewController.reload();
-        //         }
-        //       },
-        //     ),
-        //   ],
-        // ),
+        )
       ]),
     );
   }

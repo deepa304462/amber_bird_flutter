@@ -115,7 +115,6 @@ class LocationController extends GetxController {
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
     mapLoad.value = true;
-
     mapLoad.value = false;
   }
 
