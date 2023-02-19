@@ -217,114 +217,119 @@ class CategoryPage extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (_, index) {
           Multi mProduct = megaMenuController.multiProd[index];
-          return Card(
-            child: Column(
-              children: [
-                ImageBox(
-                  mProduct.displayImageId != null &&
-                          mProduct.displayImageId!.length > 3
-                      ? mProduct.displayImageId!
-                      : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                  height: 60,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5.0),
-                  height: 160,
-                  child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: [
-                        for (var i = 0; i < mProduct.products!.length; i++) ...[
+          return SizedBox(
+            height: 320,
+            child: Card(
+              child: Column(
+                children: [
+                  ImageBox(
+                    mProduct.displayImageId != null &&
+                            mProduct.displayImageId!.length > 3
+                        ? mProduct.displayImageId!
+                        : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(5.0),
+                    height: 160,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          for (var i = 0;
+                              i < mProduct.products!.length;
+                              i++) ...[
+                            SizedBox(
+                              width: 150,
+                              child: ProductCard(
+                                  mProduct.products![i],
+                                  mProduct.products![i].id,
+                                  'MULTIPRODUCT',
+                                  fixedHeight: true,
+                                  mProduct.products![i].varient!.price!,
+                                  null,
+                                  null),
+                            )
+                          ]
+                        ]),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            mProduct.name!.defaultText!.text ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 25,
+                                color: Colors.grey),
+                          ),
                           SizedBox(
-                            width: 150,
-                            child: ProductCard(
-                                mProduct.products![i],
-                                mProduct.products![i].id,
-                                'MULTIPRODUCT',
-                                fixedHeight: true,
-                                mProduct.products![i].varient!.price!,
-                                null,
-                                null),
-                          )
-                        ]
-                      ]),
-                ),
-                Align(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  child: Container(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          mProduct.name!.defaultText!.text ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 25,
-                              color: Colors.grey),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .8,
-                          child: Row(
-                            children: [
-                              PriceTag(mProduct.price!.offerPrice.toString(),
-                                  mProduct.price!.actualPrice.toString()),
-                              const Spacer(),
-                              CircleAvatar(
-                                backgroundColor: AppColors.primeColor,
-                                radius: 20,
-                                child: IconButton(
-                                  padding: const EdgeInsets.all(1),
-                                  constraints: const BoxConstraints(),
-                                  onPressed: () {
-                                    showModalBottomSheet<void>(
-                                      // context and builder are
-                                      // required properties in this widget
-                                      context: context,
-                                      useRootNavigator: true,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(13)),
-                                      backgroundColor: Colors.white,
-                                      isScrollControlled: true,
-                                      elevation: 3,
-                                      builder: (context) {
-                                        // return _bottomSheetAddToCart(product, context);
-                                        return DealBottomDrawer(
-                                          mProduct.products,
-                                          mProduct.id,
-                                          'CATEGORY',
-                                          mProduct.price,
-                                          mProduct.constraint,
-                                          mProduct.name,
-                                          'MULTIPRODUCT',
-                                        );
-                                      },
-                                    );
-                                    // cartController.addToCart(product!, refId!, addedFrom!);
-                                  },
-                                  icon: const Icon(
-                                    Icons.add,
+                            width: MediaQuery.of(context).size.width * .8,
+                            child: Row(
+                              children: [
+                                PriceTag(mProduct.price!.offerPrice.toString(),
+                                    mProduct.price!.actualPrice.toString()),
+                                const Spacer(),
+                                CircleAvatar(
+                                  backgroundColor: AppColors.primeColor,
+                                  radius: 20,
+                                  child: IconButton(
+                                    padding: const EdgeInsets.all(1),
+                                    constraints: const BoxConstraints(),
+                                    onPressed: () {
+                                      showModalBottomSheet<void>(
+                                        // context and builder are
+                                        // required properties in this widget
+                                        context: context,
+                                        useRootNavigator: true,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(13)),
+                                        backgroundColor: Colors.white,
+                                        isScrollControlled: true,
+                                        elevation: 3,
+                                        builder: (context) {
+                                          // return _bottomSheetAddToCart(product, context);
+                                          return DealBottomDrawer(
+                                            mProduct.products,
+                                            mProduct.id,
+                                            'CATEGORY',
+                                            mProduct.price,
+                                            mProduct.constraint,
+                                            mProduct.name,
+                                            'MULTIPRODUCT',
+                                          );
+                                        },
+                                      );
+                                      // cartController.addToCart(product!, refId!, addedFrom!);
+                                    },
+                                    icon: const Icon(
+                                      Icons.add,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           );
         },
