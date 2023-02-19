@@ -7,14 +7,9 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
-import 'package:amber_bird/ui/widget/product-card.dart';
-import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class ScoinProductRow extends StatelessWidget {
@@ -69,17 +64,13 @@ class ScoinProductRow extends StatelessWidget {
                           // This is what you need!
                         ),
                       ),
-
-                      // Text(
-                      //   'View More',
-                      //   style: TextStyles.headingFontBlue,
-                      // ),
                     ],
                   ),
                 ),
                 SizedBox(
                     height: 220,
-                    child: ScoinProductCard(scoinController, context))
+                    child: ScoinProductCard(scoinController, context)
+                    )
               ],
             ),
           ),
@@ -100,15 +91,17 @@ class ScoinProductRow extends StatelessWidget {
           itemBuilder: (_, index) {
             ProductSummary dProduct = scoinController.sCoinProd[index];
             return SizedBox(
-                width: 150,
-                child: ProductCardScoin(
-                    fixedHeight: true,
-                    dProduct,
-                    dProduct.id,
-                    'SCOIN',
-                    dProduct.varient!.price,
-                    RuleConfig(),
-                    Constraint()));
+              width: 150,
+              child: ProductCardScoin(
+                fixedHeight: true,
+                dProduct,
+                dProduct.id,
+                'SCOIN',
+                dProduct.varient!.price,
+                RuleConfig(),
+                Constraint(),
+              ),
+            );
           },
         ),
       ),

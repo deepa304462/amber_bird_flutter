@@ -188,7 +188,7 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.productResp.value.response!.docs!.map(
         (product) {
           return Container(
-            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            decoration: const BoxDecoration(border: Border(bottom: BorderSide())),
             child: ListTile(
               onTap: () {
                 close(context, null);
@@ -216,7 +216,7 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.categoryResp.value.response!.docs!.map(
         (category) {
           return Container(
-              decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+              decoration: const BoxDecoration(border: Border(bottom: BorderSide())),
               child: ListTile(
                 onTap: () {
                   close(context, null);
@@ -244,7 +244,7 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.brandResp.value.response!.docs!.map(
         (brand) {
           return Container(
-            decoration: BoxDecoration(border: Border(bottom: BorderSide())),
+            decoration: const BoxDecoration(border: Border(bottom: BorderSide())),
             child: ListTile(
               onTap: () {
                 close(context, null);

@@ -163,7 +163,7 @@ class _BottomBarItemState extends State<BottomBarItem>
     super.initState();
     if (widget.controller == null) {
       controller = AnimationController(
-          vsync: this, duration: Duration(milliseconds: 200));
+          vsync: this, duration: const Duration(milliseconds: 200));
     } else {
       controller = widget.controller;
     }

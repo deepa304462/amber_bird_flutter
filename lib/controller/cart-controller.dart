@@ -449,7 +449,7 @@ class CartController extends GetxController {
           'ref': {'_id': refId, 'name': addedFrom},
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
-          'productType': li.isNotEmpty ? null : product!.type,
+          'productType': li.isNotEmpty ? null : product.type,
           'price': (jsonDecode(jsonEncode(priceObj)) ?? "{}")
         });
         cartProductsScoins[refId] = cartRow;
