@@ -56,20 +56,6 @@ class _CartWidget extends State<CartWidget> {
     )));
   }
 
-  getMemberCoinValue(Price price) {
-    if (stateController.userType.value == memberShipType.Paid.name) {
-      return price.paidMemberCoin;
-    } else if (stateController.userType.value == memberShipType.Platinum.name) {
-      return price.platinumMemberCoin;
-    } else if (stateController.userType.value == memberShipType.Gold.name) {
-      return price.goldMemberCoin;
-    } else if (stateController.userType.value == memberShipType.Silver.name) {
-      return price.silverMemberCoin;
-    } else {
-      return price.noMemberCoin;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
@@ -152,7 +138,7 @@ class _CartWidget extends State<CartWidget> {
                                 Text(
                                     '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit}'),
                                 Text(
-                                    '${cartController.cartProductsScoins[currentKey]!.count!.toString()} * ${getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!)} '),
+                                    '${cartController.cartProductsScoins[currentKey]!.count!.toString()} * ${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
                                 Row(
                                   children: [
                                     IconButton(
@@ -236,27 +222,6 @@ class _CartWidget extends State<CartWidget> {
                                                   .product
                                                   .varient);
 
-                                          // cartController.addToCartScoins(
-                                          //     '${cartController.cartProductsScoins[currentKey].ref!.id}',
-                                          //     cartController
-                                          //         .cartProductsScoins[
-                                          //             currentKey]
-                                          //         .ref!
-                                          //         .name!,
-                                          //     1,
-                                          //     cartController
-                                          //         .cartProductsScoins[
-                                          //             currentKey]
-                                          //         .price,
-                                          //     cartController
-                                          //         .cartProductsScoins[
-                                          //             currentKey]
-                                          //         .product,
-                                          //     null,
-                                          //     cartController
-                                          //         .cartProductsScoins[
-                                          //             currentKey]
-                                          //         .product.varient);
                                         } else {
                                           var showToast =
                                               snackBarClass.showToast(
@@ -273,12 +238,15 @@ class _CartWidget extends State<CartWidget> {
                                 )
                               ],
                             ),
-                            Text(Helper.getFormattedNumber(getMemberCoinValue(
+                            Text(Helper.getFormattedNumber(
+                                    Helper.getMemberCoinValue(
+                                            cartController
+                                                .cartProductsScoins[currentKey]!
+                                                .price!,
+                                            stateController.userType.value) *
                                         cartController
                                             .cartProductsScoins[currentKey]!
-                                            .price!) *
-                                    cartController
-                                        .cartProductsScoins[currentKey]!.count)
+                                            .count)
                                 .toString()),
                             Positioned(
                               right: 990,

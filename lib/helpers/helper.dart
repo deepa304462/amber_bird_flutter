@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
+import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/data/profile/ref.dart';
@@ -23,6 +24,19 @@ class Helper {
       return 0;
   }
 
+  static dynamic getMemberCoinValue(Price price,String userType) {
+    if (userType == memberShipType.Paid.name) {
+      return price.paidMemberCoin;
+    } else if (userType == memberShipType.Platinum.name) {
+      return price.platinumMemberCoin;
+    } else if (userType == memberShipType.Gold.name) {
+      return price.goldMemberCoin;
+    } else if (userType == memberShipType.Silver.name) {
+      return price.silverMemberCoin;
+    } else {
+      return price.noMemberCoin;
+    }
+  }
   static Future<Ref> getCustomerRef() async {
     var data = jsonDecode(await SharedData.read('userData'));
     print(data);
