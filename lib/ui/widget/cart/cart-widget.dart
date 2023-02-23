@@ -233,7 +233,6 @@ class _CartWidget extends State<CartWidget> {
                                                       currentKey]
                                                   .product
                                                   .varient);
-
                                         } else {
                                           var showToast =
                                               snackBarClass.showToast(
@@ -842,8 +841,7 @@ class _CartWidget extends State<CartWidget> {
                     children: [
                       Text(
                         'Shipping Address',
-                        style: TextStyles.titleLargeBold
-                            .copyWith(color: Colors.grey, fontSize: 20),
+                        style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
                       ),
                       MaterialButton(
                           onPressed: (() =>
@@ -864,18 +862,40 @@ class _CartWidget extends State<CartWidget> {
                           ))
                     ],
                   ),
-                  Row(
-                    children: [
-                      Text(add.value.name ?? '', style: TextStyles.headingFont),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text('(ZipCode: ${add.value.zipCode ?? ''})',
-                          style: TextStyles.headingFont
-                              .copyWith(color: Colors.grey))
-                    ],
+                  Card(
+                    color: Colors.grey.shade300,
+                    elevation: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(add.value.name ?? '',
+                                style: TextStyles.bodyFont),
+                            Row(
+                              children: [
+                                Text('(ZipCode: ${add.value.zipCode ?? ''})',
+                                    style: TextStyles.bodyFont.copyWith()),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text(add.value.line1 ?? '',
+                                    style: TextStyles.bodyFont),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
                 ],
               ),
             ),
