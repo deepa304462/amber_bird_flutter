@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class FitText extends StatelessWidget {
   final String text;
   TextStyle style = TextStyles.bodyFont;
-  FitText(this.text, {TextStyle? style, Key? key}) : super(key: key) {
+  TextAlign align = TextAlign.start;
+  FitText(this.text,
+      {TextStyle? style, TextAlign align = TextAlign.center, Key? key})
+      : super(key: key) {
     if (style != null) {
       this.style = style;
     } else {
@@ -17,9 +20,11 @@ class FitText extends StatelessWidget {
     return text != null && text != ''
         ? FittedBox(
             fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
             child: Text(
               text,
               style: style,
+              textAlign: align,
             ),
           )
         : const SizedBox();
