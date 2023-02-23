@@ -7,6 +7,7 @@ import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
@@ -165,15 +166,10 @@ class ProductCardScoin extends StatelessWidget {
                         )
                       : const SizedBox(),
               checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
-                      ? Text(
-                          "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
-                          style: TextStyles.titleLargeBold,
-                        )
-                      : PriceTag(
+                  ?  PriceTag(
                           dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString(),
-                          scoin: dealPrice?.noMemberCoin!,
+                          scoin: Helper.getMemberCoinValue(dealPrice?.noMemberCoin!,stateController.userType.value),
                         )
                   : const SizedBox(),
             ],
