@@ -182,13 +182,19 @@ class CategoryPage extends StatelessWidget {
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
-      child: GridView.builder(
-        physics: const BouncingScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-        scrollDirection: Axis.vertical,
+      //   child: GridView.builder(
+      //     physics: const BouncingScrollPhysics(),
+      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //         crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
+      //     scrollDirection: Axis.vertical,
+      //     itemCount: megaMenuController.dealProductList.length,
+      //     shrinkWrap: true,
+      //     itemBuilder: (_, index) {
+      child: MasonryGridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
         itemCount: megaMenuController.dealProductList.length,
-        shrinkWrap: true,
         itemBuilder: (_, index) {
           DealProduct dealProduct = megaMenuController.dealProductList[index];
           if (dealProduct.product != null) {
