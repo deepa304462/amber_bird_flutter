@@ -11,6 +11,7 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/cart/save-later-widget.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -37,6 +38,17 @@ class _CartWidget extends State<CartWidget> {
   void initState() {
     super.initState();
 
+    innerLists.add(SliverList(
+        delegate: SliverChildBuilderDelegate(
+      (BuildContext context, int index) => ListView(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        children: [
+          shippingAddress(context),
+        ],
+      ),
+      childCount: 1,
+    )));
     innerLists.add(SliverList(
         delegate: SliverChildBuilderDelegate(
       (BuildContext context, int index) =>
@@ -365,13 +377,11 @@ class _CartWidget extends State<CartWidget> {
                                               ),
                                               Column(
                                                 children: [
-                                                  SizedBox(
-                                                    width: 160,
-                                                    child: Text(currentProduct
-                                                        .name!
-                                                        .defaultText!
-                                                        .text!),
-                                                  ),
+                                                  FitText(
+                                                      currentProduct.name!
+                                                          .defaultText!.text!,
+                                                      style: TextStyles
+                                                          .bodyFontBold),
                                                   Text(
                                                       '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
                                                   Text(
@@ -561,41 +571,52 @@ class _CartWidget extends State<CartWidget> {
                             )
                           ],
                         )
-                      : Card(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ImageBox(
-                                    cartController.cartProducts
-                                        .value[currentKey]!.product!.images![0],
-                                    width: 80,
-                                    height: 80,
-                                  ),
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        width: 160,
-                                        child: Text(cartController
-                                            .cartProducts
-                                            .value[currentKey]!
-                                            .product!
-                                            .name!
-                                            .defaultText!
-                                            .text!),
-                                      ),
-                                      Text(
-                                          '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
-                                      Text(
-                                          '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
-                                      Row(
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                dense: false,
+                                visualDensity: VisualDensity(vertical: 3),
+                                leading: ImageBox(
+                                  cartController.cartProducts.value[currentKey]!
+                                      .product!.images![0],
+                                  width: 80,
+                                  height: 200,
+                                  fit: BoxFit.contain,
+                                ),
+                                title: FitText(
+                                  cartController.cartProducts.value[currentKey]!
+                                      .product!.name!.defaultText!.text!,
+                                  style: TextStyles.bodyFontBold,
+                                  align: TextAlign.start,
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    Text(
+                                        '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
+                                    Text(
+                                        '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                  ],
+                                ),
+                                trailing: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
+                                      style: TextStyles.titleLargeBold,
+                                    ),
+                                    Card(
+                                      color: AppColors.primeColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
-                                            padding: const EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
                                               stateController.showLoader.value =
@@ -633,16 +654,24 @@ class _CartWidget extends State<CartWidget> {
                                                   false;
                                             },
                                             icon: const Icon(
-                                                Icons.remove_circle_outline,
-                                                color: Colors.black),
+                                              Icons.remove_circle_outline,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
                                           ),
-                                          Text(cartController
-                                              .getCurrentQuantity(
-                                                  '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                  '')
-                                              .toString()),
+                                          Text(
+                                            cartController
+                                                .getCurrentQuantity(
+                                                    '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                    '')
+                                                .toString(),
+                                            style: TextStyles.bodyFontBold
+                                                .copyWith(
+                                                    fontSize: 20,
+                                                    color: Colors.white),
+                                          ),
                                           IconButton(
-                                            padding: const EdgeInsets.all(8),
+                                            padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
                                               stateController.showLoader.value =
@@ -717,33 +746,46 @@ class _CartWidget extends State<CartWidget> {
                                                   false;
                                             },
                                             icon: const Icon(
-                                                Icons.add_circle_outline,
-                                                color: Colors.black),
+                                              Icons.add_circle_outline,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
                                           ),
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}'),
-                                  Positioned(
-                                    right: 990,
-                                    top: 50,
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        stateController.showLoader.value = true;
-                                        await cartController.removeProduct(
-                                            currentKey, '');
-                                        stateController.showLoader.value =
-                                            false;
-                                      },
-                                      icon: const Icon(Icons.close_rounded),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  cartButtons(
+                                      context, cartController, currentKey),
+                                  MaterialButton(
+                                    onPressed: () async {
+                                      stateController.showLoader.value = true;
+                                      await cartController.removeProduct(
+                                          currentKey, '');
+                                      stateController.showLoader.value = false;
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.delete,
+                                          size: 20,
+                                          color: Colors.grey,
+                                        ),
+                                        Text(
+                                          'Remove',
+                                          style: TextStyles.body.copyWith(
+                                              color: Colors.grey, fontSize: 16),
+                                        )
+                                      ],
                                     ),
                                   )
                                 ],
-                              ),
-                              cartButtons(context, cartController, currentKey)
-                            ]),
+                              )
+                            ],
                           ),
                         ),
                   checkoutClicked.value &&
@@ -818,29 +860,57 @@ class _CartWidget extends State<CartWidget> {
     LocationController locationController = Get.find();
     log(locationController.addressData.toString());
     var add = locationController.addressData;
-    return Obx(() => Container(
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.all(2.0),
-          padding: const EdgeInsets.all(3.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: const Color.fromARGB(255, 113, 116, 122)),
-          ),
-          child: Column(
-            children: [
-              Text(
-                'Address',
-                style: TextStyles.titleLargeBold,
+    return Obx(() => Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Shipping Address',
+                        style: TextStyles.titleLargeBold
+                            .copyWith(color: Colors.grey, fontSize: 20),
+                      ),
+                      MaterialButton(
+                          onPressed: (() =>
+                              {Modular.to.navigate('../home/address-list')}),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Edit',
+                                style: TextStyles.bodyFont.copyWith(
+                                    color: AppColors.primeColor, fontSize: 20),
+                              ),
+                              Icon(
+                                Icons.edit,
+                                color: AppColors.primeColor,
+                                size: 20,
+                              ),
+                            ],
+                          ))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(add.value.name ?? '', style: TextStyles.headingFont),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text('(ZipCode: ${add.value.zipCode ?? ''})',
+                          style: TextStyles.headingFont
+                              .copyWith(color: Colors.grey))
+                    ],
+                  ),
+                  Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
+                ],
               ),
-              Text(add.value.name ?? '', style: TextStyles.headingFont),
-              Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
-              Text('ZipCode: ${add.value.zipCode ?? ''}',
-                  style: TextStyles.headingFont),
-              IconButton(
-                  onPressed: (() =>
-                      {Modular.to.navigate('../home/address-list')}),
-                  icon: const Icon(Icons.edit))
-            ],
+            ),
           ),
         ));
   }
@@ -859,8 +929,15 @@ class _CartWidget extends State<CartWidget> {
                   cartController.cartProducts[currentKey], currentKey);
               stateController.showLoader.value = false;
             },
-            icon: const Icon(Icons.outbox),
-            label: const Text("Save for later"))
+            icon: const Icon(
+              Icons.bookmark_add_outlined,
+              size: 20,
+              color: Colors.grey,
+            ),
+            label: Text(
+              "Save for later",
+              style: TextStyles.body.copyWith(color: Colors.grey, fontSize: 16),
+            ))
       ],
     );
   }
@@ -875,7 +952,6 @@ class _CartWidget extends State<CartWidget> {
           child: Obx(() {
             return Column(
               children: [
-                shippingAddress(context),
                 Center(
                   child: ElevatedButton(
                     onPressed: () async {
@@ -896,6 +972,10 @@ class _CartWidget extends State<CartWidget> {
                       style: TextStyles.bodyFont,
                     ),
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: CouponWidget(),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1005,13 +1085,6 @@ class _CartWidget extends State<CartWidget> {
                       ),
                     ),
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [CouponWidget()],
-                  ),
                 ),
                 cartController.checkoutData.value != null &&
                         cartController.checkoutData.value!.allAvailable == true

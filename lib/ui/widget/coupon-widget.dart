@@ -11,16 +11,10 @@ class CouponWidget extends StatelessWidget {
     final CartController cartController = Get.find();
     // final Controller stateController = Get.find();
     controller.text = cartController.couponName.toString();
-    var width = MediaQuery.of(context).size.width * 0.8;
     return Obx(() {
       controller.text = cartController.couponName.toString();
-      return Container(
-        width: width,
-        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-        decoration: BoxDecoration(
-          color: AppColors.lightGrey.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(15),
-        ),
+      return FractionallySizedBox(
+        widthFactor: 1,
         child: TextField(
           controller: controller,
           readOnly: true,
@@ -34,10 +28,10 @@ class CouponWidget extends StatelessWidget {
               },
               icon: const Icon(Icons.search),
             ),
-            labelText: "Search Coupon...",
+            labelText: "Apply coupon codes",
             contentPadding: const EdgeInsets.all(10.0),
             enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(
                 color: Colors.grey,
               ),
