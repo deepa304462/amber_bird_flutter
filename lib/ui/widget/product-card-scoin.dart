@@ -310,7 +310,8 @@ class ProductCardScoin extends StatelessWidget {
                                           product,
                                           null,
                                           ruleConfig,
-                                          constraint);
+                                          constraint,
+                                          activeVariant.value);
                                     } else if (addedFrom == 'SCOIN') {
                                       cartController.addToCartScoins(
                                           '$refId@${activeVariant.value.varientCode}',
@@ -345,7 +346,8 @@ class ProductCardScoin extends StatelessWidget {
                                             product,
                                             null,
                                             ruleConfig,
-                                            constraint);
+                                            constraint,
+                                            activeVariant.value);
                                       } else if (addedFrom == 'SCOIN') {
                                         cartController.addToCartScoins(
                                             '$refId@${activeVariant.value.varientCode}',

@@ -7,6 +7,7 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -205,7 +206,8 @@ class DealBottomDrawer extends StatelessWidget {
                         PriceTag(priceInfo!.offerPrice.toString(),
                             priceInfo!.actualPrice.toString()),
                         GetX<CartController>(builder: (cController) {
-                          return cController.checkProductInCart(refId,addedFrom)
+                          return cController.checkProductInCart(
+                                  refId, addedFrom)
                               ? Obx(
                                   () => Row(
                                     children: [
@@ -221,8 +223,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                       MultiProductController>(
                                                   tag: addedFrom!);
                                               var data = await multiController
-                                                  .checkValidDeal(
-                                                      refId!, 'negative', refId!);
+                                                  .checkValidDeal(refId!,
+                                                      'negative', refId!);
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
@@ -235,7 +237,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                         -1,
                                                     priceInfo,
                                                     null,
-                                                    products,null,null);
+                                                    products,
+                                                    null,
+                                                    null,
+                                                    Varient());
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -249,8 +254,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                     Get.find<DealController>(
                                                         tag: addedFrom!);
                                                 var data = await dealController
-                                                    .checkValidDeal(
-                                                        refId!, 'negative', refId!);
+                                                    .checkValidDeal(refId!,
+                                                        'negative', refId!);
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                               }
@@ -263,7 +268,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                         -1,
                                                     priceInfo,
                                                     products![0],
-                                                    null,null,null);
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    products![0].varient);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -273,7 +281,7 @@ class DealBottomDrawer extends StatelessWidget {
                                           } else {
                                             stateController.setCurrentTab(3);
                                             snackBarClass.showToast(context,
-                                                    'Please Login to preoceed');
+                                                'Please Login to preoceed');
                                           }
                                         },
                                         icon: const Icon(
@@ -281,7 +289,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             color: Colors.black),
                                       ),
                                       Text(cController
-                                          .getCurrentQuantity(refId,'')
+                                          .getCurrentQuantity(refId, '')
                                           .toString()),
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
@@ -296,8 +304,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                       MultiProductController>(
                                                   tag: addedFrom!);
                                               var data = await multiController
-                                                  .checkValidDeal(
-                                                      refId!, 'positive', refId!);
+                                                  .checkValidDeal(refId!,
+                                                      'positive', refId!);
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
@@ -308,7 +316,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                         1,
                                                     priceInfo,
                                                     null,
-                                                    products,null,null);
+                                                    products,
+                                                    null,
+                                                    null,
+                                                    null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
@@ -322,8 +333,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                     Get.find<DealController>(
                                                         tag: addedFrom!);
                                                 var data = await dealController
-                                                    .checkValidDeal(
-                                                        refId!, 'positive', refId!);
+                                                    .checkValidDeal(refId!,
+                                                        'positive', refId!);
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                               }
@@ -335,7 +346,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                         1,
                                                     priceInfo,
                                                     products![0],
-                                                    null,null,null);
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null);
                                               } else {
                                                 stateController
                                                     .setCurrentTab(3);
@@ -359,7 +373,7 @@ class DealBottomDrawer extends StatelessWidget {
                                         textStyle: TextStyles.bodyWhite),
                                     onPressed: stateController.isLogin.value
                                         ? () async {
-                                           stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 true;
                                             bool isCheckedActivate =
                                                 await stateController
@@ -373,8 +387,8 @@ class DealBottomDrawer extends StatelessWidget {
                                                         MultiProductController>(
                                                     tag: addedFrom!);
                                                 var data = await multiController
-                                                    .checkValidDeal(
-                                                        refId!, 'positive', refId!);
+                                                    .checkValidDeal(refId!,
+                                                        'positive', refId!);
                                                 valid = !data['error'];
                                                 msg = data['msg'];
                                                 if (valid) {
@@ -386,7 +400,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                           1,
                                                       priceInfo,
                                                       null,
-                                                      products,null,null);
+                                                      products,
+                                                      null,
+                                                      null,
+                                                      null);
                                                 } else {
                                                   Navigator.of(context).pop();
                                                   snackBarClass.showToast(
@@ -418,7 +435,10 @@ class DealBottomDrawer extends StatelessWidget {
                                                           1,
                                                       priceInfo,
                                                       products![0],
-                                                      null,null,null);
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      null);
                                                 } else {
                                                   Navigator.of(context).pop();
                                                   snackBarClass.showToast(
@@ -430,7 +450,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               snackBarClass.showToast(context,
                                                   'Your profile is not active yet');
                                             }
-                                             stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 false;
                                           }
                                         : () {

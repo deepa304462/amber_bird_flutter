@@ -103,7 +103,7 @@ class WishListPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: AppColors.grey)),
         child: Column(
-          children: [ 
+          children: [
             ImageBox(
               curwishList.product != null
                   ? curwishList.product!.images![0] ?? ''
@@ -112,9 +112,10 @@ class WishListPage extends StatelessWidget {
               height: 150,
             ),
             TextButton(
-              onPressed: () async { 
+              onPressed: () async {
                 Price price = Price();
-                if (curwishList.products!.length > 0) {
+                if (curwishList.products != null &&
+                    curwishList.products!.length > 0) {
                   price = curwishList.products![0].varient!.price!;
                 } else {
                   price = curwishList.product!.varient!.price!;
@@ -125,7 +126,10 @@ class WishListPage extends StatelessWidget {
                     1,
                     price,
                     curwishList.product,
-                    curwishList.products,null,null);
+                    curwishList.products,
+                    null,
+                    null,
+                    curwishList.product!.varient);
                 await wishlistController
                     .removeWishList(curwishList.ref!.id ?? '');
               },

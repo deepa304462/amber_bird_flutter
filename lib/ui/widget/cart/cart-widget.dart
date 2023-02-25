@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/deal_product/constraint.dart'; 
+import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -71,8 +71,11 @@ class _CartWidget extends State<CartWidget> {
     cartController.clearCheckout();
     return Scaffold(
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            border: Border(top: BorderSide(width: 1, color: Colors.grey))),
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(width: 1, color: Colors.grey),
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -119,41 +122,43 @@ class _CartWidget extends State<CartWidget> {
           ),
         ),
       ),
-      body: Obx(() => (cartController.cartProducts.isNotEmpty ||
-              cartController.cartProductsScoins.isNotEmpty)
-          ? CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: innerLists,
-            )
-          : Padding(
-              padding: const EdgeInsets.all(10),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Your Cart is Empty',
-                      style: TextStyles.bodyFont,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primeColor,
-                          textStyle: TextStyles.bodyWhite),
-                      onPressed: () {
-                        Modular.to.navigate('../home/main');
-                      },
-                      child: Text(
-                        'Add Products',
-                        style: TextStyles.bodyWhiteLarge,
+      body: Obx(
+        () => (cartController.cartProducts.isNotEmpty ||
+                cartController.cartProductsScoins.isNotEmpty)
+            ? CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: innerLists,
+              )
+            : Padding(
+                padding: const EdgeInsets.all(10),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Your Cart is Empty',
+                        style: TextStyles.bodyFont,
                       ),
-                    ),
-                    SaveLater()
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primeColor,
+                            textStyle: TextStyles.bodyWhite),
+                        onPressed: () {
+                          Modular.to.navigate('../home/main');
+                        },
+                        child: Text(
+                          'Add Products',
+                          style: TextStyles.bodyWhiteLarge,
+                        ),
+                      ),
+                      SaveLater()
+                    ],
+                  ),
                 ),
               ),
-            )),
+      ),
     );
   }
 
@@ -208,7 +213,7 @@ class _CartWidget extends State<CartWidget> {
                                       onPressed: () async {
                                         stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
-                                          cartController.addToCartScoins(
+                                          await cartController.addToCartScoins(
                                               cartController
                                                   .cartProductsScoins[
                                                       currentKey]
@@ -258,7 +263,7 @@ class _CartWidget extends State<CartWidget> {
                                         if (stateController.isLogin.value) {
                                           var valid = false;
                                           var msg = 'Something went wrong!';
-                                          cartController.addToCartScoins(
+                                          await cartController.addToCartScoins(
                                               cartController
                                                   .cartProductsScoins[
                                                       currentKey]
@@ -484,7 +489,7 @@ class _CartWidget extends State<CartWidget> {
                                         }
 
                                         // if (valid) {
-                                        cartController.addToCart(
+                                        await cartController.addToCart(
                                             '${cartController.cartProducts[currentKey]!.ref!.id}',
                                             cartController
                                                 .cartProducts[currentKey]!
@@ -558,7 +563,7 @@ class _CartWidget extends State<CartWidget> {
                                         }
 
                                         if (valid) {
-                                          cartController.addToCart(
+                                          await cartController.addToCart(
                                               '${cartController.cartProducts[currentKey]!.ref!.id}',
                                               cartController
                                                   .cartProducts[currentKey]!
@@ -640,7 +645,7 @@ class _CartWidget extends State<CartWidget> {
                                                   true;
                                               if (stateController
                                                   .isLogin.value) {
-                                                cartController.addToCart(
+                                                await cartController.addToCart(
                                                     '${cartController.cartProducts[currentKey]!.ref!.id}',
                                                     cartController
                                                         .cartProducts[
@@ -735,7 +740,7 @@ class _CartWidget extends State<CartWidget> {
                                                   msg = data['msg'];
                                                 }
                                                 if (valid) {
-                                                  cartController.addToCart(
+                                                  await cartController.addToCart(
                                                       '${cartController.cartProducts[currentKey]!.ref!.id}',
                                                       cartController
                                                           .cartProducts[
@@ -918,8 +923,8 @@ class _CartWidget extends State<CartWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.pin_drop,
                             color: Colors.grey,

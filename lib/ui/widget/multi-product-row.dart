@@ -229,7 +229,8 @@ class MultiProductRow extends StatelessWidget {
                                                                     .products,
                                                                 null,
                                                                 mProduct
-                                                                    .constraint);
+                                                                    .constraint,
+                                                                null);
                                                           } else {
                                                             Navigator.of(
                                                                     context)
@@ -303,7 +304,8 @@ class MultiProductRow extends StatelessWidget {
                                                                     .products,
                                                                 null,
                                                                 mProduct
-                                                                    .constraint);
+                                                                    .constraint,
+                                                                null);
                                                           } else {
                                                             Navigator.of(
                                                                     context)
@@ -364,8 +366,8 @@ class MultiProductRow extends StatelessWidget {
                                                             null,
                                                             mProduct.products,
                                                             null,
-                                                            mProduct
-                                                                .constraint);
+                                                            mProduct.constraint,
+                                                            null);
                                                       } else {
                                                         Navigator.of(context)
                                                             .pop();

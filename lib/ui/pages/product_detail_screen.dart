@@ -228,7 +228,9 @@ class ProductDetailScreen extends StatelessWidget {
                                                   summary,
                                                   null,
                                                   null,
-                                                  null);
+                                                  null,
+                                                  productController
+                                                      .varient.value);
                                             } else {
                                               stateController.setCurrentTab(3);
                                               var showToast =
@@ -271,7 +273,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                   summary,
                                                   null,
                                                   null,
-                                                  null);
+                                                  null,
+                                                  productController.varient.value);
                                             } else {
                                               stateController.setCurrentTab(3);
                                               snackBarClass.showToast(context,
@@ -298,7 +301,8 @@ class ProductDetailScreen extends StatelessWidget {
                                               summary,
                                               null,
                                               null,
-                                              null);
+                                              null,
+                                              productController.varient.value);
                                         } else {
                                           stateController.setCurrentTab(3);
                                           var showToast =

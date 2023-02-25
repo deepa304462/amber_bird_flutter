@@ -328,7 +328,8 @@ class CartController extends GetxController {
       ProductSummary? product,
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
-      Constraint? constraint) async {
+      Constraint? constraint,
+      Varient? varient) async {
     // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
@@ -355,6 +356,7 @@ class CartController extends GetxController {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
         }
+        product!.varient = varient;
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
@@ -420,7 +422,7 @@ class CartController extends GetxController {
         quantity = getData.count!;
         quantity = quantity + addQuantity;
       }
-      
+
       if (userType != null) {
         if (userType == memberShipType.Gold.name) {
           priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin;
