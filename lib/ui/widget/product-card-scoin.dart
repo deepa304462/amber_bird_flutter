@@ -166,11 +166,12 @@ class ProductCardScoin extends StatelessWidget {
                         )
                       : const SizedBox(),
               checkPriceVisibility()
-                  ?  PriceTag(
-                          dealPrice!.offerPrice!.toString(),
-                          dealPrice!.actualPrice!.toString(),
-                          scoin: Helper.getMemberCoinValue(dealPrice!,stateController.userType.value),
-                        )
+                  ? PriceTag(
+                      dealPrice!.offerPrice!.toString(),
+                      dealPrice!.actualPrice!.toString(),
+                      scoin: Helper.getMemberCoinValue(
+                          dealPrice!, stateController.userType.value),
+                    )
                   : const SizedBox(),
             ],
           ),

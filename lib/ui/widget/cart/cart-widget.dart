@@ -69,41 +69,92 @@ class _CartWidget extends State<CartWidget> {
   @override
   Widget build(BuildContext context) {
     cartController.clearCheckout();
-    return Obx(() => (cartController.cartProducts.isNotEmpty ||
-            cartController.cartProductsScoins.isNotEmpty)
-        ? CustomScrollView(
-            physics: const BouncingScrollPhysics(),
-            slivers: innerLists,
-          )
-        : Padding(
-            padding: const EdgeInsets.all(10),
-            child: Center(
-              child: Column(
-                children: [
-                  Text(
-                    'Your Cart is Empty',
-                    style: TextStyles.bodyFont,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primeColor,
-                        textStyle: TextStyles.bodyWhite),
-                    onPressed: () {
-                      Modular.to.navigate('../home/main');
-                    },
-                    child: Text(
-                      'Add Products',
-                      style: TextStyles.bodyWhiteLarge,
+    return Scaffold(
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(width: 1, color: Colors.grey))),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'TOTAL PRICE',
+                      style: TextStyles.bodyFont,
                     ),
-                  ),
-                  SaveLater()
-                ],
+                    Text(
+                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount as double).toStringAsFixed(2)}',
+                      style: TextStyles.titleLargeBold,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ));
+              MaterialButton(
+                color: Colors.green,
+                onPressed: () async {
+                  var data = await cartController.createPayment();
+                  if (data['error']) {
+                    // ignore: use_build_context_synchronously
+                    snackBarClass.showToast(context, data['msg']);
+                  } else {
+                    Modular.to.navigate('/home/inapp', arguments: data['data']);
+                  }
+                },
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                child: Text(
+                  'Payment',
+                  style: TextStyles.bodyFontBold.copyWith(color: Colors.white),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      body: Obx(() => (cartController.cartProducts.isNotEmpty ||
+              cartController.cartProductsScoins.isNotEmpty)
+          ? CustomScrollView(
+              physics: const BouncingScrollPhysics(),
+              slivers: innerLists,
+            )
+          : Padding(
+              padding: const EdgeInsets.all(10),
+              child: Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Your Cart is Empty',
+                      style: TextStyles.bodyFont,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primeColor,
+                          textStyle: TextStyles.bodyWhite),
+                      onPressed: () {
+                        Modular.to.navigate('../home/main');
+                      },
+                      child: Text(
+                        'Add Products',
+                        style: TextStyles.bodyWhiteLarge,
+                      ),
+                    ),
+                    SaveLater()
+                  ],
+                ),
+              ),
+            )),
+    );
   }
 
   scoinPRoductList(context, cartController) {
@@ -231,7 +282,6 @@ class _CartWidget extends State<CartWidget> {
                                                       currentKey]
                                                   .product
                                                   .varient);
-
                                         } else {
                                           var showToast =
                                               snackBarClass.showToast(
@@ -338,8 +388,9 @@ class _CartWidget extends State<CartWidget> {
                                             children: [
                                               ImageBox(
                                                 '${currentProduct.images![0]}',
-                                                width: 80,
-                                                height: 80,
+                                                width: 50,
+                                                height: 50,
+                                                fit: BoxFit.cover,
                                               ),
                                               Column(
                                                 children: [
@@ -840,8 +891,7 @@ class _CartWidget extends State<CartWidget> {
                     children: [
                       Text(
                         'Shipping Address',
-                        style: TextStyles.titleLargeBold
-                            .copyWith(color: Colors.grey, fontSize: 20),
+                        style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
                       ),
                       MaterialButton(
                           onPressed: (() =>
@@ -862,18 +912,40 @@ class _CartWidget extends State<CartWidget> {
                           ))
                     ],
                   ),
-                  Row(
-                    children: [
-                      Text(add.value.name ?? '', style: TextStyles.headingFont),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text('(ZipCode: ${add.value.zipCode ?? ''})',
-                          style: TextStyles.headingFont
-                              .copyWith(color: Colors.grey))
-                    ],
+                  Card(
+                    color: Colors.grey.shade300,
+                    elevation: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(add.value.name ?? '',
+                                style: TextStyles.bodyFont),
+                            Row(
+                              children: [
+                                Text('(ZipCode: ${add.value.zipCode ?? ''})',
+                                    style: TextStyles.bodyFont.copyWith()),
+                                const SizedBox(
+                                  width: 2,
+                                ),
+                                Text(add.value.line1 ?? '',
+                                    style: TextStyles.bodyFont),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(add.value.line1 ?? '', style: TextStyles.bodyFont),
                 ],
               ),
             ),
@@ -917,6 +989,7 @@ class _CartWidget extends State<CartWidget> {
           padding: const EdgeInsets.all(5),
           child: Obx(() {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
                   child: ElevatedButton(
@@ -943,18 +1016,9 @@ class _CartWidget extends State<CartWidget> {
                   padding: const EdgeInsets.only(top: 5),
                   child: CouponWidget(),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Total Price',
-                      style: TextStyles.headingFontGray,
-                    ),
-                    Text(
-                      '${CodeHelp.euro}${cartController.calculatedPayment.value.totalAmount.toString()}',
-                      style: TextStyles.mrpStyle,
-                    ),
-                  ],
+                Text(
+                  'Order Summary',
+                  style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
                 ),
                 cartController.calculatedPayment.value.totalSCoinsPaid != null
                     ? Row(
@@ -962,13 +1026,13 @@ class _CartWidget extends State<CartWidget> {
                         children: [
                           Text(
                             'Total coins',
-                            style: TextStyles.headingFontGray,
+                            style: TextStyles.bodyFont,
                           ),
                           Text(
-                            cartController
-                                .calculatedPayment.value.totalSCoinsPaid
+                            (cartController.calculatedPayment.value
+                                    .totalSCoinsPaid as int)
                                 .toString(),
-                            style: TextStyles.mrpStyle,
+                            style: TextStyles.bodyFontBold,
                           ),
                         ],
                       )
@@ -978,11 +1042,11 @@ class _CartWidget extends State<CartWidget> {
                   children: [
                     Text(
                       'Discount Amount',
-                      style: TextStyles.headingFontGray,
+                      style: TextStyles.bodyFont,
                     ),
                     Text(
-                      '${CodeHelp.euro}${cartController.calculatedPayment.value.discountAmount.toString()}',
-                      style: TextStyles.mrpStyle,
+                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount as double).toStringAsFixed(2)}',
+                      style: TextStyles.bodyFontBold,
                     ),
                   ],
                 ),
@@ -991,13 +1055,11 @@ class _CartWidget extends State<CartWidget> {
                   children: [
                     Text(
                       'Tax',
-                      style: TextStyles.headingFontGray,
+                      style: TextStyles.bodyFont,
                     ),
                     Text(
-                      Helper.getFormattedNumber(cartController
-                              .calculatedPayment.value.appliedTaxAmount)
-                          .toString(),
-                      style: TextStyles.mrpStyle,
+                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)}',
+                      style: TextStyles.bodyFontBold,
                     ),
                   ],
                 ),
