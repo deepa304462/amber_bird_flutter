@@ -329,6 +329,7 @@ class CartController extends GetxController {
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
       Constraint? constraint,
+      Varient? varient,
       {String? mutliProductName}) async {
     // bool createOrderRequired = true;
     clearCheckout();
@@ -355,6 +356,7 @@ class CartController extends GetxController {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
         }
+        product!.varient = varient;
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({

@@ -239,7 +239,7 @@ class ProductCard extends StatelessWidget {
                                 }
                                 if (valid) {
                                   if (addedFrom == 'SCOIN') {
-                                    cartController.addToCartScoins(
+                                    await cartController.addToCartScoins(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
@@ -250,7 +250,7 @@ class ProductCard extends StatelessWidget {
                                         constraint,
                                         activeVariant.value);
                                   } else {
-                                    cartController.addToCart(
+                                    await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
@@ -258,7 +258,8 @@ class ProductCard extends StatelessWidget {
                                         product,
                                         null,
                                         ruleConfig,
-                                        constraint);
+                                        constraint,
+                                        activeVariant.value);
                                   }
                                 } else {
                                   snackBarClass.showToast(context, msg);
@@ -307,7 +308,7 @@ class ProductCard extends StatelessWidget {
                                 }
                                 if (valid) {
                                   if (addedFrom == 'SCOIN') {
-                                    cartController.addToCartScoins(
+                                    await cartController.addToCartScoins(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
@@ -318,7 +319,7 @@ class ProductCard extends StatelessWidget {
                                         constraint,
                                         activeVariant.value);
                                   } else {
-                                    cartController.addToCart(
+                                    await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         1,
@@ -326,7 +327,8 @@ class ProductCard extends StatelessWidget {
                                         product,
                                         null,
                                         ruleConfig,
-                                        constraint);
+                                        constraint,
+                                        activeVariant.value);
                                   }
                                 } else {
                                   stateController.setCurrentTab(3);
@@ -350,7 +352,6 @@ class ProductCard extends StatelessWidget {
                       child: IconButton(
                         constraints: const BoxConstraints(),
                         color: Colors.white,
-
                         onPressed: stateController.isLogin.value
                             ? () async {
                                 stateController.showLoader.value = true;
@@ -371,7 +372,8 @@ class ProductCard extends StatelessWidget {
                                         product,
                                         null,
                                         ruleConfig,
-                                        constraint);
+                                        constraint,
+                                        activeVariant.value);
                                   } else if (addedFrom == 'SCOIN') {
                                     cartController.addToCartScoins(
                                         '$refId@${activeVariant.value.varientCode}',
@@ -406,7 +408,8 @@ class ProductCard extends StatelessWidget {
                                           product,
                                           null,
                                           ruleConfig,
-                                          constraint);
+                                          constraint,
+                                          activeVariant.value);
                                     } else {
                                       snackBarClass.showToast(context, msg);
                                     }
@@ -423,49 +426,25 @@ class ProductCard extends StatelessWidget {
                                 snackBarClass.showToast(
                                     context, 'Please Login to preoceed');
                               },
-
-                        // onPressed: () {
-                        //   showModalBottomSheet<void>(
-                        //     context: context,
-                        //     useRootNavigator: true,
-                        //     shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(13)),
-                        //     backgroundColor: Colors.white,
-                        //     isScrollControlled: true,
-                        //     elevation: 3,
-                        //     builder: (context) {
-                        //       if (addedFrom == 'CATEGORY') {
-                        //         return ProductBottomDrawer(refId);
-                        //       } else {
-                        //         return DealBottomDrawer(
-                        //             [product!],
-                        //             refId,
-                        //             addedFrom,
-                        //             dealPrice,
-                        //             Constraint(),
-                        //             product!.name,
-                        //             addedFrom!);
-                        //       }
-                        //     },
-                        //   );
-                        // },
                         icon: const Icon(
                           Icons.add,
                           size: 25,
                           color: Colors.white,
                         ),
-                      ));
+                      ),
+                    );
               return Visibility(
                 visible: checkBuyProductVisibility(),
                 child: Positioned(
-                    right: 0,
-                    top: 50,
-                    child: AnimatedSwitcher(
-                      switchInCurve: Curves.bounceIn,
-                      switchOutCurve: Curves.easeOut,
-                      duration: const Duration(milliseconds: 200),
-                      child: counterOrAdd,
-                    )),
+                  right: 0,
+                  top: 50,
+                  child: AnimatedSwitcher(
+                    switchInCurve: Curves.bounceIn,
+                    switchOutCurve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 200),
+                    child: counterOrAdd,
+                  ),
+                ),
               );
             })
           ],

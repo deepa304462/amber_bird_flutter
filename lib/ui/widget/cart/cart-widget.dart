@@ -123,41 +123,43 @@ class _CartWidget extends State<CartWidget> {
           ),
         ),
       ),
-      body: Obx(() => (cartController.cartProducts.isNotEmpty ||
-              cartController.cartProductsScoins.isNotEmpty)
-          ? CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: innerLists,
-            )
-          : Padding(
-              padding: const EdgeInsets.all(10),
-              child: Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Your Cart is Empty',
-                      style: TextStyles.bodyFont,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primeColor,
-                          textStyle: TextStyles.bodyWhite),
-                      onPressed: () {
-                        Modular.to.navigate('../home/main');
-                      },
-                      child: Text(
-                        'Add Products',
-                        style: TextStyles.bodyWhiteLarge,
+      body: Obx(
+        () => (cartController.cartProducts.isNotEmpty ||
+                cartController.cartProductsScoins.isNotEmpty)
+            ? CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: innerLists,
+              )
+            : Padding(
+                padding: const EdgeInsets.all(10),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Your Cart is Empty',
+                        style: TextStyles.bodyFont,
                       ),
-                    ),
-                    SaveLater()
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primeColor,
+                            textStyle: TextStyles.bodyWhite),
+                        onPressed: () {
+                          Modular.to.navigate('../home/main');
+                        },
+                        child: Text(
+                          'Add Products',
+                          style: TextStyles.bodyWhiteLarge,
+                        ),
+                      ),
+                      SaveLater()
+                    ],
+                  ),
                 ),
               ),
-            )),
+      ),
     );
   }
 
@@ -495,33 +497,31 @@ class _CartWidget extends State<CartWidget> {
                                                     msg = data['msg'];
                                                   }
 
-                                                  // if (valid) {
-                                                  cartController.addToCart(
-                                                      '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .ref!
-                                                          .name!,
-                                                      -1,
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .price,
-                                                      null,
-                                                      cartController
-                                                          .cartProducts
-                                                          .value[currentKey]!
-                                                          .products,
-                                                      null,
-                                                      null);
-                                                } else {
-                                                  stateController
-                                                      .setCurrentTab(3);
-                                                  var showToast =
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please Login to preoceed');
+                                                  if (valid) {
+                                                    await cartController.addToCart(
+                                                        '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                        cartController
+                                                            .cartProducts[
+                                                                currentKey]!
+                                                            .ref!
+                                                            .name!,
+                                                        1,
+                                                        cartController
+                                                            .cartProducts[
+                                                                currentKey]!
+                                                            .price,
+                                                        null,
+                                                        cartController
+                                                            .cartProducts
+                                                            .value[currentKey]!
+                                                            .products,
+                                                        null,
+                                                        null);
+                                                  } else {
+                                                    var showToast =
+                                                        snackBarClass.showToast(
+                                                            context, msg);
+                                                  }
                                                 }
                                                 stateController
                                                     .showLoader.value = false;
@@ -986,8 +986,8 @@ class _CartWidget extends State<CartWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.pin_drop,
                             color: Colors.grey,

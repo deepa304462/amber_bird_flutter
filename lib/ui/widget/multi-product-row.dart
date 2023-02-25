@@ -230,6 +230,7 @@ class MultiProductRow extends StatelessWidget {
                                                                 null,
                                                                 mProduct
                                                                     .constraint,
+                                                                null,
                                                                 mutliProductName:
                                                                     mProduct
                                                                         .name!
@@ -309,6 +310,7 @@ class MultiProductRow extends StatelessWidget {
                                                                 null,
                                                                 mProduct
                                                                     .constraint,
+                                                                null,
                                                                 mutliProductName:
                                                                     mProduct
                                                                         .name!
@@ -375,6 +377,7 @@ class MultiProductRow extends StatelessWidget {
                                                             mProduct.products,
                                                             null,
                                                             mProduct.constraint,
+                                                            null,
                                                             mutliProductName:
                                                                 mProduct
                                                                     .name!
