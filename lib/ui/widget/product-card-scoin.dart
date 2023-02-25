@@ -177,7 +177,7 @@ class ProductCardScoin extends StatelessWidget {
           ),
           product.varients!.length > 1
               ? productVarientView(product.varients!)
-              : SizedBox()
+              : const SizedBox()
         ],
       ),
     );
@@ -382,15 +382,16 @@ class ProductCardScoin extends StatelessWidget {
                         ),
                       );
                 return Visibility(
-                    visible: checkBuyProductVisibility(),
-                    child: Positioned(
-                      right: 0,
-                      top: 50,
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        child: counterOrAdd,
-                      ),
-                    ));
+                  visible: checkBuyProductVisibility(),
+                  child: Positioned(
+                    right: 0,
+                    top: 50,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: counterOrAdd,
+                    ),
+                  ),
+                );
               },
             ),
           ],

@@ -996,27 +996,27 @@ class _CartWidget extends State<CartWidget> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      stateController.showLoader.value = true;
-                      bool isCheckedActivate =
-                          await stateController.getUserIsActive();
-                      if (isCheckedActivate) {
-                        await cartController.checkout();
-                        checkoutClicked.value = true;
-                      } else {
-                        snackBarClass.showToast(
-                            context, 'Your profile is not active yet');
-                      }
-                      stateController.showLoader.value = false;
-                    },
-                    child: Text(
-                      'Checkout',
-                      style: TextStyles.bodyFont,
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: ElevatedButton(
+                //     onPressed: () async {
+                //       stateController.showLoader.value = true;
+                //       bool isCheckedActivate =
+                //           await stateController.getUserIsActive();
+                //       if (isCheckedActivate) {
+                //         await cartController.checkout();
+                //         checkoutClicked.value = true;
+                //       } else {
+                //         snackBarClass.showToast(
+                //             context, 'Your profile is not active yet');
+                //       }
+                //       stateController.showLoader.value = false;
+                //     },
+                //     child: Text(
+                //       'Checkout',
+                //       style: TextStyles.bodyFont,
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: CouponWidget(),
@@ -1126,6 +1126,8 @@ class _CartWidget extends State<CartWidget> {
                           Center(
                             child: ElevatedButton(
                               onPressed: () async {
+                                 await cartController.checkout();
+                                checkoutClicked.value = true;
                                 var data = await cartController.createPayment();
                                 if (data['error']) {
                                   // ignore: use_build_context_synchronously

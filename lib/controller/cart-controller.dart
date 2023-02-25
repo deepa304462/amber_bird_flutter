@@ -164,8 +164,7 @@ class CartController extends GetxController {
           cust.cart = Order.fromMap(resp1.data);
           calculatedPayment.value = cust.cart!.payment!;
           OfflineDBService.save(OfflineDBService.customerInsightDetail,
-              (jsonDecode(cust.toJson())));
-          // calculatedPayment.value = ord.payment!;
+              (jsonDecode(cust.toJson()))); 
         }
       }
     }
@@ -582,8 +581,7 @@ class CartController extends GetxController {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);
       calculatedPayment.value = cust.cart!.payment!;
-      OfflineDBService.save(
-          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }

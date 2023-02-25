@@ -47,10 +47,6 @@ class ProductCard extends StatelessWidget {
                   width: 100,
                   height: 100,
                   child:
-                      // Image.network(
-                      //   '${ClientService.cdnUrl}${product.images![0]}',
-                      //   fit: BoxFit.fitHeight,
-                      // ),
                       ImageBox(product.images![0]),
                 ),
               )
@@ -122,7 +118,6 @@ class ProductCard extends StatelessWidget {
   Widget _gridItemFooter(ProductSummary product, BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      // margin: const EdgeInsets.only(left: 3, right: 3),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(10),
@@ -140,7 +135,7 @@ class ProductCard extends StatelessWidget {
           ),
           addedFrom == 'MULTIPRODUCT'
               ? Text(
-                  '${product.defaultPurchaseCount.toString()} * ${product.varient!.price!.offerPrice!}',
+                  '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',
                   style: TextStyles.bodySm)
               : const SizedBox(),
           Wrap(
@@ -176,15 +171,13 @@ class ProductCard extends StatelessWidget {
                       : const SizedBox(),
               checkPriceVisibility()
                   ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
-                      ? Text(
-                          "${CodeHelp.euro}${product.varient!.price!.actualPrice!.toString()}",
+                      ? Obx(()=> Text(
+                          "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
                           style: TextStyles.titleLargeBold,
-                        )
+                        ))
                       : PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
 
-                  // PriceTag(product.varient!.price!.offerPrice!.toString(),
-                  //     product.varient!.price!.actualPrice!.toString())
                   : const SizedBox(),
             ],
           ),
@@ -222,12 +215,14 @@ class ProductCard extends StatelessWidget {
                             constraints: const BoxConstraints(),
                             onPressed: () async {
                               stateController.showLoader.value = true;
+                              Price? price = activeVariant.value.price;
                               if (stateController.isLogin.value) {
                                 var valid = false;
                                 var msg = 'Something went wrong!';
 
                                 if (Get.isRegistered<DealController>(
                                     tag: addedFrom!)) {
+                                      price= dealPrice;
                                   var dealController =
                                       Get.find<DealController>(tag: addedFrom!);
                                   var data = await dealController.checkValidDeal(
@@ -243,7 +238,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -254,7 +249,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -294,7 +289,7 @@ class ProductCard extends StatelessWidget {
                               if (stateController.isLogin.value) {
                                 var valid = false;
                                 var msg = 'Something went wrong!';
-
+                                Price? price = activeVariant.value.price;
                                 if (Get.isRegistered<DealController>(
                                     tag: addedFrom!)) {
                                   var dealController =
@@ -305,6 +300,7 @@ class ProductCard extends StatelessWidget {
                                       '$refId@${activeVariant.value.varientCode}');
                                   valid = !data['error'];
                                   msg = data['msg'];
+                                  price = dealPrice;
                                 }
                                 if (valid) {
                                   if (addedFrom == 'SCOIN') {
@@ -312,7 +308,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -323,7 +319,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -362,13 +358,14 @@ class ProductCard extends StatelessWidget {
                                   var valid = false;
                                   var msg = 'Something went wrong!';
 
+                                  Price? price = activeVariant.value.price;
                                   // this.refId, this.addedFrom,
                                   if (addedFrom == 'CATEGORY') {
                                     cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -379,7 +376,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         -1,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
