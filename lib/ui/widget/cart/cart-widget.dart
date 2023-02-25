@@ -100,13 +100,22 @@ class _CartWidget extends State<CartWidget> {
                   color: Colors.green,
                   visualDensity: VisualDensity(horizontal: 4),
                   onPressed: () async {
-                    var data = await cartController.createPayment();
-                    if (data['error']) {
-                      // ignore: use_build_context_synchronously
-                      snackBarClass.showToast(context, data['msg']);
-                    } else {
-                      Modular.to
-                          .navigate('/home/inapp', arguments: data['data']);
+                    await cartController.checkout();
+                    if (cartController.checkoutData.value!.allAvailable ==
+                        true) {
+                      checkoutClicked.value = true;
+                      var data = await cartController.createPayment();
+                      if (data == null || data['error']) {
+                        // ignore: use_build_context_synchronously
+                        snackBarClass.showToast(
+                            context, data['msg'] ?? 'Something went wrong');
+                      } else {
+                        Modular.to
+                            .navigate('/home/inapp', arguments: data['data']);
+                      }
+                    }else{
+                      snackBarClass.showToast(
+                          context, 'All product not available');
                     }
                   },
                   elevation: 2,
@@ -366,279 +375,537 @@ class _CartWidget extends State<CartWidget> {
   }
 
   productListWidget(context, cartController) {
-    return Obx((() => ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          // physics: const NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          itemCount: cartController.cartProducts.length,
-          itemBuilder: (_, index) {
-            var currentKey =
-                cartController.cartProducts.value.keys.elementAt(index);
-            return Column(
-              children: [
-                cartController
-                        .cartProducts.value[currentKey]!.products!.isNotEmpty
-                    ? SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
-                            Row(children: <Widget>[
-                              SizedBox(
-                                  width: MediaQuery.of(context).size.width * .1,
-                                  child: Divider()),
-                              FitText(
-                                '${cartController.cartProducts.value[currentKey]!.name}',
-                                style: TextStyles.titleLarge
-                                    .copyWith(color: AppColors.primeColor),
-                              ),
-                              const Expanded(child: Divider()),
-                            ]),
-                            Row(
-                              children: [
+    return Obx(
+      (() => ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            // physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            itemCount: cartController.cartProducts.length,
+            itemBuilder: (_, index) {
+              var currentKey =
+                  cartController.cartProducts.value.keys.elementAt(index);
+              return Column(
+                children: [
+                  cartController
+                          .cartProducts.value[currentKey]!.products!.isNotEmpty
+                      ? SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            children: [
+                              Row(children: <Widget>[
                                 SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * .74,
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: cartController.cartProducts
-                                        .value[currentKey]!.products!.length,
-                                    itemBuilder: (_, pIndex) {
-                                      var currentProduct = cartController
-                                          .cartProducts
-                                          .value[currentKey]!
-                                          .products![pIndex];
-                                      return ListTile(
-                                        dense: false,
-                                        visualDensity:
-                                            VisualDensity(vertical: 3),
-                                        leading: ImageBox(
-                                          '${currentProduct.images![0]}',
-                                          width: 80,
-                                          height: 80,
-                                          fit: BoxFit.contain,
-                                        ),
-                                        title: FitText(
-                                          currentProduct
-                                              .name!.defaultText!.text!,
-                                          style: TextStyles.bodyFontBold,
-                                          align: TextAlign.start,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                    width:
+                                        MediaQuery.of(context).size.width * .1,
+                                    child: Divider()),
+                                FitText(
+                                  '${cartController.cartProducts.value[currentKey]!.name}',
+                                  style: TextStyles.titleLarge
+                                      .copyWith(color: AppColors.primeColor),
                                 ),
-                                SizedBox(
-                                  width: 100,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
-                                        style: TextStyles.titleLargeBold,
-                                      ),
-                                      Card(
-                                        color: AppColors.primeColor,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              padding: const EdgeInsets.all(4),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  var valid = false;
-                                                  var msg =
-                                                      'Something went wrong!';
-
-                                                  if (cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .ruleConfig !=
-                                                          null ||
-                                                      cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .constraint !=
-                                                          null) {
-                                                    dynamic data = await Helper
-                                                        .checkProductValidtoAddinCart(
-                                                            cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .ruleConfig,
-                                                            cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .constraint,
-                                                            cartController
-                                                                    .cartProducts[
-                                                                        currentKey]!
-                                                                    .ref!
-                                                                    .id ??
-                                                                '',
-                                                            cartController
-                                                                    .cartProducts[
-                                                                        currentKey]!
-                                                                    .ref!
-                                                                    .id ??
-                                                                '');
-                                                    valid = !data['error'];
-                                                    msg = data['msg'];
-                                                  }
-
-                                                  if (valid) {
-                                                    await cartController.addToCart(
-                                                        '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .ref!
-                                                            .name!,
-                                                        1,
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .price,
-                                                        null,
-                                                        cartController
-                                                            .cartProducts
-                                                            .value[currentKey]!
-                                                            .products,
-                                                        null,
-                                                        null);
-                                                  } else {
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context, msg);
-                                                  }
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                              },
-                                              icon: const Icon(
-                                                Icons.remove_circle_outline,
-                                                color: Colors.white,
-                                                size: 20,
-                                              ),
+                                const Expanded(child: Divider()),
+                              ]),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * .74,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: cartController.cartProducts
+                                          .value[currentKey]!.products!.length,
+                                      itemBuilder: (_, pIndex) {
+                                        var currentProduct = cartController
+                                            .cartProducts
+                                            .value[currentKey]!
+                                            .products![pIndex];
+                                        return ListTile(
+                                            dense: false,
+                                            visualDensity:
+                                                VisualDensity(vertical: 3),
+                                            leading: ImageBox(
+                                              '${currentProduct.images![0]}',
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.contain,
                                             ),
-                                            Text(
-                                                cartController
-                                                    .getCurrentQuantity(
-                                                        '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                        '')
-                                                    .toString(),
-                                                style: TextStyles.bodyFontBold
-                                                    .copyWith(
-                                                        fontSize: 20,
-                                                        color: Colors.white)),
-                                            IconButton(
-                                              padding: const EdgeInsets.all(4),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  var valid = false;
-                                                  var msg =
-                                                      'Something went wrong!';
-
-                                                  if (cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .ruleConfig !=
-                                                          null ||
-                                                      cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .constraint !=
-                                                          null) {
-                                                    dynamic data = await Helper
-                                                        .checkProductValidtoAddinCart(
-                                                            cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .ruleConfig,
-                                                            cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .constraint,
-                                                            cartController
-                                                                    .cartProducts[
-                                                                        currentKey]!
-                                                                    .ref!
-                                                                    .id ??
-                                                                '',
-                                                            cartController
-                                                                    .cartProducts[
-                                                                        currentKey]!
-                                                                    .ref!
-                                                                    .id ??
-                                                                '');
-                                                    valid = !data['error'];
-                                                    msg = data['msg'];
-                                                  }
-
-                                                  if (valid) {
-                                                    cartController.addToCart(
-                                                        '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .ref!
-                                                            .name!,
-                                                        1,
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .price,
-                                                        null,
-                                                        cartController
-                                                            .cartProducts
-                                                            .value[currentKey]!
-                                                            .products,
-                                                        null,
-                                                        null);
-                                                  } else {
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context, msg);
-                                                  }
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                              },
-                                              icon: const Icon(
-                                                Icons.add_circle_outline,
-                                                color: Colors.white,
-                                                size: 20,
-                                              ),
+                                            title: FitText(
+                                              currentProduct
+                                                  .name!.defaultText!.text!,
+                                              style: TextStyles.bodyFontBold,
+                                              align: TextAlign.start,
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                            subtitle: Text(
+                                                '${currentProduct.varient!.weight.toString()} ${currentProduct!.varient!.unit}'));
+                                      },
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                cartButtons(
-                                    context, cartController, currentKey),
-                                MaterialButton(
+                                  SizedBox(
+                                    width: 100,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
+                                          style: TextStyles.titleLargeBold,
+                                        ),
+                                        Card(
+                                          color: AppColors.primeColor,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(4),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    var valid = false;
+                                                    var msg =
+                                                        'Something went wrong!';
+
+                                                    if (cartController
+                                                                .cartProducts[
+                                                                    currentKey]!
+                                                                .ruleConfig !=
+                                                            null ||
+                                                        cartController
+                                                                .cartProducts[
+                                                                    currentKey]!
+                                                                .constraint !=
+                                                            null) {
+                                                      dynamic data = await Helper
+                                                          .checkProductValidtoAddinCart(
+                                                              cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .ruleConfig,
+                                                              cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .constraint,
+                                                              cartController
+                                                                      .cartProducts[
+                                                                          currentKey]!
+                                                                      .ref!
+                                                                      .id ??
+                                                                  '',
+                                                              cartController
+                                                                      .cartProducts[
+                                                                          currentKey]!
+                                                                      .ref!
+                                                                      .id ??
+                                                                  '');
+                                                      valid = !data['error'];
+                                                      msg = data['msg'];
+                                                    }
+
+                                                    if (valid) {
+                                                      await cartController.addToCart(
+                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .ref!
+                                                              .name!,
+                                                          1,
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .price,
+                                                          null,
+                                                          cartController
+                                                              .cartProducts
+                                                              .value[
+                                                                  currentKey]!
+                                                              .products,
+                                                          null,
+                                                          cartController
+                                                              .cartProducts
+                                                              .value[
+                                                                  currentKey]!
+                                                              .constraint,
+                                                          null,
+                                                          mutliProductName:
+                                                              cartController
+                                                                      .cartProducts
+                                                                      .value[
+                                                                          currentKey]!
+                                                                      .name ??
+                                                                  "");
+                                                    } else {
+                                                      var showToast =
+                                                          snackBarClass
+                                                              .showToast(
+                                                                  context, msg);
+                                                    }
+                                                  }
+                                                  stateController
+                                                      .showLoader.value = false;
+                                                },
+                                                icon: const Icon(
+                                                  Icons.remove_circle_outline,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              Text(
+                                                  cartController
+                                                      .getCurrentQuantity(
+                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                          '')
+                                                      .toString(),
+                                                  style: TextStyles.bodyFontBold
+                                                      .copyWith(
+                                                          fontSize: 20,
+                                                          color: Colors.white)),
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(4),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    var valid = false;
+                                                    var msg =
+                                                        'Something went wrong!';
+
+                                                    if (cartController
+                                                                .cartProducts[
+                                                                    currentKey]!
+                                                                .ruleConfig !=
+                                                            null ||
+                                                        cartController
+                                                                .cartProducts[
+                                                                    currentKey]!
+                                                                .constraint !=
+                                                            null) {
+                                                      dynamic data = await Helper
+                                                          .checkProductValidtoAddinCart(
+                                                              cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .ruleConfig,
+                                                              cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .constraint,
+                                                              cartController
+                                                                      .cartProducts[
+                                                                          currentKey]!
+                                                                      .ref!
+                                                                      .id ??
+                                                                  '',
+                                                              cartController
+                                                                      .cartProducts[
+                                                                          currentKey]!
+                                                                      .ref!
+                                                                      .id ??
+                                                                  '');
+                                                      valid = !data['error'];
+                                                      msg = data['msg'];
+                                                    }
+
+                                                    if (valid) {
+                                                      await cartController.addToCart(
+                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .ref!
+                                                              .name!,
+                                                          1,
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .price,
+                                                          null,
+                                                          cartController
+                                                              .cartProducts
+                                                              .value[
+                                                                  currentKey]!
+                                                              .products,
+                                                          null,
+                                                          cartController
+                                                              .cartProducts
+                                                              .value[
+                                                                  currentKey]!
+                                                              .constraint,
+                                                          null,
+                                                          mutliProductName:
+                                                              cartController
+                                                                      .cartProducts
+                                                                      .value[
+                                                                          currentKey]!
+                                                                      .name ??
+                                                                  '');
+                                                    } else {
+                                                      var showToast =
+                                                          snackBarClass
+                                                              .showToast(
+                                                                  context, msg);
+                                                    }
+                                                  }
+                                                  stateController
+                                                      .showLoader.value = false;
+                                                },
+                                                icon: const Icon(
+                                                  Icons.add_circle_outline,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  cartButtons(
+                                      context, cartController, currentKey),
+                                  MaterialButton(
+                                      onPressed: () async {
+                                        stateController.showLoader.value = true;
+                                        await cartController.removeProduct(
+                                            currentKey, '');
+                                        stateController.showLoader.value =
+                                            false;
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.delete,
+                                            size: 20,
+                                            color: Colors.grey,
+                                          ),
+                                          Text(
+                                            'Remove',
+                                            style: TextStyles.body.copyWith(
+                                                color: Colors.grey,
+                                                fontSize: 16),
+                                          )
+                                        ],
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                dense: false,
+                                visualDensity: VisualDensity(vertical: 3),
+                                leading: ImageBox(
+                                  cartController.cartProducts.value[currentKey]!
+                                      .product!.images![0],
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.contain,
+                                ),
+                                title: FitText(
+                                  cartController.cartProducts.value[currentKey]!
+                                      .product!.name!.defaultText!.text!,
+                                  style: TextStyles.bodyFontBold,
+                                  align: TextAlign.start,
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    Text(
+                                        '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
+                                    Text(
+                                        '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                  ],
+                                ),
+                                trailing: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
+                                      style: TextStyles.titleLargeBold,
+                                    ),
+                                    Card(
+                                      color: AppColors.primeColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            padding: const EdgeInsets.all(4),
+                                            constraints: const BoxConstraints(),
+                                            onPressed: () async {
+                                              stateController.showLoader.value =
+                                                  true;
+                                              if (stateController
+                                                  .isLogin.value) {
+                                                cartController.addToCart(
+                                                  '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                  cartController
+                                                      .cartProducts[currentKey]!
+                                                      .ref!
+                                                      .name!,
+                                                  -1,
+                                                  cartController
+                                                      .cartProducts[currentKey]!
+                                                      .price,
+                                                  cartController
+                                                      .cartProducts[currentKey]!
+                                                      .product,
+                                                  null,
+                                                  null,
+                                                  null,
+                                                  cartController
+                                                      .cartProducts[currentKey]!
+                                                      .product
+                                                      .varient,
+                                                );
+                                              } else {
+                                                stateController
+                                                    .setCurrentTab(3);
+                                                var showToast =
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to preoceed');
+                                              }
+                                              stateController.showLoader.value =
+                                                  false;
+                                            },
+                                            icon: const Icon(
+                                              Icons.remove_circle_outline,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                          Text(
+                                            cartController
+                                                .getCurrentQuantity(
+                                                    '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                    '')
+                                                .toString(),
+                                            style: TextStyles.bodyFontBold
+                                                .copyWith(
+                                                    fontSize: 20,
+                                                    color: Colors.white),
+                                          ),
+                                          IconButton(
+                                            padding: const EdgeInsets.all(4),
+                                            constraints: const BoxConstraints(),
+                                            onPressed: () async {
+                                              stateController.showLoader.value =
+                                                  true;
+                                              if (stateController
+                                                  .isLogin.value) {
+                                                var valid = false;
+                                                var msg =
+                                                    'Something went wrong!';
+
+                                                if (cartController
+                                                            .cartProducts[
+                                                                currentKey]!
+                                                            .ruleConfig !=
+                                                        null ||
+                                                    cartController
+                                                            .cartProducts[
+                                                                currentKey]!
+                                                            .constraint !=
+                                                        null) {
+                                                  dynamic data = await Helper
+                                                      .checkProductValidtoAddinCart(
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .ruleConfig,
+                                                          cartController
+                                                              .cartProducts[
+                                                                  currentKey]!
+                                                              .constraint,
+                                                          cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .ref!
+                                                                  .id ??
+                                                              "",
+                                                          cartController
+                                                                  .cartProducts[
+                                                                      currentKey]!
+                                                                  .ref!
+                                                                  .id ??
+                                                              '');
+                                                  valid = !data['error'];
+                                                  msg = data['msg'];
+                                                }
+                                                if (valid) {
+                                                  cartController.addToCart(
+                                                      '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]!
+                                                          .ref!
+                                                          .name!,
+                                                      1,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]!
+                                                          .price,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]!
+                                                          .product,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      cartController
+                                                          .cartProducts[
+                                                              currentKey]!
+                                                          .product
+                                                          .varient);
+                                                } else {
+                                                  var showToast = snackBarClass
+                                                      .showToast(context, msg);
+                                                }
+                                              }
+                                              stateController.showLoader.value =
+                                                  false;
+                                            },
+                                            icon: const Icon(
+                                              Icons.add_circle_outline,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  cartButtons(
+                                      context, cartController, currentKey),
+                                  MaterialButton(
                                     onPressed: () async {
                                       stateController.showLoader.value = true;
                                       await cartController.removeProduct(
@@ -658,231 +925,23 @@ class _CartWidget extends State<CartWidget> {
                                               color: Colors.grey, fontSize: 16),
                                         )
                                       ],
-                                    ))
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    : SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListTile(
-                              dense: false,
-                              visualDensity: VisualDensity(vertical: 3),
-                              leading: ImageBox(
-                                cartController.cartProducts.value[currentKey]!
-                                    .product!.images![0],
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.contain,
-                              ),
-                              title: FitText(
-                                cartController.cartProducts.value[currentKey]!
-                                    .product!.name!.defaultText!.text!,
-                                style: TextStyles.bodyFontBold,
-                                align: TextAlign.start,
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                      '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
-                                  Text(
-                                      '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
-                                ],
-                              ),
-                              trailing: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
-                                    style: TextStyles.titleLargeBold,
-                                  ),
-                                  Card(
-                                    color: AppColors.primeColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          padding: const EdgeInsets.all(4),
-                                          constraints: const BoxConstraints(),
-                                          onPressed: () async {
-                                            stateController.showLoader.value =
-                                                true;
-                                            if (stateController.isLogin.value) {
-                                              cartController.addToCart(
-                                                  '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .ref!
-                                                      .name!,
-                                                  -1,
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .price,
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .product,
-                                                  null,
-                                                  null,
-                                                  null);
-                                            } else {
-                                              stateController.setCurrentTab(3);
-                                              var showToast =
-                                                  snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
-                                            }
-                                            stateController.showLoader.value =
-                                                false;
-                                          },
-                                          icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                            color: Colors.white,
-                                            size: 20,
-                                          ),
-                                        ),
-                                        Text(
-                                          cartController
-                                              .getCurrentQuantity(
-                                                  '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                  '')
-                                              .toString(),
-                                          style: TextStyles.bodyFontBold
-                                              .copyWith(
-                                                  fontSize: 20,
-                                                  color: Colors.white),
-                                        ),
-                                        IconButton(
-                                          padding: const EdgeInsets.all(4),
-                                          constraints: const BoxConstraints(),
-                                          onPressed: () async {
-                                            stateController.showLoader.value =
-                                                true;
-                                            if (stateController.isLogin.value) {
-                                              var valid = false;
-                                              var msg = 'Something went wrong!';
-
-                                              if (cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .ruleConfig !=
-                                                      null ||
-                                                  cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .constraint !=
-                                                      null) {
-                                                dynamic data = await Helper
-                                                    .checkProductValidtoAddinCart(
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .ruleConfig,
-                                                        cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .constraint,
-                                                        cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .ref!
-                                                                .id ??
-                                                            "",
-                                                        cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
-                                                                .ref!
-                                                                .id ??
-                                                            '');
-                                                valid = !data['error'];
-                                                msg = data['msg'];
-                                              }
-                                              if (valid) {
-                                                cartController.addToCart(
-                                                    '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                    cartController
-                                                        .cartProducts[
-                                                            currentKey]!
-                                                        .ref!
-                                                        .name!,
-                                                    1,
-                                                    cartController
-                                                        .cartProducts[
-                                                            currentKey]!
-                                                        .price,
-                                                    cartController
-                                                        .cartProducts[
-                                                            currentKey]!
-                                                        .product,
-                                                    null,
-                                                    null,
-                                                    null);
-                                              } else {
-                                                var showToast = snackBarClass
-                                                    .showToast(context, msg);
-                                              }
-                                            }
-                                            stateController.showLoader.value =
-                                                false;
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_circle_outline,
-                                            color: Colors.white,
-                                            size: 20,
-                                          ),
-                                        ),
-                                      ],
                                     ),
-                                  ),
+                                  )
                                 ],
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                cartButtons(
-                                    context, cartController, currentKey),
-                                MaterialButton(
-                                  onPressed: () async {
-                                    stateController.showLoader.value = true;
-                                    await cartController.removeProduct(
-                                        currentKey, '');
-                                    stateController.showLoader.value = false;
-                                  },
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.delete,
-                                        size: 20,
-                                        color: Colors.grey,
-                                      ),
-                                      Text(
-                                        'Remove',
-                                        style: TextStyles.body.copyWith(
-                                            color: Colors.grey, fontSize: 16),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                checkoutClicked.value &&
-                        !cartController.checktOrderRefAvailable(
-                            cartController.cartProducts.value[currentKey]!.ref)
-                    ? recpmmondedProduct(context, cartController, currentKey)
-                    : const SizedBox()
-              ],
-            );
-          },
-        )));
+                  checkoutClicked.value &&
+                          !cartController.checktOrderRefAvailable(cartController
+                              .cartProducts.value[currentKey]!.ref)
+                      ? recpmmondedProduct(context, cartController, currentKey)
+                      : const SizedBox()
+                ],
+              );
+            },
+          )),
+    );
   }
 
   cartData(context, cartController) {
@@ -1189,7 +1248,7 @@ class _CartWidget extends State<CartWidget> {
                           Center(
                             child: ElevatedButton(
                               onPressed: () async {
-                                 await cartController.checkout();
+                                await cartController.checkout();
                                 checkoutClicked.value = true;
                                 var data = await cartController.createPayment();
                                 if (data['error']) {
