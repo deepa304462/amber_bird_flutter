@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -17,18 +18,22 @@ class SaveLater extends StatelessWidget {
     cartController.clearCheckout();
     return Obx(
       () => cartController.saveLaterProducts.length > 0
-          ? Column(
-              children: [
-                Text(
-                  'Saved Products',
-                  style: TextStyles.titleGreen,
-                ),
-                saveLaterData(context, cartController),
-              ],
+          ? Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Saved Products',
+                    style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
+                  ),
+                  saveLaterData(context, cartController),
+                ],
+              ),
             )
           : Text(
               'Saved Products',
-              style: TextStyles.titleGreen,
+              style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
             ),
     );
   }
@@ -67,108 +72,92 @@ class SaveLater extends StatelessWidget {
                                   .saveLaterProducts
                                   .value[currentKey]!
                                   .products![pIndex];
-                              return Card(
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                              return SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      dense: false,
+                                      visualDensity: VisualDensity(vertical: 3),
+                                      leading: ImageBox(
+                                        cartController
+                                            .cartProducts
+                                            .value[currentKey]!
+                                            .product!
+                                            .images![0],
+                                        width: 80,
+                                        height: 80,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      title: FitText(
+                                        cartController
+                                            .cartProducts
+                                            .value[currentKey]!
+                                            .product!
+                                            .name!
+                                            .defaultText!
+                                            .text!,
+                                        style: TextStyles.bodyFontBold,
+                                        align: TextAlign.start,
+                                      ),
+                                      subtitle: Row(
                                         children: [
-                                          ImageBox(
-                                            '${currentProduct.images![0]}',
-                                            width: 80,
-                                            height: 80,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text(currentProduct
-                                                  .name!.defaultText!.text!),
-                                              Text(
-                                                  '${currentProduct.varient!.weight.toString()} ${currentProduct.varient!.unit}'),
-                                              Text(
-                                                  '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${currentProduct.varient!.price!.offerPrice!} ')
-                                            ],
-                                          ),
                                           Text(
-                                              '${CodeHelp.euro}${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
+                                              '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
+                                          Text(
+                                              '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        saveLaterButtons(context,
+                                            cartController, currentKey),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               );
                             },
                           ),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                              onPressed: () async {
-                                stateController.showLoader.value = true;
-                                await cartController.removeProduct(currentKey);
-                                stateController.showLoader.value = false;
-                              },
-                              icon: const Icon(Icons.close_rounded)),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: saveLaterButtons(
-                              context, cartController, currentKey),
-                        )
                       ],
                     )
-                  : Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
+                  : Column(
+                      children: [
+                        ListTile(
+                          dense: false,
+                          visualDensity: VisualDensity(vertical: 3),
+                          leading: ImageBox(
+                            cartController.saveLaterProducts.value[currentKey]!
+                                .product!.images![0],
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.contain,
+                          ),
+                          title: FitText(
+                            cartController.saveLaterProducts.value[currentKey]!
+                                .product!.name!.defaultText!.text!,
+                            style: TextStyles.bodyFontBold,
+                            align: TextAlign.start,
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                  '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
+                              Text(
+                                  '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                            ],
+                          ),
+                        ),
+                        Row(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ImageBox(
-                                  cartController.saveLaterProducts
-                                      .value[currentKey]!.product!.images![0],
-                                  width: 80,
-                                  height: 80,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(cartController
-                                        .saveLaterProducts
-                                        .value[currentKey]!
-                                        .product!
-                                        .name!
-                                        .defaultText!
-                                        .text!),
-                                    Text(
-                                        '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
-                                    Text(
-                                        '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
-                                  ],
-                                ),
-                                Text(
-                                    '${CodeHelp.euro}${(cartController.saveLaterProducts[currentKey]!.price!.offerPrice * cartController.saveLaterProducts[currentKey]!.count).toString()}'),
-                                IconButton(
-                                  onPressed: () async {
-                                    stateController.showLoader.value = true;
-                                    await cartController.removeProduct(
-                                        currentKey, '');
-                                    stateController.showLoader.value = false;
-                                  },
-                                  icon: const Icon(Icons.close_rounded),
-                                )
-                              ],
-                            ),
                             saveLaterButtons(
-                                context, cartController, currentKey)
+                                context, cartController, currentKey),
                           ],
                         ),
-                      ),
-                    ),
+                      ],
+                    )
             ],
           ),
         );
@@ -186,7 +175,7 @@ class SaveLater extends StatelessWidget {
               stateController.showLoader.value = false;
             },
             icon: const Icon(Icons.flash_on),
-            label: const Text(' "Add to cart"')),
+            label: const Text('Add to cart')),
         TextButton.icon(
             onPressed: () async {
               stateController.showLoader.value = true;
