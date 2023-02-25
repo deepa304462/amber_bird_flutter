@@ -7,10 +7,13 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -76,7 +79,7 @@ class CategoryPage extends StatelessWidget {
                                 ),
                               ),
                               Obx(() => Center(
-                                    child: Text(
+                                    child: FitText(
                                       megaMenuController.mainTabs[index].text!,
                                       style: (megaMenuController
                                                   .selectedParentTab.value ==
@@ -164,6 +167,38 @@ class CategoryPage extends StatelessWidget {
 
   Widget showResults(
       MegaMenuController megaMenuController, BuildContext context) {
+    if (megaMenuController.isLoading.value) {
+      return Expanded(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              ShimmerWidget(
+                  heightOfTheRow: MediaQuery.of(context).size.width * .4,
+                  radiusOfcell: 12,
+                  widthOfCell: MediaQuery.of(context).size.width * .4),
+              ShimmerWidget(
+                  heightOfTheRow: MediaQuery.of(context).size.width * .4,
+                  radiusOfcell: 12,
+                  widthOfCell: MediaQuery.of(context).size.width * .4),
+              ShimmerWidget(
+                  heightOfTheRow: MediaQuery.of(context).size.width * .4,
+                  radiusOfcell: 12,
+                  widthOfCell: MediaQuery.of(context).size.width * .4),
+              ShimmerWidget(
+                  heightOfTheRow: MediaQuery.of(context).size.width * .4,
+                  radiusOfcell: 12,
+                  widthOfCell: MediaQuery.of(context).size.width * .4),
+              ShimmerWidget(
+                  heightOfTheRow: MediaQuery.of(context).size.width * .4,
+                  radiusOfcell: 12,
+                  widthOfCell: MediaQuery.of(context).size.width * .4),
+            ],
+          ),
+        ),
+      );
+    }
     switch (megaMenuController.selectedType.value) {
       case 'DEAL':
         return _dealGrid(megaMenuController, context);
@@ -184,34 +219,41 @@ class CategoryPage extends StatelessWidget {
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
-      //   child: GridView.builder(
-      //     physics: const BouncingScrollPhysics(),
-      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      //         crossAxisCount: 2, childAspectRatio: 6 / 8, crossAxisSpacing: 10),
-      //     scrollDirection: Axis.vertical,
-      //     itemCount: megaMenuController.dealProductList.length,
-      //     shrinkWrap: true,
-      //     itemBuilder: (_, index) {
-      child: MasonryGridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-        itemCount: megaMenuController.dealProductList.length,
-        itemBuilder: (_, index) {
-          DealProduct dealProduct = megaMenuController.dealProductList[index];
-          if (dealProduct.product != null) {
-            return ProductCard(
-                dealProduct.product,
-                dealProduct.product!.id,
-                megaMenuController.selectedParentTab.value,
-                dealProduct.product!.varient!.price!,
-                dealProduct.ruleConfig,
-                dealProduct.constraint);
-          } else {
-            return const SizedBox();
-          }
-        },
-      ),
+      child: megaMenuController.dealProductList.length > 0
+          ? MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              itemCount: megaMenuController.dealProductList.length,
+              itemBuilder: (_, index) {
+                DealProduct dealProduct =
+                    megaMenuController.dealProductList[index];
+                if (dealProduct.product != null) {
+                  return ProductCard(
+                      dealProduct.product,
+                      dealProduct.product!.id,
+                      megaMenuController.selectedParentTab.value,
+                      dealProduct.product!.varient!.price!,
+                      dealProduct.ruleConfig,
+                      dealProduct.constraint);
+                } else {
+                  return const SizedBox();
+                }
+              },
+            )
+          : Column(
+              children: [
+                Lottie.asset('assets/no-data.json',
+                    width: MediaQuery.of(context).size.width * .5,
+                    fit: BoxFit.contain),
+                Expanded(
+                  child: Text(
+                    'No product available in this section',
+                    style: TextStyles.bodyFont,
+                  ),
+                )
+              ],
+            ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class PriceTag extends StatelessWidget {
   final String showPrice;
@@ -42,6 +43,15 @@ class PriceTag extends StatelessWidget {
   }
 
   Widget _showCoins() {
-    return Text('${scoin}');
+    return Row(
+      children: [
+        Text(
+          '${scoin}',
+          style: TextStyles.titleLargeBold,
+        ),
+        Lottie.asset('assets/coin.json',
+            height: 50, fit: BoxFit.fill, repeat: true),
+      ],
+    );
   }
 }

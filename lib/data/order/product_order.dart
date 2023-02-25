@@ -10,22 +10,23 @@ class ProductOrder {
   ProductSummary? product;
   List<ProductSummary>? products;
   String? productType;
+  String? name;
   RuleConfig? ruleConfig;
   Constraint? constraint;
   Ref? ref;
   int? count;
   Price? price;
 
-  ProductOrder({
-    this.product,
-    this.products,
-    this.productType,
-    this.ruleConfig,
-    this.constraint,
-    this.ref,
-    this.count,
-    this.price,
-  });
+  ProductOrder(
+      {this.product,
+      this.products,
+      this.productType,
+      this.ruleConfig,
+      this.constraint,
+      this.ref,
+      this.count,
+      this.price,
+      this.name});
 
   @override
   String toString() {
@@ -43,6 +44,7 @@ class ProductOrder {
                 ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
                 .toList(),
         productType: data['productType'] as String?,
+        name: data['name'] as String?,
         ruleConfig: data['ruleConfig'] == null
             ? null
             : RuleConfig.fromMap(data['ruleConfig'] as Map<String, dynamic>),
@@ -64,6 +66,7 @@ class ProductOrder {
         'product': product?.toMap(),
         'products': products?.map((e) => e.toMap()).toList(),
         'productType': productType,
+        'name': name,
         'ruleConfig': ruleConfig?.toMap(),
         'constraint': constraint?.toMap(),
         'ref': ref?.toMap(),

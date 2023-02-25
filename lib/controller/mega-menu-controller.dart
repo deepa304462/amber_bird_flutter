@@ -67,7 +67,7 @@ class MegaMenuController extends GetxController {
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
           id: dealName.EXCLUSIVE_DEAL.name,
           type: 'DEAL',
-          text: 'Exclus'));
+          text: 'Exclusive'));
       cList.add(GenericTab(
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
           id: dealName.WEEKLY_DEAL.name,
@@ -125,6 +125,7 @@ class MegaMenuController extends GetxController {
         id: parentTab.id,
         type: parentTab.text,
         image: parentTab.image));
+    isLoading.value = true;
     if (parentTab.type == 'DEAL') {
       var resp = await ClientService.get(
           path: 'dealProduct/categorySummary', id: parentTab.id);
@@ -170,10 +171,12 @@ class MegaMenuController extends GetxController {
             []);
       }
     }
+    isLoading.value = false;
     getAllProducts(subMenuList[0], parentTab);
   }
 
   Future<void> getAllProducts(GenericTab subMenu, GenericTab parentTab) async {
+    isLoading.value = true;
     var payload = {"": ""};
     if (parentTab.type == 'CAT') {
       if (subMenu.text != 'All') {
@@ -195,6 +198,7 @@ class MegaMenuController extends GetxController {
             []);
         productList.value = pList;
       }
+      isLoading.value = false;
     } else if (parentTab.type == 'DEAL') {
       getDealProduct(subMenu, parentTab.id!);
     } else if (parentTab.type == 'MULTI') {
@@ -203,6 +207,7 @@ class MegaMenuController extends GetxController {
   }
 
   getmultiProductProduct(GenericTab submenu, String key) async {
+    isLoading.value = true;
     var payload = {"type": key};
     if (submenu.text != 'All') {
       payload['categoryId'] = submenu.id!;
@@ -216,9 +221,11 @@ class MegaMenuController extends GetxController {
           []);
       multiProd.value = (dList);
     }
+    isLoading.value = false;
   }
 
   getDealProduct(GenericTab submenu, String name) async {
+    isLoading.value = true;
     var payload = {"type": name};
     if (submenu.text != 'All') {
       payload['categoryId'] = submenu.id!;
@@ -232,5 +239,6 @@ class MegaMenuController extends GetxController {
           []);
       dealProductList.value = (dList);
     }
+    isLoading.value = false;
   }
 }

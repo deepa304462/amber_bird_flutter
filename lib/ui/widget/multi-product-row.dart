@@ -230,7 +230,12 @@ class MultiProductRow extends StatelessWidget {
                                                                 null,
                                                                 mProduct
                                                                     .constraint,
-                                                                null);
+                                                                null,
+                                                                mutliProductName:
+                                                                    mProduct
+                                                                        .name!
+                                                                        .defaultText!
+                                                                        .text!);
                                                           } else {
                                                             Navigator.of(
                                                                     context)
@@ -305,7 +310,12 @@ class MultiProductRow extends StatelessWidget {
                                                                 null,
                                                                 mProduct
                                                                     .constraint,
-                                                                null);
+                                                                null,
+                                                                mutliProductName:
+                                                                    mProduct
+                                                                        .name!
+                                                                        .defaultText!
+                                                                        .text!);
                                                           } else {
                                                             Navigator.of(
                                                                     context)
@@ -367,7 +377,12 @@ class MultiProductRow extends StatelessWidget {
                                                             mProduct.products,
                                                             null,
                                                             mProduct.constraint,
-                                                            null);
+                                                            null,
+                                                            mutliProductName:
+                                                                mProduct
+                                                                    .name!
+                                                                    .defaultText!
+                                                                    .text!);
                                                       } else {
                                                         Navigator.of(context)
                                                             .pop();

@@ -328,7 +328,8 @@ class CartController extends GetxController {
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
       Constraint? constraint,
-      Varient? varient) async {
+      Varient? varient,
+      {String? mutliProductName}) async {
     // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
@@ -339,16 +340,15 @@ class CartController extends GetxController {
       double price = (priceInfo!.offerPrice).toDouble();
       List li = [];
       if (products != null) {
-        price = 0;
         for (var element in products) {
           li.add(element.toJson());
+          if (priceInfo == null) {
+            price = price + element.varient!.price!.offerPrice;
+          }
           if (getData != null) {
             quantity = getData.count!;
             quantity = quantity + addQuantity;
-            price = price + element.varient!.price!.offerPrice;
-          } else {
-            price = price + element.varient!.price!.offerPrice;
-          }
+          } else {}
         }
       } else {
         if (getData != null) {
@@ -368,6 +368,7 @@ class CartController extends GetxController {
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
+          'name': mutliProductName ?? '',
           'price': {
             'actualPrice': price,
             'memberCoin': 0,
