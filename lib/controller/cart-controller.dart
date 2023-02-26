@@ -58,7 +58,6 @@ class CartController extends GetxController {
     for (var v in cartProductsScoins.value.values) {
       listScoins.add((jsonDecode(v.toJson())));
     }
-
     if (listScoins.length > 0 && listSumm.length > 0) {
       selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
     } else if (listScoins.length > 0) {
@@ -79,94 +78,114 @@ class CartController extends GetxController {
     log(jsonEncode(cust).toString());
     log(jsonEncode(cust.cart));
     var payload;
-    var resp = await ClientService.post(
-        path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
-    if (resp.statusCode == 200) {
-      Checkout data = Checkout.fromMap(resp.data);
-      checkoutData.value = data;
-      if (data.allAvailable == true) {
-        var resp1;
-        if (orderId.value != '') {
-          payload = {
-            'status': 'INIT',
-            'customerRef': (jsonDecode(custRef.toJson())),
-            'products': listSumm,
-            'productsViaSCoins': listScoins,
-            "payment": {
-              "paidBy": (jsonDecode(custRef.toJson())),
-              "order": orderId.value != ''
-                  ? {"name": custRef.id, "_id": orderId.value}
-                  : null,
-              "currency": "EUR", //{"currencyCode": "USD"},
-              "paidTo": {"name": "sbazar", "_id": "sbazar"},
-              "status": "OPEN",
-              "description": "order created",
-              "paymentGateWayDetail": {
-                "usedPaymentGateWay": selectedPaymentMethod.value,
+    if (selectedAdd != null && selectedAdd.name != null) {
+      var resp = await ClientService.post(
+          path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+      if (resp.statusCode == 200) {
+        Checkout data = Checkout.fromMap(resp.data);
+        checkoutData.value = data;
+        if (data.allAvailable == true) {
+          var resp1;
+          if (orderId.value != '') {
+            payload = {
+              'status': 'INIT',
+              'customerRef': (jsonDecode(custRef.toJson())),
+              'products': listSumm,
+              'productsViaSCoins': listScoins,
+              "payment": {
+                "paidBy": (jsonDecode(custRef.toJson())),
+                "order": orderId.value != ''
+                    ? {"name": custRef.id, "_id": orderId.value}
+                    : null,
+                "currency": "EUR", //{"currencyCode": "USD"},
+                "paidTo": {"name": "sbazar", "_id": "sbazar"},
+                "status": "OPEN",
+                "description": "order created",
+                "paymentGateWayDetail": {
+                  "usedPaymentGateWay": selectedPaymentMethod.value,
+                },
+                "appliedCouponCode": selectedCoupon.value.couponCode != null
+                    ? {
+                        "name": selectedCoupon.value.couponCode,
+                        "_id": selectedCoupon.value.id
+                      }
+                    : null,
               },
-              "appliedCouponCode": selectedCoupon.value.couponCode != null
-                  ? {
-                      "name": selectedCoupon.value.couponCode,
-                      "_id": selectedCoupon.value.id
-                    }
-                  : null,
-            },
-            '_id': orderId.value,
-            'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
-            'shipping': {
-              'orderRef': orderId.value != ''
-                  ? {"name": custRef.id, "_id": orderId.value}
-                  : null,
-              'destination': {
-                'customerAddress': (jsonDecode(selectedAdd.toJson())),
+              '_id': orderId.value,
+              'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+              'shipping': {
+                'orderRef': orderId.value != ''
+                    ? {"name": custRef.id, "_id": orderId.value}
+                    : null,
+                'destination': {
+                  'customerAddress': (jsonDecode(selectedAdd.toJson())),
+                }
+              },
+              'referredById': referredbyId != null ? referredbyId : null,
+            };
+            resp1 = await ClientService.Put(
+                path: 'order', id: orderId.value, payload: payload);
+          } else {
+            payload = {
+              'status': 'INIT',
+              'customerRef': (jsonDecode(custRef.toJson())),
+              'products': listSumm,
+              'productsViaSCoins': listScoins,
+              "payment": {
+                "paidBy": (jsonDecode(custRef.toJson())),
+                "currency": "EUR", //{"currencyCode": "USD"},
+                "paidTo": {"name": "sbazar", "_id": "sbazar"},
+                "status": "OPEN",
+                "description": "order created",
+                "paymentGateWayDetail": {
+                  "usedPaymentGateWay": selectedPaymentMethod.value,
+                },
+                "appliedCouponCode": selectedCoupon.value.couponCode != null
+                    ? {
+                        "name": selectedCoupon.value.couponCode,
+                        "_id": selectedCoupon.value.id
+                      }
+                    : null,
+              },
+              'referredById': referredbyId != null ? referredbyId : null,
+              'shipping': {
+                'destination': {
+                  'customerAddress': (jsonDecode(selectedAdd.toJson())),
+                }
               }
-            },
-            'referredById': referredbyId != null ? referredbyId : null,
-          };
-          resp1 = await ClientService.Put(
-              path: 'order', id: orderId.value, payload: payload);
+            };
+            resp1 = await ClientService.post(path: 'order', payload: payload);
+          }
+          if (resp1.statusCode == 200) {
+            log(jsonEncode(payload).toString());
+            log(jsonEncode(resp1.data).toString());
+            if (orderId.value == '') orderId.value = resp1.data['_id'];
+            // var ord = Order.fromMap(resp1.data);
+            cust.cart = Order.fromMap(resp1.data);
+            calculatedPayment.value = cust.cart!.payment!;
+            OfflineDBService.save(OfflineDBService.customerInsightDetail,
+                (jsonDecode(cust.toJson())));
+
+            return ({'error': false, 'data': '', 'msg': ''});
+          } else {
+            return ({
+              'error': false,
+              'data': '',
+              'msg': 'Something went wrong!!'
+            });
+          }
         } else {
-          payload = {
-            'status': 'INIT',
-            'customerRef': (jsonDecode(custRef.toJson())),
-            'products': listSumm,
-            'productsViaSCoins': listScoins,
-            "payment": {
-              "paidBy": (jsonDecode(custRef.toJson())),
-              "currency": "EUR", //{"currencyCode": "USD"},
-              "paidTo": {"name": "sbazar", "_id": "sbazar"},
-              "status": "OPEN",
-              "description": "order created",
-              "paymentGateWayDetail": {
-                "usedPaymentGateWay": selectedPaymentMethod.value,
-              },
-              "appliedCouponCode": selectedCoupon.value.couponCode != null
-                  ? {
-                      "name": selectedCoupon.value.couponCode,
-                      "_id": selectedCoupon.value.id
-                    }
-                  : null,
-            },
-            'referredById': referredbyId != null ? referredbyId : null,
-            'shipping': {
-              'destination': {
-                'customerAddress': (jsonDecode(selectedAdd.toJson())),
-              }
-            }
-          };
-          resp1 = await ClientService.post(path: 'order', payload: payload);
+          return ({
+            'error': true,
+            'data': '',
+            'msg': 'All products not available!!'
+          });
         }
-        if (resp1.statusCode == 200) {
-          log(jsonEncode(payload).toString());
-          log(jsonEncode(resp1.data).toString());
-          if (orderId.value == '') orderId.value = resp1.data['_id'];
-          // var ord = Order.fromMap(resp1.data);
-          cust.cart = Order.fromMap(resp1.data);
-          calculatedPayment.value = cust.cart!.payment!;
-          OfflineDBService.save(OfflineDBService.customerInsightDetail,
-              (jsonDecode(cust.toJson())));
-        }
+      } else {
+        return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
       }
+    } else {
+      return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
     }
   }
 
@@ -220,7 +239,12 @@ class CartController extends GetxController {
           if (resp1.data.length > 0 && resp1.data[0] != null) {
             paymentData.value =
                 Payment.fromMap(resp1.data[0] as Map<String, dynamic>);
-            return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
+            log(jsonEncode(paymentData.value).toString());
+            if (resp1.data[0]['checkoutUrl'] != null) {
+              return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
+            } else {
+              return ({'error': true, 'msg': 'Please try again in some time'});
+            }
           } else {
             return ({'error': true, 'msg': 'Please try again in some time'});
           }
@@ -236,14 +260,14 @@ class CartController extends GetxController {
         path: 'payment/mollie/getPayment', id: paymentData.value!.id);
     if (resp.statusCode == 200) {
       paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
-      resetetCustomerDetail();
+      resetCustomerDetail();
       return ({'error': false, 'data': resp.data});
     } else {
       return ({'error': true, 'data': ''});
     }
   }
 
-  resetetCustomerDetail() async {
+  resetCustomerDetail() async {
     if (Get.isRegistered<Controller>()) {
       var controller = Get.find<Controller>();
       var customerInsightDetail = await ClientService.post(
@@ -253,6 +277,8 @@ class CartController extends GetxController {
       if (customerInsightDetail.statusCode == 200) {
         OfflineDBService.save(
             OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+        await fetchCart();
+        resetCart();
       }
     }
   }

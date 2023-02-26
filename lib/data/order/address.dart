@@ -4,6 +4,7 @@ import 'package:amber_bird/data/deal_product/geo_address.dart';
 
 class Address {
   String? line1;
+  String? houseNo;
   String? name;
   String? line2;
   String? landMark;
@@ -18,6 +19,7 @@ class Address {
 
   Address({
     this.line1,
+    this.houseNo,
     this.name,
     this.line2,
     this.landMark,
@@ -33,12 +35,13 @@ class Address {
 
   @override
   String toString() {
-    return 'CustomerAddress(line1: $line1,name: $name, line2: $line2, landMark: $landMark, zipCode: $zipCode, city: $city, country: $country, localArea: $localArea, addressType: $addressType, geoAddress: $geoAddress, phoneNumber: $phoneNumber, directionComment: $directionComment)';
+    return 'CustomerAddress(line1: $line1,houseNo:$houseNo,name: $name, line2: $line2, landMark: $landMark, zipCode: $zipCode, city: $city, country: $country, localArea: $localArea, addressType: $addressType, geoAddress: $geoAddress, phoneNumber: $phoneNumber, directionComment: $directionComment)';
   }
 
   factory Address.fromMap(Map<String, dynamic> data) {
     return Address(
       line1: data['line1'] as String?,
+      houseNo: data['houseNo'] as String?,
       name: data['name'] as String?,
       line2: data['line2'] as String?,
       landMark: data['landMark'] as String?,
@@ -57,6 +60,7 @@ class Address {
 
   Map<String, dynamic> toMap() => {
         'line1': line1,
+        'houseNo': houseNo,
         'name': name,
         'line2': line2,
         'landMark': landMark,
@@ -84,6 +88,7 @@ class Address {
 
   Address copyWith({
     String? line1,
+    String? houseNo,
     String? name,
     String? line2,
     String? landMark,
@@ -98,6 +103,7 @@ class Address {
   }) {
     return Address(
       line1: line1 ?? this.line1,
+      houseNo: houseNo ?? this.houseNo,
       name: name ?? this.name,
       line2: line2 ?? this.line2,
       landMark: landMark ?? this.landMark,

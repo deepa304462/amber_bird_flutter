@@ -100,22 +100,28 @@ class _CartWidget extends State<CartWidget> {
                   color: Colors.green,
                   visualDensity: VisualDensity(horizontal: 4),
                   onPressed: () async {
-                    await cartController.checkout();
-                    if (cartController.checkoutData.value!.allAvailable ==
-                        true) {
-                      checkoutClicked.value = true;
-                      var data = await cartController.createPayment();
-                      if (data == null || data['error']) {
-                        // ignore: use_build_context_synchronously
-                        snackBarClass.showToast(
-                            context, data['msg'] ?? 'Something went wrong');
-                      } else {
-                        Modular.to
-                            .navigate('/home/inapp', arguments: data['data']);
-                      }
+                    var checkoutResp = await cartController.checkout();
+                    if (checkoutResp == null || checkoutResp['error']) {
+                      // ignore: use_build_context_synchronously
+                      snackBarClass.showToast(context,
+                          checkoutResp['msg'] ?? 'Something went wrong');
                     } else {
-                      snackBarClass.showToast(
-                          context, 'All product not available');
+                      if (cartController.checkoutData.value!.allAvailable ==
+                          true) {
+                        checkoutClicked.value = true;
+                        var data = await cartController.createPayment();
+                        if (data == null || data['error']) {
+                          // ignore: use_build_context_synchronously
+                          snackBarClass.showToast(
+                              context, data['msg'] ?? 'Something went wrong');
+                        } else {
+                          Modular.to
+                              .navigate('/home/inapp', arguments: data['data']);
+                        }
+                      } else {
+                        snackBarClass.showToast(
+                            context, 'All product not available');
+                      }
                     }
                   },
                   elevation: 2,
@@ -1172,7 +1178,7 @@ class _CartWidget extends State<CartWidget> {
                       style: TextStyles.bodyFont,
                     ),
                     Text(
-                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount as double).toStringAsFixed(2)}',
+                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0 as double).toStringAsFixed(2)}',
                       style: TextStyles.bodyFontBold,
                     ),
                   ],

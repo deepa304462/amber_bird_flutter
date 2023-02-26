@@ -48,13 +48,13 @@ class _MyAppState extends State<InApp> {
               onLoadStop: (controller, url) async {},
               onProgressChanged:
                   (InAppWebViewController controller, int progress) {},
-              onUpdateVisitedHistory: (controller, url, androidIsReload) {
+              onUpdateVisitedHistory: (controller, url, androidIsReload) async {
                 // log(controller.toString());
                 // log(url.toString());
                 if (url.toString() ==
                     'https://prod.sbazar.app/order/${cartController.orderId.value}') {
                   CartController cartController = Get.find();
-                  cartController.paymentStatusCheck();
+                  await cartController.paymentStatusCheck();
                   Modular.to.navigate('./paymentStatus');
                 } 
               },

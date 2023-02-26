@@ -120,7 +120,6 @@ class LocationController extends GetxController {
 
   saveAddress() {
     OfflineDBService.save(OfflineDBService.location, address.value);
-
     Modular.to.navigate('home/main');
   }
 
@@ -139,7 +138,6 @@ class LocationController extends GetxController {
         }
       }
     }
-
     return '';
   }
 
@@ -174,7 +172,6 @@ class LocationController extends GetxController {
       currentLatLang.value = LatLng(data['geometry']['location']['lat'],
           data['geometry']['location']['lng']);
     }
-
     // setAddressCall();
   }
 
@@ -191,7 +188,6 @@ class LocationController extends GetxController {
         } else {
           cust.addresses![cust.addresses!.length - 1] = (addressData.value);
         }
-
         var payload = cust.toMap();
         // log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
@@ -216,9 +212,7 @@ class LocationController extends GetxController {
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
             CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
-
         cust.addresses![seelctedIndexToEdit.value] = (addressData.value);
-
         var payload = cust.toMap();
         // log(payload.toString());
         var userData = jsonDecode(await (SharedData.read('userData')));
@@ -283,6 +277,8 @@ class LocationController extends GetxController {
   setFielsvalue(String text, String name) {
     if (name == 'city') {
       changeAddressData.value.city = text;
+    } else if (name == 'houseNo') {
+      changeAddressData.value.houseNo = text;
     } else if (name == 'country') {
       changeAddressData.value.country = text;
     } else if (name == 'line1') {
