@@ -55,7 +55,7 @@ class _MyAppState extends State<InApp> {
           });
         },
         onProgressChanged: (InAppWebViewController controller, int progress) {},
-        onUpdateVisitedHistory: (controller, url, androidIsReload)async {
+        onUpdateVisitedHistory: (controller, url, androidIsReload) async {
           // log(controller.toString());
           // log(url.toString());
           if (url.toString() ==

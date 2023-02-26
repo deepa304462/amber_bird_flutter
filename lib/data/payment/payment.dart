@@ -12,6 +12,7 @@ class Payment {
   dynamic? discountAmount;
   dynamic? totalAmount;
   dynamic? paidAmount;
+  dynamic? totalSavedAmount;
   String? currency;
   dynamic paidTo;
   String? status;
@@ -33,6 +34,7 @@ class Payment {
     this.order,
     this.appliedCouponCode,
     this.discountAmount,
+    this.totalSavedAmount,
     this.totalAmount,
     this.paidAmount,
     this.currency,
@@ -75,6 +77,7 @@ class Payment {
                 ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
                 .toList(),
         discountAmount: data['discountAmount'] as dynamic?,
+        totalSavedAmount: data['totalSavedAmount'] as dynamic?,
         totalAmount: data['totalAmount'] as dynamic?,
         paidAmount: data['paidAmount'] as dynamic?,
         currency: data['currency'] as String?,
@@ -101,6 +104,7 @@ class Payment {
         'order': order?.toMap(),
         'appliedCouponCode': appliedCouponCode,
         'discountAmount': discountAmount,
+        'totalSavedAmount': totalSavedAmount,
         'totalAmount': totalAmount,
         'paidAmount': paidAmount,
         'currency': currency,
