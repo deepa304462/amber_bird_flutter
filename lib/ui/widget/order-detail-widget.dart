@@ -40,7 +40,7 @@ class OrderDetailWidget extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                                'Order Id #$orderId Status ${orderController.orderDetail.value.status}'),
+                                'Order Id #${orderController.orderDetail.value.id} Status ${orderController.orderDetail.value.status}'),
                             Container(
                               margin: const EdgeInsets.all(2.0),
                               padding: const EdgeInsets.all(3.0),
@@ -138,8 +138,8 @@ class OrderDetailWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: const
-                                          Color.fromARGB(255, 113, 116, 122))),
+                                      color: const Color.fromARGB(
+                                          255, 113, 116, 122))),
                               child: Column(
                                 children: orderController
                                             .orderDetail.value.shipping !=

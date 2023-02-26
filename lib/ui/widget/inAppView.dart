@@ -28,37 +28,32 @@ class _MyAppState extends State<InApp> {
   Widget build(BuildContext context) {
     dynamic args = ModalRoute.of(context)!.settings.arguments;
     return Container(
-      child: Column(children: <Widget>[ 
+      child: Column(children: <Widget>[
         Expanded(
-          child: Container(
-            margin: const EdgeInsets.all(10.0),
-            decoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(args ?? '')),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  javaScriptEnabled: true,
-                ),
+          child: InAppWebView(
+            initialUrlRequest: URLRequest(url: Uri.parse(args ?? '')),
+            initialOptions: InAppWebViewGroupOptions(
+              crossPlatform: InAppWebViewOptions(
+                javaScriptEnabled: true,
               ),
-              onWebViewCreated: (InAppWebViewController controller) {
-                _webViewController = controller;
-              },
-              onLoadStart: (controller, url) {},
-              onLoadStop: (controller, url) async {},
-              onProgressChanged:
-                  (InAppWebViewController controller, int progress) {},
-              onUpdateVisitedHistory: (controller, url, androidIsReload) {
-                // log(controller.toString());
-                // log(url.toString());
-                if (url.toString() ==
-                    'https://prod.sbazar.app/order/${cartController.orderId.value}') {
-                  CartController cartController = Get.find();
-                  cartController.paymentStatusCheck();
-                  Modular.to.navigate('./paymentStatus');
-                } 
-              },
             ),
+            onWebViewCreated: (InAppWebViewController controller) {
+              _webViewController = controller;
+            },
+            onLoadStart: (controller, url) {},
+            onLoadStop: (controller, url) async {},
+            onProgressChanged:
+                (InAppWebViewController controller, int progress) {},
+            onUpdateVisitedHistory: (controller, url, androidIsReload) {
+              // log(controller.toString());
+              // log(url.toString());
+              if (url.toString() ==
+                  'https://prod.sbazar.app/order/${cartController.orderId.value}') {
+                CartController cartController = Get.find();
+                cartController.paymentStatusCheck();
+                Modular.to.navigate('./paymentStatus');
+              }
+            },
           ),
         )
       ]),

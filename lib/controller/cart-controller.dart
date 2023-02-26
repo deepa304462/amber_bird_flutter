@@ -253,6 +253,7 @@ class CartController extends GetxController {
       if (customerInsightDetail.statusCode == 200) {
         OfflineDBService.save(
             OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+        fetchCart();
       }
     }
   }
@@ -307,15 +308,28 @@ class CartController extends GetxController {
         for (var element in cust.cart!.productsViaSCoins!) {
           cartProductsScoins[element.ref!.id ?? ''] = element;
         }
+      } else {
+        cartProducts.clear();
+        cartProductsScoins.clear();
+        calculatedPayment.value = Payment();
+        orderId.value = '';
       }
       if (cust.saveLater != null) {
         saveLaterId.value = cust.saveLater!.id ?? '';
         for (var element in cust.saveLater!.products!) {
           saveLaterProducts[element.ref!.id ?? ''] = element;
         }
+      } else {
+        saveLaterProducts.clear();
+        saveLaterId.value = '';
       }
     } else {
-      cartProducts.value = Map();
+      cartProducts.clear();
+      cartProductsScoins.clear();
+      calculatedPayment.value = Payment();
+      orderId.value = '';
+      saveLaterProducts.clear();
+      saveLaterId.value = '';
     }
   }
 

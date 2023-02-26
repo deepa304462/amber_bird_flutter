@@ -4,10 +4,14 @@ import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/utils/codehelp.dart';
+import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class OrderListPage extends StatelessWidget {
   bool search = false;
@@ -26,42 +30,32 @@ class OrderListPage extends StatelessWidget {
           []);
       orderList.value = oList;
     }
-    //  var insightDetail =
-    //     await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    // log(insightDetail.toString());
-    // Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    // orderList.value = cust.orders;
   }
 
   @override
   Widget build(BuildContext context) {
     getOrderList();
-    return Obx(
-      () => Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
+    return Obx(() => Column(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              IconButton(
+            AppBar(
+              backgroundColor: AppColors.primeColor,
+              title: Text(
+                'Order List',
+                style: TextStyles.headingFont.copyWith(color: Colors.white),
+              ),
+              centerTitle: true,
+              leading: IconButton(
                   onPressed: () {
                     Modular.to.navigate('../home/main');
                   },
-                  icon: const Icon(Icons.arrow_back)),
-              Text(
-                'Order List',
-                style: TextStyles.headingFont,
-              )
-            ]),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blueAccent),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * .70),
-              padding: const EdgeInsets.all(8.0),
-              child: orderList.length > 0
-                  ? ListView.builder(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  )),
+            ),
+            orderList.length > 0
+                ? Expanded(
+                    child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       physics: const BouncingScrollPhysics(),
                       itemCount: orderList.length,
@@ -69,49 +63,119 @@ class OrderListPage extends StatelessWidget {
                         var curOrder = orderList[index];
                         return OrderTile(context, curOrder);
                       },
-                    )
-                  : Center(
-                      child: Text(
-                        'No Orders Available',
-                        style: TextStyles.body,
+                    ),
+                  )
+                : Expanded(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Lottie.asset('assets/no-data.json',
+                              width: MediaQuery.of(context).size.width * .5,
+                              fit: BoxFit.cover),
+                          Expanded(
+                            child: Text(
+                              'No orders available, waiting for a new order.',
+                              style: TextStyles.bodyFont,
+                            ),
+                          )
+                        ],
                       ),
                     ),
-            ),
+                  ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   OrderTile(BuildContext context, Order curOrder) {
-    return InkWell(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.grey)),
-        child: Column(
-          children: [
-            Text(
-              '#${curOrder.id}',
-              style: TextStyles.bodySm,
+    print(curOrder.id);
+    DateTime orderTime = DateTime.parse(curOrder!.metaData!.createdAt!);
+    return Card(
+      child: Column(
+        children: [
+          ListTile(
+            leading: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy')}',
+                  style: TextStyles.bodyFontBold,
+                ),
+                Text(
+                  '${TimeUtil.getFormatDateTime(orderTime, 'hh:mm a')}',
+                  style: TextStyles.bodyFont.copyWith(fontSize: 15),
+                ),
+              ],
             ),
-            Text(
-              'Status: ${curOrder.status}',
-              style: TextStyles.body,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('Order #'),
+                    Text(
+                      '${curOrder.userFriendlyOrderId}',
+                      style: TextStyles.title.copyWith(
+                          color: AppColors.primeColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Text(
+                    '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered'),
+              ],
             ),
-            Text(
-              'Payment Status: ${curOrder.payment != null ? curOrder.payment!.status : 'Payment not initiated'}',
-              style: TextStyles.body,
-            )
-          ],
-        ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Order Status', style: TextStyles.bodyFont),
+                Text('${curOrder.status}', style: TextStyles.bodyFontBold),
+              ],
+            ),
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                        '${CodeHelp.euro}${curOrder.payment!.totalAmount!.toString()} ',
+                        style: TextStyles.bodyFontBold
+                            .copyWith(color: Colors.green)),
+                    Text(
+                      'Paid',
+                      style:
+                          TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Order will be deliver soon.',
+                      style:
+                          TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Modular.to.navigate('/home/order-detail',
+                              arguments: {'id': curOrder.id});
+                        },
+                        child: Text(
+                          'View details',
+                          style: TextStyles.bodyFontBold
+                              .copyWith(color: AppColors.primeColor),
+                        ))
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
       ),
-      onTap: () {
-        Modular.to
-            .navigate('/home/order-detail', arguments: {'id': curOrder.id});
-      },
     );
   }
 }
