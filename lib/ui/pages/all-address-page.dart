@@ -104,8 +104,7 @@ class AllAddressPage extends StatelessWidget {
               onPressed: () {
                 locationController.seelctedIndexToEdit.value = index;
                 print(index);
-                locationController.changeAddressData.value =
-                    locationController.addressData.value;
+                locationController.changeAddressData.value = address;
                 _displayDialog(context, locationController, 'Edit');
               },
               icon: const Icon(Icons.edit),
@@ -119,6 +118,7 @@ class AllAddressPage extends StatelessWidget {
   _displayDialog(BuildContext context, LocationController locationController,
       String type) {
     RxBool isLoading = false.obs;
+    RxString errorMessage = ''.obs;
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
@@ -162,6 +162,23 @@ class AllAddressPage extends StatelessWidget {
                                     null
                                 ? locationController
                                     .changeAddressData.value.name
+                                    .toString()
+                                : '',
+                            false,
+                            TextInputType.text,
+                            false,
+                            false,
+                            callback),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        ITextBox(
+                            'House No',
+                            'houseNo',
+                            locationController.changeAddressData.value.houseNo !=
+                                    null
+                                ? locationController
+                                    .changeAddressData.value.houseNo
                                     .toString()
                                 : '',
                             false,
@@ -295,21 +312,36 @@ class AllAddressPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
+                        Text(errorMessage.value,style: TextStyles.bodyWhite,),
+                         const SizedBox(
+                          height: 10,
+                        ),
                         ElevatedButton(
                           onPressed: () async {
                             isLoading.value = true;
                             locationController.addressData.value =
                                 locationController.changeAddressData.value;
                             var data;
-                            if (type == 'ADD') {
-                              data = await locationController.addAddressCall();
-                            } else {
-                              data = await locationController.editAddressCall();
+                            errorMessage.value = '';
+                            if(locationController.changeAddressData.value.houseNo == null){
+                              //  snackBarClass.showToast(context, 'Please fill House no');
+                               errorMessage.value ='Please fill House no';
+                               isLoading.value = false;
+                              return;
+                            }else{
+                              if (type == 'ADD') {
+                                data =
+                                    await locationController.addAddressCall();
+                              } else {
+                                data =
+                                    await locationController.editAddressCall();
+                              }
+                              if (data['status'] == 'success') {}
+                              isLoading.value = false;
+                              snackBarClass.showToast(context, data['msg']);
+                              Navigator.of(context).pop();
                             }
-                            if (data['status'] == 'success') {}
-                            isLoading.value = false;
-                            snackBarClass.showToast(context, data['msg']);
-                            Navigator.of(context).pop();
+                           
                           },
                           child: Text(
                             isLoading.value ? "Loading" : 'Submit',
