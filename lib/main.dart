@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
+import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,37 +58,7 @@ void main() async {
   runApp(
     ModularApp(
       module: AppModule(),
-      child: Stack(
-        textDirection: TextDirection.ltr,
-        alignment: AlignmentDirectional.topStart,
-        children: [
-          AppWidget(),
-          Obx(
-            () => controller.showLoader.value
-                ? Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 900,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: Colors
-                                  .transparent), //color is transparent so that it does not blend with the actual color specified
-
-                          color: Color.fromARGB(126, 186, 179,
-                              179) // Specifies the background color and the opacity
-                          ),
-                      // height: MediaQuery.of(context).size.width * 0.65,//200.0,
-                      child: Lottie.network(
-                          'https://assets6.lottiefiles.com/packages/lf20_34qRI0i4ti.json',
-                          frameRate: FrameRate(50),
-                          repeat: true),
-                    ),
-                  )
-                : SizedBox(),
-          ),
-        ],
-      ),
+      child: AppWidget(),
     ),
   );
 }
