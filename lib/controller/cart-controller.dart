@@ -312,7 +312,6 @@ class CartController extends GetxController {
         cartProducts.clear();
         cartProductsScoins.clear();
         calculatedPayment.value = Payment();
-        orderId.value = '';
       }
       if (cust.saveLater != null) {
         saveLaterId.value = cust.saveLater!.id ?? '';
@@ -327,7 +326,6 @@ class CartController extends GetxController {
       cartProducts.clear();
       cartProductsScoins.clear();
       calculatedPayment.value = Payment();
-      orderId.value = '';
       saveLaterProducts.clear();
       saveLaterId.value = '';
     }

@@ -22,8 +22,13 @@ class OrderDetailPage extends StatelessWidget {
         Get.put(OrderController(orderId), tag: orderId);
     return Column(
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          IconButton(
+        AppBar(
+          backgroundColor: AppColors.primeColor,
+          title: Text(
+            'Order Detail',
+            style: TextStyles.headingFont.copyWith(color: Colors.white),
+          ),
+          leading: IconButton(
             onPressed: () {
               if (navigateTo == 'HOME') {
                 Modular.to.navigate('../home/main');
@@ -31,14 +36,13 @@ class OrderDetailPage extends StatelessWidget {
                 Modular.to.navigate('../home/orders');
               }
             },
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
-          Text(
-            'Order Detail',
-            style: TextStyles.headingFont,
-          )
-        ]),
-        OrderDetailWidget(orderId)
+        ),
+        Expanded(child: OrderDetailWidget(orderId))
       ],
     );
   }
