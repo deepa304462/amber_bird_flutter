@@ -76,66 +76,68 @@ class _CartWidget extends State<CartWidget> {
         decoration: BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
         child: Obx(
-          () => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'TOTAL PRICE',
-                      style: TextStyles.bodyFont,
-                    ),
-                    Text(
-                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
-                      style: TextStyles.titleLargeBold,
-                    ),
-                  ],
-                ),
-                MaterialButton(
-                  color: Colors.green,
-                  visualDensity: VisualDensity(horizontal: 4),
-                  onPressed: () async {
-                    var checkoutResp = await cartController.checkout();
-                    if (checkoutResp == null || checkoutResp['error']) {
-                      // ignore: use_build_context_synchronously
-                      snackBarClass.showToast(context,
-                          checkoutResp['msg'] ?? 'Something went wrong');
-                    } else {
-                      if (cartController.checkoutData.value!.allAvailable ==
-                          true) {
-                        checkoutClicked.value = true;
-                        var data = await cartController.createPayment();
-                        if (data == null || data['error']) {
-                          // ignore: use_build_context_synchronously
-                          snackBarClass.showToast(
-                              context, data['msg'] ?? 'Something went wrong');
-                        } else {
-                          Modular.to
-                              .navigate('/home/inapp', arguments: data['data']);
-                        }
-                      } else {
-                        snackBarClass.showToast(
-                            context, 'All product not available');
-                      }
-                    }
-                  },
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Text(
-                    'Payment',
-                    style:
-                        TextStyles.bodyFontBold.copyWith(color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-          ),
+          () => cartController.calculatedPayment.value.totalAmount != null
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'TOTAL PRICE',
+                            style: TextStyles.bodyFont,
+                          ),
+                          Text(
+                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
+                            style: TextStyles.titleLargeBold,
+                          ),
+                        ],
+                      ),
+                      MaterialButton(
+                        color: Colors.green,
+                        visualDensity: VisualDensity(horizontal: 4),
+                        onPressed: () async {
+                          var checkoutResp = await cartController.checkout();
+                          if (checkoutResp == null || checkoutResp['error']) {
+                            // ignore: use_build_context_synchronously
+                            snackBarClass.showToast(context,
+                                checkoutResp['msg'] ?? 'Something went wrong');
+                          } else {
+                            if (cartController
+                                    .checkoutData.value!.allAvailable ==
+                                true) {
+                              checkoutClicked.value = true;
+                              var data = await cartController.createPayment();
+                              if (data == null || data['error']) {
+                                // ignore: use_build_context_synchronously
+                                snackBarClass.showToast(context,
+                                    data['msg'] ?? 'Something went wrong');
+                              } else {
+                                Modular.to.navigate('/home/inapp',
+                                    arguments: data['data']);
+                              }
+                            } else {
+                              snackBarClass.showToast(
+                                  context, 'All product not available');
+                            }
+                          }
+                        },
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          'Payment',
+                          style: TextStyles.bodyFontBold
+                              .copyWith(color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ))
+              : const SizedBox(),
         ),
       ),
       body: Obx(

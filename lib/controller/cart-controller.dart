@@ -333,15 +333,26 @@ class CartController extends GetxController {
         for (var element in cust.cart!.productsViaSCoins!) {
           cartProductsScoins[element.ref!.id ?? ''] = element;
         }
+      } else {
+        cartProducts.clear();
+        cartProductsScoins.clear();
+        calculatedPayment.value = Payment();
       }
       if (cust.saveLater != null) {
         saveLaterId.value = cust.saveLater!.id ?? '';
         for (var element in cust.saveLater!.products!) {
           saveLaterProducts[element.ref!.id ?? ''] = element;
         }
+      } else {
+        saveLaterProducts.clear();
+        saveLaterId.value = '';
       }
     } else {
-      cartProducts.value = Map();
+      cartProducts.clear();
+      cartProductsScoins.clear();
+      calculatedPayment.value = Payment();
+      saveLaterProducts.clear();
+      saveLaterId.value = '';
     }
   }
 
