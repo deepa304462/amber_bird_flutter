@@ -1,9 +1,10 @@
-import 'dart:convert'; 
+import 'dart:convert';
 import 'dart:io';
-import 'package:http_parser/http_parser.dart';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum _APIVersion { V1, V2 }
@@ -156,6 +157,7 @@ class ClientService {
       header['Authorization'] = 'Bearer $token';
     }
     header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
+    log(jsonEncode(payload));
     try {
       switch (method) {
         case RESTMethod.GET:

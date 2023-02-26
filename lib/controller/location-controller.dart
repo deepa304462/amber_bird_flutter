@@ -48,7 +48,7 @@ class LocationController extends GetxController {
   Future<void> findLocalityFromPinCode() async {
     String host = 'https://maps.google.com/maps/api/geocode/json';
     final url =
-        '$host?address=${pinCode.value}&sensor=true&key=$mapKey&language=en';
+        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=en';
     var response = await dio.get(url);
     if (response.statusCode == 200) {
       dynamic southwest =
