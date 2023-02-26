@@ -138,33 +138,17 @@ class ProductCardScoin extends StatelessWidget {
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
             children: [
-              product.varients!.length == 0
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text('${product.varient!.weight}'),
-                        Text(
-                          '${CodeHelp.formatUnit(product.varient!.unit)}',
-                          style:
-                              const TextStyle(color: Colors.blue, fontSize: 12),
-                        )
-                      ],
-                    )
-                  : product.varients!.length == 1
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text('${product.varients![0].weight}'),
-                            Text(
-                              '${CodeHelp.formatUnit(product.varients![0].unit)}',
-                              style: const TextStyle(
-                                  color: Colors.blue, fontSize: 12),
-                            )
-                          ],
-                        )
-                      : const SizedBox(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text('${product.varient!.weight}'),
+                  Text(
+                    '${CodeHelp.formatUnit(product.varient!.unit)}',
+                    style: const TextStyle(color: Colors.blue, fontSize: 12),
+                  )
+                ],
+              ),
               checkPriceVisibility()
                   ? PriceTag(
                       dealPrice!.offerPrice!.toString(),
@@ -175,9 +159,6 @@ class ProductCardScoin extends StatelessWidget {
                   : const SizedBox(),
             ],
           ),
-          product.varients!.length > 1
-              ? productVarientView(product.varients!)
-              : const SizedBox()
         ],
       ),
     );
@@ -185,6 +166,7 @@ class ProductCardScoin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    activeVariant.value = product!.varient!;
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
       child: ClipRRect(
@@ -222,7 +204,7 @@ class ProductCardScoin extends StatelessWidget {
                                       null,
                                       ruleConfig,
                                       constraint,
-                                      product!.varient!);
+                                      activeVariant.value!);
                                 } else {
                                   stateController.setCurrentTab(3);
                                   var showToast = snackBarClass.showToast(
@@ -317,7 +299,7 @@ class ProductCardScoin extends StatelessWidget {
                                           null,
                                           ruleConfig,
                                           constraint,
-                                          product!.varient!);
+                                          activeVariant.value!);
                                     } else {
                                       if (Get.isRegistered<DealController>(
                                           tag: addedFrom!)) {

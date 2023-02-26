@@ -164,7 +164,7 @@ class CartController extends GetxController {
           cust.cart = Order.fromMap(resp1.data);
           calculatedPayment.value = cust.cart!.payment!;
           OfflineDBService.save(OfflineDBService.customerInsightDetail,
-              (jsonDecode(cust.toJson()))); 
+              (jsonDecode(cust.toJson())));
         }
       }
     }
@@ -217,7 +217,7 @@ class CartController extends GetxController {
         var resp1 = await ClientService.post(
             path: 'payment/search', payload: {"orderId": orderId.value});
         if (resp1.statusCode == 200) {
-          if (resp1.data[0] != null) {
+          if (resp1.data.length > 0 && resp1.data[0] != null) {
             paymentData.value =
                 Payment.fromMap(resp1.data[0] as Map<String, dynamic>);
             return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
@@ -582,7 +582,8 @@ class CartController extends GetxController {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);
       calculatedPayment.value = cust.cart!.payment!;
-      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }

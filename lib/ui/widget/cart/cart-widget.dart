@@ -91,7 +91,7 @@ class _CartWidget extends State<CartWidget> {
                       style: TextStyles.bodyFont,
                     ),
                     Text(
-                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount as double).toStringAsFixed(2)}',
+                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
                       style: TextStyles.titleLargeBold,
                     ),
                   ],
@@ -113,7 +113,7 @@ class _CartWidget extends State<CartWidget> {
                         Modular.to
                             .navigate('/home/inapp', arguments: data['data']);
                       }
-                    }else{
+                    } else {
                       snackBarClass.showToast(
                           context, 'All product not available');
                     }
@@ -1241,42 +1241,42 @@ class _CartWidget extends State<CartWidget> {
                     ),
                   ],
                 ),
-                cartController.checkoutData.value != null &&
-                        cartController.checkoutData.value!.allAvailable == true
-                    ? Column(
-                        children: [
-                          Center(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                await cartController.checkout();
-                                checkoutClicked.value = true;
-                                var data = await cartController.createPayment();
-                                if (data['error']) {
-                                  // ignore: use_build_context_synchronously
-                                  snackBarClass.showToast(context, data['msg']);
-                                } else {
-                                  Modular.to.navigate('/home/inapp',
-                                      arguments: data['data']);
-                                }
-                              },
-                              child: Text(
-                                'Payment',
-                                style: TextStyles.bodyFont,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : checkoutClicked.value
-                        ? Column(
-                            children: [
-                              Center(
-                                child: Text("Product Not Availale",
-                                    style: TextStyles.headingFontBlue),
-                              ),
-                            ],
-                          )
-                        : const SizedBox()
+                // cartController.checkoutData.value != null &&
+                //         cartController.checkoutData.value!.allAvailable == true
+                //     ? Column(
+                //         children: [
+                //           Center(
+                //             child: ElevatedButton(
+                //               onPressed: () async {
+                //                 await cartController.checkout();
+                //                 checkoutClicked.value = true;
+                //                 var data = await cartController.createPayment();
+                //                 if (data['error']) {
+                //                   // ignore: use_build_context_synchronously
+                //                   snackBarClass.showToast(context, data['msg']);
+                //                 } else {
+                //                   Modular.to.navigate('/home/inapp',
+                //                       arguments: data['data']);
+                //                 }
+                //               },
+                //               child: Text(
+                //                 'Payment',
+                //                 style: TextStyles.bodyFont,
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //     : checkoutClicked.value
+                //         ? Column(
+                //             children: [
+                //               Center(
+                //                 child: Text("Product Not Availale",
+                //                     style: TextStyles.headingFontBlue),
+                //               ),
+                //             ],
+                //           )
+                //         : const SizedBox()
               ],
             );
           }),
