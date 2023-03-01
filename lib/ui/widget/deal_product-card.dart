@@ -1,9 +1,11 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
-import 'package:amber_bird/data/deal_product/deal_product.dart'; 
+import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'discount-tag.dart';
 
 class DealProductCard extends StatelessWidget {
   final CartController cartController = Get.find();
@@ -24,14 +26,24 @@ class DealProductCard extends StatelessWidget {
             DealProduct dProduct = con.dealProd[index];
             return SizedBox(
               width: 150,
-              child: ProductCard(
-                  fixedHeight: true,
-                  dProduct.product,
-                  dProduct.id,
-                  currentdealName.toString(),
-                  dProduct.dealPrice,
-                  dProduct.ruleConfig,
-                  dProduct.constraint),
+              child: Stack(
+                children: [
+                  ProductCard(
+                      fixedHeight: true,
+                      dProduct.product,
+                      dProduct.id,
+                      currentdealName.toString(),
+                      dProduct.dealPrice,
+                      dProduct.ruleConfig,
+                      dProduct.constraint),
+                  Positioned(
+                    top: 40,
+                    child: DiscountTag(
+                      price: dProduct.dealPrice!,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
