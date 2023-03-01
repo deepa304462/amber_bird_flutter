@@ -14,98 +14,131 @@ class LocationPage extends StatelessWidget {
   late GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Obx(() {
-      return SafeArea(
-        child: Stack(
-          children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Expanded(
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: GoogleMap(
-                      onMapCreated: locationController.onMapCreated,
-                      initialCameraPosition: CameraPosition(
-                        target: locationController.currentLatLang.value,
-                        zoom: 18.0,
-                      ),
-                      onCameraMove: locationController.updatePosition,
-                      markers: {
-                        const GoogleMapLib.Marker(
-                          markerId: MarkerId('value'),
-                        )
-                      },
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Enter pincode of your area',
-                      style: TextStyles.title,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ITextBox('Pincode', 'pinCode', locationController.pinCode.value, false, TextInputType.phone,
-                            false, false, (key, value) {
-                          locationController.pinCode.value = value;
-                        }),
-                        MaterialButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          onPressed: locationController.pinCode.isEmpty
-                              ? null
-                              : () {
-                                  locationController.findLocalityFromPinCode();
-                                },
-                          color: locationController.pinCode.isEmpty
-                              ? AppColors.grey
-                              : AppColors.primeColor,
-                          child: Text(
-                            'Okay',
-                            style: TextStyles.titleXLargeWhite,
+    return Scaffold(
+      body: Obx(
+        () {
+          return SafeArea(
+            child: Stack(
+              children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Expanded(
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: GoogleMap(
+                          onMapCreated: locationController.onMapCreated,
+                          initialCameraPosition: CameraPosition(
+                            target: locationController.currentLatLang.value,
+                            zoom: 18.0,
                           ),
+                          onCameraMove: locationController.updatePosition,
+                          markers: {
+                            const GoogleMapLib.Marker(
+                              markerId: MarkerId('value'),
+                            )
+                          },
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Enter pincode of your area',
+                          style: TextStyles.title,
                         ),
-                        locationController.currentLatLang.value.latitude != 0
-                            ? _showAddress(context, locationController)
-                            : _accessingLocation(context),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ITextBox(
+                                'Pin Code',
+                                'pinCode',
+                                locationController
+                                            .pinCode.value !=
+                                        null
+                                    ? locationController
+                                        .pinCode.value
+                                        .toString()
+                                    : '',
+                                false,
+                                TextInputType.number,
+                                false,
+                                false,
+                                 (key, value) {
+                              locationController.pinCode.value = value;
+                            }),
+                            // ITextBox(
+                            //     'Pincode',
+                            //     'pinCode',
+                            //     locationController.pinCode.value != null
+                            //         ? locationController.pinCode.value
+                            //             .toString()
+                            //         : '',
+                            //     false,
+                            //     TextInputType.number,
+                            //     false,
+                            //     false, (key, value) {
+                            //   locationController.pinCode.value = value;
+                            // }),
+                            MaterialButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              onPressed: locationController.pinCode.isEmpty
+                                  ? null
+                                  : () {
+                                      locationController
+                                          .findLocalityFromPinCode();
+                                    },
+                              color: locationController.pinCode.isEmpty
+                                  ? AppColors.grey
+                                  : AppColors.primeColor,
+                              child: Text(
+                                'Okay',
+                                style: TextStyles.titleXLargeWhite,
+                              ),
+                            ),
+                            locationController.currentLatLang.value.latitude !=
+                                    0
+                                ? _showAddress(context, locationController)
+                                : _accessingLocation(context),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-
-              // Image.asset(
-              //   "assets/top-view-map-blue-background.jpg",
-              //   width: 250,
-              // ),
-              Visibility(
-                visible: locationController.addressAvaiable.value,
-                child: AppBar(
-                    automaticallyImplyLeading: false,
-                    backgroundColor: AppColors.primeColor,
-                    centerTitle: true,
-                    title: ListTile(
-                      title: Text(
-                        'Save & Continue',
-                        style: TextStyles.titleXLargeWhite,
-                        textAlign: TextAlign.center,
+                  ),
+                  // Image.asset(
+                  //   "assets/top-view-map-blue-background.jpg",
+                  //   width: 250,
+                  // ),
+                  Visibility(
+                    visible: locationController.addressAvaiable.value,
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      backgroundColor: AppColors.primeColor,
+                      centerTitle: true,
+                      title: ListTile(
+                        title: Text(
+                          'Save & Continue',
+                          style: TextStyles.titleXLargeWhite,
+                          textAlign: TextAlign.center,
+                        ),
+                        onTap: () {
+                          locationController.saveAddress();
+                        },
                       ),
-                      onTap: () {
-                        locationController.saveAddress();
-                      },
-                    )),
-              )
-            ]),
-          ],
-        ),
-      );
-    }));
+                    ),
+                  )
+                ]),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   _askLocationWidgetUi(
@@ -237,7 +270,7 @@ class LocationPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                       LocationTextBox(
+                      LocationTextBox(
                           'House No',
                           'houseNo',
                           locationController.changeAddressData.value.name
@@ -247,7 +280,6 @@ class LocationPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-
                       LocationTextBox(
                           'Phone',
                           'phoneNumber',
