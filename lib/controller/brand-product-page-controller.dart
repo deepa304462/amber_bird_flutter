@@ -4,16 +4,16 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
 class BrandProductPageController extends GetxController {
-  final String brandId;
+  String brandId = '';
   Rx<Brand> brand = Brand().obs;
   RxList<ProductSummary> productList = <ProductSummary>[].obs;
   Rx<bool> isLoading = true.obs;
-  BrandProductPageController(this.brandId);
 
-  @override
-  void onInit() {
+  setBrandId(String givenBrandId) {
+    brandId = givenBrandId;
+    productList.clear();
+    brand.value = Brand();
     getBrand();
-    super.onInit();
   }
 
   void getBrand() {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -119,6 +120,22 @@ class ClientService {
         method: RESTMethod.SEARCH);
   }
 
+  static _getTitleForm(String queryData) {
+    queryData = queryData.toLowerCase();
+    final whitespaceRE = RegExp(r"\s+");
+    queryData = queryData.replaceAll(whitespaceRE, " ").trim();
+    List<String> queryBreakDown = queryData.split(' ');
+    return CodeHelp.titleCase(queryBreakDown[0]);
+  }
+
+  static _whileCardQueryFormat(String queryData) {
+    queryData = queryData.toLowerCase();
+    final whitespaceRE = RegExp(r"\s+");
+    queryData = queryData.replaceAll(whitespaceRE, " ").trim();
+    List<String> queryBreakDown = queryData.split(' ');
+    return '*${queryBreakDown.join('**')}*';
+  }
+
   static Future<Response> solrSearch(
       {required String path,
       required String queryData,
@@ -128,8 +145,10 @@ class ClientService {
     var method = RESTMethod.GET;
     header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
     try {
+      //https://search.sbazar.app/product/select?indent=true&q.op=OR&q=name:*Shan*&fq=indexData:*shan**masala*
+      //
       response = await dio.get(
-          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=indexData:*${queryData}*',
+          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=name:*${_getTitleForm(queryData)}*&fq=indexData:${_whileCardQueryFormat(queryData)}',
           options: Options(headers: header));
       return response;
     } catch (e) {

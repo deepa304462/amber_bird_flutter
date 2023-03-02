@@ -110,14 +110,14 @@ class HomePage extends StatelessWidget {
                   label: "Home",
                   selectedColor: Colors.red.shade900),
               BottomNavItem(
-                  icon: Icons.manage_search,
+                  icon: Icons.category,
                   suffix: '',
-                  label: "Search",
+                  label: "Category",
                   selectedColor: Colors.red.shade900),
               BottomNavItem(
                   icon: Icons.storefront_sharp,
-                  suffix: '',
-                  label: "Category",
+                  suffix: 'Shop',
+                  label: "",
                   selectedColor: Colors.red.shade900),
               BottomNavItem(
                   icon: Icons.shopping_cart,

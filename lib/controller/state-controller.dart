@@ -231,11 +231,11 @@ class Controller extends GetxController {
         activePageName.value = 'main';
         Modular.to.navigate('/home/main');
         break;
-      case 1:
-        activePageName.value = 'search';
-        Modular.to.navigate('/home/search');
-        break;
       case 2:
+        activePageName.value = 'search';
+        Modular.to.navigate('/home/brand');
+        break;
+      case 1:
         // if (isLogin.value) {
         //   activePageName.value = 'refer';
         //   Modular.to.navigate('/home/refer');

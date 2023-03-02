@@ -1,5 +1,5 @@
 import 'package:amber_bird/ui/pages/all-address-page.dart';
-import 'package:amber_bird/ui/pages/brand-page.dart';
+import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/category-product-page.dart';
@@ -25,6 +25,8 @@ import 'package:amber_bird/ui/widget/scoin-checkout-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+import 'ui/pages/brand-page.dart';
 
 class HomePageModule extends Module {
   @override
@@ -85,6 +87,7 @@ class HomePageModule extends Module {
       ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
+      ChildRoute('/brand', child: (_, args) => BrandPage()),
       ChildRoute('/refer', child: (_, args) => ReferralPage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/orders', child: (_, args) => OrderListPage()),
