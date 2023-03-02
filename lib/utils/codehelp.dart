@@ -14,6 +14,10 @@ class CodeHelp {
       return "KG";
     } else if (unit == 'GRAM') {
       return "GM";
+    } else if (unit == 'MILI_LITRE') {
+      return "ML";
+    } else if (unit == 'L') {
+      return "LITRE";
     }
     return unit;
   }

@@ -138,17 +138,33 @@ class ProductCardScoin extends StatelessWidget {
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text('${product.varient!.weight}'),
-                  Text(
-                    '${CodeHelp.formatUnit(product.varient!.unit)}',
-                    style: const TextStyle(color: Colors.blue, fontSize: 12),
-                  )
-                ],
-              ),
+              product.varients!.length == 0
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text('${product.varient!.weight}'),
+                        Text(
+                          '${CodeHelp.formatUnit(product.varient!.unit)}',
+                          style:
+                              const TextStyle(color: Colors.blue, fontSize: 12),
+                        )
+                      ],
+                    )
+                  : product.varients!.length == 1
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text('${product.varient!.weight}'),
+                            Text(
+                              '${CodeHelp.formatUnit(product.varient!.unit)}',
+                              style: const TextStyle(
+                                  color: Colors.blue, fontSize: 12),
+                            )
+                          ],
+                        )
+                      : const SizedBox(),
               checkPriceVisibility()
                   ? PriceTag(
                       dealPrice!.offerPrice!.toString(),
@@ -159,6 +175,9 @@ class ProductCardScoin extends StatelessWidget {
                   : const SizedBox(),
             ],
           ),
+            product.varients!.length > 1
+              ? productVarientView(product.varients!)
+              : SizedBox()
         ],
       ),
     );

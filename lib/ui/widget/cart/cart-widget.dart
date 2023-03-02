@@ -1180,7 +1180,7 @@ class _CartWidget extends State<CartWidget> {
                       style: TextStyles.bodyFont,
                     ),
                     Text(
-                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0 as double).toStringAsFixed(2)}',
+                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}',
                       style: TextStyles.bodyFontBold,
                     ),
                   ],

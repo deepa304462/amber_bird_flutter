@@ -24,6 +24,7 @@ class ScoinProductController extends GetxController {
                 .where((i) => i.scoinPurchaseEnable!)
                 .toList();
             productSummary.varient = list[0]; 
+            productSummary.varients = list; 
             return productSummary;
           }).toList() ??
           []);

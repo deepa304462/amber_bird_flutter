@@ -26,12 +26,7 @@ class WishListPage extends StatelessWidget {
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
         path: 'wishList/search', payload: {"customerId": custRef.id});
-    if (response.statusCode == 200) {
-      // log(response.data.toString());
-      // List<WishList> oList = ((response.data as List<dynamic>?)
-      //         ?.map((e) => WishList.fromMap(e as Map<String, dynamic>))
-      //         .toList() ??
-      //     []);
+    if (response.statusCode == 200) { 
       if (response.data.length > 0) {
         wishList.value =
             WishList.fromMap(response.data[0] as Map<String, dynamic>);

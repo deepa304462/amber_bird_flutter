@@ -23,6 +23,7 @@ class Helper {
     } else
       return 0;
   }
+  
 
   static dynamic getMemberCoinValue(Price price,String userType) {
     if (userType == memberShipType.Paid.name) {
