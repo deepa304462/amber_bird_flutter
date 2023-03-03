@@ -233,7 +233,7 @@ class Controller extends GetxController {
         break;
       case 1:
         activePageName.value = 'search';
-        Modular.to.navigate('/home/search');
+        Modular.to.navigate('/home/brand-list');
         break;
       case 2:
         // if (isLogin.value) {

@@ -1,4 +1,5 @@
 import 'package:amber_bird/ui/pages/all-address-page.dart';
+import 'package:amber_bird/ui/pages/brand-list-page.dart';
 import 'package:amber_bird/ui/pages/brand-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
@@ -40,6 +41,7 @@ class HomePageModule extends Module {
     //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/add-address', child: (_, args) => AddAddress()),
+      ChildRoute('/brand-list', child: (_, args) => BrandListPage()),
       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
         '/product/:id',

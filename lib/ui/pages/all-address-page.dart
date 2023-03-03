@@ -328,7 +328,37 @@ class AllAddressPage extends StatelessWidget {
                                errorMessage.value ='Please fill House no';
                                isLoading.value = false;
                               return;
-                            }else{
+                            } else if (locationController
+                                    .changeAddressData.value.line1 ==
+                                null) {
+                              errorMessage.value = 'Please fill line1';
+                              isLoading.value = false;
+                              return;
+                            } else if (locationController
+                                    .changeAddressData.value.line2 ==
+                                null) {
+                              errorMessage.value = 'Please fill line2';
+                              isLoading.value = false;
+                              return;
+                            } else if (locationController
+                                    .changeAddressData.value.city ==
+                                null) {
+                              errorMessage.value = 'Please fill city';
+                              isLoading.value = false;
+                              return;
+                            } else if (locationController
+                                    .changeAddressData.value.country ==
+                                null) {
+                              errorMessage.value = 'Please fill country';
+                              isLoading.value = false;
+                              return;
+                            } else if (locationController
+                                    .changeAddressData.value.name ==
+                                null) {
+                              errorMessage.value = 'Please fill name';
+                              isLoading.value = false;
+                              return;
+                            } else{
                               if (type == 'ADD') {
                                 data =
                                     await locationController.addAddressCall();
