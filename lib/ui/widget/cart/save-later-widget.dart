@@ -105,7 +105,7 @@ class SaveLater extends StatelessWidget {
                                           Text(
                                               '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
                                           Text(
-                                              '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                              '${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                         ],
                                       ),
                                     ),
@@ -146,7 +146,7 @@ class SaveLater extends StatelessWidget {
                               Text(
                                   '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
                               Text(
-                                  '${cartController.saveLaterProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                  '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}'),
                             ],
                           ),
                         ),

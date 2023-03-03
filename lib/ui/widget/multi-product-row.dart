@@ -6,6 +6,7 @@ import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
@@ -291,104 +292,115 @@ class MultiProductRow extends StatelessWidget {
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           child: cartController.checkProductInCart(multiProd.id, '')
-              ? Card(
-                  color: AppColors.primeColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        padding: const EdgeInsets.all(8),
-                        constraints: const BoxConstraints(),
-                        onPressed: () async {
-                          if (stateController.isLogin.value) {
-                            var valid = false;
-                            var msg = 'Something went wrong!';
+              ? Stack(
+                  children: [
+                    Card(
+                      color: AppColors.primeColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(),
+                            onPressed: () async {
+                              if (stateController.isLogin.value) {
+                                var valid = false;
+                                var msg = 'Something went wrong!';
 
-                            var data = await multiprodController.checkValidDeal(
-                                multiProd.id!, 'negative', multiProd.id!);
-                            valid = !data['error'];
-                            msg = data['msg'];
-                            if (valid) {
-                              cartController.addToCart(
-                                  multiProd.id!,
-                                  'MULTIPRODUCT',
-                                  (-(multiProd.constraint?.minimumOrder ??
-                                          1)) ??
-                                      -1,
-                                  multiProd.price,
-                                  null,
-                                  multiProd.products,
-                                  null,
-                                  multiProd.constraint,
-                                  null,
-                                  mutliProductName:
-                                      multiProd.name!.defaultText!.text!);
-                            } else {
-                              Navigator.of(context).pop();
-                              snackBarClass.showToast(context, msg);
-                            }
-                          } else {
-                            stateController.setCurrentTab(3);
-                            var showToast = snackBarClass.showToast(
-                                context, 'Please Login to preoceed');
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.remove_circle_outline,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                      Text(
-                        cartController
-                            .getCurrentQuantity(multiProd.id, '')
-                            .toString(),
-                        style: TextStyles.bodyWhite.copyWith(fontSize: 20),
-                      ),
-                      IconButton(
-                        padding: const EdgeInsets.all(8),
-                        constraints: const BoxConstraints(),
-                        onPressed: () async {
-                          if (stateController.isLogin.value) {
-                            var valid = false;
-                            var msg = 'Something went wrong!';
+                                var data =
+                                    await multiprodController.checkValidDeal(
+                                        multiProd.id!,
+                                        'negative',
+                                        multiProd.id!);
+                                valid = !data['error'];
+                                msg = data['msg'];
+                                if (valid) {
+                                  cartController.addToCart(
+                                      multiProd.id!,
+                                      'MULTIPRODUCT',
+                                      (-(multiProd.constraint?.minimumOrder ??
+                                              1)) ??
+                                          -1,
+                                      multiProd.price,
+                                      null,
+                                      multiProd.products,
+                                      null,
+                                      multiProd.constraint,
+                                      null,
+                                      mutliProductName:
+                                          multiProd.name!.defaultText!.text!);
+                                } else {
+                                  Navigator.of(context).pop();
+                                  snackBarClass.showToast(context, msg);
+                                }
+                              } else {
+                                stateController.setCurrentTab(3);
+                                var showToast = snackBarClass.showToast(
+                                    context, 'Please Login to preoceed');
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                          Text(
+                            cartController
+                                .getCurrentQuantity(multiProd.id, '')
+                                .toString(),
+                            style: TextStyles.bodyWhite.copyWith(fontSize: 20),
+                          ),
+                          IconButton(
+                            padding: const EdgeInsets.all(8),
+                            constraints: const BoxConstraints(),
+                            onPressed: () async {
+                              if (stateController.isLogin.value) {
+                                var valid = false;
+                                var msg = 'Something went wrong!';
 
-                            var data = await multiprodController.checkValidDeal(
-                                multiProd.id!, 'positive', multiProd.id!);
-                            valid = !data['error'];
-                            msg = data['msg'];
-                            if (valid) {
-                              cartController.addToCart(
-                                  multiProd.id!,
-                                  'MULTIPRODUCT',
-                                  multiProd.constraint!.minimumOrder ?? 1,
-                                  multiProd.price,
-                                  null,
-                                  multiProd.products,
-                                  null,
-                                  multiProd.constraint,
-                                  null,
-                                  mutliProductName:
-                                      multiProd.name!.defaultText!.text!);
-                            } else {
-                              Navigator.of(context).pop();
-                              snackBarClass.showToast(context, msg);
-                            }
-                          } else {
-                            stateController.setCurrentTab(3);
-                            var showToast = snackBarClass.showToast(
-                                context, 'Please Login to preoceed');
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.add_circle_outline,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                                var data =
+                                    await multiprodController.checkValidDeal(
+                                        multiProd.id!,
+                                        'positive',
+                                        multiProd.id!);
+                                valid = !data['error'];
+                                msg = data['msg'];
+                                if (valid) {
+                                  cartController.addToCart(
+                                      multiProd.id!,
+                                      'MULTIPRODUCT',
+                                      multiProd.constraint!.minimumOrder ?? 1,
+                                      multiProd.price,
+                                      null,
+                                      multiProd.products,
+                                      null,
+                                      multiProd.constraint,
+                                      null,
+                                      mutliProductName:
+                                          multiProd.name!.defaultText!.text!);
+                                } else {
+                                  Navigator.of(context).pop();
+                                  snackBarClass.showToast(context, msg);
+                                }
+                              } else {
+                                stateController.setCurrentTab(3);
+                                var showToast = snackBarClass.showToast(
+                                    context, 'Please Login to preoceed');
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.add_circle_outline,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    DiscountTag(price: multiProd.price!)
+                  ],
                 )
               : CircleAvatar(
                   backgroundColor: AppColors.primeColor,

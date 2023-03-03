@@ -215,7 +215,7 @@ class _CartWidget extends State<CartWidget> {
                         Text(
                             '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit}'),
                         Text(
-                            '${cartController.cartProductsScoins[currentKey]!.count!.toString()} * ${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
+                            '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
                       ],
                     ),
                     trailing: Column(
@@ -735,7 +735,7 @@ class _CartWidget extends State<CartWidget> {
                                     Text(
                                         '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                     Text(
-                                        '${cartController.cartProducts[currentKey]!.count!.toString()} * ${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                        '/${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
                                   ],
                                 ),
                                 trailing: Column(

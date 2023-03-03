@@ -1,59 +1,58 @@
-import 'package:amber_bird/controller/brand-product-page-controller.dart';
+import 'package:amber_bird/controller/brand-page-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
-class BrandProductPage extends StatelessWidget {
-  final String id;
-  const BrandProductPage(this.id, {Key? key}) : super(key: key);
+class BrandPage extends StatelessWidget {
+  late BrandPageController brandPageController;
+  BrandPage({Key? key}) : super(key: key) {
+    brandPageController = ControllerGenerator.create(BrandPageController());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BrandProductPageController(id), tag: id);
-    return Obx(() => controller.isLoading.value
-        ? const Center(child: LinearProgressIndicator())
-        : ListView(
+    return Obx(() => MasonryGridView.count(
+          crossAxisCount: 4,
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 4,
+          physics: const BouncingScrollPhysics(),
+          itemCount: brandPageController.brands.length,
+          itemBuilder: (_, index) {
+            return _brandTile(brandPageController.brands[index]);
+          },
+        ));
+  }
+
+  Widget _brandTile(Brand brand) {
+    return InkWell(
+      onTap: () {
+        Modular.to.navigate('/home/brandProduct/${brand.id}');
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
             children: [
-              brandInfo(controller.brand, context),
-              productList(controller.productList, context)
+              ImageBox(
+                brand.logoId!,
+                height: 50,
+                width: 50,
+                fit: BoxFit.contain,
+              ),
+              Text(
+                '${brand.name}',
+                style: TextStyles.bodyFont,
+                textAlign: TextAlign.center,
+              ),
             ],
-          ));
-  }
-
-  Widget brandInfo(Rx<Brand> brand, BuildContext context) {
-    return Card(
-        child: ListTile(
-      leading: ImageBox(
-        brand.value.logoId!,
-        width: 100,
-        height: 100,
+          ),
+        ),
       ),
-      title: Text(
-        brand.value.name!,
-        style: TextStyles.titleLargeBold,
-      ),
-      subtitle: Text(
-        brand.value.description!.defaultText!.text!,
-        style: TextStyles.bodyFontBold,
-      ),
-    ));
-  }
-
-  productList(RxList<ProductSummary> productList, BuildContext context) {
-    return Wrap(
-      direction: Axis.horizontal,
-      children: productList
-          .map((product) => SizedBox(
-              width: MediaQuery.of(context).size.width * .5,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: ProductCard(product, product.id, 'BRAND', null, null,null),
-              )))
-          .toList(),
     );
   }
 }
