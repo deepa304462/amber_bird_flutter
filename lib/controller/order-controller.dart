@@ -5,14 +5,10 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
 class OrderController extends GetxController {
-  final tag;
   Rx<Order> orderDetail = Order().obs;
 
-  OrderController(this.tag);
-  @override
-  void onInit() {
-    super.onInit();
-    getOrder(tag);
+  setOrderId(String givenOrderId) {
+    getOrder(givenOrderId);
   }
 
   getOrder(String id) async {

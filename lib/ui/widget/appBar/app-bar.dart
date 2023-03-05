@@ -22,7 +22,7 @@ class AppBarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              child: locationWidget(),
+              child: LocationWidget(),
             ),
             Expanded(
               child: Image.asset(
