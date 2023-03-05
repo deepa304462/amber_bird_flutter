@@ -76,7 +76,7 @@ class MegaMenuController extends GetxController {
       cList.add(GenericTab(
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
           id: dealName.ONLY_COIN_DEAL.name,
-          type: 'DEAL',
+          type: 'SCOIN',
           text: 'Coin'));
       cList.add(GenericTab(
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
@@ -199,6 +199,26 @@ class MegaMenuController extends GetxController {
         productList.value = pList;
       }
       isLoading.value = false;
+    } else if (parentTab.type == 'SCOIN') {
+      var payload = {"onlyAvailableViaSCoins": true};
+      var response = await ClientService.searchQuery(
+          path: 'product/searchSummary', query: payload, lang: 'en');
+      if (response.statusCode == 200) {
+        List<ProductSummary> dList =
+            ((response.data as List<dynamic>?)?.map((e) {
+                  ProductSummary productSummary =
+                      ProductSummary.fromMap(e as Map<String, dynamic>);
+                  // productSummary.varients.
+                  var list = productSummary.varients!
+                      .where((i) => i.scoinPurchaseEnable!)
+                      .toList();
+                  productSummary.varient = list[0];
+                  productSummary.varients = list;
+                  return productSummary;
+                }).toList() ??
+                []);
+        productList.value = dList;
+      }
     } else if (parentTab.type == 'DEAL') {
       getDealProduct(subMenu, parentTab.id!);
     } else if (parentTab.type == 'MULTI') {

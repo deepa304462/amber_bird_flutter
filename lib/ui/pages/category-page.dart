@@ -4,7 +4,10 @@ import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
@@ -12,6 +15,7 @@ import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
+import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -204,6 +208,8 @@ class CategoryPage extends StatelessWidget {
         return _dealGrid(megaMenuController, context);
       case 'MULTI':
         return _multiProductList(megaMenuController, context);
+      case 'SCOIN':
+        return _scoinProductList(megaMenuController, context);
       default:
         return categoryProducts(megaMenuController, context);
     }
@@ -213,6 +219,51 @@ class CategoryPage extends StatelessWidget {
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
       child: _productGrid(megaMenuController, context),
+    );
+  }
+
+  Widget _scoinProductList(
+      MegaMenuController megaMenuController, BuildContext context) {
+    return Expanded(
+      child: megaMenuController.productList.length > 0
+          ? MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              itemCount: megaMenuController.productList.length,
+              itemBuilder: (_, index) {
+                ProductSummary product = megaMenuController.productList[index];
+                return ProductCardScoin(
+                  fixedHeight: true,
+                  product,
+                  product.id,
+                  'SCOIN',
+                  product.varient!.price,
+                  RuleConfig(),
+                  Constraint(),
+                );
+                // ProductCardScoin(
+                //     dealProduct.product,
+                //     dealProduct.product!.id,
+                //     megaMenuController.selectedParentTab.value,
+                //     dealProduct.product!.varient!.price!,
+                //     dealProduct.ruleConfig,
+                //     dealProduct.constraint);
+              },
+            )
+          : Column(
+              children: [
+                Lottie.asset('assets/no-data.json',
+                    width: MediaQuery.of(context).size.width * .5,
+                    fit: BoxFit.contain),
+                Expanded(
+                  child: Text(
+                    'No product available in this section',
+                    style: TextStyles.bodyFont,
+                  ),
+                )
+              ],
+            ),
     );
   }
 

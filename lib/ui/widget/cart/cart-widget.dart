@@ -179,14 +179,7 @@ class _CartWidget extends State<CartWidget> {
       ),
     );
   }
-
-  //  checkoutClicked.value &&
-  //                       !cartController.checktOrderRefAvailable(cartController
-  //                           .cartProductsScoins.value[currentKey]!.ref)
-  //                   ? recpmmondedProduct(context, cartController, currentKey)
-  //                   // ,
-  //                   //
-  //                   : const SizedBox()
+ 
   scoinPRoductList(context, cartController) {
     return Obx(() => ListView.builder(
           shrinkWrap: true,

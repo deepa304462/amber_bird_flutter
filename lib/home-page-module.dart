@@ -42,7 +42,7 @@ class HomePageModule extends Module {
     //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/add-address', child: (_, args) => AddAddress()),
-      ChildRoute('/main', child: (_, args) => MainPage()),
+       ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
         '/product/:id',
         child: (_, args) {
