@@ -217,7 +217,7 @@ class ProductCard extends StatelessWidget {
                               stateController.showLoader.value = true;
                               Price? price = activeVariant.value.price;
                               if (stateController.isLogin.value) {
-                                var valid = false;
+                                var valid = true;
                                 var msg = 'Something went wrong!';
 
                                 if (Get.isRegistered<DealController>(
@@ -287,7 +287,7 @@ class ProductCard extends StatelessWidget {
                             onPressed: () async {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
-                                var valid = false;
+                                var valid = true;
                                 var msg = 'Something went wrong!';
                                 Price? price = activeVariant.value.price;
                                 if (Get.isRegistered<DealController>(
@@ -355,7 +355,7 @@ class ProductCard extends StatelessWidget {
                                     await stateController.getUserIsActive();
                                 if (isCheckedActivate) {
                                   // if (stateController.isActivate.value) {
-                                  var valid = false;
+                                  var valid = true;
                                   var msg = 'Something went wrong!';
 
                                   Price? price = activeVariant.value.price;

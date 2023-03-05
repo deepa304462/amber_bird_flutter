@@ -14,7 +14,6 @@ import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
@@ -193,7 +192,7 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 285,
       child: Obx(
         () => ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -231,7 +230,7 @@ class MultiProductRow extends StatelessWidget {
                       style: TextStyles.bodyPrimaryLarge),
                   Container(
                     margin: const EdgeInsets.all(5.0),
-                    height: 160,
+                    height: 185,
                     width: MediaQuery.of(context).size.width * .73,
                     child: ListView(
                       scrollDirection: Axis.horizontal,

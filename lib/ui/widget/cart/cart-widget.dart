@@ -102,6 +102,8 @@ class _CartWidget extends State<CartWidget> {
                         visualDensity: VisualDensity(horizontal: 4),
                         onPressed: () async {
                           var checkoutResp = await cartController.checkout();
+                          checkoutClicked.value = true;
+                          checkoutClicked.refresh();
                           if (checkoutResp == null || checkoutResp['error']) {
                             // ignore: use_build_context_synchronously
                             snackBarClass.showToast(context,
@@ -110,7 +112,6 @@ class _CartWidget extends State<CartWidget> {
                             if (cartController
                                     .checkoutData.value!.allAvailable ==
                                 true) {
-                              checkoutClicked.value = true;
                               var data = await cartController.createPayment();
                               if (data == null || data['error']) {
                                 // ignore: use_build_context_synchronously
@@ -179,7 +180,7 @@ class _CartWidget extends State<CartWidget> {
       ),
     );
   }
- 
+
   scoinPRoductList(context, cartController) {
     return Obx(() => ListView.builder(
           shrinkWrap: true,
@@ -196,7 +197,7 @@ class _CartWidget extends State<CartWidget> {
                 children: [
                   ListTile(
                     dense: false,
-                    visualDensity: VisualDensity(vertical: 3),
+                    visualDensity: const VisualDensity(vertical: 3),
                     leading: ImageBox(
                       cartController.cartProductsScoins.value[currentKey]!
                           .product!.images![0],
@@ -933,11 +934,11 @@ class _CartWidget extends State<CartWidget> {
                             ],
                           ),
                         ),
-                  checkoutClicked.value &&
+                  Obx(() => checkoutClicked.value &&
                           !cartController.checktOrderRefAvailable(cartController
                               .cartProducts.value[currentKey]!.ref)
                       ? recpmmondedProduct(context, cartController, currentKey)
-                      : const SizedBox()
+                      : const SizedBox())
                 ],
               );
             },
@@ -961,44 +962,41 @@ class _CartWidget extends State<CartWidget> {
   recpmmondedProduct(context, cartController, currentKey) {
     var prod = cartController
         .getRecommendedProd(cartController.cartProducts.value[currentKey]!.ref);
-    return Column(
-      children: [
-        Text('Recommonded Products', style: TextStyles.headingFont),
-        Container(
-          // margin: const EdgeInsets.all(5.0),
-          padding: const EdgeInsets.all(5),
-          height: 160,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            children: [
-              prod.productAvailabilityStatus != null
-                  ? prod.productAvailabilityStatus!.recommendedProducts!
-                          .isNotEmpty
-                      ? ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: prod.productAvailabilityStatus!
-                              .recommendedProducts!.length,
-                          itemBuilder: (_, index) {
-                            var curProd = prod.productAvailabilityStatus!
-                                .recommendedProducts![index];
-                            return ProductCard(
-                                curProd,
-                                curProd.id,
-                                'RECOMMEDED_PRODUCT',
-                                curProd.varient!.price!,
-                                null,
-                                null);
-                          })
-                      : const Text('No Product available')
-                  : const SizedBox()
-            ],
-          ),
-        ),
-      ],
-    );
+    return prod.productAvailabilityStatus != null
+        ? prod.productAvailabilityStatus!.recommendedProducts!.isNotEmpty
+            ? Column(
+                children: [
+                  Text('Recommended Products', style: TextStyles.headingFont),
+                  Container(
+                      padding: const EdgeInsets.all(5),
+                      height: 160,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: 
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: prod.productAvailabilityStatus!
+                                      .recommendedProducts!.length,
+                                  itemBuilder: (_, index) {
+                                    var curProd = prod
+                                        .productAvailabilityStatus!
+                                        .recommendedProducts![index];
+                                    return ProductCard(
+                                        curProd,
+                                        curProd.id,
+                                        'RECOMMEDED_PRODUCT',
+                                        curProd.varient!.price!,
+                                        null,
+                                        null);
+                                  }))
+ 
+                      ),
+                ],
+              )
+            : const Text('Recommended product is not available')
+        : const SizedBox();
   }
 
   shippingAddress(context) {

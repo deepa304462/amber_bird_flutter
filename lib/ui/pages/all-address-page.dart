@@ -200,7 +200,7 @@ class AllAddressPage extends StatelessWidget {
                                     .toString()
                                 : '',
                             false,
-                            TextInputType.text,
+                            TextInputType.number,
                             false,
                             false,
                             callback),
@@ -329,6 +329,12 @@ class AllAddressPage extends StatelessWidget {
                                isLoading.value = false;
                               return;
                             } else if (locationController
+                                    .changeAddressData.value.phoneNumber ==
+                                null) {
+                              errorMessage.value = 'Please fill phone number';
+                              isLoading.value = false;
+                              return;
+                            }else if (locationController
                                     .changeAddressData.value.line1 ==
                                 null) {
                               errorMessage.value = 'Please fill line1';
