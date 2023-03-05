@@ -27,8 +27,7 @@ class AllAddressPage extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(10),
         child: Column(children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-          children: [
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
               onPressed: () {
                 // Modular.to.navigate('../home/main');
@@ -49,31 +48,23 @@ class AllAddressPage extends StatelessWidget {
               label: const Text('Add Address'),
             ),
           ]),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.70,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.primeColor),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: addressList.length,
-                  itemBuilder: (_, index) {
-                    var currentAddress = addressList[index];
-                    return addressCard(
-                        context, locationController, index, currentAddress, () {
-                      locationController.addressData.value = currentAddress; 
-                      Modular.to.navigate('/home/cart');
-                      return {};
-                    });
-                  },
-                ),
-              ],
-            ),
+          Column(
+            children: [
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: addressList.length,
+                itemBuilder: (_, index) {
+                  var currentAddress = addressList[index];
+                  return addressCard(
+                      context, locationController, index, currentAddress, () {
+                    locationController.addressData.value = currentAddress;
+                    Modular.to.navigate('/home/cart');
+                    return {};
+                  });
+                },
+              ),
+            ],
           ),
         ]),
       );
@@ -175,7 +166,8 @@ class AllAddressPage extends StatelessWidget {
                         ITextBox(
                             'House No',
                             'houseNo',
-                            locationController.changeAddressData.value.houseNo !=
+                            locationController
+                                        .changeAddressData.value.houseNo !=
                                     null
                                 ? locationController
                                     .changeAddressData.value.houseNo
@@ -312,8 +304,11 @@ class AllAddressPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(errorMessage.value,style: TextStyles.bodyWhite,),
-                         const SizedBox(
+                        Text(
+                          errorMessage.value,
+                          style: TextStyles.bodyWhite,
+                        ),
+                        const SizedBox(
                           height: 10,
                         ),
                         ElevatedButton(
@@ -323,10 +318,12 @@ class AllAddressPage extends StatelessWidget {
                                 locationController.changeAddressData.value;
                             var data;
                             errorMessage.value = '';
-                            if(locationController.changeAddressData.value.houseNo == null){
+                            if (locationController
+                                    .changeAddressData.value.houseNo ==
+                                null) {
                               //  snackBarClass.showToast(context, 'Please fill House no');
-                               errorMessage.value ='Please fill House no';
-                               isLoading.value = false;
+                              errorMessage.value = 'Please fill House no';
+                              isLoading.value = false;
                               return;
                             } else if (locationController
                                     .changeAddressData.value.phoneNumber ==
@@ -364,7 +361,7 @@ class AllAddressPage extends StatelessWidget {
                               errorMessage.value = 'Please fill name';
                               isLoading.value = false;
                               return;
-                            } else{
+                            } else {
                               if (type == 'ADD') {
                                 data =
                                     await locationController.addAddressCall();
@@ -377,7 +374,6 @@ class AllAddressPage extends StatelessWidget {
                               snackBarClass.showToast(context, data['msg']);
                               Navigator.of(context).pop();
                             }
-                           
                           },
                           child: Text(
                             isLoading.value ? "Loading" : 'Submit',

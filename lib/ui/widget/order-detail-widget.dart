@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/order-controller.dart';
 import 'package:amber_bird/data/order/product_order.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -7,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OrderDetailWidget extends StatelessWidget {
-  final String? orderId;
   late OrderController orderController;
 
-  OrderDetailWidget(this.orderId, {Key? key}) {
-    orderController = Get.find(tag: orderId);
+  OrderDetailWidget(String orderId, {Key? key}) {
+    orderController =
+        ControllerGenerator.create(OrderController(), tag: orderId);
   }
 
   @override

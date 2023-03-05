@@ -60,9 +60,8 @@ class _MyAppState extends State<InApp> {
           // log(url.toString());
           if (url.toString() ==
               'https://prod.sbazar.app/order/${cartController.orderId.value}') {
-            CartController cartController = Get.find();
-            await cartController.paymentStatusCheck();
-            Modular.to.navigate('./paymentStatus');
+            Modular.to.navigate(
+                './paymentStatus/${cartController.orderId.value}/${cartController.paymentData.value!.id!}');
           }
         },
       ),

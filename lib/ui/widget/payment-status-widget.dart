@@ -1,5 +1,7 @@
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/data/payment/payment.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -7,7 +9,14 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class PaymentStatusWidget extends StatelessWidget {
-  final CartController cartController = Get.find();
+  late CartController cartController;
+
+  PaymentStatusWidget(String id, String paymentId) {
+    cartController = ControllerGenerator.create(CartController());
+    cartController.orderId.value = id;
+    cartController.paymentData.value = Payment(id: paymentId);
+    cartController.paymentStatusCheck();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +24,8 @@ class PaymentStatusWidget extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     return Obx(() {
       // print(cartController.paymentData.value!.status);
-      if (cartController.paymentData.value!.status == 'OPEN') {
+      if (cartController.paymentData.value != null &&
+          cartController.paymentData.value!.status == 'OPEN') {
         return Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(
@@ -107,18 +117,6 @@ class PaymentStatusWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  height: 170,
-                  padding: const EdgeInsets.all(35),
-                  decoration: BoxDecoration(
-                    color: AppColors.primeColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    "assets/card.png",
-                    fit: BoxFit.contain,
-                  ),
-                ),
                 SizedBox(height: screenHeight * 0.1),
                 Text(
                   "Thank You!",

@@ -79,12 +79,19 @@ class HomePageModule extends Module {
           return ProductGuidePage(productId);
         },
       ),
+      ChildRoute(
+        '/paymentStatus/:id/:paymentId',
+        child: (_, args) {
+          String id = args.params['id'];
+          String paymentId = args.params['paymentId'];
+          return PaymentSatusPage(id, paymentId);
+        },
+      ),
       ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
       ChildRoute('/scoin-checkout', child: (_, args) => ScoinCheckoutWidget()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),
       ChildRoute('/inapp', child: (_, args) => InApp()),
-      ChildRoute('/paymentStatus', child: (_, args) => PaymentSatusPage()),
       ChildRoute('/login', child: (_, args) => LoginPageWidget()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
       ChildRoute('/brand', child: (_, args) => BrandPage()),

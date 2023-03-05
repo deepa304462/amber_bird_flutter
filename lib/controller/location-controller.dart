@@ -13,7 +13,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
+//https://maps.googleapis.com/maps/api/geocode/json?address=84%20Ghanta%20Mandir&sensor=true&components=postal_code:243001|country:IN&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo
 //https://maps.googleapis.com/maps/api/geocode/json?address=226010&sensor=true&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo
 
 //https://stackoverflow.com/questions/73612276/flutter-google-maps-how-to-show-active-areas-with-border
@@ -120,7 +120,8 @@ class LocationController extends GetxController {
 
   saveAddress() {
     OfflineDBService.save(OfflineDBService.location, address.value);
-    Modular.to.navigate('home/main');
+    getLocation();
+    Modular.to.pop(this.address);
   }
 
   String findValueFromAddress(String key) {
