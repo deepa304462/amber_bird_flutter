@@ -28,6 +28,7 @@ class ProductGuideCard extends StatelessWidget {
                 child: ImageSlider(
                   guide.images!,
                   220,
+                  fit: BoxFit.cover,
                   disableTap: true,
                 ),
               ),

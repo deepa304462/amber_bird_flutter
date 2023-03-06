@@ -12,8 +12,13 @@ class ImageSlider extends StatefulWidget {
   double? height;
   bool isImagePath = true;
   bool disableTap = false;
+  BoxFit fit = BoxFit.contain;
   ImageSlider(this.images, this.width,
-      {Key? key, this.height, this.isImagePath = true, this.disableTap = false})
+      {Key? key,
+      this.height,
+      this.isImagePath = true,
+      this.disableTap = false,
+      this.fit = BoxFit.contain})
       : super(key: key);
   double minScale = .4;
   double defScale = 1;
@@ -60,6 +65,7 @@ class _ImageSlider extends State<ImageSlider> {
                       builder: (BuildContext context) {
                         return ImageBox(
                           imageObj,
+                          fit: widget.fit,
                           width: widget.width,
                         );
                       },

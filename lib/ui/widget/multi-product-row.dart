@@ -61,7 +61,7 @@ class MultiProductRow extends StatelessWidget {
                           type: 'MULTI',
                           text: 'Combo'));
                     }
-                    stateController.setCurrentTab(2);
+                    stateController.setCurrentTab(1);
                   }),
                 ],
               ),
@@ -193,7 +193,7 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 270,
       child: Obx(
         () => ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -210,77 +210,48 @@ class MultiProductRow extends StatelessWidget {
 
   Widget multiProductTile(MultiProductController multiprodController,
       Multi multiProd, BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * .8,
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ImageBox(
                 multiProd.displayImageId!,
-                height: 100,
+                width: MediaQuery.of(context).size.width * .4,
+                fit: BoxFit.contain,
               ),
-              Column(
+              Row(
                 mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${multiProd.name!.defaultText!.text}',
-                      style: TextStyles.bodyPrimaryLarge),
-                  Container(
-                    margin: const EdgeInsets.all(5.0),
-                    height: 160,
-                    width: MediaQuery.of(context).size.width * .73,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: [
-                        for (var i = 0;
-                            i < multiProd.products!.length;
-                            i++) ...[
-                          SizedBox(
-                            width: 150,
-                            child: ProductCard(
-                                multiProd.products![i],
-                                multiProd.products![i].id,
-                                fixedHeight: true,
-                                'MULTIPRODUCT',
-                                multiProd.products![i].varient!.price!,
-                                null,
-                                multiProd.constraint),
-                          ),
-                        ],
-                      ],
-                    ),
+                  Text(
+                    '${multiProd.name!.defaultText!.text}',
+                    style: TextStyles.bodyFont
+                        .copyWith(fontSize: 20, color: Colors.grey),
+                    textAlign: TextAlign.left,
                   ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        PriceTag(multiProd.price!.offerPrice.toString(),
-                            multiProd.price!.actualPrice.toString()),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        addToCartButton(
-                            multiprodController, multiProd, context),
-                      ]),
-                  // MaterialButton(
-                  //   onPressed: () async {
-
-                  //   },
-                  //   shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(12)),
-                  //   color: AppColors.primeColor,
-                  //   child: Text('BUY', style: TextStyles.bodyWhiteLarge),
-                  // )
                 ],
-              )
+              ),
+              Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    PriceTag(multiProd.price!.offerPrice.toString(),
+                        multiProd.price!.actualPrice.toString()),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    addToCartButton(multiprodController, multiProd, context),
+                  ])
             ],
           ),
-        ),
+          DiscountTag(price: multiProd.price!)
+        ],
       ),
     );
   }
@@ -289,168 +260,162 @@ class MultiProductRow extends StatelessWidget {
       BuildContext context) {
     return Obx(
       () {
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: cartController.checkProductInCart(multiProd.id, '')
-              ? Stack(
-                  children: [
-                    Card(
-                      color: AppColors.primeColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(),
-                            onPressed: () async {
-                              if (stateController.isLogin.value) {
-                                var valid = false;
-                                var msg = 'Something went wrong!';
+        return Align(
+          alignment: Alignment.centerRight,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: cartController.checkProductInCart(multiProd.id, '')
+                ? Card(
+                    color: AppColors.primeColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          onPressed: () async {
+                            if (stateController.isLogin.value) {
+                              var valid = false;
+                              var msg = 'Something went wrong!';
 
-                                var data =
-                                    await multiprodController.checkValidDeal(
-                                        multiProd.id!,
-                                        'negative',
-                                        multiProd.id!);
-                                valid = !data['error'];
-                                msg = data['msg'];
-                                if (valid) {
-                                  cartController.addToCart(
-                                      multiProd.id!,
-                                      'MULTIPRODUCT',
-                                      (-(multiProd.constraint?.minimumOrder ??
-                                              1)) ??
-                                          -1,
-                                      multiProd.price,
-                                      null,
-                                      multiProd.products,
-                                      null,
-                                      multiProd.constraint,
-                                      null,
-                                      mutliProductName:
-                                          multiProd.name!.defaultText!.text!);
-                                } else {
-                                  Navigator.of(context).pop();
-                                  snackBarClass.showToast(context, msg);
-                                }
+                              var data =
+                                  await multiprodController.checkValidDeal(
+                                      multiProd.id!, 'negative', multiProd.id!);
+                              valid = !data['error'];
+                              msg = data['msg'];
+                              if (valid) {
+                                cartController.addToCart(
+                                    multiProd.id!,
+                                    'MULTIPRODUCT',
+                                    (-(multiProd.constraint?.minimumOrder ??
+                                            1)) ??
+                                        -1,
+                                    multiProd.price,
+                                    null,
+                                    multiProd.products,
+                                    null,
+                                    multiProd.constraint,
+                                    null,
+                                    mutliProductName:
+                                        multiProd.name!.defaultText!.text!);
                               } else {
-                                stateController.setCurrentTab(3);
-                                var showToast = snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
+                                Navigator.of(context).pop();
+                                snackBarClass.showToast(context, msg);
                               }
-                            },
-                            icon: const Icon(
-                              Icons.remove_circle_outline,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                            } else {
+                              stateController.setCurrentTab(3);
+                              var showToast = snackBarClass.showToast(
+                                  context, 'Please Login to preoceed');
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.remove_circle_outline,
+                            color: Colors.white,
+                            size: 20,
                           ),
-                          Text(
-                            cartController
-                                .getCurrentQuantity(multiProd.id, '')
-                                .toString(),
-                            style: TextStyles.bodyWhite.copyWith(fontSize: 20),
-                          ),
-                          IconButton(
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(),
-                            onPressed: () async {
-                              if (stateController.isLogin.value) {
-                                var valid = false;
-                                var msg = 'Something went wrong!';
+                        ),
+                        Text(
+                          cartController
+                              .getCurrentQuantity(multiProd.id, '')
+                              .toString(),
+                          style: TextStyles.bodyWhite.copyWith(fontSize: 20),
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.all(8),
+                          constraints: const BoxConstraints(),
+                          onPressed: () async {
+                            if (stateController.isLogin.value) {
+                              var valid = false;
+                              var msg = 'Something went wrong!';
 
-                                var data =
-                                    await multiprodController.checkValidDeal(
-                                        multiProd.id!,
-                                        'positive',
-                                        multiProd.id!);
-                                valid = !data['error'];
-                                msg = data['msg'];
-                                if (valid) {
-                                  cartController.addToCart(
-                                      multiProd.id!,
-                                      'MULTIPRODUCT',
-                                      multiProd.constraint!.minimumOrder ?? 1,
-                                      multiProd.price,
-                                      null,
-                                      multiProd.products,
-                                      null,
-                                      multiProd.constraint,
-                                      null,
-                                      mutliProductName:
-                                          multiProd.name!.defaultText!.text!);
-                                } else {
-                                  Navigator.of(context).pop();
-                                  snackBarClass.showToast(context, msg);
-                                }
+                              var data =
+                                  await multiprodController.checkValidDeal(
+                                      multiProd.id!, 'positive', multiProd.id!);
+                              valid = !data['error'];
+                              msg = data['msg'];
+                              if (valid) {
+                                cartController.addToCart(
+                                    multiProd.id!,
+                                    'MULTIPRODUCT',
+                                    multiProd.constraint!.minimumOrder ?? 1,
+                                    multiProd.price,
+                                    null,
+                                    multiProd.products,
+                                    null,
+                                    multiProd.constraint,
+                                    null,
+                                    mutliProductName:
+                                        multiProd.name!.defaultText!.text!);
                               } else {
-                                stateController.setCurrentTab(3);
-                                var showToast = snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
+                                Navigator.of(context).pop();
+                                snackBarClass.showToast(context, msg);
                               }
-                            },
-                            icon: const Icon(
-                              Icons.add_circle_outline,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                            } else {
+                              stateController.setCurrentTab(3);
+                              var showToast = snackBarClass.showToast(
+                                  context, 'Please Login to preoceed');
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.add_circle_outline,
+                            color: Colors.white,
+                            size: 20,
                           ),
-                        ],
+                        ),
+                      ],
+                    ),
+                  )
+                : CircleAvatar(
+                    backgroundColor: AppColors.primeColor,
+                    radius: 20,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(1),
+                      constraints: const BoxConstraints(),
+                      onPressed: () async {
+                        if (stateController.isLogin.value) {
+                          stateController.showLoader.value = true;
+                          bool isCheckedActivate =
+                              await stateController.getUserIsActive();
+                          if (isCheckedActivate) {
+                            var valid = false;
+                            var msg = 'Something went wrong!';
+
+                            var data = await multiprodController.checkValidDeal(
+                                multiProd.id!, 'positive', multiProd.id!);
+                            valid = !data['error'];
+                            msg = data['msg'];
+                            if (valid) {
+                              cartController.addToCart(
+                                  multiProd.id!,
+                                  'MULTIPRODUCT',
+                                  multiProd.constraint!.minimumOrder ?? 1,
+                                  multiProd.price,
+                                  null,
+                                  multiProd.products,
+                                  null,
+                                  multiProd.constraint,
+                                  null,
+                                  mutliProductName:
+                                      multiProd.name!.defaultText!.text!);
+                            } else {
+                              Navigator.of(context).pop();
+                              snackBarClass.showToast(context, msg);
+                            }
+                          }
+                        } else {
+                          stateController.setCurrentTab(3);
+                          var showToast = snackBarClass.showToast(
+                              context, 'Please Login to preoceed');
+                        }
+                        stateController.showLoader.value = false;
+                      },
+                      icon: const Icon(
+                        Icons.add,
                       ),
                     ),
-                    DiscountTag(price: multiProd.price!)
-                  ],
-                )
-              : CircleAvatar(
-                  backgroundColor: AppColors.primeColor,
-                  radius: 20,
-                  child: IconButton(
-                    padding: const EdgeInsets.all(1),
-                    constraints: const BoxConstraints(),
-                    onPressed: () async {
-                      if (stateController.isLogin.value) {
-                        stateController.showLoader.value = true;
-                        bool isCheckedActivate =
-                            await stateController.getUserIsActive();
-                        if (isCheckedActivate) {
-                          var valid = false;
-                          var msg = 'Something went wrong!';
-
-                          var data = await multiprodController.checkValidDeal(
-                              multiProd.id!, 'positive', multiProd.id!);
-                          valid = !data['error'];
-                          msg = data['msg'];
-                          if (valid) {
-                            cartController.addToCart(
-                                multiProd.id!,
-                                'MULTIPRODUCT',
-                                multiProd.constraint!.minimumOrder ?? 1,
-                                multiProd.price,
-                                null,
-                                multiProd.products,
-                                null,
-                                multiProd.constraint,
-                                null,
-                                mutliProductName:
-                                    multiProd.name!.defaultText!.text!);
-                          } else {
-                            Navigator.of(context).pop();
-                            snackBarClass.showToast(context, msg);
-                          }
-                        }
-                      } else {
-                        stateController.setCurrentTab(3);
-                        var showToast = snackBarClass.showToast(
-                            context, 'Please Login to preoceed');
-                      }
-                      stateController.showLoader.value = false;
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                    ),
                   ),
-                ),
+          ),
         );
       },
     );
