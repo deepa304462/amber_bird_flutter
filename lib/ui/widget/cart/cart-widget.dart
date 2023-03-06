@@ -20,63 +20,26 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class CartWidget extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _CartWidget();
-  }
-}
+import '../../../helpers/controller-generator.dart';
 
-class _CartWidget extends State<CartWidget> {
-  final CartController cartController = Get.find();
+class CartWidget extends StatelessWidget {
+  late CartController cartController;
   final Controller stateController = Get.find();
   RxBool checkoutClicked = false.obs;
   TextEditingController ipController = TextEditingController();
-  List<SliverList> innerLists = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    innerLists.clear();
-    innerLists.add(SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (BuildContext context, int index) => ListView(
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        children: [
-          shippingAddress(context),
-        ],
-      ),
-      childCount: 1,
-    )));
-    innerLists.add(SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (BuildContext context, int index) =>
-          productListWidget(context, cartController),
-      childCount: 1,
-    )));
-    innerLists.add(SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (BuildContext context, int index) =>
-          scoinPRoductList(context, cartController),
-      childCount: 1,
-    )));
-    innerLists.add(SliverList(
-        delegate: SliverChildBuilderDelegate(
-      (BuildContext context, int index) => _saveLaterAndCheckoutOptions(),
-      childCount: 1,
-    )));
-    cartController.clearCheckout();
+    cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     return Scaffold(
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
         child: Obx(
-          () => cartController.calculatedPayment.value.totalAmount != null
+          () => cartController.calculatedPayment.value.totalAmount != null &&
+                  cartController.calculatedPayment.value.totalAmount as double >
+                      0
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -92,7 +55,7 @@ class _CartWidget extends State<CartWidget> {
                             style: TextStyles.bodyFont,
                           ),
                           Text(
-                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
+                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? ((cartController.calculatedPayment.value.totalAmount as double) + (double.parse(Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)))) : 0).toStringAsFixed(2)}',
                             style: TextStyles.titleLargeBold,
                           ),
                         ],
@@ -141,12 +104,43 @@ class _CartWidget extends State<CartWidget> {
               : const SizedBox(),
         ),
       ),
-      body: Obx(
-        () => (cartController.cartProducts.isNotEmpty ||
+      body: Obx(() {
+        cartController.innerLists.clear();
+        cartController.innerLists.add(SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) => ListView(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              shippingAddress(context),
+            ],
+          ),
+          childCount: 1,
+        )));
+        cartController.innerLists.add(SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) =>
+              productListWidget(context, cartController),
+          childCount: 1,
+        )));
+        cartController.innerLists.add(SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) =>
+              scoinPRoductList(context, cartController),
+          childCount: 1,
+        )));
+        cartController.innerLists.add(SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) =>
+              _saveLaterAndCheckoutOptions(context),
+          childCount: 1,
+        )));
+        cartController.clearCheckout();
+        return (cartController.cartProducts.isNotEmpty ||
                 cartController.cartProductsScoins.isNotEmpty)
             ? CustomScrollView(
                 physics: const BouncingScrollPhysics(),
-                slivers: innerLists,
+                slivers: cartController.innerLists,
               )
             : Padding(
                 padding: const EdgeInsets.all(10),
@@ -176,8 +170,8 @@ class _CartWidget extends State<CartWidget> {
                     ],
                   ),
                 ),
-              ),
-      ),
+              );
+      }),
     );
   }
 
@@ -971,28 +965,24 @@ class _CartWidget extends State<CartWidget> {
                       padding: const EdgeInsets.all(5),
                       height: 160,
                       width: MediaQuery.of(context).size.width * 0.9,
-                      child: 
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              child: ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: prod.productAvailabilityStatus!
-                                      .recommendedProducts!.length,
-                                  itemBuilder: (_, index) {
-                                    var curProd = prod
-                                        .productAvailabilityStatus!
-                                        .recommendedProducts![index];
-                                    return ProductCard(
-                                        curProd,
-                                        curProd.id,
-                                        'RECOMMEDED_PRODUCT',
-                                        curProd.varient!.price!,
-                                        null,
-                                        null);
-                                  }))
- 
-                      ),
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: prod.productAvailabilityStatus!
+                                  .recommendedProducts!.length,
+                              itemBuilder: (_, index) {
+                                var curProd = prod.productAvailabilityStatus!
+                                    .recommendedProducts![index];
+                                return ProductCard(
+                                    curProd,
+                                    curProd.id,
+                                    'RECOMMEDED_PRODUCT',
+                                    curProd.varient!.price!,
+                                    null,
+                                    null);
+                              }))),
                 ],
               )
             : const Text('Recommended product is not available')
@@ -1106,7 +1096,7 @@ class _CartWidget extends State<CartWidget> {
     );
   }
 
-  ListView _saveLaterAndCheckoutOptions() {
+  ListView _saveLaterAndCheckoutOptions(BuildContext context) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -1146,6 +1136,26 @@ class _CartWidget extends State<CartWidget> {
                   'Order Summary',
                   style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
                 ),
+                cartController.calculatedPayment.value.totalAmount != null &&
+                        cartController.calculatedPayment.value.totalAmount > 0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total ',
+                            style: TextStyles.bodyFont,
+                          ),
+                          Text(
+                            '${CodeHelp.euro}' +
+                                (cartController.calculatedPayment.value
+                                        .totalAmount as double)
+                                    .toStringAsFixed(2)
+                                    .toString(),
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
                 cartController.calculatedPayment.value.totalSCoinsPaid != null
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

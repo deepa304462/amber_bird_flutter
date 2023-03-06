@@ -15,10 +15,13 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ScoinProductRow extends StatelessWidget {
   bool isLoading = false;
   final Controller stateController = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final WishlistController wishlistController = Get.find();
   Rx<Varient> activeVariant = Varient().obs;
   ScoinProductRow({super.key});

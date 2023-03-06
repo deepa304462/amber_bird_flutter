@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/checkout/checkout.dart';
@@ -19,7 +20,10 @@ import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../helpers/controller-generator.dart';
 
 class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
@@ -40,11 +44,15 @@ class CartController extends GetxController {
   Rx<CouponCode> selectedCoupon = CouponCode().obs;
   Rx<bool> searchingProduct = true.obs;
   Rx<bool> couponIncludeCondition = false.obs;
+  RxList<SliverList> innerLists = <SliverList>[].obs;
+  String uniqueId = Random().nextInt(34342).toString();
 
   @override
   void onInit() {
-    super.onInit();
     fetchCart();
+    print('${getCurrentTag()} controller __________________');
+
+    super.onInit();
   }
 
   applyCoupon() {}
@@ -75,8 +83,6 @@ class CartController extends GetxController {
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     var referredbyId = await SharedData.read('referredbyId');
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    log(jsonEncode(cust).toString());
-    log(jsonEncode(cust.cart));
     var payload;
     if (selectedAdd != null && selectedAdd.name != null) {
       var resp = await ClientService.post(
@@ -86,7 +92,7 @@ class CartController extends GetxController {
         checkoutData.value = data;
         if (data.allAvailable == true) {
           var resp1;
-          if (orderId.value != '') {
+          if (cust.cart != null && cust.cart!.id != '') {
             payload = {
               'status': 'INIT',
               'customerRef': (jsonDecode(custRef.toJson())),
@@ -111,11 +117,11 @@ class CartController extends GetxController {
                       }
                     : null,
               },
-              '_id': orderId.value,
+              '_id': cust.cart!.id,
               'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
               'shipping': {
                 'orderRef': orderId.value != ''
-                    ? {"name": custRef.id, "_id": orderId.value}
+                    ? {"name": custRef.id, "_id": cust.cart!.id}
                     : null,
                 'destination': {
                   'customerAddress': (jsonDecode(selectedAdd.toJson())),
@@ -124,7 +130,7 @@ class CartController extends GetxController {
               'referredById': referredbyId != null ? referredbyId : null,
             };
             resp1 = await ClientService.Put(
-                path: 'order', id: orderId.value, payload: payload);
+                path: 'order', id: cust.cart!.id!, payload: payload);
           } else {
             payload = {
               'status': 'INIT',
@@ -157,8 +163,6 @@ class CartController extends GetxController {
             resp1 = await ClientService.post(path: 'order', payload: payload);
           }
           if (resp1.statusCode == 200) {
-            log(jsonEncode(payload).toString());
-            log(jsonEncode(resp1.data).toString());
             if (orderId.value == '') orderId.value = resp1.data['_id'];
             // var ord = Order.fromMap(resp1.data);
             cust.cart = Order.fromMap(resp1.data);
@@ -239,7 +243,6 @@ class CartController extends GetxController {
           if (resp1.data.length > 0 && resp1.data[0] != null) {
             paymentData.value =
                 Payment.fromMap(resp1.data[0] as Map<String, dynamic>);
-            log(jsonEncode(paymentData.value).toString());
             if (resp1.data[0]['checkoutUrl'] != null) {
               return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
             } else {
@@ -277,7 +280,6 @@ class CartController extends GetxController {
       if (customerInsightDetail.statusCode == 200) {
         OfflineDBService.save(
             OfflineDBService.customerInsightDetail, customerInsightDetail.data);
-        await fetchCart();
         resetCart();
       }
     }
@@ -308,6 +310,8 @@ class CartController extends GetxController {
 
   resetCart() async {
     cartProducts.clear();
+    cartProductsScoins.clear();
+    calculatedPayment.value = Payment();
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
@@ -318,6 +322,9 @@ class CartController extends GetxController {
   }
 
   fetchCart() async {
+    cartProducts.clear();
+    cartProductsScoins.clear();
+    calculatedPayment.value = Payment();
     var insightDetailloc =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (insightDetailloc != null) {
@@ -573,28 +580,28 @@ class CartController extends GetxController {
     Ref custRef = await Helper.getCustomerRef();
     var payload;
     var resp;
-    if (orderId.value != '') {
+    if (cust.cart != null && cust.cart!.id != null) {
       payload = {
         'status': 'TEMPORARY_OR_CART',
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         'productsViaSCoins': listScoins,
-        '_id': orderId.value,
+        '_id': cust.cart!.id!,
         'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
-          "order": {"name": custRef.id, "_id": orderId.value},
+          "order": {"name": custRef.id, "_id": cust.cart!.id!},
           "currency": "EUR",
           "paidTo": {"name": "sbazar", "_id": "sbazar"},
           "status": "OPEN",
-          "description": orderId.value,
+          "description": cust.cart!.id!,
           "paymentGateWayDetail": {
             "usedPaymentGateWay": selectedPaymentMethod.value,
           },
         },
       };
       resp = await ClientService.Put(
-          path: 'order', id: orderId.value, payload: payload);
+          path: 'order', id: cust.cart!.id!, payload: payload);
     } else {
       payload = {
         'status': 'TEMPORARY_OR_CART',
@@ -713,7 +720,8 @@ class CartController extends GetxController {
   isApplicableCoupun(CouponCode coupon) async {
     bool valid = true;
     if (Get.isRegistered<CartController>()) {
-      var cartController = Get.find<CartController>();
+      var cartController =
+          ControllerGenerator.create(CartController(), tag: 'cartController');
       if (coupon.condition!.expireAtTime != null && valid) {
         String expire = coupon.condition!.expireAtTime ?? '';
         var newDate = DateTime.now().toUtc();

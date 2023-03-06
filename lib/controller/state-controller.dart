@@ -16,6 +16,8 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../helpers/controller-generator.dart';
+
 class Controller extends GetxController {
   var isLogin = false.obs;
   var currentTab = 0.obs;
@@ -115,16 +117,15 @@ class Controller extends GetxController {
       if (customerDetail.value.personalInfo != null) {
         userType.value = customerDetail.value.personalInfo!.membershipType!;
       }
-      if (Get.isRegistered<CartController>()) {
-        var cartController = Get.find<CartController>();
+      var cartController =
+          ControllerGenerator.create(CartController(), tag: 'cartController');
 
-        if (cust.cart != null) {
-          cartController.calculatedPayment.value =
-              cust.cart!.payment != null ? cust.cart!.payment! : Payment();
-          cartController.orderId.value = cust.cart!.id ?? '';
-          for (var element in cust.cart!.products!) {
-            cartController.cartProducts[element.ref!.id ?? ''] = element;
-          }
+      if (cust.cart != null) {
+        cartController.calculatedPayment.value =
+            cust.cart!.payment != null ? cust.cart!.payment! : Payment();
+        cartController.orderId.value = cust.cart!.id ?? '';
+        for (var element in cust.cart!.products!) {
+          cartController.cartProducts[element.ref!.id ?? ''] = element;
         }
       }
 

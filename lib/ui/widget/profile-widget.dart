@@ -1,5 +1,3 @@
- 
-
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -11,10 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProfileWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   final AuthController authController = Get.put(AuthController());
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
 
   RxBool isLoading = false.obs;
   @override

@@ -19,6 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProductCardScoin extends StatelessWidget {
   final ProductSummary? product;
   final String? refId;
@@ -33,7 +35,8 @@ class ProductCardScoin extends StatelessWidget {
       this.ruleConfig, this.constraint,
       {super.key, this.fixedHeight = false});
 
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
@@ -175,7 +178,7 @@ class ProductCardScoin extends StatelessWidget {
                   : const SizedBox(),
             ],
           ),
-            product.varients!.length > 1
+          product.varients!.length > 1
               ? productVarientView(product.varients!)
               : SizedBox()
         ],

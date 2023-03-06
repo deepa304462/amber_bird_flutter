@@ -1,4 +1,4 @@
-import 'package:amber_bird/controller/cart-controller.dart'; 
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -13,13 +13,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
+import '../../../helpers/controller-generator.dart';
+
 class ProductBottomDrawer extends StatelessWidget {
   final String? pId;
   ProductBottomDrawer(this.pId, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.find();
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
     ProductController productController;
@@ -233,7 +236,8 @@ class ProductBottomDrawer extends StatelessWidget {
                                       .varient.value.price!.actualPrice
                                       .toString()),
                               cartController.checkProductInCart(
-                                      '$pId@${productController.varient.value.varientCode}','')
+                                      '$pId@${productController.varient.value.varientCode}',
+                                      '')
                                   ? Row(
                                       children: [
                                         IconButton(
@@ -281,7 +285,8 @@ class ProductBottomDrawer extends StatelessWidget {
                                         ),
                                         Text(cartController
                                             .getCurrentQuantity(
-                                                '$pId@${productController.varient.value.varientCode}','')
+                                                '$pId@${productController.varient.value.varientCode}',
+                                                '')
                                             .toString()),
                                         IconButton(
                                           padding: const EdgeInsets.all(8),

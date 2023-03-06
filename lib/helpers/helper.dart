@@ -12,6 +12,8 @@ import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
+import 'controller-generator.dart';
+
 class Helper {
   static Product conertToProductSummary() {
     return Product();
@@ -23,9 +25,8 @@ class Helper {
     } else
       return 0;
   }
-  
 
-  static dynamic getMemberCoinValue(Price price,String userType) {
+  static dynamic getMemberCoinValue(Price price, String userType) {
     if (userType == memberShipType.Paid.name) {
       return price.paidMemberCoin;
     } else if (userType == memberShipType.Platinum.name) {
@@ -38,6 +39,7 @@ class Helper {
       return price.noMemberCoin;
     }
   }
+
   static Future<Ref> getCustomerRef() async {
     var data = jsonDecode(await SharedData.read('userData'));
     print(data);
@@ -61,15 +63,14 @@ class Helper {
         }
       }
       if (ruleConfig.minCartAmount != null && ruleConfig.minCartAmount != 0) {
-        if (Get.isRegistered<CartController>()) {
-          var cartController = Get.find<CartController>();
-          if (cartController.calculatedPayment.value.totalAmount <
-              ruleConfig.minCartAmount) {
-            return ({
-              'error': true,
-              'msg': 'Required min cart amount ${ruleConfig.minCartAmount}'
-            });
-          }
+        var cartController =
+            ControllerGenerator.create(CartController(), tag: 'cartController');
+        if (cartController.calculatedPayment.value.totalAmount <
+            ruleConfig.minCartAmount) {
+          return ({
+            'error': true,
+            'msg': 'Required min cart amount ${ruleConfig.minCartAmount}'
+          });
         }
       }
 
@@ -98,21 +99,20 @@ class Helper {
     if (constraint != null &&
         constraint.maximumOrder != null &&
         constraint.maximumOrder != 0) {
-      if (Get.isRegistered<CartController>()) {
-        var cartController = Get.find<CartController>();
-        if (cartController.cartProducts.value[cartId] != null) {
-          var newCount = (cartController.cartProducts.value[cartId] == null
-                  ? 0
-                  : (cartController.cartProducts.value[cartId]!.count! ?? 0)) +
-              (constraint.minimumOrder == 0
-                  ? 1
-                  : int.parse(constraint.minimumOrder.toString() ?? '0'));
-          if ((constraint.maximumOrder ?? 0) < newCount) {
-            return ({
-              'error': true,
-              'msg': 'Max ${constraint.maximumOrder} can be added!'
-            });
-          }
+      var cartController =
+          ControllerGenerator.create(CartController(), tag: 'cartController');
+      if (cartController.cartProducts.value[cartId] != null) {
+        var newCount = (cartController.cartProducts.value[cartId] == null
+                ? 0
+                : (cartController.cartProducts.value[cartId]!.count! ?? 0)) +
+            (constraint.minimumOrder == 0
+                ? 1
+                : int.parse(constraint.minimumOrder.toString() ?? '0'));
+        if ((constraint.maximumOrder ?? 0) < newCount) {
+          return ({
+            'error': true,
+            'msg': 'Max ${constraint.maximumOrder} can be added!'
+          });
         }
       }
     }

@@ -3,6 +3,7 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ProductGuideChapter extends StatelessWidget {
   Chapter chapter;
@@ -13,6 +14,7 @@ class ProductGuideChapter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Card(
             clipBehavior: Clip.hardEdge,
@@ -57,11 +59,22 @@ class ProductGuideChapter extends StatelessWidget {
               ],
             ),
           ),
-          Column(
-            children: chapter.products!
-                .map((e) => Card(
-                    child: ProductCard(e, '', 'GUIDE', e.varient!.price, null,null)))
-                .toList(),
+          MasonryGridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: chapter.products!.length,
+            itemBuilder: (_, index) {
+              var currentProduct = chapter.products![index];
+              if (currentProduct.varient != null) {
+                return ProductCard(currentProduct, currentProduct.id, 'GUIDE',
+                    currentProduct.varient!.price!, null, null);
+              } else {
+                return const SizedBox();
+              }
+            },
           )
         ],
       ),

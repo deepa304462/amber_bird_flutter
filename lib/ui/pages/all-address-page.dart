@@ -4,11 +4,15 @@ import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/google-address-suggest.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+
+import '../widget/fit-text.dart';
 
 class AllAddressPage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -30,8 +34,8 @@ class AllAddressPage extends StatelessWidget {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             IconButton(
               onPressed: () {
-                // Modular.to.navigate('../home/main');
-                Modular.to.pop();
+                Modular.to.navigate('../home/main');
+                // Modular.to.pop();
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -87,8 +91,8 @@ class AllAddressPage extends StatelessWidget {
               address.name!,
               style: TextStyles.titleLargeBold,
             ),
-            subtitle: Text(
-              address.line1!,
+            subtitle: FitText(
+              '${address.line1!} ${address.line2!} ${address.zipCode!}',
               style: TextStyles.bodyFont,
             ),
             trailing: IconButton(
@@ -133,21 +137,39 @@ class AllAddressPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.all(20),
-                color: AppColors.primeColor,
+                color: AppColors.white,
                 child: Center(
                   child: Obx(
                     () => Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          '$type Address',
-                          style: TextStyles.bodyWhiteLarge,
+                          '${CodeHelp.titleCase(type)} Address',
+                          style: TextStyles.bodyWhiteLarge
+                              .copyWith(color: AppColors.primeColor),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
+                        MaterialButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return GoogleAddressSuggest();
+                              },
+                            );
+                          },
+                          child: Text(
+                            'Click here for address autofill',
+                            textAlign: TextAlign.left,
+                            style: TextStyles.titleLarge
+                                .copyWith(color: AppColors.primeColor),
+                          ),
+                        ),
                         ITextBox(
-                            'Name',
+                            'Name (Required)',
                             'name',
                             locationController.changeAddressData.value.name !=
                                     null
@@ -164,7 +186,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'House No',
+                            'House No (Required)',
                             'houseNo',
                             locationController
                                         .changeAddressData.value.houseNo !=
@@ -182,7 +204,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'Phone',
+                            'Phone (Required)',
                             'phoneNumber',
                             locationController
                                         .changeAddressData.value.phoneNumber !=
@@ -200,7 +222,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'Line1',
+                            'Line1 (Required)',
                             'line1',
                             locationController.changeAddressData.value.line1 !=
                                     null
@@ -217,7 +239,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'Line2',
+                            'Line2 (Required)',
                             'line2',
                             locationController.changeAddressData.value.line2 !=
                                     null
@@ -234,7 +256,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'City',
+                            'City (Required)',
                             'city',
                             locationController.changeAddressData.value.city !=
                                     null
@@ -287,7 +309,7 @@ class AllAddressPage extends StatelessWidget {
                           height: 10,
                         ),
                         ITextBox(
-                            'zip Code',
+                            'Zip Code',
                             'zipCode',
                             locationController
                                         .changeAddressData.value.zipCode !=
@@ -311,83 +333,107 @@ class AllAddressPage extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            isLoading.value = true;
-                            locationController.addressData.value =
-                                locationController.changeAddressData.value;
-                            var data;
-                            errorMessage.value = '';
-                            if (locationController
-                                    .changeAddressData.value.houseNo ==
-                                null) {
-                              //  snackBarClass.showToast(context, 'Please fill House no');
-                              errorMessage.value = 'Please fill House no';
-                              isLoading.value = false;
-                              return;
-                            } else if (locationController
-                                    .changeAddressData.value.phoneNumber ==
-                                null) {
-                              errorMessage.value = 'Please fill phone number';
-                              isLoading.value = false;
-                              return;
-                            }else if (locationController
-                                    .changeAddressData.value.line1 ==
-                                null) {
-                              errorMessage.value = 'Please fill line1';
-                              isLoading.value = false;
-                              return;
-                            } else if (locationController
-                                    .changeAddressData.value.line2 ==
-                                null) {
-                              errorMessage.value = 'Please fill line2';
-                              isLoading.value = false;
-                              return;
-                            } else if (locationController
-                                    .changeAddressData.value.city ==
-                                null) {
-                              errorMessage.value = 'Please fill city';
-                              isLoading.value = false;
-                              return;
-                            } else if (locationController
-                                    .changeAddressData.value.country ==
-                                null) {
-                              errorMessage.value = 'Please fill country';
-                              isLoading.value = false;
-                              return;
-                            } else if (locationController
-                                    .changeAddressData.value.name ==
-                                null) {
-                              errorMessage.value = 'Please fill name';
-                              isLoading.value = false;
-                              return;
-                            } else {
-                              if (type == 'ADD') {
-                                data =
-                                    await locationController.addAddressCall();
-                              } else {
-                                data =
-                                    await locationController.editAddressCall();
-                              }
-                              if (data['status'] == 'success') {}
-                              isLoading.value = false;
-                              snackBarClass.showToast(context, data['msg']);
-                              Navigator.of(context).pop();
-                            }
-                          },
-                          child: Text(
-                            isLoading.value ? "Loading" : 'Submit',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            "DISMISS",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                isLoading.value = true;
+                                locationController.addressData.value =
+                                    locationController.changeAddressData.value;
+                                var data;
+                                errorMessage.value = '';
+                                if (locationController
+                                            .changeAddressData.value.name ==
+                                        null ||
+                                    locationController
+                                            .changeAddressData.value.name ==
+                                        '') {
+                                  //  snackBarClass.showToast(context, 'Please fill House no');
+                                  errorMessage.value = 'Please fill name';
+                                  isLoading.value = false;
+                                  return;
+                                }
+                                if (locationController.changeAddressData.value
+                                            .phoneNumber ==
+                                        null ||
+                                    locationController.changeAddressData.value
+                                            .phoneNumber ==
+                                        '') {
+                                  //  snackBarClass.showToast(context, 'Please fill House no');
+                                  errorMessage.value =
+                                      'Please fill mobile number';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.houseNo ==
+                                    null) {
+                                  //  snackBarClass.showToast(context, 'Please fill House no');
+                                  errorMessage.value = 'Please fill House no';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.line1 ==
+                                    null) {
+                                  errorMessage.value = 'Please fill line1';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.line2 ==
+                                    null) {
+                                  errorMessage.value = 'Please fill line2';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.city ==
+                                    null) {
+                                  errorMessage.value = 'Please fill city';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.country ==
+                                    null) {
+                                  errorMessage.value = 'Please fill country';
+                                  isLoading.value = false;
+                                  return;
+                                } else if (locationController
+                                        .changeAddressData.value.name ==
+                                    null) {
+                                  errorMessage.value = 'Please fill name';
+                                  isLoading.value = false;
+                                  return;
+                                } else {
+                                  if (type == 'ADD') {
+                                    data = await locationController
+                                        .addAddressCall();
+                                  } else {
+                                    data = await locationController
+                                        .editAddressCall();
+                                  }
+                                  if (data['status'] == 'success') {}
+                                  isLoading.value = false;
+                                  snackBarClass.showToast(context, data['msg']);
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              child: Text(
+                                isLoading.value ? "Loading" : 'Submit',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                "DISMISS",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),

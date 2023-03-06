@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../widget/loading-with-logo.dart';
+
 class OrderDetailPage extends StatelessWidget {
   final String navigateTo;
   bool search = false;
@@ -46,7 +48,9 @@ class OrderDetailPage extends StatelessWidget {
               ),
             ),
             Expanded(
-                child: OrderDetailWidget(orderController.orderDetail.value.id!))
+                child: orderController.orderDetail.value.id != null
+                    ? OrderDetailWidget(orderController.orderDetail.value.id!)
+                    : LoadingWithLogo())
           ],
         ));
   }

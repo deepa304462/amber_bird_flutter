@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:get/get.dart';
 
 class ControllerGenerator {
@@ -5,10 +6,19 @@ class ControllerGenerator {
   static create(GetxController controller, {String? tag}) {
     if (tag == null) {
       return Get.put(controller);
-    } else if (Get.isRegistered(tag: tag)) {
-      return Get.find(tag: tag);
     } else {
-      return Get.put(controller, tag: tag);
+      try {
+        if (tag == 'cartController') {
+          var controllerOld = Get.find<CartController>(tag: tag);
+          return controllerOld;
+        }
+        return controller = Get.find(tag: tag);
+      } catch (e) {
+        if (tag == 'cartController') {
+          return Get.put(CartController(), tag: tag);
+        }
+        return Get.put(controller, tag: tag);
+      }
     }
   }
 }

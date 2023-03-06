@@ -8,6 +8,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 
+import '../../../helpers/controller-generator.dart';
+
 class LocationWidget extends StatefulWidget {
   LocationWidget({Key? key}) : super(key: key);
 
@@ -16,7 +18,8 @@ class LocationWidget extends StatefulWidget {
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final LocationController locationController = Get.find();
   @override

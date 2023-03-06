@@ -13,11 +13,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../widget/loading-with-logo.dart';
+
 class OrderListPage extends StatelessWidget {
-  bool search = false;
+  RxBool isLoading = true.obs;
   RxList<Order> orderList = <Order>[].obs;
 
   getOrderList() async {
+    isLoading.value = true;
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
         path: 'order/search',
@@ -28,6 +31,7 @@ class OrderListPage extends StatelessWidget {
               ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
+      isLoading.value = false;
       orderList.value = oList;
     }
   }
@@ -53,35 +57,37 @@ class OrderListPage extends StatelessWidget {
                     color: Colors.white,
                   )),
             ),
-            orderList.length > 0
-                ? Expanded(
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: orderList.length,
-                      itemBuilder: (_, index) {
-                        var curOrder = orderList[index];
-                        return OrderTile(context, curOrder);
-                      },
-                    ),
-                  )
-                : Expanded(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Lottie.asset('assets/no-data.json',
-                              width: MediaQuery.of(context).size.width * .5,
-                              fit: BoxFit.cover),
-                          Expanded(
-                            child: Text(
-                              'No orders available, waiting for a new order.',
-                              style: TextStyles.bodyFont,
-                            ),
-                          )
-                        ],
+            isLoading.value
+                ? Expanded(child: LoadingWithLogo())
+                : orderList.length > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: orderList.length,
+                          itemBuilder: (_, index) {
+                            var curOrder = orderList[index];
+                            return OrderTile(context, curOrder);
+                          },
+                        ),
+                      )
+                    : Expanded(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Lottie.asset('assets/no-data.json',
+                                  width: MediaQuery.of(context).size.width * .5,
+                                  fit: BoxFit.cover),
+                              Expanded(
+                                child: Text(
+                                  'No orders available, waiting for a new order.',
+                                  style: TextStyles.bodyFont,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
           ],
         ));
   }

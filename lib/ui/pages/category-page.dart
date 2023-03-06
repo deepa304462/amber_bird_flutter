@@ -24,9 +24,12 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class CategoryPage extends StatelessWidget {
   final MegaMenuController megaMenuController = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
 

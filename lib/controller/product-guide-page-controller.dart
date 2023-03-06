@@ -8,13 +8,14 @@ class ProductGuidePageController extends GetxController {
 
   @override
   void onInit() {
-    ClientService.post(path: 'productGuide/search?locale=en', payload: {})
-        .then((value) {
-      for (var element in (value.data as List)) {
-        productGuide.value = ProductGuide.fromMap(element);
-        isLoading.value = false;
-      }
-    });
     super.onInit();
+  }
+
+  void setPrductGuideId(String productGuideId) {
+    ClientService.get(path: 'productGuide/${productGuideId}?locale=en', id: '')
+        .then((value) {
+      productGuide.value = ProductGuide.fromMap(value.data);
+      isLoading.value = false;
+    });
   }
 }

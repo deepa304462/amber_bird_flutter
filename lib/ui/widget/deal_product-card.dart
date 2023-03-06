@@ -5,10 +5,12 @@ import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
 import 'discount-tag.dart';
 
 class DealProductCard extends StatelessWidget {
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
 
   final DealController con;
   final String currentdealName;

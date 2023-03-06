@@ -7,11 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class CouponWidget extends StatelessWidget {
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.find();
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     // final Controller stateController = Get.find();
     controller.text = cartController.couponName.toString();
     return Obx(() {
@@ -71,7 +74,8 @@ class CouponWidget extends StatelessWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
 
   @override
   List<Widget>? buildActions(BuildContext context) {

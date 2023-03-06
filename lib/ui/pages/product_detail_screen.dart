@@ -18,10 +18,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProductDetailScreen extends StatelessWidget {
   // final PageController _pageController = PageController(initialPage: 0);
   // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   LocationController locationController = Get.find();
@@ -251,7 +254,8 @@ class ProductDetailScreen extends StatelessWidget {
                                           child: FitText(
                                             cartController
                                                 .getCurrentQuantity(
-                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}','')
+                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                    '')
                                                 .toString(),
                                             style: TextStyles.bodyWhiteLarge
                                                 .copyWith(
@@ -274,7 +278,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                   null,
                                                   null,
                                                   null,
-                                                  productController.varient.value);
+                                                  productController
+                                                      .varient.value);
                                             } else {
                                               stateController.setCurrentTab(3);
                                               snackBarClass.showToast(context,

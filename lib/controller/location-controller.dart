@@ -23,6 +23,7 @@ class LocationController extends GetxController {
   RxMap address = {}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
+  Rx<Address> deliveryAddress = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
   Rx<String> pinCode = ''.obs;
 
@@ -128,6 +129,26 @@ class LocationController extends GetxController {
     if (address.value['address_components'] != null) {
       for (dynamic element in (address.value['address_components'] as List)) {
         bool keyMatched = false;
+        for (String value in (element['types'] as List)) {
+          keyMatched = value == key;
+          if (keyMatched) {
+            break;
+          }
+        }
+        if (keyMatched) {
+          return element['long_name'];
+        }
+      }
+    }
+    return '';
+  }
+
+  String findValueFromAddressFromGoogleData(
+      Map<String, dynamic> googleData, String key) {
+    if (googleData['address_components'] != null) {
+      for (dynamic element in (googleData['address_components'] as List)) {
+        bool keyMatched = false;
+
         for (String value in (element['types'] as List)) {
           keyMatched = value == key;
           if (keyMatched) {
@@ -301,5 +322,32 @@ class LocationController extends GetxController {
     } else if (name == 'phoneNumber') {
       changeAddressData.value.phoneNumber = text;
     }
+  }
+
+  void updateCustomerAddress(addressFromGoogle) {
+    changeAddressData.value.zipCode =
+        findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
+    changeAddressData.value.name = '';
+    changeAddressData.value.houseNo =
+        findValueFromAddressFromGoogleData(addressFromGoogle, 'premise');
+    changeAddressData.value.line1 = findValueFromAddressFromGoogleData(
+        addressFromGoogle, 'sublocality_level_2');
+    changeAddressData.value.line2 = findValueFromAddressFromGoogleData(
+        addressFromGoogle, 'sublocality_level_1');
+    changeAddressData.value.localArea = findValueFromAddressFromGoogleData(
+        addressFromGoogle, 'sublocality_level_1');
+    changeAddressData.value.city =
+        findValueFromAddressFromGoogleData(addressFromGoogle, 'locality') ??
+            findValueFromAddressFromGoogleData(
+                addressFromGoogle, 'administrative_area_level_2');
+    changeAddressData.value.country =
+        findValueFromAddressFromGoogleData(addressFromGoogle, 'country');
+    changeAddressData.refresh();
+    changeAddressData.value.geoAddress = GeoAddress.fromMap({
+      'coordinates': [
+        addressFromGoogle['geometry']['location']['lat'],
+        addressFromGoogle['geometry']['location']['lng']
+      ]
+    });
   }
 }

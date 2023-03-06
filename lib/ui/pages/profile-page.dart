@@ -12,9 +12,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -99,8 +102,7 @@ class ProfilePage extends StatelessWidget {
             Lottie.asset('assets/profile-cover-background.json',
                 width: MediaQuery.of(context).size.width,
                 height: 200,
-                fit: BoxFit.cover
-                ),
+                fit: BoxFit.cover),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

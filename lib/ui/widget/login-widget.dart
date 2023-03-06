@@ -3,16 +3,19 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart'; 
+import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class LoginWidget extends StatelessWidget {
   final AuthController authController = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller controller = Get.find();
   RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
@@ -88,7 +91,7 @@ class LoginWidget extends StatelessWidget {
                     child: TextButton(
                       onPressed: () async {
                         isLoading.value = true;
-                        var data = await authController.login(); 
+                        var data = await authController.login();
                         if (data['status'] == 'success') {
                           controller.getLoginInfo();
                           controller.isLogin.value = true;
