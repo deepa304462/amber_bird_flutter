@@ -16,17 +16,20 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class WishListPage extends StatelessWidget {
   bool search = false;
   WishlistController wishlistController = Get.find<WishlistController>();
-  CartController cartController = Get.find<CartController>();
+  CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   Rx<WishList> wishList = WishList().obs;
 
   getWishList() async {
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
         path: 'wishList/search', payload: {"customerId": custRef.id});
-    if (response.statusCode == 200) { 
+    if (response.statusCode == 200) {
       if (response.data.length > 0) {
         wishList.value =
             WishList.fromMap(response.data[0] as Map<String, dynamic>);

@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
+import '../../../helpers/controller-generator.dart';
+
 class DealBottomDrawer extends StatelessWidget {
   final List<ProductSummary>? products;
   final String? refId;
@@ -31,7 +33,8 @@ class DealBottomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.find();
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
 

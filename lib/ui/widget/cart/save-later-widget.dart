@@ -7,8 +7,11 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../helpers/controller-generator.dart';
+
 class SaveLater extends StatelessWidget {
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   RxBool checkoutClicked = false.obs;
   TextEditingController ipController = TextEditingController();

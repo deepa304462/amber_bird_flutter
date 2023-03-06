@@ -3,6 +3,8 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 final Color? defaultColor = Colors.grey[700];
 
 final Color defaultOnSelectColor = Colors.blue;
@@ -157,10 +159,13 @@ class _BottomBarItemState extends State<BottomBarItem>
     with TickerProviderStateMixin {
   late Animation animation;
   late AnimationController controller;
+  late CartController cartController;
 
   @override
   void initState() {
     super.initState();
+    cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     if (widget.controller == null) {
       controller = AnimationController(
           vsync: this, duration: const Duration(milliseconds: 200));
@@ -180,7 +185,6 @@ class _BottomBarItemState extends State<BottomBarItem>
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController = Get.put(CartController());
     return InkWell(
       onTap: () {
         widget.onTap();
@@ -225,7 +229,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: Text(
-                                  (cartController.cartProducts.value.length+
+                                  (cartController.cartProducts.value.length +
                                           cartController
                                               .cartProductsScoins.value.length)
                                       .toString(),

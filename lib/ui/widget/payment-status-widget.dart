@@ -10,10 +10,11 @@ import 'package:lottie/lottie.dart';
 
 class PaymentStatusWidget extends StatelessWidget {
   late CartController cartController;
+  final id;
 
-  PaymentStatusWidget(String id, String paymentId) {
-    cartController = ControllerGenerator.create(CartController());
-    cartController.orderId.value = id;
+  PaymentStatusWidget(this.id, String paymentId) {
+    cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     cartController.paymentData.value = Payment(id: paymentId);
     cartController.paymentStatusCheck();
   }
@@ -87,10 +88,8 @@ class PaymentStatusWidget extends StatelessWidget {
                       backgroundColor: AppColors.darkOrange,
                       textStyle: TextStyles.bodyWhite),
                   onPressed: () async {
-                    Modular.to.navigate('/home/order-detail', arguments: {
-                      'id': cartController.orderId.value,
-                      'navigateTo': 'HOME'
-                    });
+                    Modular.to.navigate('/home/order-detail',
+                        arguments: {'id': id, 'navigateTo': 'HOME'});
                   },
                   child: Text(
                     "Check Order",

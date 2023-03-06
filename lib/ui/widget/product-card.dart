@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProductCard extends StatelessWidget {
   final ProductSummary? product;
   final String? refId;
@@ -32,7 +34,8 @@ class ProductCard extends StatelessWidget {
       this.ruleConfig, this.constraint,
       {super.key, this.fixedHeight = false});
 
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   Widget _gridItemBody(ProductSummary product, BuildContext context) {
@@ -46,8 +49,7 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child:
-                      ImageBox(product.images![0]),
+                  child: ImageBox(product.images![0]),
                 ),
               )
             : const SizedBox(
@@ -171,13 +173,12 @@ class ProductCard extends StatelessWidget {
                       : const SizedBox(),
               checkPriceVisibility()
                   ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
-                      ? Obx(()=> Text(
-                          "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
-                          style: TextStyles.titleLargeBold,
-                        ))
+                      ? Obx(() => Text(
+                            "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
+                            style: TextStyles.titleLargeBold,
+                          ))
                       : PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
-
                   : const SizedBox(),
             ],
           ),
@@ -217,12 +218,12 @@ class ProductCard extends StatelessWidget {
                               stateController.showLoader.value = true;
                               Price? price = activeVariant.value.price;
                               if (stateController.isLogin.value) {
-                                var valid = false;
+                                var valid = true;
                                 var msg = 'Something went wrong!';
 
                                 if (Get.isRegistered<DealController>(
                                     tag: addedFrom!)) {
-                                      price= dealPrice;
+                                  price = dealPrice;
                                   var dealController =
                                       Get.find<DealController>(tag: addedFrom!);
                                   var data = await dealController.checkValidDeal(
@@ -287,7 +288,7 @@ class ProductCard extends StatelessWidget {
                             onPressed: () async {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
-                                var valid = false;
+                                var valid = true;
                                 var msg = 'Something went wrong!';
                                 Price? price = activeVariant.value.price;
                                 if (Get.isRegistered<DealController>(
@@ -355,7 +356,7 @@ class ProductCard extends StatelessWidget {
                                     await stateController.getUserIsActive();
                                 if (isCheckedActivate) {
                                   // if (stateController.isActivate.value) {
-                                  var valid = false;
+                                  var valid = true;
                                   var msg = 'Something went wrong!';
 
                                   Price? price = activeVariant.value.price;

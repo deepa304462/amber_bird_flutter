@@ -14,12 +14,14 @@ import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+
+import '../../helpers/controller-generator.dart';
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
   final currenttypeName;
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   MultiProductRow(this.currenttypeName, {super.key});
 
@@ -348,7 +350,6 @@ class MultiProductRow extends StatelessWidget {
                                     mutliProductName:
                                         multiProd.name!.defaultText!.text!);
                               } else {
-                                Navigator.of(context).pop();
                                 snackBarClass.showToast(context, msg);
                               }
                             } else {

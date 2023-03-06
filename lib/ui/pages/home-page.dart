@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 PreferredSize _appBar(address) {
   // var dropdownvalue;
   return PreferredSize(
@@ -61,7 +63,8 @@ class HomePage extends StatelessWidget {
   final Controller myController = Get.put(Controller());
 
   final WishlistController wishlistController = Get.put(WishlistController());
-  final CartController cartController = Get.put(CartController());
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

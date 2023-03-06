@@ -9,10 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class SignUp extends StatelessWidget {
   final AuthController authController = Get.find();
   final Controller controller = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
 
   @override
@@ -195,7 +198,7 @@ class SignUp extends StatelessWidget {
                             onPressed: () async {
                               try {
                                 isLoading.value = true;
-                                var data = await mController.signInWithGoogle(); 
+                                var data = await mController.signInWithGoogle();
                                 if (data['status'] == 'success') {}
                                 isLoading.value = false;
 

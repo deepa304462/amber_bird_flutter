@@ -214,7 +214,7 @@ class AllAddressPage extends StatelessWidget {
                                     .toString()
                                 : '',
                             false,
-                            TextInputType.text,
+                            TextInputType.number,
                             false,
                             false,
                             callback),

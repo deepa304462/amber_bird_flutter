@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../../helpers/controller-generator.dart';
+
 class AppBarWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
@@ -134,7 +136,8 @@ class AppBarWidget extends StatelessWidget {
   }
 
   cartWidget(context) {
-    final CartController cartController = Get.find();
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     final Controller stateController = Get.find();
     return Obx(
       () {

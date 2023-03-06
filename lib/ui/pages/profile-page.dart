@@ -12,9 +12,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
@@ -24,42 +27,44 @@ class ProfilePage extends StatelessWidget {
           profileCard(context, stateController.loggedInProfile.value,
               stateController.customerInsight.value),
           SingleChildScrollView(
-            child: Column(children: [
-              sectionCard('Address', 'Get list if saved address', () {
-                Modular.to.navigate('../home/address-list');
-                return {};
-              }),
-              sectionCard(
-                  'FAQ', 'Get answer for your specific query', () => {}),
-              sectionCard(
-                  'Help', 'Get help from our customer care team', () => {}),
-              sectionCard(
-                  'Privacy policy', 'Explains legals and policies', () => {}),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                child: Card(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextButton(
-                        onPressed: () async {
-                          isLoading.value = true;
-                          // Modular.to.navigate('../home/reset-password');
-                          var data = await stateController.resetPassInit();
-                          isLoading.value = false;
-                          snackBarClass.showToast(
-                              context, 'Please check your mail !,thanks');
-                        },
-                        child: Text(
-                            isLoading.value ? "Loading" : "Reset Password",
-                            style: TextStyles.headingFont),
+            child: Column(
+              children: [
+                sectionCard('Address', 'Get list if saved address', () {
+                  Modular.to.navigate('../home/address-list');
+                  return {};
+                }),
+                sectionCard(
+                    'FAQ', 'Get answer for your specific query', () => {}),
+                sectionCard(
+                    'Help', 'Get help from our customer care team', () => {}),
+                sectionCard(
+                    'Privacy policy', 'Explains legals and policies', () => {}),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  child: Card(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () async {
+                            isLoading.value = true;
+                            // Modular.to.navigate('../home/reset-password');
+                            var data = await stateController.resetPassInit();
+                            isLoading.value = false;
+                            snackBarClass.showToast(
+                                context, 'Please check your mail !,thanks');
+                          },
+                          child: Text(
+                              isLoading.value ? "Loading" : "Reset Password",
+                              style: TextStyles.headingFont),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

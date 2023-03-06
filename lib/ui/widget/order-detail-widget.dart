@@ -17,7 +17,8 @@ class OrderDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => orderController.orderDetail.value.products != null
+    return Obx(() => orderController.orderDetail != null &&
+            orderController.orderDetail.value.products != null
         ? ListView(
             children: [
               _orderProductSummary(context),

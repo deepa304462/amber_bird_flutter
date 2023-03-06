@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
+
 class ScoinCheckoutWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   final AuthController authController = Get.put(AuthController());
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final ScoinProductController scoinProductController = Get.find();
 
   RxBool isLoading = false.obs;

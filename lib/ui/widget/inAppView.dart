@@ -4,6 +4,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../helpers/controller-generator.dart';
 import 'loading-with-logo.dart';
 
 class InApp extends StatefulWidget {
@@ -12,7 +13,8 @@ class InApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<InApp> {
-  final CartController cartController = Get.find();
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   late InAppWebViewController _webViewController;
   String url = "";
   double progress = 0;

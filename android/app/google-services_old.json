@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "257752284304",
+    "project_id": "sbazar",
+    "storage_bucket": "sbazar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257752284304:android:7a441fadb3901cd3b22c15",
+        "android_client_info": {
+          "package_name": "com.gmbh.sbazar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257752284304-tchg2el08h9fp3pvp8ol9084mtmp4n24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "169bb1df9d8e412694701da4e9b3b612d9a60278"
+          }
+        },
+        {
+          "client_id": "257752284304-ua9f40itdpecnsstm51okptkp5ahpb24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "0c15ca139747cde6c5a2ee3f792ea8c75142155e"
+          }
+        },
+        {
+          "client_id": "257752284304-h535dpn51hojbtsbsd70f4pd7nkn1bk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDriZrOQBdqGBKQ16xU6bxJ0TJMGaDFA5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257752284304-h535dpn51hojbtsbsd70f4pd7nkn1bk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

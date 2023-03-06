@@ -9,7 +9,8 @@ import 'package:lottie/lottie.dart';
 class ResetPasswordWidget extends StatelessWidget {
   // final Controller stateController = Get.find();
 
-  // final CartController cartController = Get.find();
+  // final CartController cartController =
+  // ControllerGenerator.create(CartController(), tag: 'cartController');
 
   RxBool isLoading = false.obs;
 
