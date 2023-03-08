@@ -24,7 +24,8 @@ class OrderListPage extends StatelessWidget {
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
         path: 'order/search',
-        payload: {"customerId": custRef.id, "onlyCart": false});
+        payload: {"customerId": custRef.id, "onlyOrders": true});
+    // payload: {"customerId": custRef.id, "onlyCart": false});
     if (response.statusCode == 200) {
       // log(response.data.toString());
       List<Order> oList = ((response.data as List<dynamic>?)
@@ -94,7 +95,9 @@ class OrderListPage extends StatelessWidget {
 
   OrderTile(BuildContext context, Order curOrder) {
     print(curOrder.id);
-    DateTime orderTime = DateTime.parse(curOrder!.metaData!.createdAt!);
+    DateTime orderTime = curOrder!.metaData!.createdAt != null
+        ? DateTime.parse(curOrder!.metaData!.createdAt!)
+        : DateTime.now();
     return Card(
       child: Column(
         children: [

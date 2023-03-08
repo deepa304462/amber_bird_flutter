@@ -60,7 +60,7 @@ class Price {
     dynamic? actualPrice,
     dynamic? offerPrice,
     dynamic? noMemberCoin,
-    dynamic? platinumMemberCoin, 
+    dynamic? platinumMemberCoin,
     dynamic? goldMemberCoin,
     dynamic? silverMemberCoin,
     dynamic? paidMemberCoin,

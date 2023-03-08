@@ -33,11 +33,10 @@ class DealBottomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CartController cartController =
-        ControllerGenerator.create(CartController(), tag: 'cartController');
     final Controller stateController = Get.find();
     final WishlistController wishlistController = Get.find();
-
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -203,16 +202,13 @@ class DealBottomDrawer extends StatelessWidget {
                     shape: Border(top: BorderSide(color: AppColors.primeColor)),
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.white,
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PriceTag(priceInfo!.offerPrice.toString(),
-                            priceInfo!.actualPrice.toString()),
-                        GetX<CartController>(builder: (cController) {
-                          return cController.checkProductInCart(
-                                  refId, addedFrom)
-                              ? Obx(
-                                  () => Row(
+                    title: Obx(() => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            PriceTag(priceInfo!.offerPrice.toString(),
+                                priceInfo!.actualPrice.toString()),
+                            cartController.checkProductInCart(refId, addedFrom)
+                                ? Row(
                                     children: [
                                       IconButton(
                                         padding: const EdgeInsets.all(8),
@@ -291,7 +287,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             Icons.remove_circle_outline,
                                             color: Colors.black),
                                       ),
-                                      Text(cController
+                                      Text(cartController
                                           .getCurrentQuantity(refId, '')
                                           .toString()),
                                       IconButton(
@@ -367,10 +363,8 @@ class DealBottomDrawer extends StatelessWidget {
                                             color: Colors.black),
                                       ),
                                     ],
-                                  ),
-                                )
-                              : Obx(
-                                  () => ElevatedButton(
+                                  )
+                                : ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primeColor,
                                         textStyle: TextStyles.bodyWhite),
@@ -465,10 +459,8 @@ class DealBottomDrawer extends StatelessWidget {
                                     child: Text("Add to cart",
                                         style: TextStyles.addTocartText),
                                   ),
-                                );
-                        }),
-                      ],
-                    ),
+                          ],
+                        )),
                   ),
                 ),
               ],

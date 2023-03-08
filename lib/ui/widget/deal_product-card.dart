@@ -9,11 +9,14 @@ import '../../helpers/controller-generator.dart';
 import 'discount-tag.dart';
 
 class DealProductCard extends StatelessWidget {
-  final CartController cartController =
-      ControllerGenerator.create(CartController(), tag: 'cartController');
+  // final CartController cartController =
+  //     ControllerGenerator.create(CartController(), tag: 'cartController');
 
   final DealController con;
   final String currentdealName;
+
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   DealProductCard(this.con, this.currentdealName, {super.key});
 
   @override

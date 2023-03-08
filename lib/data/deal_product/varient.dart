@@ -47,7 +47,6 @@ class Varient {
             : Dimension.fromMap(data['dimension'] as Map<String, dynamic>),
         applyExtraShipping: data['applyExtraShipping'] as bool?,
         scoinPurchaseEnable: data['scoinPurchaseEnable'] as bool?,
-        
         skuId: data['skuId'] as String?,
         constraint: data['constraint'] == null
             ? null
@@ -62,7 +61,7 @@ class Varient {
         'price': price?.toMap(),
         'dimension': dimension?.toMap(),
         'applyExtraShipping': applyExtraShipping,
-        'scoinPurchaseEnable':scoinPurchaseEnable,
+        'scoinPurchaseEnable': scoinPurchaseEnable,
         'skuId': skuId,
         'constraint': constraint?.toMap(),
       };

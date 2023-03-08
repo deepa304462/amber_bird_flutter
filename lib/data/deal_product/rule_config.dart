@@ -89,7 +89,8 @@ class RuleConfig {
       willExpireAt: willExpireAt ?? this.willExpireAt,
       willStartAt: willStartAt ?? this.willStartAt,
       minCartAmount: minCartAmount ?? this.minCartAmount,
-      onlyForPlatinumMember: onlyForPlatinumMember ?? this.onlyForPlatinumMember,
+      onlyForPlatinumMember:
+          onlyForPlatinumMember ?? this.onlyForPlatinumMember,
       onlyForSilverMember: onlyForSilverMember ?? this.onlyForSilverMember,
       onlyForGoldMember: onlyForGoldMember ?? this.onlyForGoldMember,
       onlyForNoMember: onlyForNoMember ?? this.onlyForNoMember,

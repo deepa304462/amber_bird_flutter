@@ -23,8 +23,8 @@ class ScoinProductController extends GetxController {
             var list = productSummary.varients!
                 .where((i) => i.scoinPurchaseEnable!)
                 .toList();
-            productSummary.varient = list[0]; 
-            productSummary.varients = list; 
+            productSummary.varient = list[0];
+            productSummary.varients = list;
             return productSummary;
           }).toList() ??
           []);

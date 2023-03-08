@@ -58,8 +58,8 @@ class CategoryProductPage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * .5,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child:
-                      ProductCard(product, product.id, 'CATEGORY', null, null,null),
+                  child: ProductCard(
+                      product, product.id, 'CATEGORY', null, null, null),
                 ),
               ),
             )
