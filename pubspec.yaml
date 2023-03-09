@@ -74,6 +74,7 @@ dependencies:
   fast_cached_network_image: ^1.1.1
   shimmer: ^2.0.0
   firebase_crashlytics: ^2.9.0
+  google_maps_flutter_web: ^0.4.0+7
   
   
 

@@ -368,19 +368,23 @@ class AuthController extends GetxController {
         path: 'user-profile', id: userData['mappedTo']['_id']);
     if (userResp.statusCode == 200) {
       var payload = userResp.data;
-      payload['fullName'] = fieldValue.value['fullName'];
-      payload["profileIcon"] = fieldValue.value['profileImageId'];
+      if (!fieldValue.value['fullName'].isBlank!) {
+        payload['fullName'] = fieldValue.value['fullName'];
+      }
+      if (!fieldValue.value['profileImageId'].isBlank!) {
+        payload["profileIcon"] = fieldValue.value['profileImageId'];
+      }
       var userUpdateResp = await ClientService.Put(
           path: 'user-profile',
           id: userData['mappedTo']['_id'],
           payload: payload);
       if (userUpdateResp.statusCode == 200) {
-        return {"msg": "Edited Successfully!!", "status": "success"};
+        return {"msg": "Profile saved successfully!!", "status": "success"};
       } else {
-        return {"msg": "Something Went Wrong!!", "status": "error"};
+        return {"msg": "Something went wrong!!", "status": "error"};
       }
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Something went wrong!!", "status": "error"};
     }
   }
 }

@@ -42,7 +42,7 @@ class HomePageModule extends Module {
     //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home', child: (_, args) => HomePage(), children: [
       ChildRoute('/add-address', child: (_, args) => AddAddress()),
-       ChildRoute('/main', child: (_, args) => MainPage()),
+      ChildRoute('/main', child: (_, args) => MainPage()),
       ChildRoute(
         '/product/:id',
         child: (_, args) {
@@ -87,7 +87,7 @@ class HomePageModule extends Module {
           return PaymentSatusPage(id, paymentId);
         },
       ),
-      ChildRoute('/edit-profile', child: (_, args) => ProfileWidget()),
+      ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
       ChildRoute('/scoin-checkout', child: (_, args) => ScoinCheckoutWidget()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
       ChildRoute('/category', child: (_, args) => CategoryPage()),

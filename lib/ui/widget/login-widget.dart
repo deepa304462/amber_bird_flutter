@@ -4,6 +4,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
+import 'package:amber_bird/ui/widget/privacy-help-terms-section.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class LoginWidget extends StatelessWidget {
       color: AppColors.primeColor,
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.only(left: 8.0, right: 8, top: 48),
           child: Obx(() => Column(
@@ -265,6 +267,7 @@ class LoginWidget extends StatelessWidget {
                   //     style: (TextStyles.bodyFont),
                   //   ),
                   // ),
+                  PrivacyHelpTermsSection()
                 ],
               )),
         ),

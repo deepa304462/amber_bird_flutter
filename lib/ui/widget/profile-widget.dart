@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
 
-class ProfileWidget extends StatelessWidget {
+class EditProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
   final AuthController authController = Get.put(AuthController());
   final CartController cartController =
@@ -21,136 +21,106 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => Container(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              IconButton(
-                  onPressed: () {
-                    Modular.to.navigate('../home/main');
-                  },
-                  icon: const Icon(Icons.arrow_back))
-            ]),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blueAccent),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
+      () => Scaffold(
+        floatingActionButton: MaterialButton(
+          color: AppColors.primeColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          onPressed: () async {
+            isLoading.value = true;
+            var data = await authController.editProfile();
+            if (data['status'] == 'success') {
+              stateController.isLogin.value = true;
+              stateController.getLoginInfo();
+              stateController.setCurrentTab(0);
+              cartController.fetchCart();
+            }
+            isLoading.value = false;
+            snackBarClass.showToast(context, data['msg']);
+          },
+          child: Text(
+            !isLoading.value ? 'Save Profile' : 'Loading',
+            style: TextStyles.bodyWhiteLarge,
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Email', style: TextStyles.bodyFont),
-                      Text(stateController.loggedInProfile.value.email ?? '',
-                          style: TextStyles.bodyFontBold),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Email verified', style: TextStyles.bodyFont),
-                      Switch(
-                        value: stateController.isEmailVerified.value,
-                        onChanged: null,
-                      ),
-                      !stateController.isEmailVerified.value
-                          ? TextButton(
-                              onPressed: () async {
-                                var data = await stateController.resendMail();
-                                if (data != null) {
-                                  snackBarClass.showToast(context, data['msg']);
-                                }
-                              },
-                              child: Text('Verify Mail',
-                                  style: TextStyles.bodyGreen),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Mobile verified'),
-                      Switch(
-                        value: stateController.isPhoneVerified.value,
-                        onChanged: null,
-                      ),
-                      !stateController.isPhoneVerified.value
-                          ? TextButton(
-                              onPressed: () async {
-                                var data = await stateController.resendMail();
-                                if (data != null) {
-                                  snackBarClass.showToast(context, data['msg']);
-                                }
-                              },
-                              child: Text('Verify Mobile',
-                                  style: TextStyles.bodyGreen),
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blueAccent),
-                  borderRadius: BorderRadius.circular(5),
+                      IconButton(
+                          onPressed: () {
+                            if (Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            } else {
+                              Modular.to.navigate('/home/main');
+                            }
+                          },
+                          icon: const Icon(Icons.arrow_back))
+                    ]),
+                SizedBox(
+                  // height: ,
+                  child: ImagePickerPage(
+                      stateController.loggedInProfile.value.profileIcon ?? '',
+                      imageCallback,
+                      isLoadingCallback),
                 ),
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+                ITextBox(
+                    'Full Name',
+                    'fullName',
+                    stateController.loggedInProfile.value.fullName.toString(),
+                    false,
+                    TextInputType.text,
+                    false,
+                    false,
+                    callback),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      // height: ,
-                      child: ImagePickerPage(
-                          stateController.loggedInProfile.value.profileIcon ??
-                              '',
-                          imageCallback,
-                          isLoadingCallback),
-                    ),
-                    ITextBox(
-                        'Full Name',
-                        'fullName',
-                        stateController.loggedInProfile.value.fullName
-                            .toString(),
-                        false,
-                        TextInputType.text,
-                        false,
-                        false,
-                        callback),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        isLoading.value = true;
-                        var data = await authController.editProfile();
-                        if (data['status'] == 'success') {
-                          stateController.isLogin.value = true;
-                          stateController.getLoginInfo();
-                          stateController.setCurrentTab(0);
-                          cartController.fetchCart();
-                        }
-                        isLoading.value = false;
-                        snackBarClass.showToast(context, data['msg']);
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              AppColors.primeColor)),
-                      child: Text(
-                        !isLoading.value ? 'Edit Profile' : 'Loading',
-                        style: TextStyles.bodyWhiteLarge,
-                      ),
-                    )
+                    Text('Email', style: TextStyles.bodyFont),
+                    Text(stateController.loggedInProfile.value.email ?? '',
+                        style: TextStyles.bodyFontBold),
                   ],
-                ))
-          ],
+                ),
+                Text(
+                    'Email is ${stateController.isEmailVerified.value ? 'not verified' : 'verified'}',
+                    style: TextStyles.bodyFont),
+                Text(
+                    'Mobile number is ${stateController.isPhoneVerified.value ? 'not verified' : 'verified'}',
+                    style: TextStyles.bodyFont),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                    onPressed: () {
+                      Modular.to.navigate('../home/address-list');
+                    },
+                    child: Text('Click to check saved addresses',
+                        style: TextStyles.headingFont)),
+                TextButton(
+                  onPressed: () async {
+                    isLoading.value = true;
+                    // Modular.to.navigate('../home/reset-password');
+                    var data = await stateController.resetPassInit();
+                    isLoading.value = false;
+                    snackBarClass.showToast(
+                        context, 'Please check your mail !,thanks');
+                  },
+                  child: Text(
+                      isLoading.value ? "Loading" : "Click to reset password",
+                      style: TextStyles.headingFont),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

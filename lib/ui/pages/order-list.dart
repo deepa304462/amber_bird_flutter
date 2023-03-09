@@ -4,6 +4,7 @@ import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
@@ -93,7 +94,6 @@ class OrderListPage extends StatelessWidget {
   }
 
   OrderTile(BuildContext context, Order curOrder) {
-    print(curOrder.id);
     DateTime orderTime = DateTime.parse(curOrder!.metaData!.createdAt!);
     return Card(
       child: Column(
@@ -135,7 +135,8 @@ class OrderListPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Order Status', style: TextStyles.bodyFont),
-                Text('${curOrder.status}', style: TextStyles.bodyFontBold),
+                Text('${CodeHelp.titleCase(curOrder.status!)}',
+                    style: TextStyles.bodyFontBold),
               ],
             ),
           ),
@@ -162,8 +163,7 @@ class OrderListPage extends StatelessWidget {
                   children: [
                     Text(
                       'Order will be deliver soon.',
-                      style:
-                          TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                      style: TextStyles.bodyFont.copyWith(color: Colors.grey),
                     ),
                     TextButton(
                         onPressed: () {
@@ -179,7 +179,21 @@ class OrderListPage extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
+                    style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

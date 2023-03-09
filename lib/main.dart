@@ -30,7 +30,15 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyA3SVqPLIzueu2lCoriDUXvNftlvMgGeBY",
+          authDomain: "sbazar-ce4b2.firebaseapp.com",
+          projectId: "sbazar-ce4b2",
+          storageBucket: "sbazar-ce4b2.appspot.com",
+          messagingSenderId: "779408576826",
+          appId: "1:779408576826:web:31a8adf7819a8d6ebf0003",
+          measurementId: "G-EPJ2VNR9HQ"));
   await FCMSyncService.init();
   await OfflineDBService.init();
   await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));

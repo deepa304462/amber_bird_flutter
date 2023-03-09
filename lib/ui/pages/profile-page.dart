@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../helpers/controller-generator.dart';
+import '../widget/privacy-help-terms-section.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -26,46 +27,7 @@ class ProfilePage extends StatelessWidget {
         children: [
           profileCard(context, stateController.loggedInProfile.value,
               stateController.customerInsight.value),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                sectionCard('Address', 'Get list if saved address', () {
-                  Modular.to.navigate('../home/address-list');
-                  return {};
-                }),
-                sectionCard(
-                    'FAQ', 'Get answer for your specific query', () => {}),
-                sectionCard(
-                    'Help', 'Get help from our customer care team', () => {}),
-                sectionCard(
-                    'Privacy policy', 'Explains legals and policies', () => {}),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  child: Card(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed: () async {
-                            isLoading.value = true;
-                            // Modular.to.navigate('../home/reset-password');
-                            var data = await stateController.resetPassInit();
-                            isLoading.value = false;
-                            snackBarClass.showToast(
-                                context, 'Please check your mail !,thanks');
-                          },
-                          child: Text(
-                              isLoading.value ? "Loading" : "Reset Password",
-                              style: TextStyles.headingFont),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          PrivacyHelpTermsSection(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -189,7 +151,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                                Modular.to.navigate('../home/edit-profile');
+                                Modular.to.pushNamed('../home/edit-profile');
                               },
                               icon: const Icon(Icons.edit)),
                         ),
@@ -255,28 +217,6 @@ class ProfilePage extends StatelessWidget {
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget sectionCard(String title, String subtitle, Map Function() onTap) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: onTap,
-        child: Card(
-          child: ListTile(
-            title: Text(
-              title,
-              style: TextStyles.titleLargeBold,
-            ),
-            subtitle: Text(
-              subtitle,
-              style: TextStyles.bodyFont,
-            ),
-            trailing: const Icon(Icons.chevron_right),
-          ),
         ),
       ),
     );
