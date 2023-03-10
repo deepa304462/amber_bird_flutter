@@ -8,6 +8,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../helpers/controller-generator.dart';
 
@@ -67,6 +68,12 @@ class HomePage extends StatelessWidget {
       ControllerGenerator.create(CartController(), tag: 'cartController');
   @override
   Widget build(BuildContext context) {
+    if (false) {
+      // TODO MRIDU, kindly handle this on onboarding showcase only time using offline database
+      WidgetsBinding.instance.addPostFrameCallback((_) =>
+          ShowCaseWidget.of(context).startShowCase(
+              myController.showKeyMap.values.map((e) => e.key).toList()));
+    }
     return WillPopScope(
       onWillPop: () {
         myController.backPressed();
@@ -111,26 +118,31 @@ class HomePage extends StatelessWidget {
                   //     'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
                   icon: Icons.home,
                   label: "Home",
-                  selectedColor: Colors.red.shade900),
+                  selectedColor: Colors.red.shade900,
+                  givenKey: myController.showKeyMap['home']!),
               BottomNavItem(
                   icon: Icons.category,
                   suffix: '',
                   label: "Category",
-                  selectedColor: Colors.red.shade900),
+                  selectedColor: Colors.red.shade900,
+                  givenKey: myController.showKeyMap['category']!),
               BottomNavItem(
                   icon: Icons.storefront_sharp,
                   suffix: 'Shop',
                   label: "",
-                  selectedColor: Colors.red.shade900),
+                  selectedColor: Colors.red.shade900,
+                  givenKey: myController.showKeyMap['brand']!),
               BottomNavItem(
                   icon: Icons.shopping_cart,
                   label: "Cart",
-                  selectedColor: Colors.red.shade900),
+                  selectedColor: Colors.red.shade900,
+                  givenKey: myController.showKeyMap['cart']!),
               BottomNavItem(
                   icon: Icons.account_circle,
                   suffix: '',
                   label: "Profile",
-                  selectedColor: Colors.red.shade900),
+                  selectedColor: Colors.red.shade900,
+                  givenKey: myController.showKeyMap['profile']!),
             ],
           );
         }),

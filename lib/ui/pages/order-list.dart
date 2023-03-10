@@ -95,106 +95,121 @@ class OrderListPage extends StatelessWidget {
 
   OrderTile(BuildContext context, Order curOrder) {
     DateTime orderTime = DateTime.parse(curOrder!.metaData!.createdAt!);
-    return Card(
-      child: Column(
-        children: [
-          ListTile(
-            leading: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '${TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy')}',
-                  style: TextStyles.bodyFontBold,
-                ),
-                Text(
-                  '${TimeUtil.getFormatDateTime(orderTime, 'hh:mm a')}',
-                  style: TextStyles.bodyFont.copyWith(fontSize: 15),
-                ),
-              ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            ListTile(
+              leading: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy')}',
+                    style: TextStyles.bodyFontBold,
+                  ),
+                  Text(
+                    '${TimeUtil.getFormatDateTime(orderTime, 'hh:mm a')}',
+                    style: TextStyles.bodyFont.copyWith(fontSize: 15),
+                  ),
+                ],
+              ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text('Order #'),
+                      Text(
+                        '${curOrder.userFriendlyOrderId}',
+                        style: TextStyles.title.copyWith(
+                            color: AppColors.primeColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Text(
+                      '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered'),
+                ],
+              ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Order Status', style: TextStyles.bodyFont),
+                  Text('${CodeHelp.titleCase(curOrder.status!)}',
+                      style: TextStyles.bodyFontBold),
+                ],
+              ),
             ),
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text('Order #'),
-                    Text(
-                      '${curOrder.userFriendlyOrderId}',
-                      style: TextStyles.title.copyWith(
-                          color: AppColors.primeColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Text(
-                    '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered'),
-              ],
-            ),
-            trailing: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Order Status', style: TextStyles.bodyFont),
-                Text('${CodeHelp.titleCase(curOrder.status!)}',
-                    style: TextStyles.bodyFontBold),
-              ],
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                        '${CodeHelp.euro}${curOrder.payment!.totalAmount!.toString()} ',
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                          '${CodeHelp.euro}${curOrder.payment!.totalAmount!.toString()} ',
+                          style: TextStyles.bodyFontBold
+                              .copyWith(color: Colors.green)),
+                      Text(
+                        'Paid',
                         style: TextStyles.bodyFontBold
-                            .copyWith(color: Colors.green)),
-                    Text(
-                      'Paid',
+                            .copyWith(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Order will be deliver soon.',
+                        style: TextStyles.bodyFont.copyWith(color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      MaterialButton(
+                          padding: const EdgeInsets.all(1),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(color: AppColors.primeColor)),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          onPressed: () {
+                            Modular.to.navigate('/home/order-detail',
+                                arguments: {'id': curOrder.id});
+                          },
+                          elevation: 0,
+                          child: Text(
+                            'View',
+                            style: TextStyles.bodyFont
+                                .copyWith(color: AppColors.primeColor),
+                          ))
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
                       style:
                           TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Order will be deliver soon.',
-                      style: TextStyles.bodyFont.copyWith(color: Colors.grey),
                     ),
-                    TextButton(
-                        onPressed: () {
-                          Modular.to.navigate('/home/order-detail',
-                              arguments: {'id': curOrder.id});
-                        },
-                        child: Text(
-                          'View details',
-                          style: TextStyles.bodyFontBold
-                              .copyWith(color: AppColors.primeColor),
-                        ))
-                  ],
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
-                    style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

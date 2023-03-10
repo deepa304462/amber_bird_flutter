@@ -1,8 +1,11 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 
+import '../../data/showcase-key.dart';
 import '../../helpers/controller-generator.dart';
 
 final Color? defaultColor = Colors.grey[700];
@@ -93,19 +96,11 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: widget.items.map((element) {
                 int item = widget.items.indexOf(element);
-                return BottomBarItem(
-                  element.icon,
-                  element.imgIcon,
-                  element.suffix,
-                  widget.navBarHeight,
-                  element.label,
-                  () {
-                    widget.onTap(item);
-                  },
-                  element.selectedColor,
-                  _controllers[item],
-                  widget.radius,
-                );
+                return BottomBarItem(element.icon, element.imgIcon,
+                    element.suffix, widget.navBarHeight, element.label, () {
+                  widget.onTap(item);
+                }, element.selectedColor, _controllers[item], widget.radius,
+                    element.givenKey);
               }).toList(),
             ),
           ),
@@ -128,13 +123,15 @@ class BottomNavItem {
   final String suffix;
   Color selectedColor;
   final String imgIcon;
+  final ShowcaseKey givenKey;
 
   BottomNavItem(
       {required this.icon,
       this.imgIcon = '',
       this.suffix = '',
       required this.label,
-      required this.selectedColor});
+      required this.selectedColor,
+      required this.givenKey});
 }
 
 class BottomBarItem extends StatefulWidget {
@@ -147,9 +144,10 @@ class BottomBarItem extends StatefulWidget {
   final double radius;
   final String imageIcon;
   final String suffix;
+  final ShowcaseKey givenKey;
 
   BottomBarItem(this.icon, this.imageIcon, this.suffix, this.height, this.label,
-      this.onTap, this.color, this.controller, this.radius);
+      this.onTap, this.color, this.controller, this.radius, this.givenKey);
 
   @override
   _BottomBarItemState createState() => _BottomBarItemState();
@@ -160,6 +158,7 @@ class _BottomBarItemState extends State<BottomBarItem>
   late Animation animation;
   late AnimationController controller;
   late CartController cartController;
+  Controller commonController = Get.find();
 
   @override
   void initState() {
@@ -189,77 +188,73 @@ class _BottomBarItemState extends State<BottomBarItem>
       onTap: () {
         widget.onTap();
       },
-      child: Container(
-        decoration: BoxDecoration(
-            // color: Color.fromRGBO(
-            //   widget.color.red,
-            //   widget.color.green,
-            //   widget.color.blue,
-            //   animation.value / 2.5,
-            // ),
-            // borderRadius: BorderRadius.circular(widget.radius),
-            ),
-        padding: EdgeInsets.fromLTRB(15.0, 0, 015, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: widget.label == 'Cart'
-              ? <Widget>[
-                  Obx(
-                    () => Stack(
-                      fit: StackFit.loose,
-                      children: [
-                        widget.imageIcon.isEmpty
-                            ? Icon(widget.icon,
-                                color: animation.value == 0.0
-                                    ? Colors.black
-                                    : widget.color,
-                                size: widget.height / 1.5)
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(20.0),
-                                child: Image.network(
-                                  widget.imageIcon,
-                                  height: widget.height / 1.5,
-                                  fit: BoxFit.fill,
+      child: Showcase(
+        description: widget.givenKey.desc,
+        title: widget.givenKey.title,
+        key: widget.givenKey.key,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.label == 'Cart'
+                ? <Widget>[
+                    Obx(
+                      () => Stack(
+                        fit: StackFit.loose,
+                        children: [
+                          widget.imageIcon.isEmpty
+                              ? Icon(widget.icon,
+                                  color: animation.value == 0.0
+                                      ? Colors.black
+                                      : widget.color,
+                                  size: widget.height / 1.5)
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  child: Image.network(
+                                    widget.imageIcon,
+                                    height: widget.height / 1.5,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
+                          Positioned(
+                            top: -7,
+                            right: -4,
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Text(
+                                    (cartController.cartProducts.value.length +
+                                            cartController.cartProductsScoins
+                                                .value.length)
+                                        .toString(),
+                                    style: TextStyles.bodySm),
                               ),
-                        Positioned(
-                          top: -7,
-                          right: -4,
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                  (cartController.cartProducts.value.length +
-                                          cartController
-                                              .cartProductsScoins.value.length)
-                                      .toString(),
-                                  style: TextStyles.bodySm),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    )
+                  ]
+                : [
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: widget.imageIcon.isEmpty
+                          ? Icon(widget.icon,
+                              color: animation.value == 0.0
+                                  ? Colors.black
+                                  : widget.color,
+                              size: widget.height / 1.5)
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image.network(
+                                widget.imageIcon,
+                                height: widget.height / 1.5,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                     ),
-                  )
-                ]
-              : [
-                  Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: widget.imageIcon.isEmpty
-                        ? Icon(widget.icon,
-                            color: animation.value == 0.0
-                                ? Colors.black
-                                : widget.color,
-                            size: widget.height / 1.5)
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Image.network(
-                              widget.imageIcon,
-                              height: widget.height / 1.5,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                  ),
-                ],
+                  ],
+          ),
         ),
       ),
     );

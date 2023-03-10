@@ -23,8 +23,10 @@ import 'package:amber_bird/ui/widget/inAppView.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:amber_bird/ui/widget/scoin-checkout-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import 'ui/pages/brand-page.dart';
 
@@ -40,68 +42,72 @@ class HomePageModule extends Module {
 
     // ChildRoute('/search-location',
     //     child: (_, args) => SearchLocationFromMapPage()),
-    ChildRoute('/home', child: (_, args) => HomePage(), children: [
-      ChildRoute('/add-address', child: (_, args) => AddAddress()),
-      ChildRoute('/main', child: (_, args) => MainPage()),
-      ChildRoute(
-        '/product/:id',
-        child: (_, args) {
-          String productId = args.params['id'];
-          return ProductPage(productId, search: false);
-        },
-      ),
-      ChildRoute(
-        '/brandProduct/:id',
-        child: (_, args) {
-          String productId = args.params['id'];
-          return BrandProductPage(productId);
-        },
-      ),
-      ChildRoute(
-        '/categoryProduct/:id',
-        child: (_, args) {
-          String productId = args.params['id'];
-          return CategoryProductPage(productId);
-        },
-      ),
-      ChildRoute(
-        '/order-detail',
-        child: (_, args) {
-          String orderId = args.data['id'];
-          String navigateTo = args.data['navigateTo'] ?? '';
-          return OrderDetailPage(orderId, navigateTo, search: false);
-        },
-      ),
-      ChildRoute(
-        '/guide/:id',
-        child: (_, args) {
-          String productId = args.params['id'];
-          return ProductGuidePage(productId);
-        },
-      ),
-      ChildRoute(
-        '/paymentStatus/:id/:paymentId',
-        child: (_, args) {
-          String id = args.params['id'];
-          String paymentId = args.params['paymentId'];
-          return PaymentSatusPage(id, paymentId);
-        },
-      ),
-      ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
-      ChildRoute('/scoin-checkout', child: (_, args) => ScoinCheckoutWidget()),
-      ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
-      ChildRoute('/category', child: (_, args) => CategoryPage()),
-      ChildRoute('/inapp', child: (_, args) => InApp()),
-      ChildRoute('/login', child: (_, args) => LoginPageWidget()),
-      ChildRoute('/profile', child: (_, args) => ProfilePage()),
-      ChildRoute('/brand', child: (_, args) => BrandPage()),
-      ChildRoute('/refer', child: (_, args) => ReferralPage()),
-      ChildRoute('/cart', child: (_, args) => CartPage()),
-      ChildRoute('/orders', child: (_, args) => OrderListPage()),
-      ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-      ChildRoute('/search', child: (_, args) => SearchPage()),
-      ChildRoute('/signup', child: (_, args) => SignUp()),
-    ]),
+    ChildRoute('/home',
+        child: (_, args) =>
+            ShowCaseWidget(builder: Builder(builder: (context) => HomePage())),
+        children: [
+          ChildRoute('/add-address', child: (_, args) => AddAddress()),
+          ChildRoute('/main', child: (_, args) => MainPage()),
+          ChildRoute(
+            '/product/:id',
+            child: (_, args) {
+              String productId = args.params['id'];
+              return ProductPage(productId, search: false);
+            },
+          ),
+          ChildRoute(
+            '/brandProduct/:id',
+            child: (_, args) {
+              String productId = args.params['id'];
+              return BrandProductPage(productId);
+            },
+          ),
+          ChildRoute(
+            '/categoryProduct/:id',
+            child: (_, args) {
+              String productId = args.params['id'];
+              return CategoryProductPage(productId);
+            },
+          ),
+          ChildRoute(
+            '/order-detail',
+            child: (_, args) {
+              String orderId = args.data['id'];
+              String navigateTo = args.data['navigateTo'] ?? '';
+              return OrderDetailPage(orderId, navigateTo, search: false);
+            },
+          ),
+          ChildRoute(
+            '/guide/:id',
+            child: (_, args) {
+              String productId = args.params['id'];
+              return ProductGuidePage(productId);
+            },
+          ),
+          ChildRoute(
+            '/paymentStatus/:id/:paymentId',
+            child: (_, args) {
+              String id = args.params['id'];
+              String paymentId = args.params['paymentId'];
+              return PaymentSatusPage(id, paymentId);
+            },
+          ),
+          ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
+          ChildRoute('/scoin-checkout',
+              child: (_, args) => ScoinCheckoutWidget()),
+          ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
+          ChildRoute('/category', child: (_, args) => CategoryPage()),
+          ChildRoute('/inapp', child: (_, args) => InApp()),
+          ChildRoute('/login', child: (_, args) => LoginPageWidget()),
+          ChildRoute('/profile', child: (_, args) => ProfilePage()),
+          ChildRoute('/brand', child: (_, args) => BrandPage()),
+          ChildRoute('/refer', child: (_, args) => ReferralPage()),
+          ChildRoute('/cart', child: (_, args) => CartPage()),
+          ChildRoute('/orders', child: (_, args) => OrderListPage()),
+          ChildRoute('/wishlist', child: (_, args) => WishListPage()),
+          ChildRoute('/search', child: (_, args) => SearchPage()),
+          ChildRoute('/signup', child: (_, args) => SignUp()),
+        ]),
   ];
 }
 

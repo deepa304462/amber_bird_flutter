@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/brand-page-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -16,16 +17,18 @@ class BrandPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => MasonryGridView.count(
-          crossAxisCount: 4,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          physics: const BouncingScrollPhysics(),
-          itemCount: brandPageController.brands.length,
-          itemBuilder: (_, index) {
-            return _brandTile(brandPageController.brands[index]);
-          },
-        ));
+    return Obx(() => brandPageController.isLoading.value
+        ? Center(child: LoadingWithLogo())
+        : MasonryGridView.count(
+            crossAxisCount: 4,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            physics: const BouncingScrollPhysics(),
+            itemCount: brandPageController.brands.length,
+            itemBuilder: (_, index) {
+              return _brandTile(brandPageController.brands[index]);
+            },
+          ));
   }
 
   Widget _brandTile(Brand brand) {

@@ -40,7 +40,6 @@ dependencies:
   flutter_cache_manager: ^3.1.2
   path_provider: ^2.0.2
   shared_preferences: ^2.0.6
-  connectivity: ^3.0.6
   flutter_dotenv: ^5.0.2
   location: ^4.2.0
   hive: ^2.0.4
@@ -63,7 +62,6 @@ dependencies:
   fluttertoast: 
   firebase_messaging: ^13.1.0
   flutter_modular: ^5.0.3
-  mapbox_gl_web: ^0.16.0
   firebase_analytics: ^9.3.8
   share_plus: ^6.2.0
   image_picker: ^0.8.6
@@ -75,6 +73,12 @@ dependencies:
   shimmer: ^2.0.0
   firebase_crashlytics: ^2.9.0
   google_maps_flutter_web: ^0.4.0+7
+  connectivity_plus: ^3.0.3
+  showcaseview: ^2.0.1
+  firebase_remote_config: ^2.0.20
+  device_info_plus: ^8.1.0
+  package_info_plus: ^3.0.3
+  in_app_review: ^2.0.6
   
   
 

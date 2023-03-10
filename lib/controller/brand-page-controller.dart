@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class BrandPageController extends GetxController {
   RxList<Brand> brands = <Brand>[].obs;
+  RxBool isLoading = true.obs;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -12,9 +13,11 @@ class BrandPageController extends GetxController {
   }
 
   void _saerchBrands() {
-    ClientService.searchQuery(path: 'brand/search', query: {}, lang: 'en')
+    isLoading.value = true;
+    ClientService.searchQuery(path: 'cache/brand/search', query: {}, lang: 'en')
         .then((value) {
       brands.value = (value.data as List).map((e) => Brand.fromMap(e)).toList();
+      isLoading.value = false;
     });
   }
 }

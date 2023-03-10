@@ -7,18 +7,21 @@ import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/data/showcase-key.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../helpers/controller-generator.dart';
 
 class Controller extends GetxController {
+  Map<String, ShowcaseKey> showKeyMap = Map();
   var isLogin = false.obs;
   var currentTab = 0.obs;
   var activePageName = ''.obs;
@@ -43,6 +46,40 @@ class Controller extends GetxController {
 
   @override
   void onInit() {
+    showKeyMap['home'] = ShowcaseKey(
+        key: GlobalKey(), desc: 'All starts from here', title: 'Home');
+    showKeyMap['category'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Browse products within different catagories',
+        title: 'Product categoryies');
+    showKeyMap['brand'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Browse products from different brands',
+        title: 'Brand Store');
+    showKeyMap['cart'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Check your product cart and make final payment',
+        title: 'Checkout cart');
+    showKeyMap['profile'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Access or create your profile',
+        title: 'Checkout cart');
+    showKeyMap['pincode'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Provide your pincode for better product search',
+        title: 'Address pincode');
+    showKeyMap['wishlist'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Access your favourite products',
+        title: 'Wishlist & favourite products');
+    showKeyMap['refer'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Share our SBazar with your friends',
+        title: 'Share SBazar app');
+    showKeyMap['coinWallet'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Check your scoin wallet',
+        title: 'SCoin wallet');
     backButtonPress.value = 0;
     getLoginInfo();
     changeTab(currentTab.toInt());

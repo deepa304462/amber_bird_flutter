@@ -8,6 +8,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../../../helpers/controller-generator.dart';
 
@@ -24,7 +25,11 @@ class AppBarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-              child: LocationWidget(),
+              child: Showcase(
+                  key: stateController.showKeyMap['pincode']!.key,
+                  description: stateController.showKeyMap['pincode']!.desc,
+                  title: stateController.showKeyMap['pincode']!.title,
+                  child: LocationWidget()),
             ),
             Expanded(
               child: Image.asset(
@@ -44,20 +49,26 @@ class AppBarWidget extends StatelessWidget {
                   Stack(
                     fit: StackFit.loose,
                     children: [
-                      IconButton(
-                        // padding: EdgeInsets.all(0),
-                        icon: const Icon(
-                          Icons.favorite,
-                          // color:  AppColors.black,
+                      Showcase(
+                        key: stateController.showKeyMap['wishlist']!.key,
+                        title: stateController.showKeyMap['wishlist']!.title,
+                        description:
+                            stateController.showKeyMap['wishlist']!.desc,
+                        child: IconButton(
+                          // padding: EdgeInsets.all(0),
+                          icon: const Icon(
+                            Icons.favorite,
+                            // color:  AppColors.black,
+                          ),
+                          onPressed: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.navigate('/home/wishlist');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                            // Modular.to.navigate('../home/wishlist')
+                          },
                         ),
-                        onPressed: () {
-                          if (stateController.isLogin.value) {
-                            Modular.to.navigate('/home/wishlist');
-                          } else {
-                            Modular.to.navigate('/home/login');
-                          }
-                          // Modular.to.navigate('../home/wishlist')
-                        },
                       ),
                       Positioned(
                         top: 7,
@@ -77,44 +88,54 @@ class AppBarWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  IconButton(
-                      // padding: EdgeInsets.all(0),
-                      onPressed: () => {Modular.to.navigate('/home/refer')},
-                      icon: const Icon(
-                        Icons.share,
-                      )),
-                  Stack(
-                    fit: StackFit.loose,
-                    children: [
-                      IconButton(
+                  Showcase(
+                    key: stateController.showKeyMap['refer']!.key,
+                    description: stateController.showKeyMap['refer']!.desc,
+                    title: stateController.showKeyMap['refer']!.title,
+                    child: IconButton(
                         // padding: EdgeInsets.all(0),
-                        onPressed: () => {},
+                        onPressed: () => {Modular.to.navigate('/home/refer')},
                         icon: const Icon(
-                          Icons.layers,
+                          Icons.share,
+                        )),
+                  ),
+                  Showcase(
+                    key: stateController.showKeyMap['coinWallet']!.key,
+                    description: stateController.showKeyMap['coinWallet']!.desc,
+                    title: stateController.showKeyMap['coinWallet']!.title,
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        IconButton(
+                          // padding: EdgeInsets.all(0),
+                          onPressed: () => {},
+                          icon: const Icon(
+                            Icons.layers,
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        top: 7,
-                        left: 4,
-                        child: Card(
-                          color: Colors.yellow[700],
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Obx(
-                              () => Text(
-                                  stateController.customerDetail.value
-                                              .personalInfo !=
-                                          null
-                                      ? stateController.customerDetail.value
-                                          .personalInfo!.scoins
-                                          .toString()
-                                      : '0',
-                                  style: TextStyles.bodySm),
+                        Positioned(
+                          top: 7,
+                          left: 4,
+                          child: Card(
+                            color: Colors.yellow[700],
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Obx(
+                                () => Text(
+                                    stateController.customerDetail.value
+                                                .personalInfo !=
+                                            null
+                                        ? stateController.customerDetail.value
+                                            .personalInfo!.scoins
+                                            .toString()
+                                        : '0',
+                                    style: TextStyles.bodySm),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
