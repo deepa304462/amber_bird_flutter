@@ -1,5 +1,5 @@
 import 'package:amber_bird/controller/location-controller.dart';
-import 'package:amber_bird/controller/onboarding-controller.dart'; 
+import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';

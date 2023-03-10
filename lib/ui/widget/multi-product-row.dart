@@ -6,6 +6,7 @@ import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -220,10 +221,37 @@ class MultiProductRow extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ImageBox(
-                multiProd.displayImageId!,
-                width: MediaQuery.of(context).size.width * .4,
-                fit: BoxFit.contain,
+              GestureDetector(
+                onTap: () {
+                  print('tapped the row');
+                  showModalBottomSheet<void>(
+                    // context and builder are
+                    // required properties in this widget
+                    context: context,
+                    useRootNavigator: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13)),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    elevation: 3,
+                    builder: (context) {
+                      return DealBottomDrawer(
+                        multiProd.products,
+                        multiProd.id,
+                        currenttypeName,
+                        multiProd.price,
+                        multiProd.constraint,
+                        multiProd.name,
+                        'MULTIPRODUCT',
+                      );
+                    },
+                  );
+                },
+                child: ImageBox(
+                  multiProd.displayImageId!,
+                  width: MediaQuery.of(context).size.width * .4,
+                  fit: BoxFit.contain,
+                ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,

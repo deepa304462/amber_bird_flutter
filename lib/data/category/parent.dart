@@ -33,7 +33,7 @@ class Parent {
         parentCategoryId: data['parentCategoryId'] as String?,
         parent: data['parent'] == null
             ? null
-            : Parent.fromMap(data['parent'] as Map<String, dynamic>), 
+            : Parent.fromMap(data['parent'] as Map<String, dynamic>),
         id: data['_id'] as String?,
       );
 

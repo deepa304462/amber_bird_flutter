@@ -3,8 +3,11 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/data/product_category/product_category.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
+
+import '../data/product_availability_resp.dart';
 
 class MegaMenuController extends GetxController {
   RxList<GenericTab> mainTabs = <GenericTab>[].obs; //RxList([]);
@@ -25,93 +28,125 @@ class MegaMenuController extends GetxController {
   }
 
   getCategory() async {
-    var payload = {'onlyParentCategories': true};
-    var response = await ClientService.searchQuery(
-        path: 'cache/productCategory/search', query: payload, lang: 'en');
-    var resp;
-    if (response.statusCode == 200) {
-      if (response.data.length > 1) {
-        resp = response.data;
-      } else {
-        var payload = {"parentCategoryId": response.data[0]['_id']};
-        var response1 = await ClientService.searchQuery(
-            path: 'cache/productCategory/search', query: payload, lang: 'en');
+    // dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable
 
-        if (response1.statusCode == 200) {
-          resp = response1.data;
-        }
-      }
-      List<ProductCategory> list = ((resp as List<dynamic>?)
-              ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
-              .toList() ??
-          []);
-      catList.value = (list);
+    var responseDeal = await ClientService.get(
+        path: 'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
 
+    if (responseDeal.statusCode == 200) {
+      ProductAvailabilityResp data =
+          ProductAvailabilityResp.fromMap(responseDeal.data);
       List<GenericTab> cList = [];
-      cList.add(GenericTab(
-          image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
-          id: dealName.SALES.name,
-          type: 'DEAL',
-          text: 'Sales'));
-      cList.add(GenericTab(
-          image: '34038fcf-20e1-4840-a188-413b83d72e11',
-          id: dealName.FLASH.name,
-          type: 'DEAL',
-          text: 'Flash'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.SUPER_DEAL.name,
-          type: 'DEAL',
-          text: 'Hot'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.EXCLUSIVE_DEAL.name,
-          type: 'DEAL',
-          text: 'Exclusive'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.WEEKLY_DEAL.name,
-          type: 'DEAL',
-          text: 'Weekly'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.ONLY_COIN_DEAL.name,
-          type: 'SCOIN',
-          text: 'Coin'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.MEMBER_DEAL.name,
-          type: 'DEAL',
-          text: 'Member'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.PRIME_MEMBER_DEAL.name,
-          type: 'DEAL',
-          text: 'Prime'));
-      cList.add(GenericTab(
-          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: dealName.CUSTOM_RULE_DEAL.name,
-          type: 'DEAL',
-          text: 'Custom'));
-      cList.add(GenericTab(
-          image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
-          id: multiProductName.COMBO.name,
-          type: 'MULTI',
-          text: 'Combo'));
-      ((resp as List<dynamic>?)?.map((e) {
-            ProductCategory category =
-                ProductCategory.fromMap(e as Map<String, dynamic>);
-            cList.add(GenericTab(
-                id: category.id,
-                image: category.logoId,
-                text: category.name!.defaultText!.text,
-                type: 'CAT'));
-            return;
-          }).toList() ??
-          []);
-      mainTabs.value = cList;
-      getSubMenu(mainTabs.value[0]);
-      isLoading.value = false;
+
+      data.productsAvailableInDealTypes!.forEach((element) {
+        var detail = Helper.getCatDealName(element);
+        cList.add(GenericTab(
+            image: detail['imageId'],
+            id: element,
+            type: 'DEAL',
+            text: detail['name']));
+      });
+      data.productsAvailableInMultiTypes!.forEach((element) {
+        // cList.add(GenericTab(
+        //     image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
+        //     id: element,
+        //     type: 'MULTI',
+        //     text: element));
+
+        var detail = Helper.getCatMultiName(element);
+        cList.add(GenericTab(
+            image: detail['imageId'],
+            id: element,
+            type: 'MULTI',
+            text: detail['name']));
+      });
+      var payload = {'onlyParentCategories': true};
+      var response = await ClientService.searchQuery(
+          path: 'cache/productCategory/search', query: payload, lang: 'en');
+      var resp;
+      if (response.statusCode == 200) {
+        if (response.data.length > 1) {
+          resp = response.data;
+        } else {
+          var payload = {"parentCategoryId": response.data[0]['_id']};
+          var response1 = await ClientService.searchQuery(
+              path: 'cache/productCategory/search', query: payload, lang: 'en');
+
+          if (response1.statusCode == 200) {
+            resp = response1.data;
+          }
+        }
+        List<ProductCategory> list = ((resp as List<dynamic>?)
+                ?.map((e) => ProductCategory.fromMap(e as Map<String, dynamic>))
+                .toList() ??
+            []);
+        catList.value = (list);
+
+        // cList.add(GenericTab(
+        //     image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
+        //     id: dealName.SALES.name,
+        //     type: 'DEAL',
+        //     text: 'Sales'));
+        // cList.add(GenericTab(
+        //     image: '34038fcf-20e1-4840-a188-413b83d72e11',
+        //     id: dealName.FLASH.name,
+        //     type: 'DEAL',
+        //     text: 'Flash'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.SUPER_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Hot'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.EXCLUSIVE_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Exclusive'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.WEEKLY_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Weekly'));
+        cList.add(GenericTab(
+            image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+            id: dealName.ONLY_COIN_DEAL.name,
+            type: 'SCOIN',
+            text: 'Coin'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.MEMBER_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Member'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.PRIME_MEMBER_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Prime'));
+        // cList.add(GenericTab(
+        //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        //     id: dealName.CUSTOM_RULE_DEAL.name,
+        //     type: 'DEAL',
+        //     text: 'Custom'));
+        // cList.add(GenericTab(
+        //     image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+        //     id: multiProductName.COMBO.name,
+        //     type: 'MULTI',
+        //     text: 'Combo'));
+        ((resp as List<dynamic>?)?.map((e) {
+              ProductCategory category =
+                  ProductCategory.fromMap(e as Map<String, dynamic>);
+              cList.add(GenericTab(
+                  id: category.id,
+                  image: category.logoId,
+                  text: category.name!.defaultText!.text,
+                  type: 'CAT'));
+              return;
+            }).toList() ??
+            []);
+        mainTabs.value = cList;
+        getSubMenu(mainTabs.value[0]);
+        isLoading.value = false;
+      }
     }
   }
 

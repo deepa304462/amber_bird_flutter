@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/data/coupon_code/condition.dart';
 import 'package:amber_bird/data/coupon_code/reward.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';

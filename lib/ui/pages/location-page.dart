@@ -56,18 +56,14 @@ class LocationPage extends StatelessWidget {
                             ITextBox(
                                 'Pin Code',
                                 'pinCode',
-                                locationController
-                                            .pinCode.value !=
-                                        null
-                                    ? locationController
-                                        .pinCode.value
+                                locationController.pinCode.value != null
+                                    ? locationController.pinCode.value
                                         .toString()
                                     : '',
                                 false,
                                 TextInputType.number,
                                 false,
-                                false,
-                                 (key, value) {
+                                false, (key, value) {
                               locationController.pinCode.value = value;
                             }),
                             // ITextBox(

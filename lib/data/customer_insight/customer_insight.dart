@@ -111,7 +111,8 @@ class CustomerInsight {
       currentPointLevel: currentPointLevel ?? this.currentPointLevel,
       customerTrackerRef: customerTrackerRef ?? this.customerTrackerRef,
       email: email ?? this.email,
-      userFriendlyCustomerId: userFriendlyCustomerId ?? this.userFriendlyCustomerId,
+      userFriendlyCustomerId:
+          userFriendlyCustomerId ?? this.userFriendlyCustomerId,
       scoins: scoins ?? this.scoins,
       spoints: spoints ?? this.spoints,
       id: id ?? this.id,
