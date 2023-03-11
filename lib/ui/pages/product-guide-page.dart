@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
+import '../widget/loading-with-logo.dart';
+
 class ProductGuidePage extends StatelessWidget {
   final String productGuideId;
   late ProductGuidePageController productGuidePageController;
   ProductGuidePage(this.productGuideId, {Key? key}) : super(key: key) {
-    productGuidePageController =
-        ControllerGenerator.create(ProductGuidePageController());
+    productGuidePageController = ControllerGenerator.create(
+        ProductGuidePageController(),
+        tag: 'productGuidePageController');
     productGuidePageController.setPrductGuideId(this.productGuideId);
   }
 
@@ -23,50 +26,80 @@ class ProductGuidePage extends StatelessWidget {
       () {
         return productGuidePageController.isLoading.isTrue
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: LoadingWithLogo(),
               )
-            : Column(
-                children: [
-                  Stack(
-                    children: [
-                      ImageSlider(
-                          productGuidePageController.productGuide.value.images!,
-                          MediaQuery.of(context).size.width,
-                          disableTap: true,
-                          fit: BoxFit.cover),
-                      Center(
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          color: Colors.grey.shade100.withOpacity(.8),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  productGuidePageController.productGuide.value
-                                      .subject!.defaultText!.text!,
-                                  style: TextStyles.titleXLargePrimaryBold,
-                                ),
-                                Text(
-                                  productGuidePageController.productGuide.value
-                                      .description!.defaultText!.text!,
-                                  style: TextStyles.title,
-                                  textAlign: TextAlign.justify,
-                                )
-                              ],
+            : Scaffold(
+                body: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      backgroundColor: Colors.white,
+                      automaticallyImplyLeading: true,
+                      pinned: true,
+                      floating: false,
+                      backwardsCompatibility: true,
+                      excludeHeaderSemantics: true,
+                      expandedHeight: 240.0,
+                      stretch: false,
+                      flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        collapseMode: CollapseMode.pin,
+                        titlePadding: const EdgeInsets.all(0),
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12)),
+                            padding: const EdgeInsets.all(4),
+                            child: Text(
+                              productGuidePageController.productGuide.value
+                                  .subject!.defaultText!.text!,
+                              style: TextStyles.titleXLargePrimaryBold,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  Expanded(
-                    child: _chapters(
-                        context, productGuidePageController.productGuide.value),
-                  )
-                ],
+                        background: Stack(
+                          children: [
+                            ImageSlider(
+                                productGuidePageController
+                                    .productGuide.value.images!,
+                                MediaQuery.of(context).size.width,
+                                disableTap: true,
+                                fit: BoxFit.fitWidth),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 35.0, left: 8, right: 8),
+                              child: Card(
+                                color: Colors.grey.withOpacity(.6),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    productGuidePageController.productGuide
+                                        .value.description!.defaultText!.text!,
+                                    style: TextStyles.title,
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            child: _chapters(context,
+                                productGuidePageController.productGuide.value),
+                          );
+                        },
+                        childCount: 1,
+                      ),
+                    ),
+                  ],
+                ),
               );
       },
     );
@@ -75,7 +108,7 @@ class ProductGuidePage extends StatelessWidget {
   Widget _chapters(BuildContext context, ProductGuide value) {
     return ListView(
       shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: value.chapters!.map((e) => ProductGuideChapter(e)).toList(),
     );
   }

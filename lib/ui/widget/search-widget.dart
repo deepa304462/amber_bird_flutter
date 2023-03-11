@@ -16,60 +16,57 @@ class SearchWidget extends StatelessWidget {
     final Controller stateController = Get.find();
     controller.text = searchController.search.toString();
     return Expanded(
-      child: Card(
-        elevation: 10,
-        child: Container(
-          height: 35,
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey,
-            borderRadius: BorderRadius.circular(0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade200,
-                blurRadius: 20.0,
-              ),
-            ],
-          ),
-          child: Obx(
-            () {
-              return TextField(
-                // controller: controller,
-                readOnly: true,
-                controller:
-                    TextEditingController(text: searchController.search.value),
-                onTap: () {
-                  showSearch(
-                      context: context,
-                      // delegate to customize the search bar
-                      delegate: CustomSearchDelegate());
-                },
-                decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.search_outlined,
-                      color: AppColors.grey,
-                      size: 20,
-                    ),
-                  ),
-                  labelText: "Search...",
-                  labelStyle: TextStyles.bodyFont,
-                  // contentPadding: const EdgeInsets.all(2.0),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(0)),
-                    borderSide: BorderSide(
-                      color: AppColors.grey,
-                    ),
-                  ),
-                  hintStyle: TextStyle(color: AppColors.primeColor),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                    borderSide: BorderSide(color: AppColors.grey),
+      child: Container(
+        height: 35,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: 5.0,
+            ),
+          ],
+        ),
+        child: Obx(
+          () {
+            return TextField(
+              // controller: controller,
+              readOnly: true,
+              controller:
+                  TextEditingController(text: searchController.search.value),
+              onTap: () {
+                showSearch(
+                    context: context,
+                    // delegate to customize the search bar
+                    delegate: CustomSearchDelegate());
+              },
+              decoration: InputDecoration(
+                prefixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.search_outlined,
+                    color: AppColors.grey,
+                    size: 20,
                   ),
                 ),
-              );
-            },
-          ),
+                labelText: "Search for products",
+                labelStyle: TextStyles.bodyFont,
+                // contentPadding: const EdgeInsets.all(2.0),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  borderSide: BorderSide(
+                    color: AppColors.grey,
+                  ),
+                ),
+                hintStyle: TextStyle(color: AppColors.primeColor),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                  borderSide: BorderSide(color: AppColors.grey),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
