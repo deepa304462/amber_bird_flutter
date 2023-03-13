@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/coin_wallet/coin_wallet.dart';
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/data/order/order.dart';
 
@@ -14,6 +15,7 @@ class Customer {
   Order? cart;
   WishList? wishList;
   PersonalInfo? personalInfo;
+  CoinWallet? coinWalletDetail;
 
   Customer({
     this.addresses,
@@ -22,11 +24,12 @@ class Customer {
     this.cart,
     this.wishList,
     this.personalInfo,
+    this.coinWalletDetail
   });
 
   @override
   String toString() {
-    return 'Customer(addresses: $addresses, orders: $orders, saveLater: $saveLater, cart: $cart, wishList: $wishList, personalInfo: $personalInfo)';
+    return 'Customer(addresses: $addresses, orders: $orders, saveLater: $saveLater, cart: $cart, wishList: $wishList, personalInfo: $personalInfo,coinWalletDetail:$coinWalletDetail)';
   }
 
   factory Customer.fromMap(Map<String, dynamic> data) => Customer(
@@ -49,6 +52,11 @@ class Customer {
             ? null
             : PersonalInfo.fromMap(
                 data['personalInfo'] as Map<String, dynamic>),
+        coinWalletDetail: data['coinWalletDetail'] == null
+          ? null
+          : CoinWallet.fromMap(data['coinWalletDetail'] as Map<String, dynamic>),
+
+                
       );
 
   Map<String, dynamic> toMap() => {
@@ -58,6 +66,7 @@ class Customer {
         'cart': cart?.toMap(),
         'wishList': wishList?.toMap(),
         'personalInfo': personalInfo?.toMap(),
+        'coinWalletDetail': coinWalletDetail?.toMap(),
       };
 
   /// `dart:convert`
@@ -79,6 +88,7 @@ class Customer {
     Order? cart,
     WishList? wishList,
     PersonalInfo? personalInfo,
+    CoinWallet? coinWalletDetail,
   }) {
     return Customer(
       addresses: addresses ?? this.addresses,
@@ -87,6 +97,7 @@ class Customer {
       cart: cart ?? this.cart,
       wishList: wishList ?? this.wishList,
       personalInfo: personalInfo ?? this.personalInfo,
+      coinWalletDetail: coinWalletDetail ?? this.coinWalletDetail,
     );
   }
 }

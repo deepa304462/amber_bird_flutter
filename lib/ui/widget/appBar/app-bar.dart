@@ -108,7 +108,13 @@ class AppBarWidget extends StatelessWidget {
                       children: [
                         IconButton(
                           // padding: EdgeInsets.all(0),
-                          onPressed: () => {},
+                          onPressed: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.navigate('/home/coin-wallet');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                          },
                           icon: const Icon(
                             Icons.layers,
                           ),

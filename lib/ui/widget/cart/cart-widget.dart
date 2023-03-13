@@ -17,7 +17,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../helpers/controller-generator.dart';
@@ -374,7 +373,7 @@ class CartWidget extends StatelessWidget {
     return Obx(
       (() => ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             // physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: cartController.cartProducts.length,
@@ -711,7 +710,7 @@ class CartWidget extends StatelessWidget {
                             children: [
                               ListTile(
                                 dense: false,
-                                visualDensity: VisualDensity(vertical: 3),
+                                visualDensity: const VisualDensity(vertical: 3),
                                 leading: ImageBox(
                                   cartController.cartProducts.value[currentKey]!
                                       .product!.images![0],
@@ -730,7 +729,7 @@ class CartWidget extends StatelessWidget {
                                     Text(
                                         '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
                                     Text(
-                                        '/${CodeHelp.euro}${cartController.cartProducts.value[currentKey]!.product!.varient!.price!.offerPrice!} '),
+                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts.value[currentKey]!.price!.offerPrice!)} '),
                                   ],
                                 ),
                                 trailing: Column(
@@ -1146,7 +1145,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.bodyFont,
                           ),
                           Text(
-                            '${CodeHelp.euro}' +
+                            CodeHelp.euro +
                                 (cartController.calculatedPayment.value
                                         .totalAmount as double)
                                     .toStringAsFixed(2)
@@ -1173,6 +1172,25 @@ class CartWidget extends StatelessWidget {
                         ],
                       )
                     : const SizedBox(),
+
+                cartController.calculatedPayment.value.totalSavedAmount != null
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total Saved Amount',
+                            style: TextStyles.bodyFont,
+                          ),
+                          Text(
+                            (cartController.calculatedPayment.value
+                                    .totalSavedAmount as double)
+                                .toString(),
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

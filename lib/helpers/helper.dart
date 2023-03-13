@@ -61,17 +61,26 @@ class Helper {
     } else if (dealType == dealName.SUPER_DEAL.name) {
       return {'name': 'Hot', 'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'};
     } else if (dealType == dealName.WEEKLY_DEAL.name) {
-      return {'name': 'Weekly', 'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'};
+      return {
+        'name': 'Weekly',
+        'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
+      };
     } else if (dealType == dealName.MEMBER_DEAL.name) {
-      return {'name': 'Member', 'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'};
+      return {
+        'name': 'Member',
+        'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
+      };
     } else if (dealType == dealName.ONLY_COIN_DEAL.name) {
-      return {'name': 'COIN', 'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'};
+      return {
+        'name': 'COIN',
+        'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
+      };
     } else if (dealType == dealName.PRIME_MEMBER_DEAL.name) {
       return {
         'name': 'PRime',
         'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
       };
-    }  else {
+    } else {
       return {'name': 'Hot', 'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'};
     }
   }
@@ -88,6 +97,12 @@ class Helper {
     } else {
       return price.noMemberCoin;
     }
+  }
+
+  static String formatStringPurpose(String val) {
+    var data = val.split('_');
+    print(data);
+    return data.join(' ');
   }
 
   static Future<Ref> getCustomerRef() async {

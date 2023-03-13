@@ -3,6 +3,7 @@ import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/category-product-page.dart';
+import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
 import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
@@ -97,6 +98,7 @@ class HomePageModule extends Module {
               child: (_, args) => ScoinCheckoutWidget()),
           ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
           ChildRoute('/category', child: (_, args) => CategoryPage()),
+          ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
           ChildRoute('/login', child: (_, args) => LoginPageWidget()),
           ChildRoute('/profile', child: (_, args) => ProfilePage()),

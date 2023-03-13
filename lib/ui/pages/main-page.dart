@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/onboarding-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
@@ -9,12 +8,8 @@ import 'package:amber_bird/ui/widget/product-guide-row.dart';
 import 'package:amber_bird/ui/widget/scoin-product-row.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../utils/internet-connection-util.dart';
-import '../widget/internet-status.dart';
 
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();

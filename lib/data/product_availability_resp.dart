@@ -16,13 +16,15 @@ class ProductAvailabilityResp {
 
   factory ProductAvailabilityResp.fromMap(Map<String, dynamic> data) {
     return ProductAvailabilityResp(
-      productsAvailableInDealTypes:  (data['productsAvailableInDealTypes'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList(),
-          // data['productsAvailableInDealTypes'] as List<String>?,
-      productsAvailableInMultiTypes:(data['productsAvailableInMultiTypes'] as List<dynamic>?)
-                ?.map((e) => e as String)
-                .toList(),
+      productsAvailableInDealTypes:
+          (data['productsAvailableInDealTypes'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+      // data['productsAvailableInDealTypes'] as List<String>?,
+      productsAvailableInMultiTypes:
+          (data['productsAvailableInMultiTypes'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
     );
   }
 
