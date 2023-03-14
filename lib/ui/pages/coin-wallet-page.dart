@@ -3,12 +3,10 @@ import 'package:amber_bird/data/coin_wallet/all_transaction.dart';
 import 'package:amber_bird/data/coin_wallet/coin_wallet.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class CoinWalletPage extends StatelessWidget {
   Rx<CoinWallet> coinWallet = CoinWallet().obs;
