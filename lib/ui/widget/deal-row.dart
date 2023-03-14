@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/deal_product-card.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/ui/widget/view-more-widget.dart';
@@ -25,6 +26,19 @@ class DealRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
+        String timeLeft = '';
+        var difference;
+        if (currentdealName == dealName.FLASH.name) {
+          // String expire = ruleConfig!.willExpireAt ?? '';
+
+          var newDate = DateTime.now().toUtc();
+          var endDate = DateTime.now().toUtc();
+          // endDate = endDate
+            // ..subtract(Duration(hours: endDate.hour, minutes: endDate.minute))
+            // ..add(Duration(hours: 23, minutes: 59));
+          endDate = endDate.applyTimeOfDay(hour: 20, minute: 00);
+          difference = endDate.difference(newDate);
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Container(
@@ -42,6 +56,31 @@ class DealRow extends StatelessWidget {
                         dealController.getDealName(currentdealName),
                         style: TextStyles.titleLargeSemiBold,
                       ),
+
+                      currentdealName == dealName.FLASH.name
+                          ? CardColorAnimated(
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 5, top: 1, bottom: 1, left: 2),
+                                child: Text(
+                                  difference.inHours != null
+                                      ? '${difference.inHours}H left'
+                                      : '${difference.inMinutes}M left',
+                                  style: TextStyles.bodyFontBold
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                              Colors.red,
+                              Colors.indigo,
+                              const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+
                       ViewMoreWidget(onTap: () {
                         MegaMenuController megaMenuController;
                         if (Get.isRegistered<MegaMenuController>()) {
@@ -131,5 +170,11 @@ class DealRow extends StatelessWidget {
             : const SizedBox();
       }
     });
+  }
+}
+
+extension DateTimeExt on DateTime {
+  DateTime applyTimeOfDay({required int hour, required int minute}) {
+    return DateTime(year, month, day, hour, minute);
   }
 }

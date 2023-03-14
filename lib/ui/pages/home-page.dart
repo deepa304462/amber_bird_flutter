@@ -97,8 +97,8 @@ class HomePage extends StatelessWidget {
                 child: const routerOut.RouterOutlet()),
             Obx(
               () => myController.showLoader.value
-                  ? LoadingWithLogo()
-                  : SizedBox(),
+                  ? const LoadingWithLogo()
+                  : const SizedBox(),
             )
           ],
         ),
