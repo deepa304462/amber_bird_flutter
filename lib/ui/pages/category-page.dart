@@ -27,12 +27,15 @@ import 'package:lottie/lottie.dart';
 import '../../helpers/controller-generator.dart';
 
 class CategoryPage extends StatelessWidget {
-  final MegaMenuController megaMenuController = Get.find();
+  late MegaMenuController megaMenuController;
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
-
+  CategoryPage() {
+    megaMenuController = ControllerGenerator.create(MegaMenuController(),
+        tag: 'megaMenuController');
+  }
   Widget _productGrid(
       MegaMenuController categoryController, BuildContext context) {
     return MasonryGridView.count(

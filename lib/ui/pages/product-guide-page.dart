@@ -38,7 +38,7 @@ class ProductGuidePage extends StatelessWidget {
                       floating: false,
                       backwardsCompatibility: true,
                       excludeHeaderSemantics: true,
-                      expandedHeight: 240.0,
+                      expandedHeight: 300.0,
                       stretch: false,
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
@@ -59,6 +59,7 @@ class ProductGuidePage extends StatelessWidget {
                           ),
                         ),
                         background: Stack(
+                          alignment: Alignment.topCenter,
                           children: [
                             ImageSlider(
                                 productGuidePageController

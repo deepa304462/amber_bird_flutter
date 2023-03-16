@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -8,10 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CategoryRow extends StatelessWidget {
-  final MegaMenuController megaMenuController = Get.put(MegaMenuController());
+  late MegaMenuController megaMenuController;
   // final CategoryController categoryController = Get.put(CategoryController());
   final Controller myController = Get.find();
-
+  CategoryRow() {
+    megaMenuController = ControllerGenerator.create(MegaMenuController(),
+        tag: 'megaMenuController');
+  }
   @override
   Widget build(BuildContext context) {
     return Obx(() {
