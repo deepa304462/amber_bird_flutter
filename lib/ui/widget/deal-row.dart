@@ -26,19 +26,19 @@ class DealRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
-        String timeLeft = '';
-        var difference;
-        if (currentdealName == dealName.FLASH.name) {
-          // String expire = ruleConfig!.willExpireAt ?? '';
+        // String timeLeft = '';
+        // var difference;
+        // if (currentdealName == dealName.FLASH.name) {
+        //   // String expire = ruleConfig!.willExpireAt ?? '';
 
-          var newDate = DateTime.now().toUtc();
-          var endDate = DateTime.now().toUtc();
-          // endDate = endDate
-            // ..subtract(Duration(hours: endDate.hour, minutes: endDate.minute))
-            // ..add(Duration(hours: 23, minutes: 59));
-          endDate = endDate.applyTimeOfDay(hour: 20, minute: 00);
-          difference = endDate.difference(newDate);
-        }
+        //   var newDate = DateTime.now().toUtc();
+        //   var endDate = DateTime.now().toUtc();
+        //   // endDate = endDate
+        //     // ..subtract(Duration(hours: endDate.hour, minutes: endDate.minute))
+        //     // ..add(Duration(hours: 23, minutes: 59));
+        //   endDate = endDate.applyTimeOfDay(hour: 20, minute: 00);
+        //   difference = endDate.difference(newDate);
+        // }
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Container(
@@ -57,29 +57,29 @@ class DealRow extends StatelessWidget {
                         style: TextStyles.titleLargeSemiBold,
                       ),
 
-                      currentdealName == dealName.FLASH.name
-                          ? CardColorAnimated(
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 5, top: 1, bottom: 1, left: 2),
-                                child: Text(
-                                  difference.inHours != null
-                                      ? '${difference.inHours}H left'
-                                      : '${difference.inMinutes}M left',
-                                  style: TextStyles.bodyFontBold
-                                      .copyWith(color: Colors.white),
-                                ),
-                              ),
-                              Colors.red,
-                              Colors.indigo,
-                              const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(12),
-                                  bottomRight: Radius.circular(12),
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
+                      // currentdealName == dealName.FLASH.name
+                      //     ? CardColorAnimated(
+                      //         Padding(
+                      //           padding: const EdgeInsets.only(
+                      //               right: 5, top: 1, bottom: 1, left: 2),
+                      //           child: Text(
+                      //             difference.inHours != null
+                      //                 ? '${difference.inHours}H left'
+                      //                 : '${difference.inMinutes}M left',
+                      //             style: TextStyles.bodyFontBold
+                      //                 .copyWith(color: Colors.white),
+                      //           ),
+                      //         ),
+                      //         Colors.red,
+                      //         Colors.indigo,
+                      //         const RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.only(
+                      //             topRight: Radius.circular(12),
+                      //             bottomRight: Radius.circular(12),
+                      //           ),
+                      //         ),
+                      //       )
+                      //     : const SizedBox(),
 
                       ViewMoreWidget(onTap: () {
                         MegaMenuController megaMenuController;

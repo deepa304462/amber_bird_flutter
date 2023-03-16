@@ -4,6 +4,7 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/app-bar.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
@@ -66,14 +67,22 @@ class HomePage extends StatelessWidget {
   final WishlistController wishlistController = Get.put(WishlistController());
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
-  @override
-  Widget build(BuildContext context) {
-    if (false) {
-      // TODO MRIDU, kindly handle this on onboarding showcase only time using offline database
+  RxString showCaseData = 'false'.obs;
+
+  getShowCaseVal(BuildContext context) async {
+    showCaseData.value = await SharedData.read('showCaseDone');
+    if (showCaseData.value != 'true') { 
       WidgetsBinding.instance.addPostFrameCallback((_) =>
           ShowCaseWidget.of(context).startShowCase(
               myController.showKeyMap.values.map((e) => e.key).toList()));
+      SharedData.save(true.toString(), 'showCaseDone');
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    getShowCaseVal(context);
+    
     return WillPopScope(
       onWillPop: () {
         myController.backPressed();
