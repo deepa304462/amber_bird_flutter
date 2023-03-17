@@ -55,7 +55,7 @@ class CoinWalletPage extends StatelessWidget {
                   ],
                 )),
           ),
-           const SizedBox(
+          const SizedBox(
             height: 10,
           ),
           coinWallet.value.totalActiveCoins != null
@@ -88,9 +88,9 @@ class CoinWalletPage extends StatelessWidget {
             height: 20,
           ),
           coinWallet.value.allTransactions!.length > 0
-              ?  SingleChildScrollView(
-                    child: SizedBox(
-                    height: MediaQuery.of(context).size.height *0.6,
+              ? SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,

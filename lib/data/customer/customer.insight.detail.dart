@@ -17,15 +17,14 @@ class Customer {
   PersonalInfo? personalInfo;
   CoinWallet? coinWalletDetail;
 
-  Customer({
-    this.addresses,
-    this.orders,
-    this.saveLater,
-    this.cart,
-    this.wishList,
-    this.personalInfo,
-    this.coinWalletDetail
-  });
+  Customer(
+      {this.addresses,
+      this.orders,
+      this.saveLater,
+      this.cart,
+      this.wishList,
+      this.personalInfo,
+      this.coinWalletDetail});
 
   @override
   String toString() {
@@ -53,10 +52,9 @@ class Customer {
             : PersonalInfo.fromMap(
                 data['personalInfo'] as Map<String, dynamic>),
         coinWalletDetail: data['coinWalletDetail'] == null
-          ? null
-          : CoinWallet.fromMap(data['coinWalletDetail'] as Map<String, dynamic>),
-
-                
+            ? null
+            : CoinWallet.fromMap(
+                data['coinWalletDetail'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toMap() => {

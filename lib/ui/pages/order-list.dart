@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/widget/card-color-animated.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -26,9 +22,7 @@ class OrderListPage extends StatelessWidget {
     var response = await ClientService.post(
         path: 'order/search',
         payload: {"customerId": custRef.id, "onlyOrders": true});
-    // payload: {"customerId": custRef.id, "onlyCart": false});
     if (response.statusCode == 200) {
-      // log(response.data.toString());
       List<Order> oList = ((response.data as List<dynamic>?)
               ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
               .toList() ??
@@ -41,57 +35,60 @@ class OrderListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getOrderList();
-    return Obx(() => Column(
-          children: [
-            AppBar(
-              backgroundColor: AppColors.primeColor,
-              title: Text(
-                'Order List',
-                style: TextStyles.headingFont.copyWith(color: Colors.white),
-              ),
-              centerTitle: true,
-              leading: IconButton(
-                  onPressed: () {
-                    Modular.to.navigate('../home/main');
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                  )),
+    return Obx(
+      () => Column(
+        children: [
+          AppBar(
+            backgroundColor: AppColors.primeColor,
+            title: Text(
+              'Order List',
+              style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
-            isLoading.value
-                ? Expanded(child: LoadingWithLogo())
-                : orderList.length > 0
-                    ? Expanded(
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: orderList.length,
-                          itemBuilder: (_, index) {
-                            var curOrder = orderList[index];
-                            return OrderTile(context, curOrder);
-                          },
-                        ),
-                      )
-                    : Expanded(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Lottie.asset('assets/no-data.json',
-                                  width: MediaQuery.of(context).size.width * .5,
-                                  fit: BoxFit.cover),
-                              Expanded(
-                                child: Text(
-                                  'No orders available, waiting for a new order.',
-                                  style: TextStyles.bodyFont,
-                                ),
-                              )
-                            ],
-                          ),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () {
+                Modular.to.navigate('../home/main');
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          isLoading.value
+              ? const Expanded(child: LoadingWithLogo())
+              : orderList.length > 0
+                  ? Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: orderList.length,
+                        itemBuilder: (_, index) {
+                          var curOrder = orderList[index];
+                          return OrderTile(context, curOrder);
+                        },
+                      ),
+                    )
+                  : Expanded(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Lottie.asset('assets/no-data.json',
+                                width: MediaQuery.of(context).size.width * .5,
+                                fit: BoxFit.cover),
+                            Expanded(
+                              child: Text(
+                                'No orders available, waiting for a new order.',
+                                style: TextStyles.bodyFont,
+                              ),
+                            )
+                          ],
                         ),
                       ),
-          ],
-        ));
+                    ),
+        ],
+      ),
+    );
   }
 
   OrderTile(BuildContext context, Order curOrder) {
@@ -108,11 +105,11 @@ class OrderListPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy')}',
+                    TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy'),
                     style: TextStyles.bodyFontBold,
                   ),
                   Text(
-                    '${TimeUtil.getFormatDateTime(orderTime, 'hh:mm a')}',
+                    TimeUtil.getFormatDateTime(orderTime, 'hh:mm a'),
                     style: TextStyles.bodyFont.copyWith(fontSize: 15),
                   ),
                 ],
@@ -122,7 +119,7 @@ class OrderListPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('Order #'),
+                      const Text('Order #'),
                       Text(
                         '${curOrder.userFriendlyOrderId}',
                         style: TextStyles.title.copyWith(
@@ -144,7 +141,7 @@ class OrderListPage extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
@@ -173,22 +170,22 @@ class OrderListPage extends StatelessWidget {
                         width: 3,
                       ),
                       MaterialButton(
-                          padding: const EdgeInsets.all(1),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(color: AppColors.primeColor)),
-                          materialTapTargetSize:
-                              MaterialTapTargetSize.shrinkWrap,
-                          onPressed: () {
-                            Modular.to.navigate('/home/order-detail',
-                                arguments: {'id': curOrder.id});
-                          },
-                          elevation: 0,
-                          child: Text(
-                            'View',
-                            style: TextStyles.bodyFont
-                                .copyWith(color: AppColors.primeColor),
-                          ))
+                        padding: const EdgeInsets.all(1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: BorderSide(color: AppColors.primeColor)),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Modular.to.navigate('/home/order-detail',
+                              arguments: {'id': curOrder.id});
+                        },
+                        elevation: 0,
+                        child: Text(
+                          'View',
+                          style: TextStyles.bodyFont
+                              .copyWith(color: AppColors.primeColor),
+                        ),
+                      )
                     ],
                   )
                 ],

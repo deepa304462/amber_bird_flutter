@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:amber_bird/data/profile/ref.dart';
-
 import 'destination.dart';
 import 'last_movement.dart';
 
@@ -12,19 +10,20 @@ class Shipping {
   String? finalStatus;
   LastMovement? lastMovement;
   String? businessId;
+  String? dhlShipmentNumber;
 
-  Shipping({
-    this.source,
-    this.destination,
-    this.orderRef,
-    this.finalStatus,
-    this.lastMovement,
-    this.businessId,
-  });
+  Shipping(
+      {this.source,
+      this.destination,
+      this.orderRef,
+      this.finalStatus,
+      this.lastMovement,
+      this.businessId,
+      this.dhlShipmentNumber});
 
   @override
   String toString() {
-    return 'Shipping(source: $source, destination: $destination, orderRef: $orderRef, finalStatus: $finalStatus, lastMovement: $lastMovement, businessId: $businessId)';
+    return 'Shipping(source: $source, destination: $destination, orderRef: $orderRef, finalStatus: $finalStatus, lastMovement: $lastMovement, businessId: $businessId,dhlShipmentNumber:$dhlShipmentNumber)';
   }
 
   factory Shipping.fromMap(Map<String, dynamic> data) => Shipping(
@@ -43,6 +42,7 @@ class Shipping {
             : LastMovement.fromMap(
                 data['lastMovement'] as Map<String, dynamic>),
         businessId: data['businessId'] as String?,
+        dhlShipmentNumber: data['dhlShipmentNumber'] as String?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -52,6 +52,7 @@ class Shipping {
         'finalStatus': finalStatus,
         'lastMovement': lastMovement?.toMap(),
         'businessId': businessId,
+        'dhlShipmentNumber': dhlShipmentNumber
       };
 
   /// `dart:convert`
@@ -66,21 +67,21 @@ class Shipping {
   /// Converts [Shipping] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Shipping copyWith({
-    Destination? source,
-    Destination? destination,
-    Ref? orderRef,
-    String? finalStatus,
-    LastMovement? lastMovement,
-    String? businessId,
-  }) {
+  Shipping copyWith(
+      {Destination? source,
+      Destination? destination,
+      Ref? orderRef,
+      String? finalStatus,
+      LastMovement? lastMovement,
+      String? businessId,
+      String? dhlShipmentNumber}) {
     return Shipping(
-      source: source ?? this.source,
-      destination: destination ?? this.destination,
-      orderRef: orderRef ?? this.orderRef,
-      finalStatus: finalStatus ?? this.finalStatus,
-      lastMovement: lastMovement ?? this.lastMovement,
-      businessId: businessId ?? this.businessId,
-    );
+        source: source ?? this.source,
+        destination: destination ?? this.destination,
+        orderRef: orderRef ?? this.orderRef,
+        finalStatus: finalStatus ?? this.finalStatus,
+        lastMovement: lastMovement ?? this.lastMovement,
+        businessId: businessId ?? this.businessId,
+        dhlShipmentNumber: dhlShipmentNumber ?? this.dhlShipmentNumber);
   }
 }
