@@ -50,7 +50,7 @@ class OrderDetailPage extends StatelessWidget {
             Expanded(
                 child: orderController.orderDetail.value.id != null
                     ? OrderDetailWidget(orderController.orderDetail.value.id!)
-                    : LoadingWithLogo())
+                    : const LoadingWithLogo())
           ],
         ));
   }

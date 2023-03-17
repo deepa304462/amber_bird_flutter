@@ -3,6 +3,7 @@ import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
+import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class OrderDetailWidget extends StatelessWidget {
         ? ListView(
             children: [
               _orderProductSummary(context),
-              _shippingDetails(context),
+              _shippingDetails(context, orderController),
               _paymentDetails(context)
             ],
           )
@@ -106,10 +107,112 @@ class OrderDetailWidget extends StatelessWidget {
           );
   }
 
-  Widget _shippingDetails(BuildContext context) {
-    return Column(
-      children: [],
-    );
+  Widget _shippingDetails(
+      BuildContext context, OrderController orderController) {
+    return orderController.shippingDhl.value.shipments != null &&
+            orderController.shippingDhl.value.shipments!.length > 0
+        ? Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Expanded(
+                // height: ,
+                child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount:
+                        orderController.shippingDhl.value.shipments!.length,
+                    itemBuilder: (_, index) {
+                      var currentData =
+                          orderController.shippingDhl.value.shipments![0];
+                          var delTime  = DateTime.parse(currentData.estimatedTimeOfDelivery!);
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(currentData.status!.description!,style: TextStyles.headingFontBlue,),
+                                 Text(
+                                  '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',
+                                  style: TextStyles.bodyFontBold,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text('Destination', style: TextStyles.bodyFontBold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Address'),
+                                Text(
+                                    '${currentData.destination!.address!.countryCode!}${currentData.destination!.address!.addressLocality!}')
+                              ],
+                            ),
+                            Text('Origin', style: TextStyles.bodyFontBold),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text('Address'),
+                                Text(
+                                    '${currentData.origin!.address!.countryCode!}${currentData.origin!.address!.addressLocality!}')
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            // const Text('Origin'),
+                            SizedBox(
+                              height: 200,
+                              child: SingleChildScrollView(
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: currentData.events!.length,
+                                  itemBuilder: (_, index) {
+                                    var currentEvent =
+                                        currentData.events![index];
+                                    DateTime time =
+                                        DateTime.parse(currentEvent.timestamp!);
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(currentEvent.description!),
+                                            // Text('${currentEvent.timestamp}'),
+                                            Text(
+                                              '${TimeUtil.getFormatDateTime(time, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(time, 'hh:mm a')}',
+                                              style: TextStyles.bodyFontBold,
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          currentEvent.location!.address!
+                                              .addressLocality!,
+                                          style: TextStyles.subHeadingFont,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                          ]);
+                    }),
+              ),
+            ),
+          )
+        : const SizedBox();
   }
 
   _paymentDetails(BuildContext context) {

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
- 
 class AllTransaction {
   MetaData? metaData;
   Ref? profileRef;

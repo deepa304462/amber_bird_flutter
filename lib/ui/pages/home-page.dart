@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
 
   getShowCaseVal(BuildContext context) async {
     showCaseData.value = await SharedData.read('showCaseDone');
-    if (showCaseData.value != 'true') { 
+    if (showCaseData.value != 'true') {
       WidgetsBinding.instance.addPostFrameCallback((_) =>
           ShowCaseWidget.of(context).startShowCase(
               myController.showKeyMap.values.map((e) => e.key).toList()));
@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getShowCaseVal(context);
-    
+
     return WillPopScope(
       onWillPop: () {
         myController.backPressed();
