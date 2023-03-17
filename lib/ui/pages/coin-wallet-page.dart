@@ -7,6 +7,9 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../utils/codehelp.dart';
 
 class CoinWalletPage extends StatelessWidget {
   Rx<CoinWallet> coinWallet = CoinWallet().obs;
@@ -20,7 +23,7 @@ class CoinWalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getWallet();
+    // getWallet();
     return Obx(
       () => Column(
         children: [
@@ -55,52 +58,82 @@ class CoinWalletPage extends StatelessWidget {
                   ],
                 )),
           ),
-           const SizedBox(
-            height: 10,
-          ),
-          coinWallet.value.totalActiveCoins != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                      Text(
-                        'Total Coin: ',
-                        style: TextStyles.headingFont,
-                      ),
-                      Text(
-                        coinWallet.value.totalActiveCoins.toString() ?? '',
-                        style: TextStyles.headingFontGray,
-                      )
-                    ])
-              : const SizedBox(),
-          coinWallet.value.totalPendingCoins != null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                      Text(
-                        'Pending Coin: ',
-                        style: TextStyles.headingFont,
-                      ),
-                      Text(coinWallet.value.totalPendingCoins.toString() ?? '',
-                          style: TextStyles.headingFontGray)
-                    ])
-              : const SizedBox(),
-          const SizedBox(
-            height: 20,
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                AppColors.primeColor,
+                AppColors.primeColor.withOpacity(.8),
+              ],
+            )),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      coinWallet.value.totalActiveCoins != null
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                  Text(
+                                    'Total scoins',
+                                    style: TextStyles.headingFont
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  Text(
+                                    coinWallet.value.totalActiveCoins
+                                            .toString() ??
+                                        '',
+                                    style: TextStyles.titleXLarge.copyWith(
+                                        color: Colors.white, fontSize: 40),
+                                  )
+                                ])
+                          : const SizedBox(),
+                      coinWallet.value.totalPendingCoins != null
+                          ? Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        'Pending scoins are ${coinWallet.value.totalPendingCoins} ',
+                                        style: TextStyles.headingFont.copyWith(
+                                            color: AppColors.primeColor),
+                                      ),
+                                    ]),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                  Lottie.asset('assets/coin.json',
+                      height: 100, fit: BoxFit.fill, repeat: true)
+                ],
+              ),
+            ),
           ),
           coinWallet.value.allTransactions!.length > 0
-              ?  SingleChildScrollView(
-                    child: SizedBox(
-                    height: MediaQuery.of(context).size.height *0.6,
-                    child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: coinWallet.value.allTransactions!.length,
-                        itemBuilder: (_, index) {
-                          var currentTrnsaction =
-                              coinWallet.value.allTransactions![index];
-                          return TransactionTile(currentTrnsaction);
-                        }),
-                  ),
+              ? Expanded(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: coinWallet.value.allTransactions!.length,
+                      itemBuilder: (_, index) {
+                        var currentTrnsaction =
+                            coinWallet.value.allTransactions![index];
+                        return TransactionTile(currentTrnsaction);
+                      }),
                 )
               : SizedBox()
         ],
@@ -110,8 +143,9 @@ class CoinWalletPage extends StatelessWidget {
 
   Widget TransactionTile(AllTransaction curTransaction) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: Card(
+        margin: const EdgeInsets.all(2),
         child: ListTile(
           title: Text(
             Helper.formatStringPurpose(curTransaction.purpose!),

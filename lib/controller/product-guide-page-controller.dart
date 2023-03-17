@@ -12,6 +12,7 @@ class ProductGuidePageController extends GetxController {
   }
 
   void setPrductGuideId(String productGuideId) {
+    isLoading.value = true;
     ClientService.get(path: 'productGuide/${productGuideId}?locale=en', id: '')
         .then((value) {
       productGuide.value = ProductGuide.fromMap(value.data);

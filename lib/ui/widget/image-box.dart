@@ -1,8 +1,10 @@
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 //https://pub.dev/documentation/disposable_cached_images/latest/
 class ImageBox extends StatelessWidget {
@@ -40,11 +42,19 @@ class ImageBox extends StatelessWidget {
         return Icon(Icons.error);
       },
       loadingBuilder: (context, progress) {
-        return Lottie.asset(
-          'assets/ripple-loading.json',
-          height: height == 0 ? width * 1 : height,
-          fit: BoxFit.fill,
-        );
+        return Shimmer.fromColors(
+            // ignore: sort_child_properties_last
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              child: Container(
+                width: width,
+                height: height,
+              ),
+            ),
+            baseColor: Colors.grey.shade100,
+            period: const Duration(milliseconds: 300),
+            highlightColor: Colors.grey.shade300);
       },
     );
   }

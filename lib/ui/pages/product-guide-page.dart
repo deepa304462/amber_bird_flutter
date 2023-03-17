@@ -35,6 +35,7 @@ class ProductGuidePage extends StatelessWidget {
                       backgroundColor: Colors.white,
                       automaticallyImplyLeading: true,
                       pinned: true,
+                      iconTheme: IconThemeData(color: AppColors.primeColor),
                       floating: false,
                       backwardsCompatibility: true,
                       excludeHeaderSemantics: true,
@@ -61,12 +62,15 @@ class ProductGuidePage extends StatelessWidget {
                         background: Stack(
                           alignment: Alignment.topCenter,
                           children: [
-                            ImageSlider(
-                                productGuidePageController
-                                    .productGuide.value.images!,
-                                MediaQuery.of(context).size.width,
-                                disableTap: true,
-                                fit: BoxFit.fitWidth),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 50.0),
+                              child: ImageSlider(
+                                  productGuidePageController
+                                      .productGuide.value.images!,
+                                  MediaQuery.of(context).size.width,
+                                  disableTap: true,
+                                  fit: BoxFit.fitWidth),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 35.0, left: 8, right: 8),
@@ -90,11 +94,8 @@ class ProductGuidePage extends StatelessWidget {
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            child: _chapters(context,
-                                productGuidePageController.productGuide.value),
-                          );
+                          return _chapters(context,
+                              productGuidePageController.productGuide.value);
                         },
                         childCount: 1,
                       ),
@@ -107,10 +108,13 @@ class ProductGuidePage extends StatelessWidget {
   }
 
   Widget _chapters(BuildContext context, ProductGuide value) {
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: value.chapters!.map((e) => ProductGuideChapter(e)).toList(),
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height,
+      ),
+      child: Column(
+        children: value.chapters!.map((e) => ProductGuideChapter(e)).toList(),
+      ),
     );
   }
 }
