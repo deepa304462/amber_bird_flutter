@@ -6,7 +6,6 @@ import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
-import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 // https://cdn2.sbazar.app/0ad51820-35be-4a37-8a41-fb3915c1b2a0

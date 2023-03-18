@@ -1,9 +1,9 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:get/get.dart';
-
+import 'package:in_app_review/in_app_review.dart';
 import '../../helpers/controller-generator.dart';
 import 'loading-with-logo.dart';
 
@@ -62,6 +62,15 @@ class _MyAppState extends State<InApp> {
           // log(url.toString());
           if (url.toString() ==
               'https://prod.sbazar.app/order/${cartController.orderId.value}') {
+            var inAppReviewDone = await SharedData.read('inAppReviewDone');
+            if (inAppReviewDone != 'true') {
+              final InAppReview inAppReview = InAppReview.instance;
+
+              if (await inAppReview.isAvailable()) {
+                inAppReview.requestReview();
+                  SharedData.save(true.toString(), 'inAppReviewDone');
+              }
+            }
             Modular.to.navigate(
                 './paymentStatus/${cartController.orderId.value}/${cartController.paymentData.value!.id!}');
           }
