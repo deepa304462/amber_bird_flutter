@@ -135,7 +135,7 @@ class CoinWalletPage extends StatelessWidget {
                         return TransactionTile(currentTrnsaction);
                       }),
                 )
-              : SizedBox()
+              : const SizedBox()
         ],
       ),
     );

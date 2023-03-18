@@ -242,6 +242,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     Varient());
                                               } else {
                                                 Navigator.of(context).pop();
+                                                  // ignore: use_build_context_synchronously
                                                 snackBarClass.showToast(
                                                     context, msg);
                                               }
@@ -272,7 +273,9 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     products![0].varient);
                                               } else {
+                                                // ignore: use_build_context_synchronously
                                                 Navigator.of(context).pop();
+                                                // ignore: use_build_context_synchronously
                                                 snackBarClass.showToast(
                                                     context, msg);
                                               }

@@ -75,14 +75,14 @@ class WishListPage extends StatelessWidget {
                   ],
                 )),
           ),
-          wishlistController.wishlistProducts.value.length > 0
+          wishlistController.wishlistProducts.isNotEmpty
               ? Expanded(
                   child: MasonryGridView.count(
                     physics: const BouncingScrollPhysics(),
                     crossAxisCount: 2,
                     mainAxisSpacing: 4,
                     crossAxisSpacing: 4,
-                    itemCount: wishlistController.wishlistProducts.value.length,
+                    itemCount: wishlistController.wishlistProducts.length,
                     itemBuilder: (_, index) {
                       var currentKey = wishlistController
                           .wishlistProducts.value.keys

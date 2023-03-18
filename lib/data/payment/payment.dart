@@ -16,6 +16,8 @@ class Payment {
   String? currency;
   dynamic paidTo;
   String? status;
+  double? shippingAmount;
+  double? totalAdditionalDiscountAmount;
   PaymentGateWayDetail? paymentGateWayDetail;
   dynamic? appliedTaxAmount;
   List<TaxDetail>? appliedTaxDetail;
@@ -40,6 +42,8 @@ class Payment {
     this.currency,
     this.paidTo,
     this.status,
+    this.shippingAmount,
+    this.totalAdditionalDiscountAmount,
     this.paymentGateWayDetail,
     this.appliedTaxAmount,
     this.appliedTaxDetail,
@@ -55,7 +59,7 @@ class Payment {
 
   @override
   String toString() {
-    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId,totalSCoinsEarned: $totalSCoinsEarned,totalSPointsEarned: $totalSPointsEarned,totalSCoinsPaid: $totalSCoinsPaid, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
+    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, shippingAmount:$shippingAmount,totalAdditionalDiscountAmount:$totalAdditionalDiscountAmount,paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId,totalSCoinsEarned: $totalSCoinsEarned,totalSPointsEarned: $totalSPointsEarned,totalSCoinsPaid: $totalSCoinsPaid, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
   }
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
@@ -83,6 +87,9 @@ class Payment {
         currency: data['currency'] as String?,
         paidTo: data['paidTo'] as dynamic,
         status: data['status'] as String?,
+        shippingAmount: data['shippingAmount'] as double?,
+        totalAdditionalDiscountAmount:
+            data['totalAdditionalDiscountAmount'] as double?,
         bankTxnId: data['bankTxnId'] as String?,
         paymentGateWayDetail: data['paymentGateWayDetail'] == null
             ? null
@@ -110,6 +117,8 @@ class Payment {
         'currency': currency,
         'paidTo': paidTo,
         'status': status,
+        'shippingAmount': shippingAmount,
+        'totalAdditionalDiscountAmount': totalAdditionalDiscountAmount,
         'paymentGateWayDetail': paymentGateWayDetail?.toMap(),
         'appliedTaxAmount': appliedTaxAmount,
         'appliedTaxDetail': appliedTaxDetail?.map((e) => e.toMap()).toList(),
@@ -146,6 +155,8 @@ class Payment {
     String? currency,
     dynamic paidTo,
     String? status,
+    double? shippingAmount,
+    double? totalAdditionalDiscountAmount,
     PaymentGateWayDetail? paymentGateWayDetail,
     dynamic? appliedTaxAmount,
     List<TaxDetail>? appliedTaxDetail,
@@ -169,6 +180,9 @@ class Payment {
       currency: currency ?? this.currency,
       paidTo: paidTo ?? this.paidTo,
       status: status ?? this.status,
+      shippingAmount: shippingAmount ?? this.shippingAmount,
+      totalAdditionalDiscountAmount:
+          totalAdditionalDiscountAmount ?? totalAdditionalDiscountAmount,
       paymentGateWayDetail: paymentGateWayDetail ?? this.paymentGateWayDetail,
       appliedTaxAmount: appliedTaxAmount ?? this.appliedTaxAmount,
       appliedTaxDetail: appliedTaxDetail ?? this.appliedTaxDetail,

@@ -57,7 +57,7 @@ class OrderListPage extends StatelessWidget {
           ),
           isLoading.value
               ? const Expanded(child: LoadingWithLogo())
-              : orderList.length > 0
+              : orderList.isNotEmpty
                   ? Expanded(
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,

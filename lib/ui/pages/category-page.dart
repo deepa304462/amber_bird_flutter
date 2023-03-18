@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -10,7 +9,6 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
-import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -231,7 +229,7 @@ class CategoryPage extends StatelessWidget {
   Widget _scoinProductList(
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
-      child: megaMenuController.productList.length > 0
+      child: megaMenuController.productList.isNotEmpty
           ? MasonryGridView.count(
               crossAxisCount: 2,
               mainAxisSpacing: 4,
@@ -448,13 +446,14 @@ class CategoryPage extends StatelessWidget {
                                                         mProduct.constraint,
                                                         null);
                                                   } else {
+                                                    // ignore: use_build_context_synchronously
                                                     snackBarClass.showToast(
                                                         context, msg);
                                                   }
                                                 } else {
                                                   stateController
                                                       .setCurrentTab(3);
-                                                  var showToast =
+                                                // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
                                                           'Please Login to preoceed');
@@ -526,6 +525,7 @@ class CategoryPage extends StatelessWidget {
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
+                                                          // ignore: use_build_context_synchronously
                                                     snackBarClass.showToast(
                                                         context, msg);
                                                   }
@@ -558,10 +558,7 @@ class CategoryPage extends StatelessWidget {
                                                               .getUserIsActive();
                                                       if (isCheckedActivate) {
                                                         // if (stateController.isActivate.value) {
-                                                        var valid = false;
-                                                        var msg =
-                                                            'Something went wrong!';
-                                                        cartController.addToCart(
+                                                         cartController.addToCart(
                                                             mProduct.id!,
                                                             megaMenuController
                                                                 .selectedParentTab
@@ -575,6 +572,7 @@ class CategoryPage extends StatelessWidget {
                                                             null);
                                                       } else {
                                                         // Navigator.of(context).pop();
+                                                          // ignore: use_build_context_synchronously
                                                         snackBarClass.showToast(
                                                             context,
                                                             'Your profile is not active yet');

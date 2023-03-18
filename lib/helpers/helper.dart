@@ -10,8 +10,7 @@ import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
-import 'package:get/get.dart';
-
+ 
 import 'controller-generator.dart';
 
 class Helper {
@@ -121,8 +120,7 @@ class Helper {
           CustomerInsight.fromJson(jsonEncode(insight));
 
       if (ruleConfig.forWeekDays!.length > 0) {
-        DateTime date = DateTime.now();
-        print("weekday is ${date.weekday}");
+        DateTime date = DateTime.now(); 
         if (!ruleConfig.forWeekDays!.contains(date.weekday)) {
           return ({'error': true, 'msg': 'Deal is not applicable today'});
         }

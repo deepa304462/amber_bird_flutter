@@ -36,7 +36,8 @@ class CartWidget extends StatelessWidget {
         decoration: const BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
         child: Obx(
-          () => cartController.calculatedPayment.value.totalAmount != null &&
+          () => cartController.cartProducts.isNotEmpty &&
+                  cartController.calculatedPayment.value.totalAmount != null &&
                   cartController.calculatedPayment.value.totalAmount as double >
                       0
               ? Padding(
@@ -54,14 +55,14 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.bodyFont,
                           ),
                           Text(
-                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? ((cartController.calculatedPayment.value.totalAmount as double) + (double.parse(Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)))) : 0).toStringAsFixed(2)}',
+                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
                             style: TextStyles.titleLargeBold,
                           ),
                         ],
                       ),
                       MaterialButton(
                         color: Colors.green,
-                        visualDensity: VisualDensity(horizontal: 4),
+                        visualDensity: const VisualDensity(horizontal: 4),
                         onPressed: () async {
                           var checkoutResp = await cartController.checkout();
                           checkoutClicked.value = true;
@@ -84,6 +85,7 @@ class CartWidget extends StatelessWidget {
                                     arguments: data['data']);
                               }
                             } else {
+                              // ignore: use_build_context_synchronously
                               snackBarClass.showToast(
                                   context, 'All product not available');
                             }
@@ -984,7 +986,7 @@ class CartWidget extends StatelessWidget {
                               }))),
                 ],
               )
-            : const Text('Recommended product is not available')
+            : const SizedBox()
         : const SizedBox();
   }
 
@@ -1156,7 +1158,11 @@ class CartWidget extends StatelessWidget {
                         ],
                       )
                     : const SizedBox(),
-                cartController.calculatedPayment.value.totalSCoinsPaid != null
+                cartController.calculatedPayment.value.totalSCoinsPaid !=
+                            null &&
+                        cartController
+                                .calculatedPayment.value.totalSCoinsPaid !=
+                            0
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -1174,18 +1180,35 @@ class CartWidget extends StatelessWidget {
                       )
                     : const SizedBox(),
 
-                cartController.calculatedPayment.value.totalSavedAmount != null
+                cartController.calculatedPayment.value.discountAmount != null &&
+                        cartController.calculatedPayment.value.discountAmount !=
+                            0.00
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Total Saved Amount',
+                            'Coupon discount Amount',
                             style: TextStyles.bodyFont,
                           ),
                           Text(
-                            (cartController.calculatedPayment.value
-                                    .totalSavedAmount as double)
-                                .toString(),
+                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+                     cartController.calculatedPayment.value.totalAdditionalDiscountAmount != null &&
+                        cartController.calculatedPayment.value.totalAdditionalDiscountAmount !=
+                            0.00
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Membership Discount',
+                            style: TextStyles.bodyFont,
+                          ),
+                          Text(
+                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0 as double).toStringAsFixed(2)}',
                             style: TextStyles.bodyFontBold,
                           ),
                         ],
@@ -1196,20 +1219,27 @@ class CartWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Discount Amount',
+                      'Shipping Charges',
                       style: TextStyles.bodyFont,
                     ),
-                    Text(
-                      '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}',
-                      style: TextStyles.bodyFontBold,
-                    ),
+                    cartController.calculatedPayment.value.shippingAmount ==
+                            0.00
+                        ? Text(
+                            'Free',
+                            style: TextStyles.titleGreen,
+                          )
+                        : Text(
+                            '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.shippingAmount as double).toStringAsFixed(2)}',
+                            style: TextStyles.bodyFontBold,
+                          ),
                   ],
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Tax',
+                      'Tax* (Inclusive)',
                       style: TextStyles.bodyFont,
                     ),
                     Text(
@@ -1222,38 +1252,33 @@ class CartWidget extends StatelessWidget {
                         cartController
                                 .calculatedPayment.value.appliedTaxDetail !=
                             null &&
-                        cartController.calculatedPayment.value.appliedTaxDetail!
-                                .length >
-                            0)
+                        cartController.calculatedPayment.value.appliedTaxDetail!.isNotEmpty)
                     ? Container(
                         margin: const EdgeInsets.all(2.0),
                         padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color:
-                                    const Color.fromARGB(255, 113, 116, 122))),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: cartController
-                              .calculatedPayment.value.appliedTaxDetail!.length,
-                          itemBuilder: (_, pIndex) {
-                            var currentTax = cartController.calculatedPayment
-                                .value.appliedTaxDetail![pIndex];
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  currentTax.description ?? '',
-                                  style: TextStyles.headingFontGray,
-                                ),
-                                Text(
-                                  '${CodeHelp.euro}${Helper.getFormattedNumber(currentTax.amount).toString()}',
-                                  style: TextStyles.bodyFontBold,
-                                ),
-                              ],
-                            );
-                          },
+                        // decoration: BoxDecoration(
+                        //     border: Border.all(color: Colors.grey)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: cartController.calculatedPayment
+                                    .value.appliedTaxDetail!.length,
+                                itemBuilder: (_, pIndex) {
+                                  var currentTax = cartController
+                                      .calculatedPayment
+                                      .value
+                                      .appliedTaxDetail![pIndex];
+                                  return Text(
+                                    currentTax.description ?? '',
+                                    style: TextStyles.bodySm,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     : const SizedBox(),
@@ -1263,10 +1288,23 @@ class CartWidget extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: Text(
-                        'You will rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order',
+                        'You will rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order.',
                         style: TextStyles.body,
                       ),
                     ),
+                    cartController.calculatedPayment.value.totalSavedAmount !=
+                                null &&
+                            cartController
+                                    .calculatedPayment.value.totalSavedAmount !=
+                                0.00
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Text(
+                              'You will save ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.totalSavedAmount as double).toStringAsFixed(2)} on this purchase',
+                              style: TextStyles.body,
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
                 // cartController.checkoutData.value != null &&
