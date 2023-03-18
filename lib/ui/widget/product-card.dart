@@ -172,7 +172,8 @@ class ProductCard extends StatelessWidget {
                         )
                       : const SizedBox(),
               checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY')
+                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY' ||
+                          addedFrom == 'BRAND')
                       ? Obx(() => Text(
                             "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
                             style: TextStyles.titleLargeBold,

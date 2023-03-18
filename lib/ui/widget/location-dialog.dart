@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
+import 'package:amber_bird/ui/element/radio-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/google-address-suggest.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -31,14 +32,14 @@ class LocationDialog extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(20),
         color: AppColors.white,
-        child:  SingleChildScrollView(
-        child: Center(
+        child: SingleChildScrollView(
+          child: Center(
             child: Obx(
               () => Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                   const SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(
@@ -203,9 +204,24 @@ class LocationDialog extends StatelessWidget {
                       false,
                       callback),
 
-                  //     const SizedBox(
-                  //   height: 10,
-                  // ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Obx(
+                    () => IRadioBox(
+                        'Type',
+                        'addressType',
+                        locationController
+                                    .changeAddressData.value.addressType !=
+                                null
+                            ? locationController
+                                .changeAddressData.value.addressType
+                                .toString()
+                            : 'HOME',
+                        ['HOME', 'OFFICE'],
+                        false,
+                        callback),
+                  ),
                   // ITextBox(
                   //     'Type',
                   //     'addressType',
@@ -322,6 +338,12 @@ class LocationDialog extends StatelessWidget {
                                   .changeAddressData.value.country ==
                               null) {
                             errorMessage.value = 'Please fill country';
+                            isLoading.value = false;
+                            return;
+                          } else if (locationController
+                                  .changeAddressData.value.zipCode ==
+                              null) {
+                            errorMessage.value = 'Please fill zipcode';
                             isLoading.value = false;
                             return;
                           } else if (locationController

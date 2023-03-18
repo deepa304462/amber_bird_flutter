@@ -82,7 +82,7 @@ class CartController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     var referredbyId = await SharedData.read('referredbyId');
-    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     var payload;
     if (selectedAdd != null && selectedAdd.name != null) {
       var resp = await ClientService.post(

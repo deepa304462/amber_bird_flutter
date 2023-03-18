@@ -20,10 +20,10 @@ class SharedData {
     prefs.remove(key);
   }
 
-  static Future<String> read(String key) async {
+  static Future<dynamic> read(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    final value = prefs.getString(key) ?? '{}';
-    return value;
+    final value = prefs.getString(key);
+    return value ;
   }
 
   static Future<double> readDouble(String key) async {

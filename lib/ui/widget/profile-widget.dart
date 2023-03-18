@@ -91,10 +91,10 @@ class EditProfilePage extends StatelessWidget {
                   ],
                 ),
                 Text(
-                    'Email is ${stateController.isEmailVerified.value ? 'not verified' : 'verified'}',
+                    'Email is ${stateController.isEmailVerified.value ? ' verified' : 'not verified'}',
                     style: TextStyles.bodyFont),
                 Text(
-                    'Mobile number is ${stateController.isPhoneVerified.value ? 'not verified' : 'verified'}',
+                    'Mobile number is ${stateController.isPhoneVerified.value ? ' verified' : 'not verified'}',
                     style: TextStyles.bodyFont),
                 const SizedBox(
                   height: 10,

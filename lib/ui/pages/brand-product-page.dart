@@ -25,7 +25,7 @@ class BrandProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.isLoading.value
-          ? LoadingWithLogo()
+          ? const LoadingWithLogo()
           : Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColors.primeColor,
@@ -33,7 +33,7 @@ class BrandProductPage extends StatelessWidget {
                     onPressed: () {
                       Modular.to.navigate('/home/brand');
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.white,
                     )),

@@ -123,8 +123,8 @@ class Controller extends GetxController {
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
-    var authData = jsonDecode(await (SharedData.read('authData')));
-    var userData = jsonDecode(await (SharedData.read('userData')));
+    var authData = jsonDecode((await (SharedData.read('authData'))) ?? '{}');
+    var userData = jsonDecode((await (SharedData.read('userData'))) ?? '{}');
     ClientService.token = authData['accessToken'] ?? '';
     if (userData['mappedTo'] != null) {
       syncUserProfile(userData['mappedTo']['_id']);

@@ -21,7 +21,7 @@ class AppModule extends Module {
           return EmailVerificationPage(
               args.queryParams['email']!, args.queryParams['token']!);
         }),
-        ChildRoute('/refer/:id', child: (_, args) {
+        ChildRoute('/refer/:id', child: (_, args) { 
           SharedData.save(args.params['id'].toString(), 'referredbyId');
           return WildCardRoutePage(args.uri);
         }),

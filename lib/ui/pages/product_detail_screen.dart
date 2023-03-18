@@ -221,6 +221,8 @@ class ProductDetailScreen extends StatelessWidget {
                                           padding: const EdgeInsets.all(4),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
+                                             stateController.showLoader.value =
+                                                true;
                                             if (stateController.isLogin.value) {
                                               cartController.addToCart(
                                                   '${productController.product.value.id!}@${productController.varient.value.varientCode}',
@@ -241,6 +243,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                       context,
                                                       'Please login to proceed');
                                             }
+                                             stateController.showLoader.value =
+                                                false;
                                             // cController.addToCart(p, refId!, addedFrom!, -1);
                                           },
                                           icon: const Icon(
@@ -267,6 +271,8 @@ class ProductDetailScreen extends StatelessWidget {
                                           padding: const EdgeInsets.all(4),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
+                                             stateController.showLoader.value =
+                                                true;
                                             if (stateController.isLogin.value) {
                                               cartController.addToCart(
                                                   '${productController.product.value.id!}@${productController.varient.value.varientCode}',
@@ -285,6 +291,8 @@ class ProductDetailScreen extends StatelessWidget {
                                               snackBarClass.showToast(context,
                                                   'Please Login to preoceed');
                                             }
+                                             stateController.showLoader.value =
+                                                false;
                                             // cController.addToCart(p, refId!, addedFrom!, 1);
                                           },
                                           icon: const Icon(
@@ -295,25 +303,38 @@ class ProductDetailScreen extends StatelessWidget {
                                       ],
                                     )
                                   : TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                         stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
-                                          cartController.addToCart(
-                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                              addedFrom!,
-                                              1,
-                                              productController
-                                                  .varient.value.price!,
-                                              summary,
-                                              null,
-                                              null,
-                                              null,
-                                              productController.varient.value);
+                                          bool isCheckedActivate =
+                                              await stateController
+                                                  .getUserIsActive();
+                                          if (isCheckedActivate) {
+                                            cartController.addToCart(
+                                                '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                addedFrom!,
+                                                1,
+                                                productController
+                                                    .varient.value.price!,
+                                                summary,
+                                                null,
+                                                null,
+                                                null,
+                                                productController
+                                                    .varient.value);
+                                          } else {
+                                            // Navigator.of(context).pop();
+                                            // ignore: use_build_context_synchronously
+                                            snackBarClass.showToast(context,
+                                                'Your profile is not active yet');
+                                          }
                                         } else {
                                           stateController.setCurrentTab(3);
                                           var showToast =
                                               snackBarClass.showToast(context,
                                                   'Please Login to preoceed');
                                         }
+                                         stateController.showLoader.value = false;
                                       },
                                       child: Text("Add to cart",
                                           style: TextStyles.addTocartText),

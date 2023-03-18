@@ -98,7 +98,7 @@ class AllAddressPage extends StatelessWidget {
               style: TextStyles.titleLargeBold,
             ),
             subtitle: FitText(
-              '${address.line1!} ${address.line2!} ${address.zipCode!}',
+              '${address.line1!} ${address.line2!} ${address.zipCode}',
               style: TextStyles.bodyFont,
             ),
             trailing: IconButton(

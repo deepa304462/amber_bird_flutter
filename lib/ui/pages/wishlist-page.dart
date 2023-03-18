@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/favorite.insight.detail.dart';
 import 'package:amber_bird/data/customer/wish_list.insight.detail.dart';
@@ -6,6 +7,7 @@ import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -24,6 +26,7 @@ class WishListPage extends StatelessWidget {
   CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   Rx<WishList> wishList = WishList().obs;
+  final Controller stateController = Get.find();
 
   getWishList() async {
     Ref custRef = await Helper.getCustomerRef();
@@ -158,6 +161,7 @@ class WishListPage extends StatelessWidget {
                   color: AppColors.primeColor,
                   visualDensity: VisualDensity.compact,
                   onPressed: () async {
+                    stateController.showLoader.value = true;
                     Price price = Price();
                     if (curwishList.products != null &&
                         curwishList.products!.length > 0) {
@@ -165,18 +169,27 @@ class WishListPage extends StatelessWidget {
                     } else {
                       price = curwishList.product!.varient!.price!;
                     }
-                    await cartController.addToCart(
-                        curwishList.ref!.id ?? '',
-                        'WISHLIST',
-                        1,
-                        price,
-                        curwishList.product,
-                        curwishList.products,
-                        null,
-                        null,
-                        curwishList.product!.varient);
-                    await wishlistController
-                        .removeWishList(curwishList.ref!.id ?? '');
+                    bool isCheckedActivate =
+                        await stateController.getUserIsActive();
+                    if (isCheckedActivate) {
+                      await cartController.addToCart(
+                          curwishList.ref!.id ?? '',
+                          'WISHLIST',
+                          1,
+                          price,
+                          curwishList.product,
+                          curwishList.products,
+                          null,
+                          null,
+                          curwishList.product!.varient);
+                      await wishlistController
+                          .removeWishList(curwishList.ref!.id ?? '');
+                    } else {
+                      // ignore: use_build_context_synchronously
+                      snackBarClass.showToast(
+                          context, 'Your profile is not active yet');
+                    }
+                    stateController.showLoader.value = false;
                   },
                   child: Text(
                     'Add to cart',

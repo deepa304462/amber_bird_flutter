@@ -24,7 +24,7 @@ class UpdatePasswordController extends GetxController {
   }
 
   checkUser() async {
-    var data = jsonDecode(await SharedData.read('userData'));
+    var data = jsonDecode((await SharedData.read('userData')) ?? '{}');
     if (data['authEmail'] != emailId) {
       Modular.to.navigate('/home/main');
     }

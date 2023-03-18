@@ -20,7 +20,7 @@ class UserVerificationController extends GetxController {
   }
 
   verifyUser() async {
-    var userData = jsonDecode(await (SharedData.read('userData')));
+    var userData = jsonDecode((await (SharedData.read('userData'))) ?? '{}');
     if (userData['authEmail'] == emailId) {
       var response = await ClientService.get(
           path: 'auth/confirm?email=$emailId&token=$token');

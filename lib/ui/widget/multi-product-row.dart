@@ -431,10 +431,15 @@ class MultiProductRow extends StatelessWidget {
                               Navigator.of(context).pop();
                               snackBarClass.showToast(context, msg);
                             }
+                          } else {
+                            stateController.setCurrentTab(4);
+                            // ignore: use_build_context_synchronously
+                            snackBarClass.showToast(
+                                context, 'Your profile is not active yet');
                           }
                         } else {
                           stateController.setCurrentTab(3);
-                          var showToast = snackBarClass.showToast(
+                          snackBarClass.showToast(
                               context, 'Please Login to preoceed');
                         }
                         stateController.showLoader.value = false;

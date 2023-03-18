@@ -105,7 +105,7 @@ class Helper {
   }
 
   static Future<Ref> getCustomerRef() async {
-    var data = jsonDecode(await SharedData.read('userData'));
+    var data = jsonDecode((await SharedData.read('userData' )) ?? '{}');
     print(data);
     return Ref.fromMap(
         {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});

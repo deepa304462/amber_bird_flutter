@@ -18,7 +18,7 @@ class BrandPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => brandPageController.isLoading.value
-        ? Center(child: LoadingWithLogo())
+        ? const Center(child: LoadingWithLogo())
         : MasonryGridView.count(
             crossAxisCount: 4,
             mainAxisSpacing: 4,

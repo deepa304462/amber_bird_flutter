@@ -76,7 +76,7 @@ class LocationController extends GetxController {
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
-        pinCode.value = addressData.value.zipCode!;
+        pinCode.value = addressData.value.zipCode ??'0';
       } else {
         addressData.value= Address();
         // getLocation();
@@ -217,7 +217,7 @@ class LocationController extends GetxController {
         }
         var payload = cust.toMap();
         // log(payload.toString());
-        var userData = jsonDecode(await (SharedData.read('userData')));
+        var userData = jsonDecode((await (SharedData.read('userData')) ?? '{}'));
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -242,7 +242,7 @@ class LocationController extends GetxController {
         cust.addresses![seelctedIndexToEdit.value] = (addressData.value);
         var payload = cust.toMap();
         // log(payload.toString());
-        var userData = jsonDecode(await (SharedData.read('userData')));
+        var userData = jsonDecode(await (SharedData.read('userData')) ?? '{}');
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -271,7 +271,7 @@ class LocationController extends GetxController {
 
         var payload = cust.toMap();
         // log(payload.toString());
-        var userData = jsonDecode(await (SharedData.read('userData')));
+        var userData = jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -328,6 +328,8 @@ class LocationController extends GetxController {
     } else if (name == 'phoneNumber') {
       changeAddressData.value.phoneNumber = text;
     }
+
+    changeAddressData.refresh();
   }
 
   void updateCustomerAddress(addressFromGoogle) {
