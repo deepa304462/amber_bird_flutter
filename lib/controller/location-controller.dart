@@ -76,25 +76,29 @@ class LocationController extends GetxController {
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
+        pinCode.value = addressData.value.zipCode!;
       } else {
-        getLocation();
+        addressData.value= Address();
+        // getLocation();
       }
     } else {
-      getLocation();
+      // getLocation();
     }
   }
 
-  Future<bool> getLocation() async {
-    var locationExists =
-        await OfflineDBService.checkBox(OfflineDBService.location);
-    if (locationExists) {
-      var data = await OfflineDBService.get(OfflineDBService.location);
-      address.value = data;
+   getLocation() async {
+    // var locationExists =
+    //     await OfflineDBService.checkBox(OfflineDBService.location);
+    // if (locationExists) {
+    //   var data = await OfflineDBService.get(OfflineDBService.location);
+    //   address.value = data;
       setAddressData(address.value);
       pinCode.value = addressData.value.zipCode!;
+      if(pinCode.value.isNotEmpty){
       addressAvaiable.value = true;
     }
-    return locationExists;
+    // }
+    // return locationExists;
   }
 
   locationReqest() {
@@ -120,8 +124,9 @@ class LocationController extends GetxController {
   }
 
   saveAddress() {
-    OfflineDBService.save(OfflineDBService.location, address.value);
-    getLocation();
+    // OfflineDBService.save(OfflineDBService.location, address.value);
+    // pinCode.value = '';
+    // getLocation();
     Modular.to.pop(this.address);
   }
 
@@ -272,6 +277,7 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
+          getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
           return {"msg": "Updated Successfully!!", "status": "success"};

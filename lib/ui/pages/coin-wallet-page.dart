@@ -23,7 +23,7 @@ class CoinWalletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // getWallet();
+    getWallet();
     return Obx(
       () => Column(
         children: [
@@ -122,7 +122,7 @@ class CoinWalletPage extends StatelessWidget {
               ),
             ),
           ),
-          coinWallet.value.allTransactions!.length > 0
+          coinWallet.value.allTransactions !=null && coinWallet.value.allTransactions!.length > 0
               ? Expanded(
                   child: ListView.builder(
                       scrollDirection: Axis.vertical,

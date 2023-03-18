@@ -1,8 +1,11 @@
 import 'package:amber_bird/controller/location-controller.dart';
+import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/location-text-box.dart';
+import 'package:amber_bird/ui/widget/location-dialog.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
@@ -124,6 +127,39 @@ class LocationPage extends StatelessWidget {
                         ),
                         onTap: () {
                           locationController.saveAddress();
+                          locationController.setLocation();
+                          locationController.changeAddressData.value =
+                              Address.fromMap({
+                            'line1':
+                                locationController.address['formatted_address'],
+                            'houseNo': '',
+                            'name': '',
+                            'line2': '',
+                            'landMark': '',
+                            'zipCode': locationController
+                                .findValueFromAddress('postal_code'),
+                            'city': locationController
+                                    .findValueFromAddress('locality') ??
+                                locationController.findValueFromAddress(
+                                    'administrative_area_level_2'),
+                            'country': locationController
+                                .findValueFromAddress('country'),
+                            'localArea': locationController
+                                .findValueFromAddress('sublocality_level_1'),
+                            // 'addressType': '',
+                            'geoAddress': {
+                              'coordinates': [
+                                locationController.address['geometry']
+                                    ['location']['lat'],
+                                locationController.address['geometry']
+                                    ['location']['lng']
+                              ]
+                            },
+                            'phoneNumber': '',
+                            'directionComment': '',
+                          });
+                          _displayDialog(context, locationController, 'ADD');
+                          // locationController.saveAddress();
                         },
                       ),
                     ),
@@ -221,7 +257,8 @@ class LocationPage extends StatelessWidget {
     );
   }
 
-  _displayDialog(BuildContext context, LocationController locationController) {
+  _displayDialog(BuildContext context, LocationController locationController,
+      String type) {
     showGeneralDialog(
       context: context,
       barrierDismissible: false,
@@ -236,165 +273,166 @@ class LocationPage extends StatelessWidget {
         );
       },
       pageBuilder: (context, animation, secondaryAnimation) {
-        return Material(
-          type: MaterialType.transparency,
-          // make sure that the overlay content is not cut off
-          child: SafeArea(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: Center(
-                child: Obx(
-                  () => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Edit address',
-                        style: TextStyles.titleXLargePrimary
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      LocationTextBox(
-                          'Name',
-                          'name',
-                          locationController.changeAddressData.value.name
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'House No',
-                          'houseNo',
-                          locationController.changeAddressData.value.name
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'Phone',
-                          'phoneNumber',
-                          locationController
-                                      .changeAddressData.value.phoneNumber !=
-                                  null
-                              ? locationController
-                                  .changeAddressData.value.phoneNumber
-                                  .toString()
-                              : '',
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'Line1',
-                          'line1',
-                          locationController.changeAddressData.value.line1
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'Line2',
-                          'line2',
-                          locationController.changeAddressData.value.line2
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'City',
-                          'city',
-                          locationController.changeAddressData.value.city
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'Country',
-                          'country',
-                          locationController.changeAddressData.value.country
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'LandMark',
-                          'landMark',
-                          locationController.changeAddressData.value.landMark
-                              .toString(),
-                          TextInputType.text,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LocationTextBox(
-                          'ZipCode',
-                          'zipCode',
-                          locationController.changeAddressData.value.zipCode
-                              .toString(),
-                          TextInputType.number,
-                          callback),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            color: AppColors.grey,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Text(
-                              "Close",
-                              style: TextStyles.titleWhite,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          MaterialButton(
-                            onPressed: () {
-                              locationController.addressData.value =
-                                  locationController.changeAddressData.value;
-                              locationController.setAddressCall();
-                              Navigator.of(context).pop();
-                            },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            color: AppColors.primeColor,
-                            child: Text(
-                              "Save",
-                              style: TextStyles.titleWhite
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
+        return LocationDialog(type);
+        // Material(
+        //   type: MaterialType.transparency,
+        //   // make sure that the overlay content is not cut off
+        //   child: SafeArea(
+        //     child: Container(
+        //       width: MediaQuery.of(context).size.width,
+        //       height: MediaQuery.of(context).size.height,
+        //       padding: const EdgeInsets.all(20),
+        //       color: Colors.white,
+        //       child: Center(
+        //         child: Obx(
+        //           () => Column(
+        //             mainAxisSize: MainAxisSize.min,
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: <Widget>[
+        //               Text(
+        //                 'Edit address',
+        //                 style: TextStyles.titleXLargePrimary
+        //                     .copyWith(fontWeight: FontWeight.bold),
+        //               ),
+        //               LocationTextBox(
+        //                   'Name',
+        //                   'name',
+        //                   locationController.changeAddressData.value.name
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'House No',
+        //                   'houseNo',
+        //                   locationController.changeAddressData.value.name
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'Phone',
+        //                   'phoneNumber',
+        //                   locationController
+        //                               .changeAddressData.value.phoneNumber !=
+        //                           null
+        //                       ? locationController
+        //                           .changeAddressData.value.phoneNumber
+        //                           .toString()
+        //                       : '',
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'Line1',
+        //                   'line1',
+        //                   locationController.changeAddressData.value.line1
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'Line2',
+        //                   'line2',
+        //                   locationController.changeAddressData.value.line2
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'City',
+        //                   'city',
+        //                   locationController.changeAddressData.value.city
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'Country',
+        //                   'country',
+        //                   locationController.changeAddressData.value.country
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'LandMark',
+        //                   'landMark',
+        //                   locationController.changeAddressData.value.landMark
+        //                       .toString(),
+        //                   TextInputType.text,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               LocationTextBox(
+        //                   'ZipCode',
+        //                   'zipCode',
+        //                   locationController.changeAddressData.value.zipCode
+        //                       .toString(),
+        //                   TextInputType.number,
+        //                   callback),
+        //               const SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Row(
+        //                 mainAxisAlignment: MainAxisAlignment.end,
+        //                 crossAxisAlignment: CrossAxisAlignment.end,
+        //                 children: [
+        //                   MaterialButton(
+        //                     onPressed: () {
+        //                       Navigator.of(context).pop();
+        //                     },
+        //                     color: AppColors.grey,
+        //                     shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(12)),
+        //                     child: Text(
+        //                       "Close",
+        //                       style: TextStyles.titleWhite,
+        //                     ),
+        //                   ),
+        //                   const SizedBox(
+        //                     width: 20,
+        //                   ),
+        //                   MaterialButton(
+        //                     onPressed: () {
+        //                       locationController.addressData.value =
+        //                           locationController.changeAddressData.value;
+        //                       locationController.setAddressCall();
+        //                       Navigator.of(context).pop();
+        //                     },
+        //                     shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(12)),
+        //                     color: AppColors.primeColor,
+        //                     child: Text(
+        //                       "Save",
+        //                       style: TextStyles.titleWhite
+        //                           .copyWith(fontWeight: FontWeight.bold),
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // );
       },
     );
   }

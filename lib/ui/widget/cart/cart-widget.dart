@@ -33,7 +33,7 @@ class CartWidget extends StatelessWidget {
         ControllerGenerator.create(CartController(), tag: 'cartController');
     return Scaffold(
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
         child: Obx(
           () => cartController.calculatedPayment.value.totalAmount != null &&
@@ -1009,22 +1009,23 @@ class CartWidget extends StatelessWidget {
                         style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
                       ),
                       MaterialButton(
-                          onPressed: (() =>
-                              {Modular.to.navigate('../home/address-list')}),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Edit',
-                                style: TextStyles.bodyFont.copyWith(
-                                    color: AppColors.primeColor, fontSize: 20),
-                              ),
-                              Icon(
-                                Icons.edit,
-                                color: AppColors.primeColor,
-                                size: 20,
-                              ),
-                            ],
-                          ))
+                        onPressed: (() =>
+                            {Modular.to.navigate('../home/address-list')}),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Edit',
+                              style: TextStyles.bodyFont.copyWith(
+                                  color: AppColors.primeColor, fontSize: 20),
+                            ),
+                            Icon(
+                              Icons.edit,
+                              color: AppColors.primeColor,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                   Card(
