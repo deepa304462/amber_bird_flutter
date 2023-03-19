@@ -127,7 +127,9 @@ class LocationPage extends StatelessWidget {
                         ),
                         onTap: () {
                           locationController.saveAddress();
-                          locationController.setLocation();
+                          // locationController.setLocation();
+                          locationController.pinCode.value = locationController
+                              .findValueFromAddress('postal_code');
                           locationController.changeAddressData.value =
                               Address.fromMap({
                             'line1':

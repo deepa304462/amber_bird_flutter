@@ -185,7 +185,6 @@ class LocationController extends GetxController {
   setAddressData(dynamic data) {
     addressAvaiable.value = true;
     addressData.value.zipCode = findValueFromAddress('postal_code');
-    addressData.value.name = '';
     addressData.value.line1 = data['formatted_address'];
     addressData.value.localArea = findValueFromAddress('sublocality_level_1');
     addressData.value.city = findValueFromAddress('locality') ??
@@ -369,7 +368,10 @@ class LocationController extends GetxController {
           await OfflineDBService.get(OfflineDBService.userProfile));
       changeAddressData.value.name = loggedInProfile.fullName;
       changeAddressData.value.phoneNumber = loggedInProfile.mobile;
-      changeAddressData.value.zipCode = pinCode.value;
+      if (changeAddressData.value.zipCode == null ||
+          changeAddressData.value.zipCode!.isEmpty) {
+        changeAddressData.value.zipCode = pinCode.value;
+      }
       changeAddressData.refresh();
     } catch (e) {}
   }

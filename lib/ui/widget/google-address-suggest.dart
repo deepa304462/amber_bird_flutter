@@ -42,7 +42,8 @@ class GoogleAddressSuggest extends StatelessWidget {
                       child: Icon(Icons.clear))),
               controller: _textController,
               onChanged: (String changedText) {
-                controller.search(changedText, locationController.addressData);
+                controller.search(
+                    changedText, locationController.pinCode.value);
               },
             ),
             Expanded(

@@ -14,11 +14,11 @@ class GoogleAddressSuggestController extends GetxController {
   Dio dio = Dio();
   RxList addressSuggestions = [].obs;
 
-  Future<void> search(String changedText, Rx<Address> addressData) async {
+  Future<void> search(String changedText, String pincode) async {
     if (changedText.length > 2) {
       String host = 'https://maps.google.com/maps/api/geocode/json';
       var url =
-          '$host?key=$mapKey&language=en&address=$changedText&sensor=true&components=postal_code:${addressData.value.zipCode}';
+          '$host?key=$mapKey&language=en&address=$changedText&sensor=true&components=postal_code:${pincode}';
       // url = url + '|country:IN';
       var response = await dio.get(url);
       if (response.statusCode == 200) {
