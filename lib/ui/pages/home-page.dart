@@ -72,9 +72,14 @@ class HomePage extends StatelessWidget {
   getShowCaseVal(BuildContext context) async {
     showCaseData.value = await SharedData.read('showCaseDone');
     if (showCaseData.value != 'true') {
-      WidgetsBinding.instance.addPostFrameCallback((_) =>
-          ShowCaseWidget.of(context).startShowCase(
-              myController.showKeyMap.values.map((e) => e.key).toList()));
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => ShowCaseWidget.of(context).startShowCase([
+                myController.showKeyMap['category']!.key,
+                myController.showKeyMap['brand']!.key,
+                myController.showKeyMap['pincode']!.key,
+                myController.showKeyMap['refer']!.key,
+                myController.showKeyMap['coinWallet']!.key,
+              ]));
       SharedData.save(true.toString(), 'showCaseDone');
     }
   }

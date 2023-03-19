@@ -43,7 +43,7 @@ class CoinWalletPage extends StatelessWidget {
             ),
             leading: MaterialButton(
                 onPressed: () {
-                  Modular.to.navigate('../home/main');
+                  Navigator.pop(context);
                 },
                 child: Row(
                   children: [
@@ -122,7 +122,8 @@ class CoinWalletPage extends StatelessWidget {
               ),
             ),
           ),
-          coinWallet.value.allTransactions !=null && coinWallet.value.allTransactions!.length > 0
+          coinWallet.value.allTransactions != null &&
+                  coinWallet.value.allTransactions!.length > 0
               ? Expanded(
                   child: ListView.builder(
                       scrollDirection: Axis.vertical,

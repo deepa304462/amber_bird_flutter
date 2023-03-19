@@ -47,7 +47,7 @@ class OrderListPage extends StatelessWidget {
             centerTitle: true,
             leading: IconButton(
               onPressed: () {
-                Modular.to.navigate('../home/main');
+                Navigator.pop(context);
               },
               icon: const Icon(
                 Icons.arrow_back,

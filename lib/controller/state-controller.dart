@@ -318,6 +318,7 @@ class Controller extends GetxController {
   void syncUserProfile(profileId) {
     ClientService.get(path: 'user-profile', id: profileId).then((value) {
       loggedInProfile.value = UserProfile.fromMap(value.data);
+      OfflineDBService.save(OfflineDBService.userProfile, value.data);
       Ref data = Ref.fromMap({
         '_id': loggedInProfile.value.id,
         'name': loggedInProfile.value.fullName

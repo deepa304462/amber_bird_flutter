@@ -26,56 +26,60 @@ class AllAddressPage extends StatelessWidget {
     return Obx(
       () {
         getAddressList();
-        return Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                IconButton(
-                  onPressed: () {
-                    Modular.to.navigate('../home/main');
-                    // Modular.to.pop();
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                ),
-                Text(
-                  'Address List',
-                  style: TextStyles.headingFont,
-                ),
-                TextButton.icon(
-                  onPressed: () {
-                    locationController.changeAddressData.value = Address();
-                    _displayDialog(context, locationController, 'ADD');
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Address'),
-                ),
-              ]),
-              Column(
+        return ListView(
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(
                 children: [
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: addressList.length,
-                    itemBuilder: (_, index) {
-                      var currentAddress = addressList[index];
-                      return addressCard(
-                        context,
-                        locationController,
-                        index,
-                        currentAddress,
-                        () {
-                          locationController.addressData.value = currentAddress;
-                          Modular.to.navigate('/home/cart');
-                          return {};
-                        },
-                      );
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
                     },
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                  Text(
+                    'Address List',
+                    style: TextStyles.headingFont,
                   ),
                 ],
               ),
-            ],
-          ),
+              TextButton.icon(
+                onPressed: () {
+                  locationController.changeAddressData.value = Address();
+                  _displayDialog(context, locationController, 'ADD');
+                },
+                icon: Icon(
+                  Icons.add,
+                  color: AppColors.primeColor,
+                ),
+                label: Text(
+                  'Add Address',
+                  style:
+                      TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
+                ),
+              ),
+            ]),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: addressList.length,
+              itemBuilder: (_, index) {
+                var currentAddress = addressList[index];
+                return addressCard(
+                  context,
+                  locationController,
+                  index,
+                  currentAddress,
+                  () {
+                    locationController.addressData.value = currentAddress;
+                    Modular.to.navigate('/home/cart');
+                    return {};
+                  },
+                );
+              },
+            ),
+          ],
         );
       },
     );

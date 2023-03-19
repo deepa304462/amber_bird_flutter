@@ -19,6 +19,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
+import 'like-button.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductSummary? product;
@@ -97,13 +98,8 @@ class ProductCard extends StatelessWidget {
         Obx(() {
           return Visibility(
             visible: checkFavVisibility(),
-            child: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: wishlistController.checkIfProductWishlist(product.id)
-                    ? AppColors.primeColor
-                    : const Color(0xFFA6A3A0),
-              ),
+            child: LikeButton(
+              isLiked: wishlistController.checkIfProductWishlist(product.id),
               onPressed: () async {
                 stateController.showLoader.value = true;
                 await wishlistController.addToWishlist(
@@ -172,7 +168,8 @@ class ProductCard extends StatelessWidget {
                         )
                       : const SizedBox(),
               checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT' || addedFrom == 'CATEGORY' ||
+                  ? (addedFrom == 'PRODUCT' ||
+                          addedFrom == 'CATEGORY' ||
                           addedFrom == 'BRAND')
                       ? Obx(() => Text(
                             "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",

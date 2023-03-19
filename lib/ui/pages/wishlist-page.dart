@@ -63,7 +63,7 @@ class WishListPage extends StatelessWidget {
             ),
             leading: MaterialButton(
                 onPressed: () {
-                  Modular.to.navigate('../home/main');
+                  Navigator.pop(context);
                 },
                 child: Row(
                   children: [

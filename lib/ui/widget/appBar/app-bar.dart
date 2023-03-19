@@ -62,7 +62,7 @@ class AppBarWidget extends StatelessWidget {
                           ),
                           onPressed: () {
                             if (stateController.isLogin.value) {
-                              Modular.to.navigate('/home/wishlist');
+                              Modular.to.pushNamed('/home/wishlist');
                             } else {
                               Modular.to.navigate('/home/login');
                             }
@@ -94,7 +94,7 @@ class AppBarWidget extends StatelessWidget {
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
                         // padding: EdgeInsets.all(0),
-                        onPressed: () => {Modular.to.navigate('/home/refer')},
+                        onPressed: () => {Modular.to.pushNamed('/home/refer')},
                         icon: const Icon(
                           Icons.share,
                         )),
@@ -103,44 +103,47 @@ class AppBarWidget extends StatelessWidget {
                     key: stateController.showKeyMap['coinWallet']!.key,
                     description: stateController.showKeyMap['coinWallet']!.desc,
                     title: stateController.showKeyMap['coinWallet']!.title,
-                    child: Stack(
-                      fit: StackFit.loose,
-                      children: [
-                        IconButton(
-                          // padding: EdgeInsets.all(0),
-                          onPressed: () {
-                            if (stateController.isLogin.value) {
-                              Modular.to.navigate('/home/coin-wallet');
-                            } else {
-                              Modular.to.navigate('/home/login');
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.layers,
+                    child: InkWell(
+                      onTap: () {
+                        if (stateController.isLogin.value) {
+                          Modular.to.pushNamed('/home/coin-wallet');
+                        } else {
+                          Modular.to.navigate('/home/login');
+                        }
+                      },
+                      child: Stack(
+                        fit: StackFit.loose,
+                        children: [
+                          IconButton(
+                            // padding: EdgeInsets.all(0),
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.layers,
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          top: 7,
-                          left: 4,
-                          child: Card(
-                            color: Colors.yellow[700],
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Obx(
-                                () => Text(
-                                    stateController.customerDetail.value
-                                                .personalInfo !=
-                                            null
-                                        ? stateController.customerDetail.value
-                                            .personalInfo!.scoins
-                                            .toString()
-                                        : '0',
-                                    style: TextStyles.bodySm),
+                          Positioned(
+                            top: 7,
+                            left: 4,
+                            child: Card(
+                              color: Colors.yellow[700],
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Obx(
+                                  () => Text(
+                                      stateController.customerDetail.value
+                                                  .personalInfo !=
+                                              null
+                                          ? stateController.customerDetail.value
+                                              .personalInfo!.scoins
+                                              .toString()
+                                          : '0',
+                                      style: TextStyles.bodySm),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

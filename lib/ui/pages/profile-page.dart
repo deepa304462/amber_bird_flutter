@@ -164,7 +164,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.navigate('../home/orders');
+                          Modular.to.pushNamed('../home/orders');
                         }),
                         child: Row(
                           children: [
@@ -181,7 +181,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.navigate('../home/wishlist');
+                          Modular.to.pushNamed('../home/wishlist');
                         }),
                         child: Row(
                           children: [

@@ -40,6 +40,7 @@ class IRadioBox extends StatelessWidget {
           ListView.builder(
             itemCount: inputList.length,
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(

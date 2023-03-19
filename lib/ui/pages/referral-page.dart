@@ -13,6 +13,25 @@ class ReferralPage extends StatelessWidget {
     ReferralController controller = Get.put(ReferralController());
     return Scaffold(
       appBar: AppBar(
+          leadingWidth: 100,
+          leading: MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.arrow_back,
+                    color: AppColors.grey,
+                  ),
+                  Text(
+                    'Back',
+                    style: TextStyles.bodyFont.copyWith(
+                      color: AppColors.grey,
+                    ),
+                  )
+                ],
+              )),
           elevation: 1,
           backgroundColor: Colors.white,
           title: Text(

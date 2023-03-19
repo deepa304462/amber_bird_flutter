@@ -26,19 +26,12 @@ class ITextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (keyName != 'mobile') {
-      return Container(
-        height: 55,
-        padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
-        decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.white)),
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
         child: TextField(
           style: TextStyles.title,
           decoration: InputDecoration(
-              border: InputBorder.none,
-              labelText: label,
-              labelStyle: TextStyles.headingFont),
+              labelText: label, labelStyle: TextStyles.headingFont),
           onChanged: ((textChanged) {
             // ipController.text = textChanged;
             callback(keyName, textChanged);

@@ -1012,7 +1012,7 @@ class CartWidget extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: (() =>
-                            {Modular.to.navigate('../home/address-list')}),
+                            {Modular.to.pushNamed('../home/address-list')}),
                         child: Row(
                           children: [
                             Text(
@@ -1197,8 +1197,11 @@ class CartWidget extends StatelessWidget {
                         ],
                       )
                     : const SizedBox(),
-                     cartController.calculatedPayment.value.totalAdditionalDiscountAmount != null &&
-                        cartController.calculatedPayment.value.totalAdditionalDiscountAmount !=
+                cartController.calculatedPayment.value
+                                .totalAdditionalDiscountAmount !=
+                            null &&
+                        cartController.calculatedPayment.value
+                                .totalAdditionalDiscountAmount !=
                             0.00
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1252,7 +1255,8 @@ class CartWidget extends StatelessWidget {
                         cartController
                                 .calculatedPayment.value.appliedTaxDetail !=
                             null &&
-                        cartController.calculatedPayment.value.appliedTaxDetail!.isNotEmpty)
+                        cartController.calculatedPayment.value.appliedTaxDetail!
+                            .isNotEmpty)
                     ? Container(
                         margin: const EdgeInsets.all(2.0),
                         padding: const EdgeInsets.all(3.0),

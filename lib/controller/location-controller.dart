@@ -4,6 +4,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/geo_address.dart';
 import 'package:amber_bird/data/order/address.dart';
+import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -30,6 +31,7 @@ class LocationController extends GetxController {
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
   late GoogleMapController mapController;
+  RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   LatLng latLng = const LatLng(0, 0);
   Rx<Marker> currentPin = const Marker(
@@ -38,8 +40,8 @@ class LocationController extends GetxController {
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
   @override
   void onInit() {
-    super.onInit();
     setLocation();
+    super.onInit();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -76,9 +78,9 @@ class LocationController extends GetxController {
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
-        pinCode.value = addressData.value.zipCode ??'0';
+        pinCode.value = addressData.value.zipCode ?? '0';
       } else {
-        addressData.value= Address();
+        addressData.value = Address();
         // getLocation();
       }
     } else {
@@ -86,15 +88,15 @@ class LocationController extends GetxController {
     }
   }
 
-   getLocation() async {
+  getLocation() async {
     // var locationExists =
     //     await OfflineDBService.checkBox(OfflineDBService.location);
     // if (locationExists) {
     //   var data = await OfflineDBService.get(OfflineDBService.location);
     //   address.value = data;
-      setAddressData(address.value);
-      pinCode.value = addressData.value.zipCode!;
-      if(pinCode.value.isNotEmpty){
+    setAddressData(address.value);
+    pinCode.value = addressData.value.zipCode!;
+    if (pinCode.value.isNotEmpty) {
       addressAvaiable.value = true;
     }
     // }
@@ -217,7 +219,8 @@ class LocationController extends GetxController {
         }
         var payload = cust.toMap();
         // log(payload.toString());
-        var userData = jsonDecode((await (SharedData.read('userData')) ?? '{}'));
+        var userData =
+            jsonDecode((await (SharedData.read('userData')) ?? '{}'));
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -271,7 +274,8 @@ class LocationController extends GetxController {
 
         var payload = cust.toMap();
         // log(payload.toString());
-        var userData = jsonDecode((await (SharedData.read('userData'))) ?? '{}');
+        var userData =
+            jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -339,11 +343,10 @@ class LocationController extends GetxController {
     changeAddressData.value.houseNo =
         findValueFromAddressFromGoogleData(addressFromGoogle, 'premise');
     changeAddressData.value.line1 = findValueFromAddressFromGoogleData(
-        addressFromGoogle, 'sublocality_level_2');
-    changeAddressData.value.line2 = findValueFromAddressFromGoogleData(
-        addressFromGoogle, 'sublocality_level_1');
-    changeAddressData.value.localArea = findValueFromAddressFromGoogleData(
-        addressFromGoogle, 'sublocality_level_1');
+            addressFromGoogle, 'sublocality_level_2') +
+        ', ' +
+        findValueFromAddressFromGoogleData(
+            addressFromGoogle, 'sublocality_level_1');
     changeAddressData.value.city =
         findValueFromAddressFromGoogleData(addressFromGoogle, 'locality') ??
             findValueFromAddressFromGoogleData(
@@ -357,5 +360,16 @@ class LocationController extends GetxController {
         addressFromGoogle['geometry']['location']['lng']
       ]
     });
+  }
+
+  Future<void> setInitialDataForNewAddress() async {
+    try {
+      var loggedInProfile = UserProfile.fromMap(
+          await OfflineDBService.get(OfflineDBService.userProfile));
+      changeAddressData.value.name = loggedInProfile.fullName;
+      changeAddressData.value.phoneNumber = loggedInProfile.mobile;
+      changeAddressData.value.zipCode = pinCode.value;
+      changeAddressData.refresh();
+    } catch (e) {}
   }
 }

@@ -7,6 +7,7 @@ class OfflineDBService {
   static String customerInsightDetail = 'customerInsightDetail';
   static String appManager = 'appManager';
   static String location = 'location';
+  static String userProfile = 'userPrfile';
 
   OfflineDBService._();
 
@@ -16,6 +17,7 @@ class OfflineDBService {
     await Hive.openBox(profileAuth);
     await Hive.openBox(appManager);
     await Hive.openBox(location);
+    await Hive.openBox(userProfile);
 
     await Hive.openBox(customerInsightDetail);
     print('Hive initiated');
