@@ -86,20 +86,20 @@ class LocationController extends GetxController {
     }
   }
 
-   getLocation() async {
-    // var locationExists =
-    //     await OfflineDBService.checkBox(OfflineDBService.location);
-    // if (locationExists) {
-    //   var data = await OfflineDBService.get(OfflineDBService.location);
-    //   address.value = data;
-      setAddressData(address.value);
-      pinCode.value = addressData.value.zipCode!;
-      if(pinCode.value.isNotEmpty){
-      addressAvaiable.value = true;
-    }
-    // }
-    // return locationExists;
-  }
+  //  getLocation() async {
+  //   // var locationExists =
+  //   //     await OfflineDBService.checkBox(OfflineDBService.location);
+  //   // if (locationExists) {
+  //   //   var data = await OfflineDBService.get(OfflineDBService.location);
+  //   //   address.value = data;
+  //     setAddressData(address.value);
+  //     pinCode.value = addressData.value.zipCode!;
+  //     if(pinCode.value.isNotEmpty){
+  //     addressAvaiable.value = true;
+  //   }
+  //   // }
+  //   // return locationExists;
+  // }
 
   locationReqest() {
     // initializeLocationAndSave();
@@ -198,8 +198,7 @@ class LocationController extends GetxController {
     if (data['geometry'] != null) {
       currentLatLang.value = LatLng(data['geometry']['location']['lat'],
           data['geometry']['location']['lng']);
-    }
-    // setAddressCall();
+    } 
   }
 
   setAddressCall() async {
@@ -250,6 +249,7 @@ class LocationController extends GetxController {
         if (response.statusCode == 200) {
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
+              setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
@@ -277,9 +277,10 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
-          getLocation();
+          // getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
+              setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
