@@ -201,7 +201,6 @@ class LocationController extends GetxController {
       currentLatLang.value = LatLng(data['geometry']['location']['lat'],
           data['geometry']['location']['lng']);
     }
-    // setAddressCall();
   }
 
   setAddressCall() async {
@@ -253,6 +252,7 @@ class LocationController extends GetxController {
         if (response.statusCode == 200) {
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
+          setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};
@@ -281,9 +281,10 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
-          getLocation();
+          // getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
+          setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
           return {"msg": "Something Went Wrong!!", "status": "error"};

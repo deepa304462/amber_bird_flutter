@@ -50,7 +50,7 @@ class SplashOfferPage extends StatelessWidget {
                               1 ==
                           onBoardingController.activePage.value) {
                     SharedData.save('true', 'onboardingDone');
-                    if (await locationController.getLocation()) {
+                    if (locationController.pinCode.value.isNotEmpty) {
                       Modular.to.navigate('/home/main');
                     } else {
                       Modular.to.navigate('/location');
@@ -83,7 +83,7 @@ class SplashOfferPage extends StatelessWidget {
                               .introImages!.length -
                           1,
                       duration: 700);
-                  if (await locationController.getLocation()) {
+                  if (locationController.pinCode.value.isNotEmpty) {
                     Modular.to.navigate('/home/main');
                   } else {
                     Modular.to.navigate('/location');
