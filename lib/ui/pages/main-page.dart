@@ -11,6 +11,8 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../widget/brand-horizontal-cart.dart';
+
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
 
@@ -53,6 +55,7 @@ class MainPage extends StatelessWidget {
             DealRow(dealName.SALES.name),
             DealRow(dealName.WEEKLY_DEAL.name),
             DealRow(dealName.SUPER_DEAL.name),
+            BrandHorizontalCard(),
             DealRow(dealName.ONLY_COIN_DEAL.name),
             DealRow(dealName.EXCLUSIVE_DEAL.name),
             ScoinProductRow(),

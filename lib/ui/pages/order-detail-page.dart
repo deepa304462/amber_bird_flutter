@@ -38,7 +38,7 @@ class OrderDetailPage extends StatelessWidget {
                   if (navigateTo == 'HOME') {
                     Modular.to.navigate('../home/main');
                   } else {
-                    Modular.to.navigate('../home/orders');
+                    Navigator.pop(context);
                   }
                 },
                 icon: const Icon(

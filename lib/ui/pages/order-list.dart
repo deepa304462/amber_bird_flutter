@@ -176,7 +176,7 @@ class OrderListPage extends StatelessWidget {
                             side: BorderSide(color: AppColors.primeColor)),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Modular.to.navigate('/home/order-detail',
+                          Modular.to.pushNamed('/home/order-detail',
                               arguments: {'id': curOrder.id});
                         },
                         elevation: 0,

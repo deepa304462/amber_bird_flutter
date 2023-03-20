@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
+import '../widget/ribbon-widget.dart';
 
 class BrandProductPage extends StatelessWidget {
   final String id;
@@ -31,30 +34,15 @@ class BrandProductPage extends StatelessWidget {
                 backgroundColor: AppColors.primeColor,
                 leading: IconButton(
                     onPressed: () {
-                      Modular.to.navigate('/home/brand');
+                      Navigator.pop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
                       color: Colors.white,
                     )),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ImageBox(
-                      '${controller.brand.value.logoId}',
-                      width: 30,
-                      fit: BoxFit.contain,
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      '${controller.brand.value.name}',
-                      style:
-                          TextStyles.bodyFontBold.copyWith(color: Colors.white),
-                    ),
-                  ],
+                title: Text(
+                  '${controller.brand.value.name}',
+                  style: TextStyles.bodyFontBold.copyWith(color: Colors.white),
                 ),
               ),
               body: productList(context)),
@@ -81,18 +69,63 @@ class BrandProductPage extends StatelessWidget {
   }
 
   productList(BuildContext context) {
-    return MasonryGridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 4,
-      crossAxisSpacing: 4,
-      padding: const EdgeInsets.all(4),
-      physics: const BouncingScrollPhysics(),
-      itemCount: controller.productList.length,
-      itemBuilder: (_, index) {
-        var product = controller.productList[index];
-        return ProductCard(
-            product, product.id, 'BRAND', product.varient!.price!, null, null);
-      },
+    return Column(
+      children: [
+        Container(
+          color: AppColors.off_red,
+          padding: const EdgeInsets.all(3),
+          child: Stack(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
+                child: Card(
+                  clipBehavior: Clip.hardEdge,
+                  child: Stack(
+                    children: [
+                      Lottie.asset('assets/profile-cover-background.json',
+                          width: MediaQuery.of(context).size.width,
+                          height: 100,
+                          fit: BoxFit.cover),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ImageBox(
+                              '${controller.brand.value.logoId}',
+                              width: 100,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              RibbonWidget(
+                text: 'Exclusive',
+              )
+            ],
+          ),
+        ),
+        Expanded(
+          child: MasonryGridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            padding: const EdgeInsets.all(4),
+            physics: const BouncingScrollPhysics(),
+            itemCount: controller.productList.length,
+            itemBuilder: (_, index) {
+              var product = controller.productList[index];
+              return ProductCard(product, product.id, 'BRAND',
+                  product.varient!.price!, null, null);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

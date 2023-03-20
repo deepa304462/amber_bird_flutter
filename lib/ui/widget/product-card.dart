@@ -50,7 +50,10 @@ class ProductCard extends StatelessWidget {
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: ImageBox(product.images![0]),
+                  child: ImageBox(
+                      product.images == null || product.images!.length == 0
+                          ? product.category!.logoId
+                          : product.images![0] ?? product.category!.logoId),
                 ),
               )
             : const SizedBox(

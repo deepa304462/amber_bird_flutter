@@ -27,7 +27,6 @@ class ProfilePage extends StatelessWidget {
         children: [
           profileCard(context, stateController.loggedInProfile.value,
               stateController.customerInsight.value),
-          PrivacyHelpTermsSection(),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Card(
@@ -46,6 +45,7 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           ),
+          PrivacyHelpTermsSection(),
         ],
       ),
     );

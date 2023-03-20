@@ -59,7 +59,7 @@ class ScoinProductRow extends StatelessWidget {
                         // megaMenuController.selectedParentTab.value =
                         //     currentdealName;
 
-                        stateController.setCurrentTab(2);
+                        stateController.setCurrentTab(1);
                       }),
 
                       // Text(

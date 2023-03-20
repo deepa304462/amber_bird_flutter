@@ -44,16 +44,15 @@ class ImageBox extends StatelessWidget {
       loadingBuilder: (context, progress) {
         return Shimmer.fromColors(
             // ignore: sort_child_properties_last
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              child: Container(
-                width: width,
-                height: height,
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: Card(
+                color: Colors.white,
               ),
             ),
-            baseColor: Colors.grey.shade100,
-            period: const Duration(milliseconds: 300),
+            baseColor: Colors.grey.shade300,
+            period: const Duration(milliseconds: 500),
             highlightColor: Colors.grey.shade300);
       },
     );

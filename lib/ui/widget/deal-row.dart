@@ -146,7 +146,7 @@ class DealRow extends StatelessWidget {
                               type: 'DEAL',
                               text: 'Custom deal'));
                         }
-                        stateController.setCurrentTab(2);
+                        stateController.setCurrentTab(1);
                       }),
 
                       // Text(

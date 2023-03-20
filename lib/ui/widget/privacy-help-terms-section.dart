@@ -29,6 +29,11 @@ class PrivacyHelpTermsSection extends StatelessWidget {
             'Get connect with our support team',
             () =>
                 {openWebPage('https://sbazar.store/contact-us.html', context)}),
+        Text('Accepted payment methods', style: TextStyles.bodyFont),
+        Image.asset(
+          'assets/payment-methods.png',
+          width: MediaQuery.of(context).size.width * .8,
+        )
       ],
     );
   }
