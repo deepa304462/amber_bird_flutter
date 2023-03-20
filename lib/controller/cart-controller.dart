@@ -82,7 +82,7 @@ class CartController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     var referredbyId = await SharedData.read('referredbyId');
-     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     var payload;
     if (selectedAdd != null && selectedAdd.name != null) {
       var resp = await ClientService.post(
@@ -598,6 +598,12 @@ class CartController extends GetxController {
           "paymentGateWayDetail": {
             "usedPaymentGateWay": selectedPaymentMethod.value,
           },
+          "appliedCouponCode": selectedCoupon.value.couponCode != null
+              ? {
+                  "name": selectedCoupon.value.couponCode,
+                  "_id": selectedCoupon.value.id
+                }
+              : null,
         },
       };
       resp = await ClientService.Put(
@@ -618,6 +624,12 @@ class CartController extends GetxController {
           "paymentGateWayDetail": {
             "usedPaymentGateWay": selectedPaymentMethod.value,
           },
+          "appliedCouponCode": selectedCoupon.value.couponCode != null
+              ? {
+                  "name": selectedCoupon.value.couponCode,
+                  "_id": selectedCoupon.value.id
+                }
+              : null,
         },
       };
       resp = await ClientService.post(path: 'order', payload: payload);

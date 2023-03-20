@@ -54,11 +54,9 @@ class AppBarWidget extends StatelessWidget {
                         title: stateController.showKeyMap['wishlist']!.title,
                         description:
                             stateController.showKeyMap['wishlist']!.desc,
-                        child: IconButton(
-                          // padding: EdgeInsets.all(0),
+                        child: IconButton( 
                           icon: const Icon(
-                            Icons.favorite,
-                            // color:  AppColors.black,
+                            Icons.favorite, 
                           ),
                           onPressed: () {
                             if (stateController.isLogin.value) {

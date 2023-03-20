@@ -105,270 +105,282 @@ class CartWidget extends StatelessWidget {
               : const SizedBox(),
         ),
       ),
-      body: Obx(() {
-        cartController.innerLists.clear();
-        cartController.innerLists.add(SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) => ListView(
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            children: [
-              shippingAddress(context),
-            ],
-          ),
-          childCount: 1,
-        )));
-        cartController.innerLists.add(SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) =>
-              productListWidget(context, cartController),
-          childCount: 1,
-        )));
-        cartController.innerLists.add(SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) =>
-              scoinPRoductList(context, cartController),
-          childCount: 1,
-        )));
-        cartController.innerLists.add(SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) =>
-              _saveLaterAndCheckoutOptions(context),
-          childCount: 1,
-        )));
-        cartController.clearCheckout();
-        return (cartController.cartProducts.isNotEmpty ||
-                cartController.cartProductsScoins.isNotEmpty)
-            ? CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: cartController.innerLists,
-              )
-            : Padding(
-                padding: const EdgeInsets.all(10),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Your Cart is Empty',
-                        style: TextStyles.bodyFont,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primeColor,
-                            textStyle: TextStyles.bodyWhite),
-                        onPressed: () {
-                          Modular.to.navigate('../home/main');
-                        },
-                        child: Text(
-                          'Add Products',
-                          style: TextStyles.bodyWhiteLarge,
-                        ),
-                      ),
-                      SaveLater()
-                    ],
-                  ),
+      body: Obx(
+        () {
+          cartController.innerLists.clear();
+          cartController.innerLists.add(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) => ListView(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    shippingAddress(context),
+                  ],
                 ),
-              );
-      }),
+                childCount: 1,
+              ),
+            ),
+          );
+          cartController.innerLists.add(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) =>
+                    productListWidget(context, cartController),
+                childCount: 1,
+              ),
+            ),
+          );
+          cartController.innerLists.add(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) =>
+                    scoinPRoductList(context, cartController),
+                childCount: 1,
+              ),
+            ),
+          );
+          cartController.innerLists.add(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) =>
+                    _saveLaterAndCheckoutOptions(context),
+                childCount: 1,
+              ),
+            ),
+          );
+          cartController.clearCheckout();
+          return (cartController.cartProducts.isNotEmpty ||
+                  cartController.cartProductsScoins.isNotEmpty)
+              ? CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: cartController.innerLists,
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Your Cart is Empty',
+                          style: TextStyles.bodyFont,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primeColor,
+                              textStyle: TextStyles.bodyWhite),
+                          onPressed: () {
+                            Modular.to.navigate('../home/main');
+                          },
+                          child: Text(
+                            'Add Products',
+                            style: TextStyles.bodyWhiteLarge,
+                          ),
+                        ),
+                        SaveLater()
+                      ],
+                    ),
+                  ),
+                );
+        },
+      ),
     );
   }
 
   scoinPRoductList(context, cartController) {
-    return Obx(() => ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: cartController.cartProductsScoins.length,
-          itemBuilder: (_, index) {
-            var currentKey =
-                cartController.cartProductsScoins.value.keys.elementAt(index);
-            return SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ListTile(
-                    dense: false,
-                    visualDensity: const VisualDensity(vertical: 3),
-                    leading: ImageBox(
-                      cartController.cartProductsScoins.value[currentKey]!
-                          .product!.images![0],
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.contain,
-                    ),
-                    title: FitText(
-                      cartController.cartProductsScoins.value[currentKey]!
-                          .product!.name!.defaultText!.text!,
-                      style: TextStyles.bodyFontBold,
-                      align: TextAlign.start,
-                    ),
-                    subtitle: Row(
-                      children: [
-                        Text(
-                            '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit}'),
-                        Text(
-                            '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
-                      ],
-                    ),
-                    trailing: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                Helper.getFormattedNumber(
-                                        Helper.getMemberCoinValue(
-                                                cartController
-                                                    .cartProductsScoins[
-                                                        currentKey]!
-                                                    .price!,
-                                                stateController
-                                                    .userType.value) *
-                                            cartController
-                                                .cartProductsScoins[currentKey]!
-                                                .count)
-                                    .toString(),
-                                style: TextStyles.titleLargeBold,
-                              ),
-                              Lottie.asset('assets/coin.json',
-                                  height: 25, fit: BoxFit.fill, repeat: true),
-                            ],
-                          ),
-                        ),
-                        Card(
-                          color: AppColors.primeColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                padding: const EdgeInsets.all(4),
-                                constraints: const BoxConstraints(),
-                                onPressed: () async {
-                                  stateController.showLoader.value = true;
-                                  if (stateController.isLogin.value) {
-                                    cartController.addToCartScoins(
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .ref!
-                                            .id,
-                                        'SCOIN',
-                                        -1,
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .price,
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .product,
-                                        null,
-                                        RuleConfig(),
-                                        Constraint(),
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .product
-                                            .varient);
-                                  } else {
-                                    stateController.setCurrentTab(4);
-                                    var showToast = snackBarClass.showToast(
-                                        context, 'Please Login to preoceed');
-                                  }
-                                  stateController.showLoader.value = false;
-                                },
-                                icon: const Icon(
-                                  Icons.remove_circle_outline,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                              Text(
-                                  cartController
-                                      .getCurrentQuantity(
-                                          '${cartController.cartProductsScoins[currentKey].ref!.id}',
-                                          'SCOIN')
-                                      .toString(),
-                                  style: TextStyles.bodyFontBold.copyWith(
-                                      fontSize: 20, color: Colors.white)),
-                              IconButton(
-                                padding: const EdgeInsets.all(4),
-                                constraints: const BoxConstraints(),
-                                onPressed: () async {
-                                  stateController.showLoader.value = true;
-                                  if (stateController.isLogin.value) {
-                                    var valid = false;
-                                    var msg = 'Something went wrong!';
-                                    cartController.addToCartScoins(
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .ref!
-                                            .id,
-                                        'SCOIN',
-                                        1,
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .price,
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .product,
-                                        null,
-                                        RuleConfig(),
-                                        Constraint(),
-                                        cartController
-                                            .cartProductsScoins[currentKey]
-                                            .product
-                                            .varient);
-                                  } else {
-                                    var showToast = snackBarClass.showToast(
-                                        context, 'Please Login');
-                                  }
-
-                                  stateController.showLoader.value = false;
-                                },
-                                icon: const Icon(
-                                  Icons.add_circle_outline,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+    return Obx(
+      () => ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: cartController.cartProductsScoins.length,
+        itemBuilder: (_, index) {
+          var currentKey =
+              cartController.cartProductsScoins.value.keys.elementAt(index);
+          return SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  dense: false,
+                  visualDensity: const VisualDensity(vertical: 3),
+                  leading: ImageBox(
+                    cartController.cartProductsScoins.value[currentKey]!
+                        .product!.images![0],
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.contain,
                   ),
-                  MaterialButton(
-                      onPressed: () async {
-                        stateController.showLoader.value = true;
-                        await cartController.removeProduct(currentKey, 'SCOIN');
-                        stateController.showLoader.value = false;
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.delete,
-                            size: 20,
-                            color: Colors.grey,
-                          ),
-                          Text(
-                            'Remove',
-                            style: TextStyles.body
-                                .copyWith(color: Colors.grey, fontSize: 16),
-                          )
-                        ],
-                      ))
-                ],
-              ),
-            );
-          },
-        ));
+                  title: FitText(
+                    cartController.cartProductsScoins.value[currentKey]!
+                        .product!.name!.defaultText!.text!,
+                    style: TextStyles.bodyFontBold,
+                    align: TextAlign.start,
+                  ),
+                  subtitle: Row(
+                    children: [
+                      Text(
+                          '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit}'),
+                      Text(
+                          '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
+                    ],
+                  ),
+                  trailing: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              Helper.getFormattedNumber(
+                                      Helper.getMemberCoinValue(
+                                              cartController
+                                                  .cartProductsScoins[
+                                                      currentKey]!
+                                                  .price!,
+                                              stateController.userType.value) *
+                                          cartController
+                                              .cartProductsScoins[currentKey]!
+                                              .count)
+                                  .toString(),
+                              style: TextStyles.titleLargeBold,
+                            ),
+                            Lottie.asset('assets/coin.json',
+                                height: 25, fit: BoxFit.fill, repeat: true),
+                          ],
+                        ),
+                      ),
+                      Card(
+                        color: AppColors.primeColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              padding: const EdgeInsets.all(4),
+                              constraints: const BoxConstraints(),
+                              onPressed: () async {
+                                stateController.showLoader.value = true;
+                                if (stateController.isLogin.value) {
+                                  cartController.addToCartScoins(
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .ref!
+                                          .id,
+                                      'SCOIN',
+                                      -1,
+                                      cartController
+                                          .cartProductsScoins[currentKey].price,
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .product,
+                                      null,
+                                      RuleConfig(),
+                                      Constraint(),
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .product
+                                          .varient);
+                                } else {
+                                  stateController.setCurrentTab(4);
+                                  var showToast = snackBarClass.showToast(
+                                      context, 'Please Login to preoceed');
+                                }
+                                stateController.showLoader.value = false;
+                              },
+                              icon: const Icon(
+                                Icons.remove_circle_outline,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                            Text(
+                                cartController
+                                    .getCurrentQuantity(
+                                        '${cartController.cartProductsScoins[currentKey].ref!.id}',
+                                        'SCOIN')
+                                    .toString(),
+                                style: TextStyles.bodyFontBold.copyWith(
+                                    fontSize: 20, color: Colors.white)),
+                            IconButton(
+                              padding: const EdgeInsets.all(4),
+                              constraints: const BoxConstraints(),
+                              onPressed: () async {
+                                stateController.showLoader.value = true;
+                                if (stateController.isLogin.value) {
+                                  cartController.addToCartScoins(
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .ref!
+                                          .id,
+                                      'SCOIN',
+                                      1,
+                                      cartController
+                                          .cartProductsScoins[currentKey].price,
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .product,
+                                      null,
+                                      RuleConfig(),
+                                      Constraint(),
+                                      cartController
+                                          .cartProductsScoins[currentKey]
+                                          .product
+                                          .varient);
+                                } else {
+                                  snackBarClass.showToast(
+                                      context, 'Please Login');
+                                }
+
+                                stateController.showLoader.value = false;
+                              },
+                              icon: const Icon(
+                                Icons.add_circle_outline,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                MaterialButton(
+                  onPressed: () async {
+                    stateController.showLoader.value = true;
+                    await cartController.removeProduct(currentKey, 'SCOIN');
+                    stateController.showLoader.value = false;
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.delete,
+                        size: 20,
+                        color: Colors.grey,
+                      ),
+                      Text(
+                        'Remove',
+                        style: TextStyles.body
+                            .copyWith(color: Colors.grey, fontSize: 16),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   productListWidget(context, cartController) {
@@ -420,8 +432,8 @@ class CartWidget extends StatelessWidget {
                                             .products![pIndex];
                                         return ListTile(
                                             dense: false,
-                                            visualDensity:
-                                                VisualDensity(vertical: 3),
+                                            visualDensity: const VisualDensity(
+                                                vertical: 3),
                                             leading: ImageBox(
                                               '${currentProduct.images![0]}',
                                               width: 80,
@@ -506,7 +518,6 @@ class CartWidget extends StatelessWidget {
                                                       valid = !data['error'];
                                                       msg = data['msg'];
                                                     }
-
                                                     if (valid) {
                                                       await cartController.addToCart(
                                                           '${cartController.cartProducts[currentKey]!.ref!.id}',
@@ -615,7 +626,6 @@ class CartWidget extends StatelessWidget {
                                                       valid = !data['error'];
                                                       msg = data['msg'];
                                                     }
-
                                                     if (valid) {
                                                       await cartController.addToCart(
                                                           '${cartController.cartProducts[currentKey]!.ref!.id}',
@@ -781,10 +791,9 @@ class CartWidget extends StatelessWidget {
                                               } else {
                                                 stateController
                                                     .setCurrentTab(3);
-                                                var showToast =
-                                                    snackBarClass.showToast(
-                                                        context,
-                                                        'Please Login to preoceed');
+
+                                                snackBarClass.showToast(context,
+                                                    'Please Login to preoceed');
                                               }
                                               stateController.showLoader.value =
                                                   false;
@@ -879,8 +888,8 @@ class CartWidget extends StatelessWidget {
                                                           .product
                                                           .varient);
                                                 } else {
-                                                  var showToast = snackBarClass
-                                                      .showToast(context, msg);
+                                                  snackBarClass.showToast(
+                                                      context, msg);
                                                 }
                                               }
                                               stateController.showLoader.value =
@@ -994,81 +1003,83 @@ class CartWidget extends StatelessWidget {
     LocationController locationController = Get.find();
     log(locationController.addressData.toString());
     var add = locationController.addressData;
-    return Obx(() => Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Shipping Address',
-                        style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
+    return Obx(
+      () => Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Shipping Address',
+                      style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
+                    ),
+                    MaterialButton(
+                      onPressed: (() =>
+                          {Modular.to.navigate('../home/address-list')}),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Edit',
+                            style: TextStyles.bodyFont.copyWith(
+                                color: AppColors.primeColor, fontSize: 20),
+                          ),
+                          Icon(
+                            Icons.edit,
+                            color: AppColors.primeColor,
+                            size: 20,
+                          ),
+                        ],
                       ),
-                      MaterialButton(
-                        onPressed: (() =>
-                            {Modular.to.pushNamed('../home/address-list')}),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Edit',
-                              style: TextStyles.bodyFont.copyWith(
-                                  color: AppColors.primeColor, fontSize: 20),
-                            ),
-                            Icon(
-                              Icons.edit,
-                              color: AppColors.primeColor,
-                              size: 20,
-                            ),
-                          ],
+                    )
+                  ],
+                ),
+                Card(
+                  color: Colors.grey.shade300,
+                  elevation: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.pin_drop,
+                          color: Colors.grey,
                         ),
-                      )
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(add.value.name ?? '',
+                              style: TextStyles.bodyFont),
+                          Row(
+                            children: [
+                              Text('(ZipCode: ${add.value.zipCode ?? ''})',
+                                  style: TextStyles.bodyFont.copyWith()),
+                              const SizedBox(
+                                width: 2,
+                              ),
+                              Text(add.value.line1 ?? '',
+                                  style: TextStyles.bodyFont),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  Card(
-                    color: Colors.grey.shade300,
-                    elevation: 0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.pin_drop,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(add.value.name ?? '',
-                                style: TextStyles.bodyFont),
-                            Row(
-                              children: [
-                                Text('(ZipCode: ${add.value.zipCode ?? ''})',
-                                    style: TextStyles.bodyFont.copyWith()),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                Text(add.value.line1 ?? '',
-                                    style: TextStyles.bodyFont),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   cartButtons(context, cartController, currentKey) {
@@ -1079,21 +1090,22 @@ class CartWidget extends StatelessWidget {
         //     icon: Icon(Icons.flash_on),
         //     label: Text(' "Buy it now"')),
         TextButton.icon(
-            onPressed: () async {
-              stateController.showLoader.value = true;
-              await cartController.createSaveLater(
-                  cartController.cartProducts[currentKey], currentKey);
-              stateController.showLoader.value = false;
-            },
-            icon: const Icon(
-              Icons.bookmark_add_outlined,
-              size: 20,
-              color: Colors.grey,
-            ),
-            label: Text(
-              "Save for later",
-              style: TextStyles.body.copyWith(color: Colors.grey, fontSize: 16),
-            ))
+          onPressed: () async {
+            stateController.showLoader.value = true;
+            await cartController.createSaveLater(
+                cartController.cartProducts[currentKey], currentKey);
+            stateController.showLoader.value = false;
+          },
+          icon: const Icon(
+            Icons.bookmark_add_outlined,
+            size: 20,
+            color: Colors.grey,
+          ),
+          label: Text(
+            "Save for later",
+            style: TextStyles.body.copyWith(color: Colors.grey, fontSize: 16),
+          ),
+        )
       ],
     );
   }
@@ -1138,47 +1150,7 @@ class CartWidget extends StatelessWidget {
                   'Order Summary',
                   style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
                 ),
-                cartController.calculatedPayment.value.totalAmount != null &&
-                        cartController.calculatedPayment.value.totalAmount > 0
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total ',
-                            style: TextStyles.bodyFont,
-                          ),
-                          Text(
-                            CodeHelp.euro +
-                                (cartController.calculatedPayment.value
-                                        .totalAmount as double)
-                                    .toStringAsFixed(2)
-                                    .toString(),
-                            style: TextStyles.bodyFontBold,
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
-                cartController.calculatedPayment.value.totalSCoinsPaid !=
-                            null &&
-                        cartController
-                                .calculatedPayment.value.totalSCoinsPaid !=
-                            0
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total coins',
-                            style: TextStyles.bodyFont,
-                          ),
-                          Text(
-                            (cartController.calculatedPayment.value
-                                    .totalSCoinsPaid as int)
-                                .toString(),
-                            style: TextStyles.bodyFontBold,
-                          ),
-                        ],
-                      )
-                    : const SizedBox(),
+               
 
                 cartController.calculatedPayment.value.discountAmount != null &&
                         cartController.calculatedPayment.value.discountAmount !=
@@ -1216,8 +1188,7 @@ class CartWidget extends StatelessWidget {
                           ),
                         ],
                       )
-                    : const SizedBox(),
-
+                    : const SizedBox(), 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1236,8 +1207,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.bodyFontBold,
                           ),
                   ],
-                ),
-
+                ), 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1286,7 +1256,51 @@ class CartWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-                Row(
+               
+                
+                 cartController.calculatedPayment.value.totalAmount != null &&
+                        cartController.calculatedPayment.value.totalAmount > 0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total ',
+                            style: TextStyles.headingFontBlue ,
+                          ),
+                          Text(
+                            CodeHelp.euro +
+                                (cartController.calculatedPayment.value
+                                        .totalAmount as double)
+                                    .toStringAsFixed(2)
+                                    .toString(),
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+                cartController.calculatedPayment.value.totalSCoinsPaid !=
+                            null &&
+                        cartController
+                                .calculatedPayment.value.totalSCoinsPaid !=
+                            0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Total coins',
+                            style: TextStyles.bodyFont,
+                          ),
+                          Text(
+                            (cartController.calculatedPayment.value
+                                    .totalSCoinsPaid as int)
+                                .toString(),
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+
+                     Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
@@ -1311,47 +1325,12 @@ class CartWidget extends StatelessWidget {
                         : const SizedBox(),
                   ],
                 ),
-                // cartController.checkoutData.value != null &&
-                //         cartController.checkoutData.value!.allAvailable == true
-                //     ? Column(
-                //         children: [
-                //           Center(
-                //             child: ElevatedButton(
-                //               onPressed: () async {
-                //                 await cartController.checkout();
-                //                 checkoutClicked.value = true;
-                //                 var data = await cartController.createPayment();
-                //                 if (data['error']) {
-                //                   // ignore: use_build_context_synchronously
-                //                   snackBarClass.showToast(context, data['msg']);
-                //                 } else {
-                //                   Modular.to.navigate('/home/inapp',
-                //                       arguments: data['data']);
-                //                 }
-                //               },
-                //               child: Text(
-                //                 'Payment',
-                //                 style: TextStyles.bodyFont,
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       )
-                //     : checkoutClicked.value
-                //         ? Column(
-                //             children: [
-                //               Center(
-                //                 child: Text("Product Not Availale",
-                //                     style: TextStyles.headingFontBlue),
-                //               ),
-                //             ],
-                //           )
-                //         : const SizedBox()
+              
               ],
             );
           }),
         ),
-        Divider(),
+        const Divider(),
         SaveLater(),
       ],
     );
