@@ -70,7 +70,7 @@ class HomePage extends StatelessWidget {
   RxString showCaseData = 'false'.obs;
 
   getShowCaseVal(BuildContext context) async {
-    showCaseData.value = await SharedData.read('showCaseDone');
+    showCaseData.value = await SharedData.read('showCaseDone') ?? '';
     if (showCaseData.value != 'true') {
       WidgetsBinding.instance.addPostFrameCallback((_) =>
           ShowCaseWidget.of(context).startShowCase(

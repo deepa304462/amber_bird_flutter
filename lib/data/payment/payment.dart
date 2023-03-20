@@ -109,7 +109,7 @@ class Payment {
         'metaData': metaData?.toMap(),
         'paidBy': paidBy?.toMap(),
         'order': order?.toMap(),
-        'appliedCouponCode': appliedCouponCode,
+        'appliedCouponCode': appliedCouponCode?.toMap(),
         'discountAmount': discountAmount,
         'totalSavedAmount': totalSavedAmount,
         'totalAmount': totalAmount,
