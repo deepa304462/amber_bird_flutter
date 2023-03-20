@@ -224,7 +224,7 @@ class CartWidget extends StatelessWidget {
                   subtitle: Row(
                     children: [
                       Text(
-                          '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit}'),
+                          '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit)}'),
                       Text(
                           '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
                     ],
@@ -447,7 +447,7 @@ class CartWidget extends StatelessWidget {
                                               align: TextAlign.start,
                                             ),
                                             subtitle: Text(
-                                                '${currentProduct.varient!.weight.toString()} ${currentProduct!.varient!.unit}'));
+                                                '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}'));
                                       },
                                     ),
                                   ),
@@ -739,7 +739,7 @@ class CartWidget extends StatelessWidget {
                                 subtitle: Row(
                                   children: [
                                     Text(
-                                        '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.cartProducts.value[currentKey]!.product!.varient!.unit}'),
+                                        '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProducts.value[currentKey]!.product!.varient!.unit)}'),
                                     Text(
                                         '/${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts.value[currentKey]!.price!.offerPrice!)} '),
                                   ],
@@ -1053,24 +1053,18 @@ class CartWidget extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(add.value.name ?? '',
-                              style: TextStyles.bodyFont),
-                          Row(
-                            children: [
-                              Text('(ZipCode: ${add.value.zipCode ?? ''})',
-                                  style: TextStyles.bodyFont.copyWith()),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              Text(add.value.line1 ?? '',
-                                  style: TextStyles.bodyFont),
-                            ],
-                          ),
-                        ],
-                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FitText(add.value.name ?? '',
+                                style: TextStyles.bodyFont),
+                            FitText(
+                                '(ZipCode: ${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                style: TextStyles.bodyFont.copyWith()),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -1150,7 +1144,6 @@ class CartWidget extends StatelessWidget {
                   'Order Summary',
                   style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
                 ),
-               
 
                 cartController.calculatedPayment.value.discountAmount != null &&
                         cartController.calculatedPayment.value.discountAmount !=
@@ -1188,7 +1181,7 @@ class CartWidget extends StatelessWidget {
                           ),
                         ],
                       )
-                    : const SizedBox(), 
+                    : const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1207,7 +1200,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.bodyFontBold,
                           ),
                   ],
-                ), 
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1256,16 +1249,15 @@ class CartWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-               
-                
-                 cartController.calculatedPayment.value.totalAmount != null &&
+
+                cartController.calculatedPayment.value.totalAmount != null &&
                         cartController.calculatedPayment.value.totalAmount > 0
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Total ',
-                            style: TextStyles.headingFontBlue ,
+                            style: TextStyles.headingFontBlue,
                           ),
                           Text(
                             CodeHelp.euro +
@@ -1300,7 +1292,7 @@ class CartWidget extends StatelessWidget {
                       )
                     : const SizedBox(),
 
-                     Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
@@ -1325,7 +1317,6 @@ class CartWidget extends StatelessWidget {
                         : const SizedBox(),
                   ],
                 ),
-              
               ],
             );
           }),

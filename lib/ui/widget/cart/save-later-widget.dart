@@ -99,7 +99,7 @@ class SaveLater extends StatelessWidget {
                                           align: TextAlign.start,
                                         ),
                                         subtitle: Text(
-                                            '${currentProduct.varient!.weight.toString()} ${currentProduct!.varient!.unit}'));
+                                            '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}'));
                                   },
                                 ),
                               ),
@@ -199,7 +199,7 @@ class SaveLater extends StatelessWidget {
                           subtitle: Row(
                             children: [
                               Text(
-                                  '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit}'),
+                                  '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit)}'),
                               Text(
                                   '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}'),
                             ],

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,6 +41,12 @@ class CountryPickerDropdown extends StatelessWidget {
       () => dropdownItems.isNotEmpty
           ? DropdownButton(
               value: dropdownvalue.value,
+              dropdownColor: AppColors.white,
+                underline: Container(
+                height: 3,
+                color: Colors.transparent, //<-- SEE HERE
+              ),
+              style: TextStyles.title.copyWith(color: AppColors.white),
               icon: const Icon(Icons.keyboard_arrow_down),
               items: dropdownItems.map((items) {
                 return DropdownMenuItem(

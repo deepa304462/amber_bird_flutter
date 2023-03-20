@@ -29,9 +29,19 @@ class ITextBox extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          style: TextStyles.title,
+          style: TextStyles.title.copyWith(color: AppColors.white),
+
           decoration: InputDecoration(
-              labelText: label, labelStyle: TextStyles.headingFont),
+              labelText: label,
+              // border: OutlineInputBorder(),
+               enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),  
+              labelStyle:
+                  TextStyles.headingFont.copyWith(color: AppColors.white)),
           onChanged: ((textChanged) {
             // ipController.text = textChanged;
             callback(keyName, textChanged);
@@ -49,13 +59,15 @@ class ITextBox extends StatelessWidget {
         height: 55,
         padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
         decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: AppColors.white)),
+          color: Colors.transparent,
+          // borderRadius: BorderRadius.circular(5),
+          // border: Border.all(color: AppColors.white)
+        ),
         child: Row(
           children: <Widget>[
             SizedBox(
               width: 60,
+              height: 80,
               child: CountryPickerDropdown(
                 value.split('-').length > 1
                     ? value.split('-')[0]
@@ -70,11 +82,19 @@ class ITextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
-                style: TextStyles.title,
+                style: TextStyles.title.copyWith(color: AppColors.white),
+                // style: TextStyles.title,
                 maxLength: 15,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    labelStyle: TextStyles.headingFont,
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),  
+                    labelStyle:
+                        TextStyles.headingFont.copyWith(color: AppColors.white),
                     labelText: label,
                     counterText: ""),
                 obscureText: isPassword,

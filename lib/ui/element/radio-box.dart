@@ -29,14 +29,16 @@ class IRadioBox extends StatelessWidget {
       // height: 55,
       padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
       decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: AppColors.white)),
+          color: Colors.transparent 
+          ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(label),
+          Text(
+            label,
+            style: TextStyles.headingFont.copyWith(color: AppColors.white),
+          ),
           ListView.builder(
             itemCount: inputList.length,
             shrinkWrap: true,
@@ -44,7 +46,9 @@ class IRadioBox extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(inputList[index]),
+                title: Text(inputList[index],
+                    style: TextStyles.title
+                        .copyWith(color: AppColors.white)),
                 leading: Radio(
                   value: inputList[index],
                   groupValue: value,

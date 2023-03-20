@@ -35,8 +35,9 @@ class LocationDialog extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
           child: Obx(
-            () => Column(
-              children: [
+            () => Container(
+              color: AppColors.primeColor,
+              child: 
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class LocationDialog extends StatelessWidget {
                       child: Text(
                         '${CodeHelp.titleCase(type)} Address',
                         style: TextStyles.bodyWhiteLarge
-                            .copyWith(color: AppColors.primeColor),
+                            .copyWith(color: AppColors.white),
                       ),
                     ),
                     const SizedBox(
@@ -68,7 +69,7 @@ class LocationDialog extends StatelessWidget {
                         'Click here for address autofill',
                         textAlign: TextAlign.left,
                         style: TextStyles.titleLarge
-                            .copyWith(color: AppColors.primeColor),
+                            .copyWith(color: Colors.blue),
                       ),
                     ),
                     ITextBox(
@@ -208,7 +209,7 @@ class LocationDialog extends StatelessWidget {
                             width: 10,
                           ),
                           MaterialButton(
-                            color: AppColors.primeColor,
+                            color: AppColors.white,
                             onPressed: () async {
                               isLoading.value = true;
                               locationController.addressData.value =
@@ -287,7 +288,7 @@ class LocationDialog extends StatelessWidget {
                             },
                             child: Text(
                               isLoading.value ? "Loading" : 'Submit',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: AppColors.primeColor),
                             ),
                           ),
                         ],
@@ -295,7 +296,7 @@ class LocationDialog extends StatelessWidget {
                     )
                   ],
                 ),
-              ],
+              
             ),
           ),
         ),
