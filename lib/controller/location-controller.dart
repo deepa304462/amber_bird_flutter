@@ -54,18 +54,20 @@ class LocationController extends GetxController {
         '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=en';
     var response = await dio.get(url);
     if (response.statusCode == 200) {
-      dynamic southwest =
-          response.data['results'][0]['geometry']['bounds']['southwest'];
-      dynamic northeast =
-          response.data['results'][0]['geometry']['bounds']['northeast'];
-      mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
-          LatLngBounds(
-              southwest: LatLng(southwest['lat'], southwest['lng']),
-              northeast: LatLng(northeast['lat'], northeast['lng'])),
-          1));
-      dynamic centerLocation =
-          response.data['results'][0]['geometry']['location'];
-      checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
+      if (response.data['results'].length > 0) {
+        dynamic southwest =
+            response.data['results'][0]['geometry']['bounds']['southwest'];
+        dynamic northeast =
+            response.data['results'][0]['geometry']['bounds']['northeast'];
+        mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
+            LatLngBounds(
+                southwest: LatLng(southwest['lat'], southwest['lng']),
+                northeast: LatLng(northeast['lat'], northeast['lng'])),
+            1));
+        dynamic centerLocation =
+            response.data['results'][0]['geometry']['location'];
+        checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
+      }
     }
   }
 

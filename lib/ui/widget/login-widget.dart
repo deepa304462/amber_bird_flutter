@@ -37,7 +37,7 @@ class LoginWidget extends StatelessWidget {
                   ),
                   Text(
                     'Glad to see You!',
-                    style: TextStyles.headingFont,
+                    style: TextStyles.headingFont.copyWith(color: AppColors.white),
                   ),
                   SizedBox(
                     height: 20,
@@ -81,7 +81,8 @@ class LoginWidget extends StatelessWidget {
                       },
                       child: Text(
                         'Forgot Password ?',
-                        style: TextStyles.headingFont,
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.white),
                       ),
                     ),
                   ),

@@ -70,15 +70,21 @@ class EditProfilePage extends StatelessWidget {
                       imageCallback,
                       isLoadingCallback),
                 ),
-                ITextBox(
-                    'Full Name',
-                    'fullName',
-                    stateController.loggedInProfile.value.fullName.toString(),
-                    false,
-                    TextInputType.text,
-                    false,
-                    false,
-                    callback),
+                Container(
+                  decoration: BoxDecoration(
+                      color: AppColors.primeColor,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: AppColors.primeColor)),
+                  child: ITextBox(
+                      'Full Name',
+                      'fullName',
+                      stateController.loggedInProfile.value.fullName.toString(),
+                      false,
+                      TextInputType.text,
+                      false,
+                      false,
+                      callback),
+                ),
                 const SizedBox(
                   height: 10,
                 ),

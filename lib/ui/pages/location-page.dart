@@ -56,19 +56,26 @@ class LocationPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            ITextBox(
-                                'Pin Code',
-                                'pinCode',
-                                locationController.pinCode.value != null
-                                    ? locationController.pinCode.value
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.number,
-                                false,
-                                false, (key, value) {
-                              locationController.pinCode.value = value;
-                            }),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: AppColors.primeColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border:
+                                      Border.all(color: AppColors.primeColor)),
+                              child: ITextBox(
+                                  'Pin Code',
+                                  'pinCode',
+                                  locationController.pinCode.value != null
+                                      ? locationController.pinCode.value
+                                          .toString()
+                                      : '',
+                                  false,
+                                  TextInputType.number,
+                                  false,
+                                  false, (key, value) {
+                                locationController.pinCode.value = value;
+                              }),
+                            ),
                             // ITextBox(
                             //     'Pincode',
                             //     'pinCode',
@@ -97,7 +104,8 @@ class LocationPage extends StatelessWidget {
                                   : AppColors.primeColor,
                               child: Text(
                                 'Okay',
-                                style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                                style: TextStyles.headingFont
+                                    .copyWith(color: AppColors.white),
                               ),
                             ),
                             locationController.currentLatLang.value.latitude !=
@@ -122,7 +130,8 @@ class LocationPage extends StatelessWidget {
                       title: ListTile(
                         title: Text(
                           'Save & Continue',
-                          style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                          style: TextStyles.headingFont
+                              .copyWith(color: AppColors.white),
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
@@ -234,7 +243,8 @@ class LocationPage extends StatelessWidget {
           children: [
             Text(
               'Your area according to pincode',
-              style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+              style:
+                  TextStyles.headingFont.copyWith(color: AppColors.primeColor),
             ),
             locationController.addressData.value.line1 != null
                 ? Text(
