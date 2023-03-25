@@ -13,7 +13,7 @@ class ViewMoreWidget extends StatelessWidget {
         children: [
           Text(
             'View more',
-            style: TextStyles.titleXLargePrimary.copyWith(fontSize: 20),
+            style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
           ),
           Icon(
             Icons.arrow_forward_ios_rounded,

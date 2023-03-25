@@ -31,7 +31,7 @@ class LocationTextBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           border: Border.all(color: AppColors.primeColor)),
       child: TextField(
-        style: TextStyles.title,
+        style: TextStyles.titleFont,
         decoration: InputDecoration(
           border: InputBorder.none,
           labelText: label,

@@ -99,10 +99,10 @@ class AllAddressPage extends StatelessWidget {
           child: ListTile(
             title: Text(
               address.name!,
-              style: TextStyles.titleLargeBold,
+              style: TextStyles.headingFont,
             ),
             subtitle: FitText(
-              '${address.line1!} ${address.line2!} ${address.zipCode}',
+              '${address.line1!} ${address.zipCode}',
               style: TextStyles.bodyFont,
             ),
             trailing: IconButton(

@@ -8,9 +8,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
-// import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/ui/widget/view-more-widget.dart';
-// import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,8 +44,8 @@ class ScoinProductRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Member Special Deals",
-                        style: TextStyles.titleLargeSemiBold,
+                        "Redeem with scoin",
+                        style: TextStyles.headingFont,
                       ),
                       ViewMoreWidget(onTap: () {
                         MegaMenuController megaMenuController;
@@ -56,16 +54,8 @@ class ScoinProductRow extends StatelessWidget {
                         } else {
                           megaMenuController = Get.put(MegaMenuController());
                         }
-                        // megaMenuController.selectedParentTab.value =
-                        //     currentdealName;
-
                         stateController.setCurrentTab(1);
                       }),
-
-                      // Text(
-                      //   'View More',
-                      //   style: TextStyles.headingFontBlue,
-                      // ),
                     ],
                   ),
                 ),

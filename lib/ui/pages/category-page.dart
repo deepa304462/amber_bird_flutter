@@ -93,9 +93,10 @@ class CategoryPage extends StatelessWidget {
                                                   .selectedParentTab.value ==
                                               megaMenuController
                                                   .mainTabs[index].id)
-                                          ? TextStyles.headingFontGray.copyWith(
+                                          ? TextStyles.headingFont.copyWith(
                                               color: AppColors.primeColor)
-                                          : TextStyles.headingFontGray,
+                                          : TextStyles.headingFont.copyWith(
+                                              color: AppColors.grey),
                                     ),
                                   ))
                             ],
@@ -143,8 +144,8 @@ class CategoryPage extends StatelessWidget {
                                                 .selectedSubMenu.value ==
                                             megaMenuController
                                                 .subMenuList[index].id)
-                                        ? TextStyles.titleGreen
-                                        : TextStyles.title),
+                                        ? TextStyles.titleFont.copyWith(color: AppColors.green)
+                                        : TextStyles.titleFont),
                               ),
                             ),
                             const SizedBox(width: 5),
@@ -453,10 +454,10 @@ class CategoryPage extends StatelessWidget {
                                                 } else {
                                                   stateController
                                                       .setCurrentTab(3);
-                                                // ignore: use_build_context_synchronously
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please Login to preoceed');
+                                                  // ignore: use_build_context_synchronously
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Please Login to preoceed');
                                                 }
                                                 stateController
                                                     .showLoader.value = false;
@@ -472,8 +473,7 @@ class CategoryPage extends StatelessWidget {
                                                   .getCurrentQuantity(
                                                       mProduct.id, '')
                                                   .toString(),
-                                              style: TextStyles.bodyWhiteBold
-                                                  .copyWith(fontSize: 20),
+                                              style: TextStyles.titleFont ,
                                             ),
                                             IconButton(
                                               padding: const EdgeInsets.all(8),
@@ -525,7 +525,7 @@ class CategoryPage extends StatelessWidget {
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
-                                                          // ignore: use_build_context_synchronously
+                                                    // ignore: use_build_context_synchronously
                                                     snackBarClass.showToast(
                                                         context, msg);
                                                   }
@@ -558,7 +558,7 @@ class CategoryPage extends StatelessWidget {
                                                               .getUserIsActive();
                                                       if (isCheckedActivate) {
                                                         // if (stateController.isActivate.value) {
-                                                         cartController.addToCart(
+                                                        cartController.addToCart(
                                                             mProduct.id!,
                                                             megaMenuController
                                                                 .selectedParentTab
@@ -572,7 +572,7 @@ class CategoryPage extends StatelessWidget {
                                                             null);
                                                       } else {
                                                         // Navigator.of(context).pop();
-                                                          // ignore: use_build_context_synchronously
+                                                        // ignore: use_build_context_synchronously
                                                         snackBarClass.showToast(
                                                             context,
                                                             'Your profile is not active yet');

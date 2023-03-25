@@ -49,7 +49,7 @@ class BrandPage extends StatelessWidget {
               ),
               Text(
                 '${brand.name}',
-                style: TextStyles.bodyFont,
+                style: TextStyles.body,
                 textAlign: TextAlign.center,
               ),
             ],

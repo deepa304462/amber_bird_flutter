@@ -60,7 +60,7 @@ class DealBottomDrawer extends StatelessWidget {
                     children: [
                       Text(
                         '${name!.defaultText!.text}',
-                        style: TextStyles.headingFontGray,
+                        style: TextStyles.headingFont.copyWith(color: AppColors.grey),
                       ),
                       IconButton(
                         icon: const Icon(Icons.close_rounded),
@@ -121,7 +121,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               Text(
                                                 '${product.category!.name!.defaultText!.text}',
                                                 style:
-                                                    TextStyles.subHeadingFont,
+                                                    TextStyles.titleFont,
                                               ),
                                             ],
                                           ),
@@ -366,7 +366,8 @@ class DealBottomDrawer extends StatelessWidget {
                               : ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.primeColor,
-                                      textStyle: TextStyles.bodyWhite),
+                                      textStyle: TextStyles.body
+                                          .copyWith(color: AppColors.white)),
                                   onPressed: stateController.isLogin.value
                                       ? () async {
                                           stateController.showLoader.value =
@@ -451,10 +452,11 @@ class DealBottomDrawer extends StatelessWidget {
                                               'Please Login to preoceed');
                                         },
                                   child: Text("Add to cart",
-                                      style: TextStyles.addTocartText),
+                                      style: TextStyles.headingFont
+                                          .copyWith(color: AppColors.white)),
                                 ),
                         ],
-                         ),
+                      ),
                     ),
                   ),
                 ),

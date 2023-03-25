@@ -42,7 +42,7 @@ class ProductGuideChapter extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           chapter.label!.defaultText!.text!,
-                          style: TextStyles.titleLight,
+                          style: TextStyles.body,
                         ),
                       ),
                     )

@@ -41,10 +41,7 @@ class CategoryRow extends StatelessWidget {
                                 text: megaMenuController
                                     .catList[index].name!.defaultText!.text,
                                 type: 'CAT'));
-
-                            // megaMenuController.selectedSubCatergory.value =
-                            //     'all';
-                            // megaMenuController.getProductList();
+ 
                             myController.setCurrentTab(1);
                           },
                           child: ImageBox(

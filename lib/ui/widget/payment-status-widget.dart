@@ -86,14 +86,14 @@ class PaymentStatusWidget extends StatelessWidget {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.darkOrange,
-                      textStyle: TextStyles.bodyWhite),
+                      textStyle: TextStyles.body.copyWith(color: AppColors.white)),
                   onPressed: () async {
                     Modular.to.navigate('/home/order-detail',
                         arguments: {'id': id, 'navigateTo': 'HOME'});
                   },
                   child: Text(
                     "Check Order",
-                    style: TextStyles.bodyWhite,
+                    style: TextStyles.body.copyWith(color: AppColors.white),
                   ),
                 ),
 

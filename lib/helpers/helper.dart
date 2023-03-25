@@ -10,7 +10,7 @@ import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
- 
+
 import 'controller-generator.dart';
 
 class Helper {
@@ -105,7 +105,7 @@ class Helper {
   }
 
   static Future<Ref> getCustomerRef() async {
-    var data = jsonDecode((await SharedData.read('userData' )) ?? '{}');
+    var data = jsonDecode((await SharedData.read('userData')) ?? '{}');
     print(data);
     return Ref.fromMap(
         {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});
@@ -120,7 +120,7 @@ class Helper {
           CustomerInsight.fromJson(jsonEncode(insight));
 
       if (ruleConfig.forWeekDays!.length > 0) {
-        DateTime date = DateTime.now(); 
+        DateTime date = DateTime.now();
         if (!ruleConfig.forWeekDays!.contains(date.weekday)) {
           return ({'error': true, 'msg': 'Deal is not applicable today'});
         }

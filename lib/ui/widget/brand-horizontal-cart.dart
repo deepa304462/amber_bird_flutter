@@ -30,7 +30,7 @@ class BrandHorizontalCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: Text(
                     "Find your favourite brand",
-                    style: TextStyles.titleLargeSemiBold,
+                    style: TextStyles.headingFont,
                   ),
                 ),
                 SizedBox(
@@ -71,7 +71,7 @@ class BrandHorizontalCard extends StatelessWidget {
             ),
             Text(
               '${brand.name}',
-              style: TextStyles.bodyFont,
+              style: TextStyles.body,
             )
           ],
         ),

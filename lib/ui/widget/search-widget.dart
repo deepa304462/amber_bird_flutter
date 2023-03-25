@@ -51,7 +51,7 @@ class SearchWidget extends StatelessWidget {
                   ),
                 ),
                 labelText: "Search for products",
-                labelStyle: TextStyles.bodyFont,
+                labelStyle: TextStyles.titleFont,
                 // contentPadding: const EdgeInsets.all(2.0),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -128,7 +128,7 @@ class CustomSearchDelegate extends SearchDelegate {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Text(
               'Popular searches: ',
-              style: TextStyles.titleGreen,
+              style: TextStyles.titleFont.copyWith(color: AppColors.green),
             ),
           ),
           PopularSearchWidget(context, searchController),

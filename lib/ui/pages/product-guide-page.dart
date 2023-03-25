@@ -55,7 +55,7 @@ class ProductGuidePage extends StatelessWidget {
                             child: Text(
                               productGuidePageController.productGuide.value
                                   .subject!.defaultText!.text!,
-                              style: TextStyles.titleXLargePrimaryBold,
+                              style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
                             ),
                           ),
                         ),
@@ -81,7 +81,7 @@ class ProductGuidePage extends StatelessWidget {
                                   child: Text(
                                     productGuidePageController.productGuide
                                         .value.description!.defaultText!.text!,
-                                    style: TextStyles.title,
+                                    style: TextStyles.titleFont,
                                     textAlign: TextAlign.justify,
                                   ),
                                 ),

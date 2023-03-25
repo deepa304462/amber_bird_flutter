@@ -125,7 +125,8 @@ class ResetPasswordWidget extends StatelessWidget {
                                   AppColors.primeColor)),
                           child: Text(
                             !isLoading.value ? 'Update Password' : 'Loading',
-                            style: TextStyles.bodyWhiteLarge,
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.white),
                           ),
                         )
                       ],

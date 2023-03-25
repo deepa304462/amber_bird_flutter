@@ -39,7 +39,7 @@ class GoogleAddressSuggest extends StatelessWidget {
                         _textController.clear();
                         controller.addressSuggestions.clear();
                       },
-                      child: Icon(Icons.clear))),
+                      child: const Icon(Icons.clear))),
               controller: _textController,
               onChanged: (String changedText) {
                 controller.search(
@@ -47,27 +47,32 @@ class GoogleAddressSuggest extends StatelessWidget {
               },
             ),
             Expanded(
-                child: Obx(() => ListView(
-                      shrinkWrap: true,
-                      children: controller.addressSuggestions
-                          .map((element) => TextButton(
-                              onPressed: () {
-                                locationController
-                                    .updateCustomerAddress(element);
-                                Modular.to.pop(element);
-                              },
-                              style:
-                                  ButtonStyle(alignment: Alignment.centerLeft),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '${element['formatted_address']}',
-                                  style: TextStyles.bodyFont,
-                                  textAlign: TextAlign.right,
-                                ),
-                              )))
-                          .toList(),
-                    )))
+              child: Obx(
+                () => ListView(
+                  shrinkWrap: true,
+                  children: controller.addressSuggestions
+                      .map(
+                        (element) => TextButton(
+                          onPressed: () {
+                            locationController.updateCustomerAddress(element);
+                            Modular.to.pop(element);
+                          },
+                          style: const ButtonStyle(
+                              alignment: Alignment.centerLeft),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '${element['formatted_address']}',
+                              style: TextStyles.bodyFont,
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            )
           ],
         ),
       ),

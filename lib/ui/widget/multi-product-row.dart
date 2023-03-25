@@ -46,7 +46,7 @@ class MultiProductRow extends StatelessWidget {
                 children: [
                   Text(
                     multiprodController.getProductName(currenttypeName),
-                    style: TextStyles.titleLargeBold,
+                    style: TextStyles.headingFont,
                   ),
                   ViewMoreWidget(onTap: () {
                     MegaMenuController megaMenuController;
@@ -91,10 +91,10 @@ class MultiProductRow extends StatelessWidget {
   Widget twoProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 340,
+      height: 310,
       child: Obx(
         () => Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 2),
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
@@ -130,7 +130,7 @@ class MultiProductRow extends StatelessWidget {
                               i < mProduct.products!.length;
                               i++) ...[
                             SizedBox(
-                              width: 150,
+                              width: 120,
                               child: ProductCard(
                                   mProduct.products![i],
                                   mProduct.products![i].id,
@@ -161,10 +161,7 @@ class MultiProductRow extends StatelessWidget {
                               mProduct.name!.defaultText!.text ?? '',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 25,
-                                  color: Colors.grey),
+                              style: TextStyles.titleFont.copyWith(color: AppColors.grey.withBlue(200)),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * .6,
@@ -260,8 +257,8 @@ class MultiProductRow extends StatelessWidget {
                 children: [
                   Text(
                     '${multiProd.name!.defaultText!.text}',
-                    style: TextStyles.bodyFont
-                        .copyWith(fontSize: 20, color: Colors.grey),
+                    style: TextStyles.body
+                        .copyWith( color: Colors.grey),
                     textAlign: TextAlign.left,
                   ),
                 ],
@@ -349,7 +346,7 @@ class MultiProductRow extends StatelessWidget {
                           cartController
                               .getCurrentQuantity(multiProd.id, '')
                               .toString(),
-                          style: TextStyles.bodyWhite.copyWith(fontSize: 20),
+                          style: TextStyles.body.copyWith(color: AppColors.white),
                         ),
                         IconButton(
                           padding: const EdgeInsets.all(8),
@@ -382,7 +379,7 @@ class MultiProductRow extends StatelessWidget {
                               }
                             } else {
                               stateController.setCurrentTab(3);
-                              var showToast = snackBarClass.showToast(
+                               snackBarClass.showToast(
                                   context, 'Please Login to preoceed');
                             }
                           },

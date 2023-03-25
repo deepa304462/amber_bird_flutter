@@ -65,39 +65,39 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _gridItemHeader(ProductSummary product) {
-    String timeLeft = '';
-    var difference;
-    if (addedFrom == dealName.FLASH.name) {
-      String expire = ruleConfig!.willExpireAt ?? '';
-      var newDate = DateTime.now().toUtc();
-      difference = DateTime.parse(expire).difference(newDate);
-    }
+    // String timeLeft = '';
+    // var difference;
+    // if (addedFrom == dealName.FLASH.name) {
+    //   String expire = ruleConfig!.willExpireAt ?? '';
+    //   var newDate = DateTime.now().toUtc();
+    //   difference = DateTime.parse(expire).difference(newDate);
+    // }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        addedFrom == dealName.FLASH.name
-            ? CardColorAnimated(
-                Padding(
-                  padding: const EdgeInsets.only(
-                      right: 5, top: 1, bottom: 1, left: 2),
-                  child: Text(
-                    difference.inHours != null
-                        ? '${difference.inHours}H left'
-                        : '${difference.inMinutes}M left',
-                    style:
-                        TextStyles.bodyFontBold.copyWith(color: Colors.white),
-                  ),
-                ),
-                Colors.red,
-                Colors.indigo,
-                const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(12),
-                    bottomRight: Radius.circular(12),
-                  ),
-                ),
-              )
-            : const SizedBox(),
+        // addedFrom == dealName.FLASH.name
+        //     ? CardColorAnimated(
+        //         Padding(
+        //           padding: const EdgeInsets.only(
+        //               right: 5, top: 1, bottom: 1, left: 2),
+        //           child: Text(
+        //             difference.inHours != null
+        //                 ? '${difference.inHours}H left'
+        //                 : '${difference.inMinutes}M left',
+        //             style:
+        //                 TextStyles.bodyFontBold.copyWith(color: Colors.white),
+        //           ),
+        //         ),
+        //         Colors.red,
+        //         Colors.indigo,
+        //         const RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.only(
+        //             topRight: Radius.circular(12),
+        //             bottomRight: Radius.circular(12),
+        //           ),
+        //         ),
+        //       )
+        //     : const SizedBox(),
         Obx(() {
           return Visibility(
             visible: checkFavVisibility(),
@@ -131,8 +131,7 @@ class ProductCard extends StatelessWidget {
             product.name!.defaultText!.text ?? '',
             overflow:
                 this.fixedHeight ? TextOverflow.ellipsis : TextOverflow.visible,
-            style: const TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+            style:TextStyles.body
           ),
           addedFrom == 'MULTIPRODUCT'
               ? Text(
@@ -151,8 +150,7 @@ class ProductCard extends StatelessWidget {
                         Text('${product.varient!.weight}'),
                         Text(
                           '${CodeHelp.formatUnit(product.varient!.unit)}',
-                          style:
-                              const TextStyle(color: Colors.blue, fontSize: 12),
+                           style:TextStyles.body.copyWith(color: Colors.blue),
                         )
                       ],
                     )
@@ -164,8 +162,8 @@ class ProductCard extends StatelessWidget {
                             Text('${product.varients![0].weight}'),
                             Text(
                               '${CodeHelp.formatUnit(product.varients![0].unit)}',
-                              style: const TextStyle(
-                                  color: Colors.blue, fontSize: 12),
+                              style: TextStyles.body
+                                  .copyWith(color: Colors.blue),
                             )
                           ],
                         )
@@ -176,7 +174,7 @@ class ProductCard extends StatelessWidget {
                           addedFrom == 'BRAND')
                       ? Obx(() => Text(
                             "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
-                            style: TextStyles.titleLargeBold,
+                            style: TextStyles.headingFont,
                           ))
                       : PriceTag(dealPrice!.offerPrice!.toString(),
                           dealPrice!.actualPrice!.toString())
@@ -281,7 +279,7 @@ class ProductCard extends StatelessWidget {
                                     '')
                                 .toString(),
                             style:
-                                TextStyles.bodyWhiteBold.copyWith(fontSize: 20),
+                                TextStyles.headingFont.copyWith(color: AppColors.white),
                           ),
                           IconButton(
                             padding: const EdgeInsets.all(8),
@@ -427,7 +425,7 @@ class ProductCard extends StatelessWidget {
                               },
                         icon: const Icon(
                           Icons.add,
-                          size: 25,
+                          size: 20,
                           color: Colors.white,
                         ),
                       ),

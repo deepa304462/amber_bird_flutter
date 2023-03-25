@@ -28,7 +28,7 @@ class SaveLater extends StatelessWidget {
               children: [
                 Text(
                   'Saved Products',
-                  style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
+                  style: TextStyles.headingFont,
                 ),
                 saveLaterData(context, cartController),
               ],
@@ -62,7 +62,7 @@ class SaveLater extends StatelessWidget {
                                 child: const Divider()),
                             FitText(
                               '${cartController.saveLaterProducts.value[currentKey]!.name}',
-                              style: TextStyles.titleLarge
+                              style: TextStyles.headingFont
                                   .copyWith(color: AppColors.primeColor),
                             ),
                             const Expanded(child: Divider()),
@@ -95,21 +95,22 @@ class SaveLater extends StatelessWidget {
                                         title: FitText(
                                           currentProduct
                                               .name!.defaultText!.text!,
-                                          style: TextStyles.bodyFontBold,
+                                          style: TextStyles.headingFont,
                                           align: TextAlign.start,
                                         ),
                                         subtitle: Text(
-                                            '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}'));
+                                          '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}',
+                                          style: TextStyles.body,
+                                        ));
                                   },
                                 ),
                               ),
-                               ],
+                            ],
                           ),
                           Row(
                             children: [
-                               saveLaterButtons(
+                              saveLaterButtons(
                                   context, cartController, currentKey),
-                               
                             ],
                           )
                         ],
@@ -193,15 +194,16 @@ class SaveLater extends StatelessWidget {
                           title: FitText(
                             cartController.saveLaterProducts.value[currentKey]!
                                 .product!.name!.defaultText!.text!,
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                             align: TextAlign.start,
                           ),
                           subtitle: Row(
                             children: [
                               Text(
-                                  '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit)}'),
+                                  '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit)}',
+                                  style: TextStyles.body),
                               Text(
-                                  '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}'),
+                                  '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}',style: TextStyles.body,),
                             ],
                           ),
                         ),
@@ -229,16 +231,26 @@ class SaveLater extends StatelessWidget {
               await cartController.addTocartSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: const Icon(Icons.flash_on),
-            label: const Text('Add to cart')),
+            icon: const Icon(Icons.flash_on,
+              size: 16,
+            ),
+            label: Text(
+              'Add to cart',
+              style: TextStyles.body,
+            )),
         TextButton.icon(
             onPressed: () async {
               stateController.showLoader.value = true;
               await cartController.removeSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: const Icon(Icons.outbox),
-            label: const Text("Delete"))
+            icon: const Icon(Icons.outbox,
+              size: 16,
+            ),
+            label: Text(
+              "Delete",
+              style: TextStyles.body,
+            ))
       ],
     );
   }

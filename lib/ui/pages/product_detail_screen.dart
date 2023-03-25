@@ -130,7 +130,7 @@ class ProductDetailScreen extends StatelessWidget {
                                   productController.product.value.name!
                                           .defaultText!.text ??
                                       '',
-                                  style: TextStyles.titleXLargePrimaryBold,
+                                  style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
                                 ),
                                 const SizedBox(height: 4),
                                 productVarientView(
@@ -164,7 +164,7 @@ class ProductDetailScreen extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primeColor,
-                          textStyle: TextStyles.bodyWhite),
+                          textStyle: TextStyles.body.copyWith(color: AppColors.white)),
                       onPressed: productController
                                   .product.value.varients![0].currentStock >
                               0
@@ -180,7 +180,7 @@ class ProductDetailScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     "${CodeHelp.euro}${productController.varient.value.price!.actualPrice!.toString()}",
-                                    style: TextStyles.titleLargeBold,
+                                    style: TextStyles.headingFont,
                                   )
                                   //  PriceTag(
                                   //             productController
@@ -218,10 +218,10 @@ class ProductDetailScreen extends StatelessWidget {
                                           CrossAxisAlignment.end,
                                       children: [
                                         IconButton(
-                                          padding: const EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
-                                             stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
                                               cartController.addToCart(
@@ -243,35 +243,37 @@ class ProductDetailScreen extends StatelessWidget {
                                                       context,
                                                       'Please login to proceed');
                                             }
-                                             stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 false;
                                             // cController.addToCart(p, refId!, addedFrom!, -1);
                                           },
                                           icon: const Icon(
                                               Icons.remove_circle_outline,
-                                              size: 30,
+                                              size: 25,
                                               color: Colors.white),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 6),
-                                          child: FitText(
+                                              horizontal: 8),
+                                          child: Text(
                                             cartController
                                                 .getCurrentQuantity(
                                                     '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                     '')
                                                 .toString(),
-                                            style: TextStyles.bodyWhiteLarge
+                                            style: TextStyles.titleFont
+                                                .copyWith(
+                                                    color: AppColors.white)
                                                 .copyWith(
                                                     fontWeight:
                                                         FontWeight.bold),
                                           ),
                                         ),
                                         IconButton(
-                                          padding: const EdgeInsets.all(4),
+                                          padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
                                           onPressed: () {
-                                             stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
                                               cartController.addToCart(
@@ -291,20 +293,20 @@ class ProductDetailScreen extends StatelessWidget {
                                               snackBarClass.showToast(context,
                                                   'Please Login to preoceed');
                                             }
-                                             stateController.showLoader.value =
+                                            stateController.showLoader.value =
                                                 false;
                                             // cController.addToCart(p, refId!, addedFrom!, 1);
                                           },
                                           icon: const Icon(
                                               Icons.add_circle_outline,
-                                              size: 30,
+                                              size: 25,
                                               color: Colors.white),
                                         ),
                                       ],
                                     )
                                   : TextButton(
                                       onPressed: () async {
-                                         stateController.showLoader.value = true;
+                                        stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
                                           bool isCheckedActivate =
                                               await stateController
@@ -334,10 +336,12 @@ class ProductDetailScreen extends StatelessWidget {
                                               snackBarClass.showToast(context,
                                                   'Please Login to preoceed');
                                         }
-                                         stateController.showLoader.value = false;
+                                        stateController.showLoader.value =
+                                            false;
                                       },
                                       child: Text("Add to cart",
-                                          style: TextStyles.addTocartText),
+                                          style: TextStyles.titleFont.copyWith(
+                                              color: AppColors.white)),
                                     );
                             })
                           ],
@@ -361,14 +365,14 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
-          style: TextStyles.titleLarge,
+          style: TextStyles.titleFont,
         ),
         const SizedBox(
           height: 5,
         ),
         Text(
           'Free shipping over ${CodeHelp.euro}10',
-          style: TextStyles.title,
+          style: TextStyles.titleFont,
         ),
         const Text(
           'Policy Details',
@@ -414,7 +418,7 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           'Sold by Sbazar GmBH',
-          style: TextStyles.headingFontGray,
+          style: TextStyles.headingFont.copyWith(color: AppColors.grey),
         ),
         const SizedBox(
           height: 5,
@@ -434,7 +438,7 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           "Specification",
-          style: TextStyles.bodyPrimaryLarge,
+          style: TextStyles.titleFont..copyWith(color: AppColors.primeColor),
         ),
         const SizedBox(height: 10),
         Padding(
@@ -524,7 +528,7 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           'Tags:',
-          style: TextStyles.bodyPrimaryLarge,
+          style: TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * .7,

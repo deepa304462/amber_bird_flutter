@@ -26,8 +26,8 @@ class AddAddress extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Edit address',
-                style: TextStyles.titleXLargePrimary
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: TextStyles.headingFont
+                    .copyWith(color: AppColors.primeColor),
               ),
               LocationTextBox(
                   'Name',
@@ -108,7 +108,7 @@ class AddAddress extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       "Close",
-                      style: TextStyles.titleWhite,
+                      style: TextStyles.titleFont.copyWith(color: AppColors.white),
                     ),
                   ),
                   const SizedBox(
@@ -127,8 +127,8 @@ class AddAddress extends StatelessWidget {
                     color: AppColors.primeColor,
                     child: Text(
                       "Save",
-                      style: TextStyles.titleWhite
-                          .copyWith(fontWeight: FontWeight.bold),
+                      style: TextStyles.headingFont
+                          .copyWith(color: AppColors.white),
                     ),
                   ),
                 ],

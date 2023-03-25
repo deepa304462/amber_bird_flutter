@@ -62,13 +62,14 @@ class _MyAppState extends State<InApp> {
           // log(url.toString());
           if (url.toString() ==
               'https://prod.sbazar.app/order/${cartController.orderId.value}') {
-            var inAppReviewDone = await SharedData.read('inAppReviewDone') ?? '';
-            if ( inAppReviewDone != 'true') {
+            var inAppReviewDone =
+                await SharedData.read('inAppReviewDone') ?? '';
+            if (inAppReviewDone != 'true') {
               final InAppReview inAppReview = InAppReview.instance;
 
               if (await inAppReview.isAvailable()) {
                 inAppReview.requestReview();
-                  SharedData.save(true.toString(), 'inAppReviewDone');
+                SharedData.save(true.toString(), 'inAppReviewDone');
               }
             }
             Modular.to.navigate(

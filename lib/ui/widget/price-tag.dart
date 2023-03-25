@@ -21,21 +21,19 @@ class PriceTag extends StatelessWidget {
             children: [
               Text(
                 "${CodeHelp.euro}${num.parse(showPrice).toStringAsFixed(2)}",
-                style: TextStyles.titleLargeBold,
+                style: TextStyles.headingFont,
               ),
               const SizedBox(width: 3),
               Visibility(
                 visible: realPrice != '' ? true : false,
                 child: Text(
-                  "${num.parse(realPrice).toStringAsFixed(2)}",
+                  num.parse(realPrice).toStringAsFixed(2),
                   textHeightBehavior:
-                      TextHeightBehavior(applyHeightToFirstAscent: true),
-                  style: const TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    fontSize: 18,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
+                      const TextHeightBehavior(applyHeightToFirstAscent: true),
+                  style: TextStyles.titleFont.copyWith(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey
+                    )
                 ),
               ),
             ],
@@ -47,7 +45,7 @@ class PriceTag extends StatelessWidget {
       children: [
         Text(
           '${scoin}',
-          style: TextStyles.titleLargeBold,
+          style: TextStyles.headingFont,
         ),
         Lottie.asset('assets/coin.json',
             height: 50, fit: BoxFit.fill, repeat: true),

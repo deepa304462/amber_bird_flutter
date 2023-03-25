@@ -32,11 +32,12 @@ class LoginWidget extends StatelessWidget {
                 children: [
                   Text(
                     'Welcome',
-                    style: TextStyles.bodyWhiteLargeBold,
+                    style:
+                        TextStyles.headingFont.copyWith(color: AppColors.white),
                   ),
                   Text(
                     'Glad to see You!',
-                    style: TextStyles.bodyWhiteLarge,
+                    style: TextStyles.headingFont,
                   ),
                   SizedBox(
                     height: 20,
@@ -80,7 +81,7 @@ class LoginWidget extends StatelessWidget {
                       },
                       child: Text(
                         'Forgot Password ?',
-                        style: TextStyles.bodyWhiteBold,
+                        style: TextStyles.headingFont,
                       ),
                     ),
                   ),
@@ -128,7 +129,7 @@ class LoginWidget extends StatelessWidget {
                     ),
                     Text(
                       "Or Login with",
-                      style: TextStyles.bodyWhite,
+                      style: TextStyles.body.copyWith(color: AppColors.white),
                     ),
                     Expanded(
                       child: Container(
@@ -211,12 +212,13 @@ class LoginWidget extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                      style: TextStyles.bodyWhiteTitle2,
+                      style: TextStyles.body.copyWith(color: AppColors.white),
                       children: <TextSpan>[
                         const TextSpan(text: "Don't have an account? "),
                         TextSpan(
                             text: 'Sign up',
-                            style: TextStyles.title2Green,
+                            style: TextStyles.body
+                                .copyWith(color: AppColors.secondaryColor),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 authController.resetFieldValue();

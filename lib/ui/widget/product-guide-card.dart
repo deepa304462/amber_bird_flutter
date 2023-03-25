@@ -41,7 +41,7 @@ class ProductGuideCard extends StatelessWidget {
                     children: [
                       Text(
                         guide.subject!.defaultText!.text!,
-                        style: TextStyles.titleXLargeWhite,
+                        style: TextStyles.headingFont.copyWith(color: AppColors.white),
                       )
                     ],
                   ),

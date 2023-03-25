@@ -90,8 +90,8 @@ class CoinWalletPage extends StatelessWidget {
                                     coinWallet.value.totalActiveCoins
                                             .toString() ??
                                         '',
-                                    style: TextStyles.titleXLarge.copyWith(
-                                        color: Colors.white, fontSize: 40),
+                                    style: TextStyles.titleFont.copyWith(
+                                        color: Colors.white),
                                   )
                                 ])
                           : const SizedBox(),
@@ -168,10 +168,10 @@ class CoinWalletPage extends StatelessWidget {
               ]),
               Row(
                 children: [
-                  Text('Scoins: '),
+                  const Text('Scoins: '),
                   Text(
                     '${curTransaction.amount!}',
-                    style: TextStyles.headingFontBlue,
+                    style: TextStyles.headingFont.copyWith(color: Colors.blue),
                   ),
                 ],
               )

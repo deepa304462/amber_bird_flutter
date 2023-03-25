@@ -36,7 +36,7 @@ class ReferralPage extends StatelessWidget {
           backgroundColor: Colors.white,
           title: Text(
             'Share & Earn Rewards',
-            style: TextStyles.titleLargeBold,
+            style: TextStyles.headingFont,
           )),
       body: ListView(
         physics: const BouncingScrollPhysics(),
@@ -57,15 +57,13 @@ class ReferralPage extends StatelessWidget {
                         children: [
                           Text(
                             'Get ${CodeHelp.euro}9 for user you refer',
-                            style: TextStyles.bodyPrimaryLarge.copyWith(
-                                fontWeight: FontWeight.w900,
+                            style: TextStyles.headingFont.copyWith( 
                                 color: AppColors.primeColor),
                           ),
                           Text(
                             'Share following link with your friends & family',
                             textAlign: TextAlign.center,
-                            style: TextStyles.bodyPrimaryLarge.copyWith(
-                                fontWeight: FontWeight.normal,
+                            style: TextStyles.headingFont.copyWith( 
                                 color: Colors.grey),
                           ),
                           Card(
@@ -105,8 +103,8 @@ class ReferralPage extends StatelessWidget {
                                   ),
                                   Text(
                                     'Share',
-                                    style: TextStyles.titleXLargeWhite
-                                        .copyWith(fontWeight: FontWeight.bold),
+                                    style: TextStyles.headingFont
+                                        .copyWith(color:AppColors.white),
                                   ),
                                 ],
                               ),
@@ -130,7 +128,7 @@ class ReferralPage extends StatelessWidget {
           children: [
             Text(
               'Terms & Conditions',
-              style: TextStyles.bodyPrimaryLarge,
+              style: TextStyles.headingFont,
             ),
             Text(
               '1. When your friend purchase something then you will get ${CodeHelp.euro}9 to your sbazar user account.',

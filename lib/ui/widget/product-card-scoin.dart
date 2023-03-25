@@ -247,7 +247,7 @@ class ProductCardScoin extends StatelessWidget {
                                       'SCOIN')
                                   .toString(),
                               style:
-                                  TextStyles.bodyWhite.copyWith(fontSize: 20),
+                                  TextStyles.headingFont.copyWith(color: AppColors.white),
                             ),
                             IconButton(
                               padding: const EdgeInsets.all(8),
@@ -375,7 +375,7 @@ class ProductCardScoin extends StatelessWidget {
                                 },
                           icon: const Icon(
                             Icons.add,
-                            size: 25,
+                            size: 20,
                             color: Colors.white,
                           ),
                         ),

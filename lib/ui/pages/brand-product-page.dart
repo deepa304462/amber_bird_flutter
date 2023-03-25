@@ -59,7 +59,7 @@ class BrandProductPage extends StatelessWidget {
       ),
       title: Text(
         brand.value.name!,
-        style: TextStyles.titleLargeBold,
+        style: TextStyles.headingFont,
       ),
       subtitle: Text(
         brand.value.description!.defaultText!.text!,

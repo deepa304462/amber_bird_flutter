@@ -18,7 +18,7 @@ class ForgotPassDrawer extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               'Forgot Password',
-              style: TextStyles.titleXLargeGreen,
+              style: TextStyles.titleFont.copyWith(color: AppColors.green),
             ),
             const SizedBox(height: 20),
             ITextBox('Email', 'email', '', false, TextInputType.emailAddress,
@@ -47,7 +47,7 @@ class ForgotPassDrawer extends StatelessWidget {
                       MaterialStateProperty.all<Color>(AppColors.primeColor)),
               child: Text(
                 !isLoading.value ? 'Forgot Password' : 'Loading',
-                style: TextStyles.bodyWhiteLarge,
+                style: TextStyles.titleFont.copyWith(color: AppColors.white),
               ),
             )
           ],

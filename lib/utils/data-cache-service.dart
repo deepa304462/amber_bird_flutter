@@ -23,7 +23,7 @@ class SharedData {
   static Future<dynamic> read(String key) async {
     final prefs = await SharedPreferences.getInstance();
     final value = prefs.getString(key);
-    return value ;
+    return value;
   }
 
   static Future<double> readDouble(String key) async {

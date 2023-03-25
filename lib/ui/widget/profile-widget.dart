@@ -40,7 +40,7 @@ class EditProfilePage extends StatelessWidget {
           },
           child: Text(
             !isLoading.value ? 'Save Profile' : 'Loading',
-            style: TextStyles.bodyWhiteLarge,
+            style: TextStyles.body.copyWith(color: AppColors.white),
           ),
         ),
         body: SingleChildScrollView(

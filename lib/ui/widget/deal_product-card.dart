@@ -23,7 +23,7 @@ class DealProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 2),
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: con.dealProd.length,

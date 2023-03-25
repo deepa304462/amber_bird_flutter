@@ -29,17 +29,17 @@ class ITextBox extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          style: TextStyles.title.copyWith(color: AppColors.white),
+          style: TextStyles.titleFont.copyWith(color: AppColors.white),
 
           decoration: InputDecoration(
               labelText: label,
               // border: OutlineInputBorder(),
-               enabledBorder: UnderlineInputBorder(
+              enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
-              ),  
+              ),
               labelStyle:
                   TextStyles.headingFont.copyWith(color: AppColors.white)),
           onChanged: ((textChanged) {
@@ -82,7 +82,7 @@ class ITextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
-                style: TextStyles.title.copyWith(color: AppColors.white),
+                style: TextStyles.titleFont.copyWith(color: AppColors.white),
                 // style: TextStyles.title,
                 maxLength: 15,
                 decoration: InputDecoration(
@@ -92,7 +92,7 @@ class ITextBox extends StatelessWidget {
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
-                    ),  
+                    ),
                     labelStyle:
                         TextStyles.headingFont.copyWith(color: AppColors.white),
                     labelText: label,

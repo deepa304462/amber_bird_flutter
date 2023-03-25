@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as dev;
 import 'dart:math';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -50,7 +50,7 @@ class CartController extends GetxController {
   @override
   void onInit() {
     fetchCart();
-    print('${getCurrentTag()} controller __________________');
+    // print('${getCurrentTag()} controller __________________');
 
     super.onInit();
   }
@@ -634,6 +634,7 @@ class CartController extends GetxController {
       };
       resp = await ClientService.post(path: 'order', payload: payload);
     }
+    dev.log(jsonEncode(resp.data).toString());
     if (resp.statusCode == 200) {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);

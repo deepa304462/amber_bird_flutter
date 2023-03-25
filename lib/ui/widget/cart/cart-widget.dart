@@ -52,11 +52,11 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'TOTAL PRICE',
-                            style: TextStyles.bodyFont,
+                            style: TextStyles.body,
                           ),
                           Text(
                             '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
-                            style: TextStyles.titleLargeBold,
+                            style: TextStyles.headingFont,
                           ),
                         ],
                       ),
@@ -163,7 +163,7 @@ class CartWidget extends StatelessWidget {
                       children: [
                         Text(
                           'Your Cart is Empty',
-                          style: TextStyles.bodyFont,
+                          style: TextStyles.body,
                         ),
                         const SizedBox(
                           height: 20,
@@ -171,13 +171,14 @@ class CartWidget extends StatelessWidget {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primeColor,
-                              textStyle: TextStyles.bodyWhite),
+                              textStyle: TextStyles.body
+                                  .copyWith(color: AppColors.white)),
                           onPressed: () {
                             Modular.to.navigate('../home/main');
                           },
                           child: Text(
                             'Add Products',
-                            style: TextStyles.bodyWhiteLarge,
+                            style: TextStyles.headingFont.copyWith(color: AppColors.white),
                           ),
                         ),
                         SaveLater()
@@ -218,15 +219,18 @@ class CartWidget extends StatelessWidget {
                   title: FitText(
                     cartController.cartProductsScoins.value[currentKey]!
                         .product!.name!.defaultText!.text!,
-                    style: TextStyles.bodyFontBold,
+                    style: TextStyles.headingFont,
                     align: TextAlign.start,
                   ),
                   subtitle: Row(
                     children: [
                       Text(
-                          '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit)}'),
+                        '${cartController.cartProductsScoins.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.unit)}',
+                        style: TextStyles.body,
+                      ),
                       Text(
-                          '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} '),
+                          '/${Helper.getMemberCoinValue(cartController.cartProductsScoins.value[currentKey]!.product!.varient!.price!, stateController.userType.value)} ',
+                          style: TextStyles.body),
                     ],
                   ),
                   trailing: Column(
@@ -250,7 +254,7 @@ class CartWidget extends StatelessWidget {
                                               .cartProductsScoins[currentKey]!
                                               .count)
                                   .toString(),
-                              style: TextStyles.titleLargeBold,
+                              style: TextStyles.headingFont,
                             ),
                             Lottie.asset('assets/coin.json',
                                 height: 25, fit: BoxFit.fill, repeat: true),
@@ -299,7 +303,7 @@ class CartWidget extends StatelessWidget {
                               icon: const Icon(
                                 Icons.remove_circle_outline,
                                 color: Colors.white,
-                                size: 20,
+                                size: 16,
                               ),
                             ),
                             Text(
@@ -308,8 +312,8 @@ class CartWidget extends StatelessWidget {
                                         '${cartController.cartProductsScoins[currentKey].ref!.id}',
                                         'SCOIN')
                                     .toString(),
-                                style: TextStyles.bodyFontBold.copyWith(
-                                    fontSize: 20, color: Colors.white)),
+                                style: TextStyles.headingFont
+                                    .copyWith(color: Colors.white)),
                             IconButton(
                               padding: const EdgeInsets.all(4),
                               constraints: const BoxConstraints(),
@@ -342,10 +346,10 @@ class CartWidget extends StatelessWidget {
 
                                 stateController.showLoader.value = false;
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.add_circle_outline,
                                 color: Colors.white,
-                                size: 20,
+                                size: FontSizes.title,
                               ),
                             ),
                           ],
@@ -364,13 +368,13 @@ class CartWidget extends StatelessWidget {
                     children: [
                       const Icon(
                         Icons.delete,
-                        size: 20,
+                        size: 16,
                         color: Colors.grey,
                       ),
                       Text(
                         'Remove',
                         style: TextStyles.body
-                            .copyWith(color: Colors.grey, fontSize: 16),
+                            .copyWith(color: Colors.grey,),
                       )
                     ],
                   ),
@@ -409,7 +413,7 @@ class CartWidget extends StatelessWidget {
                                     child: Divider()),
                                 FitText(
                                   '${cartController.cartProducts.value[currentKey]!.name}',
-                                  style: TextStyles.titleLarge
+                                  style: TextStyles.headingFont
                                       .copyWith(color: AppColors.primeColor),
                                 ),
                                 const Expanded(child: Divider()),
@@ -418,7 +422,7 @@ class CartWidget extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width:
-                                        MediaQuery.of(context).size.width * .74,
+                                        MediaQuery.of(context).size.width * .73,
                                     child: ListView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
@@ -431,23 +435,26 @@ class CartWidget extends StatelessWidget {
                                             .value[currentKey]!
                                             .products![pIndex];
                                         return ListTile(
-                                            dense: false,
-                                            visualDensity: const VisualDensity(
-                                                vertical: 3),
-                                            leading: ImageBox(
-                                              '${currentProduct.images![0]}',
-                                              width: 80,
-                                              height: 80,
-                                              fit: BoxFit.contain,
-                                            ),
-                                            title: FitText(
-                                              currentProduct
-                                                  .name!.defaultText!.text!,
-                                              style: TextStyles.bodyFontBold,
-                                              align: TextAlign.start,
-                                            ),
-                                            subtitle: Text(
-                                                '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}'));
+                                          dense: false,
+                                          visualDensity:
+                                              const VisualDensity(vertical: 3),
+                                          leading: ImageBox(
+                                            '${currentProduct.images![0]}',
+                                            width: 80,
+                                            height: 80,
+                                            fit: BoxFit.contain,
+                                          ),
+                                          title: FitText(
+                                            currentProduct
+                                                .name!.defaultText!.text!,
+                                            style: TextStyles.headingFont,
+                                            align: TextAlign.start,
+                                          ),
+                                          subtitle: Text(
+                                            '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}',
+                                            style: TextStyles.body,
+                                          ),
+                                        );
                                       },
                                     ),
                                   ),
@@ -459,7 +466,7 @@ class CartWidget extends StatelessWidget {
                                       children: [
                                         Text(
                                           '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
-                                          style: TextStyles.titleLargeBold,
+                                          style: TextStyles.headingFont,
                                         ),
                                         Card(
                                           color: AppColors.primeColor,
@@ -561,10 +568,10 @@ class CartWidget extends StatelessWidget {
                                                   stateController
                                                       .showLoader.value = false;
                                                 },
-                                                icon: const Icon(
+                                                icon: Icon(
                                                   Icons.remove_circle_outline,
                                                   color: Colors.white,
-                                                  size: 20,
+                                                  size: FontSizes.title,
                                                 ),
                                               ),
                                               Text(
@@ -573,9 +580,8 @@ class CartWidget extends StatelessWidget {
                                                           '${cartController.cartProducts[currentKey]!.ref!.id}',
                                                           '')
                                                       .toString(),
-                                                  style: TextStyles.bodyFontBold
+                                                  style: TextStyles.headingFont
                                                       .copyWith(
-                                                          fontSize: 20,
                                                           color: Colors.white)),
                                               IconButton(
                                                 padding:
@@ -669,10 +675,10 @@ class CartWidget extends StatelessWidget {
                                                   stateController
                                                       .showLoader.value = false;
                                                 },
-                                                icon: const Icon(
+                                                icon: Icon(
                                                   Icons.add_circle_outline,
                                                   color: Colors.white,
-                                                  size: 20,
+                                                  size: FontSizes.title,
                                                 ),
                                               ),
                                             ],
@@ -699,14 +705,14 @@ class CartWidget extends StatelessWidget {
                                         children: [
                                           const Icon(
                                             Icons.delete,
-                                            size: 20,
+                                            size: 16,
                                             color: Colors.grey,
                                           ),
                                           Text(
                                             'Remove',
                                             style: TextStyles.body.copyWith(
-                                                color: Colors.grey,
-                                                fontSize: 16),
+                                              color: Colors.grey,
+                                            ),
                                           )
                                         ],
                                       ))
@@ -733,15 +739,18 @@ class CartWidget extends StatelessWidget {
                                 title: FitText(
                                   cartController.cartProducts.value[currentKey]!
                                       .product!.name!.defaultText!.text!,
-                                  style: TextStyles.bodyFontBold,
+                                  style: TextStyles.headingFont,
                                   align: TextAlign.start,
                                 ),
                                 subtitle: Row(
                                   children: [
                                     Text(
-                                        '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProducts.value[currentKey]!.product!.varient!.unit)}'),
+                                      '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProducts.value[currentKey]!.product!.varient!.unit)}',
+                                      style: TextStyles.body,
+                                    ),
                                     Text(
-                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts.value[currentKey]!.price!.offerPrice!)} '),
+                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts.value[currentKey]!.price!.offerPrice!)} ',
+                                        style: TextStyles.body),
                                   ],
                                 ),
                                 trailing: Column(
@@ -749,7 +758,7 @@ class CartWidget extends StatelessWidget {
                                   children: [
                                     Text(
                                       '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
-                                      style: TextStyles.titleLargeBold,
+                                      style: TextStyles.headingFont,
                                     ),
                                     Card(
                                       color: AppColors.primeColor,
@@ -798,10 +807,10 @@ class CartWidget extends StatelessWidget {
                                               stateController.showLoader.value =
                                                   false;
                                             },
-                                            icon: const Icon(
+                                            icon: Icon(
                                               Icons.remove_circle_outline,
                                               color: Colors.white,
-                                              size: 20,
+                                              size: FontSizes.title,
                                             ),
                                           ),
                                           Text(
@@ -810,10 +819,8 @@ class CartWidget extends StatelessWidget {
                                                     '${cartController.cartProducts[currentKey]!.ref!.id}',
                                                     '')
                                                 .toString(),
-                                            style: TextStyles.bodyFontBold
-                                                .copyWith(
-                                                    fontSize: 20,
-                                                    color: Colors.white),
+                                            style: TextStyles.headingFont
+                                                .copyWith(color: Colors.white),
                                           ),
                                           IconButton(
                                             padding: const EdgeInsets.all(4),
@@ -895,10 +902,10 @@ class CartWidget extends StatelessWidget {
                                               stateController.showLoader.value =
                                                   false;
                                             },
-                                            icon: const Icon(
+                                            icon: Icon(
                                               Icons.add_circle_outline,
                                               color: Colors.white,
-                                              size: 20,
+                                              size: FontSizes.title,
                                             ),
                                           ),
                                         ],
@@ -922,13 +929,14 @@ class CartWidget extends StatelessWidget {
                                       children: [
                                         const Icon(
                                           Icons.delete,
-                                          size: 20,
+                                          size: 16,
                                           color: Colors.grey,
                                         ),
                                         Text(
                                           'Remove',
                                           style: TextStyles.body.copyWith(
-                                              color: Colors.grey, fontSize: 16),
+                                            color: Colors.grey,
+                                          ),
                                         )
                                       ],
                                     ),
@@ -1018,7 +1026,7 @@ class CartWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Shipping Address',
-                      style: TextStyles.titleLargeBold.copyWith(fontSize: 20),
+                      style: TextStyles.headingFont,
                     ),
                     MaterialButton(
                       onPressed: (() =>
@@ -1027,13 +1035,13 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Edit',
-                            style: TextStyles.bodyFont.copyWith(
-                                color: AppColors.primeColor, fontSize: 20),
+                            style: TextStyles.titleFont
+                                .copyWith(color: AppColors.primeColor),
                           ),
                           Icon(
                             Icons.edit,
                             color: AppColors.primeColor,
-                            size: 20,
+                            size: 15,
                           ),
                         ],
                       ),
@@ -1058,10 +1066,10 @@ class CartWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FitText(add.value.name ?? '',
-                                style: TextStyles.bodyFont),
+                                style: TextStyles.body),
                             FitText(
                                 '(ZipCode: ${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
-                                style: TextStyles.bodyFont.copyWith()),
+                                style: TextStyles.body.copyWith()),
                           ],
                         ),
                       )
@@ -1092,12 +1100,12 @@ class CartWidget extends StatelessWidget {
           },
           icon: const Icon(
             Icons.bookmark_add_outlined,
-            size: 20,
+            size: 16,
             color: Colors.grey,
           ),
           label: Text(
             "Save for later",
-            style: TextStyles.body.copyWith(color: Colors.grey, fontSize: 16),
+            style: TextStyles.body.copyWith(color: Colors.grey),
           ),
         )
       ],
@@ -1115,36 +1123,14 @@ class CartWidget extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Center(
-                //   child: ElevatedButton(
-                //     onPressed: () async {
-                //       stateController.showLoader.value = true;
-                //       bool isCheckedActivate =
-                //           await stateController.getUserIsActive();
-                //       if (isCheckedActivate) {
-                //         await cartController.checkout();
-                //         checkoutClicked.value = true;
-                //       } else {
-                //         snackBarClass.showToast(
-                //             context, 'Your profile is not active yet');
-                //       }
-                //       stateController.showLoader.value = false;
-                //     },
-                //     child: Text(
-                //       'Checkout',
-                //       style: TextStyles.bodyFont,
-                //     ),
-                //   ),
-                // ),
                 Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: CouponWidget(),
                 ),
                 Text(
                   'Order Summary',
-                  style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
+                  style: TextStyles.headingFont,
                 ),
-
                 cartController.calculatedPayment.value.discountAmount != null &&
                         cartController.calculatedPayment.value.discountAmount !=
                             0.00
@@ -1153,11 +1139,11 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Coupon discount Amount',
-                            style: TextStyles.bodyFont,
+                            style: TextStyles.body,
                           ),
                           Text(
                             '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}',
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                           ),
                         ],
                       )
@@ -1173,11 +1159,11 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Membership Discount',
-                            style: TextStyles.bodyFont,
+                            style: TextStyles.body,
                           ),
                           Text(
                             '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0 as double).toStringAsFixed(2)}',
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                           ),
                         ],
                       )
@@ -1187,17 +1173,17 @@ class CartWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Shipping Charges',
-                      style: TextStyles.bodyFont,
+                      style: TextStyles.body,
                     ),
                     cartController.calculatedPayment.value.shippingAmount ==
                             0.00
                         ? Text(
                             'Free',
-                            style: TextStyles.titleGreen,
+                            style: TextStyles.titleFont.copyWith(color: AppColors.green),
                           )
                         : Text(
                             '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.shippingAmount as double).toStringAsFixed(2)}',
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                           ),
                   ],
                 ),
@@ -1206,11 +1192,11 @@ class CartWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Tax* (Inclusive)',
-                      style: TextStyles.bodyFont,
+                      style: TextStyles.body,
                     ),
                     Text(
                       '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)}',
-                      style: TextStyles.bodyFontBold,
+                      style: TextStyles.headingFont,
                     ),
                   ],
                 ),
@@ -1249,7 +1235,6 @@ class CartWidget extends StatelessWidget {
                         ),
                       )
                     : const SizedBox(),
-
                 cartController.calculatedPayment.value.totalAmount != null &&
                         cartController.calculatedPayment.value.totalAmount > 0
                     ? Row(
@@ -1257,7 +1242,8 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Total ',
-                            style: TextStyles.headingFontBlue,
+                            style: TextStyles.headingFont
+                                .copyWith(color: Colors.blue),
                           ),
                           Text(
                             CodeHelp.euro +
@@ -1265,7 +1251,7 @@ class CartWidget extends StatelessWidget {
                                         .totalAmount as double)
                                     .toStringAsFixed(2)
                                     .toString(),
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                           ),
                         ],
                       )
@@ -1280,18 +1266,17 @@ class CartWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Total coins',
-                            style: TextStyles.bodyFont,
+                            style: TextStyles.body,
                           ),
                           Text(
                             (cartController.calculatedPayment.value
                                     .totalSCoinsPaid as int)
                                 .toString(),
-                            style: TextStyles.bodyFontBold,
+                            style: TextStyles.headingFont,
                           ),
                         ],
                       )
                     : const SizedBox(),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

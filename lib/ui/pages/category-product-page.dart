@@ -38,7 +38,7 @@ class CategoryProductPage extends StatelessWidget {
           ),
           title: Text(
             category.value.name!.defaultText!.text!,
-            style: TextStyles.titleLargeBold,
+            style: TextStyles.headingFont,
           ),
         ),
       ),

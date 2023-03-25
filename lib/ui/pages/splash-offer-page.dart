@@ -73,7 +73,7 @@ class SplashOfferPage extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.darkOrange,
-                  textStyle: TextStyles.bodyWhite),
+                  textStyle: TextStyles.body.copyWith(color: AppColors.white)),
               onPressed: () async {
                 SharedData.save('true', 'onboardingDone');
                 if (onBoardingController.onboardingData.value.appIntro !=
@@ -92,7 +92,7 @@ class SplashOfferPage extends StatelessWidget {
               },
               child: Text(
                 "Skip to End",
-                style: TextStyles.bodyWhite,
+                style: TextStyles.body.copyWith(color: AppColors.white),
               ),
             ),
           ),
@@ -104,7 +104,7 @@ class SplashOfferPage extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.darkOrange,
-                  textStyle: TextStyles.bodyWhite),
+                  textStyle: TextStyles.body.copyWith(color: AppColors.white)),
               onPressed: () {
                 if (onBoardingController.onboardingData.value.appIntro !=
                     null) {
@@ -117,7 +117,7 @@ class SplashOfferPage extends StatelessWidget {
                           : liquidController.currentPage + 1);
                 }
               },
-              child: Text("Next", style: TextStyles.bodyWhite),
+              child: Text("Next", style: TextStyles.body.copyWith(color: AppColors.white)),
             ),
           ),
         )

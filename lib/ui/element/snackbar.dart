@@ -15,7 +15,7 @@ class snackBarClass {
           padding: const EdgeInsets.all(10),
           child: Text(
             msg ?? "Please try again!",
-            style: TextStyles.title
+            style: TextStyles.titleFont
                 .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
           ),
         ),

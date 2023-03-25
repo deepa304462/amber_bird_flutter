@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/coupon_code/reward.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -10,11 +11,12 @@ import '../../helpers/controller-generator.dart';
 
 class CouponWidget extends StatelessWidget {
   TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final CartController cartController =
         ControllerGenerator.create(CartController(), tag: 'cartController');
-    // final Controller stateController = Get.find();
+
     controller.text = cartController.couponName.toString();
     return Obx(() {
       controller.text = cartController.couponName.toString();
@@ -25,10 +27,10 @@ class CouponWidget extends StatelessWidget {
           children: [
             Text(
               'Promo Code',
-              style: TextStyles.bodyFontBold.copyWith(fontSize: 20),
+              style: TextStyles.headingFont,
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             TextField(
               controller: controller,
@@ -38,11 +40,12 @@ class CouponWidget extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'APPLY',
-                    style: TextStyles.bodyWhiteBold,
+                    style: TextStyles.headingFont.copyWith(color: AppColors.white),
                   ),
                 ),
                 labelText: "Apply promo code",
-                contentPadding: const EdgeInsets.all(10.0),
+                labelStyle: TextStyles.titleFont,
+                contentPadding: const EdgeInsets.all(7.0),
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(2.0)),
                   borderSide: BorderSide(
@@ -59,7 +62,7 @@ class CouponWidget extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
                 child: Text(
                   'View available promo codes',
-                  style: TextStyles.bodyFont.copyWith(color: Colors.grey),
+                  style: TextStyles.body.copyWith(color: Colors.grey),
                 ),
                 onPressed: () {
                   showSearch(
@@ -75,7 +78,7 @@ class CouponWidget extends StatelessWidget {
 class CustomSearchDelegate extends SearchDelegate {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
-
+  final Controller stateController = Get.find();
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -142,7 +145,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(coupon.couponCode ?? '',
-                        style: TextStyles.titleXLarge
+                        style: TextStyles.headingFont
                             .copyWith(color: AppColors.primeColor)),
                     Text(getConditionText(coupon.reward)),
                   ],
@@ -156,15 +159,18 @@ class CustomSearchDelegate extends SearchDelegate {
                             borderRadius: BorderRadius.circular(12)),
                         visualDensity: VisualDensity.compact,
                         onPressed: () async {
+                          stateController.showLoader.value = true;
                           var data =
                               await cartController.isApplicableCoupun(coupon);
                           if (data) {
-                            snackBarClass.showToast(
-                                context, 'coupon is valid ');
                             cartController.selectedCoupon.value = coupon;
                             cartController.calculateTotalCost();
+                            await cartController.createOrder();
                             // controller.text = cartController.couponName.toString();
                             cartController.setSearchVal(coupon.couponCode);
+                            stateController.showLoader.value = false;
+                            snackBarClass.showToast(
+                                context, 'coupon is valid ');
                             close(
                                 context, cartController.couponName.toString());
                           } else {

@@ -125,7 +125,8 @@ class OrderDetailWidget extends StatelessWidget {
                     itemBuilder: (_, index) {
                       var currentData =
                           orderController.shippingDhl.value.shipments![0];
-                          var delTime  = DateTime.parse(currentData.estimatedTimeOfDelivery!);
+                      var delTime =
+                          DateTime.parse(currentData.estimatedTimeOfDelivery!);
                       return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,8 +134,11 @@ class OrderDetailWidget extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(currentData.status!.description!,style: TextStyles.headingFontBlue,),
-                                 Text(
+                                Text(
+                                  currentData.status!.description!,
+                                  style: TextStyles.headingFont.copyWith(color: Colors.blue),
+                                ),
+                                Text(
                                   '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',
                                   style: TextStyles.bodyFontBold,
                                 ),
@@ -199,7 +203,7 @@ class OrderDetailWidget extends StatelessWidget {
                                         Text(
                                           currentEvent.location!.address!
                                               .addressLocality!,
-                                          style: TextStyles.subHeadingFont,
+                                          style: TextStyles.body,
                                         )
                                       ],
                                     );

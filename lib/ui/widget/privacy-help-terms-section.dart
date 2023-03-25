@@ -47,7 +47,7 @@ class PrivacyHelpTermsSection extends StatelessWidget {
           child: ListTile(
             title: Text(
               title,
-              style: TextStyles.titleLargeBold,
+              style: TextStyles.headingFont,
             ),
             subtitle: Text(
               subtitle,

@@ -363,7 +363,7 @@ class AuthController extends GetxController {
   }
 
   editProfile() async {
-    var userData = jsonDecode((await (SharedData.read('userData')) ??'{}'));
+    var userData = jsonDecode((await (SharedData.read('userData')) ?? '{}'));
     var userResp = await ClientService.get(
         path: 'user-profile', id: userData['mappedTo']['_id']);
     if (userResp.statusCode == 200) {

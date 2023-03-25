@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                         child: ListTile(
                           title: FitText(
                             CodeHelp.titleCase(value.fullName ?? ''),
-                            style: TextStyles.titleXLargeWhite
+                            style: TextStyles.titleFont
                                 .copyWith(color: Colors.black),
                           ),
                           subtitle: Column(
@@ -174,7 +174,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             Text(
                               'Orders',
-                              style: TextStyles.titleLargeBold,
+                              style: TextStyles.headingFont,
                             ),
                           ],
                         ),
@@ -191,7 +191,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             Text(
                               'Wishlist',
-                              style: TextStyles.titleLargeBold,
+                              style: TextStyles.headingFont,
                             ),
                           ],
                         ),
@@ -206,7 +206,7 @@ class ProfilePage extends StatelessWidget {
                             ),
                             Text(
                               'Events',
-                              style: TextStyles.titleLargeBold,
+                              style: TextStyles.headingFont,
                             ),
                           ],
                         ),

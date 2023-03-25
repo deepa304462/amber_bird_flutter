@@ -34,11 +34,11 @@ class SignUp extends StatelessWidget {
               children: [
                 Text(
                   'Create Account',
-                  style: TextStyles.bodyWhiteLargeBold,
+                  style: TextStyles.headingFont.copyWith(color: AppColors.white),
                 ),
                 Text(
                   'To get started now!',
-                  style: TextStyles.bodyWhiteLarge,
+                  style: TextStyles.bodyFont.copyWith(color: AppColors.white),
                 ),
                 const SizedBox(
                   height: 20,
@@ -90,7 +90,7 @@ class SignUp extends StatelessWidget {
                     ? const SizedBox()
                     : Text(
                         'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
-                        style: TextStyles.bodyWhite,
+                        style: TextStyles.body.copyWith(color: AppColors.white),
                       ),
                 const SizedBox(
                   height: 10,
@@ -164,7 +164,7 @@ class SignUp extends StatelessWidget {
                   ),
                   Text(
                     "Or Login with",
-                    style: TextStyles.bodyWhite,
+                    style: TextStyles.body.copyWith(color: AppColors.white),
                   ),
                   Expanded(
                     child: Container(
@@ -244,12 +244,13 @@ class SignUp extends StatelessWidget {
                 ),
                 RichText(
                   text: TextSpan(
-                    style: TextStyles.title,
+                    style: TextStyles.titleFont,
                     children: <TextSpan>[
                       const TextSpan(text: "Already have an account? "),
                       TextSpan(
                           text: 'Login now',
-                          style: TextStyles.titleGreen,
+                          style: TextStyles.titleFont
+                              .copyWith(color: AppColors.green),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               authController.resetFieldValue();

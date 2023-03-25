@@ -48,7 +48,7 @@ class LocationPage extends StatelessWidget {
                       children: [
                         Text(
                           'Enter pincode of your area',
-                          style: TextStyles.title,
+                          style: TextStyles.titleFont,
                         ),
                         const SizedBox(
                           height: 10,
@@ -97,7 +97,7 @@ class LocationPage extends StatelessWidget {
                                   : AppColors.primeColor,
                               child: Text(
                                 'Okay',
-                                style: TextStyles.titleXLargeWhite,
+                                style: TextStyles.headingFont.copyWith(color: AppColors.white),
                               ),
                             ),
                             locationController.currentLatLang.value.latitude !=
@@ -122,7 +122,7 @@ class LocationPage extends StatelessWidget {
                       title: ListTile(
                         title: Text(
                           'Save & Continue',
-                          style: TextStyles.titleXLargeWhite,
+                          style: TextStyles.headingFont.copyWith(color: AppColors.white),
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
@@ -184,7 +184,7 @@ class LocationPage extends StatelessWidget {
         ),
         Text(
           "Set Your Delivery Location",
-          style: TextStyles.titleXLargeBold,
+          style: TextStyles.headingFont,
         ),
         const SizedBox(
           height: 10,
@@ -203,7 +203,7 @@ class LocationPage extends StatelessWidget {
             size: 30.0,
           ),
           label: Text('Use my current location',
-              style: TextStyles.titleXLargeWhite),
+              style: TextStyles.headingFont.copyWith(color: AppColors.white)),
           onPressed: () async {
             PermissionStatus check = await locationController.checkPermission();
             if (check == PermissionStatus.denied) {
@@ -217,7 +217,7 @@ class LocationPage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-              textStyle: TextStyles.bodyWhite),
+              textStyle: TextStyles.body.copyWith(color: AppColors.white)),
         )
       ],
     );
@@ -234,13 +234,13 @@ class LocationPage extends StatelessWidget {
           children: [
             Text(
               'Your area according to pincode',
-              style: TextStyles.titleXLargePrimary.copyWith(fontSize: 20),
+              style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
             ),
             locationController.addressData.value.line1 != null
                 ? Text(
                     '${locationController.addressData.value.localArea}, ${locationController.addressData.value.city}, ${locationController.addressData.value.country}, ${locationController.addressData.value.zipCode}' ??
                         '',
-                    style: TextStyles.titleLarge,
+                    style: TextStyles.titleFont,
                   )
                 : LinearProgressIndicator(
                     color: AppColors.primeColor,
