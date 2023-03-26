@@ -7,6 +7,7 @@ import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -116,12 +117,12 @@ class AppBarWidget extends StatelessWidget {
                             // padding: EdgeInsets.all(0),
                             onPressed: () {},
                             icon: const Icon(
-                              Icons.layers,
+                              FontAwesomeIcons.coins,
                             ),
                           ),
                           Positioned(
                             top: 7,
-                            left: 4,
+                            right: 4,
                             child: Card(
                               color: Colors.yellow[700],
                               child: Padding(

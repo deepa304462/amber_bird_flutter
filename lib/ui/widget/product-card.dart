@@ -127,12 +127,11 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            product.name!.defaultText!.text ?? '',
-            overflow:
-                this.fixedHeight ? TextOverflow.ellipsis : TextOverflow.visible,
-            style:TextStyles.body
-          ),
+          Text(product.name!.defaultText!.text ?? '',
+              overflow: this.fixedHeight
+                  ? TextOverflow.ellipsis
+                  : TextOverflow.visible,
+              style: TextStyles.body),
           addedFrom == 'MULTIPRODUCT'
               ? Text(
                   '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',
@@ -147,10 +146,13 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text('${product.varient!.weight}'),
                         Text(
-                          '${CodeHelp.formatUnit(product.varient!.unit)}',
-                           style:TextStyles.body.copyWith(color: Colors.blue),
+                          '${product.varient!.weight!.toStringAsFixed(0)}',
+                          style: TextStyles.body,
+                        ),
+                        Text(
+                          ' ${CodeHelp.formatUnit(product.varient!.unit)}',
+                          style: TextStyles.body,
                         )
                       ],
                     )
@@ -159,11 +161,13 @@ class ProductCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text('${product.varients![0].weight}'),
                             Text(
-                              '${CodeHelp.formatUnit(product.varients![0].unit)}',
-                              style: TextStyles.body
-                                  .copyWith(color: Colors.blue),
+                              '${product.varients![0].weight!.toStringAsFixed(0)}',
+                              style: TextStyles.body,
+                            ),
+                            Text(
+                              ' ${CodeHelp.formatUnit(product.varients![0].unit)}',
+                              style: TextStyles.body,
                             )
                           ],
                         )
@@ -278,8 +282,8 @@ class ProductCard extends StatelessWidget {
                                     '$refId@${activeVariant.value.varientCode}',
                                     '')
                                 .toString(),
-                            style:
-                                TextStyles.headingFont.copyWith(color: AppColors.white),
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.white),
                           ),
                           IconButton(
                             padding: const EdgeInsets.all(8),
@@ -344,7 +348,7 @@ class ProductCard extends StatelessWidget {
                     )
                   : CircleAvatar(
                       backgroundColor: AppColors.primeColor,
-                      radius: 20,
+                      radius: 15,
                       child: IconButton(
                         constraints: const BoxConstraints(),
                         color: Colors.white,
@@ -425,7 +429,7 @@ class ProductCard extends StatelessWidget {
                               },
                         icon: const Icon(
                           Icons.add,
-                          size: 20,
+                          size: 15,
                           color: Colors.white,
                         ),
                       ),
@@ -477,7 +481,7 @@ class ProductCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Text(
-                          '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                          '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: currentVarient.varientCode !=

@@ -11,13 +11,13 @@ class CodeHelp {
 
   static formatUnit(String? unit) {
     if (unit == 'KILO_GRAM') {
-      return "KG";
+      return "Kg";
     } else if (unit == 'GRAM') {
-      return "GM";
+      return "Gm";
     } else if (unit == 'MILI_LITRE') {
-      return "ML";
+      return "Ml";
     } else if (unit == 'L') {
-      return "LITRE";
+      return "Lt";
     }
     return unit;
   }

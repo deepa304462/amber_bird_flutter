@@ -48,38 +48,29 @@ class Controller extends GetxController {
   void onInit() {
     showKeyMap['home'] = ShowcaseKey(
         key: GlobalKey(), desc: 'All starts from here', title: 'Home');
-    showKeyMap['category'] = ShowcaseKey(
-        key: GlobalKey(),
-        desc: 'Browse products within different catagories',
-        title: 'Product categoryies');
-    showKeyMap['brand'] = ShowcaseKey(
-        key: GlobalKey(),
-        desc: 'Browse products from different brands',
-        title: 'Brand Store');
-    showKeyMap['cart'] = ShowcaseKey(
-        key: GlobalKey(),
-        desc: 'Check your product cart and make final payment',
-        title: 'Checkout cart');
+    showKeyMap['category'] =
+        ShowcaseKey(key: GlobalKey(), desc: '', title: 'Category');
+    showKeyMap['brand'] =
+        ShowcaseKey(key: GlobalKey(), desc: '', title: 'Brands');
+    showKeyMap['cart'] = ShowcaseKey(key: GlobalKey(), desc: '', title: '');
     showKeyMap['profile'] = ShowcaseKey(
         key: GlobalKey(),
         desc: 'Access or create your profile',
         title: 'Checkout cart');
     showKeyMap['pincode'] = ShowcaseKey(
         key: GlobalKey(),
-        desc: 'Provide your pincode for better product search',
-        title: 'Address pincode');
+        desc: 'Enter pincode to connect with your nearest warehouse',
+        title: 'Pincode');
     showKeyMap['wishlist'] = ShowcaseKey(
         key: GlobalKey(),
         desc: 'Access your favourite products',
         title: 'Wishlist & favourite products');
     showKeyMap['refer'] = ShowcaseKey(
         key: GlobalKey(),
-        desc: 'Share our SBazar with your friends',
-        title: 'Share SBazar app');
+        desc: 'Refer your friends and get 9 ${CodeHelp.euro} discount',
+        title: 'Share Sbazar');
     showKeyMap['coinWallet'] = ShowcaseKey(
-        key: GlobalKey(),
-        desc: 'Check your scoin wallet',
-        title: 'SCoin wallet');
+        key: GlobalKey(), desc: 'Check your scoin wallet', title: 'S-Wallet');
     backButtonPress.value = 0;
     getLoginInfo();
     changeTab(currentTab.toInt());
