@@ -1,5 +1,6 @@
 import 'package:amber_bird/app-module.dart';
 import 'package:amber_bird/app-widget.dart';
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
@@ -62,6 +63,8 @@ void main() async {
   final LocationController locationController = Get.put(LocationController());
   final AuthController authController = Get.put(AuthController());
   final Controller controller = Get.put(Controller());
+  final AppbarScrollController appbarScrollController =
+      Get.put(AppbarScrollController());
   runApp(
     ModularApp(
       module: AppModule(),

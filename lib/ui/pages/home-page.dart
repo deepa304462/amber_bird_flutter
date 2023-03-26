@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -9,6 +11,7 @@ import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart' as routerOut;
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -69,8 +72,7 @@ class HomePage extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxString showCaseData = 'false'.obs;
-  final AppbarScrollController appbarScrollController =
-      Get.put(AppbarScrollController());
+  final AppbarScrollController appbarScrollController = Get.find();
   getShowCaseVal(BuildContext context) async {
     showCaseData.value = await SharedData.read('showCaseDone') ?? '';
     if (showCaseData.value != 'true') {
@@ -89,7 +91,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getShowCaseVal(context);
-
+ 
     return WillPopScope(
       onWillPop: () {
         myController.backPressed();

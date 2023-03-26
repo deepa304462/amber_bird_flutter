@@ -98,9 +98,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Obx(() => productController.product.value.id != null
         ? Stack(
             children: [
-              SingleChildScrollView(
-                
-                controller: appbarScrollController.scrollController,
+              SingleChildScrollView( 
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(
