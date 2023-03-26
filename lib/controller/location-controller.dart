@@ -51,7 +51,7 @@ class LocationController extends GetxController {
   Future<void> findLocalityFromPinCode() async {
     String host = 'https://maps.google.com/maps/api/geocode/json';
     final url =
-        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=en';
+        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=en&components=country:de';
     var response = await dio.get(url);
     if (response.statusCode == 200) {
       if (response.data['results'].length > 0) {

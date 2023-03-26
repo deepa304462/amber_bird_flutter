@@ -35,7 +35,7 @@ class BrandHorizontalCard extends StatelessWidget {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: 140,
+                  height: 90,
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -65,7 +65,7 @@ class BrandHorizontalCard extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: ImageBox(
                 brand.logoId!,
-                width: 100,
+                width: 50,
                 fit: BoxFit.contain,
               ),
             ),

@@ -46,7 +46,7 @@ class LocationPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter pincode of your area',
+                          'Enter pincode of your area (Only works in Germany)',
                           style: TextStyles.titleFont,
                         ),
                         const SizedBox(
@@ -168,6 +168,7 @@ class LocationPage extends StatelessWidget {
                             'phoneNumber': '',
                             'directionComment': '',
                           });
+                          // Navigator.pop(context);
                           _displayDialog(context, locationController, 'ADD');
                           // locationController.saveAddress();
                         },
