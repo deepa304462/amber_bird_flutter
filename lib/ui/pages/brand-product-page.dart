@@ -119,8 +119,7 @@ class BrandProductPage extends StatelessWidget {
             crossAxisSpacing: 4,
             padding: const EdgeInsets.all(4),
             physics: const BouncingScrollPhysics(),
-            itemCount: controller.productList.length,
-            controller: appbarScrollController.scrollController,
+            itemCount: controller.productList.length, 
             itemBuilder: (_, index) {
               var product = controller.productList[index];
               return ProductCard(product, product.id, 'BRAND',

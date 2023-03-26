@@ -1,4 +1,3 @@
-import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -20,10 +19,7 @@ import '../widget/brand-horizontal-cart.dart';
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
   final ProductTagController productTagController =
-      Get.put(ProductTagController()); 
-
-  
-
+      Get.put(ProductTagController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +28,6 @@ class MainPage extends StatelessWidget {
     return Container(
       color: AppColors.backgroundGrey,
       child: SingleChildScrollView(
-         
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
@@ -68,11 +63,11 @@ class MainPage extends StatelessWidget {
             BrandHorizontalCard(),
             DealRow(dealName.ONLY_COIN_DEAL.name),
             DealRow(dealName.EXCLUSIVE_DEAL.name),
-            ScoinProductRow(),
             MultiProductRow(multiProductName.COMBO.name),
             MultiProductRow(multiProductName.BUNDLE.name),
             TagsProductColumn(),
             const ProductGuideRow(),
+            ScoinProductRow(),
           ],
         ),
       ),
@@ -133,7 +128,7 @@ class MainPage extends StatelessWidget {
                                           fixedHeight: true,
                                           productSummary,
                                           productSummary.id,
-                                          title,
+                                          'TAGS_PRODUCT',
                                           productSummary.varient!.price!,
                                           null,
                                           null),
@@ -148,13 +143,7 @@ class MainPage extends StatelessWidget {
                     ),
                   ),
                 );
-              } else {
-                // return dealController.isLoading.value
-                //     ? ShimmerWidget(
-                //         heightOfTheRow: 180,
-                //         radiusOfcell: 12,
-                //         widthOfCell: 150)
-                //     :
+              } else { 
                 return const SizedBox();
               }
             })

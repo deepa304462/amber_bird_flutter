@@ -137,7 +137,7 @@ class ProductCard extends StatelessWidget {
                         )
                       ],
                     )
-                  : product.varients!.length == 1
+                  : (product.varients!.length == 1 || addedFrom == 'TAGS_PRODUCT')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
@@ -156,7 +156,8 @@ class ProductCard extends StatelessWidget {
               checkPriceVisibility()
                   ? (addedFrom == 'PRODUCT' ||
                           addedFrom == 'CATEGORY' ||
-                          addedFrom == 'BRAND')
+                          addedFrom == 'BRAND' ||
+                          addedFrom == 'TAGS_PRODUCT')
                       ? Obx(() => Text(
                             "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
                             style: TextStyles.headingFont,
@@ -166,9 +167,11 @@ class ProductCard extends StatelessWidget {
                   : const SizedBox(),
             ],
           ),
-          product.varients!.length > 1
-              ? productVarientView(product.varients!)
-              : SizedBox()
+          (addedFrom == 'TAGS_PRODUCT')
+              ? const SizedBox()
+              : (product.varients!.length > 1
+                  ? productVarientView(product.varients!)
+                  : SizedBox())
         ],
       ),
     );
