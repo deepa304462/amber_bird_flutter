@@ -210,3 +210,81 @@ class AppBarWidget extends StatelessWidget {
     );
   }
 }
+
+class AppBarShrinkWidget extends StatelessWidget {
+  final Controller stateController = Get.find();
+  final WishlistController wishlistController = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          // mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              'assets/app-bar-logo.png',
+              width: 110,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
+            Expanded(
+                // alignment: Alignment.centerRight,
+                // fit: BoxFit.fitHeight,
+                child: SearchWidget()),
+          ],
+        )
+      ],
+    );
+  }
+
+  cartWidget(context) {
+    final CartController cartController =
+        ControllerGenerator.create(CartController(), tag: 'cartController');
+    final Controller stateController = Get.find();
+    return Obx(
+      () {
+        return Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            InkWell(
+              onTap: () {
+                if (stateController.isLogin.value) {
+                  stateController.navigateToUrl('/home/cart');
+                }
+              },
+              child: Card(
+                color: AppColors.primeColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.shopping_bag_rounded,
+                    color: AppColors.white,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: -2,
+              right: -2,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                      cartController.cartProducts.value.length.toString(),
+                      style: TextStyles.bodyFontBold),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

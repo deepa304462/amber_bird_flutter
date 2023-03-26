@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/brand-page-controller.dart';
 import 'package:amber_bird/controller/brand-product-page-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
@@ -18,6 +19,7 @@ import '../widget/ribbon-widget.dart';
 class BrandProductPage extends StatelessWidget {
   final String id;
   late BrandProductPageController controller;
+  final AppbarScrollController appbarScrollController = Get.find();
   BrandProductPage(this.id, {Key? key}) : super(key: key) {
     controller = ControllerGenerator.create(BrandProductPageController(),
         tag: 'brandProductController');
@@ -34,7 +36,7 @@ class BrandProductPage extends StatelessWidget {
                 backgroundColor: AppColors.primeColor,
                 leading: IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                     appbarScrollController.navigateToPop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -104,7 +106,7 @@ class BrandProductPage extends StatelessWidget {
                   ),
                 ),
               ),
-              RibbonWidget(
+              const RibbonWidget(
                 text: 'Exclusive',
               )
             ],
@@ -118,6 +120,7 @@ class BrandProductPage extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             physics: const BouncingScrollPhysics(),
             itemCount: controller.productList.length,
+            controller: appbarScrollController.scrollController,
             itemBuilder: (_, index) {
               var product = controller.productList[index];
               return ProductCard(product, product.id, 'BRAND',

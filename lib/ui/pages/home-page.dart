@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
@@ -68,7 +69,8 @@ class HomePage extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxString showCaseData = 'false'.obs;
-
+  final AppbarScrollController appbarScrollController =
+      Get.put(AppbarScrollController());
   getShowCaseVal(BuildContext context) async {
     showCaseData.value = await SharedData.read('showCaseDone') ?? '';
     if (showCaseData.value != 'true') {
@@ -95,71 +97,82 @@ class HomePage extends StatelessWidget {
             ? Future.value(true)
             : Future.value(false);
       },
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          titleSpacing: 5,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: AppBarWidget(),
-        ),
-        body: Stack(
-          children: [
-            IgnorePointer(
-                ignoring: myController.showLoader.value,
-                child: const routerOut.RouterOutlet()),
-            Obx(
-              () => myController.showLoader.value
-                  ? const LoadingWithLogo()
-                  : const SizedBox(),
-            )
-          ],
-        ),
-        bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
-          return BottomNav(
-            index: mcontroller.currentTab.toInt(),
-            backgroundColor: Colors.white,
-            showElevation: true,
-            navBarHeight: 45.0,
-            // radius: 30.0,
-            onTap: (i) {
-              mcontroller.setCurrentTab(i);
-            },
-            items: [
-              BottomNavItem(
-                  // imgIcon:
-                  //     'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
-                  icon: Icons.home,
-                  label: "Home",
-                  selectedColor: Colors.red.shade900,
-                  givenKey: myController.showKeyMap['home']!),
-              BottomNavItem(
-                  icon: Icons.category,
-                  suffix: '',
-                  label: "Category",
-                  selectedColor: Colors.red.shade900,
-                  givenKey: myController.showKeyMap['category']!),
-              BottomNavItem(
-                  icon: Icons.storefront_sharp,
-                  suffix: 'Shop',
-                  label: "",
-                  selectedColor: Colors.red.shade900,
-                  givenKey: myController.showKeyMap['brand']!),
-              BottomNavItem(
-                  icon: Icons.shopping_cart,
-                  label: "Cart",
-                  selectedColor: Colors.red.shade900,
-                  givenKey: myController.showKeyMap['cart']!),
-              BottomNavItem(
-                  icon: Icons.account_circle,
-                  suffix: '',
-                  label: "Profile",
-                  selectedColor: Colors.red.shade900,
-                  givenKey: myController.showKeyMap['profile']!),
+      child: Obx(
+        () => Scaffold(
+          appBar: appbarScrollController.shrinkappbar.value
+              ? AppBar(
+                  toolbarHeight: 50,
+                  titleSpacing: 5,
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  centerTitle: true,
+                  title: AppBarShrinkWidget(),
+                )
+              : AppBar(
+                  toolbarHeight: 100,
+                  titleSpacing: 5,
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  centerTitle: true,
+                  title: AppBarWidget(),
+                ),
+          body: Stack(
+            children: [
+              IgnorePointer(
+                  ignoring: myController.showLoader.value,
+                  child: const routerOut.RouterOutlet()),
+              Obx(
+                () => myController.showLoader.value
+                    ? const LoadingWithLogo()
+                    : const SizedBox(),
+              )
             ],
-          );
-        }),
+          ),
+          bottomNavigationBar: GetX<Controller>(builder: (mcontroller) {
+            return BottomNav(
+              index: mcontroller.currentTab.toInt(),
+              backgroundColor: Colors.white,
+              showElevation: true,
+              navBarHeight: 45.0,
+              // radius: 30.0,
+              onTap: (i) {
+                mcontroller.setCurrentTab(i);
+              },
+              items: [
+                BottomNavItem(
+                    // imgIcon:
+                    //     'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                    icon: Icons.home,
+                    label: "Home",
+                    selectedColor: Colors.red.shade900,
+                    givenKey: myController.showKeyMap['home']!),
+                BottomNavItem(
+                    icon: Icons.category,
+                    suffix: '',
+                    label: "Category",
+                    selectedColor: Colors.red.shade900,
+                    givenKey: myController.showKeyMap['category']!),
+                BottomNavItem(
+                    icon: Icons.storefront_sharp,
+                    suffix: 'Shop',
+                    label: "",
+                    selectedColor: Colors.red.shade900,
+                    givenKey: myController.showKeyMap['brand']!),
+                BottomNavItem(
+                    icon: Icons.shopping_cart,
+                    label: "Cart",
+                    selectedColor: Colors.red.shade900,
+                    givenKey: myController.showKeyMap['cart']!),
+                BottomNavItem(
+                    icon: Icons.account_circle,
+                    suffix: '',
+                    label: "Profile",
+                    selectedColor: Colors.red.shade900,
+                    givenKey: myController.showKeyMap['profile']!),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }

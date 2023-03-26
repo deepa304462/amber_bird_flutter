@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
@@ -250,19 +251,35 @@ class Controller extends GetxController {
   navigateToUrl(url) {
     if (url == '/home/cart') {
       activePageName.value == 'cart';
-      Modular.to.navigate('/home/cart');
+    } else if (url == '/home/main') {
+      activePageName.value = 'main';
+    } else if (url == '/home/brand') {
+      activePageName.value = 'search';
+    } else if (url == '/home/category') {
+      activePageName.value = 'category';
+    } else if (url == '/home/login') {
+      activePageName.value = 'login';
+    } else if (url == '/home/profile') {
+      activePageName.value = 'profile';
     }
+    if (Get.isRegistered<AppbarScrollController>()) {
+      var appbarScrollController = Get.find<AppbarScrollController>();
+      appbarScrollController.navigateTo(url);
+    }
+    // Modular.to.navigate(url);
   }
 
   changeTab(currentTab) {
     switch (currentTab) {
       case 0:
-        activePageName.value = 'main';
-        Modular.to.navigate('/home/main');
+        navigateToUrl('/home/main');
+        // activePageName.value = 'main';
+        // Modular.to.navigate('/home/main');
         break;
       case 2:
-        activePageName.value = 'search';
-        Modular.to.navigate('/home/brand');
+        navigateToUrl('/home/brand');
+        // activePageName.value = 'search';
+        // Modular.to.navigate('/home/brand');
         break;
       case 1:
         // if (isLogin.value) {
@@ -272,25 +289,28 @@ class Controller extends GetxController {
         //   activePageName.value = 'profile';
         //   Modular.to.navigate('/home/profile');
         // }
-        activePageName.value = 'category';
-        Modular.to.navigate('/home/category');
+        navigateToUrl('/home/category');
         break;
       case 3:
         if (isLogin.value) {
-          activePageName.value = 'cart';
-          Modular.to.navigate('/home/cart');
+          // activePageName.value = 'cart';
+          // Modular.to.navigate('/home/cart');
+          navigateToUrl('/home/cart');
         } else {
-          activePageName.value = 'login';
-          Modular.to.navigate('/home/login');
+          // activePageName.value = 'login';
+          // Modular.to.navigate('/home/login');
+          navigateToUrl('/home/login');
         }
         break;
       case 4:
         if (isLogin.value) {
-          activePageName.value = 'profile';
-          Modular.to.navigate('/home/profile');
+          // activePageName.value = 'profile';
+          // Modular.to.navigate('/home/profile');
+          navigateToUrl('/home/profile');
         } else {
-          activePageName.value = 'login';
-          Modular.to.navigate('/home/login');
+          // activePageName.value = 'login';
+          // Modular.to.navigate('/home/login');
+          navigateToUrl('/home/login');
         }
         break;
     }
