@@ -168,8 +168,8 @@ class LocationPage extends StatelessWidget {
                             'phoneNumber': '',
                             'directionComment': '',
                           });
-                          Navigator.pop(context);
-                          // _displayDialog(context, locationController, 'ADD');
+                          // Navigator.pop(context);
+                          _displayDialog(context, locationController, 'ADD');
                           // locationController.saveAddress();
                         },
                       ),
