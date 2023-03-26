@@ -73,6 +73,7 @@ class AllAddressPage extends StatelessWidget {
                   currentAddress,
                   () {
                     locationController.addressData.value = currentAddress;
+                    locationController.pinCode.value = currentAddress.zipCode!;
                     Modular.to.navigate('/home/cart');
                     return {};
                   },

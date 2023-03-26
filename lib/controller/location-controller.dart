@@ -83,6 +83,7 @@ class LocationController extends GetxController {
         pinCode.value = addressData.value.zipCode ?? '0';
       } else {
         addressData.value = Address();
+         pinCode.value = '0';
         // getLocation();
       }
     } else {
@@ -129,7 +130,8 @@ class LocationController extends GetxController {
 
   saveAddress() {
     // OfflineDBService.save(OfflineDBService.location, address.value);
-    // pinCode.value = '';
+    pinCode.value =  findValueFromAddress('postal_code');
+    
     // getLocation();
     Modular.to.pop(this.address);
   }
@@ -179,7 +181,13 @@ class LocationController extends GetxController {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         address.value = response.data["results"][0];
-        setAddressData(address.value);
+        if (address.value['geometry'] != null) {
+          currentLatLang.value = LatLng(
+              address.value['geometry']['location']['lat'],
+               address.value['geometry']['location']['lng']);
+               addressAvaiable.value = true;
+        }
+        // setAddressData(address.value);
       }
     }
   }
@@ -198,10 +206,7 @@ class LocationController extends GetxController {
         data['geometry']['location']['lng']
       ]
     });
-    if (data['geometry'] != null) {
-      currentLatLang.value = LatLng(data['geometry']['location']['lat'],
-          data['geometry']['location']['lng']);
-    }
+    
   }
 
   setAddressCall() async {
@@ -214,6 +219,7 @@ class LocationController extends GetxController {
             CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
         if (cust.addresses!.isEmpty) {
           cust.addresses = [addressData.value];
+          pinCode.value = addressData.value.zipCode!;
         } else {
           cust.addresses![cust.addresses!.length - 1] = (addressData.value);
         }

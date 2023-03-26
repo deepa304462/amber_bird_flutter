@@ -44,7 +44,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                 color: AppColors.black,
               ),
               Obx(() => FitText(
-                    locationController.addressData.value.zipCode ?? '0',
+                    locationController.pinCode.value ?? '0',
                     style: TextStyles.body,
                   )),
               // Text(location.addressData.value.zipCode ?? '',

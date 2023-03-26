@@ -168,8 +168,13 @@ class LocationPage extends StatelessWidget {
                             'phoneNumber': '',
                             'directionComment': '',
                           });
-                          // Navigator.pop(context);
-                          _displayDialog(context, locationController, 'ADD');
+                          try{
+                          Navigator.pop(context);
+                          } catch (e) {
+                            Modular.to.navigate('/home/main');
+                            // code that handles the exception
+                          }
+                          // _displayDialog(context, locationController, 'ADD');
                           // locationController.saveAddress();
                         },
                       ),
@@ -246,9 +251,10 @@ class LocationPage extends StatelessWidget {
               style:
                   TextStyles.headingFont.copyWith(color: AppColors.primeColor),
             ),
-            locationController.addressData.value.line1 != null
+            locationController.findValueFromAddress('sublocality_level_1') !=
+                    null
                 ? Text(
-                    '${locationController.addressData.value.localArea}, ${locationController.addressData.value.city}, ${locationController.addressData.value.country}, ${locationController.addressData.value.zipCode}' ??
+                    '${locationController.findValueFromAddress('sublocality_level_1')}, ${locationController.findValueFromAddress('locality')}, ${locationController.findValueFromAddress('country')}, ${locationController.findValueFromAddress('postal_code')}' ??
                         '',
                     style: TextStyles.titleFont,
                   )
