@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
@@ -28,6 +29,7 @@ class ProductDetailScreen extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   LocationController locationController = Get.find();
+  final AppbarScrollController appbarScrollController = Get.find();
   final String? pId;
   // final Price? dealPrice;
   final String? refId;
@@ -97,6 +99,8 @@ class ProductDetailScreen extends StatelessWidget {
         ? Stack(
             children: [
               SingleChildScrollView(
+                
+                controller: appbarScrollController.scrollController,
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(

@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -19,7 +20,10 @@ import '../widget/brand-horizontal-cart.dart';
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
   final ProductTagController productTagController =
-      Get.put(ProductTagController());
+      Get.put(ProductTagController()); 
+
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class MainPage extends StatelessWidget {
     return Container(
       color: AppColors.backgroundGrey,
       child: SingleChildScrollView(
+         
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [

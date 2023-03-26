@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/product-guide-page-controller.dart';
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
@@ -13,6 +14,7 @@ import '../widget/loading-with-logo.dart';
 class ProductGuidePage extends StatelessWidget {
   final String productGuideId;
   late ProductGuidePageController productGuidePageController;
+  final AppbarScrollController appbarScrollController = Get.find();
   ProductGuidePage(this.productGuideId, {Key? key}) : super(key: key) {
     productGuidePageController = ControllerGenerator.create(
         ProductGuidePageController(),
@@ -30,6 +32,7 @@ class ProductGuidePage extends StatelessWidget {
               )
             : Scaffold(
                 body: CustomScrollView(
+                  controller: appbarScrollController.scrollController,
                   slivers: <Widget>[
                     SliverAppBar(
                       backgroundColor: Colors.white,
