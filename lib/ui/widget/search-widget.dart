@@ -194,6 +194,7 @@ class CustomSearchDelegate extends SearchDelegate {
               },
               leading: ImageBox(
                 jsonDecode(product.extraData!)['images'][0],
+                key: Key(product.id!),
                 width: 30,
                 height: 30,
               ),
@@ -224,6 +225,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 leading: jsonDecode(category.extraData!)['logoId'] != null
                     ? ImageBox(
                         jsonDecode(category.extraData!)['logoId'],
+                        key: Key(category.id!),
                         width: 30,
                         height: 30,
                       )
@@ -253,6 +255,7 @@ class CustomSearchDelegate extends SearchDelegate {
               leading: jsonDecode(brand.extraData!)['logoId'] != null
                   ? ImageBox(
                       jsonDecode(brand.extraData!)['logoId'],
+                      key: Key(brand.id!),
                       width: 30,
                       height: 30,
                     )

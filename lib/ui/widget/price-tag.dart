@@ -20,21 +20,18 @@ class PriceTag extends StatelessWidget {
             verticalDirection: VerticalDirection.up,
             children: [
               Text(
-                "${CodeHelp.euro}${num.parse(showPrice).toStringAsFixed(2)}",
+                "${num.parse(showPrice).toStringAsFixed(2)} ${CodeHelp.euro}",
                 style: TextStyles.headingFont,
               ),
               const SizedBox(width: 3),
               Visibility(
                 visible: realPrice != '' ? true : false,
-                child: Text(
-                  num.parse(realPrice).toStringAsFixed(2),
-                  textHeightBehavior:
-                      const TextHeightBehavior(applyHeightToFirstAscent: true),
-                  style: TextStyles.titleFont.copyWith(
-                      decoration: TextDecoration.lineThrough,
-                      color: Colors.grey
-                    )
-                ),
+                child: Text(num.parse(realPrice).toStringAsFixed(2),
+                    textHeightBehavior: const TextHeightBehavior(
+                        applyHeightToFirstAscent: true),
+                    style: TextStyles.titleFont.copyWith(
+                        decoration: TextDecoration.lineThrough,
+                        color: Colors.grey)),
               ),
             ],
           );

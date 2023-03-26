@@ -15,8 +15,8 @@ class LoadingWithLogo extends StatelessWidget {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.primeColor,
-          AppColors.off_red,
+          AppColors.primeColor.withOpacity(.5),
+          AppColors.off_red.withOpacity(.5),
         ],
       )),
       child: Stack(

@@ -19,6 +19,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
+import 'add-to-cart-button.dart';
 import 'like-button.dart';
 
 class ProductCard extends StatelessWidget {
@@ -73,42 +74,22 @@ class ProductCard extends StatelessWidget {
     //   difference = DateTime.parse(expire).difference(newDate);
     // }
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // addedFrom == dealName.FLASH.name
-        //     ? CardColorAnimated(
-        //         Padding(
-        //           padding: const EdgeInsets.only(
-        //               right: 5, top: 1, bottom: 1, left: 2),
-        //           child: Text(
-        //             difference.inHours != null
-        //                 ? '${difference.inHours}H left'
-        //                 : '${difference.inMinutes}M left',
-        //             style:
-        //                 TextStyles.bodyFontBold.copyWith(color: Colors.white),
-        //           ),
-        //         ),
-        //         Colors.red,
-        //         Colors.indigo,
-        //         const RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.only(
-        //             topRight: Radius.circular(12),
-        //             bottomRight: Radius.circular(12),
-        //           ),
-        //         ),
-        //       )
-        //     : const SizedBox(),
         Obx(() {
           return Visibility(
             visible: checkFavVisibility(),
-            child: LikeButton(
-              isLiked: wishlistController.checkIfProductWishlist(product.id),
-              onPressed: () async {
-                stateController.showLoader.value = true;
-                await wishlistController.addToWishlist(
-                    product.id, product, null, addedFrom);
-                stateController.showLoader.value = false;
-              },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LikeButton(
+                isLiked: wishlistController.checkIfProductWishlist(product.id),
+                onPressed: () async {
+                  stateController.showLoader.value = true;
+                  await wishlistController.addToWishlist(
+                      product.id, product, null, addedFrom);
+                  stateController.showLoader.value = false;
+                },
+              ),
             ),
           );
         }),
@@ -206,244 +187,198 @@ class ProductCard extends StatelessWidget {
             _gridItemBody(product!, context),
             _gridItemHeader(product!),
             Obx(() {
-              Widget counterOrAdd = cartController.checkProductInCart(
-                      '$refId@${activeVariant.value.varientCode}', addedFrom)
-                  ? Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      color: AppColors.primeColor,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(),
-                            onPressed: () async {
-                              stateController.showLoader.value = true;
-                              Price? price = activeVariant.value.price;
-                              if (stateController.isLogin.value) {
-                                var valid = true;
-                                var msg = 'Something went wrong!';
-
-                                if (Get.isRegistered<DealController>(
-                                    tag: addedFrom!)) {
-                                  price = dealPrice;
-                                  var dealController =
-                                      Get.find<DealController>(tag: addedFrom!);
-                                  var data = await dealController.checkValidDeal(
-                                      refId!,
-                                      'negative',
-                                      '$refId@${activeVariant.value.varientCode}');
-                                  valid = !data['error'];
-                                  msg = data['msg'];
-                                }
-                                if (valid) {
-                                  if (addedFrom == 'SCOIN') {
-                                    await cartController.addToCartScoins(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  } else {
-                                    await cartController.addToCart(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  }
-                                } else {
-                                  snackBarClass.showToast(context, msg);
-                                }
-                              } else {
-                                stateController.setCurrentTab(3);
-                                var showToast = snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
-                              }
-                              stateController.showLoader.value = false;
-                            },
-                            icon: const Icon(
-                              Icons.remove_circle_outline,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ),
-                          Text(
-                            cartController
-                                .getCurrentQuantity(
-                                    '$refId@${activeVariant.value.varientCode}',
-                                    '')
-                                .toString(),
-                            style: TextStyles.headingFont
-                                .copyWith(color: AppColors.white),
-                          ),
-                          IconButton(
-                            padding: const EdgeInsets.all(8),
-                            constraints: const BoxConstraints(),
-                            onPressed: () async {
-                              stateController.showLoader.value = true;
-                              if (stateController.isLogin.value) {
-                                var valid = true;
-                                var msg = 'Something went wrong!';
-                                Price? price = activeVariant.value.price;
-                                if (Get.isRegistered<DealController>(
-                                    tag: addedFrom!)) {
-                                  var dealController =
-                                      Get.find<DealController>(tag: addedFrom!);
-                                  var data = await dealController.checkValidDeal(
-                                      refId!,
-                                      'positive',
-                                      '$refId@${activeVariant.value.varientCode}');
-                                  valid = !data['error'];
-                                  msg = data['msg'];
-                                  price = dealPrice;
-                                }
-                                if (valid) {
-                                  if (addedFrom == 'SCOIN') {
-                                    await cartController.addToCartScoins(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  } else {
-                                    await cartController.addToCart(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  }
-                                } else {
-                                  stateController.setCurrentTab(3);
-                                  snackBarClass.showToast(context, msg);
-                                }
-                              }
-                              stateController.showLoader.value = false;
-                            },
-                            icon: Icon(
-                              Icons.add_circle_outline,
-                              color: AppColors.white,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : CircleAvatar(
-                      backgroundColor: AppColors.primeColor,
-                      radius: 15,
-                      child: IconButton(
-                        constraints: const BoxConstraints(),
-                        color: Colors.white,
-                        onPressed: stateController.isLogin.value
-                            ? () async {
-                                stateController.showLoader.value = true;
-                                bool isCheckedActivate =
-                                    await stateController.getUserIsActive();
-                                if (isCheckedActivate) {
-                                  // if (stateController.isActivate.value) {
-                                  var valid = true;
-                                  var msg = 'Something went wrong!';
-
-                                  Price? price = activeVariant.value.price;
-                                  // this.refId, this.addedFrom,
-                                  if (addedFrom == 'CATEGORY') {
-                                    cartController.addToCart(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  } else if (addedFrom == 'SCOIN') {
-                                    cartController.addToCartScoins(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  } else {
-                                    if (Get.isRegistered<DealController>(
-                                        tag: addedFrom!)) {
-                                      var dealController =
-                                          Get.find<DealController>(
-                                              tag: addedFrom!);
-                                      var data =
-                                          await dealController.checkValidDeal(
-                                              refId!,
-                                              'positive',
-                                              '$refId@${activeVariant.value.varientCode}');
-                                      valid = !data['error'];
-                                      msg = data['msg'];
-                                    }
-                                    if (valid) {
-                                      cartController.addToCart(
-                                          '$refId@${activeVariant.value.varientCode}',
-                                          addedFrom!,
-                                          1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint,
-                                          activeVariant.value);
-                                    } else {
-                                      snackBarClass.showToast(context, msg);
-                                    }
-                                  }
-                                } else {
-                                  // Navigator.of(context).pop();
-                                  snackBarClass.showToast(context,
-                                      'Your profile is not active yet');
-                                }
-                                stateController.showLoader.value = false;
-                              }
-                            : () {
-                                stateController.setCurrentTab(3);
-                                snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
-                              },
-                        icon: const Icon(
-                          Icons.add,
-                          size: 15,
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
               return Visibility(
                 visible: checkBuyProductVisibility(),
                 child: Positioned(
-                  right: 0,
-                  top: 50,
+                  right: fixedHeight ? 15 : 50,
+                  top: 80,
                   child: AnimatedSwitcher(
                     switchInCurve: Curves.bounceIn,
                     switchOutCurve: Curves.easeOut,
                     duration: const Duration(milliseconds: 200),
-                    child: counterOrAdd,
+                    child: AddToCartButtons(
+                      hideAdd: cartController.checkProductInCart(
+                          '$refId@${activeVariant.value.varientCode}',
+                          addedFrom),
+                      quantity: cartController.getCurrentQuantity(
+                          '$refId@${activeVariant.value.varientCode}', ''),
+                      onAdd: stateController.isLogin.value
+                          ? () async {
+                              stateController.showLoader.value = true;
+                              bool isCheckedActivate =
+                                  await stateController.getUserIsActive();
+                              if (isCheckedActivate) {
+                                // if (stateController.isActivate.value) {
+                                var valid = true;
+                                var msg = 'Something went wrong!';
+
+                                Price? price = activeVariant.value.price;
+                                // this.refId, this.addedFrom,
+                                if (addedFrom == 'CATEGORY') {
+                                  cartController.addToCart(
+                                      '$refId@${activeVariant.value.varientCode}',
+                                      addedFrom!,
+                                      1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      activeVariant.value);
+                                } else if (addedFrom == 'SCOIN') {
+                                  cartController.addToCartScoins(
+                                      '$refId@${activeVariant.value.varientCode}',
+                                      addedFrom!,
+                                      -1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      activeVariant.value);
+                                } else {
+                                  if (Get.isRegistered<DealController>(
+                                      tag: addedFrom!)) {
+                                    var dealController =
+                                        Get.find<DealController>(
+                                            tag: addedFrom!);
+                                    var data = await dealController.checkValidDeal(
+                                        refId!,
+                                        'positive',
+                                        '$refId@${activeVariant.value.varientCode}');
+                                    valid = !data['error'];
+                                    msg = data['msg'];
+                                  }
+                                  if (valid) {
+                                    cartController.addToCart(
+                                        '$refId@${activeVariant.value.varientCode}',
+                                        addedFrom!,
+                                        1,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint,
+                                        activeVariant.value);
+                                  } else {
+                                    snackBarClass.showToast(context, msg);
+                                  }
+                                }
+                              } else {
+                                // Navigator.of(context).pop();
+                                snackBarClass.showToast(
+                                    context, 'Your profile is not active yet');
+                              }
+                              stateController.showLoader.value = false;
+                            }
+                          : () {
+                              stateController.setCurrentTab(3);
+                              snackBarClass.showToast(
+                                  context, 'Please Login to preoceed');
+                            },
+                      onDecrease: () async {
+                        stateController.showLoader.value = true;
+                        Price? price = activeVariant.value.price;
+                        if (stateController.isLogin.value) {
+                          var valid = true;
+                          var msg = 'Something went wrong!';
+
+                          if (Get.isRegistered<DealController>(
+                              tag: addedFrom!)) {
+                            price = dealPrice;
+                            var dealController =
+                                Get.find<DealController>(tag: addedFrom!);
+                            var data = await dealController.checkValidDeal(
+                                refId!,
+                                'negative',
+                                '$refId@${activeVariant.value.varientCode}');
+                            valid = !data['error'];
+                            msg = data['msg'];
+                          }
+                          if (valid) {
+                            if (addedFrom == 'SCOIN') {
+                              await cartController.addToCartScoins(
+                                  '$refId@${activeVariant.value.varientCode}',
+                                  addedFrom!,
+                                  -1,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value);
+                            } else {
+                              await cartController.addToCart(
+                                  '$refId@${activeVariant.value.varientCode}',
+                                  addedFrom!,
+                                  -1,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value);
+                            }
+                          } else {
+                            snackBarClass.showToast(context, msg);
+                          }
+                        } else {
+                          stateController.setCurrentTab(3);
+                          var showToast = snackBarClass.showToast(
+                              context, 'Please Login to preoceed');
+                        }
+                        stateController.showLoader.value = false;
+                      },
+                      onIncrease: () async {
+                        stateController.showLoader.value = true;
+                        if (stateController.isLogin.value) {
+                          var valid = true;
+                          var msg = 'Something went wrong!';
+                          Price? price = activeVariant.value.price;
+                          if (Get.isRegistered<DealController>(
+                              tag: addedFrom!)) {
+                            var dealController =
+                                Get.find<DealController>(tag: addedFrom!);
+                            var data = await dealController.checkValidDeal(
+                                refId!,
+                                'positive',
+                                '$refId@${activeVariant.value.varientCode}');
+                            valid = !data['error'];
+                            msg = data['msg'];
+                            price = dealPrice;
+                          }
+                          if (valid) {
+                            if (addedFrom == 'SCOIN') {
+                              await cartController.addToCartScoins(
+                                  '$refId@${activeVariant.value.varientCode}',
+                                  addedFrom!,
+                                  -1,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value);
+                            } else {
+                              await cartController.addToCart(
+                                  '$refId@${activeVariant.value.varientCode}',
+                                  addedFrom!,
+                                  1,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value);
+                            }
+                          } else {
+                            stateController.setCurrentTab(3);
+                            snackBarClass.showToast(context, msg);
+                          }
+                        }
+                        stateController.showLoader.value = false;
+                      },
+                    ),
                   ),
                 ),
               );
@@ -456,7 +391,7 @@ class ProductCard extends StatelessWidget {
 
   Widget productVarientView(List<Varient> varientList) {
     return SizedBox(
-      height: 50,
+      height: 30,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: varientList.length,
@@ -469,26 +404,22 @@ class ProductCard extends StatelessWidget {
                   activeVariant.value = currentVarient;
                   // productController.setVarient(currentVarient);
                 },
-                child: SizedBox(
-                  height: 50,
-                  child: Card(
-                    color: currentVarient.varientCode ==
-                            activeVariant.value.varientCode
-                        ? AppColors.primeColor
-                        : Colors.white,
-                    margin: const EdgeInsets.all(5),
+                child: Card(
+                  color: currentVarient.varientCode ==
+                          activeVariant.value.varientCode
+                      ? AppColors.primeColor
+                      : Colors.white,
+                  margin: const EdgeInsets.all(1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
                     child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: currentVarient.varientCode !=
-                                      activeVariant.value.varientCode
-                                  ? AppColors.primeColor
-                                  : Colors.white),
-                        ),
+                      child: Text(
+                        '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                        style: TextStyles.bodyFont.copyWith(
+                            color: currentVarient.varientCode !=
+                                    activeVariant.value.varientCode
+                                ? AppColors.primeColor
+                                : Colors.white),
                       ),
                     ),
                   ),
@@ -500,6 +431,9 @@ class ProductCard extends StatelessWidget {
   }
 
   checkFavVisibility() {
+    if (fixedHeight) {
+      return false;
+    }
     if (addedFrom == 'MULTIPRODUCT') {
       return false;
     }

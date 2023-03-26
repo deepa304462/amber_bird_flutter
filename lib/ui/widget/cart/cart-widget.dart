@@ -178,7 +178,8 @@ class CartWidget extends StatelessWidget {
                           },
                           child: Text(
                             'Add Products',
-                            style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.white),
                           ),
                         ),
                         SaveLater()
@@ -373,8 +374,9 @@ class CartWidget extends StatelessWidget {
                       ),
                       Text(
                         'Remove',
-                        style: TextStyles.body
-                            .copyWith(color: Colors.grey,),
+                        style: TextStyles.body.copyWith(
+                          color: Colors.grey,
+                        ),
                       )
                     ],
                   ),
@@ -1029,6 +1031,8 @@ class CartWidget extends StatelessWidget {
                       style: TextStyles.headingFont,
                     ),
                     MaterialButton(
+                      color: Colors.white,
+                      elevation: 0,
                       onPressed: (() =>
                           {Modular.to.navigate('../home/address-list')}),
                       child: Row(
@@ -1051,29 +1055,35 @@ class CartWidget extends StatelessWidget {
                 Card(
                   color: Colors.grey.shade300,
                   elevation: 0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.pin_drop,
-                          color: Colors.grey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.grey,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FitText(add.value.name ?? '',
-                                style: TextStyles.body),
-                            FitText(
-                                '(ZipCode: ${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
-                                style: TextStyles.body.copyWith()),
-                          ],
-                        ),
-                      )
-                    ],
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * .7,
+                          child: Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(add.value.name ?? '',
+                                    style: TextStyles.bodyFontBold),
+                                Text(
+                                    '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                    style: TextStyles.body.copyWith())
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -1179,7 +1189,8 @@ class CartWidget extends StatelessWidget {
                             0.00
                         ? Text(
                             'Free',
-                            style: TextStyles.titleFont.copyWith(color: AppColors.green),
+                            style: TextStyles.titleFont
+                                .copyWith(color: AppColors.green),
                           )
                         : Text(
                             '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.shippingAmount as double).toStringAsFixed(2)}',

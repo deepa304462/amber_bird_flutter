@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
+import 'add-to-cart-button.dart';
 
 class MultiProductRow extends StatelessWidget {
   bool isLoading = false;
@@ -161,7 +162,8 @@ class MultiProductRow extends StatelessWidget {
                               mProduct.name!.defaultText!.text ?? '',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
-                              style: TextStyles.titleFont.copyWith(color: AppColors.grey.withBlue(200)),
+                              style: TextStyles.titleFont.copyWith(
+                                  color: AppColors.grey.withBlue(200)),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * .6,
@@ -257,8 +259,7 @@ class MultiProductRow extends StatelessWidget {
                 children: [
                   Text(
                     '${multiProd.name!.defaultText!.text}',
-                    style: TextStyles.body
-                        .copyWith( color: Colors.grey),
+                    style: TextStyles.body.copyWith(color: Colors.grey),
                     textAlign: TextAlign.left,
                   ),
                 ],
@@ -291,161 +292,111 @@ class MultiProductRow extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 200),
-            child: cartController.checkProductInCart(multiProd.id, '')
-                ? Card(
-                    color: AppColors.primeColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(),
-                          onPressed: () async {
-                            if (stateController.isLogin.value) {
-                              var valid = false;
-                              var msg = 'Something went wrong!';
+            child: AddToCartButtons(
+              hideAdd: cartController.checkProductInCart(multiProd.id, ''),
+              onDecrease: () async {
+                if (stateController.isLogin.value) {
+                  var valid = false;
+                  var msg = 'Something went wrong!';
 
-                              var data =
-                                  await multiprodController.checkValidDeal(
-                                      multiProd.id!, 'negative', multiProd.id!);
-                              valid = !data['error'];
-                              msg = data['msg'];
-                              if (valid) {
-                                cartController.addToCart(
-                                    multiProd.id!,
-                                    'MULTIPRODUCT',
-                                    (-(multiProd.constraint?.minimumOrder ??
-                                            1)) ??
-                                        -1,
-                                    multiProd.price,
-                                    null,
-                                    multiProd.products,
-                                    null,
-                                    multiProd.constraint,
-                                    null,
-                                    mutliProductName:
-                                        multiProd.name!.defaultText!.text!);
-                              } else {
-                                Navigator.of(context).pop();
-                                snackBarClass.showToast(context, msg);
-                              }
-                            } else {
-                              stateController.setCurrentTab(3);
-                              var showToast = snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.remove_circle_outline,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                        Text(
-                          cartController
-                              .getCurrentQuantity(multiProd.id, '')
-                              .toString(),
-                          style: TextStyles.body.copyWith(color: AppColors.white),
-                        ),
-                        IconButton(
-                          padding: const EdgeInsets.all(8),
-                          constraints: const BoxConstraints(),
-                          onPressed: () async {
-                            if (stateController.isLogin.value) {
-                              var valid = false;
-                              var msg = 'Something went wrong!';
+                  var data = await multiprodController.checkValidDeal(
+                      multiProd.id!, 'negative', multiProd.id!);
+                  valid = !data['error'];
+                  msg = data['msg'];
+                  if (valid) {
+                    cartController.addToCart(
+                        multiProd.id!,
+                        'MULTIPRODUCT',
+                        (-(multiProd.constraint?.minimumOrder ?? 1)) ?? -1,
+                        multiProd.price,
+                        null,
+                        multiProd.products,
+                        null,
+                        multiProd.constraint,
+                        null,
+                        mutliProductName: multiProd.name!.defaultText!.text!);
+                  } else {
+                    Navigator.of(context).pop();
+                    snackBarClass.showToast(context, msg);
+                  }
+                } else {
+                  stateController.setCurrentTab(3);
+                  var showToast = snackBarClass.showToast(
+                      context, 'Please Login to preoceed');
+                }
+              },
+              quantity: cartController.getCurrentQuantity(multiProd.id, ''),
+              onIncrease: () async {
+                if (stateController.isLogin.value) {
+                  var valid = false;
+                  var msg = 'Something went wrong!';
 
-                              var data =
-                                  await multiprodController.checkValidDeal(
-                                      multiProd.id!, 'positive', multiProd.id!);
-                              valid = !data['error'];
-                              msg = data['msg'];
-                              if (valid) {
-                                cartController.addToCart(
-                                    multiProd.id!,
-                                    'MULTIPRODUCT',
-                                    multiProd.constraint!.minimumOrder ?? 1,
-                                    multiProd.price,
-                                    null,
-                                    multiProd.products,
-                                    null,
-                                    multiProd.constraint,
-                                    null,
-                                    mutliProductName:
-                                        multiProd.name!.defaultText!.text!);
-                              } else {
-                                snackBarClass.showToast(context, msg);
-                              }
-                            } else {
-                              stateController.setCurrentTab(3);
-                               snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.add_circle_outline,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : CircleAvatar(
-                    backgroundColor: AppColors.primeColor,
-                    radius: 20,
-                    child: IconButton(
-                      padding: const EdgeInsets.all(1),
-                      constraints: const BoxConstraints(),
-                      onPressed: () async {
-                        if (stateController.isLogin.value) {
-                          stateController.showLoader.value = true;
-                          bool isCheckedActivate =
-                              await stateController.getUserIsActive();
-                          if (isCheckedActivate) {
-                            var valid = false;
-                            var msg = 'Something went wrong!';
+                  var data = await multiprodController.checkValidDeal(
+                      multiProd.id!, 'positive', multiProd.id!);
+                  valid = !data['error'];
+                  msg = data['msg'];
+                  if (valid) {
+                    cartController.addToCart(
+                        multiProd.id!,
+                        'MULTIPRODUCT',
+                        multiProd.constraint!.minimumOrder ?? 1,
+                        multiProd.price,
+                        null,
+                        multiProd.products,
+                        null,
+                        multiProd.constraint,
+                        null,
+                        mutliProductName: multiProd.name!.defaultText!.text!);
+                  } else {
+                    snackBarClass.showToast(context, msg);
+                  }
+                } else {
+                  stateController.setCurrentTab(3);
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                }
+              },
+              onAdd: () async {
+                if (stateController.isLogin.value) {
+                  stateController.showLoader.value = true;
+                  bool isCheckedActivate =
+                      await stateController.getUserIsActive();
+                  if (isCheckedActivate) {
+                    var valid = false;
+                    var msg = 'Something went wrong!';
 
-                            var data = await multiprodController.checkValidDeal(
-                                multiProd.id!, 'positive', multiProd.id!);
-                            valid = !data['error'];
-                            msg = data['msg'];
-                            if (valid) {
-                              cartController.addToCart(
-                                  multiProd.id!,
-                                  'MULTIPRODUCT',
-                                  multiProd.constraint!.minimumOrder ?? 1,
-                                  multiProd.price,
-                                  null,
-                                  multiProd.products,
-                                  null,
-                                  multiProd.constraint,
-                                  null,
-                                  mutliProductName:
-                                      multiProd.name!.defaultText!.text!);
-                            } else {
-                              Navigator.of(context).pop();
-                              snackBarClass.showToast(context, msg);
-                            }
-                          } else {
-                            stateController.setCurrentTab(4);
-                            // ignore: use_build_context_synchronously
-                            snackBarClass.showToast(
-                                context, 'Your profile is not active yet');
-                          }
-                        } else {
-                          stateController.setCurrentTab(3);
-                          snackBarClass.showToast(
-                              context, 'Please Login to preoceed');
-                        }
-                        stateController.showLoader.value = false;
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                      ),
-                    ),
-                  ),
+                    var data = await multiprodController.checkValidDeal(
+                        multiProd.id!, 'positive', multiProd.id!);
+                    valid = !data['error'];
+                    msg = data['msg'];
+                    if (valid) {
+                      cartController.addToCart(
+                          multiProd.id!,
+                          'MULTIPRODUCT',
+                          multiProd.constraint!.minimumOrder ?? 1,
+                          multiProd.price,
+                          null,
+                          multiProd.products,
+                          null,
+                          multiProd.constraint,
+                          null,
+                          mutliProductName: multiProd.name!.defaultText!.text!);
+                    } else {
+                      Navigator.of(context).pop();
+                      snackBarClass.showToast(context, msg);
+                    }
+                  } else {
+                    stateController.setCurrentTab(4);
+                    // ignore: use_build_context_synchronously
+                    snackBarClass.showToast(
+                        context, 'Your profile is not active yet');
+                  }
+                } else {
+                  stateController.setCurrentTab(3);
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                }
+                stateController.showLoader.value = false;
+              },
+            ),
           ),
         );
       },
