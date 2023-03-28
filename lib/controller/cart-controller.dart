@@ -280,7 +280,8 @@ class CartController extends GetxController {
       if (customerInsightDetail.statusCode == 200) {
         OfflineDBService.save(
             OfflineDBService.customerInsightDetail, customerInsightDetail.data);
-        resetCart();
+        // resetCart();
+        fetchCart();
       }
     }
   }

@@ -6,10 +6,8 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
-import 'package:amber_bird/data/deal_product/varient.dart';
-import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/card-color-animated.dart';
+import 'package:amber_bird/data/deal_product/varient.dart'; 
+import 'package:amber_bird/ui/element/snackbar.dart'; 
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -162,7 +160,7 @@ class ProductCard extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              '${product.varients![0].weight!.toStringAsFixed(0)}',
+                              product.varients![0].weight!.toStringAsFixed(0),
                               style: TextStyles.body,
                             ),
                             Text(
@@ -190,7 +188,7 @@ class ProductCard extends StatelessWidget {
               ? const SizedBox()
               : (product.varients!.length > 1
                   ? productVarientView(product.varients!)
-                  : SizedBox())
+                  : const SizedBox())
         ],
       ),
     );
