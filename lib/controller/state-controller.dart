@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
@@ -75,6 +76,25 @@ class Controller extends GetxController {
     backButtonPress.value = 0;
     getLoginInfo();
     changeTab(currentTab.toInt());
+    Modular.to.addListener(() {
+      Modular.to.navigateHistory.forEach((element) {
+        if (element.name == '/home/brand') {
+          currentTab.value = 2;
+        }
+        if (element.name == '/home/main') {
+          currentTab.value = 0;
+        }
+        if (element.name == '/home/category') {
+          currentTab.value = 1;
+        }
+        if (element.name == '/home/cart') {
+          currentTab.value = 3;
+        }
+        if (element.name == '/home/profile') {
+          currentTab.value = 4;
+        }
+      });
+    });
     super.onInit();
   }
 

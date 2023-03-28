@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/product/product.tag.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:get/get.dart'; 
+import 'package:get/get.dart';
 
 class ProductTagController extends GetxController {
   RxMap<String, List<ProductSummary>> tagsProductsList =
@@ -26,7 +26,7 @@ class ProductTagController extends GetxController {
       tagList.forEach((element) async {
         var responseProd = await ClientService.post(
             path: 'product/searchSummary', payload: {'tagId': element.id});
-        if (response.statusCode == 200) {
+        if (responseProd.statusCode == 200) {
           List<ProductSummary> summaryProdList = ((responseProd.data
                       as List<dynamic>?)
                   ?.map(
@@ -35,6 +35,7 @@ class ProductTagController extends GetxController {
               []);
 
           tagsProductsList['${element.id}_${element.title}'] = summaryProdList;
+          tagsProductsList.refresh();
         }
       });
 

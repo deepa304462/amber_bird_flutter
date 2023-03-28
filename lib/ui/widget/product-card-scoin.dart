@@ -20,6 +20,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
+import 'add-to-cart-button.dart';
 
 class ProductCardScoin extends StatelessWidget {
   final ProductSummary? product;
@@ -146,11 +147,13 @@ class ProductCardScoin extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text('${product.varient!.weight}'),
+                        Text(
+                          '${product.varient!.weight!.toStringAsFixed(0)}',
+                          style: TextStyles.bodyFont,
+                        ),
                         Text(
                           '${CodeHelp.formatUnit(product.varient!.unit)}',
-                          style:
-                              const TextStyle(color: Colors.blue, fontSize: 12),
+                          style: TextStyles.bodyFont,
                         )
                       ],
                     )
@@ -159,11 +162,13 @@ class ProductCardScoin extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Text('${product.varient!.weight}'),
                             Text(
-                              '${CodeHelp.formatUnit(product.varient!.unit)}',
-                              style: const TextStyle(
-                                  color: Colors.blue, fontSize: 12),
+                              '${product.varient!.weight!.toStringAsFixed(0)}',
+                              style: TextStyles.bodyFont,
+                            ),
+                            Text(
+                              ' ${CodeHelp.formatUnit(product.varient!.unit)}',
+                              style: TextStyles.bodyFont,
                             )
                           ],
                         )
@@ -200,109 +205,114 @@ class ProductCardScoin extends StatelessWidget {
             _gridItemHeader(product!),
             Obx(
               () {
-                Widget counterOrAdd = cartController.checkProductInCart(
-                        '$refId@${activeVariant.value.varientCode}', addedFrom)
-                    ? Card(
-                        color: AppColors.primeColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(),
-                              onPressed: () async {
+                return Visibility(
+                  visible: checkBuyProductVisibility(),
+                  child: Positioned(
+                    right: 0,
+                    top: 80,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: AddToCartButtons(
+                        hideAdd: cartController.checkProductInCart(
+                            '$refId@${activeVariant.value.varientCode}',
+                            addedFrom),
+                        onDecrease: () async {
+                          stateController.showLoader.value = true;
+                          if (stateController.isLogin.value) {
+                            var valid = false;
+                            var msg = 'Something went wrong!';
+
+                            cartController.addToCartScoins(
+                                '$refId@${product!.varient!.varientCode}',
+                                addedFrom!,
+                                -1,
+                                dealPrice,
+                                product,
+                                null,
+                                ruleConfig,
+                                constraint,
+                                activeVariant.value!);
+                          } else {
+                            stateController.setCurrentTab(3);
+                            var showToast = snackBarClass.showToast(
+                                context, 'Please Login to preoceed');
+                          }
+                          stateController.showLoader.value = false;
+                        },
+                        quantity: cartController.getCurrentQuantity(
+                            '$refId@${activeVariant.value.varientCode}',
+                            'SCOIN'),
+                        onIncrease: () async {
+                          stateController.showLoader.value = true;
+                          var valid = false;
+                          var msg = 'Something went wrong!';
+                          if (stateController.isLogin.value) {
+                            cartController.addToCartScoins(
+                                '$refId@${product!.varient!.varientCode}',
+                                addedFrom!,
+                                1,
+                                dealPrice,
+                                product,
+                                null,
+                                ruleConfig,
+                                constraint,
+                                product!.varient!);
+                          } else {
+                            stateController.setCurrentTab(4);
+                            snackBarClass.showToast(context, 'Please login');
+                          }
+                          stateController.showLoader.value = false;
+                        },
+                        onAdd: stateController.isLogin.value
+                            ? () async {
                                 stateController.showLoader.value = true;
-                                if (stateController.isLogin.value) {
+                                bool isCheckedActivate =
+                                    await stateController.getUserIsActive();
+                                if (isCheckedActivate) {
+                                  // if (stateController.isActivate.value) {
                                   var valid = false;
                                   var msg = 'Something went wrong!';
 
-                                  cartController.addToCartScoins(
-                                      '$refId@${product!.varient!.varientCode}',
-                                      addedFrom!,
-                                      -1,
-                                      dealPrice,
-                                      product,
-                                      null,
-                                      ruleConfig,
-                                      constraint,
-                                      activeVariant.value!);
-                                } else {
-                                  stateController.setCurrentTab(3);
-                                  var showToast = snackBarClass.showToast(
-                                      context, 'Please Login to preoceed');
-                                }
-                                stateController.showLoader.value = false;
-                              },
-                              icon: const Icon(
-                                Icons.remove_circle_outline,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                            Text(
-                              cartController
-                                  .getCurrentQuantity(
-                                      '$refId@${activeVariant.value.varientCode}',
-                                      'SCOIN')
-                                  .toString(),
-                              style:
-                                  TextStyles.headingFont.copyWith(color: AppColors.white),
-                            ),
-                            IconButton(
-                              padding: const EdgeInsets.all(8),
-                              constraints: const BoxConstraints(),
-                              onPressed: () async {
-                                stateController.showLoader.value = true;
-                                var valid = false;
-                                var msg = 'Something went wrong!';
-                                if (stateController.isLogin.value) {
-                                  cartController.addToCartScoins(
-                                      '$refId@${product!.varient!.varientCode}',
-                                      addedFrom!,
-                                      1,
-                                      dealPrice,
-                                      product,
-                                      null,
-                                      ruleConfig,
-                                      constraint,
-                                      product!.varient!);
-                                } else {
-                                  stateController.setCurrentTab(4);
-                                  snackBarClass.showToast(
-                                      context, 'Please login');
-                                }
-                                stateController.showLoader.value = false;
-                              },
-                              icon: const Icon(
-                                Icons.add_circle_outline,
-                                color: Colors.white,
-                                size: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : CircleAvatar(
-                        backgroundColor: AppColors.primeColor,
-                        radius: 20,
-                        child: IconButton(
-                          constraints: const BoxConstraints(),
-                          color: Colors.white,
-                          onPressed: stateController.isLogin.value
-                              ? () async {
-                                  stateController.showLoader.value = true;
-                                  bool isCheckedActivate =
-                                      await stateController.getUserIsActive();
-                                  if (isCheckedActivate) {
-                                    // if (stateController.isActivate.value) {
-                                    var valid = false;
-                                    var msg = 'Something went wrong!';
-
-                                    // this.refId, this.addedFrom,
-                                    if (addedFrom == 'CATEGORY') {
+                                  // this.refId, this.addedFrom,
+                                  if (addedFrom == 'CATEGORY') {
+                                    cartController.addToCart(
+                                        '$refId@${product!.varient!.varientCode}',
+                                        addedFrom!,
+                                        1,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint,
+                                        activeVariant.value);
+                                  } else if (addedFrom == 'SCOIN') {
+                                    cartController.addToCartScoins(
+                                        '$refId@${product!.varient!.varientCode}',
+                                        addedFrom!,
+                                        1,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint,
+                                        activeVariant.value!);
+                                  } else {
+                                    if (Get.isRegistered<DealController>(
+                                        tag: addedFrom!)) {
+                                      var dealController =
+                                          Get.find<DealController>(
+                                              tag: addedFrom!);
+                                      var data =
+                                          await dealController.checkValidDeal(
+                                              refId!,
+                                              'positive',
+                                              '$refId@${activeVariant.value.varientCode}');
+                                      valid = !data['error'];
+                                      msg = data['msg'];
+                                    }
+                                    if (valid) {
                                       cartController.addToCart(
-                                          '$refId@${product!.varient!.varientCode}',
+                                          '$refId@${activeVariant.value.varientCode}',
                                           addedFrom!,
                                           1,
                                           dealPrice,
@@ -321,73 +331,23 @@ class ProductCardScoin extends StatelessWidget {
                                           null,
                                           ruleConfig,
                                           constraint,
-                                          activeVariant.value!);
+                                          product!.varient!);
                                     } else {
-                                      if (Get.isRegistered<DealController>(
-                                          tag: addedFrom!)) {
-                                        var dealController =
-                                            Get.find<DealController>(
-                                                tag: addedFrom!);
-                                        var data =
-                                            await dealController.checkValidDeal(
-                                                refId!,
-                                                'positive',
-                                                '$refId@${activeVariant.value.varientCode}');
-                                        valid = !data['error'];
-                                        msg = data['msg'];
-                                      }
-                                      if (valid) {
-                                        cartController.addToCart(
-                                            '$refId@${activeVariant.value.varientCode}',
-                                            addedFrom!,
-                                            1,
-                                            dealPrice,
-                                            product,
-                                            null,
-                                            ruleConfig,
-                                            constraint,
-                                            activeVariant.value);
-                                      } else if (addedFrom == 'SCOIN') {
-                                        cartController.addToCartScoins(
-                                            '$refId@${product!.varient!.varientCode}',
-                                            addedFrom!,
-                                            1,
-                                            dealPrice,
-                                            product,
-                                            null,
-                                            ruleConfig,
-                                            constraint,
-                                            product!.varient!);
-                                      } else {
-                                        snackBarClass.showToast(context, msg);
-                                      }
+                                      snackBarClass.showToast(context, msg);
                                     }
-                                  } else {
-                                    snackBarClass.showToast(context,
-                                        'Your profile is not active yet');
                                   }
-                                  stateController.showLoader.value = false;
+                                } else {
+                                  snackBarClass.showToast(context,
+                                      'Your profile is not active yet');
                                 }
-                              : () {
-                                  stateController.setCurrentTab(3);
-                                  snackBarClass.showToast(
-                                      context, 'Please Login to preoceed');
-                                },
-                          icon: const Icon(
-                            Icons.add,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                      );
-                return Visibility(
-                  visible: checkBuyProductVisibility(),
-                  child: Positioned(
-                    right: 0,
-                    top: 50,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: counterOrAdd,
+                                stateController.showLoader.value = false;
+                              }
+                            : () {
+                                stateController.setCurrentTab(3);
+                                snackBarClass.showToast(
+                                    context, 'Please Login to preoceed');
+                              },
+                      ),
                     ),
                   ),
                 );

@@ -12,43 +12,77 @@ import '../../utils/ui-style.dart';
 
 class BrandHorizontalCard extends StatelessWidget {
   late BrandPageController brandPageController;
+
   BrandHorizontalCard({Key? key}) : super(key: key) {
     brandPageController = ControllerGenerator.create(BrandPageController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => brandPageController.isLoading.value
-        ? ShimmerWidget(heightOfTheRow: 180, radiusOfcell: 12, widthOfCell: 150)
-        : Container(
-            color: AppColors.off_red,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: Text(
-                    "Find your favourite brand",
-                    style: TextStyles.headingFont,
+    List<Brand> shuffledBrands = [];
+    return Obx(() {
+      if (!brandPageController.isLoading.value) {
+        shuffledBrands = List.from(brandPageController.brands.value);
+        shuffledBrands.shuffle();
+      }
+      return brandPageController.isLoading.value
+          ? ShimmerWidget(
+              heightOfTheRow: 180, radiusOfcell: 12, widthOfCell: 150)
+          : Container(
+              color: AppColors.off_red,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Text(
+                      "Find your favourite brand",
+                      style: TextStyles.headingFont,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 90,
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return _brandCard(
-                          brandPageController.brands[index], context);
-                    },
-                    itemCount: brandPageController.brands.length,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 90,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        if (index == 7) {
+                          return InkWell(
+                            onTap: () {
+                              Modular.to.navigate('/home/brand');
+                            },
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width: 50,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                          child: Text(
+                                        'View all brands',
+                                        style: TextStyles.bodyFont,
+                                        textAlign: TextAlign.center,
+                                      )),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        return _brandCard(shuffledBrands[index], context);
+                      },
+                      itemCount: 8,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ));
+                ],
+              ),
+            );
+    });
   }
 
   Widget _brandCard(Brand brand, BuildContext context) {
@@ -64,6 +98,7 @@ class BrandHorizontalCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: ImageBox(
+                key: Key(brand.logoId!),
                 brand.logoId!,
                 width: 50,
                 fit: BoxFit.contain,
