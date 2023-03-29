@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
-import '../../utils/codehelp.dart';
+ 
 
 class CoinWalletPage extends StatelessWidget {
   Rx<CoinWallet> coinWallet = CoinWallet().obs;
@@ -27,37 +26,6 @@ class CoinWalletPage extends StatelessWidget {
     return Obx(
       () => Column(
         children: [
-          AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 50,
-            leadingWidth: 100,
-            backgroundColor: AppColors.primeColor,
-            title: Column(
-              children: [
-                Text(
-                  'My Wallet',
-                  style: TextStyles.headingFont.copyWith(color: Colors.white),
-                ),
-              ],
-            ),
-            leading: MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      'Back',
-                      style: TextStyles.bodyFont.copyWith(color: Colors.white),
-                    )
-                  ],
-                )),
-          ),
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(

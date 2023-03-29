@@ -18,6 +18,7 @@ import 'package:amber_bird/ui/pages/referral-page.dart';
 import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
+import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
@@ -99,6 +100,7 @@ class HomePageModule extends Module {
           ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
+          ChildRoute('/wallet', child: (_, args) => WalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
           ChildRoute('/login', child: (_, args) => LoginPageWidget()),
           ChildRoute('/profile', child: (_, args) => ProfilePage()),

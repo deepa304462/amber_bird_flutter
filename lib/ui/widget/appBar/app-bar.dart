@@ -47,52 +47,12 @@ class AppBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Stack(
-                  //   fit: StackFit.loose,
-                  //   children: [
-                  // Showcase(
-                  //   key: stateController.showKeyMap['wishlist']!.key,
-                  //   title: stateController.showKeyMap['wishlist']!.title,
-                  //   description:
-                  //       stateController.showKeyMap['wishlist']!.desc,
-                  //   child: IconButton(
-                  //     icon: const Icon(
-                  //       Icons.favorite,
-                  //     ),
-                  //     onPressed: () {
-                  //       if (stateController.isLogin.value) {
-                  //         Modular.to.pushNamed('/home/wishlist');
-                  //       } else {
-                  //         Modular.to.navigate('/home/login');
-                  //       }
-                  //       // Modular.to.navigate('../home/wishlist')
-                  //     },
-                  //   ),
-                  // ),
-                  // Positioned(
-                  //   top: 7,
-                  //   left: 4,
-                  //   child: Card(
-                  //     color: Colors.yellow[700],
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(2.0),
-                  //       child: Obx(
-                  //         () => Text(
-                  //             wishlistController.wishlistProducts.length
-                  //               .toString(),
-                  //           style: TextStyles.bodySm),
-                  //     ),
-                  //   ),
-                  // ),
-                  // ),
-                  // ],
-                  // ),
+                  
                   Showcase(
                     key: stateController.showKeyMap['refer']!.key,
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
-                    child: IconButton(
-                        // padding: EdgeInsets.all(0),
+                    child: IconButton( 
                         onPressed: () => {Modular.to.pushNamed('/home/refer')},
                         icon: const Icon(
                           Icons.share,
@@ -105,7 +65,7 @@ class AppBarWidget extends StatelessWidget {
                     child: InkWell(
                       onTap: () {
                         if (stateController.isLogin.value) {
-                          Modular.to.pushNamed('/home/coin-wallet');
+                          Modular.to.pushNamed('/home/wallet');
                         } else {
                           Modular.to.navigate('/home/login');
                         }
