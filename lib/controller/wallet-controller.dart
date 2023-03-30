@@ -16,7 +16,7 @@ class WalletController extends GetxController {
   getMembertypeIfo() async {
     var resp =
         await ClientService.post(path: 'membershipInfo/search', payload: {});
-    if (resp.statusCode == 200) { 
+    if (resp.statusCode == 200) {
       // items.value =[];
       List<Membership> list = ((resp.data as List<dynamic>?)
               ?.map((e) => Membership.fromMap(e as Map<String, dynamic>))

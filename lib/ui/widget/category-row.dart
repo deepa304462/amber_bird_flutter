@@ -41,7 +41,7 @@ class CategoryRow extends StatelessWidget {
                                 text: megaMenuController
                                     .catList[index].name!.defaultText!.text,
                                 type: 'CAT'));
- 
+
                             myController.setCurrentTab(1);
                           },
                           child: ImageBox(

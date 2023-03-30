@@ -122,8 +122,8 @@ class OrderListPage extends StatelessWidget {
                       const Text('Order #'),
                       Text(
                         '${curOrder.userFriendlyOrderId}',
-                        style: TextStyles.headingFont.copyWith(
-                            color: AppColors.primeColor ),
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.primeColor),
                       ),
                     ],
                   ),

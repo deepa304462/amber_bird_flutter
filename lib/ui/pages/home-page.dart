@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getShowCaseVal(context);
- 
+
     return WillPopScope(
       onWillPop: () {
         myController.backPressed();
@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
                   toolbarHeight: 50,
                   titleSpacing: 5,
                   backgroundColor: Colors.white,
-                  automaticallyImplyLeading: false,
+                  // automaticallyImplyLeading: false,
                   centerTitle: true,
                   title: AppBarShrinkWidget(),
                 )

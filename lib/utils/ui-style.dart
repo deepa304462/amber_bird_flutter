@@ -40,7 +40,8 @@ class TextStyles {
   static TextStyle get bodyFont => TextStyle(fontFamily: Fonts.body);
   static TextStyle get bodyFontBold =>
       TextStyle(fontFamily: Fonts.body, fontWeight: FontWeight.bold);
-  static TextStyle get titleFont => TextStyle(fontFamily: Fonts.body,
+  static TextStyle get titleFont => TextStyle(
+        fontFamily: Fonts.body,
         fontSize: FontSizes.title,
       );
   static TextStyle get headingFont => TextStyle(

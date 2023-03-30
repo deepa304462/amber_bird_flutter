@@ -48,8 +48,8 @@ class LocationDialog extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       '${CodeHelp.titleCase(type)} Address',
-                      style: TextStyles.titleFont
-                          .copyWith(color: AppColors.white),
+                      style:
+                          TextStyles.titleFont.copyWith(color: AppColors.white),
                     ),
                   ),
                   const SizedBox(
@@ -181,8 +181,7 @@ class LocationDialog extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       errorMessage.value,
-                      style: TextStyles.body
-                          .copyWith(color: Colors.red),
+                      style: TextStyles.body.copyWith(color: Colors.red),
                     ),
                   ),
                   Padding(

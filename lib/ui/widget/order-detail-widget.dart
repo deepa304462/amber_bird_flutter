@@ -136,7 +136,8 @@ class OrderDetailWidget extends StatelessWidget {
                               children: [
                                 Text(
                                   currentData.status!.description!,
-                                  style: TextStyles.headingFont.copyWith(color: Colors.blue),
+                                  style: TextStyles.headingFont
+                                      .copyWith(color: Colors.blue),
                                 ),
                                 Text(
                                   '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',

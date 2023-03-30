@@ -203,7 +203,9 @@ class SaveLater extends StatelessWidget {
                                   '${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.saveLaterProducts.value[currentKey]!.product!.varient!.unit)}',
                                   style: TextStyles.body),
                               Text(
-                                  '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}',style: TextStyles.body,),
+                                '/${CodeHelp.euro}${cartController.saveLaterProducts.value[currentKey]!.product!.varient!.price!.offerPrice!}',
+                                style: TextStyles.body,
+                              ),
                             ],
                           ),
                         ),
@@ -231,7 +233,8 @@ class SaveLater extends StatelessWidget {
               await cartController.addTocartSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: const Icon(Icons.flash_on,
+            icon: const Icon(
+              Icons.flash_on,
               size: 16,
             ),
             label: Text(
@@ -244,7 +247,8 @@ class SaveLater extends StatelessWidget {
               await cartController.removeSaveLater(currentKey);
               stateController.showLoader.value = false;
             },
-            icon: const Icon(Icons.outbox,
+            icon: const Icon(
+              Icons.outbox,
               size: 16,
             ),
             label: Text(

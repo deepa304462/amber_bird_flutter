@@ -40,7 +40,8 @@ class CouponWidget extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'APPLY',
-                    style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                    style:
+                        TextStyles.headingFont.copyWith(color: AppColors.white),
                   ),
                 ),
                 labelText: "Apply promo code",

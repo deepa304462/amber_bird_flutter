@@ -10,7 +10,6 @@ class AppbarScrollController extends GetxController {
   // RxBool navigatedToInnerPage = false.obs;
   RxBool shrinkappbar = false.obs;
 
-
   // Rx<double> extentBefore = 0.0.obs;
 
   // void _onScrollEvent() {
@@ -34,10 +33,10 @@ class AppbarScrollController extends GetxController {
       print('ghjkl${Modular.to.path}');
       print('dxscs${Modular.routerDelegate.path}');
       print(Modular.routerDelegate.path == '/home/main');
-      if(Modular.to.path == '/home/main'){
+      if (Modular.to.path == '/home/main') {
         shrinkappbar.value = false;
-      }else{
-         shrinkappbar.value = true;
+      } else {
+        shrinkappbar.value = true;
       }
     });
   }
@@ -49,8 +48,8 @@ class AppbarScrollController extends GetxController {
   //   super.dispose();
   // }
 
-  navigateTo(String path){
-     Modular.to.navigate(path);
+  navigateTo(String path) {
+    Modular.to.navigate(path);
     //  shrinkappbar.value = false;
   }
 

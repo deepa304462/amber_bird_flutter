@@ -143,7 +143,7 @@ class MainPage extends StatelessWidget {
                     ),
                   ),
                 );
-              } else { 
+              } else {
                 return const SizedBox();
               }
             })

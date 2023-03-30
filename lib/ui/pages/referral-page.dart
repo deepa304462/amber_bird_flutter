@@ -57,14 +57,14 @@ class ReferralPage extends StatelessWidget {
                         children: [
                           Text(
                             'Get ${CodeHelp.euro}9 for user you refer',
-                            style: TextStyles.headingFont.copyWith( 
-                                color: AppColors.primeColor),
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.primeColor),
                           ),
                           Text(
                             'Share following link with your friends & family',
                             textAlign: TextAlign.center,
-                            style: TextStyles.headingFont.copyWith( 
-                                color: Colors.grey),
+                            style: TextStyles.headingFont
+                                .copyWith(color: Colors.grey),
                           ),
                           Card(
                             shape: RoundedRectangleBorder(
@@ -104,7 +104,7 @@ class ReferralPage extends StatelessWidget {
                                   Text(
                                     'Share',
                                     style: TextStyles.headingFont
-                                        .copyWith(color:AppColors.white),
+                                        .copyWith(color: AppColors.white),
                                   ),
                                 ],
                               ),

@@ -5,14 +5,14 @@ import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-guide-chapter.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../widget/loading-with-logo.dart';
 
 class ProductGuidePage extends StatelessWidget {
   final String productGuideId;
-  late ProductGuidePageController productGuidePageController; 
+  late ProductGuidePageController productGuidePageController;
   ProductGuidePage(this.productGuideId, {Key? key}) : super(key: key) {
     productGuidePageController = ControllerGenerator.create(
         ProductGuidePageController(),
@@ -29,7 +29,7 @@ class ProductGuidePage extends StatelessWidget {
                 child: LoadingWithLogo(),
               )
             : Scaffold(
-                body: CustomScrollView( 
+                body: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
                       backgroundColor: Colors.white,
@@ -55,7 +55,8 @@ class ProductGuidePage extends StatelessWidget {
                             child: Text(
                               productGuidePageController.productGuide.value
                                   .subject!.defaultText!.text!,
-                              style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
+                              style: TextStyles.titleFont
+                                  .copyWith(color: AppColors.primeColor),
                             ),
                           ),
                         ),

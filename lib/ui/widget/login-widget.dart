@@ -37,7 +37,8 @@ class LoginWidget extends StatelessWidget {
                   ),
                   Text(
                     'Glad to see You!',
-                    style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                    style:
+                        TextStyles.headingFont.copyWith(color: AppColors.white),
                   ),
                   SizedBox(
                     height: 20,

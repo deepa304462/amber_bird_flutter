@@ -130,8 +130,7 @@ class ProductBottomDrawer extends StatelessWidget {
                                                   ),
                                                   Text(
                                                     '${productController.product.value.category!.name!.defaultText!.text}',
-                                                    style: TextStyles
-                                                        .titleFont,
+                                                    style: TextStyles.titleFont,
                                                   ),
                                                 ],
                                               ),

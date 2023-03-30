@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
- 
 
 class CoinWalletPage extends StatelessWidget {
   Rx<CoinWallet> coinWallet = CoinWallet().obs;
@@ -58,8 +57,8 @@ class CoinWalletPage extends StatelessWidget {
                                     coinWallet.value.totalActiveCoins
                                             .toString() ??
                                         '',
-                                    style: TextStyles.titleFont.copyWith(
-                                        color: Colors.white),
+                                    style: TextStyles.titleFont
+                                        .copyWith(color: Colors.white),
                                   )
                                 ])
                           : const SizedBox(),

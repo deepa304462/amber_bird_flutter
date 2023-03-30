@@ -6,8 +6,8 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
-import 'package:amber_bird/data/deal_product/varient.dart'; 
-import 'package:amber_bird/ui/element/snackbar.dart'; 
+import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -44,7 +44,11 @@ class ProductCard extends StatelessWidget {
         product.images!.isNotEmpty
             ? InkWell(
                 onTap: () {
-                  Modular.to.pushNamed('product/${product.id}');
+                  if (addedFrom == 'BRAND') {
+                    Modular.to.pushNamed('../product/${product.id}');
+                  } else {
+                    Modular.to.pushNamed('product/${product.id}');
+                  }
                 },
                 child: SizedBox(
                   width: 100,
@@ -135,7 +139,8 @@ class ProductCard extends StatelessWidget {
                         )
                       ],
                     )
-                  : (product.varients!.length == 1 || addedFrom == 'TAGS_PRODUCT')
+                  : (product.varients!.length == 1 ||
+                          addedFrom == 'TAGS_PRODUCT')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,

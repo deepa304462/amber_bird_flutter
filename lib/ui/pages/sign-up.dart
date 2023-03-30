@@ -34,7 +34,8 @@ class SignUp extends StatelessWidget {
               children: [
                 Text(
                   'Create Account',
-                  style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                  style:
+                      TextStyles.headingFont.copyWith(color: AppColors.white),
                 ),
                 Text(
                   'To get started now!',

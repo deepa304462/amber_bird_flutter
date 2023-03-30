@@ -168,8 +168,8 @@ class LocationPage extends StatelessWidget {
                             'phoneNumber': '',
                             'directionComment': '',
                           });
-                          try{
-                          Navigator.pop(context);
+                          try {
+                            Navigator.pop(context);
                           } catch (e) {
                             Modular.to.navigate('/home/main');
                             // code that handles the exception

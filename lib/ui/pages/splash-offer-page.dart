@@ -117,7 +117,8 @@ class SplashOfferPage extends StatelessWidget {
                           : liquidController.currentPage + 1);
                 }
               },
-              child: Text("Next", style: TextStyles.body.copyWith(color: AppColors.white)),
+              child: Text("Next",
+                  style: TextStyles.body.copyWith(color: AppColors.white)),
             ),
           ),
         )

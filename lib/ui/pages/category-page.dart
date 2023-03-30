@@ -95,8 +95,8 @@ class CategoryPage extends StatelessWidget {
                                                   .mainTabs[index].id)
                                           ? TextStyles.headingFont.copyWith(
                                               color: AppColors.primeColor)
-                                          : TextStyles.headingFont.copyWith(
-                                              color: AppColors.grey),
+                                          : TextStyles.headingFont
+                                              .copyWith(color: AppColors.grey),
                                     ),
                                   ))
                             ],
@@ -144,7 +144,8 @@ class CategoryPage extends StatelessWidget {
                                                 .selectedSubMenu.value ==
                                             megaMenuController
                                                 .subMenuList[index].id)
-                                        ? TextStyles.titleFont.copyWith(color: AppColors.green)
+                                        ? TextStyles.titleFont
+                                            .copyWith(color: AppColors.green)
                                         : TextStyles.titleFont),
                               ),
                             ),
@@ -473,7 +474,7 @@ class CategoryPage extends StatelessWidget {
                                                   .getCurrentQuantity(
                                                       mProduct.id, '')
                                                   .toString(),
-                                              style: TextStyles.titleFont ,
+                                              style: TextStyles.titleFont,
                                             ),
                                             IconButton(
                                               padding: const EdgeInsets.all(8),

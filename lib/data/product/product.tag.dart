@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
-
+import 'package:amber_bird/data/deal_product/name.dart';
  
 class ProductTag {
   MetaData? metaData;
-  String? title;
-  String? description;
+  Name? title;
+  Description? description;
   String? imageId;
   String? id;
 
@@ -18,32 +19,31 @@ class ProductTag {
     this.id,
   });
 
-  @override
-  String toString() {
-    return 'ProductTag(metaData: $metaData, title: $title, description: $description, imageId: $imageId, id: $id)';
-  }
-
   factory ProductTag.fromMap(Map<String, dynamic> data) => ProductTag(
         metaData: data['metaData'] == null
             ? null
             : MetaData.fromMap(data['metaData'] as Map<String, dynamic>),
-        title: data['title'] as String?,
-        description: data['description'] as String?,
+        title: data['title'] == null
+            ? null
+            : Name.fromMap(data['title'] as Map<String, dynamic>),
+        description: data['description'] == null
+            ? null
+            : Description.fromMap(data['description'] as Map<String, dynamic>),
         imageId: data['imageId'] as String?,
         id: data['_id'] as String?,
       );
 
   Map<String, dynamic> toMap() => {
         'metaData': metaData?.toMap(),
-        'title': title,
-        'description': description,
+        'title': title?.toMap(),
+        'description': description?.toMap(),
         'imageId': imageId,
         '_id': id,
       };
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Product].
+  /// Parses the string and returns the resulting Json object as [ProductTag].
   factory ProductTag.fromJson(String data) {
     return ProductTag.fromMap(json.decode(data) as Map<String, dynamic>);
   }
@@ -52,20 +52,4 @@ class ProductTag {
   ///
   /// Converts [ProductTag] to a JSON string.
   String toJson() => json.encode(toMap());
-
-  ProductTag copyWith({
-    MetaData? metaData,
-    String? title,
-    String? description,
-    String? imageId,
-    String? id,
-  }) {
-    return ProductTag(
-      metaData: metaData ?? this.metaData,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      imageId: imageId ?? this.imageId,
-      id: id ?? this.id,
-    );
-  }
 }

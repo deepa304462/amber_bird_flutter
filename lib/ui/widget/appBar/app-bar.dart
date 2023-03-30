@@ -47,12 +47,11 @@ class AppBarWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  
                   Showcase(
                     key: stateController.showKeyMap['refer']!.key,
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
-                    child: IconButton( 
+                    child: IconButton(
                         onPressed: () => {Modular.to.pushNamed('/home/refer')},
                         icon: const Icon(
                           Icons.share,
@@ -177,27 +176,18 @@ class AppBarShrinkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          // mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              'assets/app-bar-logo.png',
-              width: 110,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
-            Expanded(
-                // alignment: Alignment.centerRight,
-                // fit: BoxFit.fitHeight,
-                child: SearchWidget()),
-          ],
-        )
+        Image.asset(
+          'assets/app-bar-logo.png',
+          width: 110,
+          fit: BoxFit.cover,
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        SearchWidget()
       ],
     );
   }

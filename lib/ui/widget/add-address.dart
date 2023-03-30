@@ -108,7 +108,8 @@ class AddAddress extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12)),
                     child: Text(
                       "Close",
-                      style: TextStyles.titleFont.copyWith(color: AppColors.white),
+                      style:
+                          TextStyles.titleFont.copyWith(color: AppColors.white),
                     ),
                   ),
                   const SizedBox(

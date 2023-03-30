@@ -98,7 +98,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Obx(() => productController.product.value.id != null
         ? Stack(
             children: [
-              SingleChildScrollView( 
+              SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(
@@ -132,7 +132,8 @@ class ProductDetailScreen extends StatelessWidget {
                                   productController.product.value.name!
                                           .defaultText!.text ??
                                       '',
-                                  style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+                                  style: TextStyles.headingFont
+                                      .copyWith(color: AppColors.primeColor),
                                 ),
                                 const SizedBox(height: 4),
                                 productVarientView(
@@ -166,7 +167,8 @@ class ProductDetailScreen extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primeColor,
-                          textStyle: TextStyles.body.copyWith(color: AppColors.white)),
+                          textStyle:
+                              TextStyles.body.copyWith(color: AppColors.white)),
                       onPressed: productController
                                   .product.value.varients![0].currentStock >
                               0

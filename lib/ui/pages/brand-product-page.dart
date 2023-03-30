@@ -36,7 +36,7 @@ class BrandProductPage extends StatelessWidget {
                 backgroundColor: AppColors.primeColor,
                 leading: IconButton(
                     onPressed: () {
-                     appbarScrollController.navigateToPop(context);
+                      appbarScrollController.navigateToPop(context);
                     },
                     icon: const Icon(
                       Icons.arrow_back,
@@ -53,21 +53,22 @@ class BrandProductPage extends StatelessWidget {
 
   Widget brandInfo(Rx<Brand> brand, BuildContext context) {
     return Card(
-        child: ListTile(
-      leading: ImageBox(
-        brand.value.logoId!,
-        width: 100,
-        height: 100,
+      child: ListTile(
+        leading: ImageBox(
+          brand.value.logoId!,
+          width: 100,
+          height: 100,
+        ),
+        title: Text(
+          brand.value.name!,
+          style: TextStyles.headingFont,
+        ),
+        subtitle: Text(
+          brand.value.description!.defaultText!.text!,
+          style: TextStyles.bodyFontBold,
+        ),
       ),
-      title: Text(
-        brand.value.name!,
-        style: TextStyles.headingFont,
-      ),
-      subtitle: Text(
-        brand.value.description!.defaultText!.text!,
-        style: TextStyles.bodyFontBold,
-      ),
-    ));
+    );
   }
 
   productList(BuildContext context) {
@@ -119,7 +120,7 @@ class BrandProductPage extends StatelessWidget {
             crossAxisSpacing: 4,
             padding: const EdgeInsets.all(4),
             physics: const BouncingScrollPhysics(),
-            itemCount: controller.productList.length, 
+            itemCount: controller.productList.length,
             itemBuilder: (_, index) {
               var product = controller.productList[index];
               return ProductCard(product, product.id, 'BRAND',

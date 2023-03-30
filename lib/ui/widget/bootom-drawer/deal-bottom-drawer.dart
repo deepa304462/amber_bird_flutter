@@ -60,7 +60,8 @@ class DealBottomDrawer extends StatelessWidget {
                     children: [
                       Text(
                         '${name!.defaultText!.text}',
-                        style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.grey),
                       ),
                       IconButton(
                         icon: const Icon(Icons.close_rounded),
@@ -120,8 +121,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               ),
                                               Text(
                                                 '${product.category!.name!.defaultText!.text}',
-                                                style:
-                                                    TextStyles.titleFont,
+                                                style: TextStyles.titleFont,
                                               ),
                                             ],
                                           ),

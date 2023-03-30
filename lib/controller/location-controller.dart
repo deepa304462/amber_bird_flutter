@@ -83,7 +83,7 @@ class LocationController extends GetxController {
         pinCode.value = addressData.value.zipCode ?? '0';
       } else {
         addressData.value = Address();
-         pinCode.value = '0';
+        pinCode.value = '0';
         // getLocation();
       }
     } else {
@@ -130,8 +130,8 @@ class LocationController extends GetxController {
 
   saveAddress() {
     // OfflineDBService.save(OfflineDBService.location, address.value);
-    pinCode.value =  findValueFromAddress('postal_code');
-    
+    pinCode.value = findValueFromAddress('postal_code');
+
     // getLocation();
     Modular.to.pop(this.address);
   }
@@ -184,8 +184,8 @@ class LocationController extends GetxController {
         if (address.value['geometry'] != null) {
           currentLatLang.value = LatLng(
               address.value['geometry']['location']['lat'],
-               address.value['geometry']['location']['lng']);
-               addressAvaiable.value = true;
+              address.value['geometry']['location']['lng']);
+          addressAvaiable.value = true;
         }
         // setAddressData(address.value);
       }
@@ -206,7 +206,6 @@ class LocationController extends GetxController {
         data['geometry']['location']['lng']
       ]
     });
-    
   }
 
   setAddressCall() async {

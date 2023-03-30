@@ -34,12 +34,10 @@ class ProductTagController extends GetxController {
                   .toList() ??
               []);
 
-          tagsProductsList['${element.id}_${element.title}'] = summaryProdList;
+          tagsProductsList['${element.id}_${element.title!.defaultText != null ?element.title!.defaultText!.text: element.title!.languageTexts![0].text}'] = summaryProdList;
           tagsProductsList.refresh();
         }
-      });
-
-      inspect(tagsProductsList);
+      }); 
     }
   }
 }
