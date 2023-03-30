@@ -123,51 +123,52 @@ class AppBarWidget extends StatelessWidget {
     );
   }
 
-  cartWidget(context) {
-    final CartController cartController =
-        ControllerGenerator.create(CartController(), tag: 'cartController');
-    final Controller stateController = Get.find();
-    return Obx(
-      () {
-        return Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            InkWell(
-              onTap: () {
-                if (stateController.isLogin.value) {
-                  stateController.navigateToUrl('/home/cart');
-                }
-              },
-              child: Card(
-                color: AppColors.primeColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.shopping_bag_rounded,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: -2,
-              right: -2,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                      cartController.cartProducts.value.length.toString(),
-                      style: TextStyles.bodyFontBold),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // cartWidget(context) {
+  //   final CartController cartController =
+  //       ControllerGenerator.create(CartController(), tag: 'cartController');
+  //   final Controller stateController = Get.find();
+  //   return Obx(
+  //     () {
+  //       return Stack(
+  //         alignment: AlignmentDirectional.topEnd,
+  //         children: [
+  //           InkWell(
+  //             onTap: () {
+  //               if (stateController.isLogin.value) {
+  //                 stateController.navigateToUrl('/home/cart');
+  //               }
+  //             },
+  //             child: Card(
+  //               color: AppColors.primeColor,
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(50)),
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Icon(
+  //                   Icons.shopping_bag_rounded,
+  //                   color: AppColors.white,
+  //                 ),
+  //               ),
+  //             ),
+  //           ),
+  //           Positioned(
+  //             top: -2,
+  //             right: -2,
+  //             child: Card(
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(2.0),
+  //                 child: Text(
+  //                     cartController.cartProducts.value.length.toString(),
+  //                     style: TextStyles.bodyFontBold),
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
 }
 
 class AppBarShrinkWidget extends StatelessWidget {
@@ -189,52 +190,6 @@ class AppBarShrinkWidget extends StatelessWidget {
         ),
         SearchWidget()
       ],
-    );
-  }
-
-  cartWidget(context) {
-    final CartController cartController =
-        ControllerGenerator.create(CartController(), tag: 'cartController');
-    final Controller stateController = Get.find();
-    return Obx(
-      () {
-        return Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            InkWell(
-              onTap: () {
-                if (stateController.isLogin.value) {
-                  stateController.navigateToUrl('/home/cart');
-                }
-              },
-              child: Card(
-                color: AppColors.primeColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.shopping_bag_rounded,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: -2,
-              right: -2,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                      cartController.cartProducts.value.length.toString(),
-                      style: TextStyles.bodyFontBold),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }
