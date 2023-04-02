@@ -432,7 +432,7 @@ class CategoryPage extends StatelessWidget {
                                                     msg = data['msg'];
                                                   }
                                                   if (valid) {
-                                                    cartController.addToCart(
+                                                   await cartController.addToCart(
                                                         mProduct.id!,
                                                         megaMenuController
                                                             .selectedParentTab
@@ -511,7 +511,7 @@ class CategoryPage extends StatelessWidget {
                                                     msg = data['msg'];
                                                   }
                                                   if (valid) {
-                                                    cartController.addToCart(
+                                                   await cartController.addToCart(
                                                         mProduct.id!,
                                                         megaMenuController
                                                             .selectedParentTab
@@ -559,7 +559,7 @@ class CategoryPage extends StatelessWidget {
                                                               .getUserIsActive();
                                                       if (isCheckedActivate) {
                                                         // if (stateController.isActivate.value) {
-                                                        cartController.addToCart(
+                                                       await cartController.addToCart(
                                                             mProduct.id!,
                                                             megaMenuController
                                                                 .selectedParentTab

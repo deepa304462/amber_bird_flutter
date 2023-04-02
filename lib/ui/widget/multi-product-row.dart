@@ -295,6 +295,7 @@ class MultiProductRow extends StatelessWidget {
             child: AddToCartButtons(
               hideAdd: cartController.checkProductInCart(multiProd.id, ''),
               onDecrease: () async {
+                stateController.showLoader.value = true;
                 if (stateController.isLogin.value) {
                   var valid = false;
                   var msg = 'Something went wrong!';
@@ -304,7 +305,7 @@ class MultiProductRow extends StatelessWidget {
                   valid = !data['error'];
                   msg = data['msg'];
                   if (valid) {
-                    cartController.addToCart(
+                   await cartController.addToCart(
                         multiProd.id!,
                         'MULTIPRODUCT',
                         (-(multiProd.constraint?.minimumOrder ?? 1)) ?? -1,
@@ -316,10 +317,12 @@ class MultiProductRow extends StatelessWidget {
                         null,
                         mutliProductName: multiProd.name!.defaultText!.text!);
                   } else {
+                    stateController.showLoader.value = false;
                     Navigator.of(context).pop();
                     snackBarClass.showToast(context, msg);
                   }
                 } else {
+                  stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
                   var showToast = snackBarClass.showToast(
                       context, 'Please Login to preoceed');
@@ -327,6 +330,7 @@ class MultiProductRow extends StatelessWidget {
               },
               quantity: cartController.getCurrentQuantity(multiProd.id, ''),
               onIncrease: () async {
+                stateController.showLoader.value = true;
                 if (stateController.isLogin.value) {
                   var valid = false;
                   var msg = 'Something went wrong!';
@@ -336,7 +340,7 @@ class MultiProductRow extends StatelessWidget {
                   valid = !data['error'];
                   msg = data['msg'];
                   if (valid) {
-                    cartController.addToCart(
+                   await cartController.addToCart(
                         multiProd.id!,
                         'MULTIPRODUCT',
                         multiProd.constraint!.minimumOrder ?? 1,
@@ -347,15 +351,19 @@ class MultiProductRow extends StatelessWidget {
                         multiProd.constraint,
                         null,
                         mutliProductName: multiProd.name!.defaultText!.text!);
+                        
                   } else {
                     snackBarClass.showToast(context, msg);
                   }
+                  stateController.showLoader.value = false;
                 } else {
+                  stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
                   snackBarClass.showToast(context, 'Please Login to preoceed');
                 }
               },
               onAdd: () async {
+                stateController.showLoader.value = true;
                 if (stateController.isLogin.value) {
                   stateController.showLoader.value = true;
                   bool isCheckedActivate =
@@ -369,7 +377,7 @@ class MultiProductRow extends StatelessWidget {
                     valid = !data['error'];
                     msg = data['msg'];
                     if (valid) {
-                      cartController.addToCart(
+                     await cartController.addToCart(
                           multiProd.id!,
                           'MULTIPRODUCT',
                           multiProd.constraint!.minimumOrder ?? 1,
@@ -380,7 +388,9 @@ class MultiProductRow extends StatelessWidget {
                           multiProd.constraint,
                           null,
                           mutliProductName: multiProd.name!.defaultText!.text!);
+                          stateController.showLoader.value = false;
                     } else {
+                      stateController.showLoader.value = false;
                       Navigator.of(context).pop();
                       snackBarClass.showToast(context, msg);
                     }

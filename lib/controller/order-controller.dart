@@ -31,7 +31,7 @@ class OrderController extends GetxController {
     print(dhlNumber);
 
     var response =
-        await ClientService.get(path: 'shipping/tracking/', id: dhlNumber);
+        await ClientService.get(path: 'shipping/tracking', id: dhlNumber);
     if (response.statusCode == 200) {
       // log(response.data.toString());
       // orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);

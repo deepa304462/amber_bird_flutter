@@ -17,14 +17,15 @@ class SpointsPage extends StatelessWidget {
     return Column(children: [
       Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            AppColors.primeColor,
-            AppColors.primeColor.withOpacity(.8),
-          ],
-        )),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              AppColors.primeColor,
+              AppColors.primeColor.withOpacity(.8),
+            ],
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -44,29 +45,89 @@ class SpointsPage extends StatelessWidget {
         ),
       ),
       SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 0.6,
         child: Obx(
           () => PageView(
             scrollDirection: Axis.horizontal,
-
-            // reverse: true,
-            // physics: BouncingScrollPhysics(),
             controller: controller,
             onPageChanged: (num) {
               _curr.value = num;
             },
             children: <Widget>[
               ...walletController.membershipInfo.value.map((element) {
-                return Center(
-                    child: Pages(
-                  text: "Page ${element.id}",
-                ));
+                return Container(
+                  color: AppColors.golden,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            element.name!.defaultText != null
+                                ? (element.name!.defaultText!.text ?? '')
+                                : element.name!.languageTexts![0].text ?? '',
+                            style: TextStyles.headingFont.copyWith(
+                                color: AppColors.white,
+                                fontSize: FontSizes.xLarge),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Range : ${element.spointsRangeMin} - ${element.spointsRangeMax}',
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.green),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        'Benefits',
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.white),
+                      ),
+                      Row(
+                        children: [
+                          ...element.benefits!.map((benefit) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(color: AppColors.primeColor),
+                                color: AppColors.primeColor,
+                              ),
+                              padding: const EdgeInsets.all(5),
+                              margin: const EdgeInsets.fromLTRB(20, 3, 3, 3),
+                              child: Text(
+                                benefit,
+                                style: TextStyles.headingFont.copyWith(
+                                    color: AppColors.darkOrange,
+                                    fontSize: FontSizes.large),
+                              ),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
               }),
-              Center(
-                  child: Pages(
-                text: "Page 1",
-              )),
               // Center(
+              //     child: Pages(
+              //   text: "Page 1",
+              // )),
+              // // Center(
               //     child: Pages(
               //   text: "Page 2",
               // )),
@@ -86,17 +147,17 @@ class SpointsPage extends StatelessWidget {
   }
 }
 
-class Pages extends StatelessWidget {
-  final text;
-  Pages({this.text});
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
+// class Pages extends StatelessWidget {
+//   final text;
+//   Pages({this.text});
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text(
+//         text,
+//         textAlign: TextAlign.center,
+//         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+//       ),
+//     );
+//   }
+// }

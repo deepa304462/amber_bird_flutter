@@ -224,11 +224,11 @@ class ProductDetailScreen extends StatelessWidget {
                                         IconButton(
                                           padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
-                                          onPressed: () {
+                                          onPressed: ()async {
                                             stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
-                                              cartController.addToCart(
+                                              await cartController.addToCart(
                                                   '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                   addedFrom!,
                                                   -1,
@@ -276,11 +276,11 @@ class ProductDetailScreen extends StatelessWidget {
                                         IconButton(
                                           padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
-                                          onPressed: () {
+                                          onPressed: () async{
                                             stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
-                                              cartController.addToCart(
+                                             await cartController.addToCart(
                                                   '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                   addedFrom!,
                                                   1,
@@ -316,7 +316,7 @@ class ProductDetailScreen extends StatelessWidget {
                                               await stateController
                                                   .getUserIsActive();
                                           if (isCheckedActivate) {
-                                            cartController.addToCart(
+                                           await cartController.addToCart(
                                                 '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                 addedFrom!,
                                                 1,

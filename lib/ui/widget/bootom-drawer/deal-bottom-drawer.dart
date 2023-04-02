@@ -215,6 +215,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       padding: const EdgeInsets.all(8),
                                       constraints: const BoxConstraints(),
                                       onPressed: () async {
+                                        stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
                                           var valid = false;
                                           var msg = 'Something went wrong!';
@@ -228,7 +229,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             valid = !data['error'];
                                             msg = data['msg'];
                                             if (valid) {
-                                              cartController.addToCart(
+                                              await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   (-(constraint?.minimumOrder ??
@@ -240,7 +241,11 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   Varient());
+                                                  stateController.showLoader.value =
+                                                  false;
                                             } else {
+                                              stateController.showLoader.value =
+                                                  false;
                                               Navigator.of(context).pop();
                                               // ignore: use_build_context_synchronously
                                               snackBarClass.showToast(
@@ -260,7 +265,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               msg = data['msg'];
                                             }
                                             if (valid) {
-                                              cartController.addToCart(
+                                              await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   -(constraint?.minimumOrder ??
@@ -272,7 +277,11 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   products![0].varient);
+                                                  stateController.showLoader.value =
+                                                  false;
                                             } else {
+                                              stateController.showLoader.value =
+                                                  false;
                                               // ignore: use_build_context_synchronously
                                               Navigator.of(context).pop();
                                               // ignore: use_build_context_synchronously
@@ -281,6 +290,8 @@ class DealBottomDrawer extends StatelessWidget {
                                             }
                                           }
                                         } else {
+                                          stateController.showLoader.value =
+                                              false;
                                           stateController.setCurrentTab(3);
                                           snackBarClass.showToast(context,
                                               'Please Login to preoceed');
@@ -297,6 +308,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       padding: const EdgeInsets.all(8),
                                       constraints: const BoxConstraints(),
                                       onPressed: () async {
+                                        stateController.showLoader.value = true;
                                         if (stateController.isLogin.value) {
                                           var valid = false;
                                           var msg = 'Something went wrong!';
@@ -311,7 +323,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             valid = !data['error'];
                                             msg = data['msg'];
                                             if (valid) {
-                                              cartController.addToCart(
+                                             await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   constraint!.minimumOrder ?? 1,
@@ -321,7 +333,11 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   null);
+                                                  stateController.showLoader.value =
+                                                  false;
                                             } else {
+                                              stateController.showLoader.value =
+                                                  false;
                                               Navigator.of(context).pop();
                                               snackBarClass.showToast(
                                                   context, msg);
@@ -340,7 +356,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               msg = data['msg'];
                                             }
                                             if (valid) {
-                                              cartController.addToCart(
+                                             await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   constraint!.minimumOrder ?? 1,
@@ -350,7 +366,11 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   null);
+                                                  stateController.showLoader.value =
+                                                  false;
                                             } else {
+                                              stateController.showLoader.value =
+                                                  false;
                                               stateController.setCurrentTab(3);
                                               snackBarClass.showToast(context,
                                                   'Please Login to preoceed');
@@ -389,7 +409,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
-                                                cartController.addToCart(
+                                               await cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
                                                     constraint!.minimumOrder ??
@@ -400,7 +420,11 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     null,
                                                     null);
+                                                    stateController
+                                                    .showLoader.value = false;
                                               } else {
+                                                stateController
+                                                    .showLoader.value = false;
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
                                                     context, msg);
@@ -420,7 +444,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                 msg = data['msg'];
                                               }
                                               if (valid) {
-                                                cartController.addToCart(
+                                                await cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
                                                     constraint!.minimumOrder ??
@@ -431,13 +455,19 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     null,
                                                     null);
+                                                    stateController
+                                                    .showLoader.value = false;
                                               } else {
+                                                stateController
+                                                    .showLoader.value = false;
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(
                                                     context, msg);
                                               }
                                             }
                                           } else {
+                                            stateController.showLoader.value =
+                                                false;
                                             Navigator.of(context).pop();
                                             snackBarClass.showToast(context,
                                                 'Your profile is not active yet');

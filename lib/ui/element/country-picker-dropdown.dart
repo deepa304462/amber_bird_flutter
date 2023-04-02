@@ -41,7 +41,7 @@ class CountryPickerDropdown extends StatelessWidget {
       () => dropdownItems.isNotEmpty
           ? DropdownButton(
               value: dropdownvalue.value,
-              dropdownColor: AppColors.white,
+              dropdownColor: AppColors.black,
               underline: Container(
                 height: 3,
                 color: Colors.transparent, //<-- SEE HERE

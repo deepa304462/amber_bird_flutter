@@ -275,7 +275,7 @@ class ProductCardScoin extends StatelessWidget {
 
                                   // this.refId, this.addedFrom,
                                   if (addedFrom == 'CATEGORY') {
-                                    cartController.addToCart(
+                                  await  cartController.addToCart(
                                         '$refId@${product!.varient!.varientCode}',
                                         addedFrom!,
                                         1,
@@ -311,7 +311,7 @@ class ProductCardScoin extends StatelessWidget {
                                       msg = data['msg'];
                                     }
                                     if (valid) {
-                                      cartController.addToCart(
+                                    await  cartController.addToCart(
                                           '$refId@${activeVariant.value.varientCode}',
                                           addedFrom!,
                                           1,
