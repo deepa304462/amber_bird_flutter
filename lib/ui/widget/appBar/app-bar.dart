@@ -61,47 +61,49 @@ class AppBarWidget extends StatelessWidget {
                     key: stateController.showKeyMap['coinWallet']!.key,
                     description: stateController.showKeyMap['coinWallet']!.desc,
                     title: stateController.showKeyMap['coinWallet']!.title,
-                    child: InkWell(
-                      onTap: () {
-                        if (stateController.isLogin.value) {
-                          Modular.to.pushNamed('/home/wallet');
-                        } else {
-                          Modular.to.navigate('/home/login');
-                        }
-                      },
-                      child: Stack(
-                        fit: StackFit.loose,
-                        children: [
-                          IconButton(
-                            // padding: EdgeInsets.all(0),
-                            onPressed: () {},
-                            icon: const Icon(
-                              FontAwesomeIcons.coins,
-                            ),
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        IconButton(
+                          // padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.pushNamed('/wallet');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                          },
+                          icon: const Icon(
+                            FontAwesomeIcons.coins,
                           ),
-                          Positioned(
-                            top: 7,
-                            right: 4,
-                            child: Card(
-                              color: Colors.yellow[700],
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Obx(
-                                  () => Text(
-                                      stateController.customerDetail.value
-                                                  .personalInfo !=
-                                              null
-                                          ? stateController.customerDetail.value
-                                              .personalInfo!.scoins
-                                              .toString()
-                                          : '0',
-                                      style: TextStyles.bodySm),
-                                ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.pushNamed('/wallet');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                          },
+                          child: Card(
+                            color: Colors.yellow[700],
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Obx(
+                                () => Text(
+                                    stateController.customerDetail.value
+                                                .personalInfo !=
+                                            null
+                                        ? stateController.customerDetail.value
+                                            .personalInfo!.scoins
+                                            .toString()
+                                        : '0',
+                                    style: TextStyles.bodySm),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -168,7 +170,6 @@ class AppBarWidget extends StatelessWidget {
   //     },
   //   );
   // }
-
 }
 
 class AppBarShrinkWidget extends StatelessWidget {

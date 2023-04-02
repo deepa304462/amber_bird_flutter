@@ -82,7 +82,7 @@ class ProductCard extends StatelessWidget {
           return Visibility(
             visible: checkFavVisibility(),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: LikeButton(
                 isLiked: wishlistController.checkIfProductWishlist(product.id),
                 onPressed: () async {
@@ -162,7 +162,7 @@ class ProductCard extends StatelessWidget {
                           addedFrom == 'BRAND' ||
                           addedFrom == 'TAGS_PRODUCT')
                       ? Obx(() => Text(
-                            "${CodeHelp.euro}${activeVariant.value.price!.actualPrice!.toString()}",
+                            "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
                             style: TextStyles.headingFont,
                           ))
                       : PriceTag(dealPrice!.offerPrice!.toString(),

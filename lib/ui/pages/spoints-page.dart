@@ -28,24 +28,17 @@ class SpointsPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    'Membership',
-                    style: TextStyles.headingFont.copyWith(color: Colors.white),
-                  ),
-                  Text(
-                    stateController.userType.value.toString() ?? '',
-                    style: TextStyles.titleFont.copyWith(color: Colors.white),
-                  )
-                ],
+              Text(
+                'Membership',
+                style: TextStyles.headingFont.copyWith(color: Colors.white),
               ),
-              Lottie.asset('assets/coin.json',
-                  height: 100, fit: BoxFit.fill, repeat: true)
+              Text(
+                stateController.getMemberShipText(),
+                style: TextStyles.titleFont.copyWith(color: Colors.white),
+              )
             ],
           ),
         ),

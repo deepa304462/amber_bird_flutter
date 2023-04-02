@@ -40,12 +40,15 @@ class PriceTag extends StatelessWidget {
   Widget _showCoins() {
     return Row(
       children: [
+        Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Image.asset('assets/s-coin-symbol.png',
+              height: 15, fit: BoxFit.fill, colorBlendMode: BlendMode.color),
+        ),
         Text(
           '${scoin}',
           style: TextStyles.headingFont,
         ),
-        Lottie.asset('assets/coin.json',
-            height: 50, fit: BoxFit.fill, repeat: true),
       ],
     );
   }

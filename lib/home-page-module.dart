@@ -100,7 +100,6 @@ class HomePageModule extends Module {
           ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
-          ChildRoute('/wallet', child: (_, args) => WalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
           ChildRoute('/login', child: (_, args) => LoginPageWidget()),
           ChildRoute('/profile', child: (_, args) => ProfilePage()),

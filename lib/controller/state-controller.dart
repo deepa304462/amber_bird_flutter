@@ -385,4 +385,11 @@ class Controller extends GetxController {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
+
+  String getMemberShipText() {
+    if (userType == null || userType == 'No_Membership') {
+      return "Newbie";
+    }
+    return userType.toString();
+  }
 }

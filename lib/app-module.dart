@@ -6,6 +6,8 @@ import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'ui/pages/wallet-page.dart';
+
 //http://localhost:64123/#/form/60e6b312c7f5dc000df40a1c/en
 class AppModule extends Module {
   // Provide a list of dependencies to inject into your project
@@ -29,6 +31,7 @@ class AppModule extends Module {
         WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
+        ChildRoute('/wallet', child: (_, args) => WalletPage()),
         ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),

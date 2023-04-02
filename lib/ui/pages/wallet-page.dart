@@ -19,17 +19,9 @@ class WalletPage extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                Text(
-                  'Back',
-                  style: TextStyles.bodyFont.copyWith(color: Colors.white),
-                )
-              ],
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
           ),
           bottom: TabBar(
@@ -38,14 +30,16 @@ class WalletPage extends StatelessWidget {
             tabs: [
               Tab(
                 child: Text(
-                  'Scoin',
-                  style: TextStyles.body.copyWith(color: AppColors.white),
+                  'S-COINS',
+                  style:
+                      TextStyles.bodyFontBold.copyWith(color: AppColors.white),
                 ),
               ),
               Tab(
                 child: Text(
-                  'Spoints',
-                  style: TextStyles.body.copyWith(color: AppColors.white),
+                  'S-POINTS',
+                  style:
+                      TextStyles.bodyFontBold.copyWith(color: AppColors.white),
                 ),
               )
             ],
