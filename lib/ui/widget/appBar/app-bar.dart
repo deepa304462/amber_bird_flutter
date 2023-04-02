@@ -1,8 +1,6 @@
-import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/location-widget.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/search-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-import '../../../helpers/controller-generator.dart';
 
 class AppBarWidget extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -34,9 +31,9 @@ class AppBarWidget extends StatelessWidget {
             ),
             Expanded(
               child: Image.asset(
-                'assets/app-bar-logo.png',
-                width: 40,
-                fit: BoxFit.cover,
+                'assets/home-logo.png',
+                width: 50,
+                // fit: BoxFit.cover,
               ),
             ),
             //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
@@ -181,8 +178,8 @@ class AppBarShrinkWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
-          'assets/app-bar-logo.png',
-          width: 110,
+          'assets/inner-logo.png',
+          width: 45,
           fit: BoxFit.cover,
         ),
         const SizedBox(

@@ -43,7 +43,11 @@ class Membership {
         description: data['description'] == null
             ? null
             : Description.fromMap(data['description'] as Map<String, dynamic>),
-        benefits: data['benefits'] as List<String>?,
+        benefits: data['benefits'] == null
+            ? null
+            : (data['benefits'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList(),
         imageId: data['imageId'] as String?,
         spointsRangeMin: data['spointsRangeMin'] as int?,
         spointsRangeMax: data['spointsRangeMax'] as int?,

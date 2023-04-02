@@ -122,83 +122,96 @@ class WishListPage extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: Stack(
           children: [
-            InkWell(
-              onTap: () {
-                Modular.to.pushNamed('product/${curwishList.product!.id}');
-              },
-              child: ImageBox(
-                  curwishList.product != null
-                      ? curwishList.product!.images![0] ?? ''
-                      : curwishList.products![0].images![0],
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover),
-            ),
-            Text(
-              '${curwishList.product!.name!.defaultText!.text}',
-              style: TextStyles.bodyFontBold,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                InkWell(
+                  onTap: () {
+                    Modular.to.pushNamed('product/${curwishList.product!.id}');
+                  },
+                  child: ImageBox(
+                      curwishList.product != null
+                          ? curwishList.product!.images![0] ?? ''
+                          : curwishList.products![0].images![0],
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover),
+                ),
+                Text(
+                  '${curwishList.product!.name!.defaultText!.text}',
+                  style: TextStyles.bodyFontBold,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    PriceTag(
-                        curwishList.product!.varient!.price!.offerPrice
-                            .toString(),
-                        curwishList.product!.varient!.price!.actualPrice
-                            .toString()),
-                    Text(
-                      '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
-                      style: TextStyles.bodyFont,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PriceTag(
+                            curwishList.product!.varient!.price!.offerPrice
+                                .toString(),
+                            curwishList.product!.varient!.price!.actualPrice
+                                .toString()),
+                        Text(
+                          '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
+                          style: TextStyles.bodyFont,
+                        ),
+                      ],
+                    ),
+                    MaterialButton(
+                      color: AppColors.primeColor,
+                      visualDensity: VisualDensity.compact,
+                      onPressed: () async {
+                        stateController.showLoader.value = true;
+                        Price price = Price();
+                        if (curwishList.products != null &&
+                            curwishList.products!.length > 0) {
+                          price = curwishList.products![0].varient!.price!;
+                        } else {
+                          price = curwishList.product!.varient!.price!;
+                        }
+                        bool isCheckedActivate =
+                            await stateController.getUserIsActive();
+                        if (isCheckedActivate) {
+                          await cartController.addToCart(
+                              curwishList.ref!.id ?? '',
+                              'WISHLIST',
+                              1,
+                              price,
+                              curwishList.product,
+                              curwishList.products,
+                              null,
+                              null,
+                              curwishList.product!.varient);
+                          await wishlistController
+                              .removeWishList(curwishList.ref!.id ?? '');
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          snackBarClass.showToast(
+                              context, 'Your profile is not active yet');
+                        }
+                        stateController.showLoader.value = false;
+                      },
+                      child: Text(
+                        'Add to cart',
+                        style: TextStyles.bodyFontBold
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
-                MaterialButton(
-                  color: AppColors.primeColor,
-                  visualDensity: VisualDensity.compact,
-                  onPressed: () async {
-                    stateController.showLoader.value = true;
-                    Price price = Price();
-                    if (curwishList.products != null &&
-                        curwishList.products!.length > 0) {
-                      price = curwishList.products![0].varient!.price!;
-                    } else {
-                      price = curwishList.product!.varient!.price!;
-                    }
-                    bool isCheckedActivate =
-                        await stateController.getUserIsActive();
-                    if (isCheckedActivate) {
-                      await cartController.addToCart(
-                          curwishList.ref!.id ?? '',
-                          'WISHLIST',
-                          1,
-                          price,
-                          curwishList.product,
-                          curwishList.products,
-                          null,
-                          null,
-                          curwishList.product!.varient);
-                      await wishlistController
-                          .removeWishList(curwishList.ref!.id ?? '');
-                    } else {
-                      // ignore: use_build_context_synchronously
-                      snackBarClass.showToast(
-                          context, 'Your profile is not active yet');
-                    }
-                    stateController.showLoader.value = false;
-                  },
-                  child: Text(
-                    'Add to cart',
-                    style:
-                        TextStyles.bodyFontBold.copyWith(color: Colors.white),
-                  ),
-                ),
               ],
             ),
+            Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () async {
+                    await wishlistController.addToWishlist(
+                        curwishList.product!.id, curwishList.product, null, '');
+                  },
+                  icon: Icon(Icons.delete,color: AppColors.grey,),
+                ))
           ],
         ),
       ),

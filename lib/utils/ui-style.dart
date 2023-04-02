@@ -6,11 +6,12 @@ class Fonts {
 }
 
 class AppColors {
-  static Color primeColor = HexColor("#8e192d"); //Colors.red.shade800;
+  static Color primeColor = HexColor("#C71838"); //Colors.red.shade800;
   static Color off_red = HexColor("#FCF6F5"); //Colors.red.shade800;
   static Color white = Colors.white;
   static Color secondaryColor = const Color.fromARGB(255, 244, 182, 218);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
+  static Color DarkGrey = HexColor("#393536");
   static Color darkOrange = const Color.fromARGB(213, 255, 192, 46);
   static Color grey = HexColor("#989898");
   static Color golden = HexColor("#e1b530");
@@ -43,12 +44,13 @@ class TextStyles {
   static TextStyle get titleFont => TextStyle(
         fontFamily: Fonts.body,
         fontSize: FontSizes.title,
+         color: AppColors.DarkGrey
       );
   static TextStyle get headingFont => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
-      color: Colors.black);
+      color: AppColors.DarkGrey);
   // static TextStyle get headingFontGray => TextStyle(
   //     fontFamily: Fonts.title,
   //     fontSize: FontSizes.title,

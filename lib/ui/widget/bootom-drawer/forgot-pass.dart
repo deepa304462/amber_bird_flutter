@@ -13,6 +13,7 @@ class ForgotPassDrawer extends StatelessWidget {
     return SizedBox(
       height: 250,
       child: Container(
+        color: AppColors.primeColor,
         child: Column(
           children: [
             const SizedBox(height: 20),
@@ -21,7 +22,7 @@ class ForgotPassDrawer extends StatelessWidget {
               style: TextStyles.titleFont.copyWith(color: AppColors.green),
             ),
             const SizedBox(height: 20),
-            ITextBox('Email', 'email', '', false, TextInputType.emailAddress,
+            ITextBox('Email', 'email', authController.fieldValue['email'].toString(), false, TextInputType.emailAddress,
                 false, false, callback),
             //           ITextBox(
             // 'Username',
