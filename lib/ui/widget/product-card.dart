@@ -183,6 +183,8 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     activeVariant.value = product!.varient!;
+    var minOrder = (constraint!=null && constraint!.minimumOrder != null)?constraint!.minimumOrder : 1;
+
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
       child: ClipRRect(
@@ -259,7 +261,7 @@ class ProductCard extends StatelessWidget {
                                   await  cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        1,
+                                        minOrder,
                                         dealPrice,
                                         product,
                                         null,
@@ -317,7 +319,7 @@ class ProductCard extends StatelessWidget {
                               await cartController.addToCart(
                                   '$refId@${activeVariant.value.varientCode}',
                                   addedFrom!,
-                                  -1,
+                                  -minOrder!,
                                   price,
                                   product,
                                   null,
@@ -369,7 +371,7 @@ class ProductCard extends StatelessWidget {
                               await cartController.addToCart(
                                   '$refId@${activeVariant.value.varientCode}',
                                   addedFrom!,
-                                  1,
+                                  minOrder,
                                   price,
                                   product,
                                   null,

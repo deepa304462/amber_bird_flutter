@@ -43,7 +43,9 @@ class SearchWidget extends StatelessWidget {
               },
               decoration: InputDecoration(
                 prefixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print('xcvbn');
+                  },
                   icon: Icon(
                     Icons.search_outlined,
                     color: AppColors.grey,
@@ -95,6 +97,7 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
+
         close(context, null);
       },
       icon: const Icon(Icons.arrow_back),
@@ -104,16 +107,18 @@ class CustomSearchDelegate extends SearchDelegate {
 // third overwrite to show query result
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
+    // List<String> matchQuery = [];
+    searchController.getsearchData(query);
+    return searchWidgetResult(context);
+    // ListView.builder(
+    //   itemCount: matchQuery.length,
+    //   itemBuilder: (context, index) {
+    //     var result = matchQuery[index];
+    //     return ListTile(
+    //       title: Text(result),
+    //     );
+    //   },
+    // );
   }
 
 // last overwrite to show the
@@ -121,6 +126,10 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     searchController.getsearchData(query);
+    return searchWidgetResult(context);
+  }
+
+  Widget searchWidgetResult(BuildContext context){
     return Obx(
       () => ListView(
         children: [
@@ -151,6 +160,7 @@ class CustomSearchDelegate extends SearchDelegate {
       ),
     );
   }
+
 
   Widget PopularSearchWidget(context, searchController) {
     return Wrap(
