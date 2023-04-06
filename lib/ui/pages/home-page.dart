@@ -101,6 +101,7 @@ class HomePage extends StatelessWidget {
       },
       child: Obx(
         () => Scaffold(
+          backgroundColor: AppColors.commonBgColor,
           appBar: appbarScrollController.shrinkappbar.value
               ? AppBar(
                   toolbarHeight: 50,

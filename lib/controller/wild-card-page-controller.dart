@@ -16,14 +16,17 @@ class WildCardPageController extends GetxController {
     print("givenUri");
     if (givenUri.path.contains('refer')) {
       String referById = givenUri.path.split('/')[2];
-      String existing = await SharedData.read('referBy');
+      String existing = '';
+      try {
+        existing = await SharedData.read('referBy');
+      } catch (e) {}
       if (existing.isNotEmpty) {
       } else {
         CodeHelp.toast(
             'Received reference, Thank you. Offer will apply while checkout.');
         SharedData.save(referById, 'referBy');
       }
-      Modular.to.navigate('/home/main');
+      Modular.to.navigate("/home/main");
     }
   }
 }

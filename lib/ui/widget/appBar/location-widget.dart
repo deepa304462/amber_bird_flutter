@@ -39,10 +39,7 @@ class _LocationWidgetState extends State<LocationWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Icon(
-                Icons.location_pin,
-                color: AppColors.black,
-              ),
+              Icon(Icons.location_pin, color: AppColors.DarkGrey),
               Obx(() => FitText(
                     locationController.pinCode.value ?? '0',
                     style: TextStyles.body,

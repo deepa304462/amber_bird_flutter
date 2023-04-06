@@ -59,9 +59,9 @@ class CategoryPage extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.only(top: 10),
             child: SizedBox(
-              height: 75,
+              height: 65,
               child: megaMenuController.mainTabs.isNotEmpty
                   ? ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -69,7 +69,7 @@ class CategoryPage extends StatelessWidget {
                       itemCount: megaMenuController.mainTabs.length,
                       itemBuilder: (_, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(left: 10),
                           child: Column(
                             children: [
                               InkWell(
@@ -93,9 +93,9 @@ class CategoryPage extends StatelessWidget {
                                                   .selectedParentTab.value ==
                                               megaMenuController
                                                   .mainTabs[index].id)
-                                          ? TextStyles.headingFont.copyWith(
+                                          ? TextStyles.body.copyWith(
                                               color: AppColors.primeColor)
-                                          : TextStyles.headingFont
+                                          : TextStyles.body
                                               .copyWith(color: AppColors.grey),
                                     ),
                                   ))
@@ -109,61 +109,58 @@ class CategoryPage extends StatelessWidget {
                     ),
             ),
           ),
+          Divider(),
           megaMenuController.subMenuList.isNotEmpty
               ? SizedBox(
-                  height: 58,
+                  height: 30,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: megaMenuController.subMenuList.length,
                     itemBuilder: (_, index) {
-                      return Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppColors.lightGrey),
-                        child: Row(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                megaMenuController.selectedSubMenu.value =
-                                    megaMenuController.subMenuList[index].id ??
-                                        '';
-                                megaMenuController.getAllProducts(
-                                    megaMenuController.subMenuList[index],
-                                    GenericTab(
-                                        id: megaMenuController
-                                            .selectedParentTab.value,
-                                        type: megaMenuController
-                                            .selectedType.value));
-                              },
-                              child: Obx(
-                                () => Text(
-                                    megaMenuController.subMenuList[index].text!,
-                                    style: (megaMenuController
-                                                .selectedSubMenu.value ==
-                                            megaMenuController
-                                                .subMenuList[index].id)
-                                        ? TextStyles.titleFont
-                                            .copyWith(color: AppColors.green)
-                                        : TextStyles.titleFont),
+                      return Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              megaMenuController.selectedSubMenu.value =
+                                  megaMenuController.subMenuList[index].id ??
+                                      '';
+                              megaMenuController.getAllProducts(
+                                  megaMenuController.subMenuList[index],
+                                  GenericTab(
+                                      id: megaMenuController
+                                          .selectedParentTab.value,
+                                      type: megaMenuController
+                                          .selectedType.value));
+                            },
+                            child: Obx(
+                              () => Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    side: BorderSide(
+                                        color: (megaMenuController
+                                                    .selectedSubMenu.value ==
+                                                megaMenuController
+                                                    .subMenuList[index].id)
+                                            ? AppColors.primeColor
+                                            : AppColors.commonBgColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                      megaMenuController
+                                          .subMenuList[index].text!,
+                                      style: (megaMenuController
+                                                  .selectedSubMenu.value ==
+                                              megaMenuController
+                                                  .subMenuList[index].id)
+                                          ? TextStyles.body.copyWith(
+                                              color: AppColors.primeColor)
+                                          : TextStyles.body),
+                                ),
                               ),
                             ),
-                            const SizedBox(width: 5),
-                            InkWell(
-                              onTap: () {
-                                megaMenuController.selectedSubMenu.value =
-                                    megaMenuController.subMenuList[index].id ??
-                                        '';
-                              },
-                              child: ImageBox(
-                                '${megaMenuController.subMenuList[index].image}',
-                                width: 25,
-                                height: 25,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -432,7 +429,7 @@ class CategoryPage extends StatelessWidget {
                                                     msg = data['msg'];
                                                   }
                                                   if (valid) {
-                                                   await cartController.addToCart(
+                                                    await cartController.addToCart(
                                                         mProduct.id!,
                                                         megaMenuController
                                                             .selectedParentTab
@@ -511,18 +508,19 @@ class CategoryPage extends StatelessWidget {
                                                     msg = data['msg'];
                                                   }
                                                   if (valid) {
-                                                   await cartController.addToCart(
-                                                        mProduct.id!,
-                                                        megaMenuController
-                                                            .selectedParentTab
-                                                            .value,
-                                                        1,
-                                                        mProduct.price!,
-                                                        null,
-                                                        mProduct.products,
-                                                        null,
-                                                        mProduct.constraint,
-                                                        null);
+                                                    await cartController
+                                                        .addToCart(
+                                                            mProduct.id!,
+                                                            megaMenuController
+                                                                .selectedParentTab
+                                                                .value,
+                                                            1,
+                                                            mProduct.price!,
+                                                            null,
+                                                            mProduct.products,
+                                                            null,
+                                                            mProduct.constraint,
+                                                            null);
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -549,17 +547,18 @@ class CategoryPage extends StatelessWidget {
                                         child: IconButton(
                                           constraints: const BoxConstraints(),
                                           color: Colors.white,
-                                          onPressed:
-                                              stateController.isLogin.value
-                                                  ? () async {
-                                                      stateController.showLoader
-                                                          .value = true;
-                                                      bool isCheckedActivate =
-                                                          await stateController
-                                                              .getUserIsActive();
-                                                      if (isCheckedActivate) {
-                                                        // if (stateController.isActivate.value) {
-                                                       await cartController.addToCart(
+                                          onPressed: stateController
+                                                  .isLogin.value
+                                              ? () async {
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  bool isCheckedActivate =
+                                                      await stateController
+                                                          .getUserIsActive();
+                                                  if (isCheckedActivate) {
+                                                    // if (stateController.isActivate.value) {
+                                                    await cartController
+                                                        .addToCart(
                                                             mProduct.id!,
                                                             megaMenuController
                                                                 .selectedParentTab
@@ -571,23 +570,23 @@ class CategoryPage extends StatelessWidget {
                                                             null,
                                                             mProduct.constraint,
                                                             null);
-                                                      } else {
-                                                        // Navigator.of(context).pop();
-                                                        // ignore: use_build_context_synchronously
-                                                        snackBarClass.showToast(
-                                                            context,
-                                                            'Your profile is not active yet');
-                                                      }
-                                                      stateController.showLoader
-                                                          .value = false;
-                                                    }
-                                                  : () {
-                                                      stateController
-                                                          .setCurrentTab(3);
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please Login to preoceed');
-                                                    },
+                                                  } else {
+                                                    // Navigator.of(context).pop();
+                                                    // ignore: use_build_context_synchronously
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Your profile is not active yet');
+                                                  }
+                                                  stateController
+                                                      .showLoader.value = false;
+                                                }
+                                              : () {
+                                                  stateController
+                                                      .setCurrentTab(3);
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Please Login to preoceed');
+                                                },
                                           icon: const Icon(
                                             Icons.add,
                                             size: 25,

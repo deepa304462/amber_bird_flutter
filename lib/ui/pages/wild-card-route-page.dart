@@ -9,6 +9,12 @@ class WildCardRoutePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WildCardPageController controller = Get.put(WildCardPageController(url));
-    return Container();
+    return Container(
+      color: Colors.red,
+      child: SizedBox(
+        height: 200,
+        width: 200,
+      ),
+    );
   }
 }

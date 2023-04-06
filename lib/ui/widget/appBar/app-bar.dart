@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-
 class AppBarWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
@@ -50,9 +49,7 @@ class AppBarWidget extends StatelessWidget {
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
                         onPressed: () => {Modular.to.pushNamed('/home/refer')},
-                        icon: const Icon(
-                          Icons.share,
-                        )),
+                        icon: Icon(Icons.share, color: AppColors.DarkGrey)),
                   ),
                   Showcase(
                     key: stateController.showKeyMap['coinWallet']!.key,
@@ -70,9 +67,8 @@ class AppBarWidget extends StatelessWidget {
                               Modular.to.navigate('/home/login');
                             }
                           },
-                          icon: const Icon(
-                            FontAwesomeIcons.coins,
-                          ),
+                          icon: Icon(FontAwesomeIcons.coins,
+                              color: AppColors.DarkGrey),
                         ),
                         InkWell(
                           onTap: () {

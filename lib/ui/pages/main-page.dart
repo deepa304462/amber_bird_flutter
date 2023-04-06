@@ -26,7 +26,7 @@ class MainPage extends StatelessWidget {
     onBoardingController.addInternetConnectivity(context);
     onBoardingController.firebaseRemoteConfigListenerAdd(context);
     return Container(
-      color: AppColors.backgroundGrey,
+      color: AppColors.commonBgColor,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

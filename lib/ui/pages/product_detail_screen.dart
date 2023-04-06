@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/product/brand.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
@@ -17,6 +18,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../../helpers/controller-generator.dart';
@@ -49,7 +51,7 @@ class ProductDetailScreen extends StatelessWidget {
   Widget productVarientView(List<Varient> varientList, activeVariant,
       ProductController productController) {
     return SizedBox(
-      height: 50,
+      height: 30,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: varientList.length,
@@ -61,20 +63,21 @@ class ProductDetailScreen extends StatelessWidget {
                 productController.setVarient(currentVarient);
               },
               child: SizedBox(
-                height: 50,
+                height: 20,
                 child: Card(
                   color: currentVarient.varientCode ==
                           productController.varient.value.varientCode
                       ? AppColors.primeColor
                       : Colors.white,
-                  margin: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(3),
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(4),
                       child: Text(
                         '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            fontSize: 12,
                             color: currentVarient.varientCode !=
                                     productController.varient.value.varientCode
                                 ? AppColors.primeColor
@@ -103,21 +106,26 @@ class ProductDetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 80),
                 child: Column(
                   children: [
+                    AppBar(
+                      toolbarHeight: 40,
+                      backgroundColor: AppColors.primeColor,
+                      iconTheme: IconThemeData(color: AppColors.commonBgColor),
+                      title: Text(
+                        productController
+                            .product.value.name!.defaultText!.text!,
+                        style: TextStyles.body
+                            .copyWith(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .32,
                       child: productPageView(productController.product.value,
                           width, height, context),
                     ),
+                    Divider(),
                     Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            spreadRadius: 2.0,
-                            blurRadius: 6.0,
-                          ),
-                        ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,26 +135,45 @@ class ProductDetailScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                detailsHead(productController),
-                                Text(
-                                  productController.product.value.name!
-                                          .defaultText!.text ??
-                                      '',
-                                  style: TextStyles.headingFont
-                                      .copyWith(color: AppColors.primeColor),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          productController.product.value.name!
+                                                  .defaultText!.text ??
+                                              '',
+                                          style: TextStyles.headingFont
+                                              .copyWith(
+                                                  color: AppColors.primeColor,
+                                                  fontSize: 20),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        productVarientView(
+                                            productController
+                                                    .product.value.varients ??
+                                                [],
+                                            productController
+                                                .activeIndexVariant.value,
+                                            productController),
+                                      ],
+                                    ),
+                                    detailsHead(productController),
+                                  ],
                                 ),
-                                const SizedBox(height: 4),
-                                productVarientView(
-                                    productController.product.value.varients ??
-                                        [],
-                                    productController.activeIndexVariant.value,
-                                    productController),
-                                const SizedBox(height: 5),
-                                soldFrom(productController.product.value),
+                                // const SizedBox(height: 5),
+                                // soldFrom(productController.product.value),
                                 const SizedBox(height: 5),
                                 const Divider(),
                                 deliveryTo(),
                                 const Divider(),
+                                brandTile(
+                                    productController.product.value.brand),
+                                Divider(),
                                 specification(productController),
                                 tags(productController.product.value, context),
                               ],
@@ -224,7 +251,7 @@ class ProductDetailScreen extends StatelessWidget {
                                         IconButton(
                                           padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
-                                          onPressed: ()async {
+                                          onPressed: () async {
                                             stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
@@ -276,11 +303,11 @@ class ProductDetailScreen extends StatelessWidget {
                                         IconButton(
                                           padding: const EdgeInsets.all(0),
                                           constraints: const BoxConstraints(),
-                                          onPressed: () async{
+                                          onPressed: () async {
                                             stateController.showLoader.value =
                                                 true;
                                             if (stateController.isLogin.value) {
-                                             await cartController.addToCart(
+                                              await cartController.addToCart(
                                                   '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                   addedFrom!,
                                                   1,
@@ -316,7 +343,7 @@ class ProductDetailScreen extends StatelessWidget {
                                               await stateController
                                                   .getUserIsActive();
                                           if (isCheckedActivate) {
-                                           await cartController.addToCart(
+                                            await cartController.addToCart(
                                                 '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                 addedFrom!,
                                                 1,
@@ -408,6 +435,11 @@ class ProductDetailScreen extends StatelessWidget {
               Text(
                 '${value.category!.name!.defaultText!.text}',
                 style: TextStyles.body,
+              ),
+              Icon(Icons.arrow_forward_ios, size: 20),
+              Text(
+                '${value.category!.parent!.name!.defaultText!.text}',
+                style: TextStyles.body,
               )
             ],
           ),
@@ -442,7 +474,7 @@ class ProductDetailScreen extends StatelessWidget {
       children: [
         Text(
           "Specification",
-          style: TextStyles.titleFont..copyWith(color: AppColors.primeColor),
+          style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 10),
         Padding(
@@ -451,9 +483,6 @@ class ProductDetailScreen extends StatelessWidget {
             columnWidths: const {
               0: FractionColumnWidth(.30),
             },
-            border: TableBorder.all(
-              borderRadius: BorderRadius.circular(12),
-            ),
             children: [
               TableRow(children: [
                 TableCell(
@@ -461,8 +490,8 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        'Product category',
-                        style: TextStyles.bodyFontBold,
+                        'Category',
+                        style: TextStyles.titleFont,
                       ),
                     )),
                 TableCell(
@@ -476,7 +505,7 @@ class ProductDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         'Details',
-                        style: TextStyles.bodyFontBold,
+                        style: TextStyles.titleFont,
                       ),
                     )),
                 TableCell(
@@ -504,7 +533,7 @@ class ProductDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Weight',
-                        style: TextStyles.bodyFontBold,
+                        style: TextStyles.titleFont,
                       ),
                     )),
                 TableCell(
@@ -569,25 +598,8 @@ class ProductDetailScreen extends StatelessWidget {
 
   detailsHead(ProductController productController) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ImageBox(
-              productController.product.value.brand!.logoId!,
-              width: 50,
-              height: 50,
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              productController.product.value.brand!.name!,
-              style: TextStyles.body,
-            )
-          ],
-        ),
         Row(
           children: [
             IconButton(
@@ -615,6 +627,31 @@ class ProductDetailScreen extends StatelessWidget {
                   color: AppColors.primeColor,
                 ))
           ],
+        ),
+      ],
+    );
+  }
+
+  brandTile(Brand? brand) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Explore more products from ${brand!.name!} brand',
+            style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
+        ListTile(
+          onTap: () {
+            Modular.to.pushNamed('/home/brandProduct/${brand.id}');
+          },
+          leading: ImageBox(
+            brand!.logoId!,
+            width: 30,
+            height: 30,
+          ),
+          trailing: Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
+          title: Text(
+            brand!.name!,
+            style: TextStyles.body,
+          ),
         ),
       ],
     );

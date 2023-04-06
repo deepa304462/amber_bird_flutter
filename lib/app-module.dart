@@ -24,7 +24,6 @@ class AppModule extends Module {
               args.queryParams['email']!, args.queryParams['token']!);
         }),
         ChildRoute('/refer/:id', child: (_, args) {
-          SharedData.save(args.params['id'].toString(), 'referredbyId');
           return WildCardRoutePage(args.uri);
         }),
         ModuleRoute('/', module: HomePageModule()),

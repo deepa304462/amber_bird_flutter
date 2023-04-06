@@ -171,7 +171,7 @@ class LocationPage extends StatelessWidget {
                           try {
                             Navigator.pop(context);
                           } catch (e) {
-                            Modular.to.navigate('/home/main');
+                            Modular.to.pushReplacementNamed('/home/main');
                             // code that handles the exception
                           }
                           // _displayDialog(context, locationController, 'ADD');

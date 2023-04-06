@@ -30,9 +30,6 @@ class AppbarScrollController extends GetxController {
     // scrollController.addListener(_onScrollEvent);
 
     Modular.to.addListener(() {
-      print('ghjkl${Modular.to.path}');
-      print('dxscs${Modular.routerDelegate.path}');
-      print(Modular.routerDelegate.path == '/home/main');
       if (Modular.to.path == '/home/main') {
         shrinkappbar.value = false;
       } else {
