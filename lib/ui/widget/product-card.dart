@@ -130,7 +130,7 @@ class ProductCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          '${product.varient!.weight!.toStringAsFixed(0)}',
+                          product.varient!.weight!.toStringAsFixed(0),
                           style: TextStyles.body,
                         ),
                         Text(
@@ -183,7 +183,9 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     activeVariant.value = product!.varient!;
-    var minOrder = (constraint!=null && constraint!.minimumOrder != null)?constraint!.minimumOrder : 1;
+    var minOrder = (constraint != null && constraint!.minimumOrder != null)
+        ? constraint!.minimumOrder
+        : 1;
 
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
@@ -245,12 +247,13 @@ class ProductCard extends StatelessWidget {
                                       constraint,
                                       activeVariant.value);
                                 } else {
+                                  var data;
                                   if (Get.isRegistered<DealController>(
                                       tag: addedFrom!)) {
                                     var dealController =
                                         Get.find<DealController>(
                                             tag: addedFrom!);
-                                    var data = await dealController.checkValidDeal(
+                                    data = await dealController.checkValidDeal(
                                         refId!,
                                         'positive',
                                         '$refId@${activeVariant.value.varientCode}');
@@ -258,7 +261,7 @@ class ProductCard extends StatelessWidget {
                                     msg = data['msg'];
                                   }
                                   if (valid) {
-                                  await  cartController.addToCart(
+                                    await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         minOrder,
@@ -268,6 +271,19 @@ class ProductCard extends StatelessWidget {
                                         ruleConfig,
                                         constraint,
                                         activeVariant.value);
+                                  } else if (data['type'] ==
+                                      'maxNumberExceeded') {
+                                    snackBarClass.showToast(context, msg);
+                                    await cartController.addToCart(
+                                        '${product!.id}@${product!.varient!.varientCode}',
+                                        'CATEGORY',
+                                        1,
+                                        product!.varient!.price,
+                                        product,
+                                        null,
+                                        RuleConfig(),
+                                        Constraint(),
+                                        product!.varient!);
                                   } else {
                                     snackBarClass.showToast(context, msg);
                                   }
@@ -290,13 +306,13 @@ class ProductCard extends StatelessWidget {
                         if (stateController.isLogin.value) {
                           var valid = true;
                           var msg = 'Something went wrong!';
-
+                          var data;
                           if (Get.isRegistered<DealController>(
                               tag: addedFrom!)) {
                             price = dealPrice;
                             var dealController =
                                 Get.find<DealController>(tag: addedFrom!);
-                            var data = await dealController.checkValidDeal(
+                            data = await dealController.checkValidDeal(
                                 refId!,
                                 'negative',
                                 '$refId@${activeVariant.value.varientCode}');
@@ -327,12 +343,24 @@ class ProductCard extends StatelessWidget {
                                   constraint,
                                   activeVariant.value);
                             }
+                          } else if (data['type'] == 'maxNumberExceeded') {
+                            snackBarClass.showToast(context, msg);
+                            await cartController.addToCart(
+                                '${product!.id}@${product!.varient!.varientCode}',
+                                'CATEGORY',
+                                1,
+                                product!.varient!.price,
+                                product,
+                                null,
+                                RuleConfig(),
+                                Constraint(),
+                                product!.varient!);
                           } else {
                             snackBarClass.showToast(context, msg);
                           }
                         } else {
                           stateController.setCurrentTab(3);
-                          var showToast = snackBarClass.showToast(
+                          snackBarClass.showToast(
                               context, 'Please Login to preoceed');
                         }
                         stateController.showLoader.value = false;
@@ -342,12 +370,13 @@ class ProductCard extends StatelessWidget {
                         if (stateController.isLogin.value) {
                           var valid = true;
                           var msg = 'Something went wrong!';
+                          var data;
                           Price? price = activeVariant.value.price;
                           if (Get.isRegistered<DealController>(
                               tag: addedFrom!)) {
                             var dealController =
                                 Get.find<DealController>(tag: addedFrom!);
-                            var data = await dealController.checkValidDeal(
+                            data = await dealController.checkValidDeal(
                                 refId!,
                                 'positive',
                                 '$refId@${activeVariant.value.varientCode}');
@@ -379,6 +408,18 @@ class ProductCard extends StatelessWidget {
                                   constraint,
                                   activeVariant.value);
                             }
+                          } else if (data['type'] == 'maxNumberExceeded') {
+                            snackBarClass.showToast(context, msg);
+                            await cartController.addToCart(
+                                '${product!.id}@${product!.varient!.varientCode}',
+                                'CATEGORY',
+                                1,
+                                product!.varient!.price,
+                                product,
+                                null,
+                                RuleConfig(),
+                                Constraint(),
+                                product!.varient!);
                           } else {
                             stateController.setCurrentTab(3);
                             snackBarClass.showToast(context, msg);

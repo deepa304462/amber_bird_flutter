@@ -122,7 +122,7 @@ class Helper {
       if (ruleConfig.forWeekDays!.length > 0) {
         DateTime date = DateTime.now();
         if (!ruleConfig.forWeekDays!.contains(date.weekday)) {
-          return ({'error': true, 'msg': 'Deal is not applicable today'});
+          return ({'error': true, 'msg': 'Deal is not applicable today','type':''});
         }
       }
       if (ruleConfig.minCartAmount != null && ruleConfig.minCartAmount != 0) {
@@ -141,21 +141,24 @@ class Helper {
           custInsight.membershipType != memberShipType.Gold.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Golden member'
+          'msg': 'Deal is applicable for only Golden member',
+          'type': ''
         });
       }
       if (ruleConfig.onlyForPlatinumMember == true &&
           custInsight.membershipType != memberShipType.Platinum.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Prime member'
+          'msg': 'Deal is applicable for only Prime member',
+          'type': ''
         });
       }
       if (ruleConfig.onlyForSilverMember == true &&
           custInsight.membershipType != memberShipType.Silver.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Silver member'
+          'msg': 'Deal is applicable for only Silver member',
+          'type': ''
         });
       }
     }
@@ -174,11 +177,12 @@ class Helper {
         if ((constraint.maximumOrder ?? 0) < newCount) {
           return ({
             'error': true,
-            'msg': 'Max ${constraint.maximumOrder} can be added!'
+            'msg': 'Max ${constraint.maximumOrder} can be added!',
+            'type': 'maxNumberExceeded'
           });
         }
       }
     }
-    return ({'error': false, 'msg': ''});
+    return ({'error': false, 'msg': '', 'type': ''});
   }
 }
