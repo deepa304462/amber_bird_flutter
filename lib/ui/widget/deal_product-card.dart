@@ -42,7 +42,7 @@ class DealProductCard extends StatelessWidget {
                       dProduct.ruleConfig,
                       dProduct.constraint),
                   Positioned(
-                    top: 40,
+                    top: 0,
                     child: DiscountTag(
                       price: dProduct.dealPrice!,
                     ),

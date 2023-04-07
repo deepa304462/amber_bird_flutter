@@ -14,6 +14,7 @@ class AppColors {
   static Color DarkGrey = HexColor("#393536");
   static Color darkOrange = const Color.fromARGB(213, 255, 192, 46);
   static Color grey = HexColor("#989898");
+  static Color commonBgColor = HexColor("#FAFAFA");
   static Color golden = HexColor("#e1b530");
   static Color green = Colors.green;
   static Color backgroundGrey = HexColor("#efefef");
@@ -42,10 +43,9 @@ class TextStyles {
   static TextStyle get bodyFontBold =>
       TextStyle(fontFamily: Fonts.body, fontWeight: FontWeight.bold);
   static TextStyle get titleFont => TextStyle(
-        fontFamily: Fonts.body,
-        fontSize: FontSizes.title,
-         color: AppColors.DarkGrey
-      );
+      fontFamily: Fonts.body,
+      fontSize: FontSizes.title,
+      color: AppColors.DarkGrey);
   static TextStyle get headingFont => TextStyle(
       fontFamily: Fonts.title,
       fontSize: FontSizes.title,

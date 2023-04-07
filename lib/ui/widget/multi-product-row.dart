@@ -33,47 +33,43 @@ class MultiProductRow extends StatelessWidget {
         MultiProductController(currenttypeName),
         tag: currenttypeName.toString());
     // if (dealController.dealProd.isNotEmpty) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    multiprodController.getProductName(currenttypeName),
-                    style: TextStyles.headingFont,
-                  ),
-                  ViewMoreWidget(onTap: () {
-                    MegaMenuController megaMenuController;
-                    if (Get.isRegistered<MegaMenuController>()) {
-                      megaMenuController = Get.find();
-                    } else {
-                      megaMenuController = Get.put(MegaMenuController());
-                    }
-                    megaMenuController.selectedParentTab.value =
-                        currenttypeName;
-                    if (currenttypeName == multiProductName.COMBO.name) {
-                      megaMenuController.getSubMenu(GenericTab(
-                          image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
-                          id: multiProductName.COMBO.name,
-                          type: 'MULTI',
-                          text: 'Combo'));
-                    }
-                    stateController.setCurrentTab(1);
-                  }),
-                ],
-              ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  multiprodController.getProductName(currenttypeName),
+                  style: TextStyles.headingFont,
+                ),
+                ViewMoreWidget(onTap: () {
+                  MegaMenuController megaMenuController;
+                  if (Get.isRegistered<MegaMenuController>()) {
+                    megaMenuController = Get.find();
+                  } else {
+                    megaMenuController = Get.put(MegaMenuController());
+                  }
+                  megaMenuController.selectedParentTab.value = currenttypeName;
+                  if (currenttypeName == multiProductName.COMBO.name) {
+                    megaMenuController.getSubMenu(GenericTab(
+                        image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                        id: multiProductName.COMBO.name,
+                        type: 'MULTI',
+                        text: 'Combo'));
+                  }
+                  stateController.setCurrentTab(1);
+                }),
+              ],
             ),
           ),
-          childListing(multiprodController, context)
-        ],
-      ),
+        ),
+        childListing(multiprodController, context)
+      ],
     );
   }
 
@@ -103,87 +99,93 @@ class MultiProductRow extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (_, index) {
               Multi mProduct = multiprodController.multiProd[index];
-              return Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    Container(
-                      color: Colors.white,
-                      child: ImageBox(
-                        mProduct.displayImageId != null &&
-                                mProduct.displayImageId!.length > 3
-                            ? mProduct.displayImageId!
-                            : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * .6,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.all(5.0),
-                      height: 160,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        children: [
-                          for (var i = 0;
-                              i < mProduct.products!.length;
-                              i++) ...[
-                            SizedBox(
-                              width: 120,
-                              child: ProductCard(
-                                  mProduct.products![i],
-                                  mProduct.products![i].id,
-                                  fixedHeight: true,
-                                  'MULTIPRODUCT',
-                                  mProduct.products![i].varient!.price!,
-                                  null,
-                                  mProduct.constraint),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              mProduct.name!.defaultText!.text ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyles.titleFont.copyWith(
-                                  color: AppColors.grey.withBlue(200)),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .6,
-                              child: Row(
-                                children: [
-                                  PriceTag(
-                                      mProduct.price!.offerPrice.toString(),
-                                      mProduct.price!.actualPrice.toString()),
-                                  const Spacer(),
-                                  addToCartButton(
-                                      multiprodController, mProduct, context)
-                                ],
-                              ),
-                            ),
-                          ],
+              return Stack(
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      children: [
+                        Container(
+                          color: Colors.white,
+                          child: ImageBox(
+                            mProduct.displayImageId != null &&
+                                    mProduct.displayImageId!.length > 3
+                                ? mProduct.displayImageId!
+                                : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
+                            height: 60,
+                            width: MediaQuery.of(context).size.width * .6,
+                            fit: BoxFit.fitHeight,
+                          ),
                         ),
-                      ),
+                        Container(
+                          margin: const EdgeInsets.all(5.0),
+                          height: 160,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            children: [
+                              for (var i = 0;
+                                  i < mProduct.products!.length;
+                                  i++) ...[
+                                SizedBox(
+                                  width: 120,
+                                  child: ProductCard(
+                                      mProduct.products![i],
+                                      mProduct.products![i].id,
+                                      fixedHeight: true,
+                                      'MULTIPRODUCT',
+                                      mProduct.products![i].varient!.price!,
+                                      null,
+                                      mProduct.constraint),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: Container(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  mProduct.name!.defaultText!.text ?? '',
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyles.titleFont.copyWith(
+                                      color: AppColors.grey.withBlue(200)),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .6,
+                                  child: Row(
+                                    children: [
+                                      PriceTag(
+                                          mProduct.price!.offerPrice.toString(),
+                                          mProduct.price!.actualPrice
+                                              .toString()),
+                                      const Spacer(),
+                                      addToCartButton(multiprodController,
+                                          mProduct, context)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  DiscountTag(price: mProduct.price!)
+                ],
               );
             },
           ),
@@ -305,7 +307,7 @@ class MultiProductRow extends StatelessWidget {
                   valid = !data['error'];
                   msg = data['msg'];
                   if (valid) {
-                   await cartController.addToCart(
+                    await cartController.addToCart(
                         multiProd.id!,
                         'MULTIPRODUCT',
                         (-(multiProd.constraint?.minimumOrder ?? 1)) ?? -1,
@@ -340,7 +342,7 @@ class MultiProductRow extends StatelessWidget {
                   valid = !data['error'];
                   msg = data['msg'];
                   if (valid) {
-                   await cartController.addToCart(
+                    await cartController.addToCart(
                         multiProd.id!,
                         'MULTIPRODUCT',
                         multiProd.constraint!.minimumOrder ?? 1,
@@ -351,7 +353,6 @@ class MultiProductRow extends StatelessWidget {
                         multiProd.constraint,
                         null,
                         mutliProductName: multiProd.name!.defaultText!.text!);
-                        
                   } else {
                     snackBarClass.showToast(context, msg);
                   }
@@ -377,7 +378,7 @@ class MultiProductRow extends StatelessWidget {
                     valid = !data['error'];
                     msg = data['msg'];
                     if (valid) {
-                     await cartController.addToCart(
+                      await cartController.addToCart(
                           multiProd.id!,
                           'MULTIPRODUCT',
                           multiProd.constraint!.minimumOrder ?? 1,
@@ -388,7 +389,7 @@ class MultiProductRow extends StatelessWidget {
                           multiProd.constraint,
                           null,
                           mutliProductName: multiProd.name!.defaultText!.text!);
-                          stateController.showLoader.value = false;
+                      stateController.showLoader.value = false;
                     } else {
                       stateController.showLoader.value = false;
                       Navigator.of(context).pop();

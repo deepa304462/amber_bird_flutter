@@ -246,7 +246,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                       child: widget.imageIcon.isEmpty
                           ? Icon(widget.icon,
                               color: animation.value == 0.0
-                                  ? Colors.black
+                                  ? AppColors.DarkGrey
                                   : widget.color,
                               size: widget.height / 1.5)
                           : ClipRRect(

@@ -9,7 +9,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-
 class AppBarWidget extends StatelessWidget {
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
@@ -50,55 +49,54 @@ class AppBarWidget extends StatelessWidget {
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
                         onPressed: () => {Modular.to.pushNamed('/home/refer')},
-                        icon: const Icon(
-                          Icons.share,
-                        )),
+                        icon: Icon(Icons.share, color: AppColors.DarkGrey)),
                   ),
                   Showcase(
                     key: stateController.showKeyMap['coinWallet']!.key,
                     description: stateController.showKeyMap['coinWallet']!.desc,
                     title: stateController.showKeyMap['coinWallet']!.title,
-                    child: InkWell(
-                      onTap: () {
-                        if (stateController.isLogin.value) {
-                          Modular.to.pushNamed('/home/wallet');
-                        } else {
-                          Modular.to.navigate('/home/login');
-                        }
-                      },
-                      child: Stack(
-                        fit: StackFit.loose,
-                        children: [
-                          IconButton(
-                            // padding: EdgeInsets.all(0),
-                            onPressed: () {},
-                            icon: const Icon(
-                              FontAwesomeIcons.coins,
-                            ),
-                          ),
-                          Positioned(
-                            top: 7,
-                            right: 4,
-                            child: Card(
-                              color: Colors.yellow[700],
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Obx(
-                                  () => Text(
-                                      stateController.customerDetail.value
-                                                  .personalInfo !=
-                                              null
-                                          ? stateController.customerDetail.value
-                                              .personalInfo!.scoins
-                                              .toString()
-                                          : '0',
-                                      style: TextStyles.bodySm),
-                                ),
+                    child: Stack(
+                      fit: StackFit.loose,
+                      children: [
+                        IconButton(
+                          // padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.pushNamed('/wallet');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                          },
+                          icon: Icon(FontAwesomeIcons.coins,
+                              color: AppColors.DarkGrey),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (stateController.isLogin.value) {
+                              Modular.to.pushNamed('/wallet');
+                            } else {
+                              Modular.to.navigate('/home/login');
+                            }
+                          },
+                          child: Card(
+                            color: Colors.yellow[700],
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Obx(
+                                () => Text(
+                                    stateController.customerDetail.value
+                                                .personalInfo !=
+                                            null
+                                        ? stateController.customerDetail.value
+                                            .personalInfo!.scoins
+                                            .toString()
+                                        : '0',
+                                    style: TextStyles.bodySm),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -165,7 +163,6 @@ class AppBarWidget extends StatelessWidget {
   //     },
   //   );
   // }
-
 }
 
 class AppBarShrinkWidget extends StatelessWidget {

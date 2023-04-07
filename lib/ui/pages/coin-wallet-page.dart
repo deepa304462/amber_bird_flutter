@@ -37,54 +37,47 @@ class CoinWalletPage extends StatelessWidget {
             )),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      coinWallet.value.totalActiveCoins != null
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  Text(
-                                    'Total scoins',
-                                    style: TextStyles.headingFont
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  Text(
-                                    coinWallet.value.totalActiveCoins
-                                            .toString() ??
-                                        '',
-                                    style: TextStyles.titleFont
-                                        .copyWith(color: Colors.white),
-                                  )
-                                ])
-                          : const SizedBox(),
-                      coinWallet.value.totalPendingCoins != null
-                          ? Card(
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        'Pending scoins are ${coinWallet.value.totalPendingCoins} ',
-                                        style: TextStyles.headingFont.copyWith(
-                                            color: AppColors.primeColor),
-                                      ),
-                                    ]),
-                              ),
+                  coinWallet.value.totalActiveCoins != null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Text(
+                              'Total s-coins',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: Colors.white),
+                            ),
+                            Text(
+                              coinWallet.value.totalActiveCoins.toString() ??
+                                  '',
+                              style: TextStyles.titleFont
+                                  .copyWith(color: Colors.white),
                             )
-                          : const SizedBox(),
-                    ],
-                  ),
-                  Lottie.asset('assets/coin.json',
-                      height: 100, fit: BoxFit.fill, repeat: true)
+                          ],
+                        )
+                      : const SizedBox(),
+                  coinWallet.value.totalPendingCoins != null
+                      ? Card(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'Pending scoins are ${coinWallet.value.totalPendingCoins} ',
+                                    style: TextStyles.headingFont
+                                        .copyWith(color: AppColors.primeColor),
+                                  ),
+                                ]),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

@@ -8,8 +8,8 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
-import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -41,10 +41,29 @@ void main() async {
   await Firebase.initializeApp();
   await FCMSyncService.init();
   await OfflineDBService.init();
-  await FastCachedImageConfig.init(clearCacheAfter: const Duration(days: 15));
   AnalyticsService.logEvent('initalization', {
     "message": 'initalized App',
   });
+
+  // Check if you received the link via `getInitialLink` first
+  final PendingDynamicLinkData? initialLink =
+      await FirebaseDynamicLinks.instance.getInitialLink();
+
+  if (initialLink != null) {
+    final Uri deepLink = initialLink.link;
+    // Example of using the dynamic link to push the user to a different screen
+  }
+
+  FirebaseDynamicLinks.instance.onLink.listen(
+    (pendingDynamicLinkData) {
+      // Set up the `onLink` event listener next as it may be received here
+      if (pendingDynamicLinkData != null) {
+        final Uri deepLink = pendingDynamicLinkData.link;
+        // Example of using the dynamic link to push the user to a different screen
+      }
+    },
+  );
+
   FlutterError.onError = (errorDetails) {
     // If you wish to record a "non-fatal" exception, please use `FirebaseCrashlytics.instance.recordFlutterError` instead
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);

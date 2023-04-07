@@ -27,6 +27,7 @@ class SpointsPage extends StatelessWidget {
               ],
             ),
           ),
+<<<<<<< HEAD
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -51,6 +52,24 @@ class SpointsPage extends StatelessWidget {
                     height: 100, fit: BoxFit.fill, repeat: true)
               ],
             ),
+=======
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Membership',
+                style: TextStyles.headingFont.copyWith(color: Colors.white),
+              ),
+              Text(
+                stateController.getMemberShipText(),
+                style: TextStyles.titleFont.copyWith(color: Colors.white),
+              )
+            ],
+>>>>>>> 4c2c9701ed8199964406f55d9a452df188753943
           ),
         ),
         SizedBox(

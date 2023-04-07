@@ -17,10 +17,16 @@ class DiscountTag extends StatelessWidget {
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(5), bottomRight: Radius.circular(5))),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Text(
-            '${discount}% off',
-            style: TextStyles.bodyFont.copyWith(color: Colors.white),
+          padding: const EdgeInsets.all(2.0),
+          child: Row(
+            children: [
+              Text(
+                '${discount}%',
+                style: TextStyles.bodyFont
+                    .copyWith(color: Colors.white, fontSize: 12),
+              ),
+              Icon(Icons.arrow_downward, size: 12, color: Colors.white)
+            ],
           ),
         ),
       ),
