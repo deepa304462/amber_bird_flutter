@@ -183,6 +183,10 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     activeVariant.value = product!.varient!;
+    var minOrder = (constraint != null && constraint!.minimumOrder != null)
+        ? constraint!.minimumOrder
+        : 1;
+
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
       child: Container(
@@ -226,19 +230,8 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value);
-                                  } else if (addedFrom == 'SCOIN') {
-                                    cartController.addToCartScoins(
-                                        '$refId@${activeVariant.value.varientCode}',
-                                        addedFrom!,
-                                        -1,
-                                        price,
+                                        minOrder,
+                                        dealPrice,
                                         product,
                                         null,
                                         ruleConfig,
@@ -329,7 +322,16 @@ class ProductCard extends StatelessWidget {
                                     activeVariant.value);
                               }
                             } else {
-                              snackBarClass.showToast(context, msg);
+                              await cartController.addToCart(
+                                  '$refId@${activeVariant.value.varientCode}',
+                                  addedFrom!,
+                                  minOrder,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value);
                             }
                           } else {
                             stateController.setCurrentTab(3);

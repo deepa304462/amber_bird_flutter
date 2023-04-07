@@ -400,10 +400,14 @@ class CartWidget extends StatelessWidget {
             itemBuilder: (_, index) {
               var currentKey =
                   cartController.cartProducts.value.keys.elementAt(index);
+              var currentProduct =
+                  cartController.cartProducts.value[currentKey]!;
+              var minOrder = (currentProduct.constraint != null && currentProduct.constraint.minimumOrder != null)
+                  ? currentProduct.constraint!.minimumOrder
+                  : 1;
               return Column(
                 children: [
-                  cartController
-                          .cartProducts.value[currentKey]!.products!.isNotEmpty
+                  currentProduct.products!.isNotEmpty
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Column(
@@ -414,7 +418,7 @@ class CartWidget extends StatelessWidget {
                                         MediaQuery.of(context).size.width * .1,
                                     child: Divider()),
                                 FitText(
-                                  '${cartController.cartProducts.value[currentKey]!.name}',
+                                  '${currentProduct.name}',
                                   style: TextStyles.headingFont
                                       .copyWith(color: AppColors.primeColor),
                                 ),
@@ -429,31 +433,29 @@ class CartWidget extends StatelessWidget {
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
                                       scrollDirection: Axis.vertical,
-                                      itemCount: cartController.cartProducts
-                                          .value[currentKey]!.products!.length,
+                                      itemCount:
+                                          currentProduct.products!.length,
                                       itemBuilder: (_, pIndex) {
-                                        var currentProduct = cartController
-                                            .cartProducts
-                                            .value[currentKey]!
-                                            .products![pIndex];
+                                        var currentInnerProduct =
+                                            currentProduct.products![pIndex];
                                         return ListTile(
                                           dense: false,
                                           visualDensity:
                                               const VisualDensity(vertical: 3),
                                           leading: ImageBox(
-                                            '${currentProduct.images![0]}',
+                                            '${currentInnerProduct.images![0]}',
                                             width: 80,
                                             height: 80,
                                             fit: BoxFit.contain,
                                           ),
                                           title: FitText(
-                                            currentProduct
+                                            currentInnerProduct
                                                 .name!.defaultText!.text!,
                                             style: TextStyles.headingFont,
                                             align: TextAlign.start,
                                           ),
                                           subtitle: Text(
-                                            '${currentProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct!.varient!.unit)}',
+                                            '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
                                             style: TextStyles.body,
                                           ),
                                         );
@@ -467,7 +469,7 @@ class CartWidget extends StatelessWidget {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
+                                          '${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -492,35 +494,23 @@ class CartWidget extends StatelessWidget {
                                                     var msg =
                                                         'Something went wrong!';
 
-                                                    if (cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
+                                                    if (currentProduct
                                                                 .ruleConfig !=
                                                             null ||
-                                                        cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
+                                                        currentProduct
                                                                 .constraint !=
                                                             null) {
                                                       dynamic data = await Helper
                                                           .checkProductValidtoAddinCart(
-                                                              cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
+                                                              currentProduct
                                                                   .ruleConfig,
-                                                              cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
+                                                              currentProduct
                                                                   .constraint,
-                                                              cartController
-                                                                      .cartProducts[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .ref!
                                                                       .id ??
                                                                   '',
-                                                              cartController
-                                                                      .cartProducts[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .ref!
                                                                       .id ??
                                                                   '');
@@ -529,35 +519,20 @@ class CartWidget extends StatelessWidget {
                                                     }
                                                     if (valid) {
                                                       await cartController.addToCart(
-                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .ref!
-                                                              .name!,
-                                                          1,
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .price,
+                                                          '${currentProduct.ref!.id}',
+                                                          currentProduct
+                                                              .ref!.name!,
+                                                          minOrder,
+                                                          currentProduct.price,
                                                           null,
-                                                          cartController
-                                                              .cartProducts
-                                                              .value[
-                                                                  currentKey]!
+                                                          currentProduct
                                                               .products,
-                                                          null,
-                                                          cartController
-                                                              .cartProducts
-                                                              .value[
-                                                                  currentKey]!
+                                                          currentProduct.ruleConfig,
+                                                          currentProduct
                                                               .constraint,
                                                           null,
                                                           mutliProductName:
-                                                              cartController
-                                                                      .cartProducts
-                                                                      .value[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .name ??
                                                                   "");
                                                     } else {
@@ -579,7 +554,7 @@ class CartWidget extends StatelessWidget {
                                               Text(
                                                   cartController
                                                       .getCurrentQuantity(
-                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                          '${currentProduct.ref!.id}',
                                                           '')
                                                       .toString(),
                                                   style: TextStyles.headingFont
@@ -599,35 +574,23 @@ class CartWidget extends StatelessWidget {
                                                     var msg =
                                                         'Something went wrong!';
 
-                                                    if (cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
+                                                    if (currentProduct
                                                                 .ruleConfig !=
                                                             null ||
-                                                        cartController
-                                                                .cartProducts[
-                                                                    currentKey]!
+                                                        currentProduct
                                                                 .constraint !=
                                                             null) {
                                                       dynamic data = await Helper
                                                           .checkProductValidtoAddinCart(
-                                                              cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
+                                                              currentProduct
                                                                   .ruleConfig,
-                                                              cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
+                                                              currentProduct
                                                                   .constraint,
-                                                              cartController
-                                                                      .cartProducts[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .ref!
                                                                       .id ??
                                                                   '',
-                                                              cartController
-                                                                      .cartProducts[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .ref!
                                                                       .id ??
                                                                   '');
@@ -636,35 +599,21 @@ class CartWidget extends StatelessWidget {
                                                     }
                                                     if (valid) {
                                                       await cartController.addToCart(
-                                                          '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .ref!
-                                                              .name!,
-                                                          1,
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
-                                                              .price,
+                                                          '${currentProduct.ref!.id}',
+                                                          currentProduct
+                                                              .ref!.name!,
+                                                          minOrder,
+                                                          currentProduct.price,
                                                           null,
-                                                          cartController
-                                                              .cartProducts
-                                                              .value[
-                                                                  currentKey]!
+                                                          currentProduct
                                                               .products,
-                                                          null,
-                                                          cartController
-                                                              .cartProducts
-                                                              .value[
-                                                                  currentKey]!
+                                                          currentProduct
+                                                              .ruleConfig,
+                                                          currentProduct
                                                               .constraint,
                                                           null,
                                                           mutliProductName:
-                                                              cartController
-                                                                      .cartProducts
-                                                                      .value[
-                                                                          currentKey]!
+                                                              currentProduct
                                                                       .name ??
                                                                   '');
                                                     } else {
@@ -732,14 +681,13 @@ class CartWidget extends StatelessWidget {
                                 dense: false,
                                 visualDensity: const VisualDensity(vertical: 3),
                                 leading: ImageBox(
-                                  cartController.cartProducts.value[currentKey]!
-                                      .product!.images![0],
+                                  currentProduct.product!.images![0],
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.contain,
                                 ),
                                 title: FitText(
-                                  cartController.cartProducts.value[currentKey]!
+                                  currentProduct
                                       .product!.name!.defaultText!.text!,
                                   style: TextStyles.headingFont,
                                   align: TextAlign.start,
@@ -747,11 +695,11 @@ class CartWidget extends StatelessWidget {
                                 subtitle: Row(
                                   children: [
                                     Text(
-                                      '${cartController.cartProducts.value[currentKey]!.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(cartController.cartProducts.value[currentKey]!.product!.varient!.unit)}',
+                                      '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}',
                                       style: TextStyles.body,
                                     ),
                                     Text(
-                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts.value[currentKey]!.price!.offerPrice!)} ',
+                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)} ',
                                         style: TextStyles.body),
                                   ],
                                 ),
@@ -759,7 +707,7 @@ class CartWidget extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.cartProducts[currentKey]!.price!.offerPrice * cartController.cartProducts[currentKey]!.count).toString()}',
+                                      '${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}',
                                       style: TextStyles.headingFont,
                                     ),
                                     Card(
@@ -779,25 +727,16 @@ class CartWidget extends StatelessWidget {
                                               if (stateController
                                                   .isLogin.value) {
                                                 cartController.addToCart(
-                                                  '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .ref!
-                                                      .name!,
-                                                  -1,
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .price,
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .product,
+                                                  '${currentProduct.ref!.id}',
+                                                  currentProduct.ref!.name!,
+                                                  -minOrder,
+                                                  currentProduct.price,
+                                                  currentProduct.product,
                                                   null,
-                                                  null,
-                                                  null,
-                                                  cartController
-                                                      .cartProducts[currentKey]!
-                                                      .product
-                                                      .varient,
+                                                  currentProduct.ruleConfig,
+                                                  currentProduct.constraint,
+                                                  currentProduct
+                                                      .product.varient,
                                                 );
                                               } else {
                                                 stateController
@@ -818,7 +757,7 @@ class CartWidget extends StatelessWidget {
                                           Text(
                                             cartController
                                                 .getCurrentQuantity(
-                                                    '${cartController.cartProducts[currentKey]!.ref!.id}',
+                                                    '${currentProduct.ref!.id}',
                                                     '')
                                                 .toString(),
                                             style: TextStyles.headingFont
@@ -836,66 +775,37 @@ class CartWidget extends StatelessWidget {
                                                 var msg =
                                                     'Something went wrong!';
 
-                                                if (cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .ruleConfig !=
+                                                if (currentProduct.ruleConfig !=
                                                         null ||
-                                                    cartController
-                                                            .cartProducts[
-                                                                currentKey]!
-                                                            .constraint !=
+                                                    currentProduct.constraint !=
                                                         null) {
                                                   dynamic data = await Helper
                                                       .checkProductValidtoAddinCart(
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
+                                                          currentProduct
                                                               .ruleConfig,
-                                                          cartController
-                                                              .cartProducts[
-                                                                  currentKey]!
+                                                          currentProduct
                                                               .constraint,
-                                                          cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
-                                                                  .ref!
-                                                                  .id ??
+                                                          currentProduct
+                                                                  .ref!.id ??
                                                               "",
-                                                          cartController
-                                                                  .cartProducts[
-                                                                      currentKey]!
-                                                                  .ref!
-                                                                  .id ??
+                                                          currentProduct
+                                                                  .ref!.id ??
                                                               '');
                                                   valid = !data['error'];
                                                   msg = data['msg'];
                                                 }
                                                 if (valid) {
                                                   cartController.addToCart(
-                                                      '${cartController.cartProducts[currentKey]!.ref!.id}',
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .ref!
-                                                          .name!,
-                                                      1,
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .price,
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .product,
+                                                      '${currentProduct.ref!.id}',
+                                                      currentProduct.ref!.name!,
+                                                      minOrder,
+                                                      currentProduct.price,
+                                                      currentProduct.product,
                                                       null,
-                                                      null,
-                                                      null,
-                                                      cartController
-                                                          .cartProducts[
-                                                              currentKey]!
-                                                          .product
-                                                          .varient);
+                                                      currentProduct.ruleConfig,
+                                                      currentProduct.constraint,
+                                                      currentProduct
+                                                          .product.varient);
                                                 } else {
                                                   snackBarClass.showToast(
                                                       context, msg);
