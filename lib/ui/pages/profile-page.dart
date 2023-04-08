@@ -22,31 +22,58 @@ class ProfilePage extends StatelessWidget {
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          profileCard(context, stateController.loggedInProfile.value,
-              stateController.customerInsight.value),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () async {
-                      stateController.logout();
-                      cartController.fetchCart();
-                    },
-                    child: Text("Logout", style: TextStyles.headingFont),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 50,
+        leadingWidth: 100,
+        backgroundColor: AppColors.primeColor,
+       leading: MaterialButton(
+          onPressed: () {
+            // Navigator.pop(context);
+            stateController.navigateToUrl('/home/main');
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+        title: Column(
+          children: [
+            Text(
+              'My Profile',
+              style: TextStyles.headingFont.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            profileCard(context, stateController.loggedInProfile.value,
+                stateController.customerInsight.value),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () async {
+                        stateController.logout();
+                        cartController.fetchCart();
+                      },
+                      child: Text("Logout", style: TextStyles.headingFont),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          PrivacyHelpTermsSection(),
-        ],
+            PrivacyHelpTermsSection(),
+          ],
+        ),
       ),
     );
   }
@@ -164,7 +191,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.pushNamed('../home/orders');
+                          Modular.to.pushNamed('../orders');
                         }),
                         child: Row(
                           children: [
@@ -181,7 +208,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.pushNamed('../home/wishlist');
+                          Modular.to.pushNamed('../wishlist');
                         }),
                         child: Row(
                           children: [

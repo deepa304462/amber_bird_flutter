@@ -5,9 +5,7 @@ import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class CoinWalletPage extends StatelessWidget {
   Rx<CoinWallet> coinWallet = CoinWallet().obs;
@@ -86,15 +84,16 @@ class CoinWalletPage extends StatelessWidget {
                   coinWallet.value.allTransactions!.length > 0
               ? Expanded(
                   child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: coinWallet.value.allTransactions!.length,
-                      itemBuilder: (_, index) {
-                        var currentTrnsaction =
-                            coinWallet.value.allTransactions![index];
-                        return TransactionTile(currentTrnsaction);
-                      }),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: coinWallet.value.allTransactions!.length,
+                    itemBuilder: (_, index) {
+                      var currentTrnsaction =
+                          coinWallet.value.allTransactions![index];
+                      return TransactionTile(currentTrnsaction);
+                    },
+                  ),
                 )
               : const SizedBox()
         ],
@@ -122,7 +121,7 @@ class CoinWalletPage extends StatelessWidget {
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${curTransaction.status!}',
+                  curTransaction.status!,
                   style: TextStyles.bodyFontBold,
                 ),
               ]),

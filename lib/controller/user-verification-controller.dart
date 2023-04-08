@@ -49,7 +49,7 @@ class UserVerificationController extends GetxController {
               controller.logout();
             }
             FlutterNativeSplash.remove();
-            Modular.to.navigate('/home/login');
+            Modular.to.navigate('/login');
           }
         }
       } else {
@@ -58,7 +58,7 @@ class UserVerificationController extends GetxController {
       }
     } else {
       FlutterNativeSplash.remove();
-      Modular.to.navigate('/home/login');
+      Modular.to.navigate('/login');
     }
   }
 }

@@ -50,13 +50,7 @@ class HomePageModule extends Module {
         children: [
           ChildRoute('/add-address', child: (_, args) => AddAddress()),
           ChildRoute('/main', child: (_, args) => MainPage()),
-          ChildRoute(
-            '/product/:id',
-            child: (_, args) {
-              String productId = args.params['id'];
-              return ProductPage(productId, search: false);
-            },
-          ),
+         
           ChildRoute(
             '/brandProduct/:id',
             child: (_, args) {
@@ -71,21 +65,8 @@ class HomePageModule extends Module {
               return CategoryProductPage(productId);
             },
           ),
-          ChildRoute(
-            '/order-detail',
-            child: (_, args) {
-              String orderId = args.data['id'];
-              String navigateTo = args.data['navigateTo'] ?? '';
-              return OrderDetailPage(orderId, navigateTo, search: false);
-            },
-          ),
-          ChildRoute(
-            '/guide/:id',
-            child: (_, args) {
-              String productId = args.params['id'];
-              return ProductGuidePage(productId);
-            },
-          ),
+         
+         
           ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {
@@ -101,15 +82,14 @@ class HomePageModule extends Module {
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
-          ChildRoute('/login', child: (_, args) => LoginPageWidget()),
-          ChildRoute('/profile', child: (_, args) => ProfilePage()),
+          
+        
           ChildRoute('/brand', child: (_, args) => BrandPage()),
-          ChildRoute('/refer', child: (_, args) => ReferralPage()),
-          ChildRoute('/cart', child: (_, args) => CartPage()),
-          ChildRoute('/orders', child: (_, args) => OrderListPage()),
-          ChildRoute('/wishlist', child: (_, args) => WishListPage()),
+        
+         
+          // ChildRoute('/profile', child: (_, args) => ProfilePage()),
           ChildRoute('/search', child: (_, args) => SearchPage()),
-          ChildRoute('/signup', child: (_, args) => SignUp()),
+          
         ]),
   ];
 }

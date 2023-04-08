@@ -48,7 +48,7 @@ class AppBarWidget extends StatelessWidget {
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
-                        onPressed: () => {Modular.to.pushNamed('/home/refer')},
+                        onPressed: () => {Modular.to.pushNamed('/refer-page')},
                         icon: Icon(Icons.share, color: AppColors.DarkGrey)),
                   ),
                   Showcase(
@@ -64,7 +64,7 @@ class AppBarWidget extends StatelessWidget {
                             if (stateController.isLogin.value) {
                               Modular.to.pushNamed('/wallet');
                             } else {
-                              Modular.to.navigate('/home/login');
+                              Modular.to.navigate('/login');
                             }
                           },
                           icon: Icon(FontAwesomeIcons.coins,
@@ -75,7 +75,7 @@ class AppBarWidget extends StatelessWidget {
                             if (stateController.isLogin.value) {
                               Modular.to.pushNamed('/wallet');
                             } else {
-                              Modular.to.navigate('/home/login');
+                              Modular.to.navigate('/login');
                             }
                           },
                           child: Card(

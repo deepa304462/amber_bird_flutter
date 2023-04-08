@@ -200,7 +200,7 @@ class CustomSearchDelegate extends SearchDelegate {
             child: ListTile(
               onTap: () {
                 close(context, null);
-                Modular.to.navigate('/home/product/${product.id}');
+                Modular.to.navigate('../product/${product.id}');
               },
               leading: ImageBox(
                 jsonDecode(product.extraData!)['images'][0],

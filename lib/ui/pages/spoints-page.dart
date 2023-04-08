@@ -27,34 +27,7 @@ class SpointsPage extends StatelessWidget {
               ],
             ),
           ),
-<<<<<<< HEAD
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      'Membership',
-                      style:
-                          TextStyles.headingFont.copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      stateController.userType.value.toString() ?? '',
-                      style: TextStyles.titleFont.copyWith(color: Colors.white),
-                    )
-                  ],
-                ),
-                Lottie.asset('assets/coin.json',
-                    height: 100, fit: BoxFit.fill, repeat: true)
-              ],
-            ),
-=======
-        ),
-        child: Padding(
+       child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,9 +42,8 @@ class SpointsPage extends StatelessWidget {
                 style: TextStyles.titleFont.copyWith(color: Colors.white),
               )
             ],
->>>>>>> 4c2c9701ed8199964406f55d9a452df188753943
           ),
-        ),
+        )),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
           child: Obx(

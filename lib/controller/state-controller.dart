@@ -90,7 +90,7 @@ class Controller extends GetxController {
         if (element.name == '/home/cart') {
           currentTab.value = 3;
         }
-        if (element.name == '/home/profile') {
+        if (element.name == 'profile') {
           currentTab.value = 4;
         }
       });
@@ -269,7 +269,7 @@ class Controller extends GetxController {
   }
 
   navigateToUrl(url) {
-    if (url == '/home/cart') {
+    if (url == '../cart') {
       activePageName.value == 'cart';
     } else if (url == '/home/main') {
       activePageName.value = 'main';
@@ -277,9 +277,9 @@ class Controller extends GetxController {
       activePageName.value = 'search';
     } else if (url == '/home/category') {
       activePageName.value = 'category';
-    } else if (url == '/home/login') {
+    } else if (url == '/login') {
       activePageName.value = 'login';
-    } else if (url == '/home/profile') {
+    } else if (url == '../profile') {
       activePageName.value = 'profile';
     }
     if (Get.isRegistered<AppbarScrollController>()) {
@@ -307,7 +307,6 @@ class Controller extends GetxController {
         //   Modular.to.navigate('/home/refer');
         // } else {
         //   activePageName.value = 'profile';
-        //   Modular.to.navigate('/home/profile');
         // }
         navigateToUrl('/home/category');
         break;
@@ -315,22 +314,21 @@ class Controller extends GetxController {
         if (isLogin.value) {
           // activePageName.value = 'cart';
           // Modular.to.navigate('/home/cart');
-          navigateToUrl('/home/cart');
+          navigateToUrl('../cart');
         } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');
-          navigateToUrl('/home/login');
+          navigateToUrl('/login');
         }
         break;
       case 4:
         if (isLogin.value) {
           // activePageName.value = 'profile';
-          // Modular.to.navigate('/home/profile');
-          navigateToUrl('/home/profile');
+          navigateToUrl('../profile');
         } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');
-          navigateToUrl('/home/login');
+          navigateToUrl('/login');
         }
         break;
     }

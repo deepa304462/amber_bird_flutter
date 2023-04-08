@@ -111,6 +111,37 @@ class Helper {
         {'_id': data['mappedTo']['_id'], 'name': data['mappedTo']['name']});
   }
 
+  static dynamic checkValidScoin(
+      Price price, String userType, scoinProduct, userTotalCoin,count) {
+    var priceTotalToPay = getMemberCoinValue(price, userType) ;
+    if(count >1){
+     priceTotalToPay= priceTotalToPay * count;
+    }
+    if (priceTotalToPay > userTotalCoin) {
+      return ({
+        'error': true,
+        'msg': 'Insufficient Coins in wallet',
+        'type': ''
+      });
+    }
+    var totalscoinInart = 0; 
+    if (scoinProduct.length > 0) {
+      scoinProduct.forEach((key, elem) { 
+        var val = getMemberCoinValue(elem.price, userType);
+        totalscoinInart += val as int;
+      });
+    }
+
+    if (priceTotalToPay > (userTotalCoin-totalscoinInart)) {
+      return ({
+        'error': true,
+        'msg': 'Insufficient Coins in wallet',
+        'type': ''
+      });
+    }
+    return ({'error': false, 'msg': '', 'type': ''});
+  }
+
   static Future<dynamic> checkProductValidtoAddinCart(RuleConfig? ruleConfig,
       Constraint? constraint, String id, String cartId) async {
     if (ruleConfig != null && ruleConfig.forWeekDays != null) {
@@ -122,7 +153,11 @@ class Helper {
       if (ruleConfig.forWeekDays!.length > 0) {
         DateTime date = DateTime.now();
         if (!ruleConfig.forWeekDays!.contains(date.weekday)) {
-          return ({'error': true, 'msg': 'Deal is not applicable today','type':''});
+          return ({
+            'error': true,
+            'msg': 'Deal is not applicable today',
+            'type': ''
+          });
         }
       }
       if (ruleConfig.minCartAmount != null && ruleConfig.minCartAmount != 0) {

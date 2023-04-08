@@ -22,14 +22,14 @@ class ProductGuidePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        return productGuidePageController.isLoading.isTrue
-            ? const Center(
-                child: LoadingWithLogo(),
-              )
-            : Scaffold(
-                body: CustomScrollView(
+    return Scaffold(
+      body: Obx(
+        () {
+          return productGuidePageController.isLoading.isTrue
+              ? const Center(
+                  child: LoadingWithLogo(),
+                )
+              : CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
                       backgroundColor: Colors.white,
@@ -102,9 +102,9 @@ class ProductGuidePage extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              );
-      },
+                );
+        },
+      ),
     );
   }
 

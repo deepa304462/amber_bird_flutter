@@ -221,17 +221,32 @@ class ProductCardScoin extends StatelessWidget {
                           if (stateController.isLogin.value) {
                             var valid = false;
                             var msg = 'Something went wrong!';
-
-                            cartController.addToCartScoins(
-                                '$refId@${product!.varient!.varientCode}',
-                                addedFrom!,
-                                -1,
-                                dealPrice,
-                                product,
-                                null,
-                                ruleConfig,
-                                constraint,
-                                activeVariant.value!);
+                            var data = await Helper.checkValidScoin(
+                                dealPrice!,
+                                stateController.userType.value,
+                                cartController.cartProductsScoins.value,
+                                stateController.customerDetail.value
+                                    .coinWalletDetail!.totalActiveCoins,
+                                cartController.getCurrentQuantity(
+                                    '$refId@${activeVariant.value.varientCode}',
+                                    'SCOIN'));
+                            valid = !data['error'];
+                            msg = data['msg'];
+                            if (valid) {
+                              cartController.addToCartScoins(
+                                  '$refId@${product!.varient!.varientCode}',
+                                  addedFrom!,
+                                  -1,
+                                  dealPrice,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  activeVariant.value!);
+                            } else {
+                              var showToast =
+                                  snackBarClass.showToast(context, msg);
+                            }
                           } else {
                             stateController.setCurrentTab(3);
                             var showToast = snackBarClass.showToast(
@@ -247,16 +262,32 @@ class ProductCardScoin extends StatelessWidget {
                           var valid = false;
                           var msg = 'Something went wrong!';
                           if (stateController.isLogin.value) {
-                            cartController.addToCartScoins(
-                                '$refId@${product!.varient!.varientCode}',
-                                addedFrom!,
-                                1,
-                                dealPrice,
-                                product,
-                                null,
-                                ruleConfig,
-                                constraint,
-                                product!.varient!);
+                            var data = await Helper.checkValidScoin(
+                                dealPrice!,
+                                stateController.userType.value,
+                                cartController.cartProductsScoins.value,
+                                stateController.customerDetail.value
+                                    .coinWalletDetail!.totalActiveCoins,
+                                cartController.getCurrentQuantity(
+                                    '$refId@${activeVariant.value.varientCode}',
+                                    'SCOIN'));
+                            valid = !data['error'];
+                            msg = data['msg'];
+                            if (valid) {
+                              cartController.addToCartScoins(
+                                  '$refId@${product!.varient!.varientCode}',
+                                  addedFrom!,
+                                  1,
+                                  dealPrice,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  product!.varient!);
+                            } else {
+                              var showToast =
+                                  snackBarClass.showToast(context, msg);
+                            }
                           } else {
                             stateController.setCurrentTab(4);
                             snackBarClass.showToast(context, 'Please login');
@@ -275,7 +306,7 @@ class ProductCardScoin extends StatelessWidget {
 
                                   // this.refId, this.addedFrom,
                                   if (addedFrom == 'CATEGORY') {
-                                  await  cartController.addToCart(
+                                    await cartController.addToCart(
                                         '$refId@${product!.varient!.varientCode}',
                                         addedFrom!,
                                         1,
@@ -286,16 +317,35 @@ class ProductCardScoin extends StatelessWidget {
                                         constraint,
                                         activeVariant.value);
                                   } else if (addedFrom == 'SCOIN') {
-                                    cartController.addToCartScoins(
-                                        '$refId@${product!.varient!.varientCode}',
-                                        addedFrom!,
-                                        1,
-                                        dealPrice,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        activeVariant.value!);
+                                    var data = await Helper.checkValidScoin(
+                                        dealPrice!,
+                                        stateController.userType.value,
+                                        cartController.cartProductsScoins.value,
+                                        stateController
+                                            .customerDetail
+                                            .value
+                                            .coinWalletDetail!
+                                            .totalActiveCoins,
+                                        cartController.getCurrentQuantity(
+                                            '$refId@${activeVariant.value.varientCode}',
+                                            'SCOIN'));
+                                    valid = !data['error'];
+                                    msg = data['msg'];
+                                    if (valid) {
+                                      cartController.addToCartScoins(
+                                          '$refId@${product!.varient!.varientCode}',
+                                          addedFrom!,
+                                          1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint,
+                                          activeVariant.value!);
+                                    } else {
+                                      var showToast =
+                                          snackBarClass.showToast(context, msg);
+                                    }
                                   } else {
                                     if (Get.isRegistered<DealController>(
                                         tag: addedFrom!)) {
@@ -311,7 +361,7 @@ class ProductCardScoin extends StatelessWidget {
                                       msg = data['msg'];
                                     }
                                     if (valid) {
-                                    await  cartController.addToCart(
+                                      await cartController.addToCart(
                                           '$refId@${activeVariant.value.varientCode}',
                                           addedFrom!,
                                           1,
@@ -322,16 +372,36 @@ class ProductCardScoin extends StatelessWidget {
                                           constraint,
                                           activeVariant.value);
                                     } else if (addedFrom == 'SCOIN') {
-                                      cartController.addToCartScoins(
-                                          '$refId@${product!.varient!.varientCode}',
-                                          addedFrom!,
-                                          1,
-                                          dealPrice,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint,
-                                          product!.varient!);
+                                      var data = await Helper.checkValidScoin(
+                                          dealPrice!,
+                                          stateController.userType.value,
+                                          cartController
+                                              .cartProductsScoins.value,
+                                          stateController
+                                              .customerDetail
+                                              .value
+                                              .coinWalletDetail!
+                                              .totalActiveCoins,
+                                          cartController.getCurrentQuantity(
+                                              '$refId@${activeVariant.value.varientCode}',
+                                              'SCOIN'));
+                                      valid = !data['error'];
+                                      msg = data['msg'];
+                                      if (valid) {
+                                        cartController.addToCartScoins(
+                                            '$refId@${product!.varient!.varientCode}',
+                                            addedFrom!,
+                                            1,
+                                            dealPrice,
+                                            product,
+                                            null,
+                                            ruleConfig,
+                                            constraint,
+                                            product!.varient!);
+                                      } else {
+                                        var showToast = snackBarClass.showToast(
+                                            context, msg);
+                                      }
                                     } else {
                                       snackBarClass.showToast(context, msg);
                                     }

@@ -35,58 +35,87 @@ class OrderListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getOrderList();
-    return Obx(
-      () => Column(
-        children: [
-          AppBar(
-            backgroundColor: AppColors.primeColor,
-            title: Text(
-              'Order List',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
+    return Scaffold(
+
+       appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          toolbarHeight: 50,
+          leadingWidth: 100,
+          backgroundColor: AppColors.primeColor,
+          leading: MaterialButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
           ),
-          isLoading.value
-              ? const Expanded(child: LoadingWithLogo())
-              : orderList.isNotEmpty
-                  ? Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: orderList.length,
-                        itemBuilder: (_, index) {
-                          var curOrder = orderList[index];
-                          return OrderTile(context, curOrder);
-                        },
-                      ),
-                    )
-                  : Expanded(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Lottie.asset('assets/no-data.json',
-                                width: MediaQuery.of(context).size.width * .5,
-                                fit: BoxFit.cover),
-                            Expanded(
-                              child: Text(
-                                'No orders available, waiting for a new order.',
-                                style: TextStyles.bodyFont,
-                              ),
-                            )
-                          ],
+         
+          title: Column(
+            children: [
+              Text(
+                'My Orders',
+                style: TextStyles.headingFont.copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+
+      body: Obx(
+        () => Column(
+          children: [
+            // AppBar(
+            //   backgroundColor: AppColors.primeColor,
+            //   title: Text(
+            //     'Order List',
+            //     style: TextStyles.headingFont.copyWith(color: Colors.white),
+            //   ),
+            //   centerTitle: true,
+            //   leading: IconButton(
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //     icon: const Icon(
+            //       Icons.arrow_back,
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            // ),
+            isLoading.value
+                ? const Expanded(child: LoadingWithLogo())
+                : orderList.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: orderList.length,
+                          itemBuilder: (_, index) {
+                            var curOrder = orderList[index];
+                            return OrderTile(context, curOrder);
+                          },
+                        ),
+                      )
+                    : Expanded(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Lottie.asset('assets/no-data.json',
+                                  width: MediaQuery.of(context).size.width * .5,
+                                  fit: BoxFit.cover),
+                              Expanded(
+                                child: Text(
+                                  'No orders available, waiting for a new order.',
+                                  style: TextStyles.bodyFont,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -175,7 +204,7 @@ class OrderListPage extends StatelessWidget {
                             side: BorderSide(color: AppColors.primeColor)),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Modular.to.pushNamed('/home/order-detail',
+                          Modular.to.pushNamed('/order-detail',
                               arguments: {'id': curOrder.id});
                         },
                         elevation: 0,

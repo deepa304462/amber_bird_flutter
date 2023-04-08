@@ -1,8 +1,18 @@
 import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/cart-page.dart';
+import 'package:amber_bird/ui/pages/login-page.dart';
+import 'package:amber_bird/ui/pages/order-detail-page.dart';
+import 'package:amber_bird/ui/pages/order-list.dart';
+import 'package:amber_bird/ui/pages/product-guide-page.dart';
+import 'package:amber_bird/ui/pages/product-page.dart';
+import 'package:amber_bird/ui/pages/profile-page.dart';
+import 'package:amber_bird/ui/pages/referral-page.dart';
 import 'package:amber_bird/ui/pages/reset-password-page.dart';
+import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
+import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -30,6 +40,35 @@ class AppModule extends Module {
         WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
+        ChildRoute('/login', child: (_, args) => LoginPageWidget()),
+        ChildRoute('/signup', child: (_, args) => SignUp()),
+        ChildRoute(
+          '/guide/:id',
+          child: (_, args) {
+            String productId = args.params['id'];
+            return ProductGuidePage(productId);
+          },
+        ),
+        ChildRoute('/orders', child: (_, args) => OrderListPage()),
+        ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
+        ChildRoute('/cart', child: (_, args) => CartPage()),
+        ChildRoute('/profile', child: (_, args) => ProfilePage()),
+        ChildRoute('/wishlist', child: (_, args) => WishListPage()),
+         ChildRoute(
+          '/order-detail',
+          child: (_, args) {
+            String orderId = args.data['id'];
+            String navigateTo = args.data['navigateTo'] ?? '';
+            return OrderDetailPage(orderId, navigateTo, search: false);
+          },
+        ),
+        ChildRoute(
+          '/product/:id',
+          child: (_, args) {
+            String productId = args.params['id'];
+            return ProductPage(productId, search: false);
+          },
+        ),
         ChildRoute('/wallet', child: (_, args) => WalletPage()),
         ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(

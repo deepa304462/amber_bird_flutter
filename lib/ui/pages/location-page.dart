@@ -47,7 +47,7 @@ class LocationPage extends StatelessWidget {
                       children: [
                         Text(
                           'Enter pincode of your area (Only works in Germany)',
-                          style: TextStyles.titleFont,
+                          style: TextStyles.body,
                         ),
                         const SizedBox(
                           height: 10,

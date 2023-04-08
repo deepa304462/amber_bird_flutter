@@ -162,6 +162,7 @@ class CartController extends GetxController {
             };
             resp1 = await ClientService.post(path: 'order', payload: payload);
           }
+          dev.log(jsonEncode(resp1.data).toString());
           if (resp1.statusCode == 200) {
             if (orderId.value == '') orderId.value = resp1.data['_id'];
             // var ord = Order.fromMap(resp1.data);
@@ -169,7 +170,6 @@ class CartController extends GetxController {
             calculatedPayment.value = cust.cart!.payment!;
             OfflineDBService.save(OfflineDBService.customerInsightDetail,
                 (jsonDecode(cust.toJson())));
-
             return ({'error': false, 'data': '', 'msg': ''});
           } else {
             return ({
@@ -240,11 +240,12 @@ class CartController extends GetxController {
         var resp1 = await ClientService.post(
             path: 'payment/search', payload: {"orderId": orderId.value});
         if (resp1.statusCode == 200) {
-          if (resp1.data.length > 0 && resp1.data[0] != null) {
+          if (resp1.data.length > 0 && resp1.data[resp1.data.length-1] != null) {
+
             paymentData.value =
-                Payment.fromMap(resp1.data[0] as Map<String, dynamic>);
-            if (resp1.data[0]['checkoutUrl'] != null) {
-              return ({'error': false, 'data': resp1.data[0]['checkoutUrl']});
+                Payment.fromMap(resp1.data[resp1.data.length-1] as Map<String, dynamic>);
+            if (paymentData.value!.checkoutUrl != null) {
+              return ({'error': false, 'data': paymentData.value!.checkoutUrl});
             } else {
               return ({'error': true, 'msg': 'Please try again in some time'});
             }

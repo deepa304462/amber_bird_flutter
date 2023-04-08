@@ -224,53 +224,12 @@ class LoginWidget extends StatelessWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 authController.resetFieldValue();
-                                Modular.to.navigate('/home/signup');
-                                // print('Sign up"');
+                                Modular.to.navigate('/signup'); 
                               }),
                       ],
                     ),
                   ),
-                  // TextButton(
-                  //   onPressed: () async {
-                  //     authController.resetFieldValue();
-                  //     Modular.to.navigate('/home/signup');
-                  //   },
-                  //   style: ButtonStyle(
-                  //       backgroundColor: MaterialStateProperty.all<Color>(
-                  //           AppColors.lightGrey)),
-                  //   child: Text(
-                  //     'Sign Up',
-                  //     style: TextStyles.titleLarge,
-                  //   ),
-                  // ),
-                  // TextButton(
-                  //   style: TextButton.styleFrom(
-                  //       padding: EdgeInsets.zero,
-                  //       minimumSize: Size(50, 30),
-                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  //       alignment: Alignment.centerLeft),
-                  //   onPressed: () {
-                  //     authController.setLoginWith(LoginType.emailPassword);
-                  //   },
-                  //   child: Text(
-                  //     'Login with Email & Password',
-                  //     style: (TextStyles.bodyFont),
-                  //   ),
-                  // ),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     authController.setLoginWith(LoginType.mobilePassword);
-                  //   },
-                  //   style: TextButton.styleFrom(
-                  //       padding: EdgeInsets.zero,
-                  //       minimumSize: Size(50, 30),
-                  //       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  //       alignment: Alignment.centerLeft),
-                  //   child: Text(
-                  //     'Login with Mobile & Password',
-                  //     style: (TextStyles.bodyFont),
-                  //   ),
-                  // ),
+                 
                   PrivacyHelpTermsSection()
                 ],
               )),
