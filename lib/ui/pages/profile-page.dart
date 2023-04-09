@@ -27,7 +27,7 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 50,
-        leadingWidth: 100,
+        leadingWidth: 50,
         backgroundColor: AppColors.primeColor,
        leading: MaterialButton(
           onPressed: () {
@@ -35,8 +35,9 @@ class ProfilePage extends StatelessWidget {
             stateController.navigateToUrl('/home/main');
           },
           child: const Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: Colors.white,
+            size: 15,
           ),
         ),
         title: Column(

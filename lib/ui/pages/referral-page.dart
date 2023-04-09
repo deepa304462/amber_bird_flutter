@@ -13,7 +13,7 @@ class ReferralPage extends StatelessWidget {
     ReferralController controller = Get.put(ReferralController());
     return Scaffold(
       appBar: AppBar(
-          leadingWidth: 100,
+          leadingWidth: 50,
           leading: MaterialButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -21,8 +21,9 @@ class ReferralPage extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    Icons.arrow_back,
+                    Icons.arrow_back_ios,
                     color: AppColors.grey,
+                    size: 15,
                   ),
                   Text(
                     'Back',

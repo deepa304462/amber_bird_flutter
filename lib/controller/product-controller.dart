@@ -21,7 +21,7 @@ class ProductController extends GetxController {
         await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {
       Product prod = Product.fromMap(response.data as Map<String, dynamic>);
-      product.value = (prod);
+      product.value = prod;
       varient.value = prod.varients![0];
       if (product.value.defaultVarientCode != null) {
         final index1 = product.value.varients!.indexWhere((element) =>

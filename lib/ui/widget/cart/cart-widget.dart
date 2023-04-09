@@ -402,7 +402,8 @@ class CartWidget extends StatelessWidget {
                   cartController.cartProducts.value.keys.elementAt(index);
               var currentProduct =
                   cartController.cartProducts.value[currentKey]!;
-              var minOrder = (currentProduct.constraint != null && currentProduct.constraint.minimumOrder != null)
+              var minOrder = (currentProduct.constraint != null &&
+                      currentProduct.constraint.minimumOrder != null)
                   ? currentProduct.constraint!.minimumOrder
                   : 1;
               return Column(
@@ -527,7 +528,8 @@ class CartWidget extends StatelessWidget {
                                                           null,
                                                           currentProduct
                                                               .products,
-                                                          currentProduct.ruleConfig,
+                                                          currentProduct
+                                                              .ruleConfig,
                                                           currentProduct
                                                               .constraint,
                                                           null,
@@ -1223,6 +1225,9 @@ class CartWidget extends StatelessWidget {
                         : const SizedBox(),
                   ],
                 ),
+                cartController.calculatedPayment.value.refferalDiscountApplied!
+                    ? const Text('You will received 9% Referral discout')
+                    : const SizedBox()
               ],
             );
           }),

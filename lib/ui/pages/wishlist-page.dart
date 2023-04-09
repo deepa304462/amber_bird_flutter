@@ -44,103 +44,105 @@ class WishListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          toolbarHeight: 50,
-          leadingWidth: 100,
-          backgroundColor: AppColors.primeColor,
-          leading: MaterialButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 50,
+        leadingWidth: 50,
+        backgroundColor: AppColors.primeColor,
+        leading: MaterialButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 15,
+          ),
+        ),
+        title: Column(
+          children: [
+            Text(
+              'My Wishlist',
+              style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
-          ),
-         
-          title: Column(
-            children: [
-              Text(
-                'My Wishlist',
-                style: TextStyles.headingFont.copyWith(color: Colors.white),
-              ),
-            ],
-          ),
-        ),body:Obx(
-      () => Column(
-        children: [
-          // AppBar(
-          //   centerTitle: true,
-          //   automaticallyImplyLeading: false,
-          //   toolbarHeight: 150,
-          //   leadingWidth: 100,
-          //   backgroundColor: AppColors.primeColor,
-          //   title: Column(
-          //     children: [
-          //       Lottie.asset('assets/wish-list.json',
-          //           width: 100, fit: BoxFit.cover),
-          //       Text(
-          //         'My Wishlist',
-          //         style: TextStyles.headingFont.copyWith(color: Colors.white),
-          //       ),
-          //     ],
-          //   ),
-          //   leading: MaterialButton(
-          //       onPressed: () {
-          //         Navigator.pop(context);
-          //       },
-          //       child: Row(
-          //         children: [
-          //           const Icon(
-          //             Icons.arrow_back,
-          //             color: Colors.white,
-          //           ),
-          //           Text(
-          //             'Back',
-          //             style: TextStyles.bodyFont.copyWith(color: Colors.white),
-          //           )
-          //         ],
-          //       )),
-          // ),
-          wishlistController.wishlistProducts.isNotEmpty
-              ? Expanded(
-                  child: MasonryGridView.count(
-                    physics: const BouncingScrollPhysics(),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 4,
-                    crossAxisSpacing: 4,
-                    itemCount: wishlistController.wishlistProducts.length,
-                    itemBuilder: (_, index) {
-                      var currentKey = wishlistController
-                          .wishlistProducts.value.keys
-                          .elementAt(index);
-                      var curwishList =
-                          wishlistController.wishlistProducts[currentKey]!;
-                      return WishlistTile(context, curwishList);
-                    },
-                  ),
-                )
-              : Expanded(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Lottie.asset('assets/no-data.json',
-                            width: MediaQuery.of(context).size.width * .5,
-                            fit: BoxFit.cover),
-                        Expanded(
-                          child: Text(
-                            'No product selected for wishlist.',
-                            style: TextStyles.bodyFont,
-                          ),
-                        )
-                      ],
+          ],
+        ),
+      ),
+      body: Obx(
+        () => Column(
+          children: [
+            // AppBar(
+            //   centerTitle: true,
+            //   automaticallyImplyLeading: false,
+            //   toolbarHeight: 150,
+            //   leadingWidth: 100,
+            //   backgroundColor: AppColors.primeColor,
+            //   title: Column(
+            //     children: [
+            //       Lottie.asset('assets/wish-list.json',
+            //           width: 100, fit: BoxFit.cover),
+            //       Text(
+            //         'My Wishlist',
+            //         style: TextStyles.headingFont.copyWith(color: Colors.white),
+            //       ),
+            //     ],
+            //   ),
+            //   leading: MaterialButton(
+            //       onPressed: () {
+            //         Navigator.pop(context);
+            //       },
+            //       child: Row(
+            //         children: [
+            //           const Icon(
+            //             Icons.arrow_back,
+            //             color: Colors.white,
+            //           ),
+            //           Text(
+            //             'Back',
+            //             style: TextStyles.bodyFont.copyWith(color: Colors.white),
+            //           )
+            //         ],
+            //       )),
+            // ),
+            wishlistController.wishlistProducts.isNotEmpty
+                ? Expanded(
+                    child: MasonryGridView.count(
+                      physics: const BouncingScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 4,
+                      crossAxisSpacing: 4,
+                      itemCount: wishlistController.wishlistProducts.length,
+                      itemBuilder: (_, index) {
+                        var currentKey = wishlistController
+                            .wishlistProducts.value.keys
+                            .elementAt(index);
+                        var curwishList =
+                            wishlistController.wishlistProducts[currentKey]!;
+                        return WishlistTile(context, curwishList);
+                      },
+                    ),
+                  )
+                : Expanded(
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Lottie.asset('assets/no-data.json',
+                              width: MediaQuery.of(context).size.width * .5,
+                              fit: BoxFit.cover),
+                          Expanded(
+                            child: Text(
+                              'No product selected for wishlist.',
+                              style: TextStyles.bodyFont,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-        ],
+          ],
+        ),
       ),
-    ),);
+    );
   }
 
   WishlistTile(BuildContext context, Favorite curwishList) {
@@ -235,7 +237,10 @@ class WishListPage extends StatelessWidget {
                     await wishlistController.addToWishlist(
                         curwishList.product!.id, curwishList.product, null, '');
                   },
-                  icon: Icon(Icons.delete,color: AppColors.grey,),
+                  icon: Icon(
+                    Icons.delete,
+                    color: AppColors.grey,
+                  ),
                 ))
           ],
         ),

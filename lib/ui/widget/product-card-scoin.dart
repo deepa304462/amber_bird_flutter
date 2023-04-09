@@ -133,10 +133,10 @@ class ProductCardScoin extends StatelessWidget {
         children: [
           Text(
             product.name!.defaultText!.text ?? '',
-            overflow:
-                this.fixedHeight ? TextOverflow.ellipsis : TextOverflow.visible,
-            style: const TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+              overflow: this.fixedHeight
+                      ? TextOverflow.ellipsis
+                      : TextOverflow.visible,
+                  style: TextStyles.body,
           ),
           Wrap(
             alignment: WrapAlignment.start,
@@ -149,11 +149,11 @@ class ProductCardScoin extends StatelessWidget {
                       children: [
                         Text(
                           '${product.varient!.weight!.toStringAsFixed(0)}',
-                          style: TextStyles.bodyFont,
+                          style: TextStyles.body,
                         ),
                         Text(
                           '${CodeHelp.formatUnit(product.varient!.unit)}',
-                          style: TextStyles.bodyFont,
+                          style: TextStyles.body,
                         )
                       ],
                     )
@@ -164,11 +164,11 @@ class ProductCardScoin extends StatelessWidget {
                           children: [
                             Text(
                               '${product.varient!.weight!.toStringAsFixed(0)}',
-                              style: TextStyles.bodyFont,
+                              style: TextStyles.body,
                             ),
                             Text(
                               ' ${CodeHelp.formatUnit(product.varient!.unit)}',
-                              style: TextStyles.bodyFont,
+                              style: TextStyles.body,
                             )
                           ],
                         )

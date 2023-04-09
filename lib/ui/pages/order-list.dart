@@ -41,16 +41,17 @@ class OrderListPage extends StatelessWidget {
           centerTitle: true,
           automaticallyImplyLeading: false,
           toolbarHeight: 50,
-          leadingWidth: 100,
+          leadingWidth: 50,
           backgroundColor: AppColors.primeColor,
           leading: MaterialButton(
             onPressed: () {
               Navigator.pop(context);
             },
             child: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 15,
+          ),
           ),
          
           title: Column(
@@ -66,23 +67,6 @@ class OrderListPage extends StatelessWidget {
       body: Obx(
         () => Column(
           children: [
-            // AppBar(
-            //   backgroundColor: AppColors.primeColor,
-            //   title: Text(
-            //     'Order List',
-            //     style: TextStyles.headingFont.copyWith(color: Colors.white),
-            //   ),
-            //   centerTitle: true,
-            //   leading: IconButton(
-            //     onPressed: () {
-            //       Navigator.pop(context);
-            //     },
-            //     icon: const Icon(
-            //       Icons.arrow_back,
-            //       color: Colors.white,
-            //     ),
-            //   ),
-            // ),
             isLoading.value
                 ? const Expanded(child: LoadingWithLogo())
                 : orderList.isNotEmpty

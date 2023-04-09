@@ -4,16 +4,20 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/data/product/brand.dart';
 import 'package:amber_bird/data/product/product.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
+import 'package:amber_bird/ui/widget/section-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
+import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +40,7 @@ class ProductDetailScreen extends StatelessWidget {
   // final Price? dealPrice;
   final String? refId;
   final String? addedFrom;
-
+  RxList<Address> addressList = <Address>[].obs;
   ProductDetailScreen(this.pId, this.refId, this.addedFrom, {Key? key});
 
   Widget productPageView(
@@ -53,42 +57,43 @@ class ProductDetailScreen extends StatelessWidget {
     return SizedBox(
       height: 30,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: varientList.length,
-          shrinkWrap: true,
-          itemBuilder: (_, index) {
-            var currentVarient = varientList[index];
-            return InkWell(
-              onTap: () {
-                productController.setVarient(currentVarient);
-              },
-              child: SizedBox(
-                height: 20,
-                child: Card(
-                  color: currentVarient.varientCode ==
-                          productController.varient.value.varientCode
-                      ? AppColors.primeColor
-                      : Colors.white,
-                  margin: const EdgeInsets.all(3),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Text(
-                        '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                            color: currentVarient.varientCode !=
-                                    productController.varient.value.varientCode
-                                ? AppColors.primeColor
-                                : Colors.white),
-                      ),
+        scrollDirection: Axis.horizontal,
+        itemCount: varientList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var currentVarient = varientList[index];
+          return InkWell(
+            onTap: () {
+              productController.setVarient(currentVarient);
+            },
+            child: SizedBox(
+              height: 20,
+              child: Card(
+                color: currentVarient.varientCode ==
+                        productController.varient.value.varientCode
+                    ? AppColors.primeColor
+                    : Colors.white,
+                margin: const EdgeInsets.all(3),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: currentVarient.varientCode !=
+                                  productController.varient.value.varientCode
+                              ? AppColors.primeColor
+                              : Colors.white),
                     ),
                   ),
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -122,7 +127,7 @@ class ProductDetailScreen extends StatelessWidget {
                       child: productPageView(productController.product.value,
                           width, height, context),
                     ),
-                    Divider(),
+                    const Divider(),
                     Container(
                       decoration: const BoxDecoration(
                         color: Colors.white,
@@ -169,11 +174,11 @@ class ProductDetailScreen extends StatelessWidget {
                                 // soldFrom(productController.product.value),
                                 const SizedBox(height: 5),
                                 const Divider(),
-                                deliveryTo(),
+                                deliveryTo(context),
                                 const Divider(),
                                 brandTile(
                                     productController.product.value.brand),
-                                Divider(),
+                                const Divider(),
                                 specification(productController),
                                 tags(productController.product.value, context),
                               ],
@@ -202,25 +207,18 @@ class ProductDetailScreen extends StatelessWidget {
                           ? () {}
                           : () {},
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Card(
                               child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    "${CodeHelp.euro}${productController.varient.value.price!.actualPrice!.toString()}",
-                                    style: TextStyles.headingFont,
-                                  )
-                                  //  PriceTag(
-                                  //             productController
-                                  //                 .varient.value.price!.offerPrice
-                                  //                 .toString(),
-                                  //             productController
-                                  //                 .varient.value.price!.actualPrice
-                                  //                 .toString()),
-                                  ),
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  "${CodeHelp.euro}${productController.varient.value.price!.actualPrice!.toString()}",
+                                  style: TextStyles.headingFont,
+                                ),
+                              ),
                             ),
                             Obx(() {
                               ProductSummary summary = ProductSummary.fromMap({
@@ -335,45 +333,66 @@ class ProductDetailScreen extends StatelessWidget {
                                         ),
                                       ],
                                     )
-                                  : TextButton(
-                                      onPressed: () async {
-                                        stateController.showLoader.value = true;
-                                        if (stateController.isLogin.value) {
-                                          bool isCheckedActivate =
-                                              await stateController
-                                                  .getUserIsActive();
-                                          if (isCheckedActivate) {
-                                            await cartController.addToCart(
-                                                '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                addedFrom!,
-                                                1,
-                                                productController
-                                                    .varient.value.price!,
-                                                summary,
-                                                null,
-                                                null,
-                                                null,
-                                                productController
-                                                    .varient.value);
-                                          } else {
-                                            // Navigator.of(context).pop();
-                                            // ignore: use_build_context_synchronously
-                                            snackBarClass.showToast(context,
-                                                'Your profile is not active yet');
-                                          }
-                                        } else {
-                                          stateController.setCurrentTab(3);
-                                          var showToast =
-                                              snackBarClass.showToast(context,
-                                                  'Please Login to preoceed');
-                                        }
-                                        stateController.showLoader.value =
-                                            false;
-                                      },
-                                      child: Text("Add to cart",
-                                          style: TextStyles.titleFont.copyWith(
-                                              color: AppColors.white)),
-                                    );
+                                  : Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                                padding: EdgeInsets.zero,
+                                                minimumSize: Size(50, 30),
+                                                tapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
+                                                alignment:
+                                                    Alignment.centerLeft),
+                                            onPressed: () async {
+                                              stateController.showLoader.value =
+                                                  true;
+                                              if (stateController
+                                                  .isLogin.value) {
+                                                bool isCheckedActivate =
+                                                    await stateController
+                                                        .getUserIsActive();
+                                                if (isCheckedActivate) {
+                                                  await cartController.addToCart(
+                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                      addedFrom!,
+                                                      1,
+                                                      productController
+                                                          .varient.value.price!,
+                                                      summary,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      productController
+                                                          .varient.value);
+                                                } else {
+                                                  // Navigator.of(context).pop();
+                                                  // ignore: use_build_context_synchronously
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Your profile is not active yet');
+                                                }
+                                              } else {
+                                                stateController
+                                                    .setCurrentTab(3);
+                                                var showToast =
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to preoceed');
+                                              }
+                                              stateController.showLoader.value =
+                                                  false;
+                                            },
+                                            child: Text("Add to cart",
+                                                style: TextStyles.titleFont
+                                                    .copyWith(
+                                                        color:
+                                                            AppColors.white)),
+                                          )
+                                        ]);
                             })
                           ],
                         ),
@@ -389,26 +408,344 @@ class ProductDetailScreen extends StatelessWidget {
           ));
   }
 
-  deliveryTo() {
+  Widget AddressDrawer(context) {
+    getAddressList() async {
+      var detail = await OfflineDBService.get(OfflineDBService.customerInsight);
+      Customer cust = Customer.fromMap(detail as Map<String, dynamic>);
+      addressList.value = cust.addresses!.cast<Address>();
+    }
+
+    getAddressList();
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+      ),
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
+      child: Obx(
+        () => Column(
+          children: [
+            AppBar(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12))),
+              backgroundColor: AppColors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const SizedBox(),
+                  Text(
+                    'Shipping',
+                    style: TextStyles.headingFont,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              leading: const SizedBox(),
+            ),
+            ListTile(
+              onTap: () {
+                showModalBottomSheet<void>(
+                  // context and builder are
+                  // required properties in this widget
+                  context: context,
+                  useRootNavigator: true,
+                  isDismissible: true,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  backgroundColor: Colors.white,
+                  isScrollControlled: true,
+                  elevation: 3,
+                  builder: (context) {
+                    return AddressDrawer(context);
+                  },
+                );
+              },
+              leading: Icon(Icons.pin_drop, color: AppColors.black, size: 20),
+              title: Text(
+                'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
+                style: TextStyles.titleFont,
+              ),
+            ),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: addressList.length,
+              itemBuilder: (_, index) {
+                var currentAddress = addressList[index];
+                return addressCard(
+                  context,
+                  locationController,
+                  index,
+                  currentAddress,
+                  () {
+                    locationController.addressData.value = currentAddress;
+                    locationController.pinCode.value = currentAddress.zipCode!;
+                    Navigator.pop(context);
+                    return {};
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget BuyerProtectionDrawer(context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * .60,
+      child: Column(children: [
+        AppBar(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+          backgroundColor: AppColors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              const SizedBox(),
+              Text(
+                'Buyer Protection',
+                style: TextStyles.headingFont,
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ),
+          leading: SizedBox(),
+        ),
+        SizedBox(
+            height: MediaQuery.of(context).size.height * .52,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      leading: Icon(Icons.security,
+                          color: AppColors.black, size: 15),
+                      title: Text(
+                        'Secure Payments',
+                        style: TextStyles.headingFont,
+                      ),
+                      subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Accepted Payment methods',
+                              style: TextStyles.titleFont
+                                  .copyWith(color: AppColors.grey),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Image.asset(
+                              'assets/payment-methods.png',
+                              width: MediaQuery.of(context).size.width * .8,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'For information about how sbazar uses your personal data view iur privacy policy',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.grey),
+                              softWrap: true,
+                              maxLines: 3,
+                            )
+                          ]),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListTile(
+                      onTap: () {},
+                      leading: Icon(Icons.reset_tv_rounded,
+                          color: AppColors.black, size: 15),
+                      title: Text(
+                        'Refund promise',
+                        style: TextStyles.headingFont,
+                      ),
+                      subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'You can directly communicate to sbazar to request a refund for any defective ,damaged or misdescried items within 30 days of the del ivery date. The promise applies of all product of sbazar',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.grey),
+                              softWrap: true,
+                              maxLines: 6,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'This refund promise is in addition to the statutory rights that sellers must offer within your jurisdiction and does not affect your ability to seek redress directly against your ability to seek redress directly againstthe seller at any time. you can view out full return and refund policies in our Terms of Use and Sale',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.grey),
+                              softWrap: true,
+                              maxLines: 6,
+                            )
+                          ]),
+                    ),
+                  ],
+                ),
+              ),
+            ))
+      ]),
+    );
+  }
+
+  deliveryTo(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
-          style: TextStyles.titleFont,
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              showModalBottomSheet<void>(
+                // context and builder are
+                // required properties in this widget
+                context: context,
+                useRootNavigator: true,
+                isDismissible: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                backgroundColor: Colors.white,
+                isScrollControlled: true,
+                elevation: 3,
+                builder: (context) {
+                  return AddressDrawer(context);
+                },
+              );
+            },
+            leading: Icon(Icons.delivery_dining,
+                color: AppColors.primeColor, size: 20),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
+            title: Text(
+              'Shipping',
+              style: TextStyles.headingFont,
+            ),
+            subtitle: Text(
+              'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
+              style: TextStyles.body,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            onTap: () {
+              showModalBottomSheet<void>(
+                // context and builder are
+                // required properties in this widget
+                context: context,
+                useRootNavigator: true,
+                isDismissible: true,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13)),
+                backgroundColor: Colors.white,
+                isScrollControlled: true,
+                elevation: 3,
+                builder: (context) {
+                  return BuyerProtectionDrawer(context);
+                },
+              );
+            },
+            leading:
+                Icon(Icons.lock_outline, color: AppColors.primeColor, size: 20),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
+            title: Text(
+              'Buyer Protection',
+              style: TextStyles.headingFont,
+            ),
+            subtitle: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.security_rounded,
+                        size: 15,
+                      ),
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      label: Text(
+                        'Secure Payments',
+                        style: TextStyles.body.copyWith(color: AppColors.grey),
+                      ),
+                    ),
+                    TextButton.icon(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      icon: const Icon(
+                        Icons.check_circle_outline,
+                        size: 15,
+                      ),
+                      label: Text(
+                        'Refund promise',
+                        style: TextStyles.body.copyWith(color: AppColors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+                // TextButton.icon(
+                //   onPressed: () {},
+                //   icon: const Icon(
+                //     Icons.check_circle_outline,
+                //     size: 15,
+                //   ),
+                //   style: TextButton.styleFrom(
+                //     padding: EdgeInsets.zero,
+                //   ),
+                //   label: Text(
+                //     'Customer service',
+                //     style: TextStyles.body.copyWith(color: AppColors.grey),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
         ),
         const SizedBox(
           height: 5,
         ),
-        Text(
-          'Free shipping over ${CodeHelp.euro}10',
-          style: TextStyles.titleFont,
-        ),
-        const Text(
-          'Policy Details',
-          style: TextStyle(decoration: TextDecoration.underline, fontSize: 18),
-        )
       ],
     );
   }
@@ -436,7 +773,7 @@ class ProductDetailScreen extends StatelessWidget {
                 '${value.category!.name!.defaultText!.text}',
                 style: TextStyles.body,
               ),
-              Icon(Icons.arrow_forward_ios, size: 20),
+              const Icon(Icons.arrow_forward_ios, size: 20),
               Text(
                 '${value.category!.parent!.name!.defaultText!.text}',
                 style: TextStyles.body,
@@ -502,34 +839,6 @@ class ProductDetailScreen extends StatelessWidget {
                 TableCell(
                     verticalAlignment: TableCellVerticalAlignment.middle,
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        'Details',
-                        style: TextStyles.titleFont,
-                      ),
-                    )),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Html(
-                      data: productController
-                              .product.value.description!.defaultText!.text ??
-                          '',
-                    ),
-// Text(
-//                       productController
-//                               .product.value.description!.defaultText!.text ??
-//                           '',
-//                       style: TextStyles.body,
-//                       textAlign: TextAlign.justify,
-//                     ),
-                  ),
-                )
-              ]),
-              TableRow(children: [
-                TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Weight',
@@ -548,7 +857,56 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                   ),
                 )
-              ])
+              ]),
+              if (productController.varient.value.scoinPurchaseEnable!) ...[
+                TableRow(children: [
+                  TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Redeem with Scoin',
+                          style: TextStyles.titleFont,
+                        ),
+                      )),
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: PriceTag(
+                        productController.varient.value.price!.offerPrice!
+                            .toString(),
+                        productController.varient.value.price!.actualPrice!
+                            .toString(),
+                        scoin: Helper.getMemberCoinValue(
+                            productController.varient.value.price!,
+                            stateController.userType.value),
+                      ),
+                    ),
+                  )
+                ])
+              ],
+              TableRow(children: [
+                TableCell(
+                  verticalAlignment: TableCellVerticalAlignment.middle,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Details',
+                      style: TextStyles.titleFont,
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Html(
+                      data: productController
+                              .product.value.description!.defaultText!.text ??
+                          '',
+                    ),
+                  ),
+                )
+              ]),
             ],
           ),
         ),
@@ -565,14 +923,14 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width * .7,
-          height: 50,
+          height: 35,
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: value.keywords!
                 .map((e) => Card(
                       color: AppColors.white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(5),
                           side: BorderSide(
                             width: 1,
                             color: AppColors.primeColor,
@@ -643,13 +1001,13 @@ class ProductDetailScreen extends StatelessWidget {
             Modular.to.pushNamed('/home/brandProduct/${brand.id}');
           },
           leading: ImageBox(
-            brand!.logoId!,
+            brand.logoId!,
             width: 30,
             height: 30,
           ),
           trailing: Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
           title: Text(
-            brand!.name!,
+            brand.name!,
             style: TextStyles.body,
           ),
         ),

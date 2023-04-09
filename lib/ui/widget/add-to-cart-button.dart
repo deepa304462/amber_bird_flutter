@@ -28,7 +28,7 @@ class AddToCartButtons extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.fromLTRB(4,2,4,2),
                   constraints: const BoxConstraints(),
                   onPressed: () => onDecrease(),
                   icon: const Icon(
@@ -43,7 +43,7 @@ class AddToCartButtons extends StatelessWidget {
                       TextStyles.headingFont.copyWith(color: AppColors.white),
                 ),
                 IconButton(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.fromLTRB(4,2,4,2),
                   constraints: const BoxConstraints(),
                   onPressed: () => onIncrease(),
                   icon: Icon(
@@ -55,18 +55,19 @@ class AddToCartButtons extends StatelessWidget {
               ],
             ),
           )
-        : CircleAvatar(
-            backgroundColor: AppColors.primeColor,
-            radius: 15,
-            child: IconButton(
-              constraints: const BoxConstraints(),
-              color: Colors.white,
-              onPressed: () => onAdd(),
-              icon: const Icon(
-                Icons.add,
-                size: 15,
-                color: Colors.white,
-              ),
+        :
+        // : CircleAvatar(
+        //     backgroundColor: AppColors.primeColor,
+        //     radius: 12,
+        //     child:
+        IconButton(
+            constraints: const BoxConstraints(),
+            color: AppColors.primeColor,
+            onPressed: () => onAdd(),
+            icon: Icon(
+              Icons.add_circle_outline,
+              size: 26,
+              color: AppColors.primeColor,
             ),
           );
   }

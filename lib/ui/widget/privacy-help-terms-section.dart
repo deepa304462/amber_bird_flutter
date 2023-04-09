@@ -1,3 +1,4 @@
+import 'package:amber_bird/ui/widget/section-card.dart';
 import 'package:amber_bird/ui/widget/web-page-viewer.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -38,37 +39,5 @@ class PrivacyHelpTermsSection extends StatelessWidget {
     );
   }
 
-  Widget sectionCard(String title, String subtitle, Function() onTap) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: onTap,
-        child: Card(
-          child: ListTile(
-            title: Text(
-              title,
-              style: TextStyles.headingFont,
-            ),
-            subtitle: Text(
-              subtitle,
-              style: TextStyles.bodyFont,
-            ),
-            trailing: const Icon(Icons.chevron_right),
-          ),
-        ),
-      ),
-    );
-  }
-
-  openWebPage(String url, BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        enableDrag: false,
-        builder: (context) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height * .7,
-              child: WebPageViewer(url));
-        });
-  }
+  
 }

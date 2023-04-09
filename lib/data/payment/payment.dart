@@ -9,6 +9,7 @@ class Payment {
   Ref? paidBy;
   Ref? order;
   Ref? appliedCouponCode;
+  bool? refferalDiscountApplied;
   dynamic? discountAmount;
   dynamic? totalAmount;
   dynamic? paidAmount;
@@ -35,6 +36,7 @@ class Payment {
     this.paidBy,
     this.order,
     this.appliedCouponCode,
+    this.refferalDiscountApplied,
     this.discountAmount,
     this.totalSavedAmount,
     this.totalAmount,
@@ -59,7 +61,7 @@ class Payment {
 
   @override
   String toString() {
-    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, shippingAmount:$shippingAmount,totalAdditionalDiscountAmount:$totalAdditionalDiscountAmount,paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId,totalSCoinsEarned: $totalSCoinsEarned,totalSPointsEarned: $totalSPointsEarned,totalSCoinsPaid: $totalSCoinsPaid, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
+    return 'Payment(metaData: $metaData, paidBy: $paidBy, order: $order, refferalDiscountApplied:$refferalDiscountApplied,appliedCouponCode: $appliedCouponCode,appliedTaxDetail: $appliedTaxDetail, discountAmount: $discountAmount, totalAmount: $totalAmount, paidAmount: $paidAmount, currency: $currency, paidTo: $paidTo, status: $status, shippingAmount:$shippingAmount,totalAdditionalDiscountAmount:$totalAdditionalDiscountAmount,paymentGateWayDetail: $paymentGateWayDetail, appliedTaxAmount: $appliedTaxAmount, description: $description, businessId: $businessId,totalSCoinsEarned: $totalSCoinsEarned,totalSPointsEarned: $totalSPointsEarned,totalSCoinsPaid: $totalSCoinsPaid, checkoutUrl: $checkoutUrl,bankTxnId:$bankTxnId, id: $id)';
   }
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
@@ -72,6 +74,7 @@ class Payment {
         order: data['order'] == null
             ? null
             : Ref.fromMap(data['order'] as Map<String, dynamic>),
+        refferalDiscountApplied: data['refferalDiscountApplied'] as bool?,
         appliedCouponCode: data['appliedCouponCode'] == null
             ? null
             : Ref.fromMap(data['appliedCouponCode'] as Map<String, dynamic>),
@@ -109,6 +112,7 @@ class Payment {
         'metaData': metaData?.toMap(),
         'paidBy': paidBy?.toMap(),
         'order': order?.toMap(),
+        'refferalDiscountApplied': refferalDiscountApplied,
         'appliedCouponCode': appliedCouponCode?.toMap(),
         'discountAmount': discountAmount,
         'totalSavedAmount': totalSavedAmount,
@@ -148,6 +152,7 @@ class Payment {
     MetaData? metaData,
     Ref? paidBy,
     Ref? order,
+    bool? refferalDiscountApplied,
     Ref? appliedCouponCode,
     dynamic? discountAmount,
     dynamic? totalAmount,
@@ -173,6 +178,8 @@ class Payment {
       metaData: metaData ?? this.metaData,
       paidBy: paidBy ?? this.paidBy,
       order: order ?? this.order,
+      refferalDiscountApplied:
+          refferalDiscountApplied ?? this.refferalDiscountApplied,
       appliedCouponCode: appliedCouponCode ?? this.appliedCouponCode,
       discountAmount: discountAmount ?? this.discountAmount,
       totalAmount: totalAmount ?? this.totalAmount,

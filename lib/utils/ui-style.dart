@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Fonts {
   static String get body => "Poppins";
-  static String get title => "Poppins";
+  // static String get title => "Poppins";
 }
 
 class AppColors {
@@ -35,7 +35,7 @@ class FontSizes {
 
 class TextStyles {
   static TextStyle get detailProductName => TextStyle(
-      fontFamily: Fonts.title,
+      fontFamily: Fonts.body,
       fontSize: FontSizes.xLarge,
       fontWeight: FontWeight.bold,
       color: const Color.fromARGB(255, 56, 53, 53));
@@ -47,7 +47,7 @@ class TextStyles {
       fontSize: FontSizes.title,
       color: AppColors.DarkGrey);
   static TextStyle get headingFont => TextStyle(
-      fontFamily: Fonts.title,
+      fontFamily: Fonts.body,
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: AppColors.DarkGrey);

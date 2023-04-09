@@ -82,7 +82,7 @@ class ProductCard extends StatelessWidget {
           return Visibility(
             visible: checkFavVisibility(),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: LikeButton(
                 isLiked: wishlistController.checkIfProductWishlist(product.id),
                 onPressed: () async {
@@ -110,11 +110,46 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(product.name!.defaultText!.text ?? '',
-              overflow: this.fixedHeight
-                  ? TextOverflow.ellipsis
-                  : TextOverflow.visible,
-              style: TextStyles.body),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                  '${product.name!.defaultText!.text ?? ''} ',
+                  overflow: this.fixedHeight
+                      ? TextOverflow.ellipsis
+                      : TextOverflow.visible,
+                  style: TextStyles.body),
+              // const Text('|'),
+              // (product.varients!.length == 0)
+              //     ? Expanded(
+              //         child: Text(
+              //             '${product.varient!.weight!.toStringAsFixed(0)}  ${CodeHelp.formatUnit(product.varient!.unit)}',
+              //             style:
+              //                 TextStyles.body.copyWith(color: AppColors.grey),
+              //             softWrap: true,
+              //             maxLines: 2,
+              //             overflow: TextOverflow.fade))
+              //     : (product.varients!.length == 1 ||
+              //             addedFrom == 'TAGS_PRODUCT')
+              //         ? Expanded(
+              //             child: Row(
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             mainAxisSize: MainAxisSize.max,
+              //             children: [
+              //               Text(
+              //                 '${product.varients![0].weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(product.varients![0].unit)}',
+              //                 softWrap: true,
+              //                 maxLines: 2,
+              //                 overflow: TextOverflow.fade,
+              //                 style: TextStyles.body
+              //                     .copyWith(color: AppColors.grey),
+              //               )
+              //             ],
+              //           ))
+              //         : const SizedBox(),
+            ],
+          ),
           addedFrom == 'MULTIPRODUCT'
               ? Text(
                   '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',
@@ -202,7 +237,7 @@ class ProductCard extends StatelessWidget {
                 return Visibility(
                   visible: checkBuyProductVisibility(),
                   child: Positioned(
-                    right: fixedHeight ? 15 : 40,
+                    right: fixedHeight ? 10 : 20,
                     top: 65,
                     child: AnimatedSwitcher(
                       switchInCurve: Curves.bounceIn,
@@ -346,7 +381,7 @@ class ProductCard extends StatelessWidget {
                                   RuleConfig(),
                                   Constraint(),
                                   product!.varient!);
-                            }  else {
+                            } else {
                               await cartController.addToCart(
                                   '$refId@${activeVariant.value.varientCode}',
                                   addedFrom!,
@@ -358,7 +393,7 @@ class ProductCard extends StatelessWidget {
                                   constraint,
                                   activeVariant.value);
                             }
-                          }else {
+                          } else {
                             stateController.setCurrentTab(3);
                             var showToast = snackBarClass.showToast(
                                 context, 'Please Login to preoceed');
@@ -448,11 +483,11 @@ class ProductCard extends StatelessWidget {
                       : Colors.white,
                   margin: const EdgeInsets.all(1),
                   child: Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.fromLTRB(4, 1.0, 04, 01),
                     child: Center(
                       child: Text(
                         '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                        style: TextStyles.bodyFont.copyWith(
+                        style: TextStyles.body.copyWith(
                             color: currentVarient.varientCode !=
                                     activeVariant.value.varientCode
                                 ? AppColors.primeColor

@@ -66,7 +66,7 @@ class _LikeButtonState extends State<LikeButton>
             })
           : Icon(
               widget.isLiked ? Icons.favorite : Icons.favorite_outline,
-              color: AppColors.primeColor,
+              color:  widget.isLiked ?AppColors.primeColor :AppColors.grey,
             ),
     );
   }

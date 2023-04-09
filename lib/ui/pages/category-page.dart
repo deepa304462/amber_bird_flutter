@@ -9,6 +9,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -61,7 +62,7 @@ class CategoryPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: SizedBox(
-              height: 65,
+              height: 70,
               child: megaMenuController.mainTabs.isNotEmpty
                   ? ListView.builder(
                       physics: const BouncingScrollPhysics(),
@@ -109,7 +110,7 @@ class CategoryPage extends StatelessWidget {
                     ),
             ),
           ),
-          Divider(),
+          const Divider(),
           megaMenuController.subMenuList.isNotEmpty
               ? SizedBox(
                   height: 30,
@@ -135,6 +136,12 @@ class CategoryPage extends StatelessWidget {
                             child: Obx(
                               () => Card(
                                 elevation: 0,
+                                color:
+                                    (megaMenuController.selectedSubMenu.value ==
+                                            megaMenuController
+                                                .subMenuList[index].id)
+                                        ? AppColors.primeColor
+                                        : AppColors.commonBgColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     side: BorderSide(
@@ -145,7 +152,8 @@ class CategoryPage extends StatelessWidget {
                                             ? AppColors.primeColor
                                             : AppColors.commonBgColor)),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(4.0, 2, 4, 2),
                                   child: Text(
                                       megaMenuController
                                           .subMenuList[index].text!,
@@ -153,8 +161,8 @@ class CategoryPage extends StatelessWidget {
                                                   .selectedSubMenu.value ==
                                               megaMenuController
                                                   .subMenuList[index].id)
-                                          ? TextStyles.body.copyWith(
-                                              color: AppColors.primeColor)
+                                          ? TextStyles.body
+                                              .copyWith(color: AppColors.white)
                                           : TextStyles.body),
                                 ),
                               ),
@@ -283,13 +291,34 @@ class CategoryPage extends StatelessWidget {
                 DealProduct dealProduct =
                     megaMenuController.dealProductList[index];
                 if (dealProduct.product != null) {
-                  return ProductCard(
-                      dealProduct.product,
-                      dealProduct.product!.id,
-                      megaMenuController.selectedParentTab.value,
-                      dealProduct.product!.varient!.price!,
-                      dealProduct.ruleConfig,
-                      dealProduct.constraint);
+                  return SizedBox(
+                    width: 150,
+                    child: Stack(
+                      children: [
+                        ProductCard(
+                            fixedHeight: true,
+                            dealProduct.product,
+                            dealProduct.id,
+                            megaMenuController.selectedParentTab.value,
+                            dealProduct.dealPrice,
+                            dealProduct.ruleConfig,
+                            dealProduct.constraint),
+                        Positioned(
+                          top: 0,
+                          child: DiscountTag(
+                            price: dealProduct.dealPrice!,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                  // ProductCard(
+                  //           dealProduct.product,
+                  //           dealProduct.product!.id,
+                  //           megaMenuController.selectedParentTab.value,
+                  //           dealProduct.product!.varient!.price!,
+                  //           dealProduct.ruleConfig,
+                  //           dealProduct.constraint);
                 } else {
                   return const SizedBox();
                 }
