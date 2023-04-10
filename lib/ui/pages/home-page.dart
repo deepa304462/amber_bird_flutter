@@ -142,8 +142,7 @@ class HomePage extends StatelessWidget {
               },
               items: [
                 BottomNavItem(
-                    // imgIcon:
-                    //     'https://cdn2.sbazar.app/383ba026-222a-4a16-8c24-b6f7f7227630',
+                    imgIcon:'assets/insidelogo.png',
                     icon: Icons.home,
                     label: "Home",
                     selectedColor: Colors.red.shade900,

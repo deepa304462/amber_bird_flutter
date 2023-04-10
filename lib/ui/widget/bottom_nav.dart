@@ -215,7 +215,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                                   size: widget.height / 1.5)
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(20.0),
-                                  child: Image.network(
+                                  child: Image.asset(
                                     widget.imageIcon,
                                     height: widget.height / 1.5,
                                     fit: BoxFit.fill,
@@ -251,7 +251,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                               size: widget.height / 1.5)
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(20.0),
-                              child: Image.network(
+                              child: Image.asset(
                                 widget.imageIcon,
                                 height: widget.height / 1.5,
                                 fit: BoxFit.fill,
