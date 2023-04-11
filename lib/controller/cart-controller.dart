@@ -720,7 +720,7 @@ class CartController extends GetxController {
   }
 
   getsearchData(query) async {
-    var payload = {'keywords': query};
+    var payload = {'keywords': query, "active": true};
     var response =
         await ClientService.post(path: 'couponCode/search', payload: payload);
     if (response.statusCode == 200) {
@@ -732,11 +732,16 @@ class CartController extends GetxController {
     }
   }
 
+  searchCoupon(String name){
+    return null;
+  }
+
   isApplicableCoupun(CouponCode coupon) async {
     bool valid = true;
-    if (Get.isRegistered<CartController>()) {
-      var cartController =
-          ControllerGenerator.create(CartController(), tag: 'cartController');
+    // if (Get.isRegistered<CartController>()) {
+    //   var cartController =
+    //       ControllerGenerator.create(CartController(), tag: 'cartController');
+
       if (coupon.condition!.expireAtTime != null && valid) {
         String expire = coupon.condition!.expireAtTime ?? '';
         var newDate = DateTime.now().toUtc();
@@ -746,7 +751,7 @@ class CartController extends GetxController {
         }
       }
       if (coupon.condition!.maxCartAmount != null && valid) {
-        if (cartController.calculatedPayment.value.totalAmount <=
+        if (calculatedPayment.value.totalAmount <=
             coupon.condition!.maxCartAmount) {
           valid = false;
         }
@@ -769,11 +774,11 @@ class CartController extends GetxController {
       }
       if (coupon.reward!.discountUptos != null && valid) {
         if (coupon.reward!.discountUptos <=
-            cartController.calculatedPayment.value.totalAmount) {
+            calculatedPayment.value.totalAmount) {
           valid = false;
         }
       }
-    }
+     
     return valid;
   }
 }

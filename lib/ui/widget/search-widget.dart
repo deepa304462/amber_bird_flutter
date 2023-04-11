@@ -260,7 +260,7 @@ class CustomSearchDelegate extends SearchDelegate {
             child: ListTile(
               onTap: () {
                 close(context, null);
-                Modular.to.navigate('/home/brandProduct/${brand.id}');
+                Modular.to.navigate('/brandProduct/${brand.id}');
               },
               leading: jsonDecode(brand.extraData!)['logoId'] != null
                   ? ImageBox(

@@ -1,4 +1,5 @@
 import 'package:amber_bird/home-page-module.dart';
+import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/order-detail-page.dart';
@@ -53,6 +54,13 @@ class AppModule extends Module {
         ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
         ChildRoute('/cart', child: (_, args) => CartPage()),
         ChildRoute('/profile', child: (_, args) => ProfilePage()),
+          ChildRoute(
+          '/brandProduct/:id',
+          child: (_, args) {
+            String productId = args.params['id'];
+            return BrandProductPage(productId);
+          },
+        ),
         ChildRoute('/wishlist', child: (_, args) => WishListPage()),
          ChildRoute(
           '/order-detail',

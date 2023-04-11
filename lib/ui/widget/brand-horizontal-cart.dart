@@ -88,7 +88,7 @@ class BrandHorizontalCard extends StatelessWidget {
   Widget _brandCard(Brand brand, BuildContext context) {
     return InkWell(
       onTap: () {
-        Modular.to.pushNamed('/home/brandProduct/${brand.id}');
+        Modular.to.pushNamed('/brandProduct/${brand.id}');
       },
       child: Card(
         clipBehavior: Clip.hardEdge,

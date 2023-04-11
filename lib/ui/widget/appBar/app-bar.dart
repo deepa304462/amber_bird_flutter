@@ -182,9 +182,8 @@ class AppBarShrinkWidget extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Expanded( 
-            child: SearchWidget(),
-            ),
+         SearchWidget(),
+            
         const SizedBox(
           width: 10,
         ),
