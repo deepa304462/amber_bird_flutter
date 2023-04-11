@@ -110,46 +110,11 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text(
-                  '${product.name!.defaultText!.text ?? ''} ',
-                  overflow: this.fixedHeight
-                      ? TextOverflow.ellipsis
-                      : TextOverflow.visible,
-                  style: TextStyles.body),
-              // const Text('|'),
-              // (product.varients!.length == 0)
-              //     ? Expanded(
-              //         child: Text(
-              //             '${product.varient!.weight!.toStringAsFixed(0)}  ${CodeHelp.formatUnit(product.varient!.unit)}',
-              //             style:
-              //                 TextStyles.body.copyWith(color: AppColors.grey),
-              //             softWrap: true,
-              //             maxLines: 2,
-              //             overflow: TextOverflow.fade))
-              //     : (product.varients!.length == 1 ||
-              //             addedFrom == 'TAGS_PRODUCT')
-              //         ? Expanded(
-              //             child: Row(
-              //             crossAxisAlignment: CrossAxisAlignment.center,
-              //             mainAxisSize: MainAxisSize.max,
-              //             children: [
-              //               Text(
-              //                 '${product.varients![0].weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(product.varients![0].unit)}',
-              //                 softWrap: true,
-              //                 maxLines: 2,
-              //                 overflow: TextOverflow.fade,
-              //                 style: TextStyles.body
-              //                     .copyWith(color: AppColors.grey),
-              //               )
-              //             ],
-              //           ))
-              //         : const SizedBox(),
-            ],
-          ),
+          Text('${product.name!.defaultText!.text ?? ''} ',
+              overflow: this.fixedHeight
+                  ? TextOverflow.ellipsis
+                  : TextOverflow.visible,
+              style: TextStyles.body),
           addedFrom == 'MULTIPRODUCT'
               ? Text(
                   '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',

@@ -25,7 +25,12 @@ class PriceTag extends StatelessWidget {
               ),
               const SizedBox(width: 3),
               Visibility(
-                visible: realPrice != '' ? true : false,
+                visible: realPrice != ''
+                    ? num.parse(realPrice).toStringAsFixed(2) ==
+                            num.parse(showPrice).toStringAsFixed(2)
+                        ? false
+                        : true
+                    : false,
                 child: Text(num.parse(realPrice).toStringAsFixed(2),
                     textHeightBehavior: const TextHeightBehavior(
                         applyHeightToFirstAscent: true),

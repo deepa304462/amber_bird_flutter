@@ -60,36 +60,37 @@ class ProductGuidePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        background: Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 50.0),
-                              child: ImageSlider(
-                                  productGuidePageController
-                                      .productGuide.value.images!,
-                                  MediaQuery.of(context).size.width,
-                                  disableTap: true,
-                                  fit: BoxFit.fitWidth),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 35.0, left: 8, right: 8),
-                              child: Card(
-                                color: Colors.grey.withOpacity(.6),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    productGuidePageController.productGuide
-                                        .value.description!.defaultText!.text!,
-                                    style: TextStyles.titleFont,
-                                    textAlign: TextAlign.justify,
-                                  ),
+                        background: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: ImageSlider(
+                              productGuidePageController
+                                  .productGuide.value.images!,
+                              MediaQuery.of(context).size.width,
+                              disableTap: true,
+                              fit: BoxFit.fitWidth),
+                        ),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  productGuidePageController.productGuide.value
+                                      .description!.defaultText!.text!,
+                                  style: TextStyles.titleFont,
+                                  textAlign: TextAlign.justify,
                                 ),
                               ),
-                            )
-                          ],
-                        ),
+                            ),
+                          );
+                        },
+                        childCount: 1,
                       ),
                     ),
                     SliverList(

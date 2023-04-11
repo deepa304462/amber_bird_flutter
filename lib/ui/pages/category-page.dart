@@ -390,6 +390,13 @@ class CategoryPage extends StatelessWidget {
         shrinkWrap: true,
         itemBuilder: (_, index) {
           Multi mProduct = megaMenuController.multiProd[index];
+          num totalNumberOfProducts = 0;
+          mProduct.products!.forEach(
+            (element) {
+              totalNumberOfProducts =
+                  totalNumberOfProducts + element!.defaultPurchaseCount!;
+            },
+          );
           return SizedBox(
             height: 320,
             child: Card(
@@ -440,17 +447,26 @@ class CategoryPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            mProduct.name!.defaultText!.text ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 25,
-                                color: Colors.grey),
+                          Row(
+                            children: [
+                              Text(
+                                (mProduct.name!.defaultText!.text ?? ''),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyles.bodyFontBold,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                ' ${totalNumberOfProducts} Products',
+                                style: TextStyles.bodyFont
+                                    .copyWith(color: AppColors.primeColor),
+                              )
+                            ],
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * .8,
+                            width: MediaQuery.of(context).size.width * 1,
                             child: Row(
                               children: [
                                 PriceTag(mProduct.price!.offerPrice.toString(),
