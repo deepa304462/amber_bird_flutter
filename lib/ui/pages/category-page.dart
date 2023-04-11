@@ -77,7 +77,7 @@ class CategoryPage extends StatelessWidget {
                                 onTap: () {
                                   megaMenuController.selectedParentTab.value =
                                       megaMenuController.mainTabs[index].id ??
-                                          '';
+                                          ''; 
                                   megaMenuController.getSubMenu(
                                       megaMenuController.mainTabs[index]);
                                 },
@@ -124,7 +124,7 @@ class CategoryPage extends StatelessWidget {
                             onTap: () {
                               megaMenuController.selectedSubMenu.value =
                                   megaMenuController.subMenuList[index].id ??
-                                      '';
+                                      ''; 
                               megaMenuController.getAllProducts(
                                   megaMenuController.subMenuList[index],
                                   GenericTab(
@@ -221,6 +221,8 @@ class CategoryPage extends StatelessWidget {
         return _multiProductList(megaMenuController, context);
       case 'SCOIN':
         return _scoinProductList(megaMenuController, context);
+      case 'MSD':
+        return _MSDProductList(megaMenuController, context);
       default:
         return categoryProducts(megaMenuController, context);
     }
@@ -230,6 +232,44 @@ class CategoryPage extends StatelessWidget {
       MegaMenuController megaMenuController, BuildContext context) {
     return Expanded(
       child: _productGrid(megaMenuController, context),
+    );
+  }
+
+  Widget _MSDProductList(
+      MegaMenuController megaMenuController, BuildContext context) {
+    return Expanded(
+      child: megaMenuController.productList.isNotEmpty
+          ? MasonryGridView.count(
+              crossAxisCount: 2,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
+              itemCount: megaMenuController.productList.length,
+              itemBuilder: (_, index) {
+                ProductSummary product = megaMenuController.productList[index];
+                return ProductCardScoin(
+                  fixedHeight: true,
+                  product,
+                  product.id,
+                  'MSD',
+                  product.varient!.price,
+                  RuleConfig(),
+                  Constraint(),
+                );
+              },
+            )
+          : Column(
+              children: [
+                Lottie.asset('assets/no-data.json',
+                    width: MediaQuery.of(context).size.width * .5,
+                    fit: BoxFit.contain),
+                Expanded(
+                  child: Text(
+                    'No product available in this section',
+                    style: TextStyles.bodyFont,
+                  ),
+                )
+              ],
+            ),
     );
   }
 

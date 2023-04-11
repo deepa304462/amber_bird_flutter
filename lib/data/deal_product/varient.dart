@@ -13,6 +13,7 @@ class Varient {
   Dimension? dimension;
   bool? applyExtraShipping;
   bool? scoinPurchaseEnable;
+  bool? msdApplicableProduct;
   String? skuId;
   Constraint? constraint;
 
@@ -25,13 +26,14 @@ class Varient {
     this.dimension,
     this.applyExtraShipping,
     this.scoinPurchaseEnable,
+    this.msdApplicableProduct,
     this.skuId,
     this.constraint,
   });
 
   @override
   String toString() {
-    return 'Varient(varientCode: $varientCode, weight: $weight, unit: $unit, currentStock: $currentStock, price: $price, dimension: $dimension, applyExtraShipping: $applyExtraShipping,scoinPurchaseEnable:$scoinPurchaseEnable skuId: $skuId, constraint: $constraint)';
+    return 'Varient(varientCode: $varientCode, weight: $weight, unit: $unit, currentStock: $currentStock, price: $price, dimension: $dimension, applyExtraShipping: $applyExtraShipping,scoinPurchaseEnable:$scoinPurchaseEnable,msdApplicableProduct:$msdApplicableProduct, skuId: $skuId, constraint: $constraint)';
   }
 
   factory Varient.fromMap(Map<String, dynamic> data) => Varient(
@@ -47,6 +49,7 @@ class Varient {
             : Dimension.fromMap(data['dimension'] as Map<String, dynamic>),
         applyExtraShipping: data['applyExtraShipping'] as bool?,
         scoinPurchaseEnable: data['scoinPurchaseEnable'] as bool?,
+        msdApplicableProduct:data['msdApplicableProduct'] as bool?,
         skuId: data['skuId'] as String?,
         constraint: data['constraint'] == null
             ? null
@@ -62,6 +65,7 @@ class Varient {
         'dimension': dimension?.toMap(),
         'applyExtraShipping': applyExtraShipping,
         'scoinPurchaseEnable': scoinPurchaseEnable,
+        'msdApplicableProduct':msdApplicableProduct,
         'skuId': skuId,
         'constraint': constraint?.toMap(),
       };
@@ -87,6 +91,7 @@ class Varient {
     Dimension? dimension,
     bool? applyExtraShipping,
     bool? scoinPurchaseEnable,
+    bool? msdApplicableProduct,
     String? skuId,
     Constraint? constraint,
   }) {
@@ -99,6 +104,7 @@ class Varient {
       dimension: dimension ?? this.dimension,
       applyExtraShipping: applyExtraShipping ?? this.applyExtraShipping,
       scoinPurchaseEnable: scoinPurchaseEnable ?? this.scoinPurchaseEnable,
+      msdApplicableProduct: msdApplicableProduct ?? this.msdApplicableProduct,
       skuId: skuId ?? this.skuId,
       constraint: constraint ?? this.constraint,
     );
