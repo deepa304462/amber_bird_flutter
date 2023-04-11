@@ -11,7 +11,7 @@ import '../../helpers/controller-generator.dart';
 
 class CouponWidget extends StatelessWidget {
   TextEditingController controller = TextEditingController();
-
+  final Controller stateController = Get.find();
   @override
   Widget build(BuildContext context) {
     final CartController cartController =
@@ -37,7 +37,31 @@ class CouponWidget extends StatelessWidget {
               decoration: InputDecoration(
                 suffixIcon: MaterialButton(
                   color: AppColors.primeColor,
-                  onPressed: () {},
+                  onPressed: () async {
+                    print(controller.value.text);
+
+                    stateController.showLoader.value = true;
+                    var coupon = await cartController
+                        .searchCoupon(controller.value.text);
+                    if (coupon != null) {
+                      var data =
+                          await cartController.isApplicableCoupun(coupon);
+                      if (data) {
+                        cartController.selectedCoupon.value = coupon;
+                        cartController.calculateTotalCost();
+                        await cartController.createOrder();
+                        // controller.text = cartController.couponName.toString();
+                        cartController.setSearchVal(coupon.couponCode);
+                        stateController.showLoader.value = false;
+                        snackBarClass.showToast(context, 'coupon is valid ');
+                      } else {
+                        snackBarClass.showToast(
+                            context, 'coupon is not valid ');
+                      }
+                    } else {
+                      snackBarClass.showToast(context, 'Not found any coupon');
+                    }
+                  },
                   child: Text(
                     'APPLY',
                     style:
@@ -45,7 +69,8 @@ class CouponWidget extends StatelessWidget {
                   ),
                 ),
                 labelText: "Apply promo code",
-                labelStyle: TextStyles.titleFont,
+                labelStyle:
+                    TextStyles.titleFont.copyWith(color: AppColors.grey),
                 contentPadding: const EdgeInsets.all(7.0),
                 enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(2.0)),

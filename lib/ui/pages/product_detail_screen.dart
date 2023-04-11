@@ -998,7 +998,7 @@ class ProductDetailScreen extends StatelessWidget {
             style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
         ListTile(
           onTap: () {
-            Modular.to.pushNamed('/home/brandProduct/${brand.id}');
+            Modular.to.pushNamed('/brandProduct/${brand.id}');
           },
           leading: ImageBox(
             brand.logoId!,

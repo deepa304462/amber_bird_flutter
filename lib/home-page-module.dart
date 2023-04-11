@@ -51,13 +51,7 @@ class HomePageModule extends Module {
           ChildRoute('/add-address', child: (_, args) => AddAddress()),
           ChildRoute('/main', child: (_, args) => MainPage()),
          
-          ChildRoute(
-            '/brandProduct/:id',
-            child: (_, args) {
-              String productId = args.params['id'];
-              return BrandProductPage(productId);
-            },
-          ),
+        
           ChildRoute(
             '/categoryProduct/:id',
             child: (_, args) {
