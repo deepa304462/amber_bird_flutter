@@ -180,19 +180,15 @@ class AppBarShrinkWidget extends StatelessWidget {
         //   fit: BoxFit.cover,
         // ),
         const SizedBox(
-          width: 20,
+          width: 10,
         ),
-        Expanded(
-            // alignment: Alignment.centerRight,
-            // fit: BoxFit.fitHeight,
-            child: SearchWidget()),
+        Expanded( 
+            child: SearchWidget(),
+            ),
         const SizedBox(
-          width: 20,
+          width: 10,
         ),
-        Expanded(
-          // alignment: Alignment.centerRight,
-          // fit: BoxFit.fitHeight,
-          child: Row(
+         Row(
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -254,7 +250,7 @@ class AppBarShrinkWidget extends StatelessWidget {
               ),
             ],
           ),
-        ),
+         
       ],
     );
   }

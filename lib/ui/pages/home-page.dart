@@ -111,7 +111,7 @@ class HomePage extends StatelessWidget {
                   title: AppBarShrinkWidget(),
                 )
               : AppBar(
-                  toolbarHeight: 100,
+                  toolbarHeight: 90,
                   titleSpacing: 5,
                   backgroundColor: Colors.white,
                   automaticallyImplyLeading: false,

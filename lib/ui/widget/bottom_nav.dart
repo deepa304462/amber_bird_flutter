@@ -222,9 +222,10 @@ class _BottomBarItemState extends State<BottomBarItem>
                                   ),
                                 ),
                           Positioned(
-                            top: -7,
+                            top: -4,
                             right: -4,
                             child: Card(
+                              color: AppColors.primeColor,
                               child: Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Text(
@@ -232,7 +233,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                                             cartController.cartProductsScoins
                                                 .value.length)
                                         .toString(),
-                                    style: TextStyles.bodySm),
+                                    style: TextStyles.bodySm.copyWith(color: AppColors.white)),
                               ),
                             ),
                           ),

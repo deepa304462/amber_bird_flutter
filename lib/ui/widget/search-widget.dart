@@ -17,7 +17,7 @@ class SearchWidget extends StatelessWidget {
     controller.text = searchController.search.toString();
     return Expanded(
       child: Container(
-        height: 35,
+        height: 32,
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(5),
@@ -30,41 +30,43 @@ class SearchWidget extends StatelessWidget {
         ),
         child: Obx(
           () {
-            return TextField(
-              // controller: controller,
-              readOnly: true,
-              controller:
-                  TextEditingController(text: searchController.search.value),
-              onTap: () {
-                showSearch(
-                    context: context,
-                    // delegate to customize the search bar
-                    delegate: CustomSearchDelegate());
-              },
-              decoration: InputDecoration(
-                prefixIcon: IconButton(
-                  onPressed: () {
-                    print('xcvbn');
-                  },
-                  icon: Icon(
+            return Center(
+              child: TextField(
+                // controller: controller,
+                readOnly: true,
+                controller:
+                    TextEditingController(text: searchController.search.value),
+                onTap: () {
+                  showSearch(
+                      context: context,
+                      // delegate to customize the search bar
+                      delegate: CustomSearchDelegate());
+                },
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
                     Icons.search_outlined,
                     color: AppColors.grey,
-                    size: 20,
+                    size: 18,
                   ),
-                ),
-                labelText: "Search for products",
-                labelStyle: TextStyles.titleFont,
-                // contentPadding: const EdgeInsets.all(2.0),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  borderSide: BorderSide(
-                    color: AppColors.grey,
+                  label: const Padding(
+                    padding: EdgeInsets.only(top: 3),
+                    child: Text("Search for products"),
                   ),
-                ),
-                hintStyle: TextStyle(color: AppColors.primeColor),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(0.0)),
-                  borderSide: BorderSide(color: AppColors.grey),
+                  labelStyle:
+                      TextStyles.titleFont.copyWith(color: AppColors.grey),
+                  // contentPadding: const EdgeInsets.all(2.0),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(5)),
+                    borderSide: BorderSide(
+                      color: AppColors.grey,
+                    ),
+                  ),
+                  hintStyle: TextStyle(color: AppColors.primeColor),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(0.0)),
+                    borderSide: BorderSide(color: AppColors.grey),
+                  ),
                 ),
               ),
             );
@@ -97,7 +99,6 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
-
         close(context, null);
       },
       icon: const Icon(Icons.arrow_back),
@@ -129,7 +130,7 @@ class CustomSearchDelegate extends SearchDelegate {
     return searchWidgetResult(context);
   }
 
-  Widget searchWidgetResult(BuildContext context){
+  Widget searchWidgetResult(BuildContext context) {
     return Obx(
       () => ListView(
         children: [
@@ -160,7 +161,6 @@ class CustomSearchDelegate extends SearchDelegate {
       ),
     );
   }
-
 
   Widget PopularSearchWidget(context, searchController) {
     return Wrap(

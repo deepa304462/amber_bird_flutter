@@ -105,7 +105,7 @@ class OrderListPage extends StatelessWidget {
   }
 
   OrderTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder!.metaData!.createdAt!);
+    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(

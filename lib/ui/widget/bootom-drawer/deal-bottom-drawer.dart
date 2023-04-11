@@ -468,7 +468,9 @@ class DealBottomDrawer extends StatelessWidget {
                                           } else {
                                             stateController.showLoader.value =
                                                 false;
+                                            // ignore: use_build_context_synchronously
                                             Navigator.of(context).pop();
+                                            // ignore: use_build_context_synchronously
                                             snackBarClass.showToast(context,
                                                 'Your profile is not active yet');
                                           }
