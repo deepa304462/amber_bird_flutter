@@ -73,7 +73,7 @@ class DealBottomDrawer extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Column(
@@ -84,109 +84,56 @@ class DealBottomDrawer extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Stack(
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  ImageBox(
+                                    product.images![0],
+                                    width: 50,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    textDirection: TextDirection.ltr,
                                     children: [
-                                      ImageBox(
-                                        product.images![0],
-                                        width: 120,
+                                      Visibility(
+                                        visible: name!.defaultText!.text !=
+                                            product.name!.defaultText!.text,
+                                        child: Text(
+                                          '${product.name!.defaultText!.text}',
+                                          style: TextStyles.bodyFontBold,
+                                        ),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        textDirection: TextDirection.ltr,
-                                        children: [
-                                          Visibility(
-                                            visible: name!.defaultText!.text !=
-                                                product.name!.defaultText!.text,
-                                            child: Text(
-                                              '${product.name!.defaultText!.text}',
-                                              style: TextStyles.headingFont,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            children: [
-                                              ImageBox(
-                                                product.category!.logoId!,
-                                                width: 20,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                '${product.category!.name!.defaultText!.text}',
-                                                style: TextStyles.titleFont,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 5),
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                      const SizedBox(height: 5),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
                                                 .5,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Card(
-                                                  color: Colors.white,
-                                                  margin:
-                                                      const EdgeInsets.all(5),
-                                                  child: Center(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: Text(
-                                                          '${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
-                                                    ),
-                                                  ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Card(
+                                              color: Colors.white,
+                                              margin: const EdgeInsets.all(5),
+                                              child: Center(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: Text(
+                                                      '${product.defaultPurchaseCount ?? '1'} x ${product.varient!.weight!} ${CodeHelp.formatUnit(product.varient!.unit)}'),
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                        ],
+                                          ],
+                                        ),
                                       ),
+                                      const SizedBox(height: 5),
                                     ],
                                   ),
-                                  Positioned(
-                                    top: -12,
-                                    left: -12,
-                                    child: IconButton(
-                                      icon: Icon(
-                                        Icons.favorite,
-                                        color: wishlistController
-                                                .checkIfProductWishlist(
-                                                    product.id)
-                                            ? AppColors.primeColor
-                                            : AppColors.grey,
-                                      ),
-                                      onPressed: () => {
-                                        wishlistController.addToWishlist(
-                                            product.id,
-                                            product,
-                                            null,
-                                            addedFrom)
-                                      },
-                                    ),
-                                  ),
                                 ],
-                              ),
-                              Text(
-                                'Description',
-                                style: TextStyles.bodyFontBold,
-                              ),
-                              Html(
-                                data: product.description!.defaultText!.text ??
-                                    '',
                               ),
                               const Divider(),
                             ],
@@ -201,13 +148,15 @@ class DealBottomDrawer extends StatelessWidget {
                   child: AppBar(
                     shape: Border(top: BorderSide(color: AppColors.primeColor)),
                     automaticallyImplyLeading: false,
-                    backgroundColor: Colors.white,
+                    backgroundColor: AppColors.primeColor,
                     title: Obx(
                       () => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PriceTag(priceInfo!.offerPrice.toString(),
-                              priceInfo!.actualPrice.toString()),
+                          Card(
+                            child: PriceTag(priceInfo!.offerPrice.toString(),
+                                priceInfo!.actualPrice.toString()),
+                          ),
                           cartController.checkProductInCart(refId, addedFrom)
                               ? Row(
                                   children: [
@@ -241,7 +190,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   Varient());
-                                                  stateController.showLoader.value =
+                                              stateController.showLoader.value =
                                                   false;
                                             } else {
                                               stateController.showLoader.value =
@@ -277,7 +226,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   products![0].varient);
-                                                  stateController.showLoader.value =
+                                              stateController.showLoader.value =
                                                   false;
                                             } else {
                                               stateController.showLoader.value =
@@ -297,13 +246,15 @@ class DealBottomDrawer extends StatelessWidget {
                                               'Please Login to preoceed');
                                         }
                                       },
-                                      icon: const Icon(
-                                          Icons.remove_circle_outline,
-                                          color: Colors.black),
+                                      icon: Icon(Icons.remove_circle_outline,
+                                          color: AppColors.white),
                                     ),
-                                    Text(cartController
-                                        .getCurrentQuantity(refId, '')
-                                        .toString()),
+                                    Text(
+                                        cartController
+                                            .getCurrentQuantity(refId, '')
+                                            .toString(),
+                                        style: TextStyles.bodyFont
+                                            .copyWith(color: AppColors.white)),
                                     IconButton(
                                       padding: const EdgeInsets.all(8),
                                       constraints: const BoxConstraints(),
@@ -323,7 +274,7 @@ class DealBottomDrawer extends StatelessWidget {
                                             valid = !data['error'];
                                             msg = data['msg'];
                                             if (valid) {
-                                             await cartController.addToCart(
+                                              await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   constraint!.minimumOrder ?? 1,
@@ -333,7 +284,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   null);
-                                                  stateController.showLoader.value =
+                                              stateController.showLoader.value =
                                                   false;
                                             } else {
                                               stateController.showLoader.value =
@@ -356,7 +307,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               msg = data['msg'];
                                             }
                                             if (valid) {
-                                             await cartController.addToCart(
+                                              await cartController.addToCart(
                                                   refId!,
                                                   addedFrom!,
                                                   constraint!.minimumOrder ?? 1,
@@ -366,7 +317,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                   null,
                                                   null,
                                                   null);
-                                                  stateController.showLoader.value =
+                                              stateController.showLoader.value =
                                                   false;
                                             } else {
                                               stateController.showLoader.value =
@@ -378,8 +329,8 @@ class DealBottomDrawer extends StatelessWidget {
                                           }
                                         }
                                       },
-                                      icon: const Icon(Icons.add_circle_outline,
-                                          color: Colors.black),
+                                      icon: Icon(Icons.add_circle_outline,
+                                          color: AppColors.white),
                                     ),
                                   ],
                                 )
@@ -409,7 +360,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               valid = !data['error'];
                                               msg = data['msg'];
                                               if (valid) {
-                                               await cartController.addToCart(
+                                                await cartController.addToCart(
                                                     refId!,
                                                     addedFrom!,
                                                     constraint!.minimumOrder ??
@@ -420,7 +371,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     null,
                                                     null);
-                                                    stateController
+                                                stateController
                                                     .showLoader.value = false;
                                               } else {
                                                 stateController
@@ -455,7 +406,7 @@ class DealBottomDrawer extends StatelessWidget {
                                                     null,
                                                     null,
                                                     null);
-                                                    stateController
+                                                stateController
                                                     .showLoader.value = false;
                                               } else {
                                                 stateController
