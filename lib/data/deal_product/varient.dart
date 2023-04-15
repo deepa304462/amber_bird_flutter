@@ -1,8 +1,9 @@
 import 'dart:convert';
 
+import 'package:amber_bird/data/price/price.dart';
+
 import 'constraint.dart';
-import 'dimension.dart';
-import 'price.dart';
+import 'dimension.dart'; 
 
 class Varient {
   String? varientCode;
@@ -49,7 +50,7 @@ class Varient {
             : Dimension.fromMap(data['dimension'] as Map<String, dynamic>),
         applyExtraShipping: data['applyExtraShipping'] as bool?,
         scoinPurchaseEnable: data['scoinPurchaseEnable'] as bool?,
-        msdApplicableProduct:data['msdApplicableProduct'] as bool?,
+        msdApplicableProduct: data['msdApplicableProduct'] as bool?,
         skuId: data['skuId'] as String?,
         constraint: data['constraint'] == null
             ? null
@@ -65,7 +66,7 @@ class Varient {
         'dimension': dimension?.toMap(),
         'applyExtraShipping': applyExtraShipping,
         'scoinPurchaseEnable': scoinPurchaseEnable,
-        'msdApplicableProduct':msdApplicableProduct,
+        'msdApplicableProduct': msdApplicableProduct,
         'skuId': skuId,
         'constraint': constraint?.toMap(),
       };

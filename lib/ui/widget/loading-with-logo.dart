@@ -31,7 +31,7 @@ class LoadingWithLogo extends StatelessWidget {
           Positioned(
             top: MediaQuery.of(context).size.height * .30,
             left: MediaQuery.of(context).size.width * .32,
-            child: Image.asset('assets/android12splash.png',
+            child: Image.asset('assets/insidelogo.png',
                 width: MediaQuery.of(context).size.width * .3,
                 fit: BoxFit.cover),
           ),

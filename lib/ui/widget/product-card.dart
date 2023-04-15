@@ -3,10 +3,12 @@ import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/price/price.dart';
+import 'package:amber_bird/helpers/helper.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -156,18 +158,7 @@ class ProductCard extends StatelessWidget {
                           ],
                         )
                       : const SizedBox(),
-              checkPriceVisibility()
-                  ? (addedFrom == 'PRODUCT' ||
-                          addedFrom == 'CATEGORY' ||
-                          addedFrom == 'BRAND' ||
-                          addedFrom == 'TAGS_PRODUCT')
-                      ? Obx(() => Text(
-                            "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
-                            style: TextStyles.headingFont,
-                          ))
-                      : PriceTag(dealPrice!.offerPrice!.toString(),
-                          dealPrice!.actualPrice!.toString())
-                  : const SizedBox(),
+              checkPriceVisibility() ? showPrice() : const SizedBox(),
             ],
           ),
           (addedFrom == 'TAGS_PRODUCT')
@@ -178,6 +169,29 @@ class ProductCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget showPrice() {
+    if (addedFrom == 'MSD') {
+      var currentMemberPrice = Helper.getMsdAmount(
+          price: activeVariant.value.price!,
+          userType: stateController.userType.value);
+      return Text(
+        "${currentMemberPrice.toString()} ${CodeHelp.euro}",
+        style: TextStyles.headingFont,
+      );
+    } else {
+      return (addedFrom == 'PRODUCT' ||
+              addedFrom == 'CATEGORY' ||
+              addedFrom == 'BRAND' ||
+              addedFrom == 'TAGS_PRODUCT')
+          ? Obx(() => Text(
+                "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
+                style: TextStyles.headingFont,
+              ))
+          : PriceTag(dealPrice!.offerPrice!.toString(),
+              dealPrice!.actualPrice!.toString());
+    }
   }
 
   @override
@@ -213,7 +227,8 @@ class ProductCard extends StatelessWidget {
                             '$refId@${activeVariant.value.varientCode}',
                             addedFrom),
                         quantity: cartController.getCurrentQuantity(
-                            '$refId@${activeVariant.value.varientCode}', ''),
+                            '$refId@${activeVariant.value.varientCode}',
+                            addedFrom),
                         onAdd: stateController.isLogin.value
                             ? () async {
                                 stateController.showLoader.value = true;
@@ -228,6 +243,17 @@ class ProductCard extends StatelessWidget {
                                   // this.refId, this.addedFrom,
                                   if (addedFrom == 'CATEGORY') {
                                     await cartController.addToCart(
+                                        '$refId@${activeVariant.value.varientCode}',
+                                        addedFrom!,
+                                        minOrder,
+                                        dealPrice,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint,
+                                        activeVariant.value);
+                                  } else if (addedFrom == 'MSD') {
+                                    await cartController.addToCartMSD(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         minOrder,
@@ -322,6 +348,17 @@ class ProductCard extends StatelessWidget {
                                     ruleConfig,
                                     constraint,
                                     activeVariant.value);
+                              } else if (addedFrom == 'MSD') {
+                                await cartController.addToCartMSD(
+                                    '$refId@${activeVariant.value.varientCode}',
+                                    addedFrom!,
+                                    -1,
+                                    dealPrice,
+                                    product,
+                                    null,
+                                    ruleConfig,
+                                    constraint,
+                                    activeVariant.value);
                               } else {
                                 await cartController.addToCart(
                                     '$refId@${activeVariant.value.varientCode}',
@@ -390,6 +427,17 @@ class ProductCard extends StatelessWidget {
                                     addedFrom!,
                                     -1,
                                     price,
+                                    product,
+                                    null,
+                                    ruleConfig,
+                                    constraint,
+                                    activeVariant.value);
+                              } else if (addedFrom == 'MSD') {
+                                await cartController.addToCartMSD(
+                                    '$refId@${activeVariant.value.varientCode}',
+                                    addedFrom!,
+                                    -1,
+                                    dealPrice,
                                     product,
                                     null,
                                     ruleConfig,

@@ -88,8 +88,6 @@ class AllAddressPage extends StatelessWidget {
     );
   }
 
-
-
   // callback(String name, String text) {
   //   locationController.setFielsvalue(text, name);
   // }

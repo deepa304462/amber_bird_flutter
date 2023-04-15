@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
-import 'package:amber_bird/data/deal_product/rule_config.dart';
+ import 'package:amber_bird/data/deal_product/rule_config.dart';
+import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -23,6 +23,20 @@ class Helper {
       return double.parse((num).toStringAsFixed(2));
     } else
       return 0;
+  }
+
+  static double getMsdAmount({required Price price,required String userType}){
+     if (userType == memberShipType.Paid.name) {
+       return price.membersSpecialPrice!.forGoldMember!;
+    } else if (userType == memberShipType.Platinum.name) {
+       return price.membersSpecialPrice!.forPlatinumMember!;
+    } else if (userType == memberShipType.Gold.name) {
+       return price.membersSpecialPrice!.forGoldMember!;
+    } else if (userType == memberShipType.Silver.name) {
+       return price.membersSpecialPrice!.forSilverMember!;
+    } else {
+      return price.membersSpecialPrice!.forGoldMember!;
+    } 
   }
 
   static dynamic getCatMultiName(String dealType) {
@@ -76,7 +90,7 @@ class Helper {
       };
     } else if (dealType == dealName.PRIME_MEMBER_DEAL.name) {
       return {
-        'name': 'PRime',
+        'name': 'Prime',
         'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
       };
     } else {
@@ -112,10 +126,10 @@ class Helper {
   }
 
   static dynamic checkValidScoin(
-      Price price, String userType, scoinProduct, userTotalCoin,count) {
-    var priceTotalToPay = getMemberCoinValue(price, userType) ;
-    if(count >1){
-     priceTotalToPay= priceTotalToPay * count;
+      Price price, String userType, scoinProduct, userTotalCoin, count) {
+    var priceTotalToPay = getMemberCoinValue(price, userType);
+    if (count > 1) {
+      priceTotalToPay = priceTotalToPay * count;
     }
     if (priceTotalToPay > userTotalCoin) {
       return ({
@@ -124,15 +138,15 @@ class Helper {
         'type': ''
       });
     }
-    var totalscoinInart = 0; 
+    var totalscoinInart = 0;
     if (scoinProduct.length > 0) {
-      scoinProduct.forEach((key, elem) { 
+      scoinProduct.forEach((key, elem) {
         var val = getMemberCoinValue(elem.price, userType);
         totalscoinInart += val as int;
       });
     }
 
-    if (priceTotalToPay > (userTotalCoin-totalscoinInart)) {
+    if (priceTotalToPay > (userTotalCoin - totalscoinInart)) {
       return ({
         'error': true,
         'msg': 'Insufficient Coins in wallet',

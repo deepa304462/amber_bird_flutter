@@ -25,12 +25,12 @@ class ReferralPage extends StatelessWidget {
                     color: AppColors.grey,
                     size: 15,
                   ),
-                  Text(
-                    'Back',
-                    style: TextStyles.bodyFont.copyWith(
-                      color: AppColors.grey,
-                    ),
-                  )
+                  // Text(
+                  //   'Back',
+                  //   style: TextStyles.bodyFont.copyWith(
+                  //     color: AppColors.grey,
+                  //   ),
+                  // )
                 ],
               )),
           elevation: 1,
@@ -67,50 +67,57 @@ class ReferralPage extends StatelessWidget {
                             style: TextStyles.headingFont
                                 .copyWith(color: Colors.grey),
                           ),
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                side: BorderSide(
-                                    width: 2, color: AppColors.primeColor)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Obx(() {
-                                return Text(
-                                  controller.shortLink.value.shortUrl!,
-                                  style: TextStyles.bodyFontBold,
-                                );
-                              }),
-                            ),
-                          ),
-                          const Divider(),
-                          MaterialButton(
-                            onPressed: () {
-                              CodeHelp.shareWithOther(
-                                  'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
-                                  'Share now');
-                            },
-                            color: AppColors.primeColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.share,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    'Share',
-                                    style: TextStyles.headingFont
-                                        .copyWith(color: AppColors.white),
-                                  ),
-                                ],
+                          Row(children: [
+Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    side: BorderSide(
+                                        width: 2, color: AppColors.primeColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Obx(() {
+                                    return Text(
+                                      controller.shortLink.value.shortUrl!,
+                                      style: TextStyles.bodyFontBold.copyWith(color: AppColors.grey),
+                                    );
+                                  }),
+                                ),
                               ),
-                            ),
-                          )
+                              // const Divider(),
+                              MaterialButton(
+                                onPressed: () {
+                                  CodeHelp.shareWithOther(
+                                      'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
+                                      'Share now');
+                                },
+                                color: AppColors.primeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.share,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'Share',
+                                        style: TextStyles.headingFont
+                                            .copyWith(color: AppColors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                          ],),
+                          
                         ],
                       );
               })),

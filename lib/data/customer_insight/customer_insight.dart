@@ -12,6 +12,7 @@ class CustomerInsight {
   String? membershipType;
   int? currentPointLevel;
   Ref? customerTrackerRef;
+  bool? promoter;
   String? email;
   String? userFriendlyCustomerId;
   dynamic? scoins;
@@ -26,6 +27,7 @@ class CustomerInsight {
     this.membershipType,
     this.currentPointLevel,
     this.customerTrackerRef,
+    this.promoter,
     this.email,
     this.userFriendlyCustomerId,
     this.scoins,
@@ -35,7 +37,7 @@ class CustomerInsight {
 
   @override
   String toString() {
-    return 'CustomerInsight(metaData: $metaData, name: $name, addresses: $addresses, businessId: $businessId, membershipType: $membershipType, currentPointLevel: $currentPointLevel, customerTrackerRef: $customerTrackerRef, email: $email,userFriendlyCustomerId:$userFriendlyCustomerId,scoins:$scoins,spoints:$spoints, id: $id)';
+    return 'CustomerInsight(metaData: $metaData, name: $name, addresses: $addresses, businessId: $businessId, membershipType: $membershipType, currentPointLevel: $currentPointLevel, customerTrackerRef: $customerTrackerRef, promoter:$promoter,email: $email,userFriendlyCustomerId:$userFriendlyCustomerId,scoins:$scoins,spoints:$spoints, id: $id)';
   }
 
   factory CustomerInsight.fromMap(Map<String, dynamic> data) {
@@ -50,6 +52,7 @@ class CustomerInsight {
       businessId: data['businessId'] as String?,
       membershipType: data['membershipType'] as String?,
       currentPointLevel: data['currentPointLevel'] as int?,
+      promoter: data['promoter'] as bool?,
       customerTrackerRef: data['customerTrackerRef'] == null
           ? null
           : Ref.fromMap(data['customerTrackerRef'] as Map<String, dynamic>),
@@ -68,6 +71,7 @@ class CustomerInsight {
         'businessId': businessId,
         'membershipType': membershipType,
         'currentPointLevel': currentPointLevel,
+        'promoter': promoter,
         'customerTrackerRef': customerTrackerRef?.toMap(),
         'email': email,
         'userFriendlyCustomerId': userFriendlyCustomerId,
@@ -96,6 +100,7 @@ class CustomerInsight {
     String? membershipType,
     int? currentPointLevel,
     Ref? customerTrackerRef,
+    bool? promoter,
     String? email,
     String? userFriendlyCustomerId,
     dynamic? scoins,
@@ -110,6 +115,7 @@ class CustomerInsight {
       membershipType: membershipType ?? this.membershipType,
       currentPointLevel: currentPointLevel ?? this.currentPointLevel,
       customerTrackerRef: customerTrackerRef ?? this.customerTrackerRef,
+      promoter: promoter ?? promoter,
       email: email ?? this.email,
       userFriendlyCustomerId:
           userFriendlyCustomerId ?? this.userFriendlyCustomerId,

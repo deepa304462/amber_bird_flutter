@@ -38,6 +38,4 @@ class PrivacyHelpTermsSection extends StatelessWidget {
       ],
     );
   }
-
-  
 }

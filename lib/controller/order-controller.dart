@@ -21,8 +21,9 @@ class OrderController extends GetxController {
       orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);
       inspect(orderDetail.value);
       if (orderDetail.value.shipping != null &&
-          orderDetail.value.shipping!.dhlShipmentNumber != null) {
-        getShippingDhlData(orderDetail.value.shipping!.dhlShipmentNumber!);
+          orderDetail.value.shipping!.dhlShipmentNumbers!.length > 0) {
+        // Todo
+        getShippingDhlData(orderDetail.value.shipping!.dhlShipmentNumbers![0]);
       }
     }
   }

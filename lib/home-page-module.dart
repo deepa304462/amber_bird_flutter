@@ -50,8 +50,7 @@ class HomePageModule extends Module {
         children: [
           ChildRoute('/add-address', child: (_, args) => AddAddress()),
           ChildRoute('/main', child: (_, args) => MainPage()),
-         
-        
+
           ChildRoute(
             '/categoryProduct/:id',
             child: (_, args) {
@@ -59,8 +58,7 @@ class HomePageModule extends Module {
               return CategoryProductPage(productId);
             },
           ),
-         
-         
+
           ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {
@@ -76,14 +74,11 @@ class HomePageModule extends Module {
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
-          
-        
+
           ChildRoute('/brand', child: (_, args) => BrandPage()),
-        
-         
+
           // ChildRoute('/profile', child: (_, args) => ProfilePage()),
           ChildRoute('/search', child: (_, args) => SearchPage()),
-          
         ]),
   ];
 }

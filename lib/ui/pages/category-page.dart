@@ -77,7 +77,7 @@ class CategoryPage extends StatelessWidget {
                                 onTap: () {
                                   megaMenuController.selectedParentTab.value =
                                       megaMenuController.mainTabs[index].id ??
-                                          ''; 
+                                          '';
                                   megaMenuController.getSubMenu(
                                       megaMenuController.mainTabs[index]);
                                 },
@@ -124,7 +124,7 @@ class CategoryPage extends StatelessWidget {
                             onTap: () {
                               megaMenuController.selectedSubMenu.value =
                                   megaMenuController.subMenuList[index].id ??
-                                      ''; 
+                                      '';
                               megaMenuController.getAllProducts(
                                   megaMenuController.subMenuList[index],
                                   GenericTab(
@@ -222,7 +222,9 @@ class CategoryPage extends StatelessWidget {
       case 'SCOIN':
         return _scoinProductList(megaMenuController, context);
       case 'MSD':
-        return _MSDProductList(megaMenuController, context);
+        return _ProductList(megaMenuController, context, 'MSD');
+      case 'TAGS':
+        return _ProductList(megaMenuController, context, 'TAGS');
       default:
         return categoryProducts(megaMenuController, context);
     }
@@ -235,8 +237,8 @@ class CategoryPage extends StatelessWidget {
     );
   }
 
-  Widget _MSDProductList(
-      MegaMenuController megaMenuController, BuildContext context) {
+  Widget _ProductList(MegaMenuController megaMenuController,
+      BuildContext context, String type) {
     return Expanded(
       child: megaMenuController.productList.isNotEmpty
           ? MasonryGridView.count(
@@ -246,11 +248,11 @@ class CategoryPage extends StatelessWidget {
               itemCount: megaMenuController.productList.length,
               itemBuilder: (_, index) {
                 ProductSummary product = megaMenuController.productList[index];
-                return ProductCardScoin(
-                  fixedHeight: true,
+                return ProductCard(
+                  fixedHeight: false,
                   product,
                   product.id,
-                  'MSD',
+                  type,
                   product.varient!.price,
                   RuleConfig(),
                   Constraint(),
@@ -285,7 +287,7 @@ class CategoryPage extends StatelessWidget {
               itemBuilder: (_, index) {
                 ProductSummary product = megaMenuController.productList[index];
                 return ProductCardScoin(
-                  fixedHeight: true,
+                  fixedHeight: false,
                   product,
                   product.id,
                   'SCOIN',
@@ -293,13 +295,6 @@ class CategoryPage extends StatelessWidget {
                   RuleConfig(),
                   Constraint(),
                 );
-                // ProductCardScoin(
-                //     dealProduct.product,
-                //     dealProduct.product!.id,
-                //     megaMenuController.selectedParentTab.value,
-                //     dealProduct.product!.varient!.price!,
-                //     dealProduct.ruleConfig,
-                //     dealProduct.constraint);
               },
             )
           : Column(

@@ -29,7 +29,7 @@ class ProfilePage extends StatelessWidget {
         toolbarHeight: 50,
         leadingWidth: 50,
         backgroundColor: AppColors.primeColor,
-       leading: MaterialButton(
+        leading: MaterialButton(
           onPressed: () {
             // Navigator.pop(context);
             stateController.navigateToUrl('/home/main');

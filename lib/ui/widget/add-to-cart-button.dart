@@ -28,7 +28,7 @@ class AddToCartButtons extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                  padding: const EdgeInsets.fromLTRB(4,2,4,2),
+                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                   constraints: const BoxConstraints(),
                   onPressed: () => onDecrease(),
                   icon: const Icon(
@@ -43,7 +43,7 @@ class AddToCartButtons extends StatelessWidget {
                       TextStyles.headingFont.copyWith(color: AppColors.white),
                 ),
                 IconButton(
-                  padding: const EdgeInsets.fromLTRB(4,2,4,2),
+                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                   constraints: const BoxConstraints(),
                   onPressed: () => onIncrease(),
                   icon: Icon(

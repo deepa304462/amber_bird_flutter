@@ -224,12 +224,12 @@ class LoginWidget extends StatelessWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 authController.resetFieldValue();
-                                Modular.to.navigate('/signup'); 
+                                Modular.to.navigate('/signup');
                               }),
                       ],
                     ),
                   ),
-                 
+
                   PrivacyHelpTermsSection()
                 ],
               )),

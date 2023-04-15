@@ -54,7 +54,7 @@ class AppModule extends Module {
         ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
         ChildRoute('/cart', child: (_, args) => CartPage()),
         ChildRoute('/profile', child: (_, args) => ProfilePage()),
-          ChildRoute(
+        ChildRoute(
           '/brandProduct/:id',
           child: (_, args) {
             String productId = args.params['id'];
@@ -62,7 +62,7 @@ class AppModule extends Module {
           },
         ),
         ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-         ChildRoute(
+        ChildRoute(
           '/order-detail',
           child: (_, args) {
             String orderId = args.data['id'];

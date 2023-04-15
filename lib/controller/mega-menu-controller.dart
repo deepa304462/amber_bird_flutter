@@ -1,6 +1,8 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/data/product/product.tag.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/data/product_category/product_category.dart';
 import 'package:amber_bird/helpers/helper.dart';
@@ -83,16 +85,17 @@ class MegaMenuController extends GetxController {
           id: 'Deal',
           type: 'DEAL',
           text: 'Deal'));
+      cList.add(GenericTab(
+          image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+          id: 'Tags',
+          type: 'TAGS',
+          text: 'Hot'));
       // cList.add(GenericTab(
       //     image: '34038fcf-20e1-4840-a188-413b83d72e11',
       //     id: dealName.FLASH.name,
       //     type: 'DEAL',
       //     text: 'Flash'));
-      // cList.add(GenericTab(
-      //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-      //     id: dealName.SUPER_DEAL.name,
-      //     type: 'DEAL',
-      //     text: 'Hot'));
+
       // cList.add(GenericTab(
       //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
       //     id: dealName.EXCLUSIVE_DEAL.name,
@@ -108,11 +111,19 @@ class MegaMenuController extends GetxController {
           id: dealName.ONLY_COIN_DEAL.name,
           type: 'SCOIN',
           text: 'Redeem'));
-      cList.add(GenericTab(
-          image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
-          id: 'MSD',
-          type: 'MSD',
-          text: 'MSD'));
+
+      if (Get.isRegistered<Controller>()) {
+        var stateController = Get.find<Controller>();
+        var userType = stateController.userType.value;
+        if (userType != '' && userType != memberShipType.No_Membership.name) {
+          cList.add(GenericTab(
+              image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
+              id: 'MSD',
+              type: 'MSD',
+              text: 'MSD'));
+        }
+      }
+
       // cList.add(GenericTab(
       //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
       //     id: dealName.MEMBER_DEAL.name,
@@ -161,11 +172,13 @@ class MegaMenuController extends GetxController {
     selectedType.value = parentTab.type!;
     selectedParentTab.value = parentTab.id!;
     selectedSubMenu.value = parentTab.id!;
-    subMenuList.add(GenericTab(
-        text: 'All',
-        id: parentTab.id,
-        type: parentTab.text,
-        image: parentTab.image));
+    if (parentTab.type != 'TAGS') {
+      subMenuList.add(GenericTab(
+          text: 'All',
+          id: parentTab.id,
+          type: parentTab.text,
+          image: parentTab.image));
+    }
     isLoading.value = true;
     if (parentTab.type == 'DEAL') {
       var responseDeal = await ClientService.get(
@@ -245,6 +258,24 @@ class MegaMenuController extends GetxController {
             }).toList() ??
             []);
       }
+    } else if (parentTab.type == 'TAGS') {
+      var response =
+          await ClientService.post(path: 'productTag/search', payload: {});
+      if (response.statusCode == 200) {
+        List<ProductTag> tagList = ((response.data as List<dynamic>?)
+                ?.map((e) => ProductTag.fromMap(e as Map<String, dynamic>))
+                .toList() ??
+            []);
+        if (tagList.length > 0) {
+          selectedSubMenu.value = tagList[0].id ?? '';
+        }
+        tagList.forEach((element) {
+          var detail =
+              '${element.title!.defaultText != null ? element.title!.defaultText!.text : element.title!.languageTexts![0].text}';
+          subMenuList.add(GenericTab(
+              image: '', id: element.id, type: 'DEAL', text: detail));
+        });
+      }
     }
     isLoading.value = false;
     getAllProducts(subMenuList[0], parentTab);
@@ -283,7 +314,6 @@ class MegaMenuController extends GetxController {
             ((response.data as List<dynamic>?)?.map((e) {
                   ProductSummary productSummary =
                       ProductSummary.fromMap(e as Map<String, dynamic>);
-                  // productSummary.varients.
                   var list = productSummary.varients!
                       .where((i) => i.scoinPurchaseEnable!)
                       .toList();
@@ -295,8 +325,9 @@ class MegaMenuController extends GetxController {
         productList.value = dList;
         isLoading.value = false;
       }
-    } else if (parentTab.type == 'MSD') {
-      var payload = {"onlyMSDProducts": true};
+    } else if (parentTab.type == 'TAGS') {
+      var payload = {"tagId": selectedSubMenu.value};
+
       var response = await ClientService.searchQuery(
           path: 'product/searchSummary', query: payload, lang: 'en');
       if (response.statusCode == 200) {
@@ -304,12 +335,39 @@ class MegaMenuController extends GetxController {
             ((response.data as List<dynamic>?)?.map((e) {
                   ProductSummary productSummary =
                       ProductSummary.fromMap(e as Map<String, dynamic>);
-                  // productSummary.varients.
-                  var list = productSummary.varients!
-                      .where((i) => (i.msdApplicableProduct != null
-                          ? i.msdApplicableProduct!
-                          : false))
-                      .toList();
+                  return productSummary;
+                }).toList() ??
+                []);
+        productList.value = dList;
+      }
+      isLoading.value = false;
+    } else if (parentTab.type == 'MSD') {
+      var payload = {"onlyMSDProducts": true};
+      var response = await ClientService.searchQuery(
+          path: 'product/searchSummary', query: payload, lang: 'en');
+      if (response.statusCode == 200) {
+        var userType = '';
+        if (Get.isRegistered<Controller>()) {
+          var stateController = Get.find<Controller>();
+          userType = stateController.userType.value;
+        }
+        List<ProductSummary> dList =
+            ((response.data as List<dynamic>?)?.map((e) {
+                  ProductSummary productSummary =
+                      ProductSummary.fromMap(e as Map<String, dynamic>);
+                  var list = productSummary.varients!.where((i) {
+                    var valid = false;
+                    // if((i.price!.membersSpecialPrice!.onlyForGoldMember!) && userType == memberShipType.Gold.name){
+                    //   valid = true;
+                    // }else if((i.price!.membersSpecialPrice!.onlyForPlatinumMember!) && userType == memberShipType.Platinum.name){
+                    //   valid = true;
+                    // } else if ((i.price!.membersSpecialPrice!
+                    //         .onlyForSilverMember!) &&
+                    //     userType == memberShipType.Silver.name) {
+                    //   valid = true;
+                    // } 
+                    return i.msdApplicableProduct!;
+                  }).toList();
                   if (list.length > 0) {
                     productSummary.varient = list[0];
                     productSummary.varients = list;
@@ -319,9 +377,11 @@ class MegaMenuController extends GetxController {
                   }
                 }).toList() ??
                 []);
-        productList.value = dList;
+
+        List<ProductSummary> dList2 = dList.where((i) => i.id != null).toList();
+        productList.value = dList2;
       }
-      isLoading.value =false;
+      isLoading.value = false;
     } else if (parentTab.type == 'DEAL') {
       // getDealProduct(subMenu, parentTab.id!);
       getDealProduct(subMenu, subMenu.id!);

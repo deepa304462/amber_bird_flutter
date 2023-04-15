@@ -14,6 +14,7 @@ class Order {
   Ref? customerRef;
   List<ProductOrder>? products;
   List<ProductOrder>? productsViaSCoins;
+  List<ProductOrder>? msdApplicableProducts;
   String? status;
   Shipping? shipping;
   Ref? shareLink;
@@ -27,6 +28,7 @@ class Order {
     this.payment,
     this.products,
     this.productsViaSCoins,
+    this.msdApplicableProducts,
     this.status,
     this.shipping,
     this.customerRef,
@@ -39,7 +41,7 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(metaData: $metaData, payment: $payment, products: $products,productsViaSCoins: $productsViaSCoins, status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
+    return 'Order(metaData: $metaData, payment: $payment, products: $products,productsViaSCoins: $productsViaSCoins, msdApplicableProducts:$msdApplicableProducts,status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
   }
 
   factory Order.fromMap(Map<String, dynamic> data) => Order(
@@ -53,6 +55,9 @@ class Order {
             ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
             .toList(),
         productsViaSCoins: (data['productsViaSCoins'] as List<dynamic>?)
+            ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        msdApplicableProducts: (data['msdApplicableProducts'] as List<dynamic>?)
             ?.map((e) => ProductOrder.fromMap(e as Map<String, dynamic>))
             .toList(),
         status: data['status'] as String?,
@@ -76,6 +81,8 @@ class Order {
         'payment': payment?.toMap(),
         'products': products?.map((e) => e.toMap()).toList(),
         'productsViaSCoins': productsViaSCoins?.map((e) => e.toMap()).toList(),
+        'msdApplicableProducts':
+            productsViaSCoins?.map((e) => e.toMap()).toList(),
         'status': status,
         'shipping': shipping?.toMap(),
         'customerRef': customerRef?.toMap(),
@@ -103,6 +110,7 @@ class Order {
     Payment? payment,
     List<ProductOrder>? products,
     List<ProductOrder>? productsViaSCoins,
+    List<ProductOrder>? msdApplicableProducts,
     String? status,
     Shipping? shipping,
     Ref? customerRef,
@@ -116,6 +124,8 @@ class Order {
       metaData: metaData ?? this.metaData,
       payment: payment ?? this.payment,
       products: products ?? this.products,
+      msdApplicableProducts:
+          msdApplicableProducts ?? this.msdApplicableProducts,
       productsViaSCoins: productsViaSCoins ?? this.productsViaSCoins,
       status: status ?? this.status,
       shipping: shipping ?? this.shipping,

@@ -182,74 +182,73 @@ class AppBarShrinkWidget extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-         SearchWidget(),
-            
+        SearchWidget(),
+
         const SizedBox(
           width: 10,
         ),
-         Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Showcase(
-                key: stateController.showKeyMap['refer']!.key,
-                description: stateController.showKeyMap['refer']!.desc,
-                title: stateController.showKeyMap['refer']!.title,
-                child: IconButton(
-                    onPressed: () => {Modular.to.pushNamed('/refer-page')},
-                    icon: Icon(Icons.share, color: AppColors.DarkGrey)),
-              ),
-              Showcase(
-                key: stateController.showKeyMap['coinWallet']!.key,
-                description: stateController.showKeyMap['coinWallet']!.desc,
-                title: stateController.showKeyMap['coinWallet']!.title,
-                child: Stack(
-                  fit: StackFit.loose,
-                  children: [
-                    IconButton(
-                      // padding: EdgeInsets.all(0),
-                      onPressed: () {
-                        if (stateController.isLogin.value) {
-                          Modular.to.pushNamed('/wallet');
-                        } else {
-                          Modular.to.navigate('/login');
-                        }
-                      },
-                      icon: Icon(FontAwesomeIcons.coins,
-                          color: AppColors.DarkGrey),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        if (stateController.isLogin.value) {
-                          Modular.to.pushNamed('/wallet');
-                        } else {
-                          Modular.to.navigate('/login');
-                        }
-                      },
-                      child: Card(
-                        color: Colors.yellow[700],
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Obx(
-                            () => Text(
-                                stateController.customerDetail.value
-                                            .personalInfo !=
-                                        null
-                                    ? stateController.customerDetail.value
-                                        .personalInfo!.scoins
-                                        .toString()
-                                    : '0',
-                                style: TextStyles.bodySm),
-                          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Showcase(
+              key: stateController.showKeyMap['refer']!.key,
+              description: stateController.showKeyMap['refer']!.desc,
+              title: stateController.showKeyMap['refer']!.title,
+              child: IconButton(
+                  onPressed: () => {Modular.to.pushNamed('/refer-page')},
+                  icon: Icon(Icons.share, color: AppColors.DarkGrey)),
+            ),
+            Showcase(
+              key: stateController.showKeyMap['coinWallet']!.key,
+              description: stateController.showKeyMap['coinWallet']!.desc,
+              title: stateController.showKeyMap['coinWallet']!.title,
+              child: Stack(
+                fit: StackFit.loose,
+                children: [
+                  IconButton(
+                    // padding: EdgeInsets.all(0),
+                    onPressed: () {
+                      if (stateController.isLogin.value) {
+                        Modular.to.pushNamed('/wallet');
+                      } else {
+                        Modular.to.navigate('/login');
+                      }
+                    },
+                    icon:
+                        Icon(FontAwesomeIcons.coins, color: AppColors.DarkGrey),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      if (stateController.isLogin.value) {
+                        Modular.to.pushNamed('/wallet');
+                      } else {
+                        Modular.to.navigate('/login');
+                      }
+                    },
+                    child: Card(
+                      color: Colors.yellow[700],
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Obx(
+                          () => Text(
+                              stateController
+                                          .customerDetail.value.personalInfo !=
+                                      null
+                                  ? stateController
+                                      .customerDetail.value.personalInfo!.scoins
+                                      .toString()
+                                  : '0',
+                              style: TextStyles.bodySm),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-         
+            ),
+          ],
+        ),
       ],
     );
   }

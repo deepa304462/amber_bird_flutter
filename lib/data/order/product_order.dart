@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
+import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 
 class ProductOrder {

@@ -3,10 +3,10 @@ import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
+ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -133,10 +133,9 @@ class ProductCardScoin extends StatelessWidget {
         children: [
           Text(
             product.name!.defaultText!.text ?? '',
-              overflow: this.fixedHeight
-                      ? TextOverflow.ellipsis
-                      : TextOverflow.visible,
-                  style: TextStyles.body,
+            overflow:
+                this.fixedHeight ? TextOverflow.ellipsis : TextOverflow.visible,
+            style: TextStyles.body,
           ),
           Wrap(
             alignment: WrapAlignment.start,
@@ -321,11 +320,8 @@ class ProductCardScoin extends StatelessWidget {
                                         dealPrice!,
                                         stateController.userType.value,
                                         cartController.cartProductsScoins.value,
-                                        stateController
-                                            .customerDetail
-                                            .value
-                                            .coinWalletDetail!
-                                            .totalActiveCoins,
+                                        stateController.customerDetail.value
+                                            .coinWalletDetail!.totalActiveCoins,
                                         cartController.getCurrentQuantity(
                                             '$refId@${activeVariant.value.varientCode}',
                                             'SCOIN'));

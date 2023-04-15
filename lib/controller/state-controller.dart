@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
@@ -165,6 +166,7 @@ class Controller extends GetxController {
       customerDetail.value = cust;
       if (customerDetail.value.personalInfo != null) {
         userType.value = customerDetail.value.personalInfo!.membershipType!;
+        callGetCategory();
       }
       var cartController =
           ControllerGenerator.create(CartController(), tag: 'cartController');
@@ -390,4 +392,11 @@ class Controller extends GetxController {
     }
     return userType.toString();
   }
+}
+
+void callGetCategory() {
+  MegaMenuController megaMenuController = ControllerGenerator.create(
+      MegaMenuController(),
+      tag: 'megaMenuController');
+  megaMenuController.getCategory();
 }

@@ -176,7 +176,7 @@ class ClientService {
       header['Authorization'] = 'Bearer $token';
     }
     header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
-    log(jsonEncode(payload));
+    // log(jsonEncode(payload));
     try {
       switch (method) {
         case RESTMethod.GET:

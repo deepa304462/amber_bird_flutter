@@ -17,33 +17,33 @@ class SpointsPage extends StatelessWidget {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                AppColors.primeColor,
-                AppColors.primeColor.withOpacity(.8),
-              ],
-            ),
-          ),
-       child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Membership',
-                style: TextStyles.headingFont.copyWith(color: Colors.white),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  AppColors.primeColor,
+                  AppColors.primeColor.withOpacity(.8),
+                ],
               ),
-              Text(
-                stateController.getMemberShipText(),
-                style: TextStyles.titleFont.copyWith(color: Colors.white),
-              )
-            ],
-          ),
-        )),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Membership',
+                    style: TextStyles.headingFont.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    stateController.getMemberShipText(),
+                    style: TextStyles.titleFont.copyWith(color: Colors.white),
+                  )
+                ],
+              ),
+            )),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.3,
           child: Obx(
@@ -57,7 +57,9 @@ class SpointsPage extends StatelessWidget {
                 ...walletController.membershipInfo.value.map(
                   (element) {
                     return Container(
-                      color: stateController.userType.value == element.id ? AppColors.golden :AppColors.grey,
+                      color: stateController.userType.value == element.id
+                          ? AppColors.golden
+                          : AppColors.grey,
                       child: Column(
                         // mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,

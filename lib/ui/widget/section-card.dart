@@ -1,6 +1,6 @@
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/data/order/address.dart';
- import 'package:amber_bird/ui/widget/fit-text.dart';
+import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/location-dialog.dart';
 import 'package:amber_bird/ui/widget/web-page-viewer.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +30,6 @@ Widget sectionCard(String title, String subtitle, Function() onTap) {
   );
 }
 
-
 openWebPage(String url, BuildContext context) {
   showModalBottomSheet(
       context: context,
@@ -42,7 +41,6 @@ openWebPage(String url, BuildContext context) {
             child: WebPageViewer(url));
       });
 }
-
 
 Widget addressCard(BuildContext context, LocationController locationController,
     int index, Address address, Map Function() onTap) {
@@ -74,8 +72,6 @@ Widget addressCard(BuildContext context, LocationController locationController,
     ),
   );
 }
-
-
 
 displayLocationDialog(
     BuildContext context, LocationController locationController, String type) {

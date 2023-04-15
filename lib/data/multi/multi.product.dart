@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
-import 'package:amber_bird/data/deal_product/product.dart';
+ import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/price/price.dart';
 
 class Multi {
   MetaData? metaData;

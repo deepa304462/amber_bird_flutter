@@ -142,7 +142,7 @@ class HomePage extends StatelessWidget {
               },
               items: [
                 BottomNavItem(
-                    imgIcon:'assets/insidelogo.png',
+                    imgIcon: 'assets/insidelogo.png',
                     icon: Icons.home,
                     label: "Home",
                     selectedColor: Colors.red.shade900,

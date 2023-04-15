@@ -1,4 +1,4 @@
-import 'package:amber_bird/data/deal_product/price.dart';
+ import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 

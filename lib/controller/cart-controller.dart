@@ -8,13 +8,13 @@ import 'package:amber_bird/data/checkout/order_product_availability_status.dart'
 import 'package:amber_bird/data/coupon_code/coupon_code.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
-import 'package:amber_bird/data/deal_product/price.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/order/product_order.dart';
+import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -29,6 +29,7 @@ class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
   RxMap<String, ProductOrder> cartProductsScoins = <String, ProductOrder>{}.obs;
   RxMap<String, ProductOrder> saveLaterProducts = <String, ProductOrder>{}.obs;
+  RxMap<String, ProductOrder> msdProducts = <String, ProductOrder>{}.obs;
   final checkoutData = Rxn<Checkout>();
   final paymentData = Rxn<Payment>();
   final scoinCheckoutData = Rxn<Checkout>();
@@ -60,11 +61,15 @@ class CartController extends GetxController {
   checkout() async {
     List<dynamic> listSumm = [];
     List<dynamic> listScoins = [];
+    List<dynamic> listMsd = [];
     for (var v in cartProducts.value.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
     for (var v in cartProductsScoins.value.values) {
       listScoins.add((jsonDecode(v.toJson())));
+    }
+    for (var v in msdProducts.value.values) {
+      listMsd.add((jsonDecode(v.toJson())));
     }
     if (listScoins.length > 0 && listSumm.length > 0) {
       selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
@@ -98,6 +103,7 @@ class CartController extends GetxController {
               'customerRef': (jsonDecode(custRef.toJson())),
               'products': listSumm,
               'productsViaSCoins': listScoins,
+              'msdApplicableProducts': listMsd,
               "payment": {
                 "paidBy": (jsonDecode(custRef.toJson())),
                 "order": orderId.value != ''
@@ -137,6 +143,7 @@ class CartController extends GetxController {
               'customerRef': (jsonDecode(custRef.toJson())),
               'products': listSumm,
               'productsViaSCoins': listScoins,
+              'msdApplicableProducts': listMsd,
               "payment": {
                 "paidBy": (jsonDecode(custRef.toJson())),
                 "currency": "EUR", //{"currencyCode": "USD"},
@@ -198,20 +205,20 @@ class CartController extends GetxController {
   }
 
   calculateTotalCost() {
-    Price pr = Price.fromMap({'actualPrice': 0, 'offerPrice': 0});
+    Price pr = Price.fromMap({'actualPrice': 0.0, 'offerPrice': 0.0});
     for (var v in cartProducts.value.values) {
-      pr.actualPrice += v.price!.actualPrice;
-      pr.offerPrice += v.price!.actualPrice;
+      pr.actualPrice = pr.actualPrice! + v.price!.actualPrice!;
+      pr.offerPrice = pr.offerPrice! + v.price!.actualPrice!;
     }
     if (selectedCoupon.value != null) {
       var reward = selectedCoupon.value.reward;
       if (reward?.discountUptos != null) {
-        pr.offerPrice -= reward?.discountUptos;
+        pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
       } else if (reward?.flatDiscount != null) {
-        pr.offerPrice -= reward?.discountUptos;
+        pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
       } else if (reward?.discountPercent != null) {
-        var disc = (pr.offerPrice * reward?.discountPercent) / 100;
-        pr.offerPrice -= disc;
+        var disc = (pr.offerPrice! * reward?.discountPercent) / 100;
+        pr.offerPrice = pr.offerPrice! - disc;
       }
     }
     totalPrice.value = pr;
@@ -221,7 +228,7 @@ class CartController extends GetxController {
     double total = 0.0;
     List<dynamic> listSumm = [];
     for (var v in cartProducts.value.values) {
-      total += v.price!.offerPrice;
+      total += v.price!.offerPrice!;
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
@@ -240,10 +247,10 @@ class CartController extends GetxController {
         var resp1 = await ClientService.post(
             path: 'payment/search', payload: {"orderId": orderId.value});
         if (resp1.statusCode == 200) {
-          if (resp1.data.length > 0 && resp1.data[resp1.data.length-1] != null) {
-
-            paymentData.value =
-                Payment.fromMap(resp1.data[resp1.data.length-1] as Map<String, dynamic>);
+          if (resp1.data.length > 0 &&
+              resp1.data[resp1.data.length - 1] != null) {
+            paymentData.value = Payment.fromMap(
+                resp1.data[resp1.data.length - 1] as Map<String, dynamic>);
             if (paymentData.value!.checkoutUrl != null) {
               return ({'error': false, 'data': paymentData.value!.checkoutUrl});
             } else {
@@ -383,13 +390,13 @@ class CartController extends GetxController {
     if (customerInsightDetail['_id'] == null) {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
-      double price = (priceInfo!.offerPrice).toDouble();
+      double price = (priceInfo!.offerPrice!).toDouble();
       List li = [];
       if (products != null) {
         for (var element in products) {
           li.add(element.toJson());
           if (priceInfo == null) {
-            price = price + element.varient!.price!.offerPrice;
+            price = price + element.varient!.price!.offerPrice!;
           }
           if (getData != null) {
             quantity = getData.count!;
@@ -433,6 +440,73 @@ class CartController extends GetxController {
     await createOrder();
   }
 
+  Future<void> addToCartMSD(
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint,
+      Varient? varient,
+      {String? mutliProductName}) async {
+    clearCheckout();
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    if (customerInsightDetail['_id'] == null) {
+      var getData = cartProducts[refId];
+      int quantity = 0 + addQuantity!;
+      double price = (priceInfo!.offerPrice!);
+      List li = [];
+      if (products != null) {
+        for (var element in products) {
+          li.add(element.toJson());
+          if (priceInfo == null) {
+            price = price + element.varient!.price!.offerPrice!;
+          }
+          if (getData != null) {
+            quantity = getData.count!;
+            quantity = quantity + addQuantity;
+          } else {}
+        }
+      } else {
+        if (getData != null) {
+          quantity = getData.count!;
+          quantity = quantity + addQuantity;
+        }
+        product!.varient = varient;
+      }
+      if (quantity > 0) {
+        ProductOrder cartRow = ProductOrder.fromMap({
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
+          'product': product != null ? (jsonDecode(product.toJson())) : null,
+          'count': quantity,
+          'ref': {'_id': refId, 'name': addedFrom},
+          'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
+          'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
+          'productType': li.isNotEmpty ? null : product!.type,
+          'name': mutliProductName ?? '',
+          'price': {
+            'actualPrice': price,
+            'memberCoin': 0,
+            'primeMemberCoin': 0,
+            'goldMemberCoin': 0,
+            'silverMemberCoin': 0,
+            'offerPrice': price
+          }
+        });
+        msdProducts[refId] = cartRow;
+      } else {
+        removeProduct(refId, '');
+        return;
+      }
+    } else {}
+    await createOrder();
+  }
+
   Future<void> addToCartScoins(
       String refId,
       String addedFrom,
@@ -451,15 +525,15 @@ class CartController extends GetxController {
       int quantity = 0 + addQuantity!;
       List li = [];
       var userType = null;
-      var priceObj = {
-        'actualPrice': 0,
-        'offerPrice': 0,
-        'noMemberCoin': 0,
-        'platinumMemberCoin': 0,
-        'goldMemberCoin': 0,
-        'silverMemberCoin': 0,
-        'paidMemberCoin': 0,
-      };
+      // var priceObj = {
+      //   'actualPrice': 0.0,
+      //   'offerPrice':  0.0,
+      //   'noMemberCoin':  0.0,
+      //   'platinumMemberCoin':  0.0,
+      //   'goldMemberCoin':  0.0,
+      //   'silverMemberCoin':  0.0,
+      //   'paidMemberCoin':  0.0,
+      // };
       if (Get.isRegistered<Controller>()) {
         var stateController = Get.find<Controller>();
         userType = stateController.userType.value;
@@ -469,21 +543,21 @@ class CartController extends GetxController {
         quantity = quantity + addQuantity;
       }
 
-      if (userType != null) {
-        if (userType == memberShipType.Gold.name) {
-          priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin;
-        } else if (userType == memberShipType.Platinum.name) {
-          priceObj['platinumMemberCoin'] = priceInfo!.platinumMemberCoin;
-        } else if (userType == memberShipType.Silver.name) {
-          priceObj['silverMemberCoin'] = priceInfo!.silverMemberCoin;
-        } else if (userType == memberShipType.Paid.name) {
-          priceObj['paidMemberCoin'] = priceInfo!.paidMemberCoin;
-        } else {
-          priceObj['noMemberCoin'] = priceInfo!.noMemberCoin;
-        }
-      } else {
-        priceObj['noMemberCoin'] = priceInfo!.noMemberCoin;
-      }
+      // if (userType != null) {
+      //   if (userType == memberShipType.Gold.name) {
+      //     priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin!;
+      //   } else if (userType == memberShipType.Platinum.name) {
+      //     priceObj['platinumMemberCoin'] = priceInfo!.platinumMemberCoin!;
+      //   } else if (userType == memberShipType.Silver.name) {
+      //     priceObj['silverMemberCoin'] = priceInfo!.silverMemberCoin!;
+      //   } else if (userType == memberShipType.Paid.name) {
+      //     priceObj['paidMemberCoin'] = priceInfo!.paidMemberCoin!;
+      //   } else {
+      //     priceObj['noMemberCoin'] = priceInfo!.noMemberCoin!;
+      //   }
+      // } else {
+      //   priceObj['noMemberCoin'] = priceInfo!.noMemberCoin!;
+      // }
 
       product!.varient = varient;
       // }
@@ -498,7 +572,7 @@ class CartController extends GetxController {
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product.type,
-          'price': (jsonDecode(jsonEncode(priceObj)) ?? "{}")
+          'price': (jsonDecode( priceInfo!.toJson()) ?? "{}")
         });
         cartProductsScoins[refId] = cartRow;
       } else {
@@ -562,6 +636,7 @@ class CartController extends GetxController {
   createOrder() async {
     List<dynamic> listSumm = [];
     List<dynamic> listScoins = [];
+    List<dynamic> listMsd = [];
 
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -571,6 +646,9 @@ class CartController extends GetxController {
     }
     for (var v in cartProductsScoins.value.values) {
       listScoins.add((jsonDecode(v.toJson())));
+    }
+    for (var v in msdProducts.value.values) {
+      listMsd.add((jsonDecode(v.toJson())));
     }
     if (listScoins.length > 0 && listSumm.length > 0) {
       selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
@@ -588,6 +666,7 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         'productsViaSCoins': listScoins,
+        'msdApplicableProducts': listMsd,
         '_id': cust.cart!.id!,
         'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
         "payment": {
@@ -616,6 +695,7 @@ class CartController extends GetxController {
         'customerRef': (jsonDecode(custRef.toJson())),
         'products': listSumm,
         'productsViaSCoins': listScoins,
+        'msdApplicableProducts': listMsd,
         "payment": {
           "paidBy": (jsonDecode(custRef.toJson())),
           "order": {"name": custRef.id, "_id": orderId.value},
@@ -655,6 +735,13 @@ class CartController extends GetxController {
       } else {
         return false;
       }
+    }
+    if (type == 'MSD') {
+      if (msdProducts[key] != null) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       if (cartProducts[key] != null) {
         return true;
@@ -668,6 +755,13 @@ class CartController extends GetxController {
     if (type == 'SCOIN') {
       if (cartProductsScoins[key] != null) {
         return cartProductsScoins[key]!.count!;
+      } else {
+        return 0;
+      }
+    }
+    if (type == 'MSD') {
+      if (msdProducts[key] != null) {
+        return msdProducts[key]!.count!;
       } else {
         return 0;
       }
@@ -732,7 +826,7 @@ class CartController extends GetxController {
     }
   }
 
-  searchCoupon(String name){
+  searchCoupon(String name) {
     return null;
   }
 
@@ -742,43 +836,42 @@ class CartController extends GetxController {
     //   var cartController =
     //       ControllerGenerator.create(CartController(), tag: 'cartController');
 
-      if (coupon.condition!.expireAtTime != null && valid) {
-        String expire = coupon.condition!.expireAtTime ?? '';
-        var newDate = DateTime.now().toUtc();
-        var difference = DateTime.parse(expire).difference(newDate);
-        if (difference.isNegative) {
-          valid = false;
-        }
+    if (coupon.condition!.expireAtTime != null && valid) {
+      String expire = coupon.condition!.expireAtTime ?? '';
+      var newDate = DateTime.now().toUtc();
+      var difference = DateTime.parse(expire).difference(newDate);
+      if (difference.isNegative) {
+        valid = false;
       }
-      if (coupon.condition!.maxCartAmount != null && valid) {
-        if (calculatedPayment.value.totalAmount <=
-            coupon.condition!.maxCartAmount) {
-          valid = false;
-        }
+    }
+    if (coupon.condition!.maxCartAmount != null && valid) {
+      if (calculatedPayment.value.totalAmount <=
+          coupon.condition!.maxCartAmount) {
+        valid = false;
       }
-      if (coupon.condition!.applicableForProfileRef != null) {
-        Ref custRef = await Helper.getCustomerRef();
-        if (coupon.condition!.applicableForProfileRef?.id != custRef.id) {
-          valid = false;
-        }
+    }
+    if (coupon.condition!.applicableForProfileRef != null) {
+      Ref custRef = await Helper.getCustomerRef();
+      if (coupon.condition!.applicableForProfileRef?.id != custRef.id) {
+        valid = false;
       }
-      if (coupon.condition!.firstTimePurchase != null && valid) {
-        Ref custRef = await Helper.getCustomerRef();
-        var customerInsightDetail =
-            await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-        if (coupon.condition!.firstTimePurchase == true &&
-            customerInsightDetail['orders'] != null &&
-            customerInsightDetail['orders'].length != null) {
-          valid = false;
-        }
+    }
+    if (coupon.condition!.firstTimePurchase != null && valid) {
+      Ref custRef = await Helper.getCustomerRef();
+      var customerInsightDetail =
+          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+      if (coupon.condition!.firstTimePurchase == true &&
+          customerInsightDetail['orders'] != null &&
+          customerInsightDetail['orders'].length != null) {
+        valid = false;
       }
-      if (coupon.reward!.discountUptos != null && valid) {
-        if (coupon.reward!.discountUptos <=
-            calculatedPayment.value.totalAmount) {
-          valid = false;
-        }
+    }
+    if (coupon.reward!.discountUptos != null && valid) {
+      if (coupon.reward!.discountUptos <= calculatedPayment.value.totalAmount) {
+        valid = false;
       }
-     
+    }
+
     return valid;
   }
 }

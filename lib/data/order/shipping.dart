@@ -10,7 +10,7 @@ class Shipping {
   String? finalStatus;
   LastMovement? lastMovement;
   String? businessId;
-  String? dhlShipmentNumber;
+  List<String>? dhlShipmentNumbers;
 
   Shipping(
       {this.source,
@@ -19,11 +19,11 @@ class Shipping {
       this.finalStatus,
       this.lastMovement,
       this.businessId,
-      this.dhlShipmentNumber});
+      this.dhlShipmentNumbers});
 
   @override
   String toString() {
-    return 'Shipping(source: $source, destination: $destination, orderRef: $orderRef, finalStatus: $finalStatus, lastMovement: $lastMovement, businessId: $businessId,dhlShipmentNumber:$dhlShipmentNumber)';
+    return 'Shipping(source: $source, destination: $destination, orderRef: $orderRef, finalStatus: $finalStatus, lastMovement: $lastMovement, businessId: $businessId,dhlShipmentNumbers:$dhlShipmentNumbers)';
   }
 
   factory Shipping.fromMap(Map<String, dynamic> data) => Shipping(
@@ -42,7 +42,9 @@ class Shipping {
             : LastMovement.fromMap(
                 data['lastMovement'] as Map<String, dynamic>),
         businessId: data['businessId'] as String?,
-        dhlShipmentNumber: data['dhlShipmentNumber'] as String?,
+        dhlShipmentNumbers: (data['dhlShipmentNumbers'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
       );
 
   Map<String, dynamic> toMap() => {
@@ -52,7 +54,7 @@ class Shipping {
         'finalStatus': finalStatus,
         'lastMovement': lastMovement?.toMap(),
         'businessId': businessId,
-        'dhlShipmentNumber': dhlShipmentNumber
+        'dhlShipmentNumber': dhlShipmentNumbers
       };
 
   /// `dart:convert`
@@ -74,7 +76,7 @@ class Shipping {
       String? finalStatus,
       LastMovement? lastMovement,
       String? businessId,
-      String? dhlShipmentNumber}) {
+      List<String>? dhlShipmentNumbers}) {
     return Shipping(
         source: source ?? this.source,
         destination: destination ?? this.destination,
@@ -82,6 +84,6 @@ class Shipping {
         finalStatus: finalStatus ?? this.finalStatus,
         lastMovement: lastMovement ?? this.lastMovement,
         businessId: businessId ?? this.businessId,
-        dhlShipmentNumber: dhlShipmentNumber ?? this.dhlShipmentNumber);
+        dhlShipmentNumbers: dhlShipmentNumbers ?? this.dhlShipmentNumbers);
   }
 }
