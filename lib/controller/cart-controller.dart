@@ -169,7 +169,7 @@ class CartController extends GetxController {
             };
             resp1 = await ClientService.post(path: 'order', payload: payload);
           }
-          dev.log(jsonEncode(resp1.data).toString());
+          // dev.log(jsonEncode(resp1.data).toString());
           if (resp1.statusCode == 200) {
             if (orderId.value == '') orderId.value = resp1.data['_id'];
             // var ord = Order.fromMap(resp1.data);
@@ -727,7 +727,7 @@ class CartController extends GetxController {
       };
       resp = await ClientService.post(path: 'order', payload: payload);
     }
-    dev.log(jsonEncode(resp.data).toString());
+    // dev.log(jsonEncode(resp.data).toString());
     if (resp.statusCode == 200) {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);

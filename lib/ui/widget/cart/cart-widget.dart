@@ -36,7 +36,9 @@ class CartWidget extends StatelessWidget {
         decoration: const BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
         child: Obx(
-          () => (cartController.cartProducts.isNotEmpty || cartController.cartProductsScoins.isNotEmpty|| cartController.msdProducts.isNotEmpty) &&
+          () => (cartController.cartProducts.isNotEmpty ||
+                      cartController.cartProductsScoins.isNotEmpty ||
+                      cartController.msdProducts.isNotEmpty) &&
                   cartController.calculatedPayment.value.totalAmount != null &&
                   cartController.calculatedPayment.value.totalAmount as double >
                       0
@@ -201,12 +203,11 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-
-   msdPRoductList(context, cartController) {
+  msdPRoductList(context, cartController) {
     return Obx(
       (() => ListView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), 
+            physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: cartController.msdProducts.length,
             itemBuilder: (_, index) {
@@ -331,24 +332,26 @@ class CartWidget extends StatelessWidget {
                                                       msg = data['msg'];
                                                     }
                                                     if (valid) {
-                                                      await cartController.addToCartMSD(
-                                                          '${currentProduct.ref!.id}',
-                                                          currentProduct
-                                                              .ref!.name!,
-                                                          minOrder,
-                                                          currentProduct.price,
-                                                          null,
-                                                          currentProduct
-                                                              .products,
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          null,
-                                                          mutliProductName:
+                                                      await cartController
+                                                          .addToCartMSD(
+                                                              '${currentProduct.ref!.id}',
                                                               currentProduct
-                                                                      .name ??
-                                                                  "");
+                                                                  .ref!.name!,
+                                                              minOrder,
+                                                              currentProduct
+                                                                  .price,
+                                                              null,
+                                                              currentProduct
+                                                                  .products,
+                                                              currentProduct
+                                                                  .ruleConfig,
+                                                              currentProduct
+                                                                  .constraint,
+                                                              null,
+                                                              mutliProductName:
+                                                                  currentProduct
+                                                                          .name ??
+                                                                      "");
                                                     } else {
                                                       var showToast =
                                                           snackBarClass
@@ -412,24 +415,26 @@ class CartWidget extends StatelessWidget {
                                                       msg = data['msg'];
                                                     }
                                                     if (valid) {
-                                                      await cartController.addToCartMSD(
-                                                          '${currentProduct.ref!.id}',
-                                                          currentProduct
-                                                              .ref!.name!,
-                                                          minOrder,
-                                                          currentProduct.price,
-                                                          null,
-                                                          currentProduct
-                                                              .products,
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          null,
-                                                          mutliProductName:
+                                                      await cartController
+                                                          .addToCartMSD(
+                                                              '${currentProduct.ref!.id}',
                                                               currentProduct
-                                                                      .name ??
-                                                                  '');
+                                                                  .ref!.name!,
+                                                              minOrder,
+                                                              currentProduct
+                                                                  .price,
+                                                              null,
+                                                              currentProduct
+                                                                  .products,
+                                                              currentProduct
+                                                                  .ruleConfig,
+                                                              currentProduct
+                                                                  .constraint,
+                                                              null,
+                                                              mutliProductName:
+                                                                  currentProduct
+                                                                          .name ??
+                                                                      '');
                                                     } else {
                                                       var showToast =
                                                           snackBarClass
@@ -521,7 +526,7 @@ class CartWidget extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${CodeHelp.euro}${Helper.getFormattedNumber(Helper.getMsdAmount(price: currentProduct.price!, userType: stateController.userType.value ) * currentProduct.count).toString()}',
+                                      '${CodeHelp.euro}${Helper.getFormattedNumber(Helper.getMsdAmount(price: currentProduct.price!, userType: stateController.userType.value) * currentProduct.count).toString()}',
                                       style: TextStyles.headingFont,
                                     ),
                                     Card(
@@ -683,8 +688,6 @@ class CartWidget extends StatelessWidget {
           )),
     );
   }
-
- 
 
   scoinPRoductList(context, cartController) {
     return Obx(
@@ -883,14 +886,11 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-
-
   productListWidget(context, cartController) {
     return Obx(
       (() => ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            // physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemCount: cartController.cartProducts.length,
             itemBuilder: (_, index) {
@@ -983,11 +983,13 @@ class CartWidget extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController.showLoader.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
+                                                    stateController.showLoader
+                                                        .value = true;
                                                     var valid = false;
-                                                    var msg = 'Something went wrong!';
+                                                    var msg =
+                                                        'Something went wrong!';
 
                                                     // if (currentProduct
                                                     //             .ruleConfig !=
@@ -1013,24 +1015,23 @@ class CartWidget extends StatelessWidget {
                                                     //   msg = data['msg'];
                                                     // }
                                                     // if (valid) {
-                                                      await cartController.addToCart(
-                                                          '${currentProduct.ref!.id}',
-                                                          currentProduct
-                                                              .ref!.name!,
-                                                          -minOrder,
-                                                          currentProduct.price,
-                                                          null,
-                                                          currentProduct
-                                                              .products,
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          null,
-                                                          mutliProductName:
-                                                              currentProduct
-                                                                      .name ??
-                                                                  "");
+                                                    await cartController.addToCart(
+                                                        '${currentProduct.ref!.id}',
+                                                        currentProduct
+                                                            .ref!.name!,
+                                                        -minOrder,
+                                                        currentProduct.price,
+                                                        null,
+                                                        currentProduct.products,
+                                                        currentProduct
+                                                            .ruleConfig,
+                                                        currentProduct
+                                                            .constraint,
+                                                        null,
+                                                        mutliProductName:
+                                                            currentProduct
+                                                                    .name ??
+                                                                "");
                                                     // } else {
                                                     //   var showToast =
                                                     //       snackBarClass
@@ -1038,7 +1039,8 @@ class CartWidget extends StatelessWidget {
                                                     //               context, msg);
                                                     // }
                                                   }
-                                                  stateController.showLoader.value = false;
+                                                  stateController
+                                                      .showLoader.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.remove_circle_outline,
@@ -1061,10 +1063,10 @@ class CartWidget extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController
-                                                      .showLoader.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
+                                                    stateController.showLoader
+                                                        .value = true;
                                                     var valid = false;
                                                     var msg =
                                                         'Something went wrong!';
@@ -1112,10 +1114,8 @@ class CartWidget extends StatelessWidget {
                                                                       .name ??
                                                                   '');
                                                     } else {
-                                                      var showToast =
-                                                          snackBarClass
-                                                              .showToast(
-                                                                  context, msg);
+                                                      snackBarClass.showToast(
+                                                          context, msg);
                                                     }
                                                   }
                                                   stateController
@@ -1474,17 +1474,16 @@ class CartWidget extends StatelessWidget {
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .7,
-                          child:  Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(add.value.name ?? '',
-                                    style: TextStyles.bodyFontBold),
-                                Text(
-                                    '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
-                                    style: TextStyles.body.copyWith())
-                              ],
-                            ),
-                         
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(add.value.name ?? '',
+                                  style: TextStyles.bodyFontBold),
+                              Text(
+                                  '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                  style: TextStyles.body.copyWith())
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -1597,7 +1596,7 @@ class CartWidget extends StatelessWidget {
                                 .copyWith(color: AppColors.green),
                           )
                         : Text(
-                            '${CodeHelp.euro}${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)as double).toStringAsFixed(2)}',
+                            '${CodeHelp.euro}${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0) as double).toStringAsFixed(2)}',
                             style: TextStyles.headingFont,
                           ),
                   ],
