@@ -231,7 +231,9 @@ class _BottomBarItemState extends State<BottomBarItem>
                                 child: Text(
                                     (cartController.cartProducts.value.length +
                                             cartController.cartProductsScoins
-                                                .value.length)
+                                                .value.length +
+                                            cartController
+                                                .msdProducts.value.length)
                                         .toString(),
                                     style: TextStyles.bodySm
                                         .copyWith(color: AppColors.white)),

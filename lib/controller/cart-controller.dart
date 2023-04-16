@@ -297,6 +297,8 @@ class CartController extends GetxController {
   removeProduct(currentKey, key) async {
     if (key == 'SCOIN') {
       cartProductsScoins.remove(currentKey);
+    } else if (key == 'MSD') {
+      msdProducts.remove(currentKey);
     } else {
       cartProducts.remove(currentKey);
     }
@@ -320,6 +322,7 @@ class CartController extends GetxController {
   resetCart() async {
     cartProducts.clear();
     cartProductsScoins.clear();
+    msdProducts.clear();
     calculatedPayment.value = Payment();
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -333,6 +336,7 @@ class CartController extends GetxController {
   fetchCart() async {
     cartProducts.clear();
     cartProductsScoins.clear();
+    msdProducts.clear();
     calculatedPayment.value = Payment();
     var insightDetailloc =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -349,9 +353,13 @@ class CartController extends GetxController {
         for (var element in cust.cart!.productsViaSCoins!) {
           cartProductsScoins[element.ref!.id ?? ''] = element;
         }
+         for (var element in cust.cart!.msdApplicableProducts!) {
+          msdProducts[element.ref!.id ?? ''] = element;
+        }
       } else {
         cartProducts.clear();
         cartProductsScoins.clear();
+        msdProducts.clear();
         calculatedPayment.value = Payment();
       }
       if (cust.saveLater != null) {
@@ -366,6 +374,7 @@ class CartController extends GetxController {
     } else {
       cartProducts.clear();
       cartProductsScoins.clear();
+      msdProducts.clear();
       calculatedPayment.value = Payment();
       saveLaterProducts.clear();
       saveLaterId.value = '';
@@ -424,11 +433,20 @@ class CartController extends GetxController {
           'name': mutliProductName ?? '',
           'price': {
             'actualPrice': price,
-            'memberCoin': 0,
-            'primeMemberCoin': 0,
+            'noMemberCoin': 0,
+            'platinumMemberCoin': 0,
             'goldMemberCoin': 0,
             'silverMemberCoin': 0,
-            'offerPrice': price
+            'paidMemberCoin': 0,
+            'offerPrice': price,
+            'membersSpecialPrice': {
+              'onlyForPlatinumMember': priceInfo.membersSpecialPrice!.onlyForPlatinumMember,
+              'onlyForSilverMember': priceInfo.membersSpecialPrice!.onlyForSilverMember,
+              'onlyForGoldMember': priceInfo.membersSpecialPrice!.onlyForGoldMember,
+              'forSilverMember': priceInfo.membersSpecialPrice!.forSilverMember,
+              'forGoldMember': priceInfo.membersSpecialPrice!.forGoldMember,
+              'forPlatinumMember': priceInfo.membersSpecialPrice!.forPlatinumMember,
+            }
           }
         });
         cartProducts[refId] = cartRow;
@@ -455,7 +473,7 @@ class CartController extends GetxController {
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
-      var getData = cartProducts[refId];
+      var getData = msdProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice!);
       List li = [];
@@ -489,14 +507,7 @@ class CartController extends GetxController {
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
           'name': mutliProductName ?? '',
-          'price': {
-            'actualPrice': price,
-            'memberCoin': 0,
-            'primeMemberCoin': 0,
-            'goldMemberCoin': 0,
-            'silverMemberCoin': 0,
-            'offerPrice': price
-          }
+          'price': (jsonDecode(priceInfo.toJson() ?? "{}"))
         });
         msdProducts[refId] = cartRow;
       } else {
@@ -572,7 +583,7 @@ class CartController extends GetxController {
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product.type,
-          'price': (jsonDecode( priceInfo!.toJson()) ?? "{}")
+          'price': (jsonDecode(priceInfo!.toJson()) ?? "{}")
         });
         cartProductsScoins[refId] = cartRow;
       } else {

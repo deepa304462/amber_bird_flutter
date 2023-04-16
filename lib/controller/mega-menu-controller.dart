@@ -356,17 +356,24 @@ class MegaMenuController extends GetxController {
                   ProductSummary productSummary =
                       ProductSummary.fromMap(e as Map<String, dynamic>);
                   var list = productSummary.varients!.where((i) {
-                    var valid = false;
-                    // if((i.price!.membersSpecialPrice!.onlyForGoldMember!) && userType == memberShipType.Gold.name){
-                    //   valid = true;
-                    // }else if((i.price!.membersSpecialPrice!.onlyForPlatinumMember!) && userType == memberShipType.Platinum.name){
-                    //   valid = true;
-                    // } else if ((i.price!.membersSpecialPrice!
-                    //         .onlyForSilverMember!) &&
-                    //     userType == memberShipType.Silver.name) {
-                    //   valid = true;
-                    // } 
-                    return i.msdApplicableProduct!;
+                    var valid = true;
+                    if (i.price!.membersSpecialPrice!.onlyForGoldMember! ||
+                        i.price!.membersSpecialPrice!.onlyForPlatinumMember! ||
+                        i.price!.membersSpecialPrice!.onlyForSilverMember!) {
+                      if ((i.price!.membersSpecialPrice!.onlyForGoldMember!) &&
+                          userType == memberShipType.Gold.name) {
+                        valid = true;
+                      } else if ((i.price!.membersSpecialPrice!
+                              .onlyForPlatinumMember!) &&
+                          userType == memberShipType.Platinum.name) {
+                        valid = true;
+                      } else if ((i.price!.membersSpecialPrice!
+                              .onlyForSilverMember!) &&
+                          userType == memberShipType.Silver.name) {
+                        valid = true;
+                      }
+                    }
+                    return i.msdApplicableProduct! && valid;
                   }).toList();
                   if (list.length > 0) {
                     productSummary.varient = list[0];

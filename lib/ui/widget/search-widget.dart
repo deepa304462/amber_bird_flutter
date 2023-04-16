@@ -168,21 +168,27 @@ class CustomSearchDelegate extends SearchDelegate {
         children: searchController.popularItems.map<Widget>(
       (data) {
         return Container(
-          height: 40,
+          height: 25,
           padding: const EdgeInsets.all(0),
-          margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+          margin: const EdgeInsets.fromLTRB(2, 5, 2, 0),
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: AppColors.grey),
             color: query == data['value']
                 ? Colors.green[100]
                 : AppColors.lightGrey,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+            ),
             onPressed: () {
               query = data['value'];
             },
-            child: Text(data['label']),
+            child: Text(
+              data['label'],
+              style: TextStyles.body,
+            ),
           ),
         );
       },
@@ -195,8 +201,8 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.productResp.value.response!.docs!.map(
         (product) {
           return Container(
-            decoration:
-                const BoxDecoration(border: Border(bottom: BorderSide())),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: AppColors.grey))),
             child: ListTile(
               onTap: () {
                 close(context, null);
@@ -225,8 +231,8 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.categoryResp.value.response!.docs!.map(
         (category) {
           return Container(
-              decoration:
-                  const BoxDecoration(border: Border(bottom: BorderSide())),
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: AppColors.grey))),
               child: ListTile(
                 onTap: () {
                   close(context, null);
@@ -255,8 +261,8 @@ class CustomSearchDelegate extends SearchDelegate {
       children: searchController.brandResp.value.response!.docs!.map(
         (brand) {
           return Container(
-            decoration:
-                const BoxDecoration(border: Border(bottom: BorderSide())),
+            decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: AppColors.grey))),
             child: ListTile(
               onTap: () {
                 close(context, null);

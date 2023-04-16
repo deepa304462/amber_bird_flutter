@@ -8,7 +8,6 @@ import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/helpers/helper.dart';
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
@@ -257,7 +256,7 @@ class ProductCard extends StatelessWidget {
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
                                         minOrder,
-                                        dealPrice,
+                                        price,
                                         product,
                                         null,
                                         ruleConfig,
@@ -353,7 +352,7 @@ class ProductCard extends StatelessWidget {
                                     '$refId@${activeVariant.value.varientCode}',
                                     addedFrom!,
                                     -1,
-                                    dealPrice,
+                                    price,
                                     product,
                                     null,
                                     ruleConfig,
@@ -387,7 +386,7 @@ class ProductCard extends StatelessWidget {
                               await cartController.addToCart(
                                   '$refId@${activeVariant.value.varientCode}',
                                   addedFrom!,
-                                  minOrder,
+                                  -1,
                                   price,
                                   product,
                                   null,
@@ -425,7 +424,7 @@ class ProductCard extends StatelessWidget {
                                 await cartController.addToCartScoins(
                                     '$refId@${activeVariant.value.varientCode}',
                                     addedFrom!,
-                                    -1,
+                                    1,
                                     price,
                                     product,
                                     null,
@@ -436,8 +435,8 @@ class ProductCard extends StatelessWidget {
                                 await cartController.addToCartMSD(
                                     '$refId@${activeVariant.value.varientCode}',
                                     addedFrom!,
-                                    -1,
-                                    dealPrice,
+                                    1,
+                                    price,
                                     product,
                                     null,
                                     ruleConfig,
