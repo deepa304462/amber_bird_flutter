@@ -34,7 +34,7 @@ class BrandPage extends StatelessWidget {
   Widget _brandTile(Brand brand) {
     return InkWell(
       onTap: () {
-        Modular.to.pushNamed('/brandProduct/${brand.id}');
+        Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
       },
       child: Card(
         child: Padding(

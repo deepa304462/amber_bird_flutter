@@ -331,7 +331,7 @@ class CategoryPage extends StatelessWidget {
                     child: Stack(
                       children: [
                         ProductCard(
-                            fixedHeight: true,
+                            fixedHeight: false,
                             dealProduct.product,
                             dealProduct.id,
                             megaMenuController.selectedParentTab.value,
@@ -421,7 +421,7 @@ class CategoryPage extends StatelessWidget {
                                   mProduct.products![i],
                                   mProduct.products![i].id,
                                   'MULTIPRODUCT',
-                                  fixedHeight: true,
+                                  fixedHeight: false,
                                   mProduct.products![i].varient!.price!,
                                   null,
                                   null),

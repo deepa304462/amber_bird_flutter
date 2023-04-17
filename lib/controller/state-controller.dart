@@ -88,7 +88,7 @@ class Controller extends GetxController {
         if (element.name == '/home/category') {
           currentTab.value = 1;
         }
-        if (element.name == '/home/cart') {
+        if (element.name == '/widget/cart') {
           currentTab.value = 3;
         }
         if (element.name == 'profile') {
@@ -271,7 +271,7 @@ class Controller extends GetxController {
   }
 
   navigateToUrl(url) {
-    if (url == '../cart') {
+    if (url == '/widget/cart') {
       activePageName.value == 'cart';
     } else if (url == '/home/main') {
       activePageName.value = 'main';
@@ -281,7 +281,7 @@ class Controller extends GetxController {
       activePageName.value = 'category';
     } else if (url == '/login') {
       activePageName.value = 'login';
-    } else if (url == '../profile') {
+    } else if (url == '/widget/profile') {
       activePageName.value = 'profile';
     }
     if (Get.isRegistered<AppbarScrollController>()) {
@@ -316,7 +316,7 @@ class Controller extends GetxController {
         if (isLogin.value) {
           // activePageName.value = 'cart';
           // Modular.to.navigate('/home/cart');
-          navigateToUrl('../cart');
+          navigateToUrl('/widget/cart');
         } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');
@@ -326,7 +326,7 @@ class Controller extends GetxController {
       case 4:
         if (isLogin.value) {
           // activePageName.value = 'profile';
-          navigateToUrl('../profile');
+          navigateToUrl('/widget/profile');
         } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');

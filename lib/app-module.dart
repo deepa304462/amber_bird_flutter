@@ -15,6 +15,7 @@ import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
+import 'package:amber_bird/widget-module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'ui/pages/wallet-page.dart';
@@ -38,7 +39,7 @@ class AppModule extends Module {
           return WildCardRoutePage(args.uri);
         }),
         ModuleRoute('/', module: HomePageModule()),
-        WildcardRoute(child: (context, args) {
+         WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
@@ -50,34 +51,35 @@ class AppModule extends Module {
             return ProductGuidePage(productId);
           },
         ),
-        ChildRoute('/orders', child: (_, args) => OrderListPage()),
-        ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
-        ChildRoute('/cart', child: (_, args) => CartPage()),
-        ChildRoute('/profile', child: (_, args) => ProfilePage()),
-        ChildRoute(
-          '/brandProduct/:id',
-          child: (_, args) {
-            String productId = args.params['id'];
-            return BrandProductPage(productId);
-          },
-        ),
-        ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-        ChildRoute(
-          '/order-detail',
-          child: (_, args) {
-            String orderId = args.data['id'];
-            String navigateTo = args.data['navigateTo'] ?? '';
-            return OrderDetailPage(orderId, navigateTo, search: false);
-          },
-        ),
-        ChildRoute(
-          '/product/:id',
-          child: (_, args) {
-            String productId = args.params['id'];
-            return ProductPage(productId, search: false);
-          },
-        ),
-        ChildRoute('/wallet', child: (_, args) => WalletPage()),
+        ModuleRoute('/widget', module: WidgetRouteModule()),
+        // ChildRoute('/orders', child: (_, args) => OrderListPage()),
+        // ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
+        // ChildRoute('/cart', child: (_, args) => CartPage()),
+        // ChildRoute('/profile', child: (_, args) => ProfilePage()),
+        // ChildRoute(
+        //   '/brandProduct/:id',
+        //   child: (_, args) {
+        //     String productId = args.params['id'];
+        //     return BrandProductPage(productId);
+        //   },
+        // ),
+        // ChildRoute('/wishlist', child: (_, args) => WishListPage()),
+        // ChildRoute(
+        //   '/order-detail',
+        //   child: (_, args) {
+        //     String orderId = args.data['id'];
+        //     String navigateTo = args.data['navigateTo'] ?? '';
+        //     return OrderDetailPage(orderId, navigateTo, search: false);
+        //   },
+        // ),
+        // ChildRoute(
+        //   '/product/:id',
+        //   child: (_, args) {
+        //     String productId = args.params['id'];
+        //     return ProductPage(productId, search: false);
+        //   },
+        // ),
+        // ChildRoute('/wallet', child: (_, args) => WalletPage()),
         ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),

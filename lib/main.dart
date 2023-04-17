@@ -7,6 +7,7 @@ import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
+import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -87,7 +88,19 @@ void main() async {
   runApp(
     ModularApp(
       module: AppModule(),
-      child: AppWidget(),
+      child: AppWidget()
+      // Stack(
+      //     textDirection: TextDirection.ltr,
+      //     alignment: Alignment.topCenter,
+      //     children: [
+            // IgnorePointer(
+            //     ignoring: controller.showLoader.value, child: AppWidget()),
+      //       Obx(
+      //         () => controller.showLoader.value
+      //             ? MaterialApp(home: Scaffold(body: LoadingWithLogo()))
+      //             : SizedBox(),
+      //       ),
+      //     ]),
     ),
   );
 }

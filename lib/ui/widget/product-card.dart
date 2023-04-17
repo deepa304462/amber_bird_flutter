@@ -46,9 +46,9 @@ class ProductCard extends StatelessWidget {
             ? InkWell(
                 onTap: () {
                   if (addedFrom == 'BRAND') {
-                    Modular.to.pushNamed('../../product/${product.id}');
-                  } else {
                     Modular.to.pushNamed('../product/${product.id}');
+                  } else {
+                    Modular.to.pushNamed('/widget/product/${product.id}');
                   }
                 },
                 child: SizedBox(

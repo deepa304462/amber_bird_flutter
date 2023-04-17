@@ -110,6 +110,27 @@ class ProductDetailScreen extends StatelessWidget {
                 toolbarHeight: 40,
                 backgroundColor: AppColors.primeColor,
                 iconTheme: IconThemeData(color: AppColors.commonBgColor),
+                leadingWidth: 50,
+                leading: MaterialButton(
+                  onPressed: () {
+                    try {
+                      if(Navigator.canPop(context)){
+                        Navigator.pop(context);
+                      }
+                      else {
+                        Modular.to.navigate('../../home/main');
+                        // Modular.to.pushNamed('/home/main');
+                      }
+                    } catch (err) {
+                      Modular.to.pushNamed('/home/main');
+                    }
+                  },
+                  child: const Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                    size: 15,
+                  ),
+                ),
                 title: Text(
                   productController.product.value.name!.defaultText!.text!,
                   style: TextStyles.body
@@ -1031,7 +1052,7 @@ class ProductDetailScreen extends StatelessWidget {
             style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
         ListTile(
           onTap: () {
-            Modular.to.pushNamed('/brandProduct/${brand.id}');
+            Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
           },
           leading: ImageBox(
             brand.logoId!,

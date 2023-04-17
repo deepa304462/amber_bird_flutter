@@ -1,6 +1,8 @@
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class SplashOfferPage extends StatelessWidget {
   LiquidController liquidController = LiquidController();
   LocationController locationController = Get.find();
   final OnBoardingController onBoardingController = Get.find();
-
+ 
   // Making list of pages needed to pass in IntroViewsFlutter constructor.
   var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
   @override
@@ -20,6 +22,7 @@ class SplashOfferPage extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     return Obx(
       () => Stack(children: [
+       
         onBoardingController.onboardingData.value.appIntro != null
             ? LiquidSwipe.builder(
                 itemCount: onBoardingController

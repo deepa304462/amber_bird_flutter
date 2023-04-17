@@ -34,12 +34,20 @@ class BrandProductPage extends StatelessWidget {
           : Scaffold(
               appBar: AppBar(
                 backgroundColor: AppColors.primeColor,
+                leadingWidth: 50,
                 leading: IconButton(
                     onPressed: () {
-                      appbarScrollController.navigateToPop(context);
+                      if (Navigator.canPop(context)) {
+                        // Navigator.pop(context);
+                        appbarScrollController.navigateToPop(context);
+                      } else {
+                        // Modular.to.navigate('../../home/main');
+                        appbarScrollController.navigateTo('../../home/main');
+                        // Modular.to.pushNamed('/home/main');
+                      }
                     },
                     icon: const Icon(
-                      Icons.arrow_back,
+                      Icons.arrow_back_ios,
                       color: Colors.white,
                     )),
                 title: Text(

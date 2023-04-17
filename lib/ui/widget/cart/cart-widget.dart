@@ -302,6 +302,8 @@ class CartWidget extends StatelessWidget {
                                                 onPressed: () async {
                                                   stateController
                                                       .showLoader.value = true;
+                                                      stateController.showLoader
+                                                      .refresh();
                                                   if (stateController
                                                       .isLogin.value) {
                                                     var valid = false;
@@ -385,6 +387,8 @@ class CartWidget extends StatelessWidget {
                                                 onPressed: () async {
                                                   stateController
                                                       .showLoader.value = true;
+                                                      stateController.showLoader
+                                                      .refresh();
                                                   if (stateController
                                                       .isLogin.value) {
                                                     var valid = false;
@@ -466,6 +470,7 @@ class CartWidget extends StatelessWidget {
                                   MaterialButton(
                                       onPressed: () async {
                                         stateController.showLoader.value = true;
+                                        stateController.showLoader.refresh();
                                         await cartController.removeProduct(
                                             currentKey, 'MSD');
                                         stateController.showLoader.value =
@@ -652,6 +657,7 @@ class CartWidget extends StatelessWidget {
                                   MaterialButton(
                                     onPressed: () async {
                                       stateController.showLoader.value = true;
+                                      stateController.showLoader.refresh();
                                       await cartController.removeProduct(
                                           currentKey, 'MSD');
                                       stateController.showLoader.value = false;
@@ -771,6 +777,7 @@ class CartWidget extends StatelessWidget {
                               constraints: const BoxConstraints(),
                               onPressed: () async {
                                 stateController.showLoader.value = true;
+                                stateController.showLoader.refresh();
                                 if (stateController.isLogin.value) {
                                   cartController.addToCartScoins(
                                       cartController
@@ -817,8 +824,9 @@ class CartWidget extends StatelessWidget {
                               constraints: const BoxConstraints(),
                               onPressed: () async {
                                 stateController.showLoader.value = true;
+                                stateController.showLoader.refresh();
                                 if (stateController.isLogin.value) {
-                                  cartController.addToCartScoins(
+                                  await cartController.addToCartScoins(
                                       cartController
                                           .cartProductsScoins[currentKey]
                                           .ref!
@@ -859,6 +867,7 @@ class CartWidget extends StatelessWidget {
                 MaterialButton(
                   onPressed: () async {
                     stateController.showLoader.value = true;
+                    stateController.showLoader.refresh();
                     await cartController.removeProduct(currentKey, 'SCOIN');
                     stateController.showLoader.value = false;
                   },
@@ -1142,6 +1151,7 @@ class CartWidget extends StatelessWidget {
                                   MaterialButton(
                                       onPressed: () async {
                                         stateController.showLoader.value = true;
+                                        stateController.showLoader.refresh();
                                         await cartController.removeProduct(
                                             currentKey, '');
                                         stateController.showLoader.value =
@@ -1219,6 +1229,7 @@ class CartWidget extends StatelessWidget {
                                             onPressed: () async {
                                               stateController.showLoader.value =
                                                   true;
+                                                  stateController.showLoader.refresh();
                                               if (stateController
                                                   .isLogin.value) {
                                                 cartController.addToCart(
@@ -1328,6 +1339,7 @@ class CartWidget extends StatelessWidget {
                                   MaterialButton(
                                     onPressed: () async {
                                       stateController.showLoader.value = true;
+                                      stateController.showLoader.refresh();
                                       await cartController.removeProduct(
                                           currentKey, '');
                                       stateController.showLoader.value = false;
@@ -1507,6 +1519,7 @@ class CartWidget extends StatelessWidget {
         TextButton.icon(
           onPressed: () async {
             stateController.showLoader.value = true;
+            stateController.showLoader.refresh();
             await cartController.createSaveLater(
                 cartController.cartProducts[currentKey], currentKey);
             stateController.showLoader.value = false;
