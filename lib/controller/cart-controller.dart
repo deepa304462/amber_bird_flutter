@@ -769,8 +769,7 @@ class CartController extends GetxController {
       } else {
         return 0;
       }
-    }
-    if (type == 'MSD') {
+    }else if (type == 'MSD') {
       if (msdProducts[key] != null) {
         return msdProducts[key]!.count!;
       } else {

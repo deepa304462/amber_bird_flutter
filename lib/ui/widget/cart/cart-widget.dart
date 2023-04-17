@@ -11,6 +11,7 @@ import 'package:amber_bird/ui/widget/cart/save-later-widget.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -25,6 +26,7 @@ class CartWidget extends StatelessWidget {
   late CartController cartController;
   final Controller stateController = Get.find();
   RxBool checkoutClicked = false.obs;
+  RxBool isLoading = false.obs;
   TextEditingController ipController = TextEditingController();
 
   @override
@@ -107,99 +109,112 @@ class CartWidget extends StatelessWidget {
               : const SizedBox(),
         ),
       ),
-      body: Obx(
-        () {
-          cartController.innerLists.clear();
-          cartController.innerLists.add(
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) => ListView(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    shippingAddress(context),
-                  ],
-                ),
-                childCount: 1,
-              ),
-            ),
-          );
-          cartController.innerLists.add(
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) =>
-                    productListWidget(context, cartController),
-                childCount: 1,
-              ),
-            ),
-          );
-          cartController.innerLists.add(
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) =>
-                    scoinPRoductList(context, cartController),
-                childCount: 1,
-              ),
-            ),
-          );
-          cartController.innerLists.add(
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) =>
-                    msdPRoductList(context, cartController),
-                childCount: 1,
-              ),
-            ),
-          );
-          cartController.innerLists.add(
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) =>
-                    _saveLaterAndCheckoutOptions(context),
-                childCount: 1,
-              ),
-            ),
-          );
-          cartController.clearCheckout();
-          return (cartController.cartProducts.isNotEmpty ||
-                  cartController.cartProductsScoins.isNotEmpty)
-              ? CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: cartController.innerLists,
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Center(
-                    child: Column(
+      body: Stack(children: [
+        IgnorePointer(
+          ignoring: isLoading.value,
+          child: Obx(
+            () {
+              cartController.innerLists.clear();
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) => ListView(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
                       children: [
-                        Text(
-                          'Your Cart is Empty',
-                          style: TextStyles.body,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primeColor,
-                              textStyle: TextStyles.body
-                                  .copyWith(color: AppColors.white)),
-                          onPressed: () {
-                            Modular.to.navigate('../home/main');
-                          },
-                          child: Text(
-                            'Add Products',
-                            style: TextStyles.headingFont
-                                .copyWith(color: AppColors.white),
-                          ),
-                        ),
-                        SaveLater()
+                        shippingAddress(context),
                       ],
                     ),
+                    childCount: 1,
                   ),
-                );
-        },
-      ),
+                ),
+              );
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) =>
+                        productListWidget(context, cartController),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) =>
+                        scoinPRoductList(context, cartController),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) =>
+                        msdPRoductList(context, cartController),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) =>
+                        _saveLaterAndCheckoutOptions(context),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              cartController.clearCheckout();
+              return (cartController.cartProducts.isNotEmpty ||
+                      cartController.cartProductsScoins.isNotEmpty)
+                  ? CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: cartController.innerLists,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Your Cart is Empty',
+                              style: TextStyles.body,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primeColor,
+                                  textStyle: TextStyles.body
+                                      .copyWith(color: AppColors.white)),
+                              onPressed: () {
+                                Modular.to.navigate('../home/main');
+                              },
+                              child: Text(
+                                'Add Products',
+                                style: TextStyles.headingFont
+                                    .copyWith(color: AppColors.white),
+                              ),
+                            ),
+                            SaveLater()
+                          ],
+                        ),
+                      ),
+                    );
+            },
+          ),
+        ),
+        Positioned.fill(
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: Obx(
+                  () => isLoading.value
+                      ? const LoadingWithLogo()
+                      : const SizedBox(),
+                )))
+      ]),
     );
   }
 
@@ -300,10 +315,7 @@ class CartWidget extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController
-                                                      .showLoader.value = true;
-                                                      stateController.showLoader
-                                                      .refresh();
+                                                  isLoading.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
                                                     var valid = false;
@@ -361,8 +373,7 @@ class CartWidget extends StatelessWidget {
                                                                   context, msg);
                                                     }
                                                   }
-                                                  stateController
-                                                      .showLoader.value = false;
+                                                  isLoading.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.remove_circle_outline,
@@ -385,10 +396,7 @@ class CartWidget extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController
-                                                      .showLoader.value = true;
-                                                      stateController.showLoader
-                                                      .refresh();
+                                                  isLoading.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
                                                     var valid = false;
@@ -446,8 +454,7 @@ class CartWidget extends StatelessWidget {
                                                                   context, msg);
                                                     }
                                                   }
-                                                  stateController
-                                                      .showLoader.value = false;
+                                                  isLoading.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.add_circle_outline,
@@ -469,12 +476,10 @@ class CartWidget extends StatelessWidget {
                                       context, cartController, currentKey),
                                   MaterialButton(
                                       onPressed: () async {
-                                        stateController.showLoader.value = true;
-                                        stateController.showLoader.refresh();
+                                        isLoading.value = true;
                                         await cartController.removeProduct(
                                             currentKey, 'MSD');
-                                        stateController.showLoader.value =
-                                            false;
+                                        isLoading.value = false;
                                       },
                                       child: Row(
                                         children: [
@@ -546,11 +551,11 @@ class CartWidget extends StatelessWidget {
                                             padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
+                                              isLoading.value = true;
                                               if (stateController
                                                   .isLogin.value) {
-                                                cartController.addToCartMSD(
+                                                await cartController
+                                                    .addToCartMSD(
                                                   '${currentProduct.ref!.id}',
                                                   currentProduct.ref!.name!,
                                                   -minOrder,
@@ -569,8 +574,7 @@ class CartWidget extends StatelessWidget {
                                                 snackBarClass.showToast(context,
                                                     'Please Login to preoceed');
                                               }
-                                              stateController.showLoader.value =
-                                                  false;
+                                              isLoading.value = false;
                                             },
                                             icon: Icon(
                                               Icons.remove_circle_outline,
@@ -591,8 +595,7 @@ class CartWidget extends StatelessWidget {
                                             padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
+                                              isLoading.value = true;
                                               if (stateController
                                                   .isLogin.value) {
                                                 var valid = false;
@@ -619,7 +622,7 @@ class CartWidget extends StatelessWidget {
                                                   msg = data['msg'];
                                                 }
                                                 if (valid) {
-                                                  cartController.addToCartMSD(
+                                                  await cartController.addToCartMSD(
                                                       '${currentProduct.ref!.id}',
                                                       currentProduct.ref!.name!,
                                                       minOrder,
@@ -635,8 +638,7 @@ class CartWidget extends StatelessWidget {
                                                       context, msg);
                                                 }
                                               }
-                                              stateController.showLoader.value =
-                                                  false;
+                                              isLoading.value = false;
                                             },
                                             icon: Icon(
                                               Icons.add_circle_outline,
@@ -656,11 +658,10 @@ class CartWidget extends StatelessWidget {
                                       context, cartController, currentKey),
                                   MaterialButton(
                                     onPressed: () async {
-                                      stateController.showLoader.value = true;
-                                      stateController.showLoader.refresh();
+                                      isLoading.value = true;
                                       await cartController.removeProduct(
                                           currentKey, 'MSD');
-                                      stateController.showLoader.value = false;
+                                      isLoading.value = false;
                                     },
                                     child: Row(
                                       children: [
@@ -776,10 +777,9 @@ class CartWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               constraints: const BoxConstraints(),
                               onPressed: () async {
-                                stateController.showLoader.value = true;
-                                stateController.showLoader.refresh();
+                                isLoading.value = true;
                                 if (stateController.isLogin.value) {
-                                  cartController.addToCartScoins(
+                                  await cartController.addToCartScoins(
                                       cartController
                                           .cartProductsScoins[currentKey]
                                           .ref!
@@ -803,7 +803,7 @@ class CartWidget extends StatelessWidget {
                                   var showToast = snackBarClass.showToast(
                                       context, 'Please Login to preoceed');
                                 }
-                                stateController.showLoader.value = false;
+                                isLoading.value = false;
                               },
                               icon: const Icon(
                                 Icons.remove_circle_outline,
@@ -823,8 +823,7 @@ class CartWidget extends StatelessWidget {
                               padding: const EdgeInsets.all(4),
                               constraints: const BoxConstraints(),
                               onPressed: () async {
-                                stateController.showLoader.value = true;
-                                stateController.showLoader.refresh();
+                                isLoading.value = true;
                                 if (stateController.isLogin.value) {
                                   await cartController.addToCartScoins(
                                       cartController
@@ -850,7 +849,7 @@ class CartWidget extends StatelessWidget {
                                       context, 'Please Login');
                                 }
 
-                                stateController.showLoader.value = false;
+                                isLoading.value = false;
                               },
                               icon: Icon(
                                 Icons.add_circle_outline,
@@ -866,10 +865,9 @@ class CartWidget extends StatelessWidget {
                 ),
                 MaterialButton(
                   onPressed: () async {
-                    stateController.showLoader.value = true;
-                    stateController.showLoader.refresh();
+                    isLoading.value = true;
                     await cartController.removeProduct(currentKey, 'SCOIN');
-                    stateController.showLoader.value = false;
+                    isLoading.value = false;
                   },
                   child: Row(
                     children: [
@@ -908,7 +906,8 @@ class CartWidget extends StatelessWidget {
               var currentProduct =
                   cartController.cartProducts.value[currentKey]!;
               var minOrder = (currentProduct.constraint != null &&
-                      currentProduct.constraint.minimumOrder != null)
+                      currentProduct.constraint.minimumOrder != null &&
+                      currentProduct.constraint.minimumOrder > 0)
                   ? currentProduct.constraint!.minimumOrder
                   : 1;
               return Column(
@@ -1048,8 +1047,7 @@ class CartWidget extends StatelessWidget {
                                                     //               context, msg);
                                                     // }
                                                   }
-                                                  stateController
-                                                      .showLoader.value = false;
+                                                  isLoading.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.remove_circle_outline,
@@ -1127,8 +1125,7 @@ class CartWidget extends StatelessWidget {
                                                           context, msg);
                                                     }
                                                   }
-                                                  stateController
-                                                      .showLoader.value = false;
+                                                  isLoading.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.add_circle_outline,
@@ -1150,12 +1147,10 @@ class CartWidget extends StatelessWidget {
                                       context, cartController, currentKey),
                                   MaterialButton(
                                       onPressed: () async {
-                                        stateController.showLoader.value = true;
-                                        stateController.showLoader.refresh();
+                                        isLoading.value = true;
                                         await cartController.removeProduct(
                                             currentKey, '');
-                                        stateController.showLoader.value =
-                                            false;
+                                        isLoading.value = false;
                                       },
                                       child: Row(
                                         children: [
@@ -1227,12 +1222,10 @@ class CartWidget extends StatelessWidget {
                                             padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
-                                                  stateController.showLoader.refresh();
+                                              isLoading.value = true;
                                               if (stateController
                                                   .isLogin.value) {
-                                                cartController.addToCart(
+                                                await cartController.addToCart(
                                                   '${currentProduct.ref!.id}',
                                                   currentProduct.ref!.name!,
                                                   -minOrder,
@@ -1251,8 +1244,7 @@ class CartWidget extends StatelessWidget {
                                                 snackBarClass.showToast(context,
                                                     'Please Login to preoceed');
                                               }
-                                              stateController.showLoader.value =
-                                                  false;
+                                              isLoading.value = false;
                                             },
                                             icon: Icon(
                                               Icons.remove_circle_outline,
@@ -1273,8 +1265,7 @@ class CartWidget extends StatelessWidget {
                                             padding: const EdgeInsets.all(4),
                                             constraints: const BoxConstraints(),
                                             onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
+                                              isLoading.value = true;
                                               if (stateController
                                                   .isLogin.value) {
                                                 var valid = false;
@@ -1301,7 +1292,7 @@ class CartWidget extends StatelessWidget {
                                                   msg = data['msg'];
                                                 }
                                                 if (valid) {
-                                                  cartController.addToCart(
+                                                  await cartController.addToCart(
                                                       '${currentProduct.ref!.id}',
                                                       currentProduct.ref!.name!,
                                                       minOrder,
@@ -1317,8 +1308,7 @@ class CartWidget extends StatelessWidget {
                                                       context, msg);
                                                 }
                                               }
-                                              stateController.showLoader.value =
-                                                  false;
+                                              isLoading.value = false;
                                             },
                                             icon: Icon(
                                               Icons.add_circle_outline,
@@ -1338,11 +1328,10 @@ class CartWidget extends StatelessWidget {
                                       context, cartController, currentKey),
                                   MaterialButton(
                                     onPressed: () async {
-                                      stateController.showLoader.value = true;
-                                      stateController.showLoader.refresh();
+                                      isLoading.value = true;
                                       await cartController.removeProduct(
                                           currentKey, '');
-                                      stateController.showLoader.value = false;
+                                      isLoading.value = false;
                                     },
                                     child: Row(
                                       children: [
@@ -1518,11 +1507,10 @@ class CartWidget extends StatelessWidget {
         //     label: Text(' "Buy it now"')),
         TextButton.icon(
           onPressed: () async {
-            stateController.showLoader.value = true;
-            stateController.showLoader.refresh();
+            isLoading.value = true;
             await cartController.createSaveLater(
                 cartController.cartProducts[currentKey], currentKey);
-            stateController.showLoader.value = false;
+            isLoading.value = false;
           },
           icon: const Icon(
             Icons.bookmark_add_outlined,

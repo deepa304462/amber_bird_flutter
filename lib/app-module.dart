@@ -1,24 +1,14 @@
 import 'package:amber_bird/home-page-module.dart';
-import 'package:amber_bird/ui/pages/brand-product-page.dart';
-import 'package:amber_bird/ui/pages/cart-page.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
-import 'package:amber_bird/ui/pages/order-detail-page.dart';
-import 'package:amber_bird/ui/pages/order-list.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
-import 'package:amber_bird/ui/pages/product-page.dart';
-import 'package:amber_bird/ui/pages/profile-page.dart';
-import 'package:amber_bird/ui/pages/referral-page.dart';
 import 'package:amber_bird/ui/pages/reset-password-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
-import 'package:amber_bird/ui/pages/wishlist-page.dart';
-import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/widget-module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'ui/pages/wallet-page.dart';
 
 //http://localhost:64123/#/form/60e6b312c7f5dc000df40a1c/en
 class AppModule extends Module {
