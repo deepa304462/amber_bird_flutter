@@ -306,11 +306,11 @@ class CartWidget extends StatelessWidget {
                                           width: 20,
                                           fit: BoxFit.contain,
                                         ),
-                                        Text(
+                                        Text('${CodeHelp.euro}${
                                           Helper.getFormattedNumber(
                                                   currentMemberPrice *
                                                       currentProduct.count)
-                                              .toString(),
+                                              .toString()}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -546,7 +546,7 @@ class CartWidget extends StatelessWidget {
                                       fit: BoxFit.contain,
                                     ),
                                     Text(
-                                        '${Helper.getFormattedNumber(currentMemberPrice).toString()} ',
+                                        '${CodeHelp.euro}${Helper.getFormattedNumber(currentMemberPrice).toString()} ',
                                         style: TextStyles.body),
                                   ],
                                 ),
@@ -564,11 +564,11 @@ class CartWidget extends StatelessWidget {
                                             width: 20,
                                             fit: BoxFit.contain,
                                           ),
-                                          Text(
+                                          Text('${CodeHelp.euro}${
                                             Helper.getFormattedNumber(
                                                     currentMemberPrice *
                                                         currentProduct.count)
-                                                .toString(),
+                                                .toString()}',
                                             style: TextStyles.headingFont,
                                           ),
                                         ],

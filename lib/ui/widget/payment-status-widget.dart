@@ -89,7 +89,7 @@ class PaymentStatusWidget extends StatelessWidget {
                       textStyle:
                           TextStyles.body.copyWith(color: AppColors.white)),
                   onPressed: () async {
-                    Modular.to.navigate('/order-detail',
+                    Modular.to.navigate('/widget/order-detail',
                         arguments: {'id': id, 'navigateTo': 'HOME'});
                   },
                   child: Text(

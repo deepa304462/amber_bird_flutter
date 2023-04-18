@@ -138,11 +138,6 @@ class ProductDetailScreen extends StatelessWidget {
               ),
               body: Stack(
                 children: [
-                  // Positioned(
-                  // top:0,
-                  // child:
-
-                  // ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     padding: const EdgeInsets.only(bottom: 80),
@@ -156,7 +151,11 @@ class ProductDetailScreen extends StatelessWidget {
                               height,
                               context),
                         ),
-                        const Divider(),
+                        Divider(
+                          color: AppColors.lightGrey,
+                          height: 8,
+                          thickness: 8,
+                        ),
                         Container(
                           decoration: const BoxDecoration(
                             color: Colors.white,
@@ -166,59 +165,66 @@ class ProductDetailScreen extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              productController
-                                                      .product
-                                                      .value
-                                                      .name!
-                                                      .defaultText!
-                                                      .text ??
-                                                  '',
-                                              style: TextStyles.headingFont
-                                                  .copyWith(
-                                                      color:
-                                                          AppColors.primeColor,
-                                                      fontSize: 20),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            productVarientView(
-                                                productController.product.value
-                                                        .varients ??
-                                                    [],
-                                                productController
-                                                    .activeIndexVariant.value,
-                                                productController),
-                                          ],
+                                        Text(
+                                          productController.product.value.name!
+                                                  .defaultText!.text ??
+                                              '',
+                                          style: TextStyles.headingFont
+                                              .copyWith(
+                                                  color: AppColors.primeColor,
+                                                  fontSize: 20),
                                         ),
-                                        detailsHead(productController),
+                                        const SizedBox(height: 4),
+                                        productVarientView(
+                                            productController
+                                                    .product.value.varients ??
+                                                [],
+                                            productController
+                                                .activeIndexVariant.value,
+                                            productController),
                                       ],
                                     ),
-                                    // const SizedBox(height: 5),
-                                    // soldFrom(productController.product.value),
-                                    const SizedBox(height: 5),
-                                    const Divider(),
-                                    deliveryTo(context),
-                                    const Divider(),
-                                    brandTile(
-                                        productController.product.value.brand),
-                                    const Divider(),
-                                    specification(productController),
-                                    tags(productController.product.value,
-                                        context),
+                                    detailsHead(productController),
                                   ],
                                 ),
-                              )
+                              ),
+                              // const SizedBox(height: 5),
+                              // soldFrom(productController.product.value),
+                              // const SizedBox(height: 5),
+                              Divider(
+                                color: AppColors.lightGrey,
+                                height: 8,
+                                thickness: 8,
+                              ),
+                              MsdPrice(context,
+                                  productController.varient.value.price),
+                              Divider(
+                                color: AppColors.lightGrey,
+                                height: 8,
+                                thickness: 8,
+                              ),
+                              deliveryTo(context),
+                              Divider(
+                                color: AppColors.lightGrey,
+                                height: 8,
+                                thickness: 8,
+                              ),
+                              brandTile(productController.product.value.brand),
+                              Divider(
+                                color: AppColors.lightGrey,
+                                height: 8,
+                                thickness: 8,
+                              ),
+                              specification(productController),
+                              tags(productController.product.value, context),
                             ],
                           ),
                         ),
@@ -673,6 +679,62 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
+  MsdPrice(context, price) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Row(
+          children: [
+            ImageBox(
+              stateController.membershipIcon.value,
+              height: 20,
+              width: 20,
+              fit: BoxFit.contain,
+            ),
+            Text(
+              Helper.getFormattedNumber(Helper.getMsdAmount(
+                      price: price!,
+                      userType: stateController.userType.value)).toString(),
+              style: TextStyles.headingFont,
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            ImageBox(
+              stateController.membershipIcon.value,
+              height: 20,
+              width: 20,
+              fit: BoxFit.contain,
+            ),
+            Text(
+              Helper.getFormattedNumber(Helper.getMsdAmount(
+                      price: price!, userType: stateController.userType.value))
+                  .toString(),
+              style: TextStyles.headingFont,
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            ImageBox(
+              stateController.membershipIcon.value,
+              height: 20,
+              width: 20,
+              fit: BoxFit.contain,
+            ),
+            Text(
+              Helper.getFormattedNumber(Helper.getMsdAmount(
+                      price: price!, userType: stateController.userType.value))
+                  .toString(),
+              style: TextStyles.headingFont,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   deliveryTo(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -698,6 +760,10 @@ class ProductDetailScreen extends StatelessWidget {
                 },
               );
             },
+            dense: true,
+            minLeadingWidth: 20,
+            horizontalTitleGap: 10,
+            contentPadding: const EdgeInsets.all(2),
             leading: Icon(Icons.delivery_dining,
                 color: AppColors.primeColor, size: 20),
             trailing:
@@ -732,6 +798,10 @@ class ProductDetailScreen extends StatelessWidget {
                 },
               );
             },
+            dense: true,
+            minLeadingWidth: 20,
+            horizontalTitleGap: 10,
+            contentPadding: const EdgeInsets.all(2),
             leading:
                 Icon(Icons.lock_outline, color: AppColors.primeColor, size: 20),
             trailing:
@@ -740,41 +810,29 @@ class ProductDetailScreen extends StatelessWidget {
               'Buyer Protection',
               style: TextStyles.headingFont,
             ),
-            subtitle: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            subtitle: Wrap(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.security_rounded,
-                        size: 15,
-                      ),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      label: Text(
-                        'Secure Payments',
-                        style: TextStyles.body.copyWith(color: AppColors.grey),
-                      ),
+                    const Icon(
+                      Icons.accessibility,
+                      size: 15,
                     ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      icon: const Icon(
-                        Icons.check_circle_outline,
-                        size: 15,
-                      ),
-                      label: Text(
-                        'Refund promise',
-                        style: TextStyles.body.copyWith(color: AppColors.grey),
-                      ),
+                    Text(
+                      'Customer Service',
+                      style: TextStyles.body.copyWith(color: AppColors.grey),
+                    ),
+                    const Icon(
+                      Icons.security_rounded,
+                      size: 15,
+                    ),
+                    Text(
+                      'Secure Payments',
+                      style: TextStyles.body.copyWith(color: AppColors.grey),
                     ),
                   ],
                 ),
@@ -859,151 +917,157 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   specification(ProductController productController) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Specification",
-          style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Table(
-            columnWidths: const {
-              0: FractionColumnWidth(.30),
-            },
-            children: [
-              TableRow(children: [
-                TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        'Category',
-                        style: TextStyles.titleFont,
-                      ),
-                    )),
-                TableCell(
-                  child: productCategory(productController.product.value),
-                )
-              ]),
-              TableRow(children: [
-                TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Weight',
-                        style: TextStyles.titleFont,
-                      ),
-                    )),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      productController.varient.value.weight.toString() +
-                          CodeHelp.formatUnit(
-                              productController.varient.value.unit),
-                      style: TextStyles.body,
-                      textAlign: TextAlign.justify,
-                    ),
-                  ),
-                )
-              ]),
-              if (productController.varient.value.scoinPurchaseEnable!) ...[
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Specification",
+            style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Table(
+              columnWidths: const {
+                0: FractionColumnWidth(.30),
+              },
+              children: [
+                TableRow(children: [
+                  TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.middle,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Text(
+                          'Category',
+                          style: TextStyles.titleFont,
+                        ),
+                      )),
+                  TableCell(
+                    child: productCategory(productController.product.value),
+                  )
+                ]),
                 TableRow(children: [
                   TableCell(
                       verticalAlignment: TableCellVerticalAlignment.middle,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Redeem with Scoin',
+                          'Weight',
                           style: TextStyles.titleFont,
                         ),
                       )),
                   TableCell(
                     child: Padding(
                       padding: const EdgeInsets.all(8),
-                      child: PriceTag(
-                        productController.varient.value.price!.offerPrice!
-                            .toString(),
-                        productController.varient.value.price!.actualPrice!
-                            .toString(),
-                        scoin: Helper.getMemberCoinValue(
-                            productController.varient.value.price!,
-                            stateController.userType.value),
+                      child: Text(
+                        productController.varient.value.weight.toString() +
+                            CodeHelp.formatUnit(
+                                productController.varient.value.unit),
+                        style: TextStyles.body,
+                        textAlign: TextAlign.justify,
                       ),
                     ),
                   )
-                ])
+                ]),
+                if (productController.varient.value.scoinPurchaseEnable!) ...[
+                  TableRow(children: [
+                    TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Redeem with Scoin',
+                            style: TextStyles.titleFont,
+                          ),
+                        )),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: PriceTag(
+                          productController.varient.value.price!.offerPrice!
+                              .toString(),
+                          productController.varient.value.price!.actualPrice!
+                              .toString(),
+                          scoin: Helper.getMemberCoinValue(
+                              productController.varient.value.price!,
+                              stateController.userType.value),
+                        ),
+                      ),
+                    )
+                  ])
+                ],
+                TableRow(children: [
+                  TableCell(
+                    verticalAlignment: TableCellVerticalAlignment.middle,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        'Details',
+                        style: TextStyles.titleFont,
+                      ),
+                    ),
+                  ),
+                  TableCell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Html(
+                        data: productController
+                                .product.value.description!.defaultText!.text ??
+                            '',
+                      ),
+                    ),
+                  )
+                ]),
               ],
-              TableRow(children: [
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      'Details',
-                      style: TextStyles.titleFont,
-                    ),
-                  ),
-                ),
-                TableCell(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Html(
-                      data: productController
-                              .product.value.description!.defaultText!.text ??
-                          '',
-                    ),
-                  ),
-                )
-              ]),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   tags(Product value, BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Tags:',
-          style: TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * .7,
-          height: 35,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: value.keywords!
-                .map((e) => Card(
-                      color: AppColors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(
-                            width: 1,
-                            color: AppColors.primeColor,
-                          )),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            e,
-                            style: TextStyles.bodyFontBold
-                                .copyWith(color: AppColors.primeColor),
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Text(
+            'Tags:',
+            style: TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * .7,
+            height: 35,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: value.keywords!
+                  .map((e) => Card(
+                        color: AppColors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                            side: BorderSide(
+                              width: 1,
+                              color: AppColors.primeColor,
+                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              e,
+                              style: TextStyles.bodyFontBold
+                                  .copyWith(color: AppColors.primeColor),
+                            ),
                           ),
                         ),
-                      ),
-                    ))
-                .toList(),
-          ),
-        )
-      ],
+                      ))
+                  .toList(),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -1044,27 +1108,32 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   brandTile(Brand? brand) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Explore more products from ${brand!.name!} brand',
-            style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
-        ListTile(
-          onTap: () {
-            Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
-          },
-          leading: ImageBox(
-            brand.logoId!,
-            width: 30,
-            height: 30,
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Explore more products from ${brand!.name!} brand',
+              style:
+                  TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
+          ListTile(
+            onTap: () {
+              Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
+            },
+            leading: ImageBox(
+              brand.logoId!,
+              width: 30,
+              height: 30,
+            ),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
+            title: Text(
+              brand.name!,
+              style: TextStyles.body,
+            ),
           ),
-          trailing: Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
-          title: Text(
-            brand.name!,
-            style: TextStyles.body,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
