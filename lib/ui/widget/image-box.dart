@@ -1,6 +1,7 @@
 import 'package:amber_bird/services/client-service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:shimmer/shimmer.dart';
 
 //https://pub.dev/documentation/disposable_cached_images/latest/
@@ -19,26 +20,31 @@ class ImageBox extends StatelessWidget {
       this.fit = BoxFit.fitHeight})
       : super(key: key) {
     fileId = path;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     if (type == 'download') {
       path = '${ClientService.downloadUrl}$path';
     } else {
       path = '${ClientService.cdnUrl}$path';
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // DefaultCacheManager manager = new DefaultCacheManager();
+    // manager.emptyCache();
+    // await CachedNetworkImage.evictFromCache(url);
+
     // print((FastCachedImageConfig.isCached(imageUrl: path).toString() +
     //     ' cached ' +
     //     path));
     return CachedNetworkImage(
-      imageUrl: '$path',
+      imageUrl: path,
       fit: fit,
       width: width,
       fadeInDuration: const Duration(milliseconds: 20),
       height: height == 0 ? width * 1 : height,
       errorWidget: (context, exception, stacktrace) {
-        return Icon(Icons.error);
+        CachedNetworkImage.evictFromCache(path);
+        return const Icon(Icons.error);
       },
       progressIndicatorBuilder: (context, url, downloadProgress) {
         return Shimmer.fromColors(

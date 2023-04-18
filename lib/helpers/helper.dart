@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
- import 'package:amber_bird/data/deal_product/rule_config.dart';
+import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/data/profile/ref.dart';
@@ -25,18 +25,18 @@ class Helper {
       return 0;
   }
 
-  static double getMsdAmount({required Price price,required String userType}){
-     if (userType == memberShipType.Paid.name) {
-       return price.membersSpecialPrice!.forGoldMember!;
+  static double getMsdAmount({required Price price, required String userType}) {
+    if (userType == memberShipType.Paid.name) {
+      return price.membersSpecialPrice!.forGoldMember!;
     } else if (userType == memberShipType.Platinum.name) {
-       return price.membersSpecialPrice!.forPlatinumMember!;
+      return price.membersSpecialPrice!.forPlatinumMember!;
     } else if (userType == memberShipType.Gold.name) {
-       return price.membersSpecialPrice!.forGoldMember!;
+      return price.membersSpecialPrice!.forGoldMember!;
     } else if (userType == memberShipType.Silver.name) {
-       return price.membersSpecialPrice!.forSilverMember!;
+      return price.membersSpecialPrice!.forSilverMember!;
     } else {
       return price.membersSpecialPrice!.forGoldMember!;
-    } 
+    }
   }
 
   static dynamic getCatMultiName(String dealType) {

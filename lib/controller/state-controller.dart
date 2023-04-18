@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
@@ -8,6 +7,7 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/membership/membership.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/showcase-key.dart';
@@ -40,11 +40,13 @@ class Controller extends GetxController {
 
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
+  RxMap<String, Membership> membershipList = <String, Membership>{}.obs;
   RxInt totalPrice = 0.obs;
   RxInt currentBottomNavItemIndex = 0.obs;
   RxInt productImageDefaultIndex = 0.obs;
   Rx<UserProfile> loggedInProfile = UserProfile().obs;
   Rx<Customer> customerDetail = Customer().obs;
+  RxString membershipIcon = ''.obs;
   Rx<CustomerInsight> customerInsight = CustomerInsight().obs;
 
   @override
@@ -76,6 +78,7 @@ class Controller extends GetxController {
         key: GlobalKey(), desc: 'Check your scoin wallet', title: 'S-Wallet');
     backButtonPress.value = 0;
     getLoginInfo();
+
     changeTab(currentTab.toInt());
     Modular.to.addListener(() {
       Modular.to.navigateHistory.forEach((element) {
@@ -91,12 +94,29 @@ class Controller extends GetxController {
         if (element.name == '/widget/cart') {
           currentTab.value = 3;
         }
-        if (element.name == 'profile') {
+        if (element.name == '/widget/profile') {
           currentTab.value = 4;
         }
       });
     });
     super.onInit();
+  }
+
+  getMembershipData() async {
+    var membershipInfo =
+        await ClientService.post(path: 'membershipInfo/search', payload: {});
+    if (membershipInfo.statusCode == 200) {
+      List<Membership> list = [];
+      membershipInfo.data.forEach(
+        (elem) {
+          Membership member = Membership.fromMap(elem);
+          membershipList[member.id ?? ''] = member;
+          if (member.id!.toLowerCase() == userType.value.toLowerCase()) {
+            membershipIcon.value = member.imageId!;
+          }
+        },
+      );
+    }
   }
 
   getUserIsActive() async {
@@ -167,6 +187,7 @@ class Controller extends GetxController {
       if (customerDetail.value.personalInfo != null) {
         userType.value = customerDetail.value.personalInfo!.membershipType!;
         callGetCategory();
+        getMembershipData();
       }
       var cartController =
           ControllerGenerator.create(CartController(), tag: 'cartController');
@@ -233,6 +254,7 @@ class Controller extends GetxController {
     SharedData.remove('authData');
     SharedData.remove('ProfileAuthData');
     SharedData.remove('ProfileAuthData');
+    SharedData.remove('referredbyId');
     changeTab(currentTab.toInt());
   }
 
@@ -362,6 +384,7 @@ class Controller extends GetxController {
 // tokenManagerEntityId.value
       getCustomerData(loggedInProfile.value.id);
       getCustomerDetail(loggedInProfile.value.id);
+      
       // checkAuth();
     }).catchError((error) {
       logout();

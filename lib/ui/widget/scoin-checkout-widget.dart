@@ -28,7 +28,7 @@ class ScoinCheckoutWidget extends StatelessWidget {
                   onPressed: () {
                     Modular.to.navigate('../home/main');
                   },
-                  icon: const Icon(Icons.arrow_back)),
+                  icon: const Icon(Icons.arrow_back_ios)),
               const Text('Scoin Product')
             ]),
             Container(

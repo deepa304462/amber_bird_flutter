@@ -2,6 +2,7 @@ import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
 import 'package:amber_bird/ui/pages/spoints-page.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class WalletPage extends StatelessWidget {
   @override
@@ -17,7 +18,13 @@ class WalletPage extends StatelessWidget {
           backgroundColor: AppColors.primeColor,
           leading: MaterialButton(
             onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                Modular.to.navigate('../../home/main');
+                // Modular.to.pushNamed('/home/main');
+              }
             },
             child: const Icon(
               Icons.arrow_back_ios,

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/price/price.dart';
 
 import 'constraint.dart';
-import 'dimension.dart'; 
+import 'dimension.dart';
 
 class Varient {
   String? varientCode;

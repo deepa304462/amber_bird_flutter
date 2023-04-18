@@ -114,10 +114,9 @@ class ProductDetailScreen extends StatelessWidget {
                 leading: MaterialButton(
                   onPressed: () {
                     try {
-                      if(Navigator.canPop(context)){
+                      if (Navigator.canPop(context)) {
                         Navigator.pop(context);
-                      }
-                      else {
+                      } else {
                         Modular.to.navigate('../../home/main');
                         // Modular.to.pushNamed('/home/main');
                       }

@@ -353,7 +353,7 @@ class CartController extends GetxController {
         for (var element in cust.cart!.productsViaSCoins!) {
           cartProductsScoins[element.ref!.id ?? ''] = element;
         }
-         for (var element in cust.cart!.msdApplicableProducts!) {
+        for (var element in cust.cart!.msdApplicableProducts!) {
           msdProducts[element.ref!.id ?? ''] = element;
         }
       } else {
@@ -440,12 +440,16 @@ class CartController extends GetxController {
             'paidMemberCoin': 0,
             'offerPrice': price,
             'membersSpecialPrice': {
-              'onlyForPlatinumMember': priceInfo.membersSpecialPrice!.onlyForPlatinumMember,
-              'onlyForSilverMember': priceInfo.membersSpecialPrice!.onlyForSilverMember,
-              'onlyForGoldMember': priceInfo.membersSpecialPrice!.onlyForGoldMember,
+              'onlyForPlatinumMember':
+                  priceInfo.membersSpecialPrice!.onlyForPlatinumMember,
+              'onlyForSilverMember':
+                  priceInfo.membersSpecialPrice!.onlyForSilverMember,
+              'onlyForGoldMember':
+                  priceInfo.membersSpecialPrice!.onlyForGoldMember,
               'forSilverMember': priceInfo.membersSpecialPrice!.forSilverMember,
               'forGoldMember': priceInfo.membersSpecialPrice!.forGoldMember,
-              'forPlatinumMember': priceInfo.membersSpecialPrice!.forPlatinumMember,
+              'forPlatinumMember':
+                  priceInfo.membersSpecialPrice!.forPlatinumMember,
             }
           }
         });
@@ -769,7 +773,7 @@ class CartController extends GetxController {
       } else {
         return 0;
       }
-    }else if (type == 'MSD') {
+    } else if (type == 'MSD') {
       if (msdProducts[key] != null) {
         return msdProducts[key]!.count!;
       } else {

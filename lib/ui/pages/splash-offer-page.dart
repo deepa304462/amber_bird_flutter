@@ -14,7 +14,7 @@ class SplashOfferPage extends StatelessWidget {
   LiquidController liquidController = LiquidController();
   LocationController locationController = Get.find();
   final OnBoardingController onBoardingController = Get.find();
- 
+
   // Making list of pages needed to pass in IntroViewsFlutter constructor.
   var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
   @override
@@ -22,7 +22,6 @@ class SplashOfferPage extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     return Obx(
       () => Stack(children: [
-       
         onBoardingController.onboardingData.value.appIntro != null
             ? LiquidSwipe.builder(
                 itemCount: onBoardingController

@@ -8,11 +8,10 @@ class ControllerGenerator {
   ControllerGenerator._();
   static create(GetxController controller, {String? tag}) {
     if (tag == null) {
-  
       // if (Get.isRegistered<controller>()) {
       // return Get.find<controller>();
       // }else{
-        return Get.put(controller);
+      return Get.put(controller);
       // }
     } else {
       try {

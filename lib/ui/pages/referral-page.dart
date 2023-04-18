@@ -67,8 +67,9 @@ class ReferralPage extends StatelessWidget {
                             style: TextStyles.headingFont
                                 .copyWith(color: Colors.grey),
                           ),
-                          Row(children: [
-Card(
+                          Row(
+                            children: [
+                              Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                     side: BorderSide(
@@ -78,7 +79,8 @@ Card(
                                   child: Obx(() {
                                     return Text(
                                       controller.shortLink.value.shortUrl!,
-                                      style: TextStyles.bodyFontBold.copyWith(color: AppColors.grey),
+                                      style: TextStyles.bodyFontBold
+                                          .copyWith(color: AppColors.grey),
                                     );
                                   }),
                                 ),
@@ -116,8 +118,8 @@ Card(
                                   ),
                                 ),
                               )
-                          ],),
-                          
+                            ],
+                          ),
                         ],
                       );
               })),

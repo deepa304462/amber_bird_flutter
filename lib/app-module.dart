@@ -9,7 +9,6 @@ import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/widget-module.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-
 //http://localhost:64123/#/form/60e6b312c7f5dc000df40a1c/en
 class AppModule extends Module {
   // Provide a list of dependencies to inject into your project
@@ -29,7 +28,7 @@ class AppModule extends Module {
           return WildCardRoutePage(args.uri);
         }),
         ModuleRoute('/', module: HomePageModule()),
-         WildcardRoute(child: (context, args) {
+        WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),

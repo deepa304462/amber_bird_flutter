@@ -61,7 +61,7 @@ class EditProfilePage extends StatelessWidget {
                               Modular.to.navigate('/home/main');
                             }
                           },
-                          icon: const Icon(Icons.arrow_back))
+                          icon: const Icon(Icons.arrow_back_ios))
                     ]),
                 SizedBox(
                   // height: ,

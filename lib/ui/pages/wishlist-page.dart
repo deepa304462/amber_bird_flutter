@@ -4,7 +4,7 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/favorite.insight.detail.dart';
 import 'package:amber_bird/data/customer/wish_list.insight.detail.dart';
 import 'package:amber_bird/data/price/price.dart';
- import 'package:amber_bird/data/profile/ref.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -155,7 +155,8 @@ class WishListPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Modular.to.pushNamed('/widget/product/${curwishList.product!.id}');
+                    Modular.to.pushNamed(
+                        '/widget/product/${curwishList.product!.id}');
                   },
                   child: ImageBox(
                       curwishList.product != null

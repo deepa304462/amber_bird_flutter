@@ -234,6 +234,9 @@ class CartWidget extends StatelessWidget {
                       currentProduct.constraint.minimumOrder != null)
                   ? currentProduct.constraint!.minimumOrder
                   : 1;
+              var currentMemberPrice = Helper.getMsdAmount(
+                  price: currentProduct.price!,
+                  userType: stateController.userType.value);
               return Column(
                 children: [
                   currentProduct.products!.isNotEmpty
@@ -297,8 +300,17 @@ class CartWidget extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
+                                        ImageBox(
+                                          stateController.membershipIcon.value,
+                                          height: 20,
+                                          width: 20,
+                                          fit: BoxFit.contain,
+                                        ),
                                         Text(
-                                          '${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}',
+                                          Helper.getFormattedNumber(
+                                                  currentMemberPrice *
+                                                      currentProduct.count)
+                                              .toString(),
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -524,20 +536,43 @@ class CartWidget extends StatelessWidget {
                                 subtitle: Row(
                                   children: [
                                     Text(
-                                      '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}',
+                                      '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}/ ',
                                       style: TextStyles.body,
                                     ),
+                                    ImageBox(
+                                      stateController.membershipIcon.value,
+                                      height: 20,
+                                      width: 20,
+                                      fit: BoxFit.contain,
+                                    ),
                                     Text(
-                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)} ',
+                                        '${Helper.getFormattedNumber(currentMemberPrice).toString()} ',
                                         style: TextStyles.body),
                                   ],
                                 ),
                                 trailing: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      '${CodeHelp.euro}${Helper.getFormattedNumber(Helper.getMsdAmount(price: currentProduct.price!, userType: stateController.userType.value) * currentProduct.count).toString()}',
-                                      style: TextStyles.headingFont,
+                                    SizedBox(
+                                      width: 60,
+                                      child: Row(
+                                        children: [
+                                          ImageBox(
+                                            stateController
+                                                .membershipIcon.value,
+                                            height: 20,
+                                            width: 20,
+                                            fit: BoxFit.contain,
+                                          ),
+                                          Text(
+                                            Helper.getFormattedNumber(
+                                                    currentMemberPrice *
+                                                        currentProduct.count)
+                                                .toString(),
+                                            style: TextStyles.headingFont,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     Card(
                                       color: AppColors.primeColor,
@@ -993,8 +1028,7 @@ class CartWidget extends StatelessWidget {
                                                 onPressed: () async {
                                                   if (stateController
                                                       .isLogin.value) {
-                                                    stateController.showLoader
-                                                        .value = true;
+                                                    isLoading.value = true;
                                                     var valid = false;
                                                     var msg =
                                                         'Something went wrong!';
@@ -1072,8 +1106,7 @@ class CartWidget extends StatelessWidget {
                                                 onPressed: () async {
                                                   if (stateController
                                                       .isLogin.value) {
-                                                    stateController.showLoader
-                                                        .value = true;
+                                                    isLoading.value = true;
                                                     var valid = false;
                                                     var msg =
                                                         'Something went wrong!';

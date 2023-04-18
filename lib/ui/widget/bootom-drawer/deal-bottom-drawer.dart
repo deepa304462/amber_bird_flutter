@@ -5,7 +5,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
- import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';

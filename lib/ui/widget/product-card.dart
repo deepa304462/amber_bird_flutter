@@ -175,10 +175,18 @@ class ProductCard extends StatelessWidget {
       var currentMemberPrice = Helper.getMsdAmount(
           price: activeVariant.value.price!,
           userType: stateController.userType.value);
-      return Text(
-        "${currentMemberPrice.toString()} ${CodeHelp.euro}",
-        style: TextStyles.headingFont,
-      );
+      return Row(children: [
+        Text(
+          "${currentMemberPrice.toString()} ",
+          style: TextStyles.headingFont,
+        ),
+        ImageBox(
+          stateController.membershipIcon.value,
+          height: 20,
+          width: 20,
+          fit: BoxFit.contain,
+        ),
+      ]);
     } else {
       return (addedFrom == 'PRODUCT' ||
               addedFrom == 'CATEGORY' ||

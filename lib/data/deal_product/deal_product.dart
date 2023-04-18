@@ -1,6 +1,5 @@
 import 'dart:convert';
 
- 
 import 'package:amber_bird/data/price/price.dart';
 
 import 'constraint.dart';

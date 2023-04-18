@@ -62,7 +62,7 @@ class AppBarWidget extends StatelessWidget {
                           // padding: EdgeInsets.all(0),
                           onPressed: () {
                             if (stateController.isLogin.value) {
-                              Modular.to.pushNamed('/wallet');
+                              Modular.to.pushNamed('/widget/wallet');
                             } else {
                               Modular.to.navigate('/login');
                             }
@@ -73,7 +73,7 @@ class AppBarWidget extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             if (stateController.isLogin.value) {
-                              Modular.to.pushNamed('/wallet');
+                              Modular.to.pushNamed('/widget/wallet');
                             } else {
                               Modular.to.navigate('/login');
                             }
@@ -210,7 +210,7 @@ class AppBarShrinkWidget extends StatelessWidget {
                     // padding: EdgeInsets.all(0),
                     onPressed: () {
                       if (stateController.isLogin.value) {
-                        Modular.to.pushNamed('/wallet');
+                        Modular.to.pushNamed('/widget/wallet');
                       } else {
                         Modular.to.navigate('/login');
                       }
@@ -221,7 +221,7 @@ class AppBarShrinkWidget extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if (stateController.isLogin.value) {
-                        Modular.to.pushNamed('/wallet');
+                        Modular.to.pushNamed('/widget/wallet');
                       } else {
                         Modular.to.navigate('/login');
                       }
