@@ -141,7 +141,9 @@ class ProductCard extends StatelessWidget {
                       ],
                     )
                   : (product.varients!.length == 1 ||
-                          addedFrom == 'TAGS_PRODUCT')
+                          addedFrom == 'TAGS_PRODUCT'  ||
+                                  addedFrom == 'DEAL' ||
+                                  addedFrom == 'MULTIPRODUCT')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
@@ -160,7 +162,8 @@ class ProductCard extends StatelessWidget {
               checkPriceVisibility() ? showPrice() : const SizedBox(),
             ],
           ),
-          (addedFrom == 'TAGS_PRODUCT')
+          (addedFrom == 'TAGS_PRODUCT' ||  addedFrom == 'DEAL' ||
+                  addedFrom == 'MULTIPRODUCT')
               ? const SizedBox()
               : (product.varients!.length > 1
                   ? productVarientView(product.varients!)

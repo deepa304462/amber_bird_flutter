@@ -37,7 +37,7 @@ class DealProductCard extends StatelessWidget {
                       fixedHeight: true,
                       dProduct.product,
                       dProduct.id,
-                      currentdealName.toString(),
+                     'DEAL', // currentdealName.toString(),
                       dProduct.dealPrice,
                       dProduct.ruleConfig,
                       dProduct.constraint),

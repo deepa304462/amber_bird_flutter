@@ -680,59 +680,79 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   MsdPrice(context, price) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Row(
-          children: [
-            ImageBox(
-              stateController.membershipIcon.value,
-              height: 20,
-              width: 20,
-              fit: BoxFit.contain,
+    return SizedBox(
+      height: 40,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+        itemCount: stateController.membershipList.length,
+        itemBuilder: (_, index) {
+          var currentKey =
+              stateController.membershipList.value.keys.elementAt(index);
+          var currenMemberInfo =
+              stateController.membershipList.value[currentKey]!;
+
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child: Row(
+              children: [
+                ImageBox(
+                  currenMemberInfo.imageId!,
+                  height: 20,
+                  width: 20,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  Helper.getFormattedNumber(Helper.getMsdAmount(
+                          price: price!, userType: currenMemberInfo.id!))
+                      .toString(),
+                  style: TextStyles.headingFont,
+                ),
+              ],
             ),
-            Text(
-              Helper.getFormattedNumber(Helper.getMsdAmount(
-                      price: price!,
-                      userType: stateController.userType.value)).toString(),
-              style: TextStyles.headingFont,
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            ImageBox(
-              stateController.membershipIcon.value,
-              height: 20,
-              width: 20,
-              fit: BoxFit.contain,
-            ),
-            Text(
-              Helper.getFormattedNumber(Helper.getMsdAmount(
-                      price: price!, userType: stateController.userType.value))
-                  .toString(),
-              style: TextStyles.headingFont,
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            ImageBox(
-              stateController.membershipIcon.value,
-              height: 20,
-              width: 20,
-              fit: BoxFit.contain,
-            ),
-            Text(
-              Helper.getFormattedNumber(Helper.getMsdAmount(
-                      price: price!, userType: stateController.userType.value))
-                  .toString(),
-              style: TextStyles.headingFont,
-            ),
-          ],
-        ),
-      ],
+          );
+        },
+      ),
     );
+    //     Row(
+    //       children: [
+    //         ImageBox(
+    //           stateController.membershipIcon.value,
+    //           height: 20,
+    //           width: 20,
+    //           fit: BoxFit.contain,
+    //         ),
+    //         Text(
+    //           Helper.getFormattedNumber(Helper.getMsdAmount(
+    //                   price: price!, userType: stateController.userType.value))
+    //               .toString(),
+    //           style: TextStyles.headingFont,
+    //         ),
+    //       ],
+    //     ),
+    //     Row(
+    //       children: [
+    //         ImageBox(
+    //           stateController.membershipIcon.value,
+    //           height: 20,
+    //           width: 20,
+    //           fit: BoxFit.contain,
+    //         ),
+    //         Text(
+    //           Helper.getFormattedNumber(Helper.getMsdAmount(
+    //                   price: price!, userType: stateController.userType.value))
+    //               .toString(),
+    //           style: TextStyles.headingFont,
+    //         ),
+    //       ],
+    //     ),
+    //   ],
+    // );
   }
 
   deliveryTo(context) {

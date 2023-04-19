@@ -223,8 +223,8 @@ class CategoryPage extends StatelessWidget {
         return _scoinProductList(megaMenuController, context);
       case 'MSD':
         return _ProductList(megaMenuController, context, 'MSD');
-      case 'TAGS':
-        return _ProductList(megaMenuController, context, 'TAGS');
+      case 'TAGS_PRODUCT':
+        return _ProductList(megaMenuController, context, 'TAGS_PRODUCT');
       default:
         return categoryProducts(megaMenuController, context);
     }

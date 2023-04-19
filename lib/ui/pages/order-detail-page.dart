@@ -54,6 +54,6 @@ class OrderDetailPage extends StatelessWidget {
                             orderController.orderDetail.value.id!)
                         : const LoadingWithLogo())
               ],
-            )));
+            ),),);
   }
 }

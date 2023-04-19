@@ -82,13 +82,13 @@ class MegaMenuController extends GetxController {
       cList.add(GenericTab(
           image: '34038fcf-20e1-4840-a188-413b83d72e11',
           // image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
-          id: 'Deal',
+          id: 'DEAL',
           type: 'DEAL',
           text: 'Deal'));
       cList.add(GenericTab(
           image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-          id: 'Tags',
-          type: 'TAGS',
+          id: 'TAGS_PRODUCT',
+          type: 'TAGS_PRODUCT',
           text: 'Hot'));
       // cList.add(GenericTab(
       //     image: '34038fcf-20e1-4840-a188-413b83d72e11',
@@ -172,7 +172,7 @@ class MegaMenuController extends GetxController {
     selectedType.value = parentTab.type!;
     selectedParentTab.value = parentTab.id!;
     selectedSubMenu.value = parentTab.id!;
-    if (parentTab.type != 'TAGS') {
+    if (parentTab.type != 'TAGS_PRODUCT') {
       subMenuList.add(GenericTab(
           text: 'All',
           id: parentTab.id,
@@ -258,7 +258,7 @@ class MegaMenuController extends GetxController {
             }).toList() ??
             []);
       }
-    } else if (parentTab.type == 'TAGS') {
+    } else if (parentTab.type == 'TAGS_PRODUCT') {
       var response =
           await ClientService.post(path: 'productTag/search', payload: {});
       if (response.statusCode == 200) {
@@ -325,7 +325,7 @@ class MegaMenuController extends GetxController {
         productList.value = dList;
         isLoading.value = false;
       }
-    } else if (parentTab.type == 'TAGS') {
+    } else if (parentTab.type == 'TAGS_PRODUCT') {
       var payload = {"tagId": selectedSubMenu.value};
 
       var response = await ClientService.searchQuery(
