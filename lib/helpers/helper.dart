@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
@@ -10,6 +11,7 @@ import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:get/get.dart';
 
 import 'controller-generator.dart';
 
@@ -37,6 +39,48 @@ class Helper {
     } else {
       return price.membersSpecialPrice!.forGoldMember!;
     }
+  }
+
+  static double getShipping() {
+    if (Get.isRegistered<Controller>()) {
+      var controller = Get.find<Controller>();
+      if (controller.membershipList[controller.userType.value] != null) {
+        return controller
+            .membershipList[controller.userType.value]!.standardShippingCharge!;
+      } else {
+        return 4.99;
+      }
+    } else {
+      return 4.99;
+    }
+  }
+
+  static dynamic getOfferedShipping() {
+    if (Get.isRegistered<Controller>()) {
+      var controller = Get.find<Controller>();
+      if (Get.isRegistered<CartController>()) {
+        var cartController = Get.find<CartController>();
+        
+        if (controller.membershipList[controller.userType.value] != null) {
+          return {'amountRequired':cartController
+              .calculatedPayment
+              .value
+              .totalAmount-controller.membershipList[controller.userType.value]!
+              .cartValueAboveWhichOfferShippingApplied!,'offeredShipping': controller
+                .membershipList[controller.userType.value]!
+                .offerShippingCharge!};
+          
+        } 
+      }else{
+        return {
+          'amountRequired': controller
+              .membershipList[controller.userType.value]!
+              .cartValueAboveWhichOfferShippingApplied!,
+          'offeredShipping': 0
+        };
+      }
+    }
+    return {'amountRequired':0,'offeredShipping':0};
   }
 
   static dynamic getCatMultiName(String dealType) {

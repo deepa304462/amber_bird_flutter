@@ -487,19 +487,22 @@ class ProductDetailScreen extends StatelessWidget {
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
       child: Obx(
         () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBar(
+              elevation: 1,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12))),
               backgroundColor: AppColors.white,
+              leadingWidth: 50,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   const SizedBox(),
                   Text(
-                    'Shipping',
+                    'Shipping Policy',
                     style: TextStyles.headingFont,
                   ),
                   IconButton(
@@ -510,53 +513,76 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              leading: const SizedBox(),
-            ),
-            ListTile(
-              onTap: () {
-                showModalBottomSheet<void>(
-                  // context and builder are
-                  // required properties in this widget
-                  context: context,
-                  useRootNavigator: true,
-                  isDismissible: true,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                  backgroundColor: Colors.white,
-                  isScrollControlled: true,
-                  elevation: 3,
-                  builder: (context) {
-                    return AddressDrawer(context);
-                  },
-                );
-              },
-              leading: Icon(Icons.pin_drop, color: AppColors.black, size: 20),
-              title: Text(
-                'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
-                style: TextStyles.titleFont,
+              leading: ImageBox(
+                stateController.membershipIcon.value,
+                width: 15,
+                height: 15,
+                fit: BoxFit.contain,
               ),
             ),
-            ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: addressList.length,
-              itemBuilder: (_, index) {
-                var currentAddress = addressList[index];
-                return addressCard(
-                  context,
-                  locationController,
-                  index,
-                  currentAddress,
-                  () {
-                    locationController.addressData.value = currentAddress;
-                    locationController.pinCode.value = currentAddress.zipCode!;
-                    Navigator.pop(context);
-                    return {};
-                  },
-                );
-              },
+            ListTile(
+              onTap: () {},
+              dense: true,
+              minLeadingWidth: 20,
+              horizontalTitleGap: 10,
+              trailing: SizedBox(
+                width: 100,
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Text(locationController.addressData.value.country ?? ' '),
+                  Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15)
+                ]),
+              ),
+              leading:
+                  Icon(Icons.pin_drop_sharp, color: AppColors.black, size: 20),
+              title: Text(
+                'Ship to',
+                style: TextStyles.headingFont,
+              ),
             ),
+            Divider(
+              color: AppColors.lightGrey,
+              height: 1,
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+              child: Text(
+                '${Helper.getShipping()} Standarad Shipping',
+                style: TextStyles.body,
+              ),
+            ),
+            Divider(
+              color: AppColors.lightGrey,
+              height: 1,
+              thickness: 1,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.40,
+              child: SingleChildScrollView(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: addressList.length,
+                  itemBuilder: (_, index) {
+                    var currentAddress = addressList[index];
+                    return addressCard(
+                      context,
+                      locationController,
+                      index,
+                      currentAddress,
+                      () {
+                        locationController.addressData.value = currentAddress;
+                        locationController.pinCode.value =
+                            currentAddress.zipCode!;
+                        Navigator.pop(context);
+                        return {};
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -572,6 +598,7 @@ class ProductDetailScreen extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12), topRight: Radius.circular(12))),
           backgroundColor: AppColors.white,
+          elevation: 1,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -610,6 +637,10 @@ class ProductDetailScreen extends StatelessWidget {
                       'Secure Payments',
                       style: TextStyles.headingFont,
                     ),
+                    dense: true,
+                    minLeadingWidth: 20,
+                    horizontalTitleGap: 10,
+                    // contentPadding: const EdgeInsets.all(2),
                     subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -642,12 +673,16 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {},
-                    leading: Icon(Icons.reset_tv_rounded,
+                    leading: Icon(Icons.accessibility,
                         color: AppColors.black, size: 15),
                     title: Text(
-                      'Refund promise',
+                      'Customer Service',
                       style: TextStyles.headingFont,
                     ),
+                    dense: true,
+                    minLeadingWidth: 20,
+                    horizontalTitleGap: 10,
+                    // contentPadding: const EdgeInsets.all(2),
                     subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -789,12 +824,20 @@ class ProductDetailScreen extends StatelessWidget {
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
             title: Text(
-              'Shipping',
+              '${Helper.getShipping()} Standarad Shipping',
               style: TextStyles.headingFont,
             ),
-            subtitle: Text(
-              'Ship to Your address, ${locationController.addressData.value.zipCode ?? ' '}',
-              style: TextStyles.body,
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Helper.getOfferedShipping()['amountRequired'] < 0
+                  ? Text(
+                      'Free offered shipping ',
+                      style: TextStyles.body,
+                    )
+                  : Text(
+                      '${CodeHelp.euro}${Helper.getOfferedShipping()['offeredShipping']} Shipping cost or buy more of ${CodeHelp.euro}${Helper.getOfferedShipping()['amountRequired']}',
+                      style: TextStyles.body,
+                    ),
             ),
           ),
         ),
@@ -831,45 +874,35 @@ class ProductDetailScreen extends StatelessWidget {
               style: TextStyles.headingFont,
             ),
             subtitle: Wrap(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.accessibility,
-                      size: 15,
-                    ),
-                    Text(
-                      'Customer Service',
-                      style: TextStyles.body.copyWith(color: AppColors.grey),
-                    ),
-                    const Icon(
-                      Icons.security_rounded,
-                      size: 15,
-                    ),
-                    Text(
-                      'Secure Payments',
-                      style: TextStyles.body.copyWith(color: AppColors.grey),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.accessibility,
+                        size: 15,
+                      ),
+                      Text(
+                        'Customer Service',
+                        style: TextStyles.body.copyWith(color: AppColors.grey),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      const Icon(
+                        Icons.security_rounded,
+                        size: 15,
+                      ),
+                      Text(
+                        'Secure Payments',
+                        style: TextStyles.body.copyWith(color: AppColors.grey),
+                      ),
+                    ],
+                  ),
                 ),
-                // TextButton.icon(
-                //   onPressed: () {},
-                //   icon: const Icon(
-                //     Icons.check_circle_outline,
-                //     size: 15,
-                //   ),
-                //   style: TextButton.styleFrom(
-                //     padding: EdgeInsets.zero,
-                //   ),
-                //   label: Text(
-                //     'Customer service',
-                //     style: TextStyles.body.copyWith(color: AppColors.grey),
-                //   ),
-                // ),
               ],
             ),
           ),
