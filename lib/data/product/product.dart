@@ -5,6 +5,7 @@ import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 
 import 'brand.dart';
 import 'marketing_info.dart';
@@ -15,6 +16,7 @@ class Product {
   Description? description;
   List<dynamic>? images;
   List<Varient>? varients;
+  List<Ref>? tags;
   List<String>? keywords;
   Brand? brand;
   Category? category;
@@ -31,6 +33,7 @@ class Product {
     this.description,
     this.images,
     this.varients,
+    this.tags,
     this.keywords,
     this.brand,
     this.category,
@@ -44,7 +47,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(metaData: $metaData, name: $name, description: $description, images: $images, varients: $varients, keywords: $keywords, brand: $brand, category: $category, defaultVarientCode: $defaultVarientCode, marketingInfo: $marketingInfo, type: $type, countryCode: $countryCode, businessId: $businessId, id: $id)';
+    return 'Product(metaData: $metaData, name: $name, tags:$tags,description: $description, images: $images, varients: $varients, keywords: $keywords, brand: $brand, category: $category, defaultVarientCode: $defaultVarientCode, marketingInfo: $marketingInfo, type: $type, countryCode: $countryCode, businessId: $businessId, id: $id)';
   }
 
   factory Product.fromMap(Map<String, dynamic> data) => Product(
@@ -60,6 +63,9 @@ class Product {
         images: data['images'] as List<dynamic>?,
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
+            .toList(),
+             tags: (data['tags'] as List<dynamic>?)
+            ?.map((e) => Ref.fromMap(e as Map<String, dynamic>))
             .toList(),
         keywords: (data['keywords'] as List<dynamic>?)
             ?.map((e) => e as String)
@@ -88,6 +94,7 @@ class Product {
         'description': description?.toMap(),
         'images': images,
         'varients': varients?.map((e) => e.toMap()).toList(),
+        'tags': tags?.map((e) => e.toMap()).toList(),
         'keywords': keywords,
         'brand': brand?.toMap(),
         'category': category?.toMap(),
@@ -117,6 +124,7 @@ class Product {
     Description? description,
     List<dynamic>? images,
     List<Varient>? varients,
+    List<Ref>? tags,
     List<String>? keywords,
     Brand? brand,
     Category? category,
@@ -133,6 +141,7 @@ class Product {
       description: description ?? this.description,
       images: images ?? this.images,
       varients: varients ?? this.varients,
+      tags: tags ?? this.tags,
       keywords: keywords ?? this.keywords,
       brand: brand ?? this.brand,
       category: category ?? this.category,

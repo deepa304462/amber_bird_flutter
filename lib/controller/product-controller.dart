@@ -1,3 +1,4 @@
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
@@ -8,6 +9,8 @@ class ProductController extends GetxController {
   var activeIndexVariant = 0.obs;
   final tag;
   Rx<Varient> varient = Varient().obs;
+
+  RxList<ProductSummary> recommendedProd= <ProductSummary>[].obs;
 
   ProductController(this.tag);
   @override
@@ -36,4 +39,7 @@ class ProductController extends GetxController {
   setVarient(Varient value) {
     varient.value = value;
   }
+
+  getRecommendedProd(){}
+  
 }

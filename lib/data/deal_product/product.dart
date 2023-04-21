@@ -5,6 +5,7 @@ import 'package:amber_bird/data/category/category.dart';
 import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/profile/ref.dart';
 
 class ProductSummary {
   Name? name;
@@ -18,6 +19,7 @@ class ProductSummary {
   dynamic? defaultPurchaseCount;
   String? type;
   List<Varient>? varients;
+  List<Ref>? tags;
   String? id;
 
   ProductSummary({
@@ -32,12 +34,13 @@ class ProductSummary {
     this.defaultPurchaseCount,
     this.type,
     this.varients,
+    this.tags,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists,defaultPurchaseCount: $defaultPurchaseCount, type: $type, varients: $varients, id: $id)';
+    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists,defaultPurchaseCount: $defaultPurchaseCount, type: $type, varients: $varients, tags: $tags,id: $id)';
   }
 
   factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
@@ -64,6 +67,9 @@ class ProductSummary {
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
             .toList(),
+             tags: (data['tags'] as List<dynamic>?)
+            ?.map((e) => Ref.fromMap(e as Map<String, dynamic>))
+            .toList(),
         id: data['_id'] as String?,
       );
 
@@ -79,6 +85,7 @@ class ProductSummary {
         'defaultPurchaseCount': defaultPurchaseCount,
         'type': type,
         'varients': varients?.map((e) => e.toMap()).toList(),
+        'tags': tags?.map((e) => e.toMap()).toList(),
         '_id': id,
       };
 
@@ -106,6 +113,7 @@ class ProductSummary {
     dynamic? defaultPurchaseCount,
     String? type,
     List<Varient>? varients,
+    List<Ref>? tags,
     String? id,
   }) {
     return ProductSummary(
@@ -120,6 +128,7 @@ class ProductSummary {
       defaultPurchaseCount: defaultPurchaseCount ?? this.defaultPurchaseCount,
       type: type ?? this.type,
       varients: varients ?? this.varients,
+      tags: tags ?? this.tags,
       id: id ?? this.id,
     );
   }

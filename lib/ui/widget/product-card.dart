@@ -141,9 +141,9 @@ class ProductCard extends StatelessWidget {
                       ],
                     )
                   : (product.varients!.length == 1 ||
-                          addedFrom == 'TAGS_PRODUCT'  ||
-                                  addedFrom == 'DEAL' ||
-                                  addedFrom == 'MULTIPRODUCT')
+                          addedFrom == 'TAGS_PRODUCT' ||
+                          addedFrom == 'DEAL' ||
+                          addedFrom == 'MULTIPRODUCT')
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
@@ -162,7 +162,8 @@ class ProductCard extends StatelessWidget {
               checkPriceVisibility() ? showPrice() : const SizedBox(),
             ],
           ),
-          (addedFrom == 'TAGS_PRODUCT' ||  addedFrom == 'DEAL' ||
+          (addedFrom == 'TAGS_PRODUCT' ||
+                  addedFrom == 'DEAL' ||
                   addedFrom == 'MULTIPRODUCT')
               ? const SizedBox()
               : (product.varients!.length > 1
@@ -476,7 +477,20 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 );
-              })
+              }),
+              product!.tags!.length > 0
+                  ? Positioned(
+                      top: 30,
+                      child: Card(
+                          color: AppColors.secondaryColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5))),
+                          child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Text(product!.tags![0].name!,style: TextStyles.body.copyWith(color: AppColors.white),))))
+                  : const SizedBox()
             ],
           ),
         ),
