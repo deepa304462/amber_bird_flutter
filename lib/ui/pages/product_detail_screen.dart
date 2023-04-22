@@ -104,7 +104,7 @@ class ProductDetailScreen extends StatelessWidget {
     final ProductController productController =
         Get.put(ProductController(pId ?? ''), tag: pId ?? "");
     return Obx(
-      () => productController.product.value.id != null
+      () => (  productController.product.value.id != null)
           ? Scaffold(
               appBar: AppBar(
                 toolbarHeight: 40,
@@ -219,7 +219,7 @@ class ProductDetailScreen extends StatelessWidget {
                                 height: 8,
                                 thickness: 8,
                               ),
-                              deliveryTo(context),
+                              deliveryTo(productController,context),
                               Divider(
                                 color: AppColors.lightGrey,
                                 height: 8,
@@ -399,7 +399,7 @@ class ProductDetailScreen extends StatelessWidget {
                                           children: [
                                               TextButton(
                                                 style: TextButton.styleFrom(
-                                                    padding: EdgeInsets.zero,
+                                                    padding: EdgeInsets.only(left: 3,right: 10),
                                                     minimumSize: Size(50, 30),
                                                     tapTargetSize:
                                                         MaterialTapTargetSize
@@ -553,7 +553,7 @@ class ProductDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
               child: Text(
-                '${Helper.getShipping()} Standarad Shipping',
+                '${Helper.getShipping()} Standard Shipping',
                 style: TextStyles.body,
               ),
             ),
@@ -787,7 +787,8 @@ class ProductDetailScreen extends StatelessWidget {
     // );
   }
 
-  deliveryTo(context) {
+  deliveryTo(productController,context) {
+     
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -821,18 +822,18 @@ class ProductDetailScreen extends StatelessWidget {
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
             title: Text(
-              '${Helper.getShipping()} Standarad Shipping',
+              '${Helper.getShipping()} Standard Shipping',
               style: TextStyles.headingFont,
             ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Helper.getOfferedShipping()['amountRequired'] < 0
+              child: (productController.offerShipping.value['amountRequired'] < 0)
                   ? Text(
                       'Free offered shipping ',
                       style: TextStyles.body,
                     )
                   : Text(
-                      '${Helper.getOfferedShipping()['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${Helper.getOfferedShipping()['amountRequired']}',
+                      '${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                       style: TextStyles.body,
                     ),
             ),

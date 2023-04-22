@@ -21,6 +21,27 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primeColor,
+        title: Text(
+          'Sign up',
+          style: TextStyles.headingFont.copyWith(color: Colors.white),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Modular.to.navigate('/login');
+              // Modular.to.pushNamed('/home/main');
+            }
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: GetX<AuthController>(builder: (mController) {
         return Container(
           // elevation: 5,

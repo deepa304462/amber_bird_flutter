@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
@@ -55,32 +56,36 @@ class Helper {
     }
   }
 
-  static dynamic getOfferedShipping() {
+  static dynamic getOfferedShipping() async {
     if (Get.isRegistered<Controller>()) {
       var controller = Get.find<Controller>();
-      if (Get.isRegistered<CartController>()) {
-        var cartController = Get.find<CartController>();
-        
-        if (controller.membershipList[controller.userType.value] != null) {
-          return {'amountRequired':cartController
-              .calculatedPayment
-              .value
-              .totalAmount-controller.membershipList[controller.userType.value]!
-              .cartValueAboveWhichOfferShippingApplied!,'offeredShipping': controller
-                .membershipList[controller.userType.value]!
-                .offerShippingCharge!};
-          
-        } 
-      }else{
+      var insightDetail =
+          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+
+      if (controller.membershipList[controller.userType.value] != null &&
+          cust.cart != null &&
+          cust.cart!.payment != null) {
+        return {
+          'amountRequired': cust.cart!.payment!.totalAmount -
+              controller.membershipList[controller.userType.value]!
+                  .cartValueAboveWhichOfferShippingApplied!,
+          'offeredShipping': controller
+              .membershipList[controller.userType.value]!.offerShippingCharge!
+        };
+      } else if (controller.membershipList[controller.userType.value] != null &&
+          cust.cart != null &&
+          cust.cart!.payment == null) {
         return {
           'amountRequired': controller
               .membershipList[controller.userType.value]!
               .cartValueAboveWhichOfferShippingApplied!,
-          'offeredShipping': 0
+          'offeredShipping': controller
+              .membershipList[controller.userType.value]!.offerShippingCharge!
         };
       }
     }
-    return {'amountRequired':0,'offeredShipping':0};
+    return {'amountRequired': 0, 'offeredShipping': 0};
   }
 
   static dynamic getCatMultiName(String dealType) {

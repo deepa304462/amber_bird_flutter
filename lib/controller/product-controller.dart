@@ -1,6 +1,7 @@
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/product/product.dart';
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ class ProductController extends GetxController {
   var activeIndexVariant = 0.obs;
   final tag;
   Rx<Varient> varient = Varient().obs;
-
+  RxMap offerShipping = {}.obs;
   RxList<ProductSummary> recommendedProd= <ProductSummary>[].obs;
 
   ProductController(this.tag);
@@ -17,9 +18,11 @@ class ProductController extends GetxController {
   void onInit() {
     getProduct(tag);
     super.onInit();
+    
   }
 
   getProduct(String id) async {
+     offerShipping.value =await Helper.getOfferedShipping();
     var response =
         await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {
