@@ -478,7 +478,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 );
               }),
-             ( product!.tags!.length > 0 &&  addedFrom != 'TAGS_PRODUCT')
+             ( product!.tags!.length > 0 &&  addedFrom != 'TAGS_PRODUCT' && addedFrom != 'DEAL' )
                   ? Positioned(
                       top: 30,
                       child: Card(
