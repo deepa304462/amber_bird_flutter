@@ -117,11 +117,17 @@ class ProductDetailScreen extends StatelessWidget {
                       if (Navigator.canPop(context)) {
                         Navigator.pop(context);
                       } else {
-                        Modular.to.navigate('../../home/main');
-                        // Modular.to.pushNamed('/home/main');
+                        // Modular.to.navigate('../../home/main');
+                       
+                        if(Modular.to.canPop()){
+                          Modular.to.pop();
+                        }else{
+                          Modular.to.navigate('../../home/main');
+                        }
+                        // Modular.to.pushNamed('../../home/main');
                       }
                     } catch (err) {
-                      Modular.to.pushNamed('/home/main');
+                      Modular.to.pushNamed('../../home/main');
                     }
                   },
                   child: const Icon(
