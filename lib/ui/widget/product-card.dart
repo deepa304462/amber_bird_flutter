@@ -478,7 +478,10 @@ class ProductCard extends StatelessWidget {
                   ),
                 );
               }),
-             ( product!.tags!.length > 0 &&  addedFrom != 'TAGS_PRODUCT' && addedFrom != 'DEAL' )
+              (product!.tags!.length > 0 &&
+                      addedFrom != 'TAGS_PRODUCT' &&
+                      addedFrom != 'DEAL' &&
+                      addedFrom != 'MULTIPRODUCT')
                   ? Positioned(
                       top: 30,
                       child: Card(
@@ -489,7 +492,11 @@ class ProductCard extends StatelessWidget {
                                   bottomRight: Radius.circular(5))),
                           child: Padding(
                               padding: const EdgeInsets.all(2.0),
-                              child: Text(product!.tags![0].name!,style: TextStyles.body.copyWith(color: AppColors.white),))))
+                              child: Text(
+                                product!.tags![0].name!,
+                                style: TextStyles.body
+                                    .copyWith(color: AppColors.white),
+                              ))))
                   : const SizedBox()
             ],
           ),
@@ -502,40 +509,41 @@ class ProductCard extends StatelessWidget {
     return SizedBox(
       height: 30,
       child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: varientList.length,
-          shrinkWrap: true,
-          itemBuilder: (_, index) {
-            var currentVarient = varientList[index];
-            return Obx(
-              () => InkWell(
-                onTap: () {
-                  activeVariant.value = currentVarient;
-                  // productController.setVarient(currentVarient);
-                },
-                child: Card(
-                  color: currentVarient.varientCode ==
-                          activeVariant.value.varientCode
-                      ? AppColors.primeColor
-                      : Colors.white,
-                  margin: const EdgeInsets.all(1),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 1.0, 04, 01),
-                    child: Center(
-                      child: Text(
-                        '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                        style: TextStyles.body.copyWith(
-                            color: currentVarient.varientCode !=
-                                    activeVariant.value.varientCode
-                                ? AppColors.primeColor
-                                : Colors.white),
-                      ),
+        scrollDirection: Axis.horizontal,
+        itemCount: varientList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var currentVarient = varientList[index];
+          return Obx(
+            () => InkWell(
+              onTap: () {
+                activeVariant.value = currentVarient;
+                // productController.setVarient(currentVarient);
+              },
+              child: Card(
+                color: currentVarient.varientCode ==
+                        activeVariant.value.varientCode
+                    ? AppColors.primeColor
+                    : Colors.white,
+                margin: const EdgeInsets.all(1),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 1.0, 04, 01),
+                  child: Center(
+                    child: Text(
+                      '${currentVarient.weight!.toStringAsFixed(0)} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                      style: TextStyles.body.copyWith(
+                          color: currentVarient.varientCode !=
+                                  activeVariant.value.varientCode
+                              ? AppColors.primeColor
+                              : Colors.white),
                     ),
                   ),
                 ),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 

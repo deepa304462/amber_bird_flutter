@@ -136,13 +136,13 @@ class CustomSearchDelegate extends SearchDelegate {
     return Obx(
       () => ListView(
         children: [
-          Padding(
+           query ==''?  Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Text(
               'Popular searches: ',
               style: TextStyles.titleFont.copyWith(color: AppColors.green),
             ),
-          ),
+          ):const SizedBox(),
          query ==''?  PopularSearchWidget(context, searchController):const SizedBox(),
           searchController.searchingProduct.value
               ? const Center(

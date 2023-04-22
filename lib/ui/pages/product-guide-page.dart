@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-guide-chapter.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import '../widget/loading-with-logo.dart';
@@ -41,6 +42,19 @@ class ProductGuidePage extends StatelessWidget {
                       excludeHeaderSemantics: true,
                       expandedHeight: 300.0,
                       stretch: false,
+                      leading: IconButton(
+                          onPressed: () {
+                            if (Navigator.canPop(context)) {
+                              Navigator.pop(context); 
+                            } else {
+                              Modular.to.navigate('../../home/main');
+                              // Modular.to.pushNamed('/home/main');
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          )),
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
                         collapseMode: CollapseMode.pin,

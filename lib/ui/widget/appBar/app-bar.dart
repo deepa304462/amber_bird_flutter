@@ -207,7 +207,6 @@ class AppBarShrinkWidget extends StatelessWidget {
                 fit: StackFit.loose,
                 children: [
                   IconButton(
-                    // padding: EdgeInsets.all(0),
                     onPressed: () {
                       if (stateController.isLogin.value) {
                         Modular.to.pushNamed('/widget/wallet');
