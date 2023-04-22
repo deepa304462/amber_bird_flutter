@@ -37,9 +37,7 @@ class CouponWidget extends StatelessWidget {
               decoration: InputDecoration(
                 suffixIcon: MaterialButton(
                   color: AppColors.primeColor,
-                  onPressed: () async {
-                    print(controller.value.text);
-
+                  onPressed: () async { 
                     stateController.showLoader.value = true;
                     var coupon = await cartController
                         .searchCoupon(controller.value.text);
@@ -53,12 +51,15 @@ class CouponWidget extends StatelessWidget {
                         // controller.text = cartController.couponName.toString();
                         cartController.setSearchVal(coupon.couponCode);
                         stateController.showLoader.value = false;
+                        // ignore: use_build_context_synchronously
                         snackBarClass.showToast(context, 'coupon is valid ');
                       } else {
+                        // ignore: use_build_context_synchronously
                         snackBarClass.showToast(
                             context, 'coupon is not valid ');
                       }
                     } else {
+                      // ignore: use_build_context_synchronously
                       snackBarClass.showToast(context, 'Not found any coupon');
                     }
                   },
@@ -145,9 +146,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) {
-    // List<String> matchQuery = [];
-    print(query);
+  Widget buildSuggestions(BuildContext context) { 
     cartController.getsearchData(query);
     return Obx(
       () => ListView.builder(
@@ -200,6 +199,7 @@ class CustomSearchDelegate extends SearchDelegate {
                             close(
                                 context, cartController.couponName.toString());
                           } else {
+                            // ignore: use_build_context_synchronously
                             snackBarClass.showToast(
                                 context, 'coupon is not valid ');
                           }
@@ -221,7 +221,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   ],
                 ),
               ),
-              Divider()
+              const Divider()
             ],
           );
         },
@@ -231,11 +231,11 @@ class CustomSearchDelegate extends SearchDelegate {
 
   String getConditionText(Reward? reward) {
     if (reward!.discountPercent != null && reward!.discountPercent > 0) {
-      return 'Get flat ${reward!.discountPercent}% discount on your purchase.';
-    } else if (reward!.discountUptos != null && reward!.discountUptos > 0) {
-      return 'Get upto ${reward!.discountUptos}% discount on your purchase.';
-    } else if (reward!.flatDiscount != null && reward!.flatDiscount > 0) {
-      return 'Get flat discount of ${reward!.flatDiscount} on your purchase.';
+      return 'Get flat ${reward.discountPercent}% discount on your purchase.';
+    } else if (reward.discountUptos != null && reward!.discountUptos > 0) {
+      return 'Get upto ${reward.discountUptos}% discount on your purchase.';
+    } else if (reward.flatDiscount != null && reward.flatDiscount > 0) {
+      return 'Get flat discount of ${reward.flatDiscount} on your purchase.';
     }
 
     return '';

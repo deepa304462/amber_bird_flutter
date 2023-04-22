@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/referral-controller.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,7 +17,13 @@ class ReferralPage extends StatelessWidget {
           leadingWidth: 50,
           leading: MaterialButton(
               onPressed: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                 if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Modular.to.navigate('../../home/main');
+                  // Modular.to.pushNamed('/home/main');
+                }
               },
               child: Row(
                 children: [

@@ -147,7 +147,7 @@ class ProductCardScoin extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          '${product.varient!.weight!.toStringAsFixed(0)}',
+                          product.varient!.weight!.toStringAsFixed(0),
                           style: TextStyles.body,
                         ),
                         Text(
@@ -162,7 +162,7 @@ class ProductCardScoin extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              '${product.varient!.weight!.toStringAsFixed(0)}',
+                              product.varient!.weight!.toStringAsFixed(0),
                               style: TextStyles.body,
                             ),
                             Text(
@@ -184,7 +184,7 @@ class ProductCardScoin extends StatelessWidget {
           ),
           product.varients!.length > 1
               ? productVarientView(product.varients!)
-              : SizedBox()
+              : const SizedBox()
         ],
       ),
     );
@@ -241,14 +241,15 @@ class ProductCardScoin extends StatelessWidget {
                                   null,
                                   ruleConfig,
                                   constraint,
-                                  activeVariant.value!);
+                                  activeVariant.value);
                             } else {
                               var showToast =
+                                  // ignore: use_build_context_synchronously
                                   snackBarClass.showToast(context, msg);
                             }
                           } else {
                             stateController.setCurrentTab(3);
-                            var showToast = snackBarClass.showToast(
+                            snackBarClass.showToast(
                                 context, 'Please Login to preoceed');
                           }
                           stateController.showLoader.value = false;

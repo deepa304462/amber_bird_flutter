@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -23,7 +22,6 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../helpers/controller-generator.dart';
 
 class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
@@ -160,7 +158,7 @@ class CartController extends GetxController {
                       }
                     : null,
               },
-              'referredById': referredbyId != null ? referredbyId : null,
+              'referredById': referredbyId,
               'shipping': {
                 'destination': {
                   'customerAddress': (jsonDecode(selectedAdd.toJson())),

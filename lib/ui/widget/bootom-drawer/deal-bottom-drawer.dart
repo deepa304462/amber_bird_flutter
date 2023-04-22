@@ -41,7 +41,7 @@ class DealBottomDrawer extends StatelessWidget {
     products!.forEach(
       (element) {
         totalNumberOfProducts =
-            totalNumberOfProducts + element!.defaultPurchaseCount!;
+            totalNumberOfProducts + element.defaultPurchaseCount!;
       },
     );
     return Container(

@@ -478,12 +478,12 @@ class ProductCard extends StatelessWidget {
                   ),
                 );
               }),
-              product!.tags!.length > 0
+             ( product!.tags!.length > 0 &&  addedFrom != 'TAGS_PRODUCT')
                   ? Positioned(
                       top: 30,
                       child: Card(
                           color: AppColors.secondaryColor,
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(5),
                                   bottomRight: Radius.circular(5))),

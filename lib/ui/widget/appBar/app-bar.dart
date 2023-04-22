@@ -48,7 +48,7 @@ class AppBarWidget extends StatelessWidget {
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
-                        onPressed: () => {Modular.to.pushNamed('/refer-page')},
+                        onPressed: () => {Modular.to.pushNamed('/widget/refer-page')},
                         icon: Icon(Icons.share, color: AppColors.DarkGrey)),
                   ),
                   Showcase(
@@ -196,7 +196,7 @@ class AppBarShrinkWidget extends StatelessWidget {
               description: stateController.showKeyMap['refer']!.desc,
               title: stateController.showKeyMap['refer']!.title,
               child: IconButton(
-                  onPressed: () => {Modular.to.pushNamed('/refer-page')},
+                  onPressed: () => {Modular.to.pushNamed('/widget/refer-page')},
                   icon: Icon(Icons.share, color: AppColors.DarkGrey)),
             ),
             Showcase(

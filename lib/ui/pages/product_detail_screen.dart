@@ -199,13 +199,15 @@ class ProductDetailScreen extends StatelessWidget {
                               // const SizedBox(height: 5),
                               // soldFrom(productController.product.value),
                               // const SizedBox(height: 5),
-                              Divider(
+                              productController.varient.value.msdApplicableProduct!? Divider(
                                 color: AppColors.lightGrey,
                                 height: 8,
                                 thickness: 8,
-                              ),
-                              MsdPrice(context,
-                                  productController.varient.value.price),
+                              ):const SizedBox(),
+                             productController
+                                      .varient.value.msdApplicableProduct!
+                                  ? MsdPrice(context,
+                                  productController.varient.value.price):const SizedBox(),
                               Divider(
                                 color: AppColors.lightGrey,
                                 height: 8,
@@ -673,7 +675,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {},
-                    leading: Icon(Icons.accessibility,
+                    leading: Icon(Icons.headset_mic,
                         color: AppColors.black, size: 15),
                     title: Text(
                       'Customer Service',
@@ -687,22 +689,13 @@ class ProductDetailScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'You can directly communicate to sbazar to request a refund for any defective ,damaged or misdescried items within 30 days of the del ivery date. The promise applies of all product of sbazar',
+                            'Get in touch with our customer service team if you have any queries or concerns',
                             style:
                                 TextStyles.body.copyWith(color: AppColors.grey),
                             softWrap: true,
                             maxLines: 6,
                           ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'This refund promise is in addition to the statutory rights that sellers must offer within your jurisdiction and does not affect your ability to seek redress directly against your ability to seek redress directly againstthe seller at any time. you can view out full return and refund policies in our Terms of Use and Sale',
-                            style:
-                                TextStyles.body.copyWith(color: AppColors.grey),
-                            softWrap: true,
-                            maxLines: 6,
-                          )
+                          
                         ]),
                   ),
                 ],

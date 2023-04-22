@@ -101,7 +101,9 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: const Icon(Icons.arrow_back_ios),
+      icon: const Icon(Icons.arrow_back_ios,
+         size: 15,
+      ),
     );
   }
 
@@ -141,7 +143,7 @@ class CustomSearchDelegate extends SearchDelegate {
               style: TextStyles.titleFont.copyWith(color: AppColors.green),
             ),
           ),
-          PopularSearchWidget(context, searchController),
+         query ==''?  PopularSearchWidget(context, searchController):const SizedBox(),
           searchController.searchingProduct.value
               ? const Center(
                   child: CircularProgressIndicator(),
