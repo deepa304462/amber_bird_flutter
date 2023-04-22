@@ -181,7 +181,7 @@ class ProductCard extends StatelessWidget {
           userType: stateController.userType.value);
       return Row(children: [
         Text(
-          "${CodeHelp.euro}${currentMemberPrice.toString()} ",
+          "${currentMemberPrice.toString()}${CodeHelp.euro} ",
           style: TextStyles.headingFont,
         ),
         ImageBox(

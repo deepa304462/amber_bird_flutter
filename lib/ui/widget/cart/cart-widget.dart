@@ -59,7 +59,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}',
+                            '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                         ],
@@ -306,11 +306,11 @@ class CartWidget extends StatelessWidget {
                                           width: 20,
                                           fit: BoxFit.contain,
                                         ),
-                                        Text('${CodeHelp.euro}${
+                                        Text('${
                                           Helper.getFormattedNumber(
                                                   currentMemberPrice *
                                                       currentProduct.count)
-                                              .toString()}',
+                                              .toString()}${CodeHelp.euro}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -546,7 +546,7 @@ class CartWidget extends StatelessWidget {
                                       fit: BoxFit.contain,
                                     ),
                                     Text(
-                                        '${CodeHelp.euro}${Helper.getFormattedNumber(currentMemberPrice).toString()} ',
+                                        '${Helper.getFormattedNumber(currentMemberPrice).toString()}${CodeHelp.euro} ',
                                         style: TextStyles.body),
                                   ],
                                 ),
@@ -564,11 +564,11 @@ class CartWidget extends StatelessWidget {
                                             width: 20,
                                             fit: BoxFit.contain,
                                           ),
-                                          Text('${CodeHelp.euro}${
+                                          Text('${
                                             Helper.getFormattedNumber(
                                                     currentMemberPrice *
                                                         currentProduct.count)
-                                                .toString()}',
+                                                .toString()}${CodeHelp.euro}',
                                             style: TextStyles.headingFont,
                                           ),
                                         ],
@@ -1009,7 +1009,7 @@ class CartWidget extends StatelessWidget {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}',
+                                          '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -1232,7 +1232,7 @@ class CartWidget extends StatelessWidget {
                                       style: TextStyles.body,
                                     ),
                                     Text(
-                                        '/${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)} ',
+                                        '/${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)}${CodeHelp.euro} ',
                                         style: TextStyles.body),
                                   ],
                                 ),
@@ -1240,7 +1240,7 @@ class CartWidget extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${CodeHelp.euro}${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}',
+                                      '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                       style: TextStyles.headingFont,
                                     ),
                                     Card(
@@ -1589,7 +1589,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}',
+                            '${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                         ],
@@ -1609,7 +1609,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${CodeHelp.euro}${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0 as double).toStringAsFixed(2)}',
+                            '${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0 as double).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                         ],
@@ -1630,7 +1630,7 @@ class CartWidget extends StatelessWidget {
                                 .copyWith(color: AppColors.green),
                           )
                         : Text(
-                            '${CodeHelp.euro}${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0) as double).toStringAsFixed(2)}',
+                            '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0) as double).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                   ],
@@ -1643,7 +1643,7 @@ class CartWidget extends StatelessWidget {
                       style: TextStyles.body,
                     ),
                     Text(
-                      '${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)}',
+                      '${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)}${CodeHelp.euro}',
                       style: TextStyles.headingFont,
                     ),
                   ],

@@ -57,11 +57,11 @@ class OrderDetailWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${CodeHelp.euro}${e.product!.varient!.price!.offerPrice} x ${e.count} Unit',
+                  '${e.product!.varient!.price!.offerPrice}${CodeHelp.euro} x ${e.count} Unit',
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${CodeHelp.euro}${e.price!.offerPrice} ',
+                  '${e.price!.offerPrice}${CodeHelp.euro} ',
                   style: TextStyles.bodyFontBold,
                 )
               ],
@@ -76,11 +76,11 @@ class OrderDetailWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  '${CodeHelp.euro}${e.price!.offerPrice} x ${e.count} Unit',
+                  '${e.price!.offerPrice}${CodeHelp.euro} x ${e.count} Unit',
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${CodeHelp.euro}${e.price!.offerPrice} ',
+                  '${e.price!.offerPrice}${CodeHelp.euro} ',
                   style: TextStyles.bodyFontBold,
                 )
               ],
@@ -234,7 +234,7 @@ class OrderDetailWidget extends StatelessWidget {
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${CodeHelp.euro}${orderController.orderDetail.value.payment!.appliedTaxAmount!.toString()}',
+                  '${orderController.orderDetail.value.payment!.appliedTaxAmount!.toString()}${CodeHelp.euro}',
                   style: TextStyles.bodyFontBold,
                 )
               ],
@@ -247,7 +247,7 @@ class OrderDetailWidget extends StatelessWidget {
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${CodeHelp.euro}${orderController.orderDetail.value.payment!.discountAmount!.toString()}',
+                  '${orderController.orderDetail.value.payment!.discountAmount!.toString()}${CodeHelp.euro}',
                   style: TextStyles.bodyFontBold,
                 )
               ],
@@ -260,7 +260,7 @@ class OrderDetailWidget extends StatelessWidget {
                   style: TextStyles.bodyFont,
                 ),
                 Text(
-                  '${CodeHelp.euro}${orderController.orderDetail.value.payment!.totalAmount!.toString()}',
+                  '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
                   style: TextStyles.bodyFontBold,
                 )
               ],

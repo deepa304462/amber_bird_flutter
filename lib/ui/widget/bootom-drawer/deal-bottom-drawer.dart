@@ -9,6 +9,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
+import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -65,34 +66,34 @@ class DealBottomDrawer extends StatelessWidget {
                   elevation: 1,
                   leadingWidth: 0,
                   leading: const SizedBox(),
-                  title:   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              '${name!.defaultText!.text}',
-                              style: TextStyles.headingFont
-                                  .copyWith(color: AppColors.grey),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '${totalNumberOfProducts} Products',
-                              style: TextStyles.headingFont
-                                  .copyWith(color: AppColors.primeColor),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.close_rounded),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                     
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '${name!.defaultText!.text}',
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.grey),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '(${totalNumberOfProducts} Products) ',
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.primeColor),
+                          ),
+                          DiscountTag(price: priceInfo!),
+                        ],
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
