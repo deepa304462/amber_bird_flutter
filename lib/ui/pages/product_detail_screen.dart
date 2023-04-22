@@ -241,9 +241,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
+                    child:   SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -264,7 +262,7 @@ class ProductDetailScreen extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: Text(
-                                      "${CodeHelp.euro}${productController.varient.value.price!.actualPrice!.toString()}",
+                                      "${productController.varient.value.price!.actualPrice!.toString()}${CodeHelp.euro}",
                                       style: TextStyles.headingFont,
                                     ),
                                   ),
@@ -464,7 +462,7 @@ class ProductDetailScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
+                   
                   )
                 ],
               ))
@@ -795,7 +793,7 @@ class ProductDetailScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8),
           child: ListTile(
             onTap: () {
               showModalBottomSheet<void>(
@@ -834,14 +832,14 @@ class ProductDetailScreen extends StatelessWidget {
                       style: TextStyles.body,
                     )
                   : Text(
-                      '${CodeHelp.euro}${Helper.getOfferedShipping()['offeredShipping']} Shipping cost or buy more of ${CodeHelp.euro}${Helper.getOfferedShipping()['amountRequired']}',
+                      '${Helper.getOfferedShipping()['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${Helper.getOfferedShipping()['amountRequired']}',
                       style: TextStyles.body,
                     ),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left:8.0,right: 8),
           child: ListTile(
             onTap: () {
               showModalBottomSheet<void>(
@@ -1030,7 +1028,7 @@ class ProductDetailScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Redeem with Scoin',
+                            'Redeem with S-Coins',
                             style: TextStyles.titleFont,
                           ),
                         )),

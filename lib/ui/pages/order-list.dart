@@ -159,7 +159,7 @@ class OrderListPage extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                          '${CodeHelp.euro}${curOrder.payment!.totalAmount!.toString()} ',
+                          '${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
                           style: TextStyles.bodyFontBold
                               .copyWith(color: Colors.green)),
                       Text(

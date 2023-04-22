@@ -480,10 +480,9 @@ class ProductCard extends StatelessWidget {
               }),
               (product!.tags!.length > 0 &&
                       addedFrom != 'TAGS_PRODUCT' &&
-                      addedFrom != 'DEAL' &&
-                      addedFrom != 'MULTIPRODUCT')
+                      addedFrom != 'DEAL')
                   ? Positioned(
-                      top: 30,
+                      top: 0,
                       child: Card(
                           color: AppColors.secondaryColor,
                           shape: const RoundedRectangleBorder(

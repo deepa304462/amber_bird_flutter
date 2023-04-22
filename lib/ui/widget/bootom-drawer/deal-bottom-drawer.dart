@@ -60,35 +60,39 @@ class DealBottomDrawer extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            '${name!.defaultText!.text}',
-                            style: TextStyles.headingFont
-                                .copyWith(color: AppColors.grey),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '${totalNumberOfProducts} Products',
-                            style: TextStyles.headingFont
-                                .copyWith(color: AppColors.primeColor),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close_rounded),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+                AppBar(
+                  backgroundColor: AppColors.white,
+                  elevation: 1,
+                  leadingWidth: 0,
+                  leading: const SizedBox(),
+                  title:   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '${name!.defaultText!.text}',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.grey),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '${totalNumberOfProducts} Products',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.primeColor),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close_rounded),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                     
                   ),
                 ),
                 Padding(

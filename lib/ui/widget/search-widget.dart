@@ -140,10 +140,11 @@ class CustomSearchDelegate extends SearchDelegate {
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Text(
               'Popular searches: ',
-              style: TextStyles.titleFont.copyWith(color: AppColors.green),
+              style: TextStyles.titleFont.copyWith(color: AppColors.DarkGrey),
             ),
           ):const SizedBox(),
-         query ==''?  PopularSearchWidget(context, searchController):const SizedBox(),
+         query ==''? Padding(padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+            child:  PopularSearchWidget(context, searchController)):const SizedBox(),
           searchController.searchingProduct.value
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -172,12 +173,12 @@ class CustomSearchDelegate extends SearchDelegate {
         return Container(
           height: 25,
           padding: const EdgeInsets.all(0),
-          margin: const EdgeInsets.fromLTRB(2, 5, 2, 0),
+          margin: const EdgeInsets.fromLTRB(0, 5, 6, 0),
           decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColors.grey),
+            border: Border.all(width: 1, color: AppColors.primeColor),
             color: query == data['value']
                 ? Colors.green[100]
-                : AppColors.lightGrey,
+                : AppColors.white,
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextButton(
@@ -189,7 +190,7 @@ class CustomSearchDelegate extends SearchDelegate {
             },
             child: Text(
               data['label'],
-              style: TextStyles.body,
+              style: TextStyles.body.copyWith(color: AppColors.primeColor),
             ),
           ),
         );
