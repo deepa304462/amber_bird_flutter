@@ -114,9 +114,9 @@ class ProductDetailScreen extends StatelessWidget {
                 leading: MaterialButton(
                   onPressed: () {
                     try {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
+                      // if (Navigator.canPop(context)) {
+                      //   Navigator.pop(context);
+                      // } else {
                         // Modular.to.navigate('../../home/main');
                        
                         if(Modular.to.canPop()){
@@ -125,7 +125,7 @@ class ProductDetailScreen extends StatelessWidget {
                           Modular.to.navigate('../../home/main');
                         }
                         // Modular.to.pushNamed('../../home/main');
-                      }
+                      // }
                     } catch (err) {
                       Modular.to.pushNamed('../../home/main');
                     }

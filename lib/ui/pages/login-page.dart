@@ -16,7 +16,7 @@ class LoginPageWidget extends StatelessWidget {
       child: Scaffold(
         body: Builder(
           builder: (context) {
-            return !onBoardingController.isLaunched.value
+            return onBoardingController.isLaunched.value
                 ? LoginWidget()
                 : ComingSoonWidget();
           },

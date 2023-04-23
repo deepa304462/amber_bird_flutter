@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -76,7 +77,13 @@ class ComingSoonWidget extends StatelessWidget {
                     isLoading.value = true;
                     var data = await authController.addInMarketInfo();
                     if (data['status'] == 'success') {
-                      
+                      FCMSyncService.subcribeTopic('launch_subscriber');
+                       if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                        
+                      } else {
+                        Modular.to.navigate('/home/main');
+                      }
                     }
                     isLoading.value = false;
                     snackBarClass.showToast(context, data['msg']);

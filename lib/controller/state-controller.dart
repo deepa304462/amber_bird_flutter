@@ -78,7 +78,7 @@ class Controller extends GetxController {
         key: GlobalKey(), desc: 'Check your scoin wallet', title: 'S-Wallet');
     backButtonPress.value = 0;
     getLoginInfo();
-
+    getMembershipData();
     changeTab(currentTab.toInt());
     Modular.to.addListener(() {
       Modular.to.navigateHistory.forEach((element) {

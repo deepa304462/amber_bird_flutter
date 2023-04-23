@@ -61,8 +61,11 @@ class Helper {
       var controller = Get.find<Controller>();
       var insightDetail =
           await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-      Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
 
+      Customer cust = Customer();
+      if (insightDetail != null) {
+        cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+      }
       if (controller.membershipList[controller.userType.value] != null &&
           cust.cart != null &&
           cust.cart!.payment != null) {
@@ -83,9 +86,16 @@ class Helper {
           'offeredShipping': controller
               .membershipList[controller.userType.value]!.offerShippingCharge!
         };
+      }else{
+        return {
+          'amountRequired': controller
+              .membershipList[memberShipType.No_Membership.name]!
+              .cartValueAboveWhichOfferShippingApplied!,
+          'offeredShipping': controller
+              .membershipList[memberShipType.No_Membership.name]!.offerShippingCharge!};
       }
     }
-    return {'amountRequired': 0, 'offeredShipping': 0};
+    return {'amountRequired': 0, 'offeredShipping': 4.99};
   }
 
   static dynamic getCatMultiName(String dealType) {
