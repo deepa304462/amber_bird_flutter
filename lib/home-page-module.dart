@@ -55,7 +55,7 @@ class HomePageModule extends Module {
               return PaymentSatusPage(id, paymentId);
             },
           ),
-          ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
+         
           ChildRoute('/scoin-checkout',
               child: (_, args) => ScoinCheckoutWidget()),
           ChildRoute('/address-list', child: (_, args) => AllAddressPage()),

@@ -179,7 +179,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                                Modular.to.pushNamed('../home/edit-profile');
+                                Modular.to.pushNamed('../widget/edit-profile');
                               },
                               icon: const Icon(Icons.edit)),
                         ),

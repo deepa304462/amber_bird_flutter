@@ -20,8 +20,31 @@ class LoginWidget extends StatelessWidget {
   final Controller controller = Get.find();
   RxBool isLoading = false.obs;
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.primeColor,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.primeColor,
+        title: Text(
+          'Login',
+          style: TextStyles.headingFont.copyWith(color: Colors.white),
+        ),
+        leadingWidth: 50,
+        leading: IconButton(
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              Modular.to.navigate('/home/main');
+            }
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 15,
+          ),
+        ),
+      ),
+      body: Container(
+      color: AppColors.commonBgColor,
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -33,28 +56,26 @@ class LoginWidget extends StatelessWidget {
                   Text(
                     'Welcome',
                     style:
-                        TextStyles.headingFont.copyWith(color: AppColors.white),
+                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
                   ),
                   Text(
                     'Glad to see You!',
                     style:
-                        TextStyles.headingFont.copyWith(color: AppColors.white),
+                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  LoginType.mobilePassword == authController.loginWith.value
-                      ? ITextBox('contact number', 'mobile', '', false,
-                          TextInputType.phone, false, false, callback)
-                      : const SizedBox(),
-                  LoginType.emailPassword == authController.loginWith.value
-                      ? ITextBox('Email', 'email', '', false,
-                          TextInputType.emailAddress, false, false, callback)
-                      : const SizedBox(),
-                  LoginType.usernamePassword == authController.loginWith.value
-                      ? ITextBox('Username', 'username', '', false,
-                          TextInputType.text, false, false, callback)
-                      : const SizedBox(),
+                  // LoginType.mobilePassword == authController.loginWith.value
+                  //     ? ITextBox('contact number', 'mobile', '', false,
+                  //         TextInputType.phone, false, false, callback)
+                  //     : const SizedBox(),
+                  ITextBox('Email', 'email', '', false,
+                      TextInputType.emailAddress, false, false, callback),
+                  // LoginType.usernamePassword == authController.loginWith.value
+                  //     ? ITextBox('Username', 'username', '', false,
+                  //         TextInputType.text, false, false, callback)
+                  //     : const SizedBox(),
                   const SizedBox(
                     height: 10,
                   ),
@@ -72,7 +93,7 @@ class LoginWidget extends StatelessWidget {
                           useRootNavigator: true,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(13)),
-                          backgroundColor: Colors.white,
+                          backgroundColor: AppColors.DarkGrey,
                           isScrollControlled: true,
                           elevation: 3,
                           builder: (context) {
@@ -83,7 +104,7 @@ class LoginWidget extends StatelessWidget {
                       child: Text(
                         'Forgot Password ?',
                         style: TextStyles.headingFont
-                            .copyWith(color: AppColors.white),
+                            .copyWith(color: AppColors.DarkGrey),
                       ),
                     ),
                   ),
@@ -107,12 +128,20 @@ class LoginWidget extends StatelessWidget {
                         snackBarClass.showToast(context, data['msg']);
                       },
                       style: ButtonStyle(
+                        
+                        shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                side: BorderSide(
+                                    color: AppColors.primeColor, // your color here
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0))),
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(AppColors.white),
+                            MaterialStateProperty.all<Color>(AppColors.primeColor),
                       ),
                       child: Text(
                         isLoading.value ? 'Loading' : 'Login',
-                        style: TextStyles.headingFont,
+                        style: TextStyles.headingFont.copyWith(color: AppColors.white),
                       ),
                     ),
                   ),
@@ -125,20 +154,20 @@ class LoginWidget extends StatelessWidget {
                           margin:
                               const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: Divider(
-                            color: AppColors.white,
+                            color: AppColors.DarkGrey,
                             height: 36,
                           )),
                     ),
                     Text(
                       "Or Login with",
-                      style: TextStyles.body.copyWith(color: AppColors.white),
+                      style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
                     ),
                     Expanded(
                       child: Container(
                           margin:
                               const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: Divider(
-                            color: AppColors.white,
+                            color: AppColors.DarkGrey,
                             height: 36,
                           )),
                     ),
@@ -168,7 +197,7 @@ class LoginWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: AppColors.white)),
+                              border: Border.all(color: AppColors.primeColor)),
                           child: IconButton(
                             icon: isLoading.value
                                 ? const Icon(Icons.refresh_outlined)
@@ -200,7 +229,7 @@ class LoginWidget extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: AppColors.white)),
+                              border: Border.all(color: AppColors.primeColor)),
                           child: IconButton(
                             icon: const Icon(Icons.facebook),
                             onPressed: () {},
@@ -214,7 +243,7 @@ class LoginWidget extends StatelessWidget {
                   ),
                   RichText(
                     text: TextSpan(
-                      style: TextStyles.body.copyWith(color: AppColors.white),
+                      style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
                       children: <TextSpan>[
                         const TextSpan(text: "Don't have an account? "),
                         TextSpan(
@@ -235,7 +264,7 @@ class LoginWidget extends StatelessWidget {
               )),
         ),
       ),
-    );
+    ),);
   }
 
   callback(String name, String text) {

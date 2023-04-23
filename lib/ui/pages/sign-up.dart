@@ -37,15 +37,16 @@ class SignUp extends StatelessWidget {
             }
           },
           icon: const Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios,
             color: Colors.white,
+            size: 15,
           ),
         ),
       ),
       body: GetX<AuthController>(builder: (mController) {
         return Container(
           // elevation: 5,
-          color: AppColors.primeColor,
+          color: AppColors.commonBgColor,
           // shape: const RoundedRectangleBorder(
           //     borderRadius: BorderRadius.all(Radius.circular(15))),
           child: SingleChildScrollView(
@@ -57,11 +58,11 @@ class SignUp extends StatelessWidget {
                   Text(
                     'Create Account',
                     style:
-                        TextStyles.headingFont.copyWith(color: AppColors.white),
+                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
                   ),
                   Text(
                     'To get started now!',
-                    style: TextStyles.bodyFont.copyWith(color: AppColors.white),
+                    style: TextStyles.bodyFont.copyWith(color: AppColors.DarkGrey),
                   ),
                   const SizedBox(
                     height: 20,
@@ -114,7 +115,7 @@ class SignUp extends StatelessWidget {
                       : Text(
                           'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
                           style:
-                              TextStyles.body.copyWith(color: AppColors.white),
+                              TextStyles.body.copyWith(color: AppColors.DarkGrey),
                         ),
                   const SizedBox(
                     height: 10,
@@ -166,11 +167,19 @@ class SignUp extends StatelessWidget {
                         }
                       },
                       style: ButtonStyle(
+                         shape:
+                              MaterialStateProperty.all(RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color:
+                                        AppColors.primeColor, // your color here
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5.0))),
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              AppColors.white)),
+                              AppColors.primeColor), ),
                       child: Text(
                         !isLoading.value ? 'Create account' : 'Loading',
-                        style: TextStyles.headingFont,
+                        style: TextStyles.headingFont.copyWith(color: AppColors.white),
                       ),
                     ),
                   ),
@@ -183,20 +192,20 @@ class SignUp extends StatelessWidget {
                           margin:
                               const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: Divider(
-                            color: AppColors.white,
+                            color: AppColors.DarkGrey,
                             height: 36,
                           )),
                     ),
                     Text(
                       "Or Login with",
-                      style: TextStyles.body.copyWith(color: AppColors.white),
+                      style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
                     ),
                     Expanded(
                       child: Container(
                           margin:
                               const EdgeInsets.only(left: 20.0, right: 10.0),
                           child: Divider(
-                            color: AppColors.white,
+                            color: AppColors.DarkGrey,
                             height: 36,
                           )),
                     ),
@@ -212,7 +221,7 @@ class SignUp extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: AppColors.white)),
+                              border: Border.all(color: AppColors.primeColor)),
                           child: IconButton(
                               icon: isLoading.value
                                   ? const Icon(Icons.refresh_outlined)
@@ -246,7 +255,7 @@ class SignUp extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: AppColors.white,
                               borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: AppColors.white)),
+                              border: Border.all(color: AppColors.primeColor)),
                           child: IconButton(
                             icon: const Icon(Icons.facebook),
                             onPressed: () async {

@@ -389,7 +389,7 @@ class CategoryPage extends StatelessWidget {
           mProduct.products!.forEach(
             (element) {
               totalNumberOfProducts =
-                  totalNumberOfProducts + element!.defaultPurchaseCount!;
+                  totalNumberOfProducts + element.defaultPurchaseCount!;
             },
           );
           return SizedBox(

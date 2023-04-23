@@ -44,7 +44,7 @@ class CoinWalletPage extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              'Total s-coins',
+                              'Total S-COINS',
                               style: TextStyles.headingFont
                                   .copyWith(color: Colors.white),
                             ),
@@ -127,7 +127,7 @@ class CoinWalletPage extends StatelessWidget {
               ]),
               Row(
                 children: [
-                  const Text('Scoins: '),
+                  const Text('S-COINS: '),
                   Text(
                     '${curTransaction.amount!}',
                     style: TextStyles.headingFont.copyWith(color: Colors.blue),

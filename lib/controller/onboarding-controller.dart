@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:amber_bird/data/appmanger/appmanger.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/app-update.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +17,7 @@ import '../utils/internet-connection-util.dart';
 class OnBoardingController extends GetxController {
   var onboardingData = Appmanger().obs;
   var activePage = 0.obs;
+  RxBool isLaunched = true.obs;
   bool internetConnectivityListenerAdded = false;
   bool firebaseRemoteConfigListenerAdded = false;
   bool isShowUpdateCard = false;
@@ -72,6 +71,20 @@ class OnBoardingController extends GetxController {
                   isShowUpdateCard = false;
                 }
               }
+            });
+          });
+
+          // Demo login
+
+          // Timer.periodic(const Duration(minutes: 15), (Timer t) {
+          remoteConfig.fetchAndActivate().then((value) async {
+            print(remoteConfig.getValue('app_launched').asBool());
+            isLaunched.value = remoteConfig.getValue('app_launched').asBool();
+          });
+          Timer.periodic(const Duration(minutes: 15), (Timer t) {
+            remoteConfig.fetchAndActivate().then((value) async {
+              print(remoteConfig.getValue('app_launched').asBool());
+              isLaunched.value = remoteConfig.getValue('app_launched').asBool();
             });
           });
         }

@@ -1029,7 +1029,7 @@ class ProductDetailScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Redeem with S-Coins',
+                            'Redeem with S-COINS',
                             style: TextStyles.titleFont,
                           ),
                         )),

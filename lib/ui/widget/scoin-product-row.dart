@@ -44,7 +44,7 @@ class ScoinProductRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Redeem with S-Coins",
+                        "Redeem with S-COINS",
                         style: TextStyles.headingFont,
                       ),
                       ViewMoreWidget(onTap: () {

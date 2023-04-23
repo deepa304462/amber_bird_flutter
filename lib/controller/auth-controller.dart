@@ -81,6 +81,20 @@ class AuthController extends GetxController {
     };
   }
 
+  addInMarketInfo() async {
+    var loginPayload = {
+      "data": {"email": fieldValue['email']},
+    };
+    print(loginPayload);
+    var loginResp =
+        await ClientService.post(path: 'marketingData', payload: loginPayload);
+    if (loginResp.statusCode == 200) {
+      return {"msg": "Email added Successfully!!", "status": "success"};
+    } else {
+      return {"msg": 'Something went wrong!', "status": "error"};
+    }
+  }
+
   login() async {
     var loginPayload = {
       "password": fieldValue['password'],

@@ -125,7 +125,9 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: const Icon(Icons.arrow_back_ios),
+      icon: const Icon(Icons.arrow_back_ios,
+        size: 15,
+      ),
     );
   }
 
@@ -230,9 +232,9 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   String getConditionText(Reward? reward) {
-    if (reward!.discountPercent != null && reward!.discountPercent > 0) {
+    if (reward!.discountPercent != null && reward.discountPercent > 0) {
       return 'Get flat ${reward.discountPercent}% discount on your purchase.';
-    } else if (reward.discountUptos != null && reward!.discountUptos > 0) {
+    } else if (reward.discountUptos != null && reward.discountUptos > 0) {
       return 'Get upto ${reward.discountUptos}% discount on your purchase.';
     } else if (reward.flatDiscount != null && reward.flatDiscount > 0) {
       return 'Get flat discount of ${reward.flatDiscount} on your purchase.';

@@ -158,8 +158,7 @@ class MegaMenuController extends GetxController {
                 text: category.name!.defaultText!.text,
                 type: 'CAT'));
             return;
-          }).toList() ??
-          []);
+          }).toList() ?? []);
       mainTabs.value = cList;
       getSubMenu(mainTabs.value[0]);
       isLoading.value = false;

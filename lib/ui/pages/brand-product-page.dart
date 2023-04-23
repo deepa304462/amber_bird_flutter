@@ -49,6 +49,7 @@ class BrandProductPage extends StatelessWidget {
                     icon: const Icon(
                       Icons.arrow_back_ios,
                       color: Colors.white,
+                      size: 15,
                     )),
                 title: Text(
                   '${controller.brand.value.name}',

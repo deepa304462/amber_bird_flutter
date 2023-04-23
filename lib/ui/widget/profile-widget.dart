@@ -22,6 +22,28 @@ class EditProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.primeColor,
+          title: Text(
+            'Edit Profile',
+            style: TextStyles.headingFont.copyWith(color: Colors.white),
+          ),
+          leadingWidth: 50,
+          leading: IconButton(
+            onPressed: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                Modular.to.navigate('/home/main');
+              }
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+              size: 15,
+            ),
+          ),
+        ),
         floatingActionButton: MaterialButton(
           color: AppColors.primeColor,
           shape:
@@ -50,19 +72,19 @@ class EditProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            if (Navigator.canPop(context)) {
-                              Navigator.pop(context);
-                            } else {
-                              Modular.to.navigate('/home/main');
-                            }
-                          },
-                          icon: const Icon(Icons.arrow_back_ios))
-                    ]),
+                // Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       IconButton(
+                //           onPressed: () {
+                //             if (Navigator.canPop(context)) {
+                //               Navigator.pop(context);
+                //             } else {
+                //               Modular.to.navigate('/home/main');
+                //             }
+                //           },
+                //           icon: const Icon(Icons.arrow_back_ios,size: 15,))
+                //     ]),
                 SizedBox(
                   // height: ,
                   child: ImagePickerPage(
@@ -72,9 +94,9 @@ class EditProfilePage extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      color: AppColors.primeColor,
+                      color: AppColors.commonBgColor,
                       borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: AppColors.primeColor)),
+                      border: Border.all(color: AppColors.commonBgColor)),
                   child: ITextBox(
                       'Full Name',
                       'fullName',

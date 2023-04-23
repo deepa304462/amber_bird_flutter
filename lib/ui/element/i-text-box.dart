@@ -29,7 +29,7 @@ class ITextBox extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          style: TextStyles.titleFont.copyWith(color: AppColors.white),
+          style: TextStyles.titleFont.copyWith(color: AppColors.DarkGrey),
 
           decoration: InputDecoration(
               labelText: label,
@@ -38,10 +38,10 @@ class ITextBox extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.grey),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: BorderSide(color: Colors.grey),
               ),
               labelStyle:
-                  TextStyles.headingFont.copyWith(color: AppColors.white)),
+                  TextStyles.headingFont.copyWith(color: AppColors.DarkGrey)),
           onChanged: ((textChanged) {
             // ipController.text = textChanged;
             callback(keyName, textChanged);
@@ -61,7 +61,7 @@ class ITextBox extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           // borderRadius: BorderRadius.circular(5),
-          // border: Border.all(color: AppColors.white)
+          // border: Border.all(color: AppColors.DarkDrey)
         ),
         child: Row(
           children: <Widget>[
@@ -82,7 +82,7 @@ class ITextBox extends StatelessWidget {
             ),
             Expanded(
               child: TextField(
-                style: TextStyles.titleFont.copyWith(color: AppColors.white),
+                style: TextStyles.titleFont.copyWith(color: AppColors.DarkGrey),
                 // style: TextStyles.title,
                 maxLength: 15,
                 decoration: InputDecoration(
@@ -91,10 +91,10 @@ class ITextBox extends StatelessWidget {
                       borderSide: BorderSide(color: Colors.grey),
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: BorderSide(color: AppColors.DarkGrey),
                     ),
                     labelStyle:
-                        TextStyles.headingFont.copyWith(color: AppColors.white),
+                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
                     labelText: label,
                     counterText: ""),
                 obscureText: isPassword,

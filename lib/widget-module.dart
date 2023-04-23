@@ -3,6 +3,7 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/order-list.dart';
 import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
+import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/cart-page.dart';
@@ -25,6 +26,7 @@ class WidgetRouteModule extends Module {
       ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/profile', child: (_, args) => ProfilePage()),
+       ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
       ChildRoute(
         '/brandProduct/:id',
         child: (_, args) {

@@ -13,7 +13,7 @@ class ForgotPassDrawer extends StatelessWidget {
     return SizedBox(
       height: 250,
       child: Container(
-        color: AppColors.primeColor,
+        color: AppColors.commonBgColor,
         child: Column(
           children: [
             const SizedBox(height: 20),
