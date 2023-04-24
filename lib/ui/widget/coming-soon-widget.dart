@@ -6,7 +6,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 class ComingSoonWidget extends StatelessWidget {
   final AuthController authController = Get.find();
@@ -49,17 +48,40 @@ class ComingSoonWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8, top: 48),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
+              // Text('Welcome  to Sbazar', style: TextStyles.headingFont),
+              Image.asset(
+                'assets/app_initial_loading_screen.png',
+                width: MediaQuery.of(context).size.width * .7,
+              ),
+              Image.asset(
+                'assets/biggest.png',
+                width: MediaQuery.of(context).size.width * .7,
+              ),
+              const SizedBox(height: 10,),
               SizedBox(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                child: Lottie.network(
-                  'https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json',
+                width: MediaQuery.of(context).size.width * .7,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'LAUNCHING SOON',
+                      style: TextStyles.headingFont
+                          .copyWith(color: AppColors.primeColor),
+                    )
+                  ],
                 ),
               ),
+              // SizedBox(
+              //   height: 200,
+              //   width: MediaQuery.of(context).size.width,
+              //   child: Lottie.network(
+              //     'https://assets5.lottiefiles.com/packages/lf20_vw2szd2m.json',
+              //   ),
+              // ),
               SizedBox(
                 height: 20,
               ),
-               Text(
+              Text(
                 'To get notified, please submit your mail and connect with us',
                 style:
                     TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
@@ -69,7 +91,6 @@ class ComingSoonWidget extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: TextButton(
@@ -78,9 +99,8 @@ class ComingSoonWidget extends StatelessWidget {
                     var data = await authController.addInMarketInfo();
                     if (data['status'] == 'success') {
                       FCMSyncService.subcribeTopic('launch_subscriber');
-                       if (Navigator.canPop(context)) {
+                      if (Navigator.canPop(context)) {
                         Navigator.pop(context);
-                        
                       } else {
                         Modular.to.navigate('/home/main');
                       }
