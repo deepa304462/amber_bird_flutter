@@ -18,7 +18,7 @@ class ReferralPage extends StatelessWidget {
           leading: MaterialButton(
               onPressed: () {
                 // Navigator.pop(context);
-                 if (Navigator.canPop(context)) {
+                if (Navigator.canPop(context)) {
                   Navigator.pop(context);
                 } else {
                   Modular.to.navigate('../../home/main');
@@ -32,12 +32,6 @@ class ReferralPage extends StatelessWidget {
                     color: AppColors.grey,
                     size: 15,
                   ),
-                  // Text(
-                  //   'Back',
-                  //   style: TextStyles.bodyFont.copyWith(
-                  //     color: AppColors.grey,
-                  //   ),
-                  // )
                 ],
               )),
           elevation: 1,

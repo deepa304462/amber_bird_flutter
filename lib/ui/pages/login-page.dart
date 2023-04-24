@@ -16,9 +16,9 @@ class LoginPageWidget extends StatelessWidget {
       child: Scaffold(
         body: Builder(
           builder: (context) {
-            return onBoardingController.isLaunched.value
+            return Obx(() => onBoardingController.isLaunched.value
                 ? LoginWidget()
-                : ComingSoonWidget();
+                : ComingSoonWidget());
           },
         ),
       ),
