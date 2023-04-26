@@ -198,71 +198,77 @@ class _BottomBarItemState extends State<BottomBarItem>
         tooltipPadding: const EdgeInsets.all(2),
         titleTextStyle: TextStyles.bodyFont,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: widget.label == 'Cart'
-                ? <Widget>[
-                    Obx(
-                      () => Stack(
-                        fit: StackFit.loose,
-                        children: [
-                          widget.imageIcon.isEmpty
-                              ? Icon(widget.icon,
-                                  color: animation.value == 0.0
-                                      ? Colors.black
-                                      : widget.color,
-                                  size: widget.height / 1.5)
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: Image.asset(
-                                    widget.imageIcon,
-                                    height: widget.height / 1.5,
-                                    fit: BoxFit.fill,
+          padding: const EdgeInsets.all(4.0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * .12,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: widget.label == 'Cart'
+                  ? <Widget>[
+                      Obx(
+                        () => Stack(
+                          fit: StackFit.passthrough,
+                          clipBehavior: Clip.none,
+                          children: [
+                            widget.imageIcon.isEmpty
+                                ? Icon(widget.icon,
+                                    color: animation.value == 0.0
+                                        ? Colors.black
+                                        : widget.color,
+                                    size: widget.height / 1.5)
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image.asset(
+                                      widget.imageIcon,
+                                      height: widget.height / 1.5,
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
+                            Positioned(
+                              top: -4,
+                              right: -12,
+                              child: Card(
+                                color: AppColors.primeColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 6.0, right: 6, top: 4, bottom: 4),
+                                  child: Text(
+                                      (cartController
+                                                  .cartProducts.value.length +
+                                              cartController.cartProductsScoins
+                                                  .value.length +
+                                              cartController
+                                                  .msdProducts.value.length)
+                                          .toString(),
+                                      style: TextStyles.bodySm
+                                          .copyWith(color: AppColors.white)),
                                 ),
-                          Positioned(
-                            top: -4,
-                            right: -4,
-                            child: Card(
-                              color: AppColors.primeColor,
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Text(
-                                    (cartController.cartProducts.value.length +
-                                            cartController.cartProductsScoins
-                                                .value.length +
-                                            cartController
-                                                .msdProducts.value.length)
-                                        .toString(),
-                                    style: TextStyles.bodySm
-                                        .copyWith(color: AppColors.white)),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      )
+                    ]
+                  : [
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: widget.imageIcon.isEmpty
+                            ? Icon(widget.icon,
+                                color: animation.value == 0.0
+                                    ? AppColors.DarkGrey
+                                    : widget.color,
+                                size: widget.height / 1.5)
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image.asset(
+                                  widget.imageIcon,
+                                  height: widget.height / 1.5,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                       ),
-                    )
-                  ]
-                : [
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: widget.imageIcon.isEmpty
-                          ? Icon(widget.icon,
-                              color: animation.value == 0.0
-                                  ? AppColors.DarkGrey
-                                  : widget.color,
-                              size: widget.height / 1.5)
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image.asset(
-                                widget.imageIcon,
-                                height: widget.height / 1.5,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                    ),
-                  ],
+                    ],
+            ),
           ),
         ),
       ),

@@ -384,7 +384,7 @@ class Controller extends GetxController {
 // tokenManagerEntityId.value
       getCustomerData(loggedInProfile.value.id);
       getCustomerDetail(loggedInProfile.value.id);
-      
+
       // checkAuth();
     }).catchError((error) {
       logout();
