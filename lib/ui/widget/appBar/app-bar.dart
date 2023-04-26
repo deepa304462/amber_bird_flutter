@@ -64,7 +64,8 @@ class AppBarWidget extends StatelessWidget {
                             if (stateController.isLogin.value) {
                               Modular.to.pushNamed('/widget/wallet');
                             } else {
-                              Modular.to.navigate('/login');
+                              // Modular.to.navigate('/login');
+                              Modular.to.navigate('/widget/account');
                             }
                           },
                           icon: Icon(FontAwesomeIcons.coins,
@@ -75,7 +76,7 @@ class AppBarWidget extends StatelessWidget {
                             if (stateController.isLogin.value) {
                               Modular.to.pushNamed('/widget/wallet');
                             } else {
-                              Modular.to.navigate('/login');
+                              Modular.to.navigate('/widget/account');
                             }
                           },
                           child: Card(

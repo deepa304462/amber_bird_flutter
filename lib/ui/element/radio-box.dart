@@ -35,7 +35,7 @@ class IRadioBox extends StatelessWidget {
         children: <Widget>[
           Text(
             label,
-            style: TextStyles.headingFont.copyWith(color: AppColors.white),
+            style: TextStyles.headingFont,
           ),
           ListView.builder(
             itemCount: inputList.length,
@@ -46,7 +46,7 @@ class IRadioBox extends StatelessWidget {
               return ListTile(
                 title: Text(inputList[index],
                     style:
-                        TextStyles.titleFont.copyWith(color: AppColors.white)),
+                        TextStyles.titleFont),
                 leading: Radio(
                   value: inputList[index],
                   groupValue: value,

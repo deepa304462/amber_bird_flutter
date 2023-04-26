@@ -303,8 +303,8 @@ class Controller extends GetxController {
       activePageName.value = 'category';
     } else if (url == '/login') {
       activePageName.value = 'login';
-    } else if (url == '/widget/profile') {
-      activePageName.value = 'profile';
+    } else if (url == '/widget/account') {
+      activePageName.value = 'account';
     }
     if (Get.isRegistered<AppbarScrollController>()) {
       var appbarScrollController = Get.find<AppbarScrollController>();
@@ -342,18 +342,18 @@ class Controller extends GetxController {
         } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');
-          navigateToUrl('/login');
+          navigateToUrl('/widget/account');
         }
         break;
       case 4:
-        if (isLogin.value) {
+        // if (isLogin.value) {
           // activePageName.value = 'profile';
-          navigateToUrl('/widget/profile');
-        } else {
+          navigateToUrl('/widget/account');
+        // } else {
           // activePageName.value = 'login';
           // Modular.to.navigate('/home/login');
-          navigateToUrl('/login');
-        }
+        //   navigateToUrl('/login');
+        // }
         break;
     }
   }

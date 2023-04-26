@@ -100,7 +100,7 @@ class AddAddress extends StatelessWidget {
                   MaterialButton(
                     onPressed: () {
                       // Navigator.of(context).pop();
-                      Modular.to.navigate('/home/address-list');
+                      Modular.to.navigate('/widget/address-list');
                       // Modular.to.navigate('/home/add-address');
                     },
                     color: AppColors.grey,
@@ -121,7 +121,7 @@ class AddAddress extends StatelessWidget {
                           locationController.changeAddressData.value;
                       await locationController.setAddressCall();
                       //  Navigator.of(context).pop();
-                      Modular.to.navigate('/home/address-list');
+                      Modular.to.navigate('/widget/address-list');
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),

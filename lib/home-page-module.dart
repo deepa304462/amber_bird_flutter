@@ -58,7 +58,7 @@ class HomePageModule extends Module {
          
           ChildRoute('/scoin-checkout',
               child: (_, args) => ScoinCheckoutWidget()),
-          ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
+         
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),

@@ -29,37 +29,89 @@ class AllAddressPage extends StatelessWidget {
         getAddressList();
         return ListView(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Row(
+            AppBar(
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              toolbarHeight: 50,
+              leadingWidth: 50,
+              backgroundColor: AppColors.primeColor,
+              leading: MaterialButton(
+                onPressed: () {
+                  // Navigator.pop(context);
+                  if (Modular.to.canPop()) {
+                    Modular.to.pop();
+                  } else if (Navigator.canPop(context)) {
+                    Navigator.pop(context);
+                  } else {
+                    Modular.to.navigate('../../home/main');
+                  }
+                  // stateController.navigateToUrl('/home/main');
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios,size: 15,),
-                  ),
                   Text(
                     'Address List',
-                    style: TextStyles.headingFont,
+                    style: TextStyles.headingFont.copyWith(color: Colors.white),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      locationController.changeAddressData.value = Address();
+                      displayLocationDialog(context, locationController, 'ADD');
+                    },
+                    icon: Icon(
+                      Icons.add,
+                      color: AppColors.white,
+                    ),
+                    label: Text(
+                      'Add Address',
+                      style:
+                          TextStyles.bodyFont.copyWith(color: AppColors.white),
+                    ),
                   ),
                 ],
               ),
-              TextButton.icon(
-                onPressed: () {
-                  locationController.changeAddressData.value = Address();
-                  displayLocationDialog(context, locationController, 'ADD');
-                },
-                icon: Icon(
-                  Icons.add,
-                  color: AppColors.primeColor,
-                ),
-                label: Text(
-                  'Add Address',
-                  style:
-                      TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
-                ),
-              ),
-            ]),
+            ),
+            // Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            //   Row(
+            //     children: [
+            //       IconButton(
+            //         onPressed: () {
+            //           Navigator.pop(context);
+            //         },
+            //         icon: const Icon(
+            //           Icons.arrow_back_ios,
+            //           size: 15,
+            //         ),
+            //       ),
+            //       Text(
+            //         'Address List',
+            //         style: TextStyles.headingFont,
+            //       ),
+            //     ],
+            //   ),
+            //   TextButton.icon(
+            //     onPressed: () {
+            //       locationController.changeAddressData.value = Address();
+            //       displayLocationDialog(context, locationController, 'ADD');
+            //     },
+            //     icon: Icon(
+            //       Icons.add,
+            //       color: AppColors.primeColor,
+            //     ),
+            //     label: Text(
+            //       'Add Address',
+            //       style:
+            //           TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
+            //     ),
+            //   ),
+            // ]),
             ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,

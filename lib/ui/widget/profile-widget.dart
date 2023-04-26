@@ -129,7 +129,7 @@ class EditProfilePage extends StatelessWidget {
                 ),
                 TextButton(
                     onPressed: () {
-                      Modular.to.navigate('../home/address-list');
+                      Modular.to.navigate('../widget/address-list');
                     },
                     child: Text('Click to check saved addresses',
                         style: TextStyles.headingFont)),

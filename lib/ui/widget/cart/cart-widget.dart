@@ -1473,7 +1473,7 @@ class CartWidget extends StatelessWidget {
                       color: Colors.white,
                       elevation: 0,
                       onPressed: (() =>
-                          {Modular.to.navigate('../home/address-list')}),
+                          {Modular.to.navigate('../widget/address-list')}),
                       child: Row(
                         children: [
                           Text(

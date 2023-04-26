@@ -7,6 +7,7 @@ import 'package:amber_bird/ui/widget/google-address-suggest.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class LocationDialog extends StatelessWidget {
@@ -36,22 +37,45 @@ class LocationDialog extends StatelessWidget {
         body: SingleChildScrollView(
           child: Obx(
             () => Container(
-              color: AppColors.primeColor,
+              color: AppColors.commonBgColor,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  AppBar(
+                    backgroundColor: AppColors.primeColor,
+                    leadingWidth: 50,
+                    leading: IconButton(
+                        onPressed: () {
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context); 
+                          } else {
+                            Modular.to.navigate('../../home/main'); 
+                            // Modular.to.pushNamed('/home/main');
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                          size: 15,
+                        )),
+                    title: Text(
+                      '${CodeHelp.titleCase(type)} Address',
+                      style:
+                          TextStyles.headingFont.copyWith(color: Colors.white),
+                    ),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${CodeHelp.titleCase(type)} Address',
-                      style:
-                          TextStyles.titleFont.copyWith(color: AppColors.white),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Text(
+                  //     '${CodeHelp.titleCase(type)} Address',
+                  //     style:
+                  //         TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+                  //   ),
+                  // ),
                   const SizedBox(
                     height: 10,
                   ),
