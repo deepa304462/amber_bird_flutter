@@ -51,9 +51,21 @@ class BrandProductPage extends StatelessWidget {
                       color: Colors.white,
                       size: 15,
                     )),
-                title: Text(
-                  '${controller.brand.value.name}',
-                  style: TextStyles.bodyFontBold.copyWith(color: Colors.white),
+                title: Row(
+                  children: [
+                    ImageBox(
+                      '${controller.brand.value.logoId}',
+                      width: 40,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      '${controller.brand.value.name}',
+                      style: TextStyles.bodyFont.copyWith(color: Colors.white),
+                    ),
+                  ],
                 ),
               ),
               body: productList(context)),
@@ -83,45 +95,45 @@ class BrandProductPage extends StatelessWidget {
   productList(BuildContext context) {
     return Column(
       children: [
-        Container(
-          color: AppColors.off_red,
-          padding: const EdgeInsets.all(3),
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
-                child: Card(
-                  clipBehavior: Clip.hardEdge,
-                  child: Stack(
-                    children: [
-                      Lottie.asset('assets/profile-cover-background.json',
-                          width: MediaQuery.of(context).size.width,
-                          height: 100,
-                          fit: BoxFit.cover),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ImageBox(
-                              '${controller.brand.value.logoId}',
-                              width: 100,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const RibbonWidget(
-                text: 'Exclusive',
-              )
-            ],
-          ),
-        ),
+        // Container(
+        //   color: AppColors.off_red,
+        //   padding: const EdgeInsets.all(3),
+        //   child: Stack(
+        //     children: [
+        //       Padding(
+        //         padding: const EdgeInsets.only(left: 15, right: 15, top: 8),
+        //         child: Card(
+        //           clipBehavior: Clip.hardEdge,
+        //           child: Stack(
+        //             children: [
+        //               Lottie.asset('assets/profile-cover-background.json',
+        //                   width: MediaQuery.of(context).size.width,
+        //                   height: 100,
+        //                   fit: BoxFit.cover),
+        //               Row(
+        //                 mainAxisAlignment: MainAxisAlignment.center,
+        //                 crossAxisAlignment: CrossAxisAlignment.center,
+        //                 children: [
+        //                   Padding(
+        //                     padding: const EdgeInsets.all(8.0),
+        //                     child: ImageBox(
+        //                       '${controller.brand.value.logoId}',
+        //                       width: 100,
+        //                       fit: BoxFit.contain,
+        //                     ),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //       const RibbonWidget(
+        //         text: 'Exclusive',
+        //       )
+        //     ],
+        //   ),
+        // ),
         Expanded(
           child: MasonryGridView.count(
             crossAxisCount: 2,

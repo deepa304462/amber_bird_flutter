@@ -15,7 +15,7 @@ class LoadingWithLogo extends StatelessWidget {
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          AppColors.primeColor.withOpacity(.5),
+          AppColors.white.withOpacity(.5),
           AppColors.off_red.withOpacity(.5),
         ],
       )),
@@ -29,10 +29,10 @@ class LoadingWithLogo extends StatelessWidget {
                 fit: BoxFit.cover),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * .30,
-            left: MediaQuery.of(context).size.width * .32,
+            top: MediaQuery.of(context).size.height * .33,
+            left: MediaQuery.of(context).size.width * .37,
             child: Image.asset('assets/insidelogo.png',
-                width: MediaQuery.of(context).size.width * .3,
+                width: MediaQuery.of(context).size.width * .2,
                 fit: BoxFit.cover),
           ),
         ],
