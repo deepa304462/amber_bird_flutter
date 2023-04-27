@@ -6,6 +6,7 @@ import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
+import 'package:amber_bird/ui/widget/section-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -109,63 +110,36 @@ class AccountPage extends StatelessWidget {
                                   style: TextStyles.titleFont
                                       .copyWith(color: Colors.black),
                                 ),
-                                
                               ),
                             ),
                           ],
                         ),
                         const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            MaterialButton(
-                              onPressed: (() { 
-                              }),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.grade,
-                                    color: Colors.blue,
-                                  ),
-                                  Text(
-                                    'Orders',
-                                    style: TextStyles.headingFont,
-                                  ),
-                                ],
-                              ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: TextButton(
+                            onPressed: () async {
+                              Modular.to.navigate('/login');
+                            },
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: AppColors
+                                            .primeColor, // your color here
+                                        width: 1,
+                                      ),
+                                      borderRadius:
+                                          BorderRadius.circular(5.0))),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  AppColors.primeColor),
                             ),
-                            MaterialButton(
-                              onPressed: (() { 
-                              }),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
-                                  Text(
-                                    'Wishlist',
-                                    style: TextStyles.headingFont,
-                                  ),
-                                ],
-                              ),
+                            child: Text(
+                              isLoading.value ? 'Loading' : 'Login',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.white),
                             ),
-                            MaterialButton(
-                              onPressed: (() {}),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.local_activity,
-                                    color: Colors.amberAccent,
-                                  ),
-                                  Text(
-                                    'Events',
-                                    style: TextStyles.headingFont,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ],
                     ),
@@ -174,24 +148,12 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () async {
-                      Modular.to.navigate('/login');
-                    },
-                    child: Text("Login", style: TextStyles.headingFont),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          PrivacyHelpTermsSection(),
+          sectionCard('Help Center', '',
+              () => {Modular.to.pushNamed('/widget/help-center')},icon: Icons.question_mark_rounded ),
+          sectionCard('About Sbazar', '',
+              () => {openWebPage('https://sbazar.store/help.html', context)},
+              icon: Icons.info_outline_rounded),
+          // PrivacyHelpTermsSection(),
         ],
       ),
     );
