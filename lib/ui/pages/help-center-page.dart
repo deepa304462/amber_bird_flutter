@@ -1,21 +1,13 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/customer_insight/customer_insight.dart';
-import 'package:amber_bird/data/user_profile/user_profile.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
-import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/section-card.dart';
-import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../helpers/controller-generator.dart';
-import '../widget/privacy-help-terms-section.dart';
 
 class HelpCenterPage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -81,23 +73,24 @@ class HelpCenterPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: SizedBox(
-                              height: 70,
+                              height: 70, 
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 5),
                                 child: Column(
                                   children: [
                                     InkWell(
                                       onTap: () {},
                                       child: ImageBox(
-                                        '',
+                                        '316204af-0bc0-486d-81fb-55dd28e4674c',
                                         width: 50,
                                         height: 50,
                                       ),
                                     ),
                                     Center(
-                                      child: FitText('Return & refund',
+                                        child: Flexible(
+                                      child: Text('Return & refund',
                                           style: TextStyles.body),
-                                    )
+                                    ))
                                   ],
                                 ),
                               ),
@@ -108,13 +101,13 @@ class HelpCenterPage extends StatelessWidget {
                             child: SizedBox(
                               height: 70,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 5),
                                 child: Column(
                                   children: [
                                     InkWell(
                                       onTap: () {},
                                       child: ImageBox(
-                                        '',
+                                        '2229ac1f-3b17-4477-8970-d4441f5e6447',
                                         width: 50,
                                         height: 50,
                                       ),
@@ -133,13 +126,13 @@ class HelpCenterPage extends StatelessWidget {
                             child: SizedBox(
                               height: 70,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 5),
                                 child: Column(
                                   children: [
                                     InkWell(
                                       onTap: () {},
                                       child: ImageBox(
-                                        '',
+                                        '82b731de-b1f2-49a2-ad4e-eb5ed0ccb0a3',
                                         width: 50,
                                         height: 50,
                                       ),
@@ -158,13 +151,13 @@ class HelpCenterPage extends StatelessWidget {
                             child: SizedBox(
                               height: 70,
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(left: 5),
                                 child: Column(
                                   children: [
                                     InkWell(
                                       onTap: () {},
                                       child: ImageBox(
-                                        '',
+                                        'a739ca3d-d626-4f84-9fa1-a4f92b53f970',
                                         width: 50,
                                         height: 50,
                                       ),
@@ -184,23 +177,40 @@ class HelpCenterPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Need Immeddiate Assistance?',
-                          style: TextStyles.headingFont),
-                      sectionCard('Support at sbazar.app', '', () => {},
-                          icon: Icons.mail),
-                          sectionCard('0049 176 35298960', '', () => {},
-                          icon: Icons.phone),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Need Immeddiate Assistance?',
+                            style: TextStyles.headingFont),
+                        ListTile(
+                          leading: Icon(Icons.mail),
+                          title: Text(
+                            'Support at sbazar.app',
+                            style: TextStyles.titleFont,
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.phone),
+                          title: Text(
+                            '0049 176 35298960',
+                            style: TextStyles.titleFont,
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -213,15 +223,35 @@ class HelpCenterPage extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('FAQ',
-                          style: TextStyles.headingFont),
-                      sectionCard('Mail Order FAQ', '', () => {}),
-                      sectionCard('How to get a refund', '', () => {}),
-                      sectionCard('Buy Xget Y% Disfcount promotion', '', () => {}),
-                    ],
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('FAQ', style: TextStyles.headingFont),
+                        ListTile(
+                          title: Text(
+                            'Mail Order FAQ',
+                            style: TextStyles.titleFont,
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                        ),
+                        ListTile(
+                          title: Text(
+                            'How to get a refund',
+                            style: TextStyles.titleFont,
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Buy X get Y% Disfcount promotion',
+                            style: TextStyles.titleFont,
+                          ),
+                          trailing: const Icon(Icons.chevron_right),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

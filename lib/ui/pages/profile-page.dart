@@ -2,7 +2,6 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -22,60 +21,30 @@ class ProfilePage extends StatelessWidget {
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        toolbarHeight: 50,
-        leadingWidth: 50,
-        backgroundColor: AppColors.primeColor,
-        leading: MaterialButton(
-          onPressed: () {
-            // Navigator.pop(context);
-            stateController.navigateToUrl('/home/main');
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 15,
-          ),
-        ),
-        title: Column(
-          children: [
-            Text(
-              'My Profile',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            profileCard(context, stateController.loggedInProfile.value,
-                stateController.customerInsight.value),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                      onPressed: () async {
-                        stateController.logout();
-                        cartController.fetchCart();
-                      },
-                      child: Text("Logout", style: TextStyles.headingFont),
-                    ),
-                  ),
+    return Column(
+      children: [
+        profileCard(context, stateController.loggedInProfile.value,
+            stateController.customerInsight.value),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  onPressed: () async {
+                    stateController.logout();
+                    cartController.fetchCart();
+                  },
+                  child: Text("Logout", style: TextStyles.headingFont),
                 ),
               ),
             ),
-            PrivacyHelpTermsSection(),
-          ],
+          ),
         ),
-      ),
+        PrivacyHelpTermsSection(),
+      ],
     );
   }
 

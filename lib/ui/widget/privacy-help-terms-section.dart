@@ -10,13 +10,14 @@ class PrivacyHelpTermsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        sectionCard('FAQ', 'Get answer for your specific query',
+        sectionCard('FAQ', 'Get answer for your specific query',null,
             () => {openWebPage('https://sbazar.store/faq.html', context)}),
-        sectionCard('Help', 'Get help from our customer care team',
+        sectionCard('Help', 'Get help from our customer care team', null,
             () => {openWebPage('https://sbazar.store/help.html', context)}),
         sectionCard(
             'Privacy policy',
             'Explains legals and policies',
+            null,
             () => {
                   openWebPage(
                       'https://sbazar.store/privacy-policy.html', context)
@@ -24,10 +25,12 @@ class PrivacyHelpTermsSection extends StatelessWidget {
         sectionCard(
             'Terms and conditions',
             'Outlined the rules, regulations, and guidelines',
+            null,
             () => {openWebPage('https://sbazar.store/terms.html', context)}),
         sectionCard(
             'Contact us',
             'Get connect with our support team',
+            null,
             () =>
                 {openWebPage('https://sbazar.store/contact-us.html', context)}),
         Text('Accepted payment methods', style: TextStyles.bodyFont),

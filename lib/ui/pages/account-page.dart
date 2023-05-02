@@ -1,13 +1,9 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/customer_insight/customer_insight.dart';
-import 'package:amber_bird/data/user_profile/user_profile.dart';
-import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/section-card.dart';
-import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -15,7 +11,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../helpers/controller-generator.dart';
-import '../widget/privacy-help-terms-section.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -33,7 +28,6 @@ class AccountPage extends StatelessWidget {
           backgroundColor: AppColors.primeColor,
           leading: MaterialButton(
             onPressed: () {
-              // Navigator.pop(context);
               stateController.navigateToUrl('/home/main');
             },
             child: const Icon(
@@ -148,11 +142,11 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           ),
-          sectionCard('Help Center', '',
-              () => {Modular.to.pushNamed('/widget/help-center')},icon: Icons.question_mark_rounded ),
-          sectionCard('About Sbazar', '',
-              () => {openWebPage('https://sbazar.store/help.html', context)},
-              icon: Icons.info_outline_rounded),
+          sectionCard('Help Center', '',Icons.question_mark_rounded,
+              () => {Modular.to.pushNamed('/widget/help-center')} ),
+          sectionCard('About Sbazar', '', Icons.info_outline_rounded,
+              () => {Modular.to.pushNamed('/widget/about-page')},
+              ),
           // PrivacyHelpTermsSection(),
         ],
       ),

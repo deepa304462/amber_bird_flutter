@@ -148,7 +148,7 @@ class SpointsPage extends StatelessWidget {
                                         .copyWith(color: AppColors.darkOrange),
                                   ),
                                 );
-                              }).toList(),
+                              },).toList(),
                             ],
                           ),
                         ],
