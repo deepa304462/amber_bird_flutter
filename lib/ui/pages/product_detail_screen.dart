@@ -243,11 +243,13 @@ class ProductDetailScreen extends StatelessWidget {
                                 productController.recommendedProd.length > 0
                                     ? recommendedProd(productController)
                                     : const SizedBox(),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
+                                productController.recommendedProd.length > 0
+                                    ? Divider(
+                                        color: AppColors.lightGrey,
+                                        height: 8,
+                                        thickness: 8,
+                                      )
+                                    : const SizedBox(),
                                 specification(productController),
                                 tags(productController.product.value, context),
                                 Divider(
@@ -939,7 +941,8 @@ class ProductDetailScreen extends StatelessWidget {
                           style: TextStyles.body,
                         )
                       : Text(
-                          '${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} offer shipping',
+                          //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                           style: TextStyles.body,
                         ),
             ),
@@ -1211,17 +1214,19 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   TableCell(
                     child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child:ShowMoreWidget( text:productController
-                                .product.value.description!.defaultText!.text ??
-                            '',)
-                            
-                      //  Html(
-                      //   data: productController
-                      //           .product.value.description!.defaultText!.text ??
-                      //       '',
-                      // ),
-                    ),
+                        padding: const EdgeInsets.all(8),
+                        child: ShowMoreWidget(
+                          text: productController.product.value.description!
+                                  .defaultText!.text ??
+                              '',
+                        )
+
+                        //  Html(
+                        //   data: productController
+                        //           .product.value.description!.defaultText!.text ??
+                        //       '',
+                        // ),
+                        ),
                   )
                 ]),
               ],
