@@ -69,10 +69,11 @@ class Helper {
       if (controller.membershipList[controller.userType.value] != null &&
           cust.cart != null &&
           cust.cart!.payment != null) {
+            
         return {
-          'amountRequired': cust.cart!.payment!.totalAmount -
-              controller.membershipList[controller.userType.value]!
-                  .cartValueAboveWhichOfferShippingApplied!,
+          'amountRequired': controller.membershipList[controller.userType.value]!
+                  .cartValueAboveWhichOfferShippingApplied!-(cust.cart!.payment!.totalAmount - cust.cart!.payment!.shippingAmount)
+              ,
           'offeredShipping': controller
               .membershipList[controller.userType.value]!.offerShippingCharge!
         };

@@ -17,6 +17,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     getProduct(tag);
+    getRecommendedProd();
     super.onInit();
     
   }
@@ -43,6 +44,19 @@ class ProductController extends GetxController {
     varient.value = value;
   }
 
-  getRecommendedProd(){}
+  getRecommendedProd()async{
+    var response =
+        await ClientService.post(path: 'productInventory/getRecommendedAvailableProducts',payload: {'productId':tag});
+    if (response.statusCode == 200) {
+
+       List<ProductSummary> pList = ((response.data as List<dynamic>?)
+              ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
+      recommendedProd.value = pList;
+      // Product prod = Product.fromMap(response.data as Map<String, dynamic>);
+       
+    }
+  }
   
 }

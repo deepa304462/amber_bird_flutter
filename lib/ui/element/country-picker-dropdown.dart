@@ -46,7 +46,7 @@ class CountryPickerDropdown extends StatelessWidget {
                 height: 3,
                 color: Colors.transparent, //<-- SEE HERE
               ),
-              style: TextStyles.titleFont.copyWith(color: AppColors.white),
+              style: TextStyles.titleFont,
               icon: const Icon(Icons.keyboard_arrow_down),
               items: dropdownItems.map((items) {
                 return DropdownMenuItem(
