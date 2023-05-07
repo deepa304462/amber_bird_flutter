@@ -10,7 +10,7 @@ class PrivacyHelpTermsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        sectionCard('FAQ', 'Get answer for your specific query',null,
+        sectionCard('FAQ', 'Get answer for your specific query', null,
             () => {openWebPage('https://sbazar.store/faq.html', context)}),
         sectionCard('Help', 'Get help from our customer care team', null,
             () => {openWebPage('https://sbazar.store/help.html', context)}),

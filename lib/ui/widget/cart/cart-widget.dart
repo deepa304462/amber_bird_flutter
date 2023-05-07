@@ -306,11 +306,8 @@ class CartWidget extends StatelessWidget {
                                           width: 20,
                                           fit: BoxFit.contain,
                                         ),
-                                        Text('${
-                                          Helper.getFormattedNumber(
-                                                  currentMemberPrice *
-                                                      currentProduct.count)
-                                              .toString()}${CodeHelp.euro}',
+                                        Text(
+                                          '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
@@ -564,11 +561,8 @@ class CartWidget extends StatelessWidget {
                                             width: 20,
                                             fit: BoxFit.contain,
                                           ),
-                                          Text('${
-                                            Helper.getFormattedNumber(
-                                                    currentMemberPrice *
-                                                        currentProduct.count)
-                                                .toString()}${CodeHelp.euro}',
+                                          Text(
+                                            '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                             style: TextStyles.headingFont,
                                           ),
                                         ],

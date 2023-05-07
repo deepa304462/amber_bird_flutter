@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
@@ -14,6 +15,8 @@ import '../../helpers/controller-generator.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
+  final CompilanceController compilanceController = Get.put(CompilanceController());
+  
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
@@ -142,11 +145,14 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           ),
-          sectionCard('Help Center', '',Icons.question_mark_rounded,
-              () => {Modular.to.pushNamed('/widget/help-center')} ),
-          sectionCard('About Sbazar', '', Icons.info_outline_rounded,
-              () => {Modular.to.pushNamed('/widget/about-page')},
-              ),
+          sectionCard('Help Center', '', Icons.question_mark_rounded,
+              () => {Modular.to.pushNamed('/widget/help-center')}),
+          sectionCard(
+            'About Sbazar',
+            '',
+            Icons.info_outline_rounded,
+            () => {Modular.to.pushNamed('/widget/about-page')},
+          ),
           // PrivacyHelpTermsSection(),
         ],
       ),

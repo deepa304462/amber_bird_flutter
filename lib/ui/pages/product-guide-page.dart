@@ -45,7 +45,7 @@ class ProductGuidePage extends StatelessWidget {
                       leading: IconButton(
                           onPressed: () {
                             if (Navigator.canPop(context)) {
-                              Navigator.pop(context); 
+                              Navigator.pop(context);
                             } else {
                               Modular.to.navigate('../../home/main');
                               // Modular.to.pushNamed('/home/main');

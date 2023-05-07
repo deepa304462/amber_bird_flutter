@@ -55,10 +55,10 @@ class HomePageModule extends Module {
               return PaymentSatusPage(id, paymentId);
             },
           ),
-         
+
           ChildRoute('/scoin-checkout',
               child: (_, args) => ScoinCheckoutWidget()),
-         
+
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),

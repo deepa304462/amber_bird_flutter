@@ -73,7 +73,7 @@ class HelpCenterPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: SizedBox(
-                              height: 70, 
+                              height: 70,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Column(

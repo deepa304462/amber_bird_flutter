@@ -37,7 +37,7 @@ class CouponWidget extends StatelessWidget {
               decoration: InputDecoration(
                 suffixIcon: MaterialButton(
                   color: AppColors.primeColor,
-                  onPressed: () async { 
+                  onPressed: () async {
                     stateController.showLoader.value = true;
                     var coupon = await cartController
                         .searchCoupon(controller.value.text);
@@ -125,7 +125,8 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: const Icon(Icons.arrow_back_ios,
+      icon: const Icon(
+        Icons.arrow_back_ios,
         size: 15,
       ),
     );
@@ -148,7 +149,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) { 
+  Widget buildSuggestions(BuildContext context) {
     cartController.getsearchData(query);
     return Obx(
       () => ListView.builder(

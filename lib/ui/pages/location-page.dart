@@ -59,8 +59,7 @@ class LocationPage extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: AppColors.white,
                                   borderRadius: BorderRadius.circular(5),
-                                  border:
-                                      Border.all(color: AppColors.white)),
+                                  border: Border.all(color: AppColors.white)),
                               child: ITextBox(
                                   'Pin Code',
                                   'pinCode',

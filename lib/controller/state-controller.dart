@@ -347,11 +347,11 @@ class Controller extends GetxController {
         break;
       case 4:
         // if (isLogin.value) {
-          // activePageName.value = 'profile';
-          navigateToUrl('/widget/account');
+        // activePageName.value = 'profile';
+        navigateToUrl('/widget/account');
         // } else {
-          // activePageName.value = 'login';
-          // Modular.to.navigate('/home/login');
+        // activePageName.value = 'login';
+        // Modular.to.navigate('/home/login');
         //   navigateToUrl('/login');
         // }
         break;

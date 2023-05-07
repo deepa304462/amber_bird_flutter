@@ -101,8 +101,9 @@ class CustomSearchDelegate extends SearchDelegate {
       onPressed: () {
         close(context, null);
       },
-      icon: const Icon(Icons.arrow_back_ios,
-         size: 15,
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        size: 15,
       ),
     );
   }
@@ -136,15 +137,21 @@ class CustomSearchDelegate extends SearchDelegate {
     return Obx(
       () => ListView(
         children: [
-           query ==''?  Padding(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Text(
-              'Popular searches: ',
-              style: TextStyles.titleFont.copyWith(color: AppColors.DarkGrey),
-            ),
-          ):const SizedBox(),
-         query ==''? Padding(padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child:  PopularSearchWidget(context, searchController)):const SizedBox(),
+          query == ''
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: Text(
+                    'Popular searches: ',
+                    style: TextStyles.titleFont
+                        .copyWith(color: AppColors.DarkGrey),
+                  ),
+                )
+              : const SizedBox(),
+          query == ''
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: PopularSearchWidget(context, searchController))
+              : const SizedBox(),
           searchController.searchingProduct.value
               ? const Center(
                   child: CircularProgressIndicator(),
@@ -176,9 +183,7 @@ class CustomSearchDelegate extends SearchDelegate {
           margin: const EdgeInsets.fromLTRB(0, 5, 6, 0),
           decoration: BoxDecoration(
             border: Border.all(width: 1, color: AppColors.primeColor),
-            color: query == data['value']
-                ? Colors.green[100]
-                : AppColors.white,
+            color: query == data['value'] ? Colors.green[100] : AppColors.white,
             borderRadius: BorderRadius.circular(8),
           ),
           child: TextButton(

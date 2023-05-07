@@ -44,9 +44,7 @@ class IRadioBox extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(inputList[index],
-                    style:
-                        TextStyles.titleFont),
+                title: Text(inputList[index], style: TextStyles.titleFont),
                 leading: Radio(
                   value: inputList[index],
                   groupValue: value,

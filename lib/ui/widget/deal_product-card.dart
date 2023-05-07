@@ -46,7 +46,7 @@ class DealProductCard extends StatelessWidget {
                     child: DiscountTag(
                       price: dProduct.dealPrice!,
                     ),
-                  ), 
+                  ),
                 ],
               ),
             );

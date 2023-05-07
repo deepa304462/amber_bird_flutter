@@ -8,15 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
-Widget sectionCard(String title, String subtitleVal,  icon,Function() onTap,
-    ) {
+Widget sectionCard(
+  String title,
+  String subtitleVal,
+  icon,
+  Function() onTap,
+) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: InkWell(
       onTap: onTap,
       child: Card(
         child: ListTile(
-          leading: icon!=null?Icon(icon):const SizedBox(),
+          leading: icon != null ? Icon(icon) : const SizedBox(),
           title: Text(
             title,
             style: TextStyles.headingFont,

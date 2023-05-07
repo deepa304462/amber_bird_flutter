@@ -57,12 +57,13 @@ class SignUp extends StatelessWidget {
                 children: [
                   Text(
                     'Create Account',
-                    style:
-                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
+                    style: TextStyles.headingFont
+                        .copyWith(color: AppColors.DarkGrey),
                   ),
                   Text(
                     'To get started now!',
-                    style: TextStyles.bodyFont.copyWith(color: AppColors.DarkGrey),
+                    style:
+                        TextStyles.bodyFont.copyWith(color: AppColors.DarkGrey),
                   ),
                   const SizedBox(
                     height: 20,
@@ -101,25 +102,25 @@ class SignUp extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  ITextBox(
-                      'Username',
-                      'username',
-                      mController.fieldValue['username'].toString(),
-                      false,
-                      TextInputType.text,
-                      false,
-                      false,
-                      callback),
-                  mController.usernameValid.value
-                      ? const SizedBox()
-                      : Text(
-                          'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
-                          style:
-                              TextStyles.body.copyWith(color: AppColors.DarkGrey),
-                        ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  // ITextBox(
+                  //     'Username',
+                  //     'username',
+                  //     mController.fieldValue['username'].toString(),
+                  //     false,
+                  //     TextInputType.text,
+                  //     false,
+                  //     false,
+                  //     callback),
+                  // mController.usernameValid.value
+                  //     ? const SizedBox()
+                  //     : Text(
+                  //         'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
+                  //         style: TextStyles.body
+                  //             .copyWith(color: AppColors.DarkGrey),
+                  //       ),
+                  // const SizedBox(
+                  //   height: 10,
+                  // ),
                   ITextBox(
                       'Email',
                       'email',
@@ -148,9 +149,10 @@ class SignUp extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: TextButton(
                       onPressed: () async {
-                        await mController.checkValidityUsername();
-                        if (mController.usernameValid.value) {
-                          isLoading.value = true;
+                        isLoading.value = true;
+                        // await mController.checkValidityUsername();
+                        // if (mController.usernameValid.value) {
+                          
                           var data = await mController.signUp();
                           if (data['status'] == 'success') {
                             controller.getLoginInfo();
@@ -160,26 +162,26 @@ class SignUp extends StatelessWidget {
                           isLoading.value = false;
                           // ignore: use_build_context_synchronously
                           snackBarClass.showToast(context, data['msg']);
-                        } else {
-                          // ignore: use_build_context_synchronously
-                          snackBarClass.showToast(
-                              context, 'Please fill corrct username');
-                        }
+                        // } else {
+                        //   // ignore: use_build_context_synchronously
+                        //   snackBarClass.showToast(
+                        //       context, 'Please fill corrct username');
+                        // }
                       },
                       style: ButtonStyle(
-                         shape:
-                              MaterialStateProperty.all(RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color:
-                                        AppColors.primeColor, // your color here
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(5.0))),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              AppColors.primeColor), ),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: AppColors.primeColor, // your color here
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(5.0))),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColors.primeColor),
+                      ),
                       child: Text(
                         !isLoading.value ? 'Create account' : 'Loading',
-                        style: TextStyles.headingFont.copyWith(color: AppColors.white),
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.white),
                       ),
                     ),
                   ),
@@ -198,7 +200,8 @@ class SignUp extends StatelessWidget {
                     ),
                     Text(
                       "Or Login with",
-                      style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
+                      style:
+                          TextStyles.body.copyWith(color: AppColors.DarkGrey),
                     ),
                     Expanded(
                       child: Container(

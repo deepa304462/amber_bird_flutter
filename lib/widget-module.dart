@@ -4,6 +4,7 @@ import 'package:amber_bird/ui/pages/account-page.dart';
 import 'package:amber_bird/ui/pages/all-address-page.dart';
 import 'package:amber_bird/ui/pages/help-center-page.dart';
 import 'package:amber_bird/ui/pages/order-list.dart';
+import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
@@ -30,6 +31,13 @@ class WidgetRouteModule extends Module {
       ChildRoute('/about-page', child: (_, args) => AboutPage()),
       ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
+        ChildRoute(
+        '/guide/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          return ProductGuidePage(productId);
+        },
+      ),
       ChildRoute(
         '/brandProduct/:id',
         child: (_, args) {

@@ -93,8 +93,8 @@ class ITextBox extends StatelessWidget {
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: AppColors.DarkGrey),
                     ),
-                    labelStyle:
-                        TextStyles.headingFont.copyWith(color: AppColors.DarkGrey),
+                    labelStyle: TextStyles.headingFont
+                        .copyWith(color: AppColors.DarkGrey),
                     labelText: label,
                     counterText: ""),
                 obscureText: isPassword,

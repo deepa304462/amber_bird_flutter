@@ -158,11 +158,11 @@ class AuthController extends GetxController {
 
   dynamic signUp() async {
     if (fieldValue['email'] != '' &&
-        fieldValue['username'] != '' &&
         fieldValue['email'] != '' &&
         fieldValue['email'] != '') {
       var payload = {
-        "suggestedUsername": fieldValue['username'],
+        // "suggestedUsername": fieldValue['username'],
+        "suggestedUsername": fieldValue['email'],
         "orgRef": {"name": "sbazar", "_id": "sbazar"},
         "email": fieldValue['email'],
         "mobile":
@@ -180,14 +180,19 @@ class AuthController extends GetxController {
           await ClientService.post(path: 'profile-auth', payload: payload);
       if (resp.statusCode == 200) {
         SharedData.save(jsonEncode(resp.data), 'ProfileAuthData');
+        dev.log(jsonEncode(resp.data).toString());
         var loginPayload = {
           "password": fieldValue['password'],
-          "userName": fieldValue['username'],
+          // "userName": fieldValue['username'],
+          // "userName": resp.data['userName'],
+          "email": fieldValue['email']
+          // "userName": fieldValue['email'],
         };
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
         dev.log(jsonEncode(loginPayload).toString());
         if (loginResp.statusCode == 200) {
+          dev.log(jsonEncode(loginResp.data).toString());
           ClientService.token = loginResp.data['accessToken'];
           SharedData.save(jsonEncode(loginResp.data), 'authData');
           if (loginResp.data['tokenManagerEntityId'] != null) {
@@ -242,6 +247,7 @@ class AuthController extends GetxController {
     } else {
       return {"msg": "Please fill all field!!", "status": "error"};
     }
+    return {"msg": "Something Went Wrong!!", "status": "error"};
   }
 
   LoginWithGoogle() async {

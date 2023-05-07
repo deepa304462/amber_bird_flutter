@@ -37,7 +37,7 @@ class BrandProductPageController extends GetxController {
               ?.map((e) => Category.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      
+
       categoryList.value = list;
       selectedCategory.value = categoryList[0].id!;
       searchProducts();
@@ -47,7 +47,10 @@ class BrandProductPageController extends GetxController {
   void searchProducts() {
     ClientService.searchQuery(
             path: 'cache/product/searchSummary',
-            query: {'brandId': brandId,'productCategoryId':selectedCategory.value},
+            query: {
+              'brandId': brandId,
+              'productCategoryId': selectedCategory.value
+            },
             lang: 'en')
         .then((value) {
       List<ProductSummary> pList = ((value.data as List<dynamic>?)

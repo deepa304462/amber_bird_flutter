@@ -131,24 +131,26 @@ class SpointsPage extends StatelessWidget {
                                 'Benefits: ',
                                 style: TextStyles.headingFont,
                               ),
-                              ...element.benefits!.map((benefit) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      // borderRadius: BorderRadius.circular(5),
-                                      // border:
-                                      //     Border.all(color: AppColors.primeColor),
-                                      // color: AppColors.primeColor,
-                                      ),
-                                  padding: const EdgeInsets.all(5),
-                                  // margin:
-                                  //     const EdgeInsets.fromLTRB(20, 3, 3, 3),
-                                  child: Text(
-                                    benefit,
-                                    style: TextStyles.headingFont
-                                        .copyWith(color: AppColors.darkOrange),
-                                  ),
-                                );
-                              },).toList(),
+                              ...element.benefits!.map(
+                                (benefit) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        // borderRadius: BorderRadius.circular(5),
+                                        // border:
+                                        //     Border.all(color: AppColors.primeColor),
+                                        // color: AppColors.primeColor,
+                                        ),
+                                    padding: const EdgeInsets.all(5),
+                                    // margin:
+                                    //     const EdgeInsets.fromLTRB(20, 3, 3, 3),
+                                    child: Text(
+                                      benefit,
+                                      style: TextStyles.headingFont.copyWith(
+                                          color: AppColors.darkOrange),
+                                    ),
+                                  );
+                                },
+                              ).toList(),
                             ],
                           ),
                         ],

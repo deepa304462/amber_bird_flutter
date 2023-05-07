@@ -22,7 +22,6 @@ import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
   RxMap<String, ProductOrder> cartProductsScoins = <String, ProductOrder>{}.obs;

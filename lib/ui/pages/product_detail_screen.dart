@@ -251,31 +251,40 @@ class ProductDetailScreen extends StatelessWidget {
                                       )
                                     : const SizedBox(),
                                 specification(productController),
-                                tags(productController.product.value, context),
+                                // tags(productController.product.value, context),
+                                Divider(
+                                  color: AppColors.lightGrey,
+                                  height: 8,
+                                  thickness: 8,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Details',
+                                          style: TextStyles.headingFont,
+                                        ),
+                                        ShowMoreWidget(
+                                          text: productController
+                                                  .product
+                                                  .value
+                                                  .description!
+                                                  .defaultText!
+                                                  .text ??
+                                              '',
+                                        ),
+                                      ]),
+                                ),
                                 Divider(
                                   color: AppColors.lightGrey,
                                   height: 8,
                                   thickness: 8,
                                 ),
                                 desclaimer()
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.symmetric(vertical: 4),
-                                //   child: Column(children: [
-                                //     Expanded(
-                                //       child: Text(
-                                //         'Disclaimer',
-                                //         style: TextStyles.headingFont,
-                                //       ),
-                                //     ),
-                                //     Expanded(
-                                //       child: Text(
-                                //         'Product description on SBazar website and app are for informational purposes only',
-                                //         style: TextStyles.body,
-                                //       ),
-                                //     ),
-                                //   ]),
-                                // ),
                               ],
                             ),
                           ),
@@ -311,131 +320,137 @@ class ProductDetailScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Obx(() {
-                                ProductSummary summary =
-                                    ProductSummary.fromMap({
-                                  "name": productController.product.value.name!
-                                      .toMap(),
-                                  "description": productController
-                                      .product.value.description!
-                                      .toMap(),
-                                  "images":
-                                      productController.product.value.images,
-                                  "varient":
-                                      productController.varient.value.toMap(),
-                                  "category": productController
-                                      .product.value.category!
-                                      .toMap(),
-                                  "countryCode": productController
-                                      .product.value.countryCode,
-                                  "id": productController.product.value.id
-                                });
-                                return cartController.checkProductInCart(
-                                        '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                        addedFrom)
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          IconButton(
-                                            padding: const EdgeInsets.all(0),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                await cartController.addToCart(
-                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                    addedFrom!,
-                                                    -1,
-                                                    productController
-                                                        .varient.value.price!,
-                                                    summary,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    productController
-                                                        .varient.value);
-                                              } else {
+                              Obx(
+                                () {
+                                  ProductSummary summary =
+                                      ProductSummary.fromMap({
+                                    "name": productController
+                                        .product.value.name!
+                                        .toMap(),
+                                    "description": productController
+                                        .product.value.description!
+                                        .toMap(),
+                                    "images":
+                                        productController.product.value.images,
+                                    "varient":
+                                        productController.varient.value.toMap(),
+                                    "category": productController
+                                        .product.value.category!
+                                        .toMap(),
+                                    "countryCode": productController
+                                        .product.value.countryCode,
+                                    "id": productController.product.value.id
+                                  });
+                                  return cartController.checkProductInCart(
+                                          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                          addedFrom)
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              padding: const EdgeInsets.all(0),
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              onPressed: () async {
                                                 stateController
-                                                    .setCurrentTab(3);
-                                                var showToast =
-                                                    snackBarClass.showToast(
-                                                        context,
-                                                        'Please login to proceed');
-                                              }
-                                              stateController.showLoader.value =
-                                                  false;
-                                              // cController.addToCart(p, refId!, addedFrom!, -1);
-                                            },
-                                            icon: const Icon(
-                                                Icons.remove_circle_outline,
-                                                size: 25,
-                                                color: Colors.white),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: Text(
-                                              cartController
-                                                  .getCurrentQuantity(
+                                                    .showLoader.value = true;
+                                                if (stateController
+                                                    .isLogin.value) {
+                                                  await cartController.addToCart(
                                                       '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                      '')
-                                                  .toString(),
-                                              style: TextStyles.titleFont
-                                                  .copyWith(
-                                                      color: AppColors.white)
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                            ),
-                                          ),
-                                          IconButton(
-                                            padding: const EdgeInsets.all(0),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              stateController.showLoader.value =
-                                                  true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                await cartController.addToCart(
-                                                    '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                    addedFrom!,
-                                                    1,
-                                                    productController
-                                                        .varient.value.price!,
-                                                    summary,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    productController
-                                                        .varient.value);
-                                              } else {
+                                                      addedFrom!,
+                                                      -1,
+                                                      productController
+                                                          .varient.value.price!,
+                                                      summary,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      productController
+                                                          .varient.value);
+                                                } else {
+                                                  stateController
+                                                      .setCurrentTab(3);
+                                                  var showToast =
+                                                      snackBarClass.showToast(
+                                                          context,
+                                                          'Please login to proceed');
+                                                }
                                                 stateController
-                                                    .setCurrentTab(3);
-                                                snackBarClass.showToast(context,
-                                                    'Please Login to preoceed');
-                                              }
-                                              stateController.showLoader.value =
-                                                  false;
-                                              // cController.addToCart(p, refId!, addedFrom!, 1);
-                                            },
-                                            icon: const Icon(
-                                                Icons.add_circle_outline,
-                                                size: 25,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      )
-                                    : Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
+                                                    .showLoader.value = false;
+                                                // cController.addToCart(p, refId!, addedFrom!, -1);
+                                              },
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outline,
+                                                  size: 25,
+                                                  color: Colors.white),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8),
+                                              child: Text(
+                                                cartController
+                                                    .getCurrentQuantity(
+                                                        '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                        '')
+                                                    .toString(),
+                                                style: TextStyles.titleFont
+                                                    .copyWith(
+                                                        color: AppColors.white)
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                            ),
+                                            IconButton(
+                                              padding: const EdgeInsets.all(0),
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              onPressed: () async {
+                                                stateController
+                                                    .showLoader.value = true;
+                                                if (stateController
+                                                    .isLogin.value) {
+                                                  await cartController.addToCart(
+                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                      addedFrom!,
+                                                      1,
+                                                      productController
+                                                          .varient.value.price!,
+                                                      summary,
+                                                      null,
+                                                      null,
+                                                      null,
+                                                      productController
+                                                          .varient.value);
+                                                } else {
+                                                  stateController
+                                                      .setCurrentTab(3);
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Please Login to preoceed');
+                                                }
+                                                stateController
+                                                    .showLoader.value = false;
+                                                // cController.addToCart(p, refId!, addedFrom!, 1);
+                                              },
+                                              icon: const Icon(
+                                                  Icons.add_circle_outline,
+                                                  size: 25,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
                                             TextButton(
                                               style: TextButton.styleFrom(
                                                   padding: EdgeInsets.only(
@@ -487,14 +502,17 @@ class ProductDetailScreen extends StatelessWidget {
                                                 stateController
                                                     .showLoader.value = false;
                                               },
-                                              child: Text("Add to cart",
-                                                  style: TextStyles.titleFont
-                                                      .copyWith(
-                                                          color:
-                                                              AppColors.white)),
+                                              child: Text(
+                                                "Add to cart",
+                                                style: TextStyles.titleFont
+                                                    .copyWith(
+                                                        color: AppColors.white),
+                                              ),
                                             )
-                                          ]);
-                              })
+                                          ],
+                                        );
+                                },
+                              )
                             ],
                           ),
                         ),
@@ -502,7 +520,8 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                   )
                 ],
-              ))
+              ),
+            )
           : const Center(
               child: Text("Loading"),
             ),
@@ -941,7 +960,7 @@ class ProductDetailScreen extends StatelessWidget {
                           style: TextStyles.body,
                         )
                       : Text(
-                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} offer shipping',
+                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
                           //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                           style: TextStyles.body,
                         ),
@@ -1159,29 +1178,30 @@ class ProductDetailScreen extends StatelessWidget {
                   ])
                 ],
                 if (productController.product.value.tags!.length > 0) ...[
-                  TableRow(children: [
-                    TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
+                  TableRow(
+                    children: [
+                      TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Special Tags',
+                              style: TextStyles.titleFont,
+                            ),
+                          )),
+                      TableCell(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Special Tags',
-                            style: TextStyles.titleFont,
-                          ),
-                        )),
-                    TableCell(
-                      child: Padding(
                           padding: const EdgeInsets.all(8),
                           child: SizedBox(
                             height: 30,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount:
-                                  productController.product.value.tags!.length,
+                              itemCount: productController
+                                  .product.value.keywords!.length,
                               shrinkWrap: true,
                               itemBuilder: (_, index) {
                                 var currentTag = productController
-                                    .product.value.tags![index];
+                                    .product.value.keywords![index];
                                 return SizedBox(
                                   height: 20,
                                   child: Card(
@@ -1189,7 +1209,7 @@ class ProductDetailScreen extends StatelessWidget {
                                     child: Center(
                                       child: Padding(
                                         padding: const EdgeInsets.all(4),
-                                        child: Text('${currentTag.name}',
+                                        child: Text('${currentTag}',
                                             style: TextStyles.body),
                                       ),
                                     ),
@@ -1197,38 +1217,72 @@ class ProductDetailScreen extends StatelessWidget {
                                 );
                               },
                             ),
-                          )),
-                    )
-                  ])
-                ],
-                TableRow(children: [
-                  TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Text(
-                        'Details',
-                        style: TextStyles.titleFont,
-                      ),
-                    ),
-                  ),
-                  TableCell(
-                    child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: ShowMoreWidget(
-                          text: productController.product.value.description!
-                                  .defaultText!.text ??
-                              '',
-                        )
-
-                        //  Html(
-                        //   data: productController
-                        //           .product.value.description!.defaultText!.text ??
-                        //       '',
-                        // ),
+                          ),
                         ),
-                  )
-                ]),
+                      )
+                    ],
+                  ),
+                ],
+                TableRow(
+                  children: [
+                    TableCell(
+                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Nutrition',
+                            style: TextStyles.titleFont,
+                          ),
+                        )),
+                    TableCell(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ShowMoreWidget(
+                              text: productController.product.value
+                                              .nutritionDetail!.defaultText !=
+                                          null &&
+                                      productController
+                                              .product
+                                              .value
+                                              .nutritionDetail!
+                                              .defaultText!
+                                              .text !=
+                                          null
+                                  ? productController.product.value
+                                          .nutritionDetail!.defaultText!.text ??
+                                      ''
+                                  : productController
+                                          .product
+                                          .value
+                                          .nutritionDetail!
+                                          .languageTexts![0]
+                                          .text ??
+                                      '')),
+                    )
+                  ],
+                ),
+                // TableRow(children: [
+                //   TableCell(
+                //     verticalAlignment: TableCellVerticalAlignment.middle,
+                //     child: Padding(
+                //       padding: const EdgeInsets.all(8),
+                //       child: Text(
+                //         'Details',
+                //         style: TextStyles.titleFont,
+                //       ),
+                //     ),
+                //   ),
+                //   TableCell(
+                //     child: Padding(
+                //         padding: const EdgeInsets.all(8),
+                //         child: ShowMoreWidget(
+                //           text: productController.product.value.description!
+                //                   .defaultText!.text ??
+                //               '',
+                //         )
+                //         ),
+                //   )
+                // ]),
               ],
             ),
           ),
@@ -1305,7 +1359,12 @@ class ProductDetailScreen extends StatelessWidget {
               width: 5,
             ),
             IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  // await productController
+                  CodeHelp.shareWithOther(
+                      'Buy this Product now, ${productController.shortLink.value}',
+                      'Share now');
+                },
                 icon: Icon(
                   CupertinoIcons.share,
                   color: AppColors.primeColor,

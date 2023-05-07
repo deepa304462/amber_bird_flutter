@@ -6,8 +6,7 @@ class BrandPageController extends GetxController {
   RxList<Brand> brands = <Brand>[].obs;
   RxBool isLoading = true.obs;
   @override
-  void onInit() {
-    // TODO: implement onInit
+  void onInit() { 
     _saerchBrands();
     super.onInit();
   }

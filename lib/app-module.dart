@@ -33,13 +33,7 @@ class AppModule extends Module {
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
         ChildRoute('/signup', child: (_, args) => SignUp()),
-        ChildRoute(
-          '/guide/:id',
-          child: (_, args) {
-            String productId = args.params['id'];
-            return ProductGuidePage(productId);
-          },
-        ),
+      
         ModuleRoute('/widget', module: WidgetRouteModule()),
         // ChildRoute('/orders', child: (_, args) => OrderListPage()),
         // ChildRoute('/refer-page', child: (_, args) => ReferralPage()),

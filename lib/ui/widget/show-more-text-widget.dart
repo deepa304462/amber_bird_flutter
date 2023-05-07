@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart'; 
 import 'package:flutter_html/flutter_html.dart';
 
 class ShowMoreWidget extends StatefulWidget {
@@ -8,8 +7,7 @@ class ShowMoreWidget extends StatefulWidget {
   ShowMoreWidget({required this.text});
 
   @override
-  _ShowMoreWidgetState createState() =>
-      new _ShowMoreWidgetState();
+  _ShowMoreWidgetState createState() => new _ShowMoreWidgetState();
 }
 
 class _ShowMoreWidgetState extends State<ShowMoreWidget> {
@@ -36,10 +34,12 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
     return new Container(
       padding: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: secondHalf.isEmpty
-          ? new Html(data:firstHalf)
+          ? new Html(data: firstHalf)
           : new Column(
               children: <Widget>[
-                new Html(data:flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
+                new Html(
+                    data:
+                        flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
                 new InkWell(
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.end,

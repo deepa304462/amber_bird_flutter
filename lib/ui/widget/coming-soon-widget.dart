@@ -57,7 +57,9 @@ class ComingSoonWidget extends StatelessWidget {
                 'assets/biggest.png',
                 width: MediaQuery.of(context).size.width * .7,
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .7,
                 child: Row(

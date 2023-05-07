@@ -26,34 +26,36 @@ class OrderDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.primeColor,
-          title: Text(
-            'Order Detail',
-            style: TextStyles.headingFont.copyWith(color: Colors.white),
-          ),
-          leading: IconButton(
-            onPressed: () {
-              if (navigateTo == 'HOME') {
-                Modular.to.navigate('../home/main');
-              } else {
-                Navigator.pop(context);
-              }
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
+      appBar: AppBar(
+        backgroundColor: AppColors.primeColor,
+        title: Text(
+          'Order Detail',
+          style: TextStyles.headingFont.copyWith(color: Colors.white),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            if (navigateTo == 'HOME') {
+              Modular.to.navigate('../home/main');
+            } else {
+              Navigator.pop(context);
+            }
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
           ),
         ),
-        body: Obx(() => Column(
-              children: [
-                Expanded(
-                    child: orderController.orderDetail.value.id != null
-                        ? OrderDetailWidget(
-                            orderController.orderDetail.value.id!)
-                        : const LoadingWithLogo())
-              ],
-            ),),);
+      ),
+      body: Obx(
+        () => Column(
+          children: [
+            Expanded(
+                child: orderController.orderDetail.value.id != null
+                    ? OrderDetailWidget(orderController.orderDetail.value.id!)
+                    : const LoadingWithLogo())
+          ],
+        ),
+      ),
+    );
   }
 }

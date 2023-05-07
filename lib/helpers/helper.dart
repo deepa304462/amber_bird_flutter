@@ -69,11 +69,12 @@ class Helper {
       if (controller.membershipList[controller.userType.value] != null &&
           cust.cart != null &&
           cust.cart!.payment != null) {
-            
         return {
-          'amountRequired': controller.membershipList[controller.userType.value]!
-                  .cartValueAboveWhichOfferShippingApplied!-(cust.cart!.payment!.totalAmount - cust.cart!.payment!.shippingAmount)
-              ,
+          'amountRequired': controller
+                  .membershipList[controller.userType.value]!
+                  .cartValueAboveWhichOfferShippingApplied! -
+              (cust.cart!.payment!.totalAmount -
+                  cust.cart!.payment!.shippingAmount),
           'offeredShipping': controller
               .membershipList[controller.userType.value]!.offerShippingCharge!
         };
@@ -87,13 +88,15 @@ class Helper {
           'offeredShipping': controller
               .membershipList[controller.userType.value]!.offerShippingCharge!
         };
-      }else{
+      } else {
         return {
           'amountRequired': controller
               .membershipList[memberShipType.No_Membership.name]!
               .cartValueAboveWhichOfferShippingApplied!,
           'offeredShipping': controller
-              .membershipList[memberShipType.No_Membership.name]!.offerShippingCharge!};
+              .membershipList[memberShipType.No_Membership.name]!
+              .offerShippingCharge!
+        };
       }
     }
     return {'amountRequired': 0, 'offeredShipping': 4.99};

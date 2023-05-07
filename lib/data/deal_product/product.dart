@@ -67,7 +67,7 @@ class ProductSummary {
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
             .toList(),
-             tags: (data['tags'] as List<dynamic>?)
+        tags: (data['tags'] as List<dynamic>?)
             ?.map((e) => Ref.fromMap(e as Map<String, dynamic>))
             .toList(),
         id: data['_id'] as String?,

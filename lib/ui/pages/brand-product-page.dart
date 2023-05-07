@@ -65,7 +65,9 @@ class BrandProductPage extends StatelessWidget {
               ),
               body: Column(
                 children: [
-                 Padding(padding: EdgeInsets.fromLTRB(4,5,4,8) ,child: categoryList(controller, context)),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(4, 5, 4, 8),
+                      child: categoryList(controller, context)),
                   productList(context),
                 ],
               ),
@@ -109,7 +111,9 @@ class BrandProductPage extends StatelessWidget {
                         : controller
                                 .categoryList[index].name!.defaultText!.text ??
                             '',
-                    style: currentCat.id== controller.selectedCategory.value ?  TextStyles.body.copyWith(fontWeight: FontWeight.bold) : TextStyles.body,
+                    style: currentCat.id == controller.selectedCategory.value
+                        ? TextStyles.body.copyWith(fontWeight: FontWeight.bold)
+                        : TextStyles.body,
                   ),
                 )
               ],
@@ -142,7 +146,7 @@ class BrandProductPage extends StatelessWidget {
 
   productList(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height *0.78,
+      height: MediaQuery.of(context).size.height * 0.78,
       // width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
