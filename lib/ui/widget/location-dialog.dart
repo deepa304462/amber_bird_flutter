@@ -43,8 +43,11 @@ class LocationDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   AppBar(
-                    backgroundColor: AppColors.primeColor,
+                    centerTitle: true,
+                    automaticallyImplyLeading: false,
+                    toolbarHeight: 50,
                     leadingWidth: 50,
+                    backgroundColor: AppColors.primeColor,
                     leading: IconButton(
                         onPressed: () {
                           if (Navigator.canPop(context)) {

@@ -4,7 +4,7 @@ import 'package:amber_bird/data/deal_product/name.dart';
  
 class Content {
   Name? subHeading;
-  List<Content>? content;
+  List<Name>? content;
 
   Content({this.subHeading, this.content});
 
@@ -15,8 +15,8 @@ class Content {
         subHeading: data['subHeading'] == null
             ? null
             : Name.fromMap(data['subHeading'] as Map<String, dynamic>),
-        content: (data['content'] as List<dynamic>?)
-            ?.map((e) => Content.fromMap(e as Map<String, dynamic>))
+        content: (data['Name'] as List<dynamic>?)
+            ?.map((e) => Name.fromMap(e as Map<String, dynamic>))
             .toList(),
       );
 
@@ -39,7 +39,7 @@ class Content {
 
   Content copyWith({
     Name? subHeading,
-    List<Content>? content,
+    List<Name>? content,
   }) {
     return Content(
       subHeading: subHeading ?? this.subHeading,

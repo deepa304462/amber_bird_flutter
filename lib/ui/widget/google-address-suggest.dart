@@ -21,6 +21,10 @@ class GoogleAddressSuggest extends StatelessWidget {
     controller.addressSuggestions.clear();
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 50,
+        leadingWidth: 50,
         backgroundColor: AppColors.primeColor,
         title: Text('Search address',
             style: TextStyles.bodyFont.copyWith(color: Colors.white)),

@@ -5,6 +5,8 @@ import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/compilance/compilance.dart';
 import 'package:amber_bird/data/compilance/detailed_content.dart';
+import 'package:amber_bird/ui/pages/product_detail_screen.dart';
+import 'package:amber_bird/ui/widget/compilance-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -92,52 +94,48 @@ class AboutPage extends StatelessWidget {
                               style: TextStyles.titleFont,
                             ),
                             trailing: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  //  CompilanceWidget(heading ??'', content: el);
+                                  Modular.to.pushNamed('/widget/compilance/'+el.id! );
+                                },
                                 icon: const Icon(Icons.chevron_right)),
                           );
-                        }).toList(),
+                        }).toList(), 
                         // ListTile(
                         //   title: Text(
-                        //     'Terms of Service',
+                        //     'Privacy Policy',
                         //     style: TextStyles.titleFont,
                         //   ),
                         //   trailing: const Icon(Icons.chevron_right),
                         // ),
-                        ListTile(
-                          title: Text(
-                            'Privacy Policy',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          title: Text(
-                            'Cookies Settings',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          title: Text(
-                            'Accessibility Statement',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          title: Text(
-                            'Brand Endorsement Policy',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          title: Text(
-                            'DCMA',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
+                        // ListTile(
+                        //   title: Text(
+                        //     'Cookies Settings',
+                        //     style: TextStyles.titleFont,
+                        //   ),
+                        //   trailing: const Icon(Icons.chevron_right),
+                        // ),
+                        // ListTile(
+                        //   title: Text(
+                        //     'Accessibility Statement',
+                        //     style: TextStyles.titleFont,
+                        //   ),
+                        //   trailing: const Icon(Icons.chevron_right),
+                        // ),
+                        // ListTile(
+                        //   title: Text(
+                        //     'Brand Endorsement Policy',
+                        //     style: TextStyles.titleFont,
+                        //   ),
+                        //   trailing: const Icon(Icons.chevron_right),
+                        // ),
+                        // ListTile(
+                        //   title: Text(
+                        //     'DCMA',
+                        //     style: TextStyles.titleFont,
+                        //   ),
+                        //   trailing: const Icon(Icons.chevron_right),
+                        // ),
                       ],
                     ),
                   ),

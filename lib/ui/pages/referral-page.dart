@@ -14,7 +14,11 @@ class ReferralPage extends StatelessWidget {
     ReferralController controller = Get.put(ReferralController());
     return Scaffold(
       appBar: AppBar(
+         centerTitle: true,
+          automaticallyImplyLeading: false,
+          toolbarHeight: 50,
           leadingWidth: 50,
+          backgroundColor: AppColors.primeColor,
           leading: MaterialButton(
               onPressed: () {
                 // Navigator.pop(context);
@@ -34,8 +38,7 @@ class ReferralPage extends StatelessWidget {
                   ),
                 ],
               )),
-          elevation: 1,
-          backgroundColor: AppColors.primeColor,
+          elevation: 1, 
           title: Text(
             'Share & Earn Rewards',
             style: TextStyles.bodyFont.copyWith(color: Colors.white),
@@ -136,6 +139,10 @@ class ReferralPage extends StatelessWidget {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
+                 centerTitle: true,
+                  automaticallyImplyLeading: false,
+                  toolbarHeight: 50,
+                  leadingWidth: 50,
                   backgroundColor: AppColors.primeColor,
                   title: TabBar(
                     tabs: [

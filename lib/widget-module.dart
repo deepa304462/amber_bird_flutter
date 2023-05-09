@@ -7,6 +7,7 @@ import 'package:amber_bird/ui/pages/order-list.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
+import 'package:amber_bird/ui/widget/compilance-widget.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:amber_bird/ui/pages/brand-product-page.dart';
@@ -36,6 +37,13 @@ class WidgetRouteModule extends Module {
         child: (_, args) {
           String productId = args.params['id'];
           return ProductGuidePage(productId);
+        },
+      ),
+        ChildRoute(
+        '/compilance/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          return CompilanceWidget(productId);
         },
       ),
       ChildRoute(

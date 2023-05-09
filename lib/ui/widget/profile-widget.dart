@@ -23,12 +23,15 @@ class EditProfilePage extends StatelessWidget {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          toolbarHeight: 50,
+          leadingWidth: 50,
           backgroundColor: AppColors.primeColor,
           title: Text(
             'Edit Profile',
             style: TextStyles.headingFont.copyWith(color: Colors.white),
-          ),
-          leadingWidth: 50,
+          ), 
           leading: IconButton(
             onPressed: () {
               if (Navigator.canPop(context)) {
