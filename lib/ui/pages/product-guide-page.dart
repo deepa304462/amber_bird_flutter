@@ -54,7 +54,7 @@ class ProductGuidePage extends StatelessWidget {
                           icon: const Icon(
                             Icons.arrow_back_ios,
                             size: 15,
-                            color: Colors.white,
+                            color: Colors.black,
                           )),
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,

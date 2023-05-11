@@ -111,365 +111,387 @@ class ProductDetailScreen extends StatelessWidget {
     return Obx(
       () => (productController.product.value.id != null)
           ? Scaffold(
-              appBar: AppBar(
-                toolbarHeight: 40,
-                backgroundColor: AppColors.primeColor,
-                iconTheme: IconThemeData(color: AppColors.commonBgColor),
-                leadingWidth: 50,
-                leading: MaterialButton(
-                  onPressed: () {
-                    try {
-                      if (Modular.to.canPop()) {
-                        Modular.to.pop();
-                      } else {
-                        Modular.to.navigate('../../home/main');
-                      }
-                    } catch (err) {
-                      Modular.to.pushNamed('../../home/main');
-                    }
-                  },
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                    size: 15,
-                  ),
-                ),
-                title: Text(
-                  productController.product.value.name!.defaultText!.text!,
-                  style: TextStyles.body
-                      .copyWith(color: Colors.white, fontSize: 20),
-                ),
-              ),
-              body: Stack(
-                children: [
-                  ScrollWrapper(
-                    promptReplacementBuilder: (context, function) =>
-                        MaterialButton(
-                      onPressed: () => function(),
-                      child: const Text(''),
-                    ),
-                    builder: (context, properties) => SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.only(bottom: 80),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * .32,
-                            child: productPageView(
-                                productController.product.value,
-                                width,
-                                height,
-                                context),
+              // appBar: AppBar(
+              //   toolbarHeight: 40,
+              //   backgroundColor: AppColors.primeColor,
+              //   iconTheme: IconThemeData(color: AppColors.commonBgColor),
+              //   leadingWidth: 50,
+              //   leading: MaterialButton(
+              //     onPressed: () {
+              //       try {
+              //         if (Modular.to.canPop()) {
+              //           Modular.to.pop();
+              //         } else {
+              //           Modular.to.navigate('../../home/main');
+              //         }
+              //       } catch (err) {
+              //         Modular.to.pushNamed('../../home/main');
+              //       }
+              //     },
+              //     child: const Icon(
+              //       Icons.arrow_back_ios,
+              //       color: Colors.white,
+              //       size: 15,
+              //     ),
+              //   ),
+              //   title: Text(
+              //     productController.product.value.name!.defaultText!.text!,
+              //     style: TextStyles.body
+              //         .copyWith(color: Colors.white, fontSize: 20),
+              //   ),
+              // ),
+              body: NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverLayoutBuilder(
+                        builder: (BuildContext context, constraints) {
+                      final scrolled = constraints.scrollOffset > 200;
+                      return new SliverAppBar(
+                        backgroundColor:
+                            !scrolled ? Colors.white : AppColors.primeColor,
+                        automaticallyImplyLeading: true,
+                        pinned: true,
+                        iconTheme: IconThemeData(color: AppColors.primeColor),
+                        //  floating: false,
+                        backwardsCompatibility: true,
+                        excludeHeaderSemantics: true,
+                        expandedHeight: 300.0,
+                        stretch: false,
+                        leading: IconButton(
+                          onPressed: () {
+                            try {
+                              if (Modular.to.canPop()) {
+                                Modular.to.pop();
+                              } else {
+                                Modular.to.navigate('../../home/main');
+                              }
+                            } catch (err) {
+                              Modular.to.pushNamed('../../home/main');
+                            }
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            size: 15,
+                            color: !scrolled ? Colors.black : AppColors.white,
                           ),
-                          Divider(
-                            color: AppColors.lightGrey,
-                            height: 8,
-                            thickness: 8,
+                        ),
+                        flexibleSpace: FlexibleSpaceBar(
+                          centerTitle: true,
+                          collapseMode: CollapseMode.pin,
+                          titlePadding: const EdgeInsets.all(0),
+                          title: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: !scrolled
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(0)),
+                                    padding: const EdgeInsets.all(4),
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .32,
+                                      child: productPageView(
+                                          productController.product.value,
+                                          width,
+                                          height,
+                                          context),
+                                    ),
+                                  )
+                                : Text(
+                                    productController
+                                        .product.value.name!.defaultText!.text!,
+                                    style: TextStyles.body.copyWith(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
                           ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
+                          background: Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: SizedBox(),
+                          ),
+                        ),
+                      );
+                    })
+                  ];
+                },
+                body: Stack(
+                  children: [
+                    ScrollWrapper(
+                      promptReplacementBuilder: (context, function) =>
+                          MaterialButton(
+                        onPressed: () => function(),
+                        child: const Text(''),
+                      ),
+                      builder: (context, properties) => SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.only(bottom: 80),
+                        child: Column(
+                          children: [
+                            Divider(
+                              color: AppColors.lightGrey,
+                              height: 8,
+                              thickness: 8,
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
+                            Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              productController
+                                                      .product
+                                                      .value
+                                                      .name!
+                                                      .defaultText!
+                                                      .text ??
+                                                  '',
+                                              style: TextStyles.headingFont
+                                                  .copyWith(
+                                                      color:
+                                                          AppColors.primeColor,
+                                                      fontSize: 20),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            productVarientView(
+                                                productController.product.value
+                                                        .varients ??
+                                                    [],
+                                                productController
+                                                    .activeIndexVariant.value,
+                                                productController),
+                                          ],
+                                        ),
+                                        detailsHead(productController),
+                                      ],
+                                    ),
+                                  ),
+                                  // const SizedBox(height: 5),
+                                  // soldFrom(productController.product.value),
+                                  // const SizedBox(height: 5),
+                                  productController
+                                          .varient.value.msdApplicableProduct!
+                                      ? Divider(
+                                          color: AppColors.lightGrey,
+                                          height: 8,
+                                          thickness: 8,
+                                        )
+                                      : const SizedBox(),
+                                  productController
+                                          .varient.value.msdApplicableProduct!
+                                      ? MsdPrice(context,
+                                          productController.varient.value.price)
+                                      : const SizedBox(),
+                                  Divider(
+                                    color: AppColors.lightGrey,
+                                    height: 8,
+                                    thickness: 8,
+                                  ),
+                                  deliveryTo(productController, context),
+                                  Divider(
+                                    color: AppColors.lightGrey,
+                                    height: 8,
+                                    thickness: 8,
+                                  ),
+                                  brandTile(
+                                      productController.product.value.brand),
+                                  Divider(
+                                    color: AppColors.lightGrey,
+                                    height: 8,
+                                    thickness: 8,
+                                  ),
+                                  productController.recommendedProd.length > 0
+                                      ? recommendedProd(productController)
+                                      : const SizedBox(),
+                                  productController.recommendedProd.length > 0
+                                      ? Divider(
+                                          color: AppColors.lightGrey,
+                                          height: 8,
+                                          thickness: 8,
+                                        )
+                                      : const SizedBox(),
+                                  specification(productController),
+                                  // tags(productController.product.value, context),
+                                  Divider(
+                                    color: AppColors.lightGrey,
+                                    height: 8,
+                                    thickness: 8,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, right: 8),
+                                    child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            productController.product.value
-                                                    .name!.defaultText!.text ??
-                                                '',
-                                            style: TextStyles.headingFont
-                                                .copyWith(
-                                                    color: AppColors.primeColor,
-                                                    fontSize: 20),
+                                            'Details',
+                                            style: TextStyles.headingFont,
                                           ),
-                                          const SizedBox(height: 4),
-                                          productVarientView(
-                                              productController
-                                                      .product.value.varients ??
-                                                  [],
-                                              productController
-                                                  .activeIndexVariant.value,
-                                              productController),
-                                        ],
-                                      ),
-                                      detailsHead(productController),
-                                    ],
+                                          ShowMoreWidget(
+                                            text: productController
+                                                    .product
+                                                    .value
+                                                    .description!
+                                                    .defaultText!
+                                                    .text ??
+                                                '',
+                                          ),
+                                        ]),
                                   ),
-                                ),
-                                // const SizedBox(height: 5),
-                                // soldFrom(productController.product.value),
-                                // const SizedBox(height: 5),
-                                productController
-                                        .varient.value.msdApplicableProduct!
-                                    ? Divider(
-                                        color: AppColors.lightGrey,
-                                        height: 8,
-                                        thickness: 8,
-                                      )
-                                    : const SizedBox(),
-                                productController
-                                        .varient.value.msdApplicableProduct!
-                                    ? MsdPrice(context,
-                                        productController.varient.value.price)
-                                    : const SizedBox(),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
-                                deliveryTo(productController, context),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
-                                brandTile(
-                                    productController.product.value.brand),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
-                                productController.recommendedProd.length > 0
-                                    ? recommendedProd(productController)
-                                    : const SizedBox(),
-                                productController.recommendedProd.length > 0
-                                    ? Divider(
-                                        color: AppColors.lightGrey,
-                                        height: 8,
-                                        thickness: 8,
-                                      )
-                                    : const SizedBox(),
-                                specification(productController),
-                                // tags(productController.product.value, context),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 8.0, right: 8),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Details',
-                                          style: TextStyles.headingFont,
-                                        ),
-                                        ShowMoreWidget(
-                                          text: productController
-                                                  .product
-                                                  .value
-                                                  .description!
-                                                  .defaultText!
-                                                  .text ??
-                                              '',
-                                        ),
-                                      ]),
-                                ),
-                                Divider(
-                                  color: AppColors.lightGrey,
-                                  height: 8,
-                                  thickness: 8,
-                                ),
-                                desclaimer()
-                              ],
+                                  Divider(
+                                    color: AppColors.lightGrey,
+                                    height: 8,
+                                    thickness: 8,
+                                  ),
+                                  desclaimer()
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primeColor,
-                            textStyle: TextStyles.body
-                                .copyWith(color: AppColors.white)),
-                        onPressed: productController
-                                    .product.value.varients![0].currentStock >
-                                0
-                            ? () {}
-                            : () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Text(
-                                    "${productController.varient.value.price!.actualPrice!.toString()}${CodeHelp.euro}",
-                                    style: TextStyles.headingFont,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primeColor,
+                              textStyle: TextStyles.body
+                                  .copyWith(color: AppColors.white)),
+                          onPressed: productController
+                                      .product.value.varients![0].currentStock >
+                                  0
+                              ? () {}
+                              : () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Text(
+                                      "${productController.varient.value.price!.actualPrice!.toString()}${CodeHelp.euro}",
+                                      style: TextStyles.headingFont,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Obx(
-                                () {
-                                  ProductSummary summary =
-                                      ProductSummary.fromMap({
-                                    "name": productController
-                                        .product.value.name!
-                                        .toMap(),
-                                    "description": productController
-                                        .product.value.description!
-                                        .toMap(),
-                                    "images":
-                                        productController.product.value.images,
-                                    "varient":
-                                        productController.varient.value.toMap(),
-                                    "category": productController
-                                        .product.value.category!
-                                        .toMap(),
-                                    "countryCode": productController
-                                        .product.value.countryCode,
-                                    "id": productController.product.value.id
-                                  });
-                                  return cartController.checkProductInCart(
-                                          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                          addedFrom)
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            IconButton(
-                                              padding: const EdgeInsets.all(0),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  await cartController.addToCart(
-                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                      addedFrom!,
-                                                      -1,
-                                                      productController
-                                                          .varient.value.price!,
-                                                      summary,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      productController
-                                                          .varient.value);
-                                                } else {
+                                Obx(
+                                  () {
+                                    ProductSummary summary =
+                                        ProductSummary.fromMap({
+                                      "name": productController
+                                          .product.value.name!
+                                          .toMap(),
+                                      "description": productController
+                                          .product.value.description!
+                                          .toMap(),
+                                      "images": productController
+                                          .product.value.images,
+                                      "varient": productController.varient.value
+                                          .toMap(),
+                                      "category": productController
+                                          .product.value.category!
+                                          .toMap(),
+                                      "countryCode": productController
+                                          .product.value.countryCode,
+                                      "id": productController.product.value.id
+                                    });
+                                    return cartController.checkProductInCart(
+                                            '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                            addedFrom)
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
                                                   stateController
-                                                      .setCurrentTab(3);
-                                                  var showToast =
-                                                      snackBarClass.showToast(
-                                                          context,
-                                                          'Please login to proceed');
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                                // cController.addToCart(p, refId!, addedFrom!, -1);
-                                              },
-                                              icon: const Icon(
-                                                  Icons.remove_circle_outline,
-                                                  size: 25,
-                                                  color: Colors.white),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 8),
-                                              child: Text(
-                                                cartController
-                                                    .getCurrentQuantity(
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    await cartController.addToCart(
                                                         '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                        '')
-                                                    .toString(),
-                                                style: TextStyles.titleFont
-                                                    .copyWith(
-                                                        color: AppColors.white)
-                                                    .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                              ),
-                                            ),
-                                            IconButton(
-                                              padding: const EdgeInsets.all(0),
-                                              constraints:
-                                                  const BoxConstraints(),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  await cartController.addToCart(
-                                                      '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                      addedFrom!,
-                                                      1,
-                                                      productController
-                                                          .varient.value.price!,
-                                                      summary,
-                                                      null,
-                                                      null,
-                                                      null,
-                                                      productController
-                                                          .varient.value);
-                                                } else {
+                                                        addedFrom!,
+                                                        -1,
+                                                        productController
+                                                            .varient
+                                                            .value
+                                                            .price!,
+                                                        summary,
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        productController
+                                                            .varient.value);
+                                                  } else {
+                                                    stateController
+                                                        .setCurrentTab(3);
+                                                    var showToast =
+                                                        snackBarClass.showToast(
+                                                            context,
+                                                            'Please login to proceed');
+                                                  }
                                                   stateController
-                                                      .setCurrentTab(3);
-                                                  snackBarClass.showToast(
-                                                      context,
-                                                      'Please Login to preoceed');
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                                // cController.addToCart(p, refId!, addedFrom!, 1);
-                                              },
-                                              icon: const Icon(
-                                                  Icons.add_circle_outline,
-                                                  size: 25,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        )
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            TextButton(
-                                              style: TextButton.styleFrom(
-                                                  padding: EdgeInsets.only(
-                                                      left: 3, right: 10),
-                                                  minimumSize: Size(50, 30),
-                                                  tapTargetSize:
-                                                      MaterialTapTargetSize
-                                                          .shrinkWrap,
-                                                  alignment:
-                                                      Alignment.centerLeft),
-                                              onPressed: () async {
-                                                stateController
-                                                    .showLoader.value = true;
-                                                if (stateController
-                                                    .isLogin.value) {
-                                                  bool isCheckedActivate =
-                                                      await stateController
-                                                          .getUserIsActive();
-                                                  if (isCheckedActivate) {
+                                                      .showLoader.value = false;
+                                                  // cController.addToCart(p, refId!, addedFrom!, -1);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.remove_circle_outline,
+                                                    size: 25,
+                                                    color: Colors.white),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
+                                                child: Text(
+                                                  cartController
+                                                      .getCurrentQuantity(
+                                                          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                          '')
+                                                      .toString(),
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white)
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                ),
+                                              ),
+                                              IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                constraints:
+                                                    const BoxConstraints(),
+                                                onPressed: () async {
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
                                                     await cartController.addToCart(
                                                         '${productController.product.value.id!}@${productController.varient.value.varientCode}',
                                                         addedFrom!,
@@ -485,41 +507,102 @@ class ProductDetailScreen extends StatelessWidget {
                                                         productController
                                                             .varient.value);
                                                   } else {
-                                                    // Navigator.of(context).pop();
-                                                    // ignore: use_build_context_synchronously
+                                                    stateController
+                                                        .setCurrentTab(3);
                                                     snackBarClass.showToast(
                                                         context,
-                                                        'Your profile is not active yet');
+                                                        'Please Login to preoceed');
                                                   }
-                                                } else {
                                                   stateController
-                                                      .setCurrentTab(3);
-                                                  var showToast =
+                                                      .showLoader.value = false;
+                                                  // cController.addToCart(p, refId!, addedFrom!, 1);
+                                                },
+                                                icon: const Icon(
+                                                    Icons.add_circle_outline,
+                                                    size: 25,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              TextButton(
+                                                style: TextButton.styleFrom(
+                                                    padding: EdgeInsets.only(
+                                                        left: 3, right: 10),
+                                                    minimumSize: Size(50, 30),
+                                                    tapTargetSize:
+                                                        MaterialTapTargetSize
+                                                            .shrinkWrap,
+                                                    alignment:
+                                                        Alignment.centerLeft),
+                                                onPressed: () async {
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    bool isCheckedActivate =
+                                                        await stateController
+                                                            .getUserIsActive();
+                                                    if (isCheckedActivate) {
+                                                      await cartController
+                                                          .addToCart(
+                                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                              addedFrom!,
+                                                              1,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .price!,
+                                                              summary,
+                                                              null,
+                                                              null,
+                                                              null,
+                                                              productController
+                                                                  .varient
+                                                                  .value);
+                                                    } else {
+                                                      // Navigator.of(context).pop();
+                                                      // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
-                                                          'Please Login to preoceed');
-                                                }
-                                                stateController
-                                                    .showLoader.value = false;
-                                              },
-                                              child: Text(
-                                                "Add to cart",
-                                                style: TextStyles.titleFont
-                                                    .copyWith(
-                                                        color: AppColors.white),
-                                              ),
-                                            )
-                                          ],
-                                        );
-                                },
-                              )
-                            ],
+                                                          'Your profile is not active yet');
+                                                    }
+                                                  } else {
+                                                    stateController
+                                                        .setCurrentTab(3);
+                                                    var showToast =
+                                                        snackBarClass.showToast(
+                                                            context,
+                                                            'Please Login to preoceed');
+                                                  }
+                                                  stateController
+                                                      .showLoader.value = false;
+                                                },
+                                                child: Text(
+                                                  "Add to cart",
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                  },
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             )
           : const Center(

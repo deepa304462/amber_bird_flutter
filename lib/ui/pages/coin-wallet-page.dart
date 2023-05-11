@@ -68,7 +68,7 @@ class CoinWalletPage extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Text(
-                                    'Pending S-COINS are ${coinWallet.value.totalPendingCoins} ',
+                                    'Pending S-COINS: ${coinWallet.value.totalPendingCoins} ',
                                     style: TextStyles.headingFont
                                         .copyWith(color: AppColors.primeColor),
                                   ),

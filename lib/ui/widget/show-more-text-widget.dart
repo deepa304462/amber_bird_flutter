@@ -1,3 +1,4 @@
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart'; 
 import 'package:flutter_html/flutter_html.dart';
 
@@ -39,7 +40,13 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
               children: <Widget>[
                 new Html(
                     data:
-                        flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
+                        flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+                    style: {
+                      "body": Style(
+                          fontSize: FontSize(FontSizes.body),
+                          fontWeight: FontWeight.w300,
+                          fontFamily: Fonts.body),
+                    }),
                 new InkWell(
                   child: new Row(
                     mainAxisAlignment: MainAxisAlignment.end,

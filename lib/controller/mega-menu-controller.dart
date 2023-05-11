@@ -217,6 +217,11 @@ class MegaMenuController extends GetxController {
               'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
 
       if (responseDeal.statusCode == 200) {
+            subMenuList.add(GenericTab(
+            image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+            id: 'collection',
+            type: 'MULTI',
+            text: 'Collection'));
         ProductAvailabilityResp data =
             ProductAvailabilityResp.fromMap(responseDeal.data);
 

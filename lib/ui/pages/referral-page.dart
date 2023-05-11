@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/referral-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,10 @@ class ReferralPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ReferralController controller = Get.put(ReferralController());
+    Controller stateController = Get.find();
     return Scaffold(
       appBar: AppBar(
-         centerTitle: true,
+          centerTitle: true,
           automaticallyImplyLeading: false,
           toolbarHeight: 50,
           leadingWidth: 50,
@@ -38,9 +40,9 @@ class ReferralPage extends StatelessWidget {
                   ),
                 ],
               )),
-          elevation: 1, 
+          elevation: 1,
           title: Text(
-            'Share & Earn Rewards',
+            'Give 9${CodeHelp.euro} : Get 9${CodeHelp.euro} ',
             style: TextStyles.bodyFont.copyWith(color: Colors.white),
           )),
       body: SingleChildScrollView(
@@ -52,7 +54,7 @@ class ReferralPage extends StatelessWidget {
                 top: 30,
                 left: 150,
                 child: Text(
-                  'Get 9 ${CodeHelp.euro} for user you refer',
+                  'Get 9${CodeHelp.euro} for user you refer',
                   style:
                       TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
                 ),
@@ -67,70 +69,92 @@ class ReferralPage extends StatelessWidget {
             ],
           ),
           Obx(() {
-            return controller.isLoading.value
-                ? const LinearProgressIndicator()
-                : Column(
-                    children: [
-                      Text(
-                        'Share following link with your friends & family',
-                        textAlign: TextAlign.center,
-                        style: TextStyles.bodyFont.copyWith(color: Colors.grey),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            return stateController.isLogin.value
+                ? controller.isLoading.value
+                    ? const LinearProgressIndicator()
+                    : Column(
                         children: [
-                          Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                                side: BorderSide(
-                                    width: 2, color: AppColors.primeColor)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Obx(() {
-                                return Text(
-                                  controller.shortLink.value.shortUrl!,
-                                  style: TextStyles.bodyFontBold
-                                      .copyWith(color: AppColors.grey),
-                                );
-                              }),
-                            ),
+                          Text(
+                            'Share following link with your friends & family',
+                            textAlign: TextAlign.center,
+                            style: TextStyles.bodyFont
+                                .copyWith(color: Colors.grey),
                           ),
-                          // const Divider(),
-                          MaterialButton(
-                            onPressed: () {
-                              CodeHelp.shareWithOther(
-                                  'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
-                                  'Share now');
-                            },
-                            color: AppColors.primeColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.share,
-                                    color: Colors.white,
-                                    size: 16,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'Share',
-                                    style: TextStyles.bodyFont
-                                        .copyWith(color: AppColors.white),
-                                  ),
-                                ],
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(0),
+                                    side: BorderSide(
+                                        width: 2, color: AppColors.primeColor)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Obx(() {
+                                    return Text(
+                                      controller.shortLink.value.shortUrl!,
+                                      style: TextStyles.bodyFontBold
+                                          .copyWith(color: AppColors.grey),
+                                    );
+                                  }),
+                                ),
                               ),
-                            ),
-                          )
+                              // const Divider(),
+                              MaterialButton(
+                                onPressed: () {
+                                  CodeHelp.shareWithOther(
+                                      'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
+                                      'Share now');
+                                },
+                                color: AppColors.primeColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.share,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        'Share',
+                                        style: TextStyles.bodyFont
+                                            .copyWith(color: AppColors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ],
-                      ),
-                    ],
+                      )
+                : TextButton(
+                    onPressed: () async {
+                      Modular.to.navigate('../../widget/account');
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: AppColors.primeColor, // your color here
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(5.0))),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          AppColors.primeColor),
+                    ),
+                    child: Text(
+                      'Invite Now',
+                      style: TextStyles.headingFont
+                          .copyWith(color: AppColors.white),
+                    ),
                   );
           }),
           SizedBox(
@@ -139,7 +163,7 @@ class ReferralPage extends StatelessWidget {
               length: 2,
               child: Scaffold(
                 appBar: AppBar(
-                 centerTitle: true,
+                  centerTitle: true,
                   automaticallyImplyLeading: false,
                   toolbarHeight: 50,
                   leadingWidth: 50,
@@ -153,7 +177,7 @@ class ReferralPage extends StatelessWidget {
                             TextStyles.bodyFont.copyWith(color: Colors.white),
                       )),
                       Tab(
-                        child: Text('Earn S-Coins',
+                        child: Text('Earn S-COINS',
                             style: TextStyles.bodyFont
                                 .copyWith(color: Colors.white)),
                       ),
@@ -202,13 +226,13 @@ class ReferralPage extends StatelessWidget {
         children: [
           titleText('On Purchase'),
           infoText(
-              'S-Coins/S-Points get added. ex: 100€ Purchase may yield 100 S-Coins/S-Points.'),
+              'S-COINS/S-POINTS get added. ex: 100€ Purchase may yield 100 S-COINS/S-POINTS.'),
           const SizedBox(
             height: 10,
           ),
           titleText('On Referral'),
           infoText(
-              'In addition to S-Coins earned from your own purchases you earn 10% extra Coins on purchases made by friends you referred.  Exciting ? Yes, sharing is always extra Happiness ,  Your points will show up after the end of the return limit period of the referred purchaser.There is always someone to share your happiness with. Lets celebrate sharing!😊'),
+              'In addition to S-COINS earned from your own purchases you earn 10% extra Coins on purchases made by friends you referred.  Exciting ? Yes, sharing is always extra Happiness ,  Your points will show up after the end of the return limit period of the referred purchaser.There is always someone to share your happiness with. Lets celebrate sharing!😊'),
           const SizedBox(
             height: 10,
           ),

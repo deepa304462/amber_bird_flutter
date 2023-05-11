@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
   // Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final Controller myController = Get.find();
 
-  final WishlistController wishlistController = Get.put(WishlistController());
+  
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxString showCaseData = 'false'.obs;

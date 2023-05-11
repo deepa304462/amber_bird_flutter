@@ -18,6 +18,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     getProduct(tag);
+    getofferShipping();
     getRecommendedProd();
     getShortCode(tag);
     super.onInit();
@@ -31,8 +32,12 @@ class ProductController extends GetxController {
     }
   }
 
+  getofferShipping()async {
+     offerShipping.value = await Helper.getOfferedShipping();
+  }
+
   getProduct(String id) async {
-    offerShipping.value = await Helper.getOfferedShipping();
+   
     var response =
         await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {

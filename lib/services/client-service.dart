@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:math';
 
 enum _APIVersion { V1, V2 }
 
@@ -147,8 +147,12 @@ class ClientService {
     try {
       //https://search.sbazar.app/product/select?indent=true&q.op=OR&q=name:*Shan*&fq=indexData:*shan**masala*
       //
+      var rng = Random();
+      // for (var i = 0; i < 10; i++) {
+        // print(rng.nextInt(100));
+      // }
       response = await dio.get(
-          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=name:*${_getTitleForm(queryData)}*&fq=indexData:${_whileCardQueryFormat(queryData)}',
+          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=name:*${_getTitleForm(queryData)}*&fq=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',
           options: Options(headers: header));
       return response;
     } catch (e) {

@@ -5,9 +5,9 @@ import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
-import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -30,15 +30,7 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //         apiKey: "AIzaSyA3SVqPLIzueu2lCoriDUXvNftlvMgGeBY",
-  //         authDomain: "sbazar-ce4b2.firebaseapp.com",
-  //         projectId: "sbazar-ce4b2",
-  //         storageBucket: "sbazar-ce4b2.appspot.com",
-  //         messagingSenderId: "779408576826",
-  //         appId: "1:779408576826:web:31a8adf7819a8d6ebf0003",
-  //         measurementId: "G-EPJ2VNR9HQ"));
+  
   await Firebase.initializeApp();
   await FCMSyncService.init();
   await OfflineDBService.init();
@@ -82,6 +74,7 @@ void main() async {
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
   final AuthController authController = Get.put(AuthController());
+  final WishlistController wishlistController = Get.put(WishlistController());
   final Controller controller = Get.put(Controller());
   final AppbarScrollController appbarScrollController =
       Get.put(AppbarScrollController());
