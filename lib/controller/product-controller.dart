@@ -33,7 +33,10 @@ class ProductController extends GetxController {
   }
 
   getofferShipping()async {
-     offerShipping.value = await Helper.getOfferedShipping();
+    try{
+offerShipping.value = await Helper.getOfferedShipping();
+    }catch(err){}
+     
   }
 
   getProduct(String id) async {

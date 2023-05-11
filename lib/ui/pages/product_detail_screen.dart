@@ -146,8 +146,9 @@ class ProductDetailScreen extends StatelessWidget {
                   return <Widget>[
                     SliverLayoutBuilder(
                         builder: (BuildContext context, constraints) {
-                      final scrolled = constraints.scrollOffset > 200;
+                      final scrolled = constraints.scrollOffset > MediaQuery.of(context).size.height * .30;
                       return new SliverAppBar(
+                        toolbarHeight: 40,
                         backgroundColor:
                             !scrolled ? Colors.white : AppColors.primeColor,
                         automaticallyImplyLeading: true,
@@ -160,6 +161,7 @@ class ProductDetailScreen extends StatelessWidget {
                         stretch: false,
                         leading: IconButton(
                           onPressed: () {
+                            appbarScrollController.shrinkappbar.value = false;
                             try {
                               if (Modular.to.canPop()) {
                                 Modular.to.pop();
@@ -324,33 +326,33 @@ class ProductDetailScreen extends StatelessWidget {
                                       : const SizedBox(),
                                   specification(productController),
                                   // tags(productController.product.value, context),
-                                  Divider(
-                                    color: AppColors.lightGrey,
-                                    height: 8,
-                                    thickness: 8,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Details',
-                                            style: TextStyles.headingFont,
-                                          ),
-                                          ShowMoreWidget(
-                                            text: productController
-                                                    .product
-                                                    .value
-                                                    .description!
-                                                    .defaultText!
-                                                    .text ??
-                                                '',
-                                          ),
-                                        ]),
-                                  ),
+                                  // Divider(
+                                  //   color: AppColors.lightGrey,
+                                  //   height: 8,
+                                  //   thickness: 8,
+                                  // ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(
+                                  //       left: 8.0, right: 8),
+                                  //   child: Column(
+                                  //       crossAxisAlignment:
+                                  //           CrossAxisAlignment.start,
+                                  //       children: [
+                                  //         Text(
+                                  //           'Details',
+                                  //           style: TextStyles.headingFont,
+                                  //         ),
+                                  //         ShowMoreWidget(
+                                  //           text: productController
+                                  //                   .product
+                                  //                   .value
+                                  //                   .description!
+                                  //                   .defaultText!
+                                  //                   .text ??
+                                  //               '',
+                                  //         ),
+                                  //       ]),
+                                  // ),
                                   Divider(
                                     color: AppColors.lightGrey,
                                     height: 8,
@@ -623,6 +625,25 @@ class ProductDetailScreen extends StatelessWidget {
           'Product description on SBazar website and app are for informational purposes only',
           style: TextStyles.body,
         ),
+        TextButton(
+          onPressed: () async {
+            // Modular.to.navigate('/login');
+          },
+          style: ButtonStyle(
+              // shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              //     side: BorderSide(
+              //       color: AppColors.primeColor, // your color here
+              //       width: 1,
+              //     ),
+              //     borderRadius: BorderRadius.circular(5.0))),
+              // backgroundColor:
+              //     MaterialStateProperty.all<Color>(AppColors.primeColor),
+              ),
+          child: Text(
+            'See our disclaimer',
+            style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+          ),
+        ),
       ]),
     );
   }
@@ -683,7 +704,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget AddressDrawer(context) {
+  Widget AddressDrawer(productController, context) {
     getAddressList() async {
       var detail = await OfflineDBService.get(OfflineDBService.customerInsight);
       Customer cust = Customer.fromMap(detail as Map<String, dynamic>);
@@ -764,7 +785,8 @@ class ProductDetailScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
               child: Text(
-                '${Helper.getShipping()}${CodeHelp.euro} Standard Shipping',
+                ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
+                //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                 style: TextStyles.body,
               ),
             ),
@@ -1018,7 +1040,7 @@ class ProductDetailScreen extends StatelessWidget {
                 isScrollControlled: true,
                 elevation: 3,
                 builder: (context) {
-                  return AddressDrawer(context);
+                  return AddressDrawer(productController, context);
                 },
               );
             },
@@ -1030,23 +1052,22 @@ class ProductDetailScreen extends StatelessWidget {
                 color: AppColors.primeColor, size: 20),
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
-            title: Text(
-              '${Helper.getShipping()}${CodeHelp.euro} Standard Shipping',
-              style: TextStyles.headingFont,
-            ),
+            title: (productController.offerShipping.value['amountRequired'] < 0)
+                ? Text(
+                    'Free offered shipping ',
+                    style: TextStyles.headingFont,
+                  )
+                : Text(
+                    ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
+                    //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                    style: TextStyles.headingFont,
+                  ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child:
-                  (productController.offerShipping.value['amountRequired'] < 0)
-                      ? Text(
-                          'Free offered shipping ',
-                          style: TextStyles.body,
-                        )
-                      : Text(
-                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
-                          //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
-                          style: TextStyles.body,
-                        ),
+              child: Text(
+                '${Helper.getShipping()}${CodeHelp.euro} Standard Shipping',
+                style: TextStyles.body,
+              ),
             ),
           ),
         ),
@@ -1344,31 +1365,29 @@ class ProductDetailScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                // TableRow(children: [
-                //   TableCell(
-                //     verticalAlignment: TableCellVerticalAlignment.middle,
-                //     child: Padding(
-                //       padding: const EdgeInsets.all(8),
-                //       child: Text(
-                //         'Details',
-                //         style: TextStyles.titleFont,
-                //       ),
-                //     ),
-                //   ),
-                //   TableCell(
-                //     child: Padding(
-                //         padding: const EdgeInsets.all(8),
-                //         child: ShowMoreWidget(
-                //           text: productController.product.value.description!
-                //                   .defaultText!.text ??
-                //               '',
-                //         )
-                //         ),
-                //   )
-                // ]),
+                TableRow(children: [
+                  TableCell(
+                    verticalAlignment: TableCellVerticalAlignment.middle,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                      child: Text(
+                        'Details',
+                        style: TextStyles.titleFont,
+                      ),
+                    ),
+                  ),
+                  TableCell(child: SizedBox())
+                ]),
               ],
             ),
           ),
+          Padding(
+              padding: const EdgeInsets.all(0),
+              child: ShowMoreWidget(
+                text: productController
+                        .product.value.description!.defaultText!.text ??
+                    '',
+              )),
         ],
       ),
     );

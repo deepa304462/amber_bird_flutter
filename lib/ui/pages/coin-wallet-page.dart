@@ -117,12 +117,15 @@ class CoinWalletPage extends StatelessWidget {
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 FitText(
-                  'Comment: ${curTransaction.comment ?? 'No comments'}',
+                  '${curTransaction.comment ?? 'No comments'}',
                   style: TextStyles.bodyFont,
                 ),
                 Text(
                   curTransaction.status!,
-                  style: TextStyles.bodyFontBold,
+                  style: curTransaction.status! == 'PENDING'
+                      ? TextStyles.bodyFontBold
+                          .copyWith(color: AppColors.primeColor)
+                      : TextStyles.bodyFontBold.copyWith(color: Colors.green),
                 ),
               ]),
               Row(
