@@ -33,7 +33,7 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-      padding: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      // padding: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: secondHalf.isEmpty
           ? new Html(data: firstHalf)
           : new Column(

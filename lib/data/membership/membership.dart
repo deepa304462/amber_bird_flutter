@@ -11,6 +11,7 @@ class Membership {
   Description? description;
   List<String>? benefits;
   String? imageId;
+  String? iconId;
   double? msdProductDiscountPercent;
   double? msdFlatDiscountPercent;
   double? cartValueAboveWhichOfferShippingApplied;
@@ -27,6 +28,7 @@ class Membership {
     this.description,
     this.benefits,
     this.imageId,
+    this.iconId,
     this.msdProductDiscountPercent,
     this.msdFlatDiscountPercent,
     this.cartValueAboveWhichOfferShippingApplied,
@@ -39,7 +41,7 @@ class Membership {
 
   @override
   String toString() {
-    return 'Membership(metaData: $metaData, membershipType: $membershipType, name: $name, description: $description, benefits: $benefits, imageId: $imageId, msdProductDiscountPercent: $msdProductDiscountPercent, msdFlatDiscountPercent: $msdFlatDiscountPercent, cartValueAboveWhichOfferShippingApplied: $cartValueAboveWhichOfferShippingApplied, standardShippingCharge: $standardShippingCharge, offerShippingCharge: $offerShippingCharge, spointsRangeMin: $spointsRangeMin, spointsRangeMax: $spointsRangeMax, id: $id)';
+    return 'Membership(metaData: $metaData, membershipType: $membershipType, name: $name, iconId:$iconId,description: $description, benefits: $benefits, imageId: $imageId, msdProductDiscountPercent: $msdProductDiscountPercent, msdFlatDiscountPercent: $msdFlatDiscountPercent, cartValueAboveWhichOfferShippingApplied: $cartValueAboveWhichOfferShippingApplied, standardShippingCharge: $standardShippingCharge, offerShippingCharge: $offerShippingCharge, spointsRangeMin: $spointsRangeMin, spointsRangeMax: $spointsRangeMax, id: $id)';
   }
 
   factory Membership.fromMap(Map<String, dynamic> data) => Membership(
@@ -57,6 +59,7 @@ class Membership {
             ?.map((e) => e as String)
             .toList(),
         imageId: data['imageId'] as String?,
+        iconId: data['iconId'] as String?,
         msdProductDiscountPercent: data['msdProductDiscountPercent'] as double?,
         msdFlatDiscountPercent: data['msdFlatDiscountPercent'] as double?,
         cartValueAboveWhichOfferShippingApplied:
@@ -75,6 +78,7 @@ class Membership {
         'description': description?.toMap(),
         'benefits': benefits,
         'imageId': imageId,
+        'iconId':iconId,
         'msdProductDiscountPercent': msdProductDiscountPercent,
         'msdFlatDiscountPercent': msdFlatDiscountPercent,
         'cartValueAboveWhichOfferShippingApplied':
@@ -105,6 +109,7 @@ class Membership {
     Description? description,
     List<String>? benefits,
     String? imageId,
+    String? iconId,
     double? msdProductDiscountPercent,
     double? msdFlatDiscountPercent,
     double? cartValueAboveWhichOfferShippingApplied,
@@ -121,6 +126,7 @@ class Membership {
       description: description ?? this.description,
       benefits: benefits ?? this.benefits,
       imageId: imageId ?? this.imageId,
+      iconId: iconId ?? this.iconId,
       msdProductDiscountPercent:
           msdProductDiscountPercent ?? this.msdProductDiscountPercent,
       msdFlatDiscountPercent:

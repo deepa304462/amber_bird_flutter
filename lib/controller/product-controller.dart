@@ -32,15 +32,15 @@ class ProductController extends GetxController {
     }
   }
 
-  getofferShipping()async {
-    try{
-offerShipping.value = await Helper.getOfferedShipping();
-    }catch(err){}
-     
+  getofferShipping() async {
+    try {
+      offerShipping.value = await Helper.getOfferedShipping();
+    } catch (err) {
+       offerShipping.value =  {'amountRequired': 0, 'offeredShipping': 4.99};
+    }
   }
 
   getProduct(String id) async {
-   
     var response =
         await ClientService.get(path: 'cache/product', id: '$id?locale=en');
     if (response.statusCode == 200) {

@@ -146,7 +146,8 @@ class ProductDetailScreen extends StatelessWidget {
                   return <Widget>[
                     SliverLayoutBuilder(
                         builder: (BuildContext context, constraints) {
-                      final scrolled = constraints.scrollOffset > MediaQuery.of(context).size.height * .30;
+                      final scrolled = constraints.scrollOffset >
+                          MediaQuery.of(context).size.height * .30;
                       return new SliverAppBar(
                         toolbarHeight: 40,
                         backgroundColor:
@@ -227,7 +228,7 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                       builder: (context, properties) => SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.only(bottom: 80),
+                        padding: const EdgeInsets.only(bottom: 40),
                         child: Column(
                           children: [
                             Divider(
@@ -358,7 +359,7 @@ class ProductDetailScreen extends StatelessWidget {
                                     height: 8,
                                     thickness: 8,
                                   ),
-                                  desclaimer()
+                                  desclaimer(context)
                                 ],
                               ),
                             ),
@@ -613,7 +614,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget desclaimer() {
+  Widget desclaimer(context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -627,7 +628,15 @@ class ProductDetailScreen extends StatelessWidget {
         ),
         TextButton(
           onPressed: () async {
-            // Modular.to.navigate('/login');
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                enableDrag: false,
+                builder: (context) {
+                  return SizedBox(
+                      height: MediaQuery.of(context).size.height * .7,
+                      child: DisclaimerWidgetDrawer(context));
+                });
           },
           style: ButtonStyle(
               // shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -645,6 +654,74 @@ class ProductDetailScreen extends StatelessWidget {
           ),
         ),
       ]),
+    );
+  }
+
+  Widget DisclaimerWidgetDrawer(context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+      ),
+      // constraints:
+      //     BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBar(
+              elevation: 1,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12))),
+              backgroundColor: AppColors.white,
+              leadingWidth: 50,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  const SizedBox(),
+                  Text(
+                    'Disclaimer',
+                    style: TextStyles.headingFont,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
+              leading: ImageBox(
+                stateController.membershipIcon.value,
+                width: 15,
+                height: 15,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Divider(
+              color: AppColors.lightGrey,
+              height: 1,
+              thickness: 1,
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                child: Text(
+                  'Poduct desciption on Sbazar! website and app are informational purpose only, Sbazar does not warrant or represent, or assume any responsibility for, the accuracy of any nutritional,allergn or proposition 65 warning information listed in the product desription',
+                  style: TextStyles.body,
+                )),
+            Divider(
+              color: AppColors.lightGrey,
+              height: 1,
+              thickness: 1,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -784,11 +861,17 @@ class ProductDetailScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-              child: Text(
-                ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
-                //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
-                style: TextStyles.body,
-              ),
+              child:
+                  (productController.offerShipping.value['amountRequired'] < 0)
+                      ? Text(
+                          'Free offered shipping ',
+                          style: TextStyles.headingFont,
+                        )
+                      : Text(
+                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
+                          //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                          style: TextStyles.body,
+                        ),
             ),
             Divider(
               color: AppColors.lightGrey,
@@ -1052,13 +1135,13 @@ class ProductDetailScreen extends StatelessWidget {
                 color: AppColors.primeColor, size: 20),
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
-            title: (productController.offerShipping.value['amountRequired'] < 0)
+            title: (productController.offerShipping.value['amountRequired'] <= 0)
                 ? Text(
                     'Free offered shipping ',
                     style: TextStyles.headingFont,
                   )
                 : Text(
-                    ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
+                    ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} offer shipping',
                     //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                     style: TextStyles.headingFont,
                   ),
@@ -1330,7 +1413,7 @@ class ProductDetailScreen extends StatelessWidget {
                 TableRow(
                   children: [
                     TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
+                        verticalAlignment: TableCellVerticalAlignment.top,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -1383,11 +1466,16 @@ class ProductDetailScreen extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.all(0),
-              child: ShowMoreWidget(
-                text: productController
-                        .product.value.description!.defaultText!.text ??
-                    '',
-              )),
+              child: Html(
+                  data: productController
+                          .product.value.description!.defaultText!.text ??
+                      '',
+                  style: {
+                    "body": Style(
+                        fontSize: FontSize(FontSizes.body),
+                        fontWeight: FontWeight.w300,
+                        fontFamily: Fonts.body),
+                  })),
         ],
       ),
     );

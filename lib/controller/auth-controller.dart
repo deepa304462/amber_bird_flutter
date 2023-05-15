@@ -307,15 +307,20 @@ class AuthController extends GetxController {
   }
 
   dynamic signInWithFacebook() async {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: [
-        'public_profile',
-        'email',
-        'pages_show_list',
-        'pages_messaging',
-        'pages_manage_metadata'
-      ],
+    // final LoginResult result = await FacebookAuth.instance.login(
+    //   permissions: [
+    //     'public_profile',
+    //     'email'
+    //   ],
+    // );
+      final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['public_profile', 'email'],
     );
+
+    // ,
+    //     'pages_show_list',
+    //     'pages_messaging',
+    //     'pages_manage_metadata'
     // final result = await facebookLogin.logInWithReadPermissions(['email']);
 
     if (result.status == LoginStatus.success) {

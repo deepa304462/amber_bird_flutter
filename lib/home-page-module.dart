@@ -1,4 +1,5 @@
 import 'package:amber_bird/ui/pages/all-address-page.dart';
+import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
@@ -46,7 +47,13 @@ class HomePageModule extends Module {
               return CategoryProductPage(productId);
             },
           ),
-
+          // ChildRoute(
+          //   '/brandProduct/:id',
+          //   child: (_, args) {
+          //     String productId = args.params['id'];
+          //     return BrandProductPage(productId);
+          //   },
+          // ),
           ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {

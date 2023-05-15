@@ -55,104 +55,137 @@ class SpointsPage extends StatelessWidget {
                 _curr.value = num;
               },
               children: <Widget>[
-                ...walletController.membershipInfo.value.map(
+                ...walletController.membershipInfo.map(
                   (element) {
                     return Container(
                       margin: const EdgeInsets.all(8),
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          // image: DecorationImage(
-                          //   image: NetworkImage('${ClientService.cdnUrl}${element.imageId!}'),
-                          //   fit: BoxFit.cover,
-                          // ),
-                          // color: stateController.userType.value == element.id
-                          //     ? AppColors.golden
-                          //     : AppColors.grey,
-
-                          ),
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      decoration: BoxDecoration(),
+                      child: Stack(
                         children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                width: 110,
-                                child: ImageBox(
-                                  element.imageId!,
-                                  height: 100,
-                                  width: 100,
-                                  // fit: BoxFit.contain,
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    ImageBox(
+                                      element.imageId!,
+                                      width: MediaQuery.of(context).size.width -
+                                          48,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ],
                                 ),
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '(${element.spointsRangeMin} - ${element.spointsRangeMax})',
+                                    style: TextStyles.headingFont
+                                        .copyWith(color: AppColors.green),
+                                  ),
+                                ],
+                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.start,
+                              //   children: [
+                              //     SizedBox(
+                              //       width: 110,
+                              //       child: ImageBox(
+                              //         element.imageId!,
+                              //         height: 100,
+                              //         width: 100,
+                              //         // fit: BoxFit.contain,
+                              //       ),
+                              //     ),
+                              //     Column(
+                              //       crossAxisAlignment: CrossAxisAlignment.start,
+                              //       children: [
+                              //         Text(
+                              //           element.name!.defaultText != null
+                              //               ? (element.name!.defaultText!.text ??
+                              //                   '')
+                              //               : element
+                              //                       .name!.languageTexts![0].text ??
+                              //                   '',
+                              //           style: TextStyles.headingFont.copyWith(
+                              //               color: AppColors.primeColor,
+                              //               fontSize: FontSizes.xLarge),
+                              //         ),
+                              //       ],
+                              //     ),
+                              //   ],
+                              // ),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    element.name!.defaultText != null
-                                        ? (element.name!.defaultText!.text ??
-                                            '')
-                                        : element
-                                                .name!.languageTexts![0].text ??
-                                            '',
-                                    style: TextStyles.headingFont.copyWith(
-                                        color: AppColors.primeColor,
-                                        fontSize: FontSizes.xLarge),
+                                    'Benefits: ',
+                                    style: TextStyles.headingFont,
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Range : ${element.spointsRangeMin} - ${element.spointsRangeMax}',
-                                        style: TextStyles.headingFont
-                                            .copyWith(color: AppColors.green),
-                                      ),
-                                    ],
-                                  ),
+                                  ...element.benefits!.map(
+                                    (benefit) {
+                                      return Row(children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              WidgetSpan(
+                                                child: Icon(
+                                                  Icons.thumb_up_alt_outlined,
+                                                  size: 14,
+                                                  color: AppColors.primeColor,
+                                                ),
+                                              ),
+                                              TextSpan(text: '  '),
+                                              TextSpan(
+                                                text: benefit,
+                                                style: TextStyles.titleFont
+                                                    .copyWith(
+                                                        color:
+                                                            AppColors.DarkGrey),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ]);
+                                    },
+                                  ).toList(),
                                 ],
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_circle_left,color:AppColors.DarkGrey),
+                              onPressed: () {
+                                controller.previousPage(
+                                    duration: Duration(seconds:2), curve: Curves.easeInBack);
+                              },
+                            ),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Benefits: ',
-                                style: TextStyles.headingFont,
-                              ),
-                              ...element.benefits!.map(
-                                (benefit) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                        // borderRadius: BorderRadius.circular(5),
-                                        // border:
-                                        //     Border.all(color: AppColors.primeColor),
-                                        // color: AppColors.primeColor,
-                                        ),
-                                    padding: const EdgeInsets.all(5),
-                                    // margin:
-                                    //     const EdgeInsets.fromLTRB(20, 3, 3, 3),
-                                    child: Text(
-                                      benefit,
-                                      style: TextStyles.headingFont.copyWith(
-                                          color: AppColors.darkOrange),
-                                    ),
-                                  );
-                                },
-                              ).toList(),
-                            ],
-                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              icon: Icon(Icons.arrow_circle_right,color: AppColors.DarkGrey,),
+                              onPressed: () {
+                                controller.nextPage(
+                                    duration: Duration(seconds: 2),
+                                    curve: Curves.easeIn,);
+                              },
+                            ),
+                          )
                         ],
                       ),
                     );
@@ -161,7 +194,7 @@ class SpointsPage extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

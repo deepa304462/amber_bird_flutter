@@ -29,34 +29,9 @@ class MegaMenuController extends GetxController {
     getCategory();
   }
 
-  getCategory() async {
-    // dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable
-
-    // var responseDeal = await ClientService.get(
-    //     path: 'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
-
-    // if (responseDeal.statusCode == 200) {
-    //   ProductAvailabilityResp data =
-    //       ProductAvailabilityResp.fromMap(responseDeal.data);
+  getCategory() async { 
     List<GenericTab> cList = [];
-
-    //   data.productsAvailableInDealTypes!.forEach((element) {
-    //     var detail = Helper.getCatDealName(element);
-    //     cList.add(GenericTab(
-    //         image: detail['imageId'],
-    //         id: element,
-    //         type: 'DEAL',
-    //         text: detail['name']));
-    //   });
-    //   data.productsAvailableInMultiTypes!.forEach((element) {
-
-    //     var detail = Helper.getCatMultiName(element);
-    //     cList.add(GenericTab(
-    //         image: detail['imageId'],
-    //         id: element,
-    //         type: 'MULTI',
-    //         text: detail['name']));
-    //   });
+ 
     var payload = {'onlyParentCategories': true};
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
@@ -115,7 +90,8 @@ class MegaMenuController extends GetxController {
       if (Get.isRegistered<Controller>()) {
         var stateController = Get.find<Controller>();
         var userType = stateController.userType.value;
-        if (userType != '' && userType != memberShipType.No_Membership.name) {
+        if (userType != '') {
+        // if (userType != '' && userType != memberShipType.No_Membership.name) {
           cList.add(GenericTab(
               image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
               id: 'MSD',
@@ -217,11 +193,11 @@ class MegaMenuController extends GetxController {
               'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
 
       if (responseDeal.statusCode == 200) {
-            subMenuList.add(GenericTab(
-            image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-            id: 'collection',
-            type: 'MULTI',
-            text: 'Collection'));
+            // subMenuList.add(GenericTab(
+            // image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+            // id: 'collection_view',
+            // type: 'MULTI',
+            // text: 'Collection'));
         ProductAvailabilityResp data =
             ProductAvailabilityResp.fromMap(responseDeal.data);
 
@@ -409,6 +385,9 @@ class MegaMenuController extends GetxController {
     // if (submenu.text != 'All') {
     //   payload['categoryId'] = submenu.id!;
     // }
+    print(submenu);
+    print(key);
+    // collection_view
     var response = await ClientService.searchQuery(
         path: 'cache/multiProduct/search', query: payload, lang: 'en');
     if (response.statusCode == 200) {
