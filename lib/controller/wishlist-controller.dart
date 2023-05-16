@@ -32,7 +32,7 @@ class WishlistController extends GetxController {
 
       if (cust.wishList != null) {
         wishlistId.value = cust.wishList!.id ?? '';
-        for (var element in cust.wishList!.favorites!) {}
+        // for (var element in cust.wishList!.favorites!) {}
         // totalPrice.value = pr;
       }
     } else {
@@ -46,7 +46,7 @@ class WishlistController extends GetxController {
       if (wishlistRowcheck != null) {
         wishlistProducts.remove(pid);
       } else {
-        Ref custRef = await Helper.getCustomerRef();
+        // Ref custRef = await Helper.getCustomerRef();
         Favorite fav = Favorite.fromMap({
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'products': products != null ? (jsonDecode(products.toJson())) : null,

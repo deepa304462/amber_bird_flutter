@@ -90,14 +90,14 @@ class MegaMenuController extends GetxController {
       if (Get.isRegistered<Controller>()) {
         var stateController = Get.find<Controller>();
         var userType = stateController.userType.value;
-        if (userType != '') {
+        // if (userType != '') {
         // if (userType != '' && userType != memberShipType.No_Membership.name) {
           cList.add(GenericTab(
               image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
               id: 'MSD',
               type: 'MSD',
               text: 'MSD'));
-        }
+        // }
       }
 
       // cList.add(GenericTab(

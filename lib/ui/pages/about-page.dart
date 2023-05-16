@@ -1,12 +1,9 @@
-import 'dart:math';
 
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/compilance/compilance.dart';
 import 'package:amber_bird/data/compilance/detailed_content.dart';
-import 'package:amber_bird/ui/pages/product_detail_screen.dart';
-import 'package:amber_bird/ui/widget/compilance-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';

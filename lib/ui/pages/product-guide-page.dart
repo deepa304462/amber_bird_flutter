@@ -1,4 +1,3 @@
-import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/product-guide-page-controller.dart';
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';

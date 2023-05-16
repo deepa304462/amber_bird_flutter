@@ -63,7 +63,7 @@ class ProductCardScoin extends StatelessWidget {
   }
 
   Widget _gridItemHeader(ProductSummary product) {
-    String timeLeft = '';
+    // String timeLeft = '';
     var difference;
     if (addedFrom == dealName.FLASH.name) {
       String expire = ruleConfig!.willExpireAt ?? '';
@@ -223,7 +223,7 @@ class ProductCardScoin extends StatelessWidget {
                             var data = await Helper.checkValidScoin(
                                 dealPrice!,
                                 stateController.userType.value,
-                                cartController.cartProductsScoins.value,
+                                cartController.cartProductsScoins,
                                 stateController.customerDetail.value
                                     .coinWalletDetail!.totalActiveCoins,
                                 cartController.getCurrentQuantity(
@@ -338,9 +338,8 @@ class ProductCardScoin extends StatelessWidget {
                                           null,
                                           ruleConfig,
                                           constraint,
-                                          activeVariant.value!);
-                                    } else {
-                                      var showToast =
+                                          activeVariant.value);
+                                    } else { 
                                           snackBarClass.showToast(context, msg);
                                     }
                                   } else {

@@ -1,8 +1,6 @@
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +50,7 @@ class SplashOfferPage extends StatelessWidget {
                               1 ==
                           onBoardingController.activePage.value) {
                     SharedData.save('true', 'onboardingDone');
-                    if (locationController.pinCode.value.isNotEmpty || true) {
+                    if (locationController.pinCode.value.isNotEmpty) {
                       Modular.to.navigate('/home/main');
                     } else {
                       Modular.to.navigate('/location');
@@ -85,7 +83,7 @@ class SplashOfferPage extends StatelessWidget {
                               .introImages!.length -
                           1,
                       duration: 700);
-                  if (locationController.pinCode.value.isNotEmpty || true) {
+                  if (locationController.pinCode.value.isNotEmpty ) {
                     Modular.to.navigate('/home/main');
                   } else {
                     Modular.to.navigate('/location');

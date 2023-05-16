@@ -247,8 +247,7 @@ class AuthController extends GetxController {
     } else {
       return {"msg": "Please fill all field!!", "status": "error"};
     }
-    return {"msg": "Something Went Wrong!!", "status": "error"};
-  }
+   }
 
   LoginWithGoogle() async {
     loginWith.value = LoginType.googleToken;

@@ -1,12 +1,9 @@
-import 'dart:convert';
 
-import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
 
 class DealController extends GetxController {
@@ -89,8 +86,8 @@ class DealController extends GetxController {
     ruleConfig = dealProduct.ruleConfig;
     constraint = dealProduct.constraint;
     // DealProduct();
-    var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
-    CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
+    // var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
+    // CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
     if (type == 'positive') {
       dynamic data = await Helper.checkProductValidtoAddinCart(
           ruleConfig, constraint, id, cartId);

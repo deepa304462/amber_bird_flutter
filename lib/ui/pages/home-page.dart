@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/ui/widget/appBar/app-bar.dart';
 import 'package:amber_bird/ui/widget/bottom_nav.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';

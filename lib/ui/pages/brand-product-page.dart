@@ -1,5 +1,4 @@
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
-import 'package:amber_bird/controller/brand-page-controller.dart';
 import 'package:amber_bird/controller/brand-product-page-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/data/category/category.dart';
