@@ -5,6 +5,7 @@ import 'package:amber_bird/ui/pages/all-address-page.dart';
 import 'package:amber_bird/ui/pages/help-center-page.dart';
 import 'package:amber_bird/ui/pages/order-list.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
+import 'package:amber_bird/ui/pages/tag-product-page.dart';
 import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
 import 'package:amber_bird/ui/widget/compilance-widget.dart';
@@ -67,6 +68,14 @@ class WidgetRouteModule extends Module {
         child: (_, args) {
           String productId = args.params['id'];
           return ProductPage(productId, search: false);
+        },
+      ),
+       ChildRoute(
+        '/tag-product/:id',
+        child: (_, args) {
+          String keyword = args.params['id'];
+        //  print(Uri.decodeComponent(keyword)) ;
+          return TagProductPage(Uri.decodeComponent(keyword));
         },
       ),
       ChildRoute('/wallet', child: (_, args) => WalletPage()),

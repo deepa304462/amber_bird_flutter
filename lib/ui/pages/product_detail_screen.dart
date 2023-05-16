@@ -9,10 +9,12 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/membership/membership.dart';
 import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/data/product/brand.dart';
 import 'package:amber_bird/data/product/product.dart';
 import 'package:amber_bird/helpers/helper.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
@@ -711,7 +713,7 @@ class ProductDetailScreen extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
                 child: Text(
-                  'Poduct desciption on Sbazar! website and app are informational purpose only, Sbazar does not warrant or represent, or assume any responsibility for, the accuracy of any nutritional,allergn or proposition 65 warning information listed in the product desription',
+                  'Poduct description on Sbazar! website and app are informational purpose only, Sbazar does not warrant or represent, or assume any responsibility for, the accuracy of any nutritional,allergn or proposition 65 warning information listed in the product desription',
                   style: TextStyles.body,
                 )),
             Divider(
@@ -1041,7 +1043,7 @@ class ProductDetailScreen extends StatelessWidget {
           var currenMemberInfo =
               stateController.membershipList.value[currentKey]!;
 
-          return Padding(
+          return currenMemberInfo.id != memberShipType.No_Membership.name ? Padding(
             padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
             child: Row(
               children: [
@@ -1062,7 +1064,7 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ],
             ),
-          );
+          ):  SizedBox();
         },
       ),
     );
@@ -1135,16 +1137,17 @@ class ProductDetailScreen extends StatelessWidget {
                 color: AppColors.primeColor, size: 20),
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
-            title: (productController.offerShipping.value['amountRequired'] <= 0)
-                ? Text(
-                    'Free offered shipping ',
-                    style: TextStyles.headingFont,
-                  )
-                : Text(
-                    ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} offer shipping',
-                    //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
-                    style: TextStyles.headingFont,
-                  ),
+            title:
+                (productController.offerShipping.value['amountRequired'] <= 0)
+                    ? Text(
+                        'Free offered shipping ',
+                        style: TextStyles.headingFont,
+                      )
+                    : Text(
+                        ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} offer shipping',
+                        //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                        style: TextStyles.headingFont,
+                      ),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
@@ -1396,8 +1399,15 @@ class ProductDetailScreen extends StatelessWidget {
                                     child: Center(
                                       child: Padding(
                                         padding: const EdgeInsets.all(4),
-                                        child: Text('${currentTag}',
-                                            style: TextStyles.body),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Modular.to.pushNamed(
+                                                '/widget/tag-product/${currentTag}');
+                                          },
+                                          child: Text('${currentTag}',
+                                              style: TextStyles.body.copyWith(
+                                                  color: AppColors.primeColor)),
+                                        ),
                                       ),
                                     ),
                                   ),
