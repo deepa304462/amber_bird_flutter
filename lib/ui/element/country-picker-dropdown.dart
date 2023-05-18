@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -19,8 +18,7 @@ class CountryPickerDropdown extends StatelessWidget {
     var payload = {"configId": "countries", "providerId": "sbazar"};
     var resp =
         await ClientService.post(path: 'FieldMap/search', payload: payload);
-    if (resp.statusCode == 200) {
-      log(resp.data.toString());
+    if (resp.statusCode == 200) { 
       // items.value =[];
       List<Map<String, String>> arr = [];
       resp.data.forEach((elem) {

@@ -11,6 +11,9 @@ class ProductGuideRow extends StatelessWidget {
   Widget build(BuildContext context) {
     ProductGuideController productGuideController =
         Get.put(ProductGuideController());
+    if (productGuideController.productGuides.isNotEmpty) {
+      productGuideController.productGuides.shuffle();
+    }
     return Container(
       color: AppColors.white,
       padding: const EdgeInsets.all(4),

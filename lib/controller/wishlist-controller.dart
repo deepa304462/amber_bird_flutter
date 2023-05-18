@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer/favorite.insight.detail.dart';

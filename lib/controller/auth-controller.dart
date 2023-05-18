@@ -62,7 +62,7 @@ class AuthController extends GetxController {
   }
 
   initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
+     await Firebase.initializeApp();
   }
 
   resetFieldValue() {
@@ -347,7 +347,7 @@ class AuthController extends GetxController {
   }
 
   void setFielsvalue(String text, String name) {
-    fieldValue.value[name] = text;
+    fieldValue[name] = text;
   }
 
   String generatePassword(
@@ -392,11 +392,11 @@ class AuthController extends GetxController {
         path: 'user-profile', id: userData['mappedTo']['_id']);
     if (userResp.statusCode == 200) {
       var payload = userResp.data;
-      if (!fieldValue.value['fullName'].isBlank!) {
-        payload['fullName'] = fieldValue.value['fullName'];
+      if (!fieldValue['fullName'].isBlank!) {
+        payload['fullName'] = fieldValue['fullName'];
       }
-      if (!fieldValue.value['profileImageId'].isBlank!) {
-        payload["profileIcon"] = fieldValue.value['profileImageId'];
+      if (!fieldValue['profileImageId'].isBlank!) {
+        payload["profileIcon"] = fieldValue['profileImageId'];
       }
       var userUpdateResp = await ClientService.Put(
           path: 'user-profile',

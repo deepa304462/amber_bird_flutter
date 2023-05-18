@@ -133,7 +133,15 @@ class LocationController extends GetxController {
     pinCode.value = findValueFromAddress('postal_code');
 
     // getLocation();
-    Modular.to.pop(this.address);
+     try {
+      if (Modular.to.canPop())  Modular.to.pop(this.address);
+      else  Modular.to.pushReplacementNamed('/home/main');
+       
+    } catch (e) {
+      Modular.to.pushReplacementNamed('/home/main');
+      // code that handles the exception
+    }
+   
   }
 
   String findValueFromAddress(String key) {

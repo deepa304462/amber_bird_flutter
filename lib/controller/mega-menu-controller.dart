@@ -87,9 +87,9 @@ class MegaMenuController extends GetxController {
           type: 'SCOIN',
           text: 'Redeem'));
 
-      if (Get.isRegistered<Controller>()) {
-        var stateController = Get.find<Controller>();
-        var userType = stateController.userType.value;
+      // if (Get.isRegistered<Controller>()) {
+        // var stateController = Get.find<Controller>();
+        // var userType = stateController.userType.value;
         // if (userType != '') {
         // if (userType != '' && userType != memberShipType.No_Membership.name) {
           cList.add(GenericTab(
@@ -98,7 +98,7 @@ class MegaMenuController extends GetxController {
               type: 'MSD',
               text: 'MSD'));
         // }
-      }
+      // }
 
       // cList.add(GenericTab(
       //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',

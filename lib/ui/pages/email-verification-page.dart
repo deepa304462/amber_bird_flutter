@@ -11,7 +11,7 @@ class EmailVerificationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserVerificationController userVerificationController =
+     
         Get.put(UserVerificationController(email, code), tag: code);
     return SafeArea(
       child: Scaffold(

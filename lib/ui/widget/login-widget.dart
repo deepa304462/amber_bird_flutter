@@ -4,7 +4,6 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/forgot-pass.dart';
-import 'package:amber_bird/ui/widget/privacy-help-terms-section.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -228,22 +227,22 @@ class LoginWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border:
-                                    Border.all(color: AppColors.primeColor)),
-                            child: IconButton(
-                              icon: const Icon(Icons.facebook),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   width: 15,
+                        // ),
+                        // Expanded(
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         color: AppColors.white,
+                        //         borderRadius: BorderRadius.circular(5),
+                        //         border:
+                        //             Border.all(color: AppColors.primeColor)),
+                        //     child: IconButton(
+                        //       icon: const Icon(Icons.facebook),
+                        //       onPressed: () {},
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                     const SizedBox(

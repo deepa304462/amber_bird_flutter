@@ -32,7 +32,7 @@ class _WebPageViewer extends State<WebPageViewer> {
   Widget build(BuildContext context) {
     return Stack(children: <Widget>[
       InAppWebView(
-        initialUrlRequest: URLRequest(url: Uri.parse(widget.pageUrl ?? '')),
+        initialUrlRequest: URLRequest(url: Uri.parse(widget.pageUrl )),
         initialOptions: InAppWebViewGroupOptions(
           crossPlatform: InAppWebViewOptions(
             javaScriptEnabled: true,

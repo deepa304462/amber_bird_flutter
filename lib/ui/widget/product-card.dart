@@ -195,7 +195,8 @@ class ProductCard extends StatelessWidget {
       return (addedFrom == 'PRODUCT' ||
               addedFrom == 'CATEGORY' ||
               addedFrom == 'BRAND' ||
-              addedFrom == 'TAGS_PRODUCT')
+              addedFrom == 'BRAND' ||
+              addedFrom == 'RECOMMENDED')
           ? Obx(() => Text(
                 "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
                 style: TextStyles.headingFont,
@@ -408,7 +409,7 @@ class ProductCard extends StatelessWidget {
                             }
                           } else {
                             stateController.setCurrentTab(3);
-                            var showToast = snackBarClass.showToast(
+                            snackBarClass.showToast(
                                 context, 'Please Login to preoceed');
                           }
                           stateController.showLoader.value = false;

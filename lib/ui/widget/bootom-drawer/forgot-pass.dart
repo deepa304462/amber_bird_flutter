@@ -44,7 +44,7 @@ class ForgotPassDrawer extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 isLoading.value = true;
-                var data = await authController.resetPassInit();
+                await authController.resetPassInit();
                 isLoading.value = false;
                 snackBarClass.showToast(
                     context, 'Please check your mail! ,thanks');

@@ -23,6 +23,9 @@ class DealRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (dealController.dealProd.isNotEmpty) { 
+      dealController.dealProd.shuffle();
+    }
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
         String timeLeft = '';

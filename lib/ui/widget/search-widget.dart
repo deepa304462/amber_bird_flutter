@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:amber_bird/controller/search-controller.dart';
-import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
     final SearchController searchController = Get.put(SearchController());
-    final Controller stateController = Get.find();
     controller.text = searchController.search.toString();
     return Expanded(
       child: Container(

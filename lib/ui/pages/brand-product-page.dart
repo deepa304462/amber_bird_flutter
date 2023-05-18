@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/brand-product-page-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
@@ -32,7 +34,7 @@ class BrandProductPage extends StatelessWidget {
                 automaticallyImplyLeading: false,
                 toolbarHeight: 50,
                 leadingWidth: 50,
-                backgroundColor: AppColors.primeColor, 
+                backgroundColor: AppColors.primeColor,
                 leading: IconButton(
                   onPressed: () {
                     if (Navigator.canPop(context)) {
@@ -68,8 +70,9 @@ class BrandProductPage extends StatelessWidget {
               body: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.fromLTRB(4, 5, 4, 8),
-                      child: categoryList(controller, context)),
+                    padding: EdgeInsets.fromLTRB(4, 5, 4, 8),
+                    child: categoryList(controller, context),
+                  ),
                   productList(context),
                 ],
               ),
@@ -88,36 +91,58 @@ class BrandProductPage extends StatelessWidget {
         itemBuilder: (_, index) {
           Category currentCat = controller.categoryList[index];
           return Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 3),
             child: Column(
               children: [
                 InkWell(
-                  onTap: () {
-                    //  controller.categoryList
-                    controller.selectedCategory.value = currentCat.id!;
-                    controller.searchProducts();
-                  },
-                  child: ImageBox(
-                    controller.categoryList[index].logoId!,
-                    width: 50,
-                    height: 50,
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    (controller.categoryList[index].name!.defaultText!.text ??
-                                    '')
-                                .length >
-                            7
-                        ? '${(controller.categoryList[index].name!.defaultText!.text ?? '').substring(0, 6)}...'
-                        : controller
-                                .categoryList[index].name!.defaultText!.text ??
-                            '',
-                    style: currentCat.id == controller.selectedCategory.value
-                        ? TextStyles.body.copyWith(fontWeight: FontWeight.bold)
-                        : TextStyles.body,
-                  ),
-                )
+                    onTap: () {
+                      //  controller.categoryList
+                      controller.selectedCategory.value = currentCat.id!;
+                      controller.searchProducts();
+                    },
+                    child: Container(
+                      height: 25,
+                      padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                      margin: const EdgeInsets.fromLTRB(0, 5, 2, 0),
+                      decoration: BoxDecoration(
+                        border:
+                            Border.all(width: 1, color: AppColors.primeColor),
+                        color:
+                            currentCat.id == controller.selectedCategory.value
+                                ? Colors.green[100]
+                                : AppColors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '${(controller.categoryList[index].name!.defaultText!.text ?? '')}',
+                        style:
+                            currentCat.id == controller.selectedCategory.value
+                                ? TextStyles.body
+                                    .copyWith(fontWeight: FontWeight.bold)
+                                : TextStyles.body,
+                      ),
+                    )
+                    //  ImageBox(
+                    //   controller.categoryList[index].logoId!,
+                    //   width: 50,
+                    //   height: 50,
+                    // ),
+                    ),
+                // Center(
+                //   child: Text(
+                //     (controller.categoryList[index].name!.defaultText!.text ??
+                //                     '')
+                //                 .length >
+                //             7
+                //         ? '${(controller.categoryList[index].name!.defaultText!.text ?? '').substring(0, 6)}...'
+                //         : controller
+                //                 .categoryList[index].name!.defaultText!.text ??
+                //             '',
+                //     style: currentCat.id == controller.selectedCategory.value
+                //         ? TextStyles.body.copyWith(fontWeight: FontWeight.bold)
+                //         : TextStyles.body,
+                //   ),
+                // )
               ],
             ),
           );

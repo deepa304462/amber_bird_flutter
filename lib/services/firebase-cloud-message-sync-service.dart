@@ -10,7 +10,7 @@ class FCMSyncService {
   static init() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     setupInteractedMessage();
-    NotificationSettings settings = await messaging.requestPermission(
+    await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,

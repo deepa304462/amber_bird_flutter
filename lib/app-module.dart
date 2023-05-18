@@ -1,6 +1,5 @@
 import 'package:amber_bird/home-page-module.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
-import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/reset-password-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
 import 'package:amber_bird/ui/pages/wild-card-route-page.dart';

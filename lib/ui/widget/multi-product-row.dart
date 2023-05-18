@@ -33,6 +33,9 @@ class MultiProductRow extends StatelessWidget {
         MultiProductController(currenttypeName),
         tag: currenttypeName.toString());
     // if (dealController.dealProd.isNotEmpty) {
+    if (multiprodController.multiProd.isNotEmpty) {
+      multiprodController.multiProd.shuffle();
+    }
     return Column(
       children: [
         Padding(

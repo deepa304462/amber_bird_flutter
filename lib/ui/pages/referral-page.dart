@@ -50,15 +50,15 @@ class ReferralPage extends StatelessWidget {
         child: Column(children: [
           Stack(
             children: [
-              Positioned(
-                top: 30,
-                left: 150,
-                child: Text(
-                  'Get 9${CodeHelp.euro} for user you refer',
-                  style:
-                      TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
-                ),
-              ),
+              // Positioned(
+              //   top: 30,
+              //   left: 150,
+              //   child: Text(
+              //     'Get 9${CodeHelp.euro} for user you refer',
+              //     style:
+              //         TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
+              //   ),
+              // ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .4,
                 width: MediaQuery.of(context).size.width,
@@ -75,7 +75,7 @@ class ReferralPage extends StatelessWidget {
                     : Column(
                         children: [
                           Text(
-                            'Share following link with your friends & family',
+                            'Share referral link with your friends & family',
                             textAlign: TextAlign.center,
                             style: TextStyles.bodyFont
                                 .copyWith(color: Colors.grey),
@@ -83,22 +83,22 @@ class ReferralPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0),
-                                    side: BorderSide(
-                                        width: 2, color: AppColors.primeColor)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Obx(() {
-                                    return Text(
-                                      controller.shortLink.value.shortUrl!,
-                                      style: TextStyles.bodyFontBold
-                                          .copyWith(color: AppColors.grey),
-                                    );
-                                  }),
-                                ),
-                              ),
+                              // Card(
+                              //   shape: RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.circular(0),
+                              //       side: BorderSide(
+                              //           width: 2, color: AppColors.primeColor)),
+                              //   child: Padding(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     child: Obx(() {
+                              //       return Text(
+                              //         controller.shortLink.value.shortUrl!,
+                              //         style: TextStyles.bodyFontBold
+                              //             .copyWith(color: AppColors.grey),
+                              //       );
+                              //     }),
+                              //   ),
+                              // ),
                               // const Divider(),
                               MaterialButton(
                                 onPressed: () {
@@ -115,16 +115,16 @@ class ReferralPage extends StatelessWidget {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(
-                                        Icons.share,
-                                        color: Colors.white,
-                                        size: 16,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
+                                      // const Icon(
+                                      //   Icons.share,
+                                      //   color: Colors.white,
+                                      //   size: 16,
+                                      // ),
+                                      // const SizedBox(
+                                      //   width: 5,
+                                      // ),
                                       Text(
-                                        'Share',
+                                        'Invite Now',
                                         style: TextStyles.bodyFont
                                             .copyWith(color: AppColors.white),
                                       ),

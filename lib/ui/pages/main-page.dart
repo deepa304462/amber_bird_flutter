@@ -146,7 +146,8 @@ class MainPage extends StatelessWidget {
               } else {
                 return const SizedBox();
               }
-            })
+            },
+          )
         : const SizedBox());
   }
 }

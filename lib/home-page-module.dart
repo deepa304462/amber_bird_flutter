@@ -1,5 +1,3 @@
-import 'package:amber_bird/ui/pages/all-address-page.dart';
-import 'package:amber_bird/ui/pages/brand-product-page.dart';
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
@@ -11,7 +9,6 @@ import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
-import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:amber_bird/ui/widget/scoin-checkout-widget.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/material.dart';

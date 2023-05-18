@@ -71,8 +71,7 @@ class AboutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...compilanceController.compilanceList
-                            .map((Compilance el) {
-                          // print(el);
+                            .map((Compilance el) { 
                           DetailedContent detailedContent =
                               el.detailedContent!.length > 0
                                   ? el.detailedContent![0]
@@ -86,6 +85,10 @@ class AboutPage extends StatelessWidget {
                               : detailedContent
                                   .sectionHeading!.languageTexts![0].text;
                           return ListTile(
+                            onTap: () {
+                               Modular.to
+                                  .pushNamed('/widget/compilance/' + el.id!);
+                            },
                             title: Text(
                               heading ?? '',
                               style: TextStyles.titleFont,
@@ -93,7 +96,7 @@ class AboutPage extends StatelessWidget {
                             trailing: IconButton(
                                 onPressed: () {
                                   //  CompilanceWidget(heading ??'', content: el);
-                                  Modular.to.pushNamed('/widget/compilance/'+el.id! );
+                                  // Modular.to.pushNamed('/widget/compilance/'+el.id! );
                                 },
                                 icon: const Icon(Icons.chevron_right)),
                           );

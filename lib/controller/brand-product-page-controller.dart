@@ -39,7 +39,9 @@ class BrandProductPageController extends GetxController {
           []);
 
       categoryList.value = list;
-      selectedCategory.value = categoryList[0].id!;
+      if (categoryList.length > 0) {
+        selectedCategory.value = categoryList[0].id!;
+      }
       searchProducts();
     });
   }

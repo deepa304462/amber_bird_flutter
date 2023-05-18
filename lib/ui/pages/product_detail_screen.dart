@@ -25,6 +25,7 @@ import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -52,9 +53,10 @@ class ProductDetailScreen extends StatelessWidget {
   Widget productPageView(
       Product product, double width, double height, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child:
-          ImageSlider(product.images!, MediaQuery.of(context).size.width * .8),
+      padding: const EdgeInsets.symmetric(vertical: 0),
+      child: ImageSlider(
+          product.images!, MediaQuery.of(context).size.width * .8,
+          height: MediaQuery.of(context).size.height * .23),
     );
   }
 
@@ -148,7 +150,7 @@ class ProductDetailScreen extends StatelessWidget {
                     SliverLayoutBuilder(
                         builder: (BuildContext context, constraints) {
                       final scrolled = constraints.scrollOffset >
-                          MediaQuery.of(context).size.height * .30;
+                          MediaQuery.of(context).size.height * .35;
                       return new SliverAppBar(
                         toolbarHeight: 40,
                         backgroundColor:
@@ -159,14 +161,17 @@ class ProductDetailScreen extends StatelessWidget {
                         //  floating: false,
                         backwardsCompatibility: true,
                         excludeHeaderSemantics: true,
-                        expandedHeight: 300.0,
+                        expandedHeight:
+                            MediaQuery.of(context).size.height * .35,
                         stretch: false,
                         leading: IconButton(
                           onPressed: () {
                             appbarScrollController.shrinkappbar.value = false;
                             try {
                               if (Modular.to.canPop()) {
-                                Modular.to.pop();
+                                Navigator.pop(context);
+                                Modular.to.pop(); 
+                                
                               } else {
                                 Modular.to.navigate('../../home/main');
                               }
@@ -184,32 +189,24 @@ class ProductDetailScreen extends StatelessWidget {
                           centerTitle: true,
                           collapseMode: CollapseMode.pin,
                           titlePadding: const EdgeInsets.all(0),
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: !scrolled
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(0)),
-                                    padding: const EdgeInsets.all(4),
-                                    child: SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .32,
-                                      child: productPageView(
-                                          productController.product.value,
-                                          width,
-                                          height,
-                                          context),
-                                    ),
-                                  )
-                                : Text(
-                                    productController
-                                        .product.value.name!.defaultText!.text!,
-                                    style: TextStyles.body.copyWith(
-                                        color: Colors.white, fontSize: 20),
-                                  ),
-                          ),
+                          title: !scrolled
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(0)),
+                                  padding: const EdgeInsets.all(0),
+                                  child: productPageView(
+                                      productController.product.value,
+                                      width,
+                                      height,
+                                      context),
+                                )
+                              : Text(
+                                  productController
+                                      .product.value.name!.defaultText!.text!,
+                                  style: TextStyles.body.copyWith(
+                                      color: Colors.white, fontSize: 20),
+                                ),
                           background: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
                             child: SizedBox(),
@@ -229,7 +226,7 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                       builder: (context, properties) => SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.only(bottom: 40),
+                        padding: const EdgeInsets.only(bottom: 45),
                         child: Column(
                           children: [
                             Divider(
@@ -250,35 +247,42 @@ class ProductDetailScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              productController
-                                                      .product
-                                                      .value
-                                                      .name!
-                                                      .defaultText!
-                                                      .text ??
-                                                  '',
-                                              style: TextStyles.headingFont
-                                                  .copyWith(
-                                                      color:
-                                                          AppColors.primeColor,
-                                                      fontSize: 20),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            productVarientView(
-                                                productController.product.value
-                                                        .varients ??
-                                                    [],
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
                                                 productController
-                                                    .activeIndexVariant.value,
-                                                productController),
-                                          ],
+                                                        .product
+                                                        .value
+                                                        .name!
+                                                        .defaultText!
+                                                        .text ??
+                                                    '',
+                                                style: TextStyles.headingFont
+                                                    .copyWith(
+                                                        color: AppColors
+                                                            .primeColor,
+                                                        fontSize: 20),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              productVarientView(
+                                                  productController.product
+                                                          .value.varients ??
+                                                      [],
+                                                  productController
+                                                      .activeIndexVariant.value,
+                                                  productController),
+                                            ],
+                                          ),
                                         ),
-                                        detailsHead(productController),
+                                        detailsHead(productController,
+                                            stateController, context),
                                       ],
                                     ),
                                   ),
@@ -450,13 +454,17 @@ class ProductDetailScreen extends StatelessWidget {
                                                         null,
                                                         productController
                                                             .varient.value);
+                                                    productController
+                                                        .getofferShipping();
                                                   } else {
+                                                    stateController.showLoader
+                                                        .value = false;
                                                     stateController
                                                         .setCurrentTab(3);
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context,
-                                                            'Please login to proceed');
+
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please login to proceed');
                                                   }
                                                   stateController
                                                       .showLoader.value = false;
@@ -510,6 +518,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                         null,
                                                         productController
                                                             .varient.value);
+                                                    productController
+                                                        .getofferShipping();
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
@@ -569,6 +579,8 @@ class ProductDetailScreen extends StatelessWidget {
                                                               productController
                                                                   .varient
                                                                   .value);
+                                                      productController
+                                                          .getofferShipping();
                                                     } else {
                                                       // Navigator.of(context).pop();
                                                       // ignore: use_build_context_synchronously
@@ -579,10 +591,10 @@ class ProductDetailScreen extends StatelessWidget {
                                                   } else {
                                                     stateController
                                                         .setCurrentTab(3);
-                                                    var showToast =
-                                                        snackBarClass.showToast(
-                                                            context,
-                                                            'Please Login to preoceed');
+
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to preoceed');
                                                   }
                                                   stateController
                                                       .showLoader.value = false;
@@ -616,45 +628,68 @@ class ProductDetailScreen extends StatelessWidget {
   }
 
   Widget desclaimer(context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(
-          'Disclaimer',
-          style: TextStyles.headingFont,
-        ),
-        Text(
-          'Product description on SBazar website and app are for informational purposes only',
-          style: TextStyles.body,
-        ),
-        TextButton(
-          onPressed: () async {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                enableDrag: false,
-                builder: (context) {
-                  return SizedBox(
-                      height: MediaQuery.of(context).size.height * .7,
-                      child: DisclaimerWidgetDrawer(context));
-                });
-          },
-          style: ButtonStyle(
-              // shape: MaterialStateProperty.all(RoundedRectangleBorder(
-              //     side: BorderSide(
-              //       color: AppColors.primeColor, // your color here
-              //       width: 1,
-              //     ),
-              //     borderRadius: BorderRadius.circular(5.0))),
-              // backgroundColor:
-              //     MaterialStateProperty.all<Color>(AppColors.primeColor),
-              ),
-          child: Text(
-            'See our disclaimer',
-            style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+    return Container(
+      color: AppColors.lightGrey,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Disclaimer',
+            style: TextStyles.headingFont,
           ),
-        ),
-      ]),
+          RichText(
+            text: TextSpan(
+              style: TextStyles.body,
+              children: <TextSpan>[
+                TextSpan(
+                  text:
+                      'Product description on SBazar website and app are for informational purposes only ',
+                  style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
+                ),
+                TextSpan(
+                    text: 'check our disclaimer',
+                    style: TextStyles.body.copyWith(color: Colors.blue),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            enableDrag: false,
+                            builder: (context) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .25,
+                                  child: DisclaimerWidgetDrawer(context));
+                            });
+                      }),
+              ],
+            ),
+          ),
+          // Text(
+          //   'Product description on SBazar website and app are for informational purposes only',
+          //   style: TextStyles.body,
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     showModalBottomSheet(
+          //         context: context,
+          //         isScrollControlled: true,
+          //         enableDrag: false,
+          //         builder: (context) {
+          //           return SizedBox(
+          //               height: MediaQuery.of(context).size.height * .7,
+          //               child: DisclaimerWidgetDrawer(context));
+          //         });
+          //   },
+          //   style: ButtonStyle(
+          //       ),
+          //   child: Text(
+          //     'See our disclaimer',
+          //     style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+          //   ),
+          // ),
+        ]),
+      ),
     );
   }
 
@@ -669,59 +704,52 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       // constraints:
       //     BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
-      child: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppBar(
-              elevation: 1,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12))),
-              backgroundColor: AppColors.white,
-              leadingWidth: 50,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const SizedBox(),
-                  Text(
-                    'Disclaimer',
-                    style: TextStyles.headingFont,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              leading: ImageBox(
-                stateController.membershipIcon.value,
-                width: 15,
-                height: 15,
-                fit: BoxFit.contain,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppBar(
+            elevation: 1,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12))),
+            backgroundColor: AppColors.white,
+            leadingWidth: 50,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const SizedBox(),
+                Text(
+                  'Disclaimer',
+                  style: TextStyles.headingFont,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ],
             ),
-            Divider(
-              color: AppColors.lightGrey,
-              height: 1,
-              thickness: 1,
-            ),
-            Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                child: Text(
-                  'Poduct description on Sbazar! website and app are informational purpose only, Sbazar does not warrant or represent, or assume any responsibility for, the accuracy of any nutritional,allergn or proposition 65 warning information listed in the product desription',
-                  style: TextStyles.body,
-                )),
-            Divider(
-              color: AppColors.lightGrey,
-              height: 1,
-              thickness: 1,
-            ),
-          ],
-        ),
+            leading: const SizedBox(),
+          ),
+          Divider(
+            color: AppColors.lightGrey,
+            height: 1,
+            thickness: 1,
+          ),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+              child: Text(
+                'Poduct description on Sbazar! website and app are informational purpose only, Sbazar does not warrant or represent, or assume any responsibility for, the accuracy of any nutritional,allergn or proposition 65 warning information listed in the product desription',
+                style: TextStyles.body,
+              )),
+          Divider(
+            color: AppColors.lightGrey,
+            height: 1,
+            thickness: 1,
+          ),
+        ],
       ),
     );
   }
@@ -788,6 +816,8 @@ class ProductDetailScreen extends StatelessWidget {
       Customer cust = Customer.fromMap(detail as Map<String, dynamic>);
       addressList.value = cust.addresses!.cast<Address>();
     }
+
+    productController.getofferShipping();
 
     getAddressList();
 
@@ -865,11 +895,11 @@ class ProductDetailScreen extends StatelessWidget {
               child:
                   (productController.offerShipping.value['amountRequired'] < 0)
                       ? Text(
-                          'Free offered shipping ',
+                          'Free shipping ',
                           style: TextStyles.headingFont,
                         )
                       : Text(
-                          ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'] + CodeHelp.euro} offer shipping',
+                          'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
                           //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
                           style: TextStyles.body,
                         ),
@@ -1042,28 +1072,30 @@ class ProductDetailScreen extends StatelessWidget {
           var currenMemberInfo =
               stateController.membershipList.value[currentKey]!;
 
-          return currenMemberInfo.id != memberShipType.No_Membership.name ? Padding(
-            padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-            child: Row(
-              children: [
-                ImageBox(
-                  currenMemberInfo.imageId!,
-                  height: 20,
-                  width: 20,
-                  fit: BoxFit.contain,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  Helper.getFormattedNumber(Helper.getMsdAmount(
-                          price: price!, userType: currenMemberInfo.id!))
-                      .toString(),
-                  style: TextStyles.headingFont,
-                ),
-              ],
-            ),
-          ):  SizedBox();
+          return currenMemberInfo.id != memberShipType.No_Membership.name
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: Row(
+                    children: [
+                      ImageBox(
+                        currenMemberInfo.imageId!,
+                        height: 20,
+                        width: 20,
+                        fit: BoxFit.contain,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        Helper.getFormattedNumber(Helper.getMsdAmount(
+                                price: price!, userType: currenMemberInfo.id!))
+                            .toString(),
+                        style: TextStyles.headingFont,
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox();
         },
       ),
     );
@@ -1136,17 +1168,16 @@ class ProductDetailScreen extends StatelessWidget {
                 color: AppColors.primeColor, size: 20),
             trailing:
                 Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
-            title:
+            title: Obx(() =>
                 (productController.offerShipping.value['amountRequired'] <= 0)
                     ? Text(
-                        'Free offered shipping ',
+                        'Free shipping ',
                         style: TextStyles.headingFont,
                       )
                     : Text(
-                        ' Add ${productController.offerShipping.value['amountRequired']}${CodeHelp.euro} more amt, to ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} offer shipping',
-                        //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                        'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
                         style: TextStyles.headingFont,
-                      ),
+                      )),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
@@ -1432,28 +1463,35 @@ class ProductDetailScreen extends StatelessWidget {
                         )),
                     TableCell(
                       child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: ShowMoreWidget(
-                              text: productController.product.value
-                                              .nutritionDetail!.defaultText !=
-                                          null &&
-                                      productController
-                                              .product
-                                              .value
-                                              .nutritionDetail!
-                                              .defaultText!
-                                              .text !=
-                                          null
-                                  ? productController.product.value
-                                          .nutritionDetail!.defaultText!.text ??
-                                      ''
-                                  : productController
-                                          .product
-                                          .value
-                                          .nutritionDetail!
-                                          .languageTexts![0]
-                                          .text ??
-                                      '')),
+                        padding: const EdgeInsets.all(8),
+                        child: Html(
+                            data: productController.product.value
+                                            .nutritionDetail!.defaultText !=
+                                        null &&
+                                    productController
+                                            .product
+                                            .value
+                                            .nutritionDetail!
+                                            .defaultText!
+                                            .text !=
+                                        null
+                                ? productController.product.value
+                                        .nutritionDetail!.defaultText!.text ??
+                                    ''
+                                : productController
+                                        .product
+                                        .value
+                                        .nutritionDetail!
+                                        .languageTexts![0]
+                                        .text ??
+                                    '',
+                            style: {
+                              "body": Style(
+                                  fontSize: FontSize(FontSizes.body),
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: Fonts.body),
+                            }),
+                      ),
                     )
                   ],
                 ),
@@ -1475,16 +1513,10 @@ class ProductDetailScreen extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.all(0),
-              child: Html(
-                  data: productController
+              child: ShowMoreWidget(
+                  text: productController
                           .product.value.description!.defaultText!.text ??
-                      '',
-                  style: {
-                    "body": Style(
-                        fontSize: FontSize(FontSizes.body),
-                        fontWeight: FontWeight.w300,
-                        fontFamily: Fonts.body),
-                  })),
+                      '')),
         ],
       ),
     );
@@ -1533,44 +1565,56 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  detailsHead(ProductController productController) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Row(
-          children: [
-            IconButton(
-                onPressed: () {
-                  wishlistController.addToWishlist(
-                      productController.product.value.id,
-                      productController.product.value,
-                      null,
-                      addedFrom);
-                },
-                icon: Icon(
-                  Icons.favorite,
-                  color: wishlistController.checkIfProductWishlist(
-                          productController.product.value.id)
-                      ? AppColors.primeColor
-                      : AppColors.grey,
-                )),
-            const SizedBox(
-              width: 5,
-            ),
-            IconButton(
-                onPressed: () async {
-                  // await productController
-                  CodeHelp.shareWithOther(
-                      'Buy this Product now, ${productController.shortLink.value}',
-                      'Share now');
-                },
-                icon: Icon(
-                  CupertinoIcons.share,
-                  color: AppColors.primeColor,
-                ))
-          ],
-        ),
-      ],
+  detailsHead(ProductController productController, Controller controller,
+      BuildContext context) {
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    controller.showLoader.value = true;
+                    if (stateController.isLogin.value) {
+                      await wishlistController.addToWishlist(
+                          productController.product.value.id,
+                          productController.product.value,
+                          null,
+                          addedFrom);
+                    } else {
+                      stateController.setCurrentTab(3);
+
+                      snackBarClass.showToast(
+                          context, 'Please login to proceed');
+                    }
+                    controller.showLoader.value = false;
+                  },
+                  icon: Icon(
+                    Icons.favorite,
+                    color: wishlistController.checkIfProductWishlist(
+                            productController.product.value.id)
+                        ? AppColors.primeColor
+                        : AppColors.grey,
+                  )),
+              const SizedBox(
+                width: 5,
+              ),
+              IconButton(
+                  onPressed: () async {
+                    // await productController
+                    CodeHelp.shareWithOther(
+                        'Buy this Product now, ${productController.shortLink.value}',
+                        'Share now');
+                  },
+                  icon: Icon(
+                    CupertinoIcons.share,
+                    color: AppColors.primeColor,
+                  ))
+            ],
+          ),
+        ],
+      ),
     );
   }
 

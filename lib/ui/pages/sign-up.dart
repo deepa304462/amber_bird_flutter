@@ -254,32 +254,32 @@ class SignUp extends StatelessWidget {
                               }),
                         ),
                       ),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: AppColors.primeColor)),
-                          child: IconButton(
-                            icon: const Icon(Icons.facebook),
-                            onPressed: () async {
-                              isLoading.value = true;
-                              var data = await mController.signInWithFacebook();
-                              if (data['status'] == 'success') {
-                                controller.isLogin.value = true;
-                                controller.getLoginInfo();
-                                controller.setCurrentTab(0);
-                                cartController.fetchCart();
-                              }
-                              isLoading.value = false;
-                              snackBarClass.showToast(context, data['msg']);
-                            },
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(
+                      //   width: 15,
+                      // ),
+                      // Expanded(
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //         color: AppColors.white,
+                      //         borderRadius: BorderRadius.circular(5),
+                      //         border: Border.all(color: AppColors.primeColor)),
+                      //     child: IconButton(
+                      //       icon: const Icon(Icons.facebook),
+                      //       onPressed: () async {
+                      //         isLoading.value = true;
+                      //         var data = await mController.signInWithFacebook();
+                      //         if (data['status'] == 'success') {
+                      //           controller.isLogin.value = true;
+                      //           controller.getLoginInfo();
+                      //           controller.setCurrentTab(0);
+                      //           cartController.fetchCart();
+                      //         }
+                      //         isLoading.value = false;
+                      //         snackBarClass.showToast(context, data['msg']);
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(

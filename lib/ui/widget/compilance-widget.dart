@@ -72,12 +72,13 @@ class CompilanceWidget extends StatelessWidget {
                 itemBuilder: (_, index) {
                   DetailedContent currentDetaildContent =
                       result[0].detailedContent![index];
-                  var sectionHeading = detailedContent.sectionHeading! !=
+                  var sectionHeading = currentDetaildContent.sectionHeading! !=
                               null &&
-                          detailedContent.sectionHeading!.defaultText != null
-                      ? detailedContent.sectionHeading!.defaultText!.text
-                      : detailedContent.sectionHeading!.languageTexts![0].text;
-                  List<Content> contentList = detailedContent.content!;
+                          currentDetaildContent.sectionHeading!.defaultText != null
+                      ? currentDetaildContent.sectionHeading!.defaultText!.text
+                      : currentDetaildContent
+                          .sectionHeading!.languageTexts![0].text;
+                  List<Content> contentList = currentDetaildContent.content!;
                   return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

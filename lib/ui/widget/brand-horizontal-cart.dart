@@ -1,7 +1,6 @@
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -22,7 +21,7 @@ class BrandHorizontalCard extends StatelessWidget {
     List<Brand> shuffledBrands = [];
     return Obx(() {
       if (!brandPageController.isLoading.value) {
-        shuffledBrands = List.from(brandPageController.brands.value);
+        shuffledBrands = List.from(brandPageController.brands);
         shuffledBrands.shuffle();
       }
       return brandPageController.isLoading.value
@@ -52,6 +51,7 @@ class BrandHorizontalCard extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               Modular.to.navigate('/home/brand');
+                              //  Modular.to.pushReplacementNamed('/home/brand');
                             },
                             child: Card(
                               child: Padding(

@@ -1,10 +1,7 @@
-import 'dart:developer';
 
-import 'package:amber_bird/data/order/address.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-import '../utils/offline-db.service.dart';
 
 class GoogleAddressSuggestController extends GetxController {
   //https://maps.googleapis.com/maps/api/geocode/json?address=84%20Ghanta%20Mandir&sensor=true&components=postal_code:243001|country:IN&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo

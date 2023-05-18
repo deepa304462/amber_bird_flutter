@@ -74,7 +74,10 @@ class WidgetRouteModule extends Module {
         '/tag-product/:id',
         child: (_, args) {
           String keyword = args.params['id'];
-        //  print(Uri.decodeComponent(keyword)) ;
+          if(keyword==''){
+            keyword = args.fragment;
+          }
+          print(Uri.decodeComponent(keyword)) ;
           return TagProductPage(Uri.decodeComponent(keyword));
         },
       ),

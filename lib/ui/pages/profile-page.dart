@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:amber_bird/ui/widget/section-card.dart';
 
 import '../../helpers/controller-generator.dart';
-import '../widget/privacy-help-terms-section.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
@@ -25,25 +25,37 @@ class ProfilePage extends StatelessWidget {
       children: [
         profileCard(context, stateController.loggedInProfile.value,
             stateController.customerInsight.value),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton(
-                  onPressed: () async {
-                    stateController.logout();
-                    cartController.fetchCart();
-                  },
-                  child: Text("Logout", style: TextStyles.headingFont),
-                ),
-              ),
-            ),
-          ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Card(
+        //     child: SizedBox(
+        //       width: MediaQuery.of(context).size.width,
+        //       child: Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: TextButton(
+        //           onPressed: () async {
+        //             stateController.logout();
+        //             cartController.fetchCart();
+        //           },
+        //           child: Text("Logout", style: TextStyles.headingFont),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        sectionCard('Logout', '', Icons.logout, () {
+          stateController.logout();
+          cartController.fetchCart();
+        }),
+        sectionCard('Help Center', '', Icons.question_mark_rounded,
+            () => {Modular.to.pushNamed('/widget/help-center')}),
+        sectionCard(
+          'About Sbazar',
+          '',
+          Icons.info_outline_rounded,
+          () => {Modular.to.pushNamed('/widget/about-page')},
         ),
-        PrivacyHelpTermsSection(),
+        // PrivacyHelpTermsSection(),
       ],
     );
   }

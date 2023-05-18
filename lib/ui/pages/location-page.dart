@@ -168,7 +168,10 @@ class LocationPage extends StatelessWidget {
                             'directionComment': '',
                           });
                           try {
-                            Navigator.pop(context);
+                            if (Navigator.canPop(context))
+                              Navigator.pop(context);
+                            else
+                              Modular.to.pushReplacementNamed('/home/main');
                           } catch (e) {
                             Modular.to.pushReplacementNamed('/home/main');
                             // code that handles the exception

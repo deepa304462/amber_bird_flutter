@@ -1,5 +1,4 @@
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'custom-clipper.dart';

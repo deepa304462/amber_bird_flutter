@@ -31,7 +31,7 @@ class EditProfilePage extends StatelessWidget {
           title: Text(
             'Edit Profile',
             style: TextStyles.headingFont.copyWith(color: Colors.white),
-          ), 
+          ),
           leading: IconButton(
             onPressed: () {
               if (Navigator.canPop(context)) {
@@ -140,7 +140,7 @@ class EditProfilePage extends StatelessWidget {
                   onPressed: () async {
                     isLoading.value = true;
                     // Modular.to.navigate('../home/reset-password');
-                    var data = await stateController.resetPassInit();
+                    await stateController.resetPassInit();
                     isLoading.value = false;
                     snackBarClass.showToast(
                         context, 'Please check your mail !,thanks');

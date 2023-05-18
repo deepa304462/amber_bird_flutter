@@ -3,10 +3,8 @@ import 'package:amber_bird/data/order/address.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/location-dialog.dart';
 import 'package:amber_bird/ui/widget/web-page-viewer.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 Widget sectionCard(
   String title,
@@ -83,8 +81,7 @@ Widget addressCard(BuildContext context, LocationController locationController,
 
 displayLocationDialog(
     BuildContext context, LocationController locationController, String type) {
-  RxBool isLoading = false.obs;
-  RxString errorMessage = ''.obs;
+  
   showGeneralDialog(
     context: context,
     barrierDismissible: false,

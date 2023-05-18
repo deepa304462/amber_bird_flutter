@@ -1444,7 +1444,7 @@ class CartWidget extends StatelessWidget {
 
   shippingAddress(context) {
     LocationController locationController = Get.find();
-    log(locationController.addressData.toString());
+    // log(locationController.addressData.toString());
     var add = locationController.addressData;
     return Obx(
       () => Padding(
@@ -1603,7 +1603,7 @@ class CartWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0 as double).toStringAsFixed(2)}${CodeHelp.euro}',
+                            '${(cartController.calculatedPayment.value.totalAdditionalDiscountAmount ?? 0.0).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                         ],
@@ -1624,7 +1624,7 @@ class CartWidget extends StatelessWidget {
                                 .copyWith(color: AppColors.green),
                           )
                         : Text(
-                            '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0) as double).toStringAsFixed(2)}${CodeHelp.euro}',
+                            '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
                             style: TextStyles.headingFont,
                           ),
                   ],

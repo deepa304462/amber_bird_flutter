@@ -38,6 +38,7 @@ class ProductController extends GetxController {
     } catch (err) {
        offerShipping.value =  {'amountRequired': 0, 'offeredShipping': 4.99};
     }
+    offerShipping.refresh();
   }
 
   getProduct(String id) async {

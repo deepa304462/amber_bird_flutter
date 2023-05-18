@@ -59,13 +59,13 @@ class CartController extends GetxController {
     List<dynamic> listSumm = [];
     List<dynamic> listScoins = [];
     List<dynamic> listMsd = [];
-    for (var v in cartProducts.value.values) {
+    for (var v in cartProducts.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
-    for (var v in cartProductsScoins.value.values) {
+    for (var v in cartProductsScoins.values) {
       listScoins.add((jsonDecode(v.toJson())));
     }
-    for (var v in msdProducts.value.values) {
+    for (var v in msdProducts.values) {
       listMsd.add((jsonDecode(v.toJson())));
     }
     if (listScoins.length > 0 && listSumm.length > 0) {
@@ -222,19 +222,19 @@ class CartController extends GetxController {
   }
 
   createPayment() async {
-    double total = 0.0;
+    // double total = 0.0;
     List<dynamic> listSumm = [];
-    for (var v in cartProducts.value.values) {
-      total += v.price!.offerPrice!;
+    for (var v in cartProducts.values) {
+      // total += v.price!.offerPrice!;
       listSumm.add((jsonDecode(v.toJson())));
     }
-    Ref custRef = await Helper.getCustomerRef();
+    // Ref custRef = await Helper.getCustomerRef();
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    var payload1;
-    var resp1;
-    var payload;
+    // var payload1;
+    // var resp1;
+    // var payload;
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
     if (resp.statusCode == 200) {
@@ -536,7 +536,7 @@ class CartController extends GetxController {
       var getData = cartProductsScoins[refId];
       int quantity = 0 + addQuantity!;
       List li = [];
-      var userType = null;
+      // var userType = null;
       // var priceObj = {
       //   'actualPrice': 0.0,
       //   'offerPrice':  0.0,
@@ -546,10 +546,10 @@ class CartController extends GetxController {
       //   'silverMemberCoin':  0.0,
       //   'paidMemberCoin':  0.0,
       // };
-      if (Get.isRegistered<Controller>()) {
-        var stateController = Get.find<Controller>();
-        userType = stateController.userType.value;
-      }
+      // if (Get.isRegistered<Controller>()) {
+      //   var stateController = Get.find<Controller>();
+      //   userType = stateController.userType.value;
+      // }
       if (getData != null) {
         quantity = getData.count!;
         quantity = quantity + addQuantity;
@@ -601,7 +601,7 @@ class CartController extends GetxController {
     Customer cust =
         Customer.fromMap(customerInsightDetail as Map<String, dynamic>);
     List<dynamic> listSumm = [];
-    for (var v in saveLaterProducts.value.values) {
+    for (var v in saveLaterProducts.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();
@@ -638,7 +638,7 @@ class CartController extends GetxController {
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
-      var getData = cartProducts[refId];
+      // var getData = cartProducts[refId];
       saveLaterProducts[refId] = cartRow;
     } else {}
     await saveLaterCall();
@@ -653,13 +653,13 @@ class CartController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    for (var v in cartProducts.value.values) {
+    for (var v in cartProducts.values) {
       listSumm.add((jsonDecode(v.toJson())));
     }
-    for (var v in cartProductsScoins.value.values) {
+    for (var v in cartProductsScoins.values) {
       listScoins.add((jsonDecode(v.toJson())));
     }
-    for (var v in msdProducts.value.values) {
+    for (var v in msdProducts.values) {
       listMsd.add((jsonDecode(v.toJson())));
     }
     if (listScoins.length > 0 && listSumm.length > 0) {
@@ -791,7 +791,7 @@ class CartController extends GetxController {
     if (checkoutData.value != null &&
         checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
       checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
-        var data = elem;
+        // var data = elem;
         if (elem.ref!.id == ref!.id) {
           if (elem.productAvailabilityStatus != null) {
             available = elem.productAvailabilityStatus!.available ?? true;
@@ -868,7 +868,7 @@ class CartController extends GetxController {
       }
     }
     if (coupon.condition!.firstTimePurchase != null && valid) {
-      Ref custRef = await Helper.getCustomerRef();
+      // Ref custRef = await Helper.getCustomerRef();
       var customerInsightDetail =
           await OfflineDBService.get(OfflineDBService.customerInsightDetail);
       if (coupon.condition!.firstTimePurchase == true &&

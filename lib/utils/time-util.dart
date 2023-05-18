@@ -16,7 +16,7 @@ class TimeUtil {
 
   static String getConvertTimeFormat(
       String formattedTime, String from, String to) {
-    final DateTime now = DateTime.now();
+    // final DateTime now = DateTime.now();
 
     final DateFormat fromFormatter = DateFormat(from);
     final DateFormat toFormatter = DateFormat(to);

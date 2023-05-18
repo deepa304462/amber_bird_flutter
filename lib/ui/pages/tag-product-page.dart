@@ -27,8 +27,7 @@ class TagProductPage extends StatelessWidget {
   TagProductPage(this.keyword);
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    final double width = MediaQuery.of(context).size.width;
+    
     final TagController tagController =
         Get.put(TagController(keyword ?? ''), tag: keyword ?? "");
     return Scaffold(

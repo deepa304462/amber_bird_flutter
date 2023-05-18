@@ -28,6 +28,9 @@ class ScoinProductRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScoinProductController scoinController =
         Get.put(ScoinProductController());
+    if (scoinController.sCoinProd.isNotEmpty) {
+      scoinController.sCoinProd.shuffle();
+    }
     return Obx(() {
       if (scoinController.sCoinProd.isNotEmpty) {
         return Padding(
@@ -48,12 +51,14 @@ class ScoinProductRow extends StatelessWidget {
                         style: TextStyles.headingFont,
                       ),
                       ViewMoreWidget(onTap: () {
-                        MegaMenuController megaMenuController;
-                        if (Get.isRegistered<MegaMenuController>()) {
-                          megaMenuController = Get.find();
-                        } else {
-                          megaMenuController = Get.put(MegaMenuController());
-                        }
+                        ControllerGenerator.create(MegaMenuController(),
+                            tag: 'megaMenuController');
+                        // MegaMenuController megaMenuController;
+                        // if (Get.isRegistered<MegaMenuController>()) {
+                        //   megaMenuController = Get.find();
+                        // } else {
+                        //   megaMenuController = Get.put(MegaMenuController());
+                        // }
                         stateController.setCurrentTab(1);
                       }),
                     ],

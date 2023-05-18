@@ -30,7 +30,7 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
+
   await Firebase.initializeApp();
   await FCMSyncService.init();
   await OfflineDBService.init();
@@ -73,11 +73,11 @@ void main() async {
       Get.put(OnBoardingController());
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
-  final AuthController authController = Get.put(AuthController());
-  final WishlistController wishlistController = Get.put(WishlistController());
-  final Controller controller = Get.put(Controller());
-  final AppbarScrollController appbarScrollController =
-      Get.put(AppbarScrollController());
+  Get.put(AuthController());
+  Get.put(WishlistController());
+  Get.put(Controller());
+
+  Get.put(AppbarScrollController());
   runApp(
     ModularApp(module: AppModule(), child: AppWidget()
         // Stack(

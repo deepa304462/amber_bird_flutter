@@ -106,7 +106,7 @@ class Controller extends GetxController {
     var membershipInfo =
         await ClientService.post(path: 'membershipInfo/search', payload: {});
     if (membershipInfo.statusCode == 200) {
-      List<Membership> list = [];
+      // List<Membership> list = [];
       membershipInfo.data.forEach(
         (elem) {
           Membership member = Membership.fromMap(elem);
