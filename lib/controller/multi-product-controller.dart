@@ -1,7 +1,8 @@
-
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
@@ -30,14 +31,24 @@ class MultiProductController extends GetxController {
   }
 
   getmultiProductProduct(key) async {
+    Controller stateController =
+        ControllerGenerator.create(Controller(), tag: 'Controller');
     var payload = {"type": key};
     var response = await ClientService.searchQuery(
         path: 'cache/multiProduct/search', query: payload, lang: 'en');
     if (response.statusCode == 200) {
-      List<Multi> dList = ((response.data as List<dynamic>?)
-              ?.map((e) => Multi.fromMap(e as Map<String, dynamic>))
-              .toList() ??
+      List<Multi> dList = ((response.data as List<dynamic>?)?.map((e) {
+            Multi dp = Multi.fromMap(e as Map<String, dynamic>);
+            if (dp.products != null && dp.products!.length > 0) {
+              dp.products!.forEach(
+                  (e) => stateController.dealsProductsIdList.add(e.id ?? ''));
+            }
+            // stateController.dealsProductsIdList.add(dp.id ?? '');
+            return dp;
+          }).toList() ??
           []);
+      stateController.dealsProductsIdList.value =
+          stateController.dealsProductsIdList.toSet().toList();
       multiProd.value = (dList);
     }
   }

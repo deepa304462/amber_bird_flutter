@@ -31,8 +31,8 @@ class AppBarWidget extends StatelessWidget {
             Expanded(
               child: Image.asset(
                 'assets/home.png',
-                width: 50,
-                // fit: BoxFit.cover,
+                // width: 50,
+                fit: BoxFit.cover,
               ),
             ),
             //  IconButton(onPressed: () => {}, icon: const Icon(Icons.layers)),
@@ -48,7 +48,8 @@ class AppBarWidget extends StatelessWidget {
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
                     child: IconButton(
-                        onPressed:()=> Modular.to.pushNamed('/widget/refer-page'),
+                        onPressed: () =>
+                            Modular.to.pushNamed('/widget/refer-page'),
                         icon: Icon(Icons.share, color: AppColors.DarkGrey)),
                   ),
                   Showcase(
@@ -118,7 +119,6 @@ class AppBarWidget extends StatelessWidget {
       ],
     );
   }
- 
 }
 
 class AppBarShrinkWidget extends StatelessWidget {

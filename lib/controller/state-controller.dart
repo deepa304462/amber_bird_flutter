@@ -40,6 +40,7 @@ class Controller extends GetxController {
 
   RxList<ProductSummary> filteredProducts = <ProductSummary>[].obs;
   RxList<ProductSummary> cartProducts = <ProductSummary>[].obs;
+  RxList<String> dealsProductsIdList = <String>[].obs;
   RxMap<String, Membership> membershipList = <String, Membership>{}.obs;
   RxInt totalPrice = 0.obs;
   RxInt currentBottomNavItemIndex = 0.obs;

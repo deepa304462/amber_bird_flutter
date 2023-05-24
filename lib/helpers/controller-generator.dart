@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:get/get.dart';
 
 import '../controller/mega-menu-controller.dart';
@@ -23,6 +24,10 @@ class ControllerGenerator {
           var controllerOld = Get.find<ProductGuidePageController>(tag: tag);
           return controllerOld;
         }
+        if (tag == 'Controller') {
+          var controllerOld = Get.find<Controller>(tag: tag);
+          return controllerOld;
+        }
         if (tag == 'megaMenuController') {
           var controllerOld = Get.find<MegaMenuController>(tag: tag);
           return controllerOld;
@@ -34,6 +39,10 @@ class ControllerGenerator {
         }
         if (tag == 'productGuidePageController') {
           return Get.put(ProductGuidePageController(), tag: tag);
+        }
+        if (tag == 'Controller') {
+          var controllerOld = Get.put<Controller>(Controller());
+          return controllerOld;
         }
         if (tag == 'megaMenuController') {
           return Get.put(MegaMenuController(), tag: tag);

@@ -1,6 +1,8 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/brand/brand.dart';
 import 'package:amber_bird/data/category/category.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
@@ -47,6 +49,8 @@ class BrandProductPageController extends GetxController {
   }
 
   void searchProducts() {
+    Controller stateController =
+        ControllerGenerator.create(Controller(), tag: 'Controller');
     ClientService.searchQuery(
             path: 'cache/product/searchSummary',
             query: {
@@ -59,7 +63,12 @@ class BrandProductPageController extends GetxController {
               ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      productList.value = (pList);
+      List<ProductSummary> dList2 = pList
+          .where((i) =>
+              stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+          .toList();
+      productList.value = dList2;
+      // productList.value = (pList);
       isLoading.value = false;
     });
   }

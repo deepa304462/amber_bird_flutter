@@ -1,7 +1,8 @@
-
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/deal_product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
@@ -63,14 +64,27 @@ class DealController extends GetxController {
   }
 
   getDealProduct(name) async {
+    Controller stateController =
+        ControllerGenerator.create(Controller(), tag: 'Controller');
+    // if (Get.isRegistered<Controller>()) {
+    //   stateController = Get.find<Controller>();
+    // }
     var payload = {"type": name};
     var response = await ClientService.searchQuery(
         path: 'dealProduct/search', query: payload, lang: 'en');
     if (response.statusCode == 200) {
-      List<DealProduct> dList = ((response.data as List<dynamic>?)
-              ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
-              .toList() ??
+      List<DealProduct> dList = ((response.data as List<dynamic>?)?.map((e) {
+            DealProduct dp = DealProduct.fromMap(e as Map<String, dynamic>);
+
+            if (dp.product != null) {
+              stateController.dealsProductsIdList.add(dp.product!.id ?? '');
+              // dp.product!.varients!.forEach((e) => stateController.dealsProductsIdList.add(e ?? ''));
+            }
+            return dp;
+          }).toList() ??
           []);
+      stateController.dealsProductsIdList.value =
+          stateController.dealsProductsIdList.toSet().toList();
       dealProd.value = (dList);
       isLoading.value = false;
     }

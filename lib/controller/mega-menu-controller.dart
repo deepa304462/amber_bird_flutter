@@ -5,6 +5,7 @@ import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product/product.tag.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/data/product_category/product_category.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
@@ -29,9 +30,9 @@ class MegaMenuController extends GetxController {
     getCategory();
   }
 
-  getCategory() async { 
+  getCategory() async {
     List<GenericTab> cList = [];
- 
+
     var payload = {'onlyParentCategories': true};
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
@@ -88,16 +89,16 @@ class MegaMenuController extends GetxController {
           text: 'Redeem'));
 
       // if (Get.isRegistered<Controller>()) {
-        // var stateController = Get.find<Controller>();
-        // var userType = stateController.userType.value;
-        // if (userType != '') {
-        // if (userType != '' && userType != memberShipType.No_Membership.name) {
-          cList.add(GenericTab(
-              image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
-              id: 'MSD',
-              type: 'MSD',
-              text: 'MSD'));
-        // }
+      // var stateController = Get.find<Controller>();
+      // var userType = stateController.userType.value;
+      // if (userType != '') {
+      // if (userType != '' && userType != memberShipType.No_Membership.name) {
+      cList.add(GenericTab(
+          image: '441a4502-d2a0-44fc-9ade-56af13a2f7f0',
+          id: 'MSD',
+          type: 'MSD',
+          text: 'MSD'));
+      // }
       // }
 
       // cList.add(GenericTab(
@@ -193,11 +194,11 @@ class MegaMenuController extends GetxController {
               'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
 
       if (responseDeal.statusCode == 200) {
-            // subMenuList.add(GenericTab(
-            // image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-            // id: 'collection_view',
-            // type: 'MULTI',
-            // text: 'Collection'));
+        // subMenuList.add(GenericTab(
+        // image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+        // id: 'collection_view',
+        // type: 'MULTI',
+        // text: 'Collection'));
         ProductAvailabilityResp data =
             ProductAvailabilityResp.fromMap(responseDeal.data);
 
@@ -263,6 +264,8 @@ class MegaMenuController extends GetxController {
   }
 
   Future<void> getAllProducts(GenericTab subMenu, GenericTab parentTab) async {
+    Controller stateController =
+        ControllerGenerator.create(Controller(), tag: 'Controller');
     isLoading.value = true;
     var payload = {"": ""};
     if (parentTab.type == 'CAT') {
@@ -283,7 +286,11 @@ class MegaMenuController extends GetxController {
                 ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
                 .toList() ??
             []);
-        productList.value = pList;
+        List<ProductSummary> dList2 = pList
+            .where((i) =>
+                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+            .toList();
+        productList.value = dList2;
       }
       isLoading.value = false;
     } else if (parentTab.type == 'SCOIN') {
@@ -303,12 +310,15 @@ class MegaMenuController extends GetxController {
                   return productSummary;
                 }).toList() ??
                 []);
-        productList.value = dList;
+        List<ProductSummary> dList2 = dList
+            .where((i) =>
+                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+            .toList();
+        productList.value = dList2;
         isLoading.value = false;
       }
     } else if (parentTab.type == 'TAGS_PRODUCT') {
       var payload = {"tagId": selectedSubMenu.value};
-
       var response = await ClientService.searchQuery(
           path: 'product/searchSummary', query: payload, lang: 'en');
       if (response.statusCode == 200) {
@@ -319,7 +329,12 @@ class MegaMenuController extends GetxController {
                   return productSummary;
                 }).toList() ??
                 []);
-        productList.value = dList;
+
+        List<ProductSummary> dList2 = dList
+            .where((i) =>
+                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+            .toList();
+        productList.value = dList2;
       }
       isLoading.value = false;
     } else if (parentTab.type == 'MSD') {
@@ -366,7 +381,10 @@ class MegaMenuController extends GetxController {
                 }).toList() ??
                 []);
 
-        List<ProductSummary> dList2 = dList.where((i) => i.id != null).toList();
+        List<ProductSummary> dList2 = dList
+            .where((i) => (i.id != null &&
+                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0))
+            .toList();
         productList.value = dList2;
       }
       isLoading.value = false;
