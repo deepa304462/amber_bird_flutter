@@ -11,7 +11,8 @@ class SearchWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController controller = TextEditingController();
-    final SearchController searchController = Get.put(SearchController());
+    final SearchDataController searchController =
+        Get.put(SearchDataController());
     controller.text = searchController.search.toString();
     return Expanded(
       child: Container(
@@ -76,7 +77,7 @@ class SearchWidget extends StatelessWidget {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  final SearchController searchController = Get.find();
+  final SearchDataController searchController = Get.find();
 
 // first overwrite to
 // clear the search text
@@ -170,7 +171,7 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
-  Widget PopularSearchWidget(context, searchController) {
+  Widget PopularSearchWidget(context, SearchDataController searchController) {
     return Wrap(
         // direction: Axis.vertical,
         children: searchController.popularItems.map<Widget>(
@@ -202,7 +203,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   Widget productResults(
-      BuildContext context, SearchController searchController) {
+      BuildContext context, SearchDataController searchController) {
     return Column(
       children: searchController.productResp.value.response!.docs!.map(
         (product) {
@@ -232,7 +233,7 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   Widget categoryResults(
-      BuildContext context, SearchController searchController) {
+      BuildContext context, SearchDataController searchController) {
     return Column(
       children: searchController.categoryResp.value.response!.docs!.map(
         (category) {
@@ -262,7 +263,8 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
-  Widget brandResults(BuildContext context, SearchController searchController) {
+  Widget brandResults(
+      BuildContext context, SearchDataController searchController) {
     return Column(
       children: searchController.brandResp.value.response!.docs!.map(
         (brand) {

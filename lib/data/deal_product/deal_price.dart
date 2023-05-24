@@ -23,12 +23,12 @@ class DealPrice {
   }
 
   factory DealPrice.fromMap(Map<String, dynamic> data) => DealPrice(
-        actualPrice: data['actualPrice'] as dynamic?,
-        offerPrice: data['offerPrice'] as dynamic?,
-        memberCoin: data['memberCoin'] as dynamic?,
-        primeMemberCoin: data['primeMemberCoin'] as dynamic?,
-        goldMemberCoin: data['goldMemberCoin'] as dynamic?,
-        silverMemberCoin: data['silverMemberCoin'] as dynamic?,
+        actualPrice: data['actualPrice'] as dynamic,
+        offerPrice: data['offerPrice'] as dynamic,
+        memberCoin: data['memberCoin'] as dynamic,
+        primeMemberCoin: data['primeMemberCoin'] as dynamic,
+        goldMemberCoin: data['goldMemberCoin'] as dynamic,
+        silverMemberCoin: data['silverMemberCoin'] as dynamic,
       );
 
   Map<String, dynamic> toMap() => {

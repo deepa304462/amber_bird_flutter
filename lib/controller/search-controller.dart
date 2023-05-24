@@ -5,7 +5,7 @@ import 'package:amber_bird/data/solr_response/solr_response.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
-class SearchController extends GetxController {
+class SearchDataController extends GetxController {
   var search = ''.obs;
   Rx<SolrResponse> productResp = SolrResponse().obs;
   Rx<SolrResponse> categoryResp = SolrResponse().obs;

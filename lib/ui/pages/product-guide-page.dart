@@ -37,7 +37,7 @@ class ProductGuidePage extends StatelessWidget {
                       pinned: true,
                       iconTheme: IconThemeData(color: AppColors.primeColor),
                       floating: false,
-                      backwardsCompatibility: true,
+                      // backwardsCompatibility: true,
                       excludeHeaderSemantics: true,
                       expandedHeight: 300.0,
                       stretch: false,

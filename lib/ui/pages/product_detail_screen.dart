@@ -159,7 +159,7 @@ class ProductDetailScreen extends StatelessWidget {
                         pinned: true,
                         iconTheme: IconThemeData(color: AppColors.primeColor),
                         //  floating: false,
-                        backwardsCompatibility: true,
+                        // backwardsCompatibility: true,
                         excludeHeaderSemantics: true,
                         expandedHeight:
                             MediaQuery.of(context).size.height * .35,
@@ -170,8 +170,7 @@ class ProductDetailScreen extends StatelessWidget {
                             try {
                               if (Modular.to.canPop()) {
                                 Navigator.pop(context);
-                                Modular.to.pop(); 
-                                
+                                Modular.to.pop();
                               } else {
                                 Modular.to.navigate('../../home/main');
                               }
