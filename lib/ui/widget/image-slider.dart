@@ -54,7 +54,7 @@ class _ImageSlider extends State<ImageSlider> {
                   options: CarouselOptions(
                       height: widget.height,
                       viewportFraction: 1,
-                      autoPlay: true,
+                      autoPlay: widget.images.length > 1 ? true : false,
                       onPageChanged: (index, reason) {
                         setState(() {
                           currentPos = index;

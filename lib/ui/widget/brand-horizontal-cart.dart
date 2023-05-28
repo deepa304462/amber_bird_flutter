@@ -47,7 +47,7 @@ class BrandHorizontalCard extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        if (index == 7) {
+                        if (index == 19) {
                           return InkWell(
                             onTap: () {
                               Modular.to.navigate('/home/brand');
@@ -76,7 +76,7 @@ class BrandHorizontalCard extends StatelessWidget {
                         }
                         return _brandCard(shuffledBrands[index], context);
                       },
-                      itemCount: 15,
+                      itemCount: 20,
                     ),
                   ),
                 ],
