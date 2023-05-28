@@ -62,7 +62,7 @@ class AuthController extends GetxController {
   }
 
   initializeFirebase() async {
-     await Firebase.initializeApp();
+    await Firebase.initializeApp();
   }
 
   resetFieldValue() {
@@ -247,7 +247,7 @@ class AuthController extends GetxController {
     } else {
       return {"msg": "Please fill all field!!", "status": "error"};
     }
-   }
+  }
 
   LoginWithGoogle() async {
     loginWith.value = LoginType.googleToken;
@@ -312,7 +312,7 @@ class AuthController extends GetxController {
     //     'email'
     //   ],
     // );
-      final LoginResult result = await FacebookAuth.instance.login(
+    final LoginResult result = await FacebookAuth.instance.login(
       permissions: ['public_profile', 'email'],
     );
 
