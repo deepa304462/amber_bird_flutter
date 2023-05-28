@@ -37,6 +37,7 @@ class MegaMenuController extends GetxController {
     var response = await ClientService.searchQuery(
         path: 'cache/productCategory/search', query: payload, lang: 'en');
     var resp;
+    print(payload);
     if (response.statusCode == 200) {
       if (response.data.length > 1) {
         resp = response.data;

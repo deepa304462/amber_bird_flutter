@@ -16,7 +16,7 @@ class WildCardPageController extends GetxController {
   Future<void> syncPath(Uri givenUri) async {
     print(givenUri);
     print("givenUri");
-    
+
     if (givenUri.path.contains('refer')) {
       String referById = givenUri.path.split('/')[2];
       String existing = '';
@@ -37,15 +37,15 @@ class WildCardPageController extends GetxController {
         "shortUrl": 'https://sbazar.app/app/${shortcodeId}',
       };
       print(payload);
-      var resp =
-          await ClientService.post(path: 'product/shortLinkToProduct', payload: payload);
-      if (resp.statusCode == 200 && resp.data!= null && resp.data != '') {
+      var resp = await ClientService.post(
+          path: 'product/shortLinkToProduct', payload: payload);
+      if (resp.statusCode == 200 && resp.data != null && resp.data != '') {
         FlutterNativeSplash.remove();
         Modular.to.pushReplacementNamed('/widget/product/${resp.data}');
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (BuildContext context) => PageA()));
-        // Modular.to.pushNamed('/widget/product/${resp.data}'); 
-      } else { 
+        // Modular.to.pushNamed('/widget/product/${resp.data}');
+      } else {
         FlutterNativeSplash.remove();
         Modular.to.navigate("/home/main");
       }

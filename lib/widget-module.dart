@@ -33,14 +33,14 @@ class WidgetRouteModule extends Module {
       ChildRoute('/about-page', child: (_, args) => AboutPage()),
       ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
-        ChildRoute(
+      ChildRoute(
         '/guide/:id',
         child: (_, args) {
           String productId = args.params['id'];
           return ProductGuidePage(productId);
         },
       ),
-        ChildRoute(
+      ChildRoute(
         '/compilance/:id',
         child: (_, args) {
           String productId = args.params['id'];
@@ -66,18 +66,18 @@ class WidgetRouteModule extends Module {
       ChildRoute(
         '/product/:id',
         child: (_, args) {
-          String productId = args.params['id'];
+          String productId = args.params['id'] ?? '';
           return ProductPage(productId, search: false);
         },
       ),
-       ChildRoute(
+      ChildRoute(
         '/tag-product/:id',
         child: (_, args) {
           String keyword = args.params['id'];
-          if(keyword==''){
+          if (keyword == '') {
             keyword = args.fragment;
           }
-          print(Uri.decodeComponent(keyword)) ;
+          print(Uri.decodeComponent(keyword));
           return TagProductPage(Uri.decodeComponent(keyword));
         },
       ),

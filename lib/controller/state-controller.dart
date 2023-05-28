@@ -378,15 +378,9 @@ class Controller extends GetxController {
         'name': loggedInProfile.value.fullName
       });
       FCMSyncService.tokenSync(data);
-
       loggedInPRofileId.value = loggedInProfile.value.id!;
-      // tokenManagerEntityId.value = loggedInProfile.value.id!;
-
-// tokenManagerEntityId.value
       getCustomerData(loggedInProfile.value.id);
       getCustomerDetail(loggedInProfile.value.id);
-
-      // checkAuth();
     }).catchError((error) {
       logout();
     });

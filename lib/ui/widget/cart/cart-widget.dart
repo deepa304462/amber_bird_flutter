@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -68,30 +66,40 @@ class CartWidget extends StatelessWidget {
                         color: Colors.green,
                         visualDensity: const VisualDensity(horizontal: 4),
                         onPressed: () async {
-                          var checkoutResp = await cartController.checkout();
-                          checkoutClicked.value = true;
-                          checkoutClicked.refresh();
-                          if (checkoutResp == null || checkoutResp['error']) {
-                            // ignore: use_build_context_synchronously
-                            snackBarClass.showToast(context,
-                                checkoutResp['msg'] ?? 'Something went wrong');
-                          } else {
-                            if (cartController
-                                    .checkoutData.value!.allAvailable ==
-                                true) {
-                              var data = await cartController.createPayment();
-                              if (data == null || data['error']) {
-                                // ignore: use_build_context_synchronously
-                                snackBarClass.showToast(context,
-                                    data['msg'] ?? 'Something went wrong');
-                              } else {
-                                Modular.to.navigate('/home/inapp',
-                                    arguments: data['data']);
-                              }
-                            } else {
+                          if (!isLoading.value) {
+                            isLoading.value = true;
+                            var checkoutResp = await cartController.checkout();
+                            checkoutClicked.value = true;
+                            checkoutClicked.refresh();
+                            if (checkoutResp == null || checkoutResp['error']) {
                               // ignore: use_build_context_synchronously
                               snackBarClass.showToast(
-                                  context, 'All product not available');
+                                  context,
+                                  checkoutResp['msg'] ??
+                                      'Something went wrong');
+
+                              isLoading.value = false;
+                            } else {
+                              if (cartController
+                                      .checkoutData.value!.allAvailable ==
+                                  true) {
+                                var data = await cartController.createPayment();
+                                if (data == null || data['error']) {
+                                  // ignore: use_build_context_synchronously
+                                  snackBarClass.showToast(context,
+                                      data['msg'] ?? 'Something went wrong');
+                                  isLoading.value = false;
+                                } else {
+                                  Modular.to.navigate('/home/inapp',
+                                      arguments: data['data']);
+                                  isLoading.value = false;
+                                }
+                              } else {
+                                // ignore: use_build_context_synchronously
+                                snackBarClass.showToast(
+                                    context, 'All product not available');
+                                isLoading.value = false;
+                              }
                             }
                           }
                         },
@@ -99,7 +107,7 @@ class CartWidget extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
-                          'Payment',
+                          isLoading.value ? 'Loading' : 'Payment',
                           style: TextStyles.bodyFontBold
                               .copyWith(color: Colors.white),
                         ),
@@ -1415,27 +1423,30 @@ class CartWidget extends StatelessWidget {
                 children: [
                   Text('Recommended Products', style: TextStyles.headingFont),
                   Container(
-                      padding: const EdgeInsets.all(5),
-                      height: 160,
+                    padding: const EdgeInsets.all(5),
+                    height: 160,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: prod.productAvailabilityStatus!
-                                  .recommendedProducts!.length,
-                              itemBuilder: (_, index) {
-                                var curProd = prod.productAvailabilityStatus!
-                                    .recommendedProducts![index];
-                                return ProductCard(
-                                    curProd,
-                                    curProd.id,
-                                    'RECOMMEDED_PRODUCT',
-                                    curProd.varient!.price!,
-                                    null,
-                                    null);
-                              }))),
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: prod.productAvailabilityStatus!
+                            .recommendedProducts!.length,
+                        itemBuilder: (_, index) {
+                          var curProd = prod.productAvailabilityStatus!
+                              .recommendedProducts![index];
+                          return ProductCard(
+                              curProd,
+                              curProd.id,
+                              'RECOMMEDED_PRODUCT',
+                              curProd.varient!.price!,
+                              null,
+                              null);
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               )
             : const SizedBox()
@@ -1744,7 +1755,11 @@ class CartWidget extends StatelessWidget {
                         : const SizedBox(),
                   ],
                 ),
-                cartController.calculatedPayment.value.refferalDiscountApplied!
+                (cartController.calculatedPayment.value
+                                .refferalDiscountApplied !=
+                            null &&
+                        cartController
+                            .calculatedPayment.value.refferalDiscountApplied!)
                     ? const Text('You will received 9% Referral discout')
                     : const SizedBox()
               ],

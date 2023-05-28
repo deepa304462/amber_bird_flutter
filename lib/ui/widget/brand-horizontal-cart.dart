@@ -76,7 +76,7 @@ class BrandHorizontalCard extends StatelessWidget {
                         }
                         return _brandCard(shuffledBrands[index], context);
                       },
-                      itemCount: 8,
+                      itemCount: 15,
                     ),
                   ),
                 ],

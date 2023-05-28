@@ -111,6 +111,9 @@ class ProductDetailScreen extends StatelessWidget {
     final double width = MediaQuery.of(context).size.width;
     final ProductController productController =
         Get.put(ProductController(pId ?? ''), tag: pId ?? "");
+    if (pId == null || pId == '') {
+      Modular.to.navigate('/home/main');
+    }
     return Obx(
       () => (productController.product.value.id != null)
           ? Scaffold(
@@ -168,14 +171,31 @@ class ProductDetailScreen extends StatelessWidget {
                           onPressed: () {
                             appbarScrollController.shrinkappbar.value = false;
                             try {
-                              if (Modular.to.canPop()) {
+                              if (Navigator.canPop(context)) {
+                                // Navigator.pop(context);
+                                Navigator.pop(context);
+                                // int count = 0;
+
+                                // Navigator.of(context)
+                                // .popUntil((_) => count++ >= 2);
+
+                                // Modular.to.pop();
+                              } else if (Modular.to.canPop()) {
+                                // Navigator.pop(context);
                                 Navigator.pop(context);
                                 Modular.to.pop();
                               } else {
-                                Modular.to.navigate('../../home/main');
+                                // Modular.to.navigate('../../home/main');
+                                // Modular.to
+                                //     .pushReplacementNamed('../../home/main');
+
+                                Modular.to.navigate('/home/main');
                               }
                             } catch (err) {
-                              Modular.to.pushNamed('../../home/main');
+                              // Modular.to.pushNamed('../../home/main');
+                              // Modular.to
+                              //     .pushReplacementNamed('../../home/main');
+                              Modular.to.navigate('/home/main');
                             }
                           },
                           icon: Icon(

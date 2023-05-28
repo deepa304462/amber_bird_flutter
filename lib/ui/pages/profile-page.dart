@@ -173,7 +173,7 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.pushNamed('../orders');
+                          Modular.to.pushNamed('../widget/orders');
                         }),
                         child: Row(
                           children: [
@@ -190,7 +190,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                       MaterialButton(
                         onPressed: (() {
-                          Modular.to.pushNamed('../wishlist');
+                          Modular.to.pushNamed('../widget/wishlist');
                         }),
                         child: Row(
                           children: [

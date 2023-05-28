@@ -10,6 +10,7 @@ import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
@@ -37,11 +38,20 @@ class BrandProductPage extends StatelessWidget {
                 backgroundColor: AppColors.primeColor,
                 leading: IconButton(
                   onPressed: () {
-                    if (Navigator.canPop(context)) {
-                      appbarScrollController.navigateToPop(context);
-                    } else {
-                      appbarScrollController.navigateTo('../../home/main');
-                      // Modular.to.pushNamed('/home/main');
+                    try {
+                      if (Modular.to.canPop()) {
+                        Navigator.pop(context);
+                        Modular.to.pop();
+                      } else if (Navigator.canPop(context)) {
+                        // appbarScrollController.navigateToPop(context);
+                        int count = 0;
+                        Navigator.of(context).popUntil((_) => count++ >= 2);
+                      } else {
+                        appbarScrollController.navigateTo('../../home/main');
+                        // Modular.to.pushNamed('/home/main');
+                      }
+                    } catch (err) {
+                      Modular.to.navigate('/home/main');
                     }
                   },
                   icon: const Icon(
