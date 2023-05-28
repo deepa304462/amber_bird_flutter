@@ -23,16 +23,17 @@ class AppModule extends Module {
           return EmailVerificationPage(
               args.queryParams['email']!, args.queryParams['token']!);
         }),
-        ChildRoute('/refer/:id', child: (_, args) {
+        ChildRoute('/refer-app/:id', child: (_, args) {
           return WildCardRoutePage(args.uri);
         }),
-        ModuleRoute('/', module: HomePageModule()),
+        ModuleRoute('/',
+            module: HomePageModule(), guards: [DynamicLinkGaurd()]),
         WildcardRoute(child: (context, args) {
           return WildCardRoutePage(args.uri);
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
         ChildRoute('/signup', child: (_, args) => SignUp()),
-      
+
         ModuleRoute('/widget', module: WidgetRouteModule()),
         // ChildRoute('/orders', child: (_, args) => OrderListPage()),
         // ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
@@ -69,4 +70,14 @@ class AppModule extends Module {
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),
       ];
+}
+
+class DynamicLinkGaurd extends RouteGuard {
+  DynamicLinkGaurd() : super(redirectTo: '/wild-card');
+
+  @override
+  Future<bool> canActivate(String path, ModularRoute route) async {
+    print(path);
+    return true;
+  }
 }

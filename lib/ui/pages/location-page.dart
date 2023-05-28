@@ -8,7 +8,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
-import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 
 class LocationPage extends StatelessWidget {
@@ -220,14 +219,7 @@ class LocationPage extends StatelessWidget {
           ),
           label: Text('Use my current location',
               style: TextStyles.headingFont.copyWith(color: AppColors.white)),
-          onPressed: () async {
-            PermissionStatus check = await locationController.checkPermission();
-            if (check == PermissionStatus.denied) {
-              locationController.initializeLocationAndSave();
-            } else {
-              locationController.initializeLocationAndSave();
-            }
-          },
+          onPressed: () async {},
           style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primeColor,
               shape: RoundedRectangleBorder(

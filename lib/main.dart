@@ -26,6 +26,7 @@ class ChangeLocale {
   static Function change = () {};
 }
 
+// keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
 void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ void main() async {
 
   if (initialLink != null) {
     final Uri deepLink = initialLink.link;
+    Modular.to.navigate(deepLink.path);
     // Example of using the dynamic link to push the user to a different screen
   }
 
@@ -52,6 +54,7 @@ void main() async {
       // Set up the `onLink` event listener next as it may be received here
       if (pendingDynamicLinkData != null) {
         final Uri deepLink = pendingDynamicLinkData.link;
+        Modular.to.navigate(deepLink.path);
         // Example of using the dynamic link to push the user to a different screen
       }
     },

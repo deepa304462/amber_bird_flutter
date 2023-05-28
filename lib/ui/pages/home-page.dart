@@ -1,4 +1,3 @@
-
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -65,7 +64,6 @@ class HomePage extends StatelessWidget {
   // Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final Controller myController = Get.find();
 
-  
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxString showCaseData = 'false'.obs;
