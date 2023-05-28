@@ -40,6 +40,7 @@ class LocationController extends GetxController {
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
   @override
   void onInit() {
+    currentLatLang.value = LatLng(52.520008, 13.404954);
     setLocation();
     super.onInit();
   }
@@ -133,15 +134,15 @@ class LocationController extends GetxController {
     pinCode.value = findValueFromAddress('postal_code');
 
     // getLocation();
-     try {
-      if (Modular.to.canPop())  Modular.to.pop(this.address);
-      else  Modular.to.pushReplacementNamed('/home/main');
-       
+    try {
+      if (Modular.to.canPop())
+        Modular.to.pop(this.address);
+      else
+        Modular.to.pushReplacementNamed('/home/main');
     } catch (e) {
       Modular.to.pushReplacementNamed('/home/main');
       // code that handles the exception
     }
-   
   }
 
   String findValueFromAddress(String key) {
