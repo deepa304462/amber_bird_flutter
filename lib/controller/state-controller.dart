@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
@@ -227,6 +228,10 @@ class Controller extends GetxController {
       CustomerInsight cust = CustomerInsight.fromMap(
           customerInsightData.data as Map<String, dynamic>);
       customerInsight.value = cust;
+      if (Get.isRegistered<LocationController>()) {
+        LocationController locationController = Get.find();
+        locationController.setLocation();
+      }
     }
   }
 

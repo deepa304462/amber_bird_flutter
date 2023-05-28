@@ -21,13 +21,13 @@ class WildCardPageController extends GetxController {
       String referById = givenUri.path.split('/')[2];
       String existing = '';
       try {
-        existing = await SharedData.read('referBy');
+        existing = await SharedData.read('referredById');
       } catch (e) {}
       if (existing.isNotEmpty) {
       } else {
         CodeHelp.toast(
             'Received reference, Thank you. Offer will apply while checkout.');
-        SharedData.save(referById, 'referBy');
+        SharedData.save(referById, 'referredById');
       }
       FlutterNativeSplash.remove();
       Modular.to.navigate("/home/main");

@@ -31,13 +31,15 @@ class AppbarScrollController extends GetxController {
 
     Modular.to.addListener(() {
       inspect(Modular);
-      
+
       if (Modular.to.path == '/home/main') {
         shrinkappbar.value = false;
-      }else if(Modular.to.path.split('/').length>2){
+      } else if (Modular.to.path == '/home') {
+        shrinkappbar.value = false;
+      } else if (Modular.to.path.split('/').length > 2) {
         var arr = Modular.to.path.split('/');
-        if(arr[0]=='widget' && arr[1]=='product'){
-           shrinkappbar.value = false;
+        if (arr[0] == 'widget' && arr[1] == 'product') {
+          shrinkappbar.value = false;
         }
       } else {
         shrinkappbar.value = true;

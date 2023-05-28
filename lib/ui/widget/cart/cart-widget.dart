@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -68,7 +70,8 @@ class CartWidget extends StatelessWidget {
                         onPressed: () async {
                           if (!isLoading.value) {
                             isLoading.value = true;
-                            var checkoutResp = await cartController.checkout();
+                            var checkoutResp =
+                                await cartController.createPayment();
                             checkoutClicked.value = true;
                             checkoutClicked.refresh();
                             if (checkoutResp == null || checkoutResp['error']) {
@@ -83,17 +86,13 @@ class CartWidget extends StatelessWidget {
                               if (cartController
                                       .checkoutData.value!.allAvailable ==
                                   true) {
-                                var data = await cartController.createPayment();
-                                if (data == null || data['error']) {
-                                  // ignore: use_build_context_synchronously
-                                  snackBarClass.showToast(context,
-                                      data['msg'] ?? 'Something went wrong');
-                                  isLoading.value = false;
-                                } else {
+                                Timer(Duration(seconds: 5), () async {
+                                  var paymentData =
+                                      await cartController.searchPayment();
                                   Modular.to.navigate('/home/inapp',
-                                      arguments: data['data']);
+                                      arguments: paymentData['data']);
                                   isLoading.value = false;
-                                }
+                                });
                               } else {
                                 // ignore: use_build_context_synchronously
                                 snackBarClass.showToast(
