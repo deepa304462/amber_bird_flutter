@@ -18,7 +18,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //https://stackoverflow.com/questions/73612276/flutter-google-maps-how-to-show-active-areas-with-border
 class LocationController extends GetxController {
-  Locale currentLocale = const Locale('en');
+  // Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
   RxMap address = {}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
@@ -32,6 +32,7 @@ class LocationController extends GetxController {
   late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
+  RxBool error = false.obs;
   LatLng latLng = const LatLng(0, 0);
   Rx<Marker> currentPin = const Marker(
     markerId: MarkerId('pin'),
@@ -51,7 +52,7 @@ class LocationController extends GetxController {
   Future<void> findLocalityFromPinCode() async {
     String host = 'https://maps.google.com/maps/api/geocode/json';
     final url =
-        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=en&components=country:de';
+        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=de&components=country:de';
     var response = await dio.get(url);
     if (response.statusCode == 200) {
       if (response.data['results'].length > 0) {
@@ -179,17 +180,26 @@ class LocationController extends GetxController {
 
   getAddressFromLatLng(double lat, double lng) async {
     String host = 'https://maps.google.com/maps/api/geocode/json';
-    final url = '$host?key=$mapKey&language=en&latlng=$lat,$lng';
+    final url = '$host?key=$mapKey&language=de&latlng=$lat,$lng';
     if (lat != null && lng != null) {
       var response = await dio.get(url);
+
       if (response.statusCode == 200) {
         address.value = response.data["results"][0];
-        if (address.value['geometry'] != null) {
-          currentLatLang.value = LatLng(
-              address.value['geometry']['location']['lat'],
-              address.value['geometry']['location']['lng']);
-          addressAvaiable.value = true;
+        var zipcode = findValueFromAddress('postal_code');
+        if (pinCode.value != zipcode) {
+          error.value = true;
+          address.value = Map();
+        } else {
+          error.value = false;
+          if (address.value['geometry'] != null) {
+            currentLatLang.value = LatLng(
+                address.value['geometry']['location']['lat'],
+                address.value['geometry']['location']['lng']);
+            addressAvaiable.value = true;
+          }
         }
+
         // setAddressData(address.value);
       }
     }

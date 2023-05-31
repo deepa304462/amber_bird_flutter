@@ -195,12 +195,13 @@ class Controller extends GetxController {
           ControllerGenerator.create(CartController(), tag: 'cartController');
 
       if (cust.cart != null) {
-        cartController.calculatedPayment.value =
-            cust.cart!.payment != null ? cust.cart!.payment! : Payment();
-        cartController.orderId.value = cust.cart!.id ?? '';
-        for (var element in cust.cart!.products!) {
-          cartController.cartProducts[element.ref!.id ?? ''] = element;
-        }
+        cartController.fetchCart();
+        // cartController.calculatedPayment.value =
+        //     cust.cart!.payment != null ? cust.cart!.payment! : Payment();
+        // cartController.orderId.value = cust.cart!.id ?? '';
+        // for (var element in cust.cart!.products!) {
+        //   cartController.cartProducts[element.ref!.id ?? ''] = element;
+        // }
       }
 
       if (Get.isRegistered<WishlistController>()) {

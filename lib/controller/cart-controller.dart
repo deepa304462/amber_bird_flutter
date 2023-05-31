@@ -35,6 +35,7 @@ class CartController extends GetxController {
   final scoinOrderData = Rxn<Order>();
   RxString selectedPaymentMethod = "MOLLIE".obs;
   RxString orderId = "".obs;
+  RxString checkoutOrderId = "".obs;
   RxString saveLaterId = "".obs;
   Rx<Price> totalPrice = Price.fromMap({}).obs;
   Rx<Payment> calculatedPayment = Payment.fromMap({}).obs;

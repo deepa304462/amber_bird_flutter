@@ -133,28 +133,42 @@ class _ImageSlider extends State<ImageSlider> {
   }
 
   void showImageInOverlay(BuildContext context) {
-    Widget photoView = Container(
+    Widget photoView = Stack(children: [
+      Container(
         child: PhotoViewGallery.builder(
-      scrollPhysics: const BouncingScrollPhysics(),
-      builder: (BuildContext context, int index) {
-        return PhotoViewGalleryPageOptions(
-          imageProvider: NetworkImage(
-              '${ClientService.cdnUrl}${widget.images[index].toString()}'),
-          initialScale: widget.minScale * 1.5,
-          minScale: widget.minScale,
-          maxScale: widget.maxScale,
-        );
-      },
-      backgroundDecoration: const BoxDecoration(color: Colors.white),
-      itemCount: widget.images.length,
-      loadingBuilder: (context, event) => Center(
-        child: Container(
-          width: 20.0,
-          height: 20.0,
-          child: const CircularProgressIndicator(),
+          scrollPhysics: const BouncingScrollPhysics(),
+          builder: (BuildContext context, int index) {
+            return PhotoViewGalleryPageOptions(
+              imageProvider: NetworkImage(
+                  '${ClientService.cdnUrl}${widget.images[index].toString()}'),
+              initialScale: widget.minScale * 1.5,
+              minScale: widget.minScale,
+              maxScale: widget.maxScale,
+            );
+          },
+          backgroundDecoration: const BoxDecoration(color: Colors.white),
+          itemCount: widget.images.length,
+          loadingBuilder: (context, event) => Center(
+            child: Container(
+              width: 20.0,
+              height: 20.0,
+              child: const CircularProgressIndicator(),
+            ),
+          ),
         ),
       ),
-    ));
+      Align(
+        alignment: Alignment.topRight,
+        child: Padding(
+          padding: EdgeInsets.all(5),
+          child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.close)),
+        ),
+      )
+    ]);
     Navigator.of(context).push(OverlayWidget(photoView));
   }
 }

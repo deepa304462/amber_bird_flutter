@@ -54,7 +54,6 @@ class LocationDialog extends StatelessWidget {
                             Navigator.pop(context);
                           } else {
                             Modular.to.navigate('../../home/main');
-                            // Modular.to.pushNamed('/home/main');
                           }
                         },
                         icon: const Icon(
@@ -183,6 +182,18 @@ class LocationDialog extends StatelessWidget {
                           : '',
                       false,
                       TextInputType.number,
+                      false,
+                      false,
+                      callback),
+                  ITextBox(
+                      'Country',
+                      'country',
+                      locationController.changeAddressData.value.country != null
+                          ? locationController.changeAddressData.value.country
+                              .toString()
+                          : '',
+                      false,
+                      TextInputType.text,
                       false,
                       false,
                       callback),

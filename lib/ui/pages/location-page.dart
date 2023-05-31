@@ -24,20 +24,21 @@ class LocationPage extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Expanded(
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: GoogleMap(
-                          onMapCreated: locationController.onMapCreated,
-                          initialCameraPosition: CameraPosition(
-                            target: locationController.currentLatLang.value,
-                            zoom: 18.0,
-                          ),
-                          onCameraMove: locationController.updatePosition,
-                          markers: {
-                            const GoogleMapLib.Marker(
-                              markerId: MarkerId('value'),
-                            )
-                          },
-                        )),
+                      width: MediaQuery.of(context).size.width,
+                      child: GoogleMap(
+                        onMapCreated: locationController.onMapCreated,
+                        initialCameraPosition: CameraPosition(
+                          target: locationController.currentLatLang.value,
+                          zoom: 18.0,
+                        ),
+                        onCameraMove: locationController.updatePosition,
+                        markers: {
+                          const GoogleMapLib.Marker(
+                            markerId: MarkerId('value'),
+                          )
+                        },
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -122,7 +123,9 @@ class LocationPage extends StatelessWidget {
                     visible: locationController.addressAvaiable.value,
                     child: AppBar(
                       automaticallyImplyLeading: false,
-                      backgroundColor: AppColors.primeColor,
+                      backgroundColor: locationController.error.value
+                          ? AppColors.grey
+                          : AppColors.primeColor,
                       centerTitle: true,
                       title: ListTile(
                         title: Text(
@@ -132,48 +135,51 @@ class LocationPage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         onTap: () {
-                          locationController.saveAddress();
-                          // locationController.setLocation();
-                          locationController.pinCode.value = locationController
-                              .findValueFromAddress('postal_code');
-                          locationController.changeAddressData.value =
-                              Address.fromMap({
-                            'line1':
-                                locationController.address['formatted_address'],
-                            'houseNo': '',
-                            'name': '',
-                            'line2': '',
-                            'landMark': '',
-                            'zipCode': locationController
-                                .findValueFromAddress('postal_code'),
-                            'city': locationController
-                                    .findValueFromAddress('locality') ??
-                                locationController.findValueFromAddress(
-                                    'administrative_area_level_2'),
-                            'country': locationController
-                                .findValueFromAddress('country'),
-                            'localArea': locationController
-                                .findValueFromAddress('sublocality_level_1'),
-                            // 'addressType': '',
-                            'geoAddress': {
-                              'coordinates': [
-                                locationController.address['geometry']
-                                    ['location']['lat'],
-                                locationController.address['geometry']
-                                    ['location']['lng']
-                              ]
-                            },
-                            'phoneNumber': '',
-                            'directionComment': '',
-                          });
-                          try {
-                            if (Navigator.canPop(context))
-                              Navigator.pop(context);
-                            else
+                          if (!locationController.error.value) {
+                            locationController.saveAddress();
+                            // locationController.setLocation();
+                            locationController.pinCode.value =
+                                locationController
+                                    .findValueFromAddress('postal_code');
+                            locationController.changeAddressData.value =
+                                Address.fromMap({
+                              'line1': locationController
+                                  .address['formatted_address'],
+                              'houseNo': '',
+                              'name': '',
+                              'line2': '',
+                              'landMark': '',
+                              'zipCode': locationController
+                                  .findValueFromAddress('postal_code'),
+                              'city': locationController
+                                      .findValueFromAddress('locality') ??
+                                  locationController.findValueFromAddress(
+                                      'administrative_area_level_2'),
+                              'country': locationController
+                                  .findValueFromAddress('country'),
+                              'localArea': locationController
+                                  .findValueFromAddress('sublocality_level_1'),
+                              // 'addressType': '',
+                              'geoAddress': {
+                                'coordinates': [
+                                  locationController.address['geometry']
+                                      ['location']['lat'],
+                                  locationController.address['geometry']
+                                      ['location']['lng']
+                                ]
+                              },
+                              'phoneNumber': '',
+                              'directionComment': '',
+                            });
+                            try {
+                              if (Navigator.canPop(context))
+                                Navigator.pop(context);
+                              else
+                                Modular.to.pushReplacementNamed('/home/main');
+                            } catch (e) {
                               Modular.to.pushReplacementNamed('/home/main');
-                          } catch (e) {
-                            Modular.to.pushReplacementNamed('/home/main');
-                            // code that handles the exception
+                              // code that handles the exception
+                            }
                           }
                           // _displayDialog(context, locationController, 'ADD');
                           // locationController.saveAddress();
@@ -246,15 +252,21 @@ class LocationPage extends StatelessWidget {
                   TextStyles.headingFont.copyWith(color: AppColors.primeColor),
             ),
             locationController.findValueFromAddress('sublocality_level_1') !=
-                    null
+                        null &&
+                    locationController
+                            .findValueFromAddress('sublocality_level_1') !=
+                        '' &&
+                    !locationController.error.value
                 ? Text(
                     '${locationController.findValueFromAddress('sublocality_level_1')}, ${locationController.findValueFromAddress('locality')}, ${locationController.findValueFromAddress('country')}, ${locationController.findValueFromAddress('postal_code')}' ??
                         '',
                     style: TextStyles.titleFont,
                   )
-                : LinearProgressIndicator(
-                    color: AppColors.primeColor,
-                  ),
+                : (locationController.error.value
+                    ? Text('Invalid Pincode')
+                    : LinearProgressIndicator(
+                        color: AppColors.primeColor,
+                      )),
           ]),
     );
   }
