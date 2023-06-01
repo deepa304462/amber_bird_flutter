@@ -89,9 +89,15 @@ class CartWidget extends StatelessWidget {
                                 Timer(Duration(seconds: 5), () async {
                                   var paymentData =
                                       await cartController.searchPayment();
-                                  Modular.to.navigate('/home/inapp',
-                                      arguments: paymentData['data']);
-                                  isLoading.value = false;
+                                  if (paymentData['data'] != '') {
+                                    Modular.to.navigate('/home/inapp',
+                                        arguments: paymentData['data']);
+                                    isLoading.value = false;
+                                  } else {
+                                    snackBarClass.showToast(
+                                        context, paymentData['msg']);
+                                    isLoading.value = false;
+                                  }
                                 });
                               } else {
                                 // ignore: use_build_context_synchronously
