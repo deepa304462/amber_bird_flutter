@@ -120,7 +120,7 @@ class OrderListPage extends StatelessWidget {
                   ),
                   Text(
                     TimeUtil.getFormatDateTime(orderTime, 'hh:mm a'),
-                    style: TextStyles.bodyFont.copyWith(fontSize: 15),
+                    style: TextStyles.titleFont,
                   ),
                 ],
               ),
@@ -129,7 +129,7 @@ class OrderListPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text('Order #'),
+                      Text('Order #', style: TextStyles.headingFont),
                       Text(
                         '${curOrder.userFriendlyOrderId}',
                         style: TextStyles.headingFont
@@ -138,13 +138,14 @@ class OrderListPage extends StatelessWidget {
                     ],
                   ),
                   Text(
-                      '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered'),
+                      '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered',
+                      style: TextStyles.titleFont),
                 ],
               ),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Order Status', style: TextStyles.bodyFont),
+                  Text('Order Status', style: TextStyles.titleFont),
                   Text('${CodeHelp.titleCase(curOrder.status!)}',
                       style: TextStyles.bodyFontBold),
                 ],
@@ -163,9 +164,9 @@ class OrderListPage extends StatelessWidget {
                           style: TextStyles.bodyFontBold
                               .copyWith(color: Colors.green)),
                       Text(
-                        'Paid',
-                        style: TextStyles.bodyFontBold
-                            .copyWith(color: Colors.grey),
+                        'Paid ',
+                        style:
+                            TextStyles.titleFont.copyWith(color: Colors.grey),
                       )
                     ],
                   ),
@@ -178,20 +179,29 @@ class OrderListPage extends StatelessWidget {
                       const SizedBox(
                         width: 3,
                       ),
-                      MaterialButton(
-                        padding: const EdgeInsets.all(1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(color: AppColors.primeColor)),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      OutlinedButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     side: BorderSide(color: AppColors.primeColor)),
+                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
                           Modular.to.pushNamed('/widget/order-detail',
                               arguments: {'id': curOrder.id});
                         },
-                        elevation: 0,
+
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: BorderSide(color: AppColors.primeColor),
+                            ),
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                              BorderSide(color: AppColors.primeColor)),
+                        ),
                         child: Text(
                           'View',
-                          style: TextStyles.bodyFont
+                          style: TextStyles.titleFont
                               .copyWith(color: AppColors.primeColor),
                         ),
                       )

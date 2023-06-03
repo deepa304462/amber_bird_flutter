@@ -7,7 +7,7 @@ import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 enum LoginType {
   usernamePassword,
@@ -312,9 +312,9 @@ class AuthController extends GetxController {
     //     'email'
     //   ],
     // );
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: ['public_profile', 'email'],
-    );
+    // final LoginResult result = await FacebookAuth.instance.login(
+    //   permissions: ['public_profile', 'email'],
+    // );
 
     // ,
     //     'pages_show_list',
@@ -322,28 +322,28 @@ class AuthController extends GetxController {
     //     'pages_manage_metadata'
     // final result = await facebookLogin.logInWithReadPermissions(['email']);
 
-    if (result.status == LoginStatus.success) {
-      // you are logged
-      print(result);
-      fieldValue.value = {
-        'fullName': '',
-        'email': '',
-        'thirdPartyId': result.accessToken ?? '',
-        'imageFromSocialMedia': '',
-        'isThirdParty': true,
-        'thirdPartyName': 'FACEBOOK',
-        'mobile': '',
-        'password': '',
-        'username': '',
-        'countryCode': '',
-        'profileImageId': ''
-      };
-      // final AccessToken accessToken = result.accessToken!;
-      return {"msg": "Please fill all field !!", "status": "success"};
-    } else {
-      dev.inspect(result);
-      return {"msg": "Something Went Wrong!!", "status": "error"};
-    }
+    // if (result.status == LoginStatus.success) {
+    //   // you are logged
+    //   print(result);
+    //   fieldValue.value = {
+    //     'fullName': '',
+    //     'email': '',
+    //     'thirdPartyId': result.accessToken ?? '',
+    //     'imageFromSocialMedia': '',
+    //     'isThirdParty': true,
+    //     'thirdPartyName': 'FACEBOOK',
+    //     'mobile': '',
+    //     'password': '',
+    //     'username': '',
+    //     'countryCode': '',
+    //     'profileImageId': ''
+    //   };
+    //   // final AccessToken accessToken = result.accessToken!;
+    //   return {"msg": "Please fill all field !!", "status": "success"};
+    // } else {
+    //   dev.inspect(result);
+    //   return {"msg": "Something Went Wrong!!", "status": "error"};
+    // }
   }
 
   void setFielsvalue(String text, String name) {

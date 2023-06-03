@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter/material.dart';
@@ -58,10 +60,10 @@ class _MyAppState extends State<InApp> {
         },
         onProgressChanged: (InAppWebViewController controller, int progress) {},
         onUpdateVisitedHistory: (controller, url, androidIsReload) async {
-          // log(controller.toString());
-          // log(url.toString());
+          inspect(controller.toString());
+          log(url.toString());
           if (url.toString() ==
-              'https://prod.sbazar.app/order/${cartController.orderId.value}') {
+              'https://prod.sbazar.app/order/${cartController.checkoutOrderId.value}') {
             var inAppReviewDone =
                 await SharedData.read('inAppReviewDone') ?? '';
             if (inAppReviewDone != 'true') {
@@ -72,6 +74,9 @@ class _MyAppState extends State<InApp> {
                 SharedData.save(true.toString(), 'inAppReviewDone');
               }
             }
+            Modular.to.navigate(
+                './paymentStatus/${cartController.orderId.value}/${cartController.paymentData.value!.id!}');
+          } else if (url.toString() == 'https://www.mollie.com/') {
             Modular.to.navigate(
                 './paymentStatus/${cartController.orderId.value}/${cartController.paymentData.value!.id!}');
           }
