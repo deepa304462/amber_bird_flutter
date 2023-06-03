@@ -369,6 +369,7 @@ class CartController extends GetxController {
         paymentData.value = Payment.fromMap(respPayment
             .data[respPayment.data.length - 1] as Map<String, dynamic>);
         if (paymentData.value!.checkoutUrl != null) {
+          await resetCart();
           return ({'error': false, 'data': paymentData.value!.checkoutUrl});
         } else {
           return ({
