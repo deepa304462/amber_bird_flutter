@@ -50,15 +50,6 @@ class ReferralPage extends StatelessWidget {
         child: Column(children: [
           Stack(
             children: [
-              // Positioned(
-              //   top: 30,
-              //   left: 150,
-              //   child: Text(
-              //     'Get 9${CodeHelp.euro} for user you refer',
-              //     style:
-              //         TextStyles.bodyFont.copyWith(color: AppColors.primeColor),
-              //   ),
-              // ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .4,
                 width: MediaQuery.of(context).size.width,

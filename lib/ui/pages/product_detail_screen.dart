@@ -1472,14 +1472,15 @@ class ProductDetailScreen extends StatelessWidget {
                 TableRow(
                   children: [
                     TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.top,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Nutrition',
-                            style: TextStyles.titleFont,
-                          ),
-                        )),
+                      verticalAlignment: TableCellVerticalAlignment.top,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Nutrition',
+                          style: TextStyles.titleFont,
+                        ),
+                      ),
+                    ),
                     TableCell(
                       child: Padding(
                         padding: const EdgeInsets.all(8),
@@ -1505,6 +1506,61 @@ class ProductDetailScreen extends StatelessWidget {
                                         .text ??
                                     '',
                             style: {
+                              "body": Style(
+                                  fontSize: FontSize(FontSizes.body),
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: Fonts.body),
+                            }),
+                      ),
+                    )
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      verticalAlignment: TableCellVerticalAlignment.top,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Allergies',
+                          style: TextStyles.titleFont,
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child:
+                            Html(
+                                data:
+                                    productController
+                                                    .product
+                                                    .value
+                                                    .allergicDetail!
+                                                    .defaultText !=
+                                                null &&
+                                            productController
+                                                    .product
+                                                    .value
+                                                    .allergicDetail!
+                                                    .defaultText!
+                                                    .text !=
+                                                null
+                                        ? productController
+                                                .product
+                                                .value
+                                                .allergicDetail!
+                                                .defaultText!
+                                                .text ??
+                                            ''
+                                        : productController
+                                                .product
+                                                .value
+                                                .allergicDetail!
+                                                .languageTexts![0]
+                                                .text ??
+                                            '',
+                                style: {
                               "body": Style(
                                   fontSize: FontSize(FontSizes.body),
                                   fontWeight: FontWeight.w300,

@@ -9,7 +9,6 @@ import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/membership/membership.dart';
-import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/showcase-key.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';

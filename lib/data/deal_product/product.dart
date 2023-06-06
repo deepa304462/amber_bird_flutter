@@ -10,6 +10,8 @@ import 'package:amber_bird/data/profile/ref.dart';
 class ProductSummary {
   Name? name;
   Description? description;
+  Name? nutritionDetail;
+  Name? allergicDetail;
   List<dynamic>? images;
   Varient? varient;
   Category? category;
@@ -25,6 +27,8 @@ class ProductSummary {
   ProductSummary({
     this.name,
     this.description,
+    this.nutritionDetail,
+    this.allergicDetail,
     this.images,
     this.varient,
     this.category,
@@ -40,7 +44,7 @@ class ProductSummary {
 
   @override
   String toString() {
-    return 'Product(name: $name, description: $description, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists,defaultPurchaseCount: $defaultPurchaseCount, type: $type, varients: $varients, tags: $tags,id: $id)';
+    return 'Product(name: $name, description: $description,nutritionDetail:$nutritionDetail,allergicDetail:$allergicDetail, images: $images, varient: $varient, category: $category, countryCode: $countryCode, brand: $brand, multiVarientExists: $multiVarientExists,defaultPurchaseCount: $defaultPurchaseCount, type: $type, varients: $varients, tags: $tags,id: $id)';
   }
 
   factory ProductSummary.fromMap(Map<String, dynamic> data) => ProductSummary(
@@ -50,6 +54,12 @@ class ProductSummary {
         description: data['description'] == null
             ? null
             : Description.fromMap(data['description'] as Map<String, dynamic>),
+        nutritionDetail: data['nutritionDetail'] == null
+            ? null
+            : Name.fromMap(data['nutritionDetail'] as Map<String, dynamic>),
+        allergicDetail: data['allergicDetail'] == null
+            ? null
+            : Name.fromMap(data['allergicDetail'] as Map<String, dynamic>),
         images: data['images'] as List<dynamic>?,
         varient: data['varient'] == null
             ? null
@@ -76,6 +86,8 @@ class ProductSummary {
   Map<String, dynamic> toMap() => {
         'name': name?.toMap(),
         'description': description?.toMap(),
+        'nutritionDetail': nutritionDetail?.toMap(),
+        'allergicDetail': allergicDetail?.toMap(),
         'images': images,
         'varient': varient?.toMap(),
         'category': category?.toMap(),
@@ -104,6 +116,8 @@ class ProductSummary {
   ProductSummary copyWith({
     Name? name,
     Description? description,
+    Name? nutritionDetail,
+    Name? allergicDetail,
     List<dynamic>? images,
     Varient? varient,
     Category? category,
@@ -119,6 +133,8 @@ class ProductSummary {
     return ProductSummary(
       name: name ?? this.name,
       description: description ?? this.description,
+      nutritionDetail: nutritionDetail ?? this.nutritionDetail,
+      allergicDetail: allergicDetail ?? allergicDetail,
       images: images ?? this.images,
       varient: varient ?? this.varient,
       category: category ?? this.category,

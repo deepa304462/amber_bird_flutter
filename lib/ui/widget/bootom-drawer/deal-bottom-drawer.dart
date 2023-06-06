@@ -2,7 +2,6 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/multi-product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/name.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -34,7 +33,6 @@ class DealBottomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Controller stateController = Get.find();
-    final WishlistController wishlistController = Get.find();
     final CartController cartController =
         ControllerGenerator.create(CartController(), tag: 'cartController');
     num totalNumberOfProducts = 0;

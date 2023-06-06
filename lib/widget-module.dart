@@ -8,6 +8,8 @@ import 'package:amber_bird/ui/pages/product-guide-page.dart';
 import 'package:amber_bird/ui/pages/tag-product-page.dart';
 import 'package:amber_bird/ui/pages/wallet-page.dart';
 import 'package:amber_bird/ui/pages/wishlist-page.dart';
+import 'package:amber_bird/ui/widget/cart/checkout-widget.dart';
+import 'package:amber_bird/ui/widget/cart/pre-checkout-widget.dart';
 import 'package:amber_bird/ui/widget/compilance-widget.dart';
 import 'package:amber_bird/ui/widget/profile-widget.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -27,6 +29,8 @@ class WidgetRouteModule extends Module {
       ChildRoute('/orders', child: (_, args) => OrderListPage()),
       ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
+      ChildRoute('/pre-checkout', child: (_, args) => PreCheckoutWidget()),
+      ChildRoute('/checkout', child: (_, args) => CheckoutWidget()),
       // ChildRoute('/profile', child: (_, args) => ProfilePage()),
       ChildRoute('/account', child: (_, args) => AccountPage()),
       ChildRoute('/help-center', child: (_, args) => HelpCenterPage()),
