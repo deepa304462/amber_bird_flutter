@@ -15,6 +15,7 @@ class Product {
   Name? name;
   Description? description;
   Name? nutritionDetail;
+  Name? allergicDetail;
   List<dynamic>? images;
   List<Varient>? varients;
   List<Ref>? tags;
@@ -33,6 +34,7 @@ class Product {
     this.name,
     this.description,
     this.nutritionDetail,
+    this.allergicDetail,
     this.images,
     this.varients,
     this.tags,
@@ -49,7 +51,7 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(metaData: $metaData, name: $name, tags:$tags,description: $description,nutritionDetail:$nutritionDetail, images: $images, varients: $varients, keywords: $keywords, brand: $brand, category: $category, defaultVarientCode: $defaultVarientCode, marketingInfo: $marketingInfo, type: $type, countryCode: $countryCode, businessId: $businessId, id: $id)';
+    return 'Product(metaData: $metaData, name: $name, tags:$tags,description: $description,nutritionDetail:$nutritionDetail,allergicDetail:$allergicDetail, images: $images, varients: $varients, keywords: $keywords, brand: $brand, category: $category, defaultVarientCode: $defaultVarientCode, marketingInfo: $marketingInfo, type: $type, countryCode: $countryCode, businessId: $businessId, id: $id)';
   }
 
   factory Product.fromMap(Map<String, dynamic> data) => Product(
@@ -62,10 +64,14 @@ class Product {
         description: data['description'] == null
             ? null
             : Description.fromMap(data['description'] as Map<String, dynamic>),
-        
-         nutritionDetail: data['nutritionDetail'] == null
+
+        nutritionDetail: data['nutritionDetail'] == null
             ? null
             : Name.fromMap(data['nutritionDetail'] as Map<String, dynamic>),
+
+        allergicDetail: data['allergicDetail'] == null
+            ? null
+            : Name.fromMap(data['allergicDetail'] as Map<String, dynamic>),
         images: data['images'] as List<dynamic>?,
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
@@ -99,6 +105,7 @@ class Product {
         'name': name?.toMap(),
         'description': description?.toMap(),
         'nutritionDetail': nutritionDetail?.toMap(),
+        'allergicDetail': allergicDetail?.toMap(),
         'images': images,
         'varients': varients?.map((e) => e.toMap()).toList(),
         'tags': tags?.map((e) => e.toMap()).toList(),
@@ -130,6 +137,7 @@ class Product {
     Name? name,
     Description? description,
     Name? nutritionDetail,
+    Name? allergicDetail,
     List<dynamic>? images,
     List<Varient>? varients,
     List<Ref>? tags,
@@ -147,7 +155,8 @@ class Product {
       metaData: metaData ?? this.metaData,
       name: name ?? this.name,
       description: description ?? this.description,
-      nutritionDetail:nutritionDetail?? this.nutritionDetail,
+      nutritionDetail: nutritionDetail ?? this.nutritionDetail,
+      allergicDetail: allergicDetail ?? this.allergicDetail,
       images: images ?? this.images,
       varients: varients ?? this.varients,
       tags: tags ?? this.tags,
