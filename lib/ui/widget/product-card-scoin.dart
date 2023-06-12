@@ -243,9 +243,7 @@ class ProductCardScoin extends StatelessWidget {
                                   constraint,
                                   activeVariant.value);
                             } else {
-                              var showToast =
-                                  // ignore: use_build_context_synchronously
-                                  snackBarClass.showToast(context, msg);
+                              snackBarClass.showToast(context, msg);
                             }
                           } else {
                             stateController.setCurrentTab(3);
@@ -285,8 +283,7 @@ class ProductCardScoin extends StatelessWidget {
                                   constraint,
                                   product!.varient!);
                             } else {
-                              var showToast =
-                                  snackBarClass.showToast(context, msg);
+                              snackBarClass.showToast(context, msg);
                             }
                           } else {
                             stateController.setCurrentTab(4);
@@ -339,8 +336,8 @@ class ProductCardScoin extends StatelessWidget {
                                           ruleConfig,
                                           constraint,
                                           activeVariant.value);
-                                    } else { 
-                                          snackBarClass.showToast(context, msg);
+                                    } else {
+                                      snackBarClass.showToast(context, msg);
                                     }
                                   } else {
                                     if (Get.isRegistered<DealController>(
@@ -395,8 +392,7 @@ class ProductCardScoin extends StatelessWidget {
                                             constraint,
                                             product!.varient!);
                                       } else {
-                                        var showToast = snackBarClass.showToast(
-                                            context, msg);
+                                        snackBarClass.showToast(context, msg);
                                       }
                                     } else {
                                       snackBarClass.showToast(context, msg);

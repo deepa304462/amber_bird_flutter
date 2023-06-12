@@ -223,6 +223,32 @@ class CartController extends GetxController {
     totalPrice.value = pr;
   }
 
+  checkoutCart() async {
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+
+    var payload;
+
+    var resp = await ClientService.post(
+        path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+    if (resp.statusCode == 200) {
+      Checkout data = Checkout.fromMap(resp.data);
+      checkoutData.value = data;
+      if (data.allAvailable == true) {
+        return ({'error': false, 'data': '', 'msg': ''});
+      } else {
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'All products not available!!'
+        });
+      }
+    } else {
+      return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+    }
+  }
+
   createPayment() async {
     // double total = 0.0;
     List<dynamic> listSumm = [];
@@ -345,11 +371,15 @@ class CartController extends GetxController {
             return ({
               'error': true,
               'data': '',
-              'msg': 'All products not available!!'
+              'msg': 'Something went wrong!!'
             });
           }
         } else {
-          return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+          return ({
+            'error': true,
+            'data': '',
+            'msg': 'All products not available!!'
+          });
         }
       } else {
         return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});

@@ -19,15 +19,16 @@ class DealRow extends StatelessWidget {
   DealRow(this.currentdealName, {super.key}) {
     dealController = Get.put(DealController(currentdealName),
         tag: currentdealName.toString());
+    // if (dealController.dealProd.isNotEmpty) {
+    //   dealController.dealProd.shuffle();
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (dealController.dealProd.isNotEmpty) { 
-      dealController.dealProd.shuffle();
-    }
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
+        dealController.dealProd.shuffle();
         String timeLeft = '';
         var difference;
         if (currentdealName == dealName.FLASH.name) {

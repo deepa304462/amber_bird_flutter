@@ -33,9 +33,7 @@ class MultiProductRow extends StatelessWidget {
         MultiProductController(currenttypeName),
         tag: currenttypeName.toString());
     // if (dealController.dealProd.isNotEmpty) {
-    if (multiprodController.multiProd.isNotEmpty) {
-      multiprodController.multiProd.shuffle();
-    }
+
     return Column(
       children: [
         Padding(
@@ -92,8 +90,11 @@ class MultiProductRow extends StatelessWidget {
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
       height: 310,
-      child: Obx(
-        () => Padding(
+      child: Obx(() {
+        if (multiprodController.multiProd.isNotEmpty) {
+          multiprodController.multiProd.shuffle();
+        }
+        return Padding(
           padding: const EdgeInsets.only(top: 2),
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
@@ -192,8 +193,8 @@ class MultiProductRow extends StatelessWidget {
               );
             },
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -201,8 +202,11 @@ class MultiProductRow extends StatelessWidget {
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
       height: 270,
-      child: Obx(
-        () => ListView.builder(
+      child: Obx(() {
+        if (multiprodController.multiProd.isNotEmpty) {
+          multiprodController.multiProd.shuffle();
+        }
+        return ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
           itemCount: multiprodController.multiProd.length,
@@ -210,8 +214,8 @@ class MultiProductRow extends StatelessWidget {
             return multiProductTile(multiprodController,
                 multiprodController.multiProd[index], context);
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -329,8 +333,7 @@ class MultiProductRow extends StatelessWidget {
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
-                  var showToast = snackBarClass.showToast(
-                      context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
                 }
               },
               quantity: cartController.getCurrentQuantity(multiProd.id, ''),

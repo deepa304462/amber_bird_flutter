@@ -1,4 +1,3 @@
-import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/data/payment/payment.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';

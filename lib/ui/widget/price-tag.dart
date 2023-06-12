@@ -1,7 +1,6 @@
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class PriceTag extends StatelessWidget {
   final String showPrice;

@@ -21,18 +21,19 @@ class ProductGuideRow extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-              height: 120,
-              width: MediaQuery.of(context).size.width,
-              child: Obx(
-                () => ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  children: productGuideController.productGuides.value
-                      .map((e) => ProductGuideCard(e))
-                      .toList(),
-                ),
-              )),
+            height: 120,
+            width: MediaQuery.of(context).size.width,
+            child: Obx(
+              () => ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                children: productGuideController.productGuides
+                    .map((e) => ProductGuideCard(e))
+                    .toList(),
+              ),
+            ),
+          ),
         ],
       ),
     );

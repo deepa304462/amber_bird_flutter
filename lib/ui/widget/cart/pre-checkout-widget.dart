@@ -1,19 +1,20 @@
 import 'package:amber_bird/controller/cart-controller.dart';
-import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
+import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
-import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/add-to-cart-button.dart';
+import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/ui/widget/like-button.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';
+import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -173,7 +174,7 @@ class PreCheckoutWidget extends StatelessWidget {
                 ),
               );
 
-              cartController.clearCheckout();
+              // cartController.clearCheckout();
 
               return (cartController.cartProducts.isNotEmpty ||
                       cartController.cartProductsScoins.isNotEmpty)
@@ -363,8 +364,8 @@ class PreCheckoutWidget extends StatelessWidget {
                                                         currentProduct.name ??
                                                             "");
                                               } else {
-                                                var showToast = snackBarClass
-                                                    .showToast(context, msg);
+                                                snackBarClass.showToast(
+                                                    context, msg);
                                               }
                                             }
                                             isLoading.value = false;
@@ -426,8 +427,8 @@ class PreCheckoutWidget extends StatelessWidget {
                                                         currentProduct.name ??
                                                             '');
                                               } else {
-                                                var showToast = snackBarClass
-                                                    .showToast(context, msg);
+                                                snackBarClass.showToast(
+                                                    context, msg);
                                               }
                                             }
                                             isLoading.value = false;
@@ -775,7 +776,7 @@ class PreCheckoutWidget extends StatelessWidget {
                                         .varient);
                               } else {
                                 stateController.setCurrentTab(4);
-                                var showToast = snackBarClass.showToast(
+                                snackBarClass.showToast(
                                     context, 'Please Login to preoceed');
                               }
                               isLoading.value = false;
@@ -864,8 +865,289 @@ class PreCheckoutWidget extends StatelessWidget {
     );
   }
 
-  checkoutProductCard(
-      product, refId, addedFrom, dealPrice, ruleConfig, constraint, context) {
+  Widget twoProductListing(
+      products, refId, refName, name, price, ruleConfig, constraint, context) {
+    return SizedBox(
+      height: 310,
+      child: Padding(
+          padding: const EdgeInsets.only(top: 2),
+          child: Stack(
+            children: [
+              Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(5.0),
+                      height: 160,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          for (var i = 0; i < products!.length; i++) ...[
+                            SizedBox(
+                                width: 120,
+                                child: checkoutProductCard(
+                                    products[i],
+                                    refId,
+                                    refName,
+                                    name,
+                                    price,
+                                    ruleConfig,
+                                    constraint,
+                                    'MULTI',
+                                    context)),
+                          ],
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.bottomCenter,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name! ?? '',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyles.titleFont.copyWith(
+                                  color: AppColors.grey.withBlue(200)),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * .6,
+                              child: Row(
+                                children: [
+                                  PriceTag(price!.offerPrice.toString(),
+                                      price!.actualPrice.toString()),
+                                  const Spacer(),
+                                  addToCartButton(
+                                      products,
+                                      refId,
+                                      refName,
+                                      name,
+                                      price,
+                                      ruleConfig,
+                                      constraint,
+                                      context)
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              DiscountTag(price: price!)
+            ],
+          )),
+    );
+  }
+
+  addToCartButton(
+      products, refId, refName, name, price, ruleConfig, constraint, context) {
+    return Obx(
+      () {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 200),
+            child: AddToCartButtons(
+              hideAdd: cartController.checkProductInCart(refId, ''),
+              onDecrease: () async {
+                stateController.showLoader.value = true;
+                if (stateController.isLogin.value) {
+                  await cartController.addToCart(
+                      '${refId}',
+                      refName,
+                      (-(constraint?.minimumOrder ?? 1)) ?? -1,
+                      price,
+                      null,
+                      products,
+                      null,
+                      constraint,
+                      null,
+                      mutliProductName: name);
+                } else {
+                  stateController.showLoader.value = false;
+                  stateController.setCurrentTab(3);
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                }
+              },
+              quantity: cartController.getCurrentQuantity(refId, ''),
+              onIncrease: () async {
+                stateController.showLoader.value = true;
+                if (stateController.isLogin.value) {
+                  var valid = false;
+                  var msg = 'Something went wrong!';
+
+                  await cartController.addToCart(
+                      '${refId}',
+                      refName,
+                      constraint!.minimumOrder ?? 1,
+                      price,
+                      null,
+                      products,
+                      null,
+                      constraint,
+                      null,
+                      mutliProductName: name);
+
+                  stateController.showLoader.value = false;
+                } else {
+                  stateController.showLoader.value = false;
+                  stateController.setCurrentTab(3);
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                }
+              },
+              onAdd: () async {
+                stateController.showLoader.value = true;
+                if (stateController.isLogin.value) {
+                  stateController.showLoader.value = true;
+                  bool isCheckedActivate =
+                      await stateController.getUserIsActive();
+                  if (isCheckedActivate) {
+                    var valid = false;
+                    var msg = 'Something went wrong!';
+
+                    await cartController.addToCart(
+                        '${refId}',
+                        refName,
+                        constraint!.minimumOrder ?? 1,
+                        price,
+                        null,
+                        products,
+                        null,
+                        constraint,
+                        null,
+                        mutliProductName: name);
+                    stateController.showLoader.value = false;
+                  } else {
+                    stateController.setCurrentTab(4);
+                    // ignore: use_build_context_synchronously
+                    snackBarClass.showToast(
+                        context, 'Your profile is not active yet');
+                  }
+                } else {
+                  stateController.setCurrentTab(3);
+                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                }
+                stateController.showLoader.value = false;
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget multiProductTile(
+      products, refId, refName, name, price, ruleConfig, constraint, context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    print('tapped the row');
+                    showModalBottomSheet<void>(
+                      // context and builder are
+                      // required properties in this widget
+                      context: context,
+                      useRootNavigator: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(13)),
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                      elevation: 3,
+                      builder: (context) {
+                        return DealBottomDrawer(
+                          products,
+                          refId,
+                          refName,
+                          price,
+                          constraint,
+                          name,
+                          refName,
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${name}',
+                        style:
+                            TextStyles.headingFont.copyWith(color: Colors.grey),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  )
+                  // ImageBox(
+                  //     'rr', // multiProd.displayImageId!,
+                  //     width: MediaQuery.of(context).size.width * .4,
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    PriceTag(price!.offerPrice.toString(),
+                        price!.actualPrice.toString()),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                  ]),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  addToCartButton(products, refId, refName, name, price,
+                      ruleConfig, constraint, context),
+                ],
+              ),
+            ],
+          ),
+          DiscountTag(price: price!)
+        ],
+      ),
+    );
+  }
+
+  multiCheckoutProductCard(
+      products, refId, refName, name, price, ruleConfig, constraint, context) {
+    return products.length == 2
+        ? twoProductListing(products, refId, refName, name, price, ruleConfig,
+            constraint, context)
+        : multiProductTile(products, refId, refName, name, price, ruleConfig,
+            constraint, context);
+  }
+
+  checkoutProductCard(product, refId, refName, name, price, ruleConfig,
+      constraint, type, context) {
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
       child: Container(
@@ -880,12 +1162,8 @@ class PreCheckoutWidget extends StatelessWidget {
                   product.images!.isNotEmpty
                       ? InkWell(
                           onTap: () {
-                            if (addedFrom == 'BRAND') {
-                              Modular.to.pushNamed('../product/${product.id}');
-                            } else {
-                              Modular.to
-                                  .pushNamed('/widget/product/${product.id}');
-                            }
+                            Modular.to
+                                .pushNamed('/widget/product/${product.id}');
                           },
                           child: SizedBox(
                             width: 100,
@@ -910,16 +1188,9 @@ class PreCheckoutWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${product.name!.defaultText!.text ?? ''} ',
-                            overflow: true
-                                ? TextOverflow.ellipsis
-                                : TextOverflow.visible,
+                        Text('${name ?? ''} ',
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyles.body),
-                        addedFrom == 'MULTIPRODUCT'
-                            ? Text(
-                                '${product.defaultPurchaseCount.toString()} * ${product.varient.price!.offerPrice!}',
-                                style: TextStyles.bodySm)
-                            : const SizedBox(),
                         Wrap(
                           alignment: WrapAlignment.start,
                           direction: Axis.horizontal,
@@ -941,27 +1212,22 @@ class PreCheckoutWidget extends StatelessWidget {
                                       )
                                     ],
                                   )
-                                : (product.varients!.length == 1 ||
-                                        addedFrom == 'TAGS_PRODUCT' ||
-                                        addedFrom == 'DEAL' ||
-                                        addedFrom == 'MULTIPRODUCT')
-                                    ? Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Text(
-                                            product.varients![0].weight!
-                                                .toStringAsFixed(0),
-                                            style: TextStyles.body,
-                                          ),
-                                          Text(
-                                            ' ${CodeHelp.formatUnit(product.varients![0].unit)}',
-                                            style: TextStyles.body,
-                                          )
-                                        ],
+                                : Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
+                                        product.varients![0].weight!
+                                            .toStringAsFixed(0),
+                                        style: TextStyles.body,
+                                      ),
+                                      Text(
+                                        ' ${CodeHelp.formatUnit(product.varients![0].unit)}',
+                                        style: TextStyles.body,
                                       )
-                                    : const SizedBox(),
+                                    ],
+                                  ),
                             Text(
                               "${product.varient.price!.actualPrice!.toString()} ${CodeHelp.euro}",
                               style: TextStyles.headingFont,
@@ -973,242 +1239,91 @@ class PreCheckoutWidget extends StatelessWidget {
                   )
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Obx(() {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: LikeButton(
-                        isLiked: wishlistController
-                            .checkIfProductWishlist(product.id),
-                        onPressed: () async {
-                          stateController.showLoader.value = true;
-                          await wishlistController.addToWishlist(
-                              product.id, product, null, addedFrom);
-                          stateController.showLoader.value = false;
-                        },
-                      ),
-                    );
-                  }),
-                ],
-              ),
-              Obx(() {
-                return Positioned(
-                  right: true ? 10 : 20,
-                  top: 65,
-                  child: AnimatedSwitcher(
-                    switchInCurve: Curves.bounceIn,
-                    switchOutCurve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 200),
-                    child: AddToCartButtons(
-                      hideAdd: cartController.checkProductInCart(
-                          '$refId@${product.varient.varientCode}', addedFrom),
-                      quantity: cartController.getCurrentQuantity(
-                          '$refId@${product.varient.varientCode}', addedFrom),
-                      onAdd: stateController.isLogin.value
-                          ? () async {
+              type != 'MULTI'
+                  ? Obx(() {
+                      return Positioned(
+                        right: 10,
+                        top: 65,
+                        child: AnimatedSwitcher(
+                          switchInCurve: Curves.bounceIn,
+                          switchOutCurve: Curves.easeOut,
+                          duration: const Duration(milliseconds: 200),
+                          child: AddToCartButtons(
+                            hideAdd:
+                                cartController.checkProductInCart('$refId', ''),
+                            quantity:
+                                cartController.getCurrentQuantity('$refId', ''),
+                            onAdd: stateController.isLogin.value
+                                ? () async {
+                                    stateController.showLoader.value = true;
+                                    bool isCheckedActivate =
+                                        await stateController.getUserIsActive();
+                                    if (isCheckedActivate) {
+                                      await cartController.addToCart(
+                                        '${refId}',
+                                        refName,
+                                        1,
+                                        price,
+                                        product,
+                                        null,
+                                        ruleConfig,
+                                        constraint,
+                                        product.varient,
+                                      );
+                                    } else {
+                                      snackBarClass.showToast(context,
+                                          'Your profile is not active yet');
+                                    }
+                                    stateController.showLoader.value = false;
+                                  }
+                                : () {
+                                    stateController.setCurrentTab(3);
+                                    snackBarClass.showToast(
+                                        context, 'Please Login to preoceed');
+                                  },
+                            onDecrease: () async {
                               stateController.showLoader.value = true;
-                              bool isCheckedActivate =
-                                  await stateController.getUserIsActive();
-                              if (isCheckedActivate) {
-                                // if (stateController.isActivate.value) {
-                                var valid = true;
-                                var msg = 'Something went wrong!';
-
-                                Price? price = product.varient.price;
-                                // this.refId, this.addedFrom,
-
+                              if (stateController.isLogin.value) {
                                 await cartController.addToCart(
-                                    '${product!.id}@${product!.varient!.varientCode}',
-                                    'CATEGORY',
-                                    1,
-                                    product!.varient!.price,
-                                    product,
-                                    null,
-                                    RuleConfig(),
-                                    Constraint(),
-                                    product!.varient!);
+                                  '${refId}',
+                                  refName,
+                                  -1,
+                                  price,
+                                  product,
+                                  null,
+                                  ruleConfig,
+                                  constraint,
+                                  product.varient,
+                                );
                               } else {
-                                // Navigator.of(context).pop();
+                                stateController.setCurrentTab(3);
                                 snackBarClass.showToast(
-                                    context, 'Your profile is not active yet');
+                                    context, 'Please Login to preoceed');
                               }
                               stateController.showLoader.value = false;
-                            }
-                          : () {
-                              stateController.setCurrentTab(3);
-                              snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
                             },
-                      onDecrease: () async {
-                        stateController.showLoader.value = true;
-                        Price? price = product.varient.price;
-                        if (stateController.isLogin.value) {
-                          var valid = true;
-                          var msg = 'Something went wrong!';
-                          var data;
-                          if (Get.isRegistered<DealController>(
-                              tag: addedFrom!)) {
-                            price = dealPrice;
-                            var dealController =
-                                Get.find<DealController>(tag: addedFrom!);
-                            data = await dealController.checkValidDeal(
-                                refId!,
-                                'negative',
-                                '$refId@${product.varient.varientCode}');
-                            valid = !data['error'];
-                            msg = data['msg'];
-                          }
-                          if (valid) {
-                            if (addedFrom == 'SCOIN') {
-                              await cartController.addToCartScoins(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
-                                  -1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient);
-                            } else if (addedFrom == 'MSD') {
-                              await cartController.addToCartMSD(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
-                                  -1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient);
-                            } else {
-                              await cartController.addToCart(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
-                                  -1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient);
-                            }
-                          } else if (data['type'] == 'maxNumberExceeded') {
-                            snackBarClass.showToast(context, msg);
-                            await cartController.addToCart(
-                                '${product!.id}@${product!.varient!.varientCode}',
-                                'CATEGORY',
-                                1,
-                                product!.varient!.price,
-                                product,
-                                null,
-                                RuleConfig(),
-                                Constraint(),
-                                product!.varient!);
-                          } else {
-                            await cartController.addToCart(
-                                '$refId@${product.varient.varientCode}',
-                                addedFrom!,
-                                -1,
-                                price,
-                                product,
-                                null,
-                                ruleConfig,
-                                constraint,
-                                product.varient);
-                          }
-                        } else {
-                          stateController.setCurrentTab(3);
-                          snackBarClass.showToast(
-                              context, 'Please Login to preoceed');
-                        }
-                        stateController.showLoader.value = false;
-                      },
-                      onIncrease: () async {
-                        stateController.showLoader.value = true;
-                        if (stateController.isLogin.value) {
-                          var valid = true;
-                          var msg = 'Something went wrong!';
-                          Price? price = product.varient.price;
-                          if (Get.isRegistered<DealController>(
-                              tag: addedFrom!)) {
-                            var dealController =
-                                Get.find<DealController>(tag: addedFrom!);
-                            var data = await dealController.checkValidDeal(
-                                refId!,
-                                'positive',
-                                '$refId@${product.varient.varientCode}');
-                            valid = !data['error'];
-                            msg = data['msg'];
-                            price = dealPrice;
-                          }
-                          if (valid) {
-                            if (addedFrom == 'SCOIN') {
-                              await cartController.addToCartScoins(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
+                            onIncrease: () async {
+                              stateController.showLoader.value = true;
+                              if (stateController.isLogin.value) {
+                                await cartController.addToCart(
+                                  '${refId}',
+                                  refName,
                                   1,
                                   price,
                                   product,
                                   null,
                                   ruleConfig,
                                   constraint,
-                                  product.varient);
-                            } else if (addedFrom == 'MSD') {
-                              await cartController.addToCartMSD(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
-                                  1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient);
-                            } else {
-                              await cartController.addToCart(
-                                  '$refId@${product.varient.varientCode}',
-                                  addedFrom!,
-                                  1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient);
-                            }
-                          } else {
-                            stateController.setCurrentTab(3);
-                            snackBarClass.showToast(context, msg);
-                          }
-                        }
-                        stateController.showLoader.value = false;
-                      },
-                    ),
-                  ),
-                );
-              }),
-              (product!.tags!.length > 0 &&
-                      addedFrom != 'TAGS_PRODUCT' &&
-                      addedFrom != 'DEAL')
-                  ? Positioned(
-                      top: 0,
-                      child: Card(
-                          color: AppColors.secondaryColor,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(5),
-                                  bottomRight: Radius.circular(5))),
-                          child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Text(
-                                product!.tags![0].name!,
-                                style: TextStyles.body
-                                    .copyWith(color: AppColors.white),
-                              ))))
-                  : const SizedBox()
+                                  product.varient,
+                                );
+                              }
+                              stateController.showLoader.value = false;
+                            },
+                          ),
+                        ),
+                      );
+                    })
+                  : const SizedBox(),
             ],
           ),
         ),
@@ -1218,7 +1333,7 @@ class PreCheckoutWidget extends StatelessWidget {
 
   productCheckoutListWidget(context, cartController) {
     return SizedBox(
-      height: 180,
+      height: 240,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: cartController.cartProducts.length,
@@ -1232,372 +1347,25 @@ class PreCheckoutWidget extends StatelessWidget {
               ? currentProduct.constraint!.minimumOrder
               : 1;
           return currentProduct.products!.isNotEmpty
-              ? SizedBox() // TODO add multi design
-              : checkoutProductCard(
-                  currentProduct.product,
+              ? multiCheckoutProductCard(
+                  currentProduct.products,
                   currentProduct.ref!.id,
-                  'CART',
+                  currentProduct.ref!.name,
+                  currentProduct.name,
                   currentProduct.price,
                   currentProduct.ruleConfig,
                   currentProduct.constraint,
+                  context) // TODO add multi design
+              : checkoutProductCard(
+                  currentProduct.product,
+                  currentProduct.ref!.id,
+                  currentProduct.ref!.name,
+                  currentProduct.name,
+                  currentProduct.price,
+                  currentProduct.ruleConfig,
+                  currentProduct.constraint,
+                  'SINGLE',
                   context);
-
-          //   Column(
-          // children: [
-          //   currentProduct.products!.isNotEmpty
-          //       ? SizedBox(
-          //           width: MediaQuery.of(context).size.width,
-          //           child: Column(
-          //             children: [
-          //               Row(children: <Widget>[
-          //                 SizedBox(
-          //                     width: MediaQuery.of(context).size.width * .1,
-          //                     child: const Divider()),
-          //                 FitText(
-          //                   '${currentProduct.name}',
-          //                   style: TextStyles.headingFont
-          //                       .copyWith(color: AppColors.primeColor),
-          //                 ),
-          //                 const Expanded(child: Divider()),
-          //               ]),
-          //               Row(
-          //                 children: [
-          //                   SizedBox(
-          //                     width: MediaQuery.of(context).size.width * .73,
-          //                     child: ListView.builder(
-          //                       shrinkWrap: true,
-          //                       physics: const BouncingScrollPhysics(),
-          //                       scrollDirection: Axis.vertical,
-          //                       itemCount: currentProduct.products!.length,
-          //                       itemBuilder: (_, pIndex) {
-          //                         var currentInnerProduct =
-          //                             currentProduct.products![pIndex];
-          //                         return ListTile(
-          //                           dense: false,
-          //                           visualDensity:
-          //                               const VisualDensity(vertical: 3),
-          //                           leading: ImageBox(
-          //                             '${currentInnerProduct.images![0]}',
-          //                             width: 80,
-          //                             height: 80,
-          //                             fit: BoxFit.contain,
-          //                           ),
-          //                           title: FitText(
-          //                             currentInnerProduct
-          //                                 .name!.defaultText!.text!,
-          //                             style: TextStyles.headingFont,
-          //                             align: TextAlign.start,
-          //                           ),
-          //                           subtitle: Text(
-          //                             '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
-          //                             style: TextStyles.body,
-          //                           ),
-          //                         );
-          //                       },
-          //                     ),
-          //                   ),
-          //                   SizedBox(
-          //                     width: 100,
-          //                     child: Column(
-          //                       crossAxisAlignment: CrossAxisAlignment.center,
-          //                       children: [
-          //                         Text(
-          //                           '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
-          //                           style: TextStyles.headingFont,
-          //                         ),
-          //                         Card(
-          //                           color: AppColors.primeColor,
-          //                           shape: RoundedRectangleBorder(
-          //                               borderRadius:
-          //                                   BorderRadius.circular(12)),
-          //                           child: Row(
-          //                             mainAxisSize: MainAxisSize.min,
-          //                             children: [
-          //                               IconButton(
-          //                                 padding: const EdgeInsets.all(4),
-          //                                 constraints: const BoxConstraints(),
-          //                                 onPressed: () async {
-          //                                   if (stateController
-          //                                       .isLogin.value) {
-          //                                     isLoading.value = true;
-
-          //                                     await cartController.addToCart(
-          //                                         '${currentProduct.ref!.id}',
-          //                                         currentProduct.ref!.name!,
-          //                                         -minOrder,
-          //                                         currentProduct.price,
-          //                                         null,
-          //                                         currentProduct.products,
-          //                                         currentProduct.ruleConfig,
-          //                                         currentProduct.constraint,
-          //                                         null,
-          //                                         mutliProductName:
-          //                                             currentProduct.name ??
-          //                                                 "");
-          //                                   }
-          //                                   isLoading.value = false;
-          //                                 },
-          //                                 icon: Icon(
-          //                                   Icons.remove_circle_outline,
-          //                                   color: Colors.white,
-          //                                   size: FontSizes.title,
-          //                                 ),
-          //                               ),
-          //                               Text(
-          //                                   cartController
-          //                                       .getCurrentQuantity(
-          //                                           '${currentProduct.ref!.id}',
-          //                                           '')
-          //                                       .toString(),
-          //                                   style: TextStyles.headingFont
-          //                                       .copyWith(
-          //                                           color: Colors.white)),
-          //                               IconButton(
-          //                                 padding: const EdgeInsets.all(4),
-          //                                 constraints: const BoxConstraints(),
-          //                                 onPressed: () async {
-          //                                   if (stateController
-          //                                       .isLogin.value) {
-          //                                     isLoading.value = true;
-          //                                     var valid = false;
-          //                                     var msg =
-          //                                         'Something went wrong!';
-
-          //                                     if (currentProduct.ruleConfig !=
-          //                                             null ||
-          //                                         currentProduct.constraint !=
-          //                                             null) {
-          //                                       dynamic data = await Helper
-          //                                           .checkProductValidtoAddinCart(
-          //                                               currentProduct
-          //                                                   .ruleConfig,
-          //                                               currentProduct
-          //                                                   .constraint,
-          //                                               currentProduct
-          //                                                       .ref!.id ??
-          //                                                   '',
-          //                                               currentProduct
-          //                                                       .ref!.id ??
-          //                                                   '');
-          //                                       valid = !data['error'];
-          //                                       msg = data['msg'];
-          //                                     }
-          //                                     if (valid) {
-          //                                       await cartController.addToCart(
-          //                                           '${currentProduct.ref!.id}',
-          //                                           currentProduct.ref!.name!,
-          //                                           minOrder,
-          //                                           currentProduct.price,
-          //                                           null,
-          //                                           currentProduct.products,
-          //                                           currentProduct.ruleConfig,
-          //                                           currentProduct.constraint,
-          //                                           null,
-          //                                           mutliProductName:
-          //                                               currentProduct.name ??
-          //                                                   '');
-          //                                     } else {
-          //                                       snackBarClass.showToast(
-          //                                           context, msg);
-          //                                     }
-          //                                   }
-          //                                   isLoading.value = false;
-          //                                 },
-          //                                 icon: Icon(
-          //                                   Icons.add_circle_outline,
-          //                                   color: Colors.white,
-          //                                   size: FontSizes.title,
-          //                                 ),
-          //                               ),
-          //                             ],
-          //                           ),
-          //                         )
-          //                       ],
-          //                     ),
-          //                   )
-          //                 ],
-          //               ),
-          //             ],
-          //           ),
-          //         )
-          //       : SizedBox(
-          //           width: MediaQuery.of(context).size.width,
-          //           child: Column(
-          //             mainAxisSize: MainAxisSize.min,
-          //             children: [
-          //               ListTile(
-          //                 dense: false,
-          //                 visualDensity: const VisualDensity(vertical: 3),
-          //                 leading: ImageBox(
-          //                   currentProduct.product!.images![0],
-          //                   width: 80,
-          //                   height: 80,
-          //                   fit: BoxFit.contain,
-          //                 ),
-          //                 title: FitText(
-          //                   currentProduct.product!.name!.defaultText!.text!,
-          //                   style: TextStyles.headingFont,
-          //                   align: TextAlign.start,
-          //                 ),
-          //                 subtitle: Row(
-          //                   children: [
-          //                     Text(
-          //                       '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}',
-          //                       style: TextStyles.body,
-          //                     ),
-          //                     Text(
-          //                         '/${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)}${CodeHelp.euro} ',
-          //                         style: TextStyles.body),
-          //                   ],
-          //                 ),
-          //                 trailing: Column(
-          //                   mainAxisSize: MainAxisSize.min,
-          //                   children: [
-          //                     Text(
-          //                       '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
-          //                       style: TextStyles.headingFont,
-          //                     ),
-          //                     Card(
-          //                       color: AppColors.primeColor,
-          //                       shape: RoundedRectangleBorder(
-          //                           borderRadius: BorderRadius.circular(12)),
-          //                       child: Row(
-          //                         mainAxisSize: MainAxisSize.min,
-          //                         children: [
-          //                           IconButton(
-          //                             padding: const EdgeInsets.all(4),
-          //                             constraints: const BoxConstraints(),
-          //                             onPressed: () async {
-          //                               isLoading.value = true;
-          //                               if (stateController.isLogin.value) {
-          //                                 await cartController.addToCart(
-          //                                   '${currentProduct.ref!.id}',
-          //                                   currentProduct.ref!.name!,
-          //                                   -minOrder,
-          //                                   currentProduct.price,
-          //                                   currentProduct.product,
-          //                                   null,
-          //                                   currentProduct.ruleConfig,
-          //                                   currentProduct.constraint,
-          //                                   currentProduct.product.varient,
-          //                                 );
-          //                               } else {
-          //                                 stateController.setCurrentTab(3);
-
-          //                                 snackBarClass.showToast(context,
-          //                                     'Please Login to preoceed');
-          //                               }
-          //                               isLoading.value = false;
-          //                             },
-          //                             icon: Icon(
-          //                               Icons.remove_circle_outline,
-          //                               color: Colors.white,
-          //                               size: FontSizes.title,
-          //                             ),
-          //                           ),
-          //                           Text(
-          //                             cartController
-          //                                 .getCurrentQuantity(
-          //                                     '${currentProduct.ref!.id}', '')
-          //                                 .toString(),
-          //                             style: TextStyles.headingFont
-          //                                 .copyWith(color: Colors.white),
-          //                           ),
-          //                           IconButton(
-          //                             padding: const EdgeInsets.all(4),
-          //                             constraints: const BoxConstraints(),
-          //                             onPressed: () async {
-          //                               isLoading.value = true;
-          //                               if (stateController.isLogin.value) {
-          //                                 var valid = false;
-          //                                 var msg = 'Something went wrong!';
-
-          //                                 if (currentProduct.ruleConfig !=
-          //                                         null ||
-          //                                     currentProduct.constraint !=
-          //                                         null) {
-          //                                   dynamic data = await Helper
-          //                                       .checkProductValidtoAddinCart(
-          //                                           currentProduct.ruleConfig,
-          //                                           currentProduct.constraint,
-          //                                           currentProduct.ref!.id ??
-          //                                               "",
-          //                                           currentProduct.ref!.id ??
-          //                                               '');
-          //                                   valid = !data['error'];
-          //                                   msg = data['msg'];
-          //                                 }
-          //                                 if (valid) {
-          //                                   await cartController.addToCart(
-          //                                       '${currentProduct.ref!.id}',
-          //                                       currentProduct.ref!.name!,
-          //                                       minOrder,
-          //                                       currentProduct.price,
-          //                                       currentProduct.product,
-          //                                       null,
-          //                                       currentProduct.ruleConfig,
-          //                                       currentProduct.constraint,
-          //                                       currentProduct
-          //                                           .product.varient);
-          //                                 } else {
-          //                                   snackBarClass.showToast(
-          //                                       context, msg);
-          //                                 }
-          //                               }
-          //                               isLoading.value = false;
-          //                             },
-          //                             icon: Icon(
-          //                               Icons.add_circle_outline,
-          //                               color: Colors.white,
-          //                               size: FontSizes.title,
-          //                             ),
-          //                           ),
-          //                         ],
-          //                       ),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ),
-          //               Row(
-          //                 children: [
-          //                   cartCheckoutButtons(
-          //                       context, cartController, currentKey),
-          //                   MaterialButton(
-          //                     onPressed: () async {
-          //                       isLoading.value = true;
-          //                       await cartController.removeProduct(
-          //                           currentKey, '');
-          //                       isLoading.value = false;
-          //                     },
-          //                     child: Row(
-          //                       children: [
-          //                         const Icon(
-          //                           Icons.delete,
-          //                           size: 16,
-          //                           color: Colors.grey,
-          //                         ),
-          //                         Text(
-          //                           'Remove',
-          //                           style: TextStyles.body.copyWith(
-          //                             color: Colors.grey,
-          //                           ),
-          //                         )
-          //                       ],
-          //                     ),
-          //                   )
-          //                 ],
-          //               )
-          //             ],
-          //           ),
-          //         ),
-          //   Obx(() => checkoutClicked.value &&
-          //           !cartController.checktOrderRefAvailable(
-          //               cartController.cartProducts.value[currentKey]!.ref)
-          //       ? recpmmondedCheckoutProduct(
-          //           context, cartController, currentKey)
-          //       : const SizedBox())
-          // ],
-          // );
         },
       ),
     );

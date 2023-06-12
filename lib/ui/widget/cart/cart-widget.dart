@@ -65,7 +65,14 @@ class CartWidget extends StatelessWidget {
                         color: Colors.green,
                         visualDensity: const VisualDensity(horizontal: 4),
                         onPressed: () async {
-                          Modular.to.navigate('/widget/pre-checkout');
+                          checkoutClicked.value = true;
+                          var data = await cartController.checkoutCart();
+                          if (data['error']) {
+                            snackBarClass.showToast(context, data['msg']);
+                          } else {
+                            Modular.to.navigate('/widget/pre-checkout');
+                          }
+
                           // if (!isLoading.value) {
                           //   isLoading.value = true;
                           //   var checkoutResp =
