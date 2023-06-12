@@ -155,7 +155,7 @@ class Product {
       name: name ?? this.name,
       description: description ?? this.description,
       nutritionDetail: nutritionDetail ?? this.nutritionDetail,
-      allergicDetail: allergicDetail ?? allergicDetail,
+      allergicDetail: allergicDetail ?? this.allergicDetail,
       images: images ?? this.images,
       varients: varients ?? this.varients,
       tags: tags ?? this.tags,

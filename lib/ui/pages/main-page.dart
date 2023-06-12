@@ -20,7 +20,7 @@ class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
   final ProductTagController productTagController =
       Get.put(ProductTagController());
-
+  RxList<ProductSummary> centProductList = <ProductSummary>[].obs;
   @override
   Widget build(BuildContext context) {
     onBoardingController.addInternetConnectivity(context);
@@ -66,6 +66,7 @@ class MainPage extends StatelessWidget {
             MultiProductRow(multiProductName.COMBO.name),
             MultiProductRow(multiProductName.BUNDLE.name),
             TagsProductColumn(),
+            centProducts(),
             const ProductGuideRow(),
             ScoinProductRow(),
           ],
@@ -147,6 +148,81 @@ class MainPage extends StatelessWidget {
                 return const SizedBox();
               }
             },
+          )
+        : const SizedBox());
+  }
+
+  getSearchProd() async {
+    var payload = {'lessThanOneEuroProducts': true};
+
+    var responseProd = await ClientService.searchQuery(
+        path: 'product/searchSummary', query: payload, lang: 'en');
+    if (responseProd.statusCode == 200) {
+      List<ProductSummary> summaryProdList = ((responseProd.data
+                  as List<dynamic>?)
+              ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
+
+      centProductList.value = summaryProdList;
+    }
+  }
+
+  Widget centProducts() {
+    getSearchProd();
+    return Obx(() => centProductList.isNotEmpty
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Cents',
+                          style: TextStyles.headingFont,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: centProductList.length,
+                        itemBuilder: (_, index) {
+                          ProductSummary productSummary =
+                              centProductList[index];
+                          return SizedBox(
+                            width: 150,
+                            child: Stack(
+                              children: [
+                                ProductCard(
+                                    fixedHeight: true,
+                                    productSummary,
+                                    productSummary.id,
+                                    'CENTS',
+                                    productSummary.varient!.price!,
+                                    null,
+                                    null),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           )
         : const SizedBox());
   }
