@@ -157,14 +157,28 @@ class MainPage extends StatelessWidget {
   getSearchProd() async {
     var payload = {'lessThanOneEuroProducts': true};
 
-    var responseProd = await ClientService.searchQuery(
+    var response = await ClientService.searchQuery(
         path: 'product/searchSummary', query: payload, lang: 'en');
-    if (responseProd.statusCode == 200) {
-      List<ProductSummary> summaryProdList = ((responseProd.data
-                  as List<dynamic>?)
-              ?.map((e) => ProductSummary.fromMap(e as Map<String, dynamic>))
-              .toList() ??
-          []);
+    if (response.statusCode == 200) {
+      List<ProductSummary> summaryProdList =
+          ((response.data as List<dynamic>?)?.map((e) {
+                ProductSummary productSummary =
+                    ProductSummary.fromMap(e as Map<String, dynamic>);
+                var list = productSummary.varients!.where((i) {
+                  if (i.price!.offerPrice! < 1.00) {
+                    return true;
+                  }
+                  return false;
+                }).toList();
+                if (list.length > 0) {
+                  productSummary.varient = list[0];
+                  productSummary.varients = list;
+                  return productSummary;
+                } else {
+                  return ProductSummary();
+                }
+              }).toList() ??
+              []);
 
       centProductList.value = summaryProdList;
     }
