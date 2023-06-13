@@ -483,6 +483,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  flutter_scatter:
+    dependency: "direct main"
+    description:
+      name: flutter_scatter
+      sha256: "9c0b72595e9c3c94607e29d845b4d32e12adbb02492bac7da1cd765856bf4ac1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   flutter_scroll_to_top:
     dependency: "direct main"
     description:

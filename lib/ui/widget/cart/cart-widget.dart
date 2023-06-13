@@ -393,7 +393,10 @@ class CartWidget extends StatelessWidget {
                                                               mutliProductName:
                                                                   currentProduct
                                                                           .name ??
-                                                                      "");
+                                                                      "",
+                                                              imageId:
+                                                                  currentProduct
+                                                                      .imageId);
                                                     } else {
                                                       var showToast =
                                                           snackBarClass
@@ -474,7 +477,10 @@ class CartWidget extends StatelessWidget {
                                                               mutliProductName:
                                                                   currentProduct
                                                                           .name ??
-                                                                      '');
+                                                                      '',
+                                                              imageId:
+                                                                  currentProduct
+                                                                      .imageId);
                                                     } else {
                                                       var showToast =
                                                           snackBarClass
@@ -1086,7 +1092,9 @@ class CartWidget extends StatelessWidget {
                                                         mutliProductName:
                                                             currentProduct
                                                                     .name ??
-                                                                "");
+                                                                "",
+                                                        imageId: currentProduct
+                                                            .imageId);
                                                     // } else {
                                                     //   var showToast =
                                                     //       snackBarClass
@@ -1165,7 +1173,10 @@ class CartWidget extends StatelessWidget {
                                                           mutliProductName:
                                                               currentProduct
                                                                       .name ??
-                                                                  '');
+                                                                  '',
+                                                          imageId:
+                                                              currentProduct
+                                                                  .imageId);
                                                     } else {
                                                       snackBarClass.showToast(
                                                           context, msg);

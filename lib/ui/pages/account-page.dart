@@ -15,8 +15,9 @@ import '../../helpers/controller-generator.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
-  final CompilanceController compilanceController = Get.put(CompilanceController());
-  
+  final CompilanceController compilanceController =
+      Get.put(CompilanceController());
+
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;

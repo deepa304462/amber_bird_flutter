@@ -12,6 +12,6 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return   ProductDetailScreen(productId, productId, 'SEARCH');
+    return ProductDetailScreen(productId, productId, 'SEARCH');
   }
 }

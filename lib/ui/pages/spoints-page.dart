@@ -167,21 +167,27 @@ class SpointsPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: IconButton(
-                              icon: Icon(Icons.arrow_circle_left,color:AppColors.DarkGrey),
+                              icon: Icon(Icons.arrow_circle_left,
+                                  color: AppColors.DarkGrey),
                               onPressed: () {
                                 controller.previousPage(
-                                    duration: Duration(seconds:2), curve: Curves.easeInBack);
+                                    duration: Duration(seconds: 2),
+                                    curve: Curves.easeInBack);
                               },
                             ),
                           ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: IconButton(
-                              icon: Icon(Icons.arrow_circle_right,color: AppColors.DarkGrey,),
+                              icon: Icon(
+                                Icons.arrow_circle_right,
+                                color: AppColors.DarkGrey,
+                              ),
                               onPressed: () {
                                 controller.nextPage(
-                                    duration: Duration(seconds: 2),
-                                    curve: Curves.easeIn,);
+                                  duration: Duration(seconds: 2),
+                                  curve: Curves.easeIn,
+                                );
                               },
                             ),
                           )

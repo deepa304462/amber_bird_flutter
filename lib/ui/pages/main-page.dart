@@ -3,6 +3,7 @@ import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
+import 'package:amber_bird/ui/widget/cloud-word.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
@@ -69,6 +70,7 @@ class MainPage extends StatelessWidget {
             centProducts(),
             const ProductGuideRow(),
             ScoinProductRow(),
+            WordCloud()
           ],
         ),
       ),

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
-
 class AllAddressPage extends StatelessWidget {
   final Controller stateController = Get.find();
   RxList<Address> addressList = <Address>[].obs;

@@ -18,7 +18,7 @@ class TagController extends GetxController {
   }
 
   getTagProduct() async {
-     var payload = {'keywords': Uri.decodeComponent(tag)};
+    var payload = {'keywords': Uri.decodeComponent(tag)};
 
     var responseProd = await ClientService.searchQuery(
         path: 'product/searchSummary', query: payload, lang: 'en');

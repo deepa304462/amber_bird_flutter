@@ -324,7 +324,8 @@ class MultiProductRow extends StatelessWidget {
                         null,
                         multiProd.constraint,
                         null,
-                        mutliProductName: multiProd.name!.defaultText!.text!);
+                        mutliProductName: multiProd.name!.defaultText!.text!,
+                        imageId: multiProd.displayImageId);
                   } else {
                     stateController.showLoader.value = false;
                     Navigator.of(context).pop();
@@ -358,7 +359,8 @@ class MultiProductRow extends StatelessWidget {
                         null,
                         multiProd.constraint,
                         null,
-                        mutliProductName: multiProd.name!.defaultText!.text!);
+                        mutliProductName: multiProd.name!.defaultText!.text!,
+                        imageId: multiProd.displayImageId);
                   } else {
                     snackBarClass.showToast(context, msg);
                   }
@@ -394,7 +396,8 @@ class MultiProductRow extends StatelessWidget {
                           null,
                           multiProd.constraint,
                           null,
-                          mutliProductName: multiProd.name!.defaultText!.text!);
+                          mutliProductName: multiProd.name!.defaultText!.text!,
+                          imageId: multiProd.displayImageId);
                       stateController.showLoader.value = false;
                     } else {
                       stateController.showLoader.value = false;

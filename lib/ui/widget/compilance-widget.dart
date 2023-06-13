@@ -37,7 +37,7 @@ class CompilanceWidget extends StatelessWidget {
         centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 50,
-        leadingWidth: 50, 
+        leadingWidth: 50,
         backgroundColor: AppColors.primeColor,
         title: Text(
           heading ?? '',
@@ -74,7 +74,8 @@ class CompilanceWidget extends StatelessWidget {
                       result[0].detailedContent![index];
                   var sectionHeading = currentDetaildContent.sectionHeading! !=
                               null &&
-                          currentDetaildContent.sectionHeading!.defaultText != null
+                          currentDetaildContent.sectionHeading!.defaultText !=
+                              null
                       ? currentDetaildContent.sectionHeading!.defaultText!.text
                       : currentDetaildContent
                           .sectionHeading!.languageTexts![0].text;

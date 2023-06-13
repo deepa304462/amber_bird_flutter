@@ -19,7 +19,7 @@ class ComingSoonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       centerTitle: true,
+        centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 50,
         leadingWidth: 50,

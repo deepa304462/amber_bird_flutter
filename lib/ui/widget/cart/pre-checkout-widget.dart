@@ -129,8 +129,17 @@ class PreCheckoutWidget extends StatelessWidget {
               checkoutLists.add(
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) =>
+                    (BuildContext context, int index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                            padding:
+                                const EdgeInsetsDirectional.only(start: 16),
+                            child: Text('Products',
+                                style: TextStyles.headingFont)),
                         productCheckoutListWidget(context, cartController),
+                      ],
+                    ),
                     childCount: 1,
                   ),
                 ),
@@ -362,7 +371,9 @@ class PreCheckoutWidget extends StatelessWidget {
                                                     null,
                                                     mutliProductName:
                                                         currentProduct.name ??
-                                                            "");
+                                                            "",
+                                                    imageId:
+                                                        currentProduct.imageId);
                                               } else {
                                                 snackBarClass.showToast(
                                                     context, msg);
@@ -425,7 +436,9 @@ class PreCheckoutWidget extends StatelessWidget {
                                                     null,
                                                     mutliProductName:
                                                         currentProduct.name ??
-                                                            '');
+                                                            '',
+                                                    imageId:
+                                                        currentProduct.imageId);
                                               } else {
                                                 snackBarClass.showToast(
                                                     context, msg);
@@ -865,97 +878,8 @@ class PreCheckoutWidget extends StatelessWidget {
     );
   }
 
-  Widget twoProductListing(
-      products, refId, refName, name, price, ruleConfig, constraint, context) {
-    return SizedBox(
-      height: 310,
-      child: Padding(
-          padding: const EdgeInsets.only(top: 2),
-          child: Stack(
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(5.0),
-                      height: 160,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        children: [
-                          for (var i = 0; i < products!.length; i++) ...[
-                            SizedBox(
-                                width: 120,
-                                child: checkoutProductCard(
-                                    products[i],
-                                    refId,
-                                    refName,
-                                    name,
-                                    price,
-                                    ruleConfig,
-                                    constraint,
-                                    'MULTI',
-                                    context)),
-                          ],
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10),
-                                bottomRight: Radius.circular(10))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name! ?? '',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: TextStyles.titleFont.copyWith(
-                                  color: AppColors.grey.withBlue(200)),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * .6,
-                              child: Row(
-                                children: [
-                                  PriceTag(price!.offerPrice.toString(),
-                                      price!.actualPrice.toString()),
-                                  const Spacer(),
-                                  addToCartButton(
-                                      products,
-                                      refId,
-                                      refName,
-                                      name,
-                                      price,
-                                      ruleConfig,
-                                      constraint,
-                                      context)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              DiscountTag(price: price!)
-            ],
-          )),
-    );
-  }
-
-  addToCartButton(
-      products, refId, refName, name, price, ruleConfig, constraint, context) {
+  addToCartButton(products, refId, refName, name, imageId, price, ruleConfig,
+      constraint, context) {
     return Obx(
       () {
         return Align(
@@ -977,7 +901,8 @@ class PreCheckoutWidget extends StatelessWidget {
                       null,
                       constraint,
                       null,
-                      mutliProductName: name);
+                      mutliProductName: name,
+                      imageId: imageId);
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
@@ -1001,7 +926,8 @@ class PreCheckoutWidget extends StatelessWidget {
                       null,
                       constraint,
                       null,
-                      mutliProductName: name);
+                      mutliProductName: name,
+                      imageId: imageId);
 
                   stateController.showLoader.value = false;
                 } else {
@@ -1030,7 +956,8 @@ class PreCheckoutWidget extends StatelessWidget {
                         null,
                         constraint,
                         null,
-                        mutliProductName: name);
+                        mutliProductName: name,
+                        imageId: imageId);
                     stateController.showLoader.value = false;
                   } else {
                     stateController.setCurrentTab(4);
@@ -1051,8 +978,8 @@ class PreCheckoutWidget extends StatelessWidget {
     );
   }
 
-  Widget multiProductTile(
-      products, refId, refName, name, price, ruleConfig, constraint, context) {
+  Widget multiProductTile(products, refId, refName, name, imageId, price,
+      ruleConfig, constraint, context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Stack(
@@ -1062,52 +989,48 @@ class PreCheckoutWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                  onTap: () {
-                    print('tapped the row');
-                    showModalBottomSheet<void>(
-                      // context and builder are
-                      // required properties in this widget
-                      context: context,
-                      useRootNavigator: true,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13)),
-                      backgroundColor: Colors.white,
-                      isScrollControlled: true,
-                      elevation: 3,
-                      builder: (context) {
-                        return DealBottomDrawer(
-                          products,
-                          refId,
-                          refName,
-                          price,
-                          constraint,
-                          name,
-                          refName,
-                        );
-                      },
-                    );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${name}',
-                        style:
-                            TextStyles.headingFont.copyWith(color: Colors.grey),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
-                  )
-                  // ImageBox(
-                  //     'rr', // multiProd.displayImageId!,
-                  //     width: MediaQuery.of(context).size.width * .4,
-                  //     fit: BoxFit.contain,
-                  //   ),
+                onTap: () {
+                  print('tapped the row');
+                  showModalBottomSheet<void>(
+                    // context and builder are
+                    // required properties in this widget
+                    context: context,
+                    useRootNavigator: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(13)),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    elevation: 3,
+                    builder: (context) {
+                      return DealBottomDrawer(
+                        products,
+                        refId,
+                        refName,
+                        price,
+                        constraint,
+                        name,
+                        refName,
+                      );
+                    },
+                  );
+                },
+                child: ImageBox(
+                  imageId, // multiProd.displayImageId!,
+                  width: MediaQuery.of(context).size.width * .2,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${name}',
+                    style: TextStyles.body.copyWith(color: Colors.grey),
+                    textAlign: TextAlign.left,
                   ),
-              SizedBox(
-                height: 10,
+                ],
               ),
               Row(
                   mainAxisSize: MainAxisSize.max,
@@ -1125,8 +1048,8 @@ class PreCheckoutWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  addToCartButton(products, refId, refName, name, price,
-                      ruleConfig, constraint, context),
+                  addToCartButton(products, refId, refName, name, imageId,
+                      price, ruleConfig, constraint, context),
                 ],
               ),
             ],
@@ -1137,16 +1060,22 @@ class PreCheckoutWidget extends StatelessWidget {
     );
   }
 
-  multiCheckoutProductCard(
-      products, refId, refName, name, price, ruleConfig, constraint, context) {
-    return products.length == 2
-        ? twoProductListing(products, refId, refName, name, price, ruleConfig,
-            constraint, context)
-        : multiProductTile(products, refId, refName, name, price, ruleConfig,
-            constraint, context);
+  multiCheckoutProductCard(products, refId, refName, name, imageId, price,
+      ruleConfig, constraint, context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.all(2),
+      child: Container(
+        color: Colors.white,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child: multiProductTile(products, refId, refName, name, imageId,
+              price, ruleConfig, constraint, context),
+        ),
+      ),
+    );
   }
 
-  checkoutProductCard(product, refId, refName, name, price, ruleConfig,
+  checkoutProductCard(product, refId, refName, name, imageId, price, ruleConfig,
       constraint, type, context) {
     return Padding(
       padding: const EdgeInsetsDirectional.all(2),
@@ -1260,16 +1189,17 @@ class PreCheckoutWidget extends StatelessWidget {
                                         await stateController.getUserIsActive();
                                     if (isCheckedActivate) {
                                       await cartController.addToCart(
-                                        '${refId}',
-                                        refName,
-                                        1,
-                                        price,
-                                        product,
-                                        null,
-                                        ruleConfig,
-                                        constraint,
-                                        product.varient,
-                                      );
+                                          '${refId}',
+                                          refName,
+                                          1,
+                                          price,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint,
+                                          product.varient,
+                                          mutliProductName: name,
+                                          imageId: imageId);
                                     } else {
                                       snackBarClass.showToast(context,
                                           'Your profile is not active yet');
@@ -1285,16 +1215,17 @@ class PreCheckoutWidget extends StatelessWidget {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
                                 await cartController.addToCart(
-                                  '${refId}',
-                                  refName,
-                                  -1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient,
-                                );
+                                    '${refId}',
+                                    refName,
+                                    -1,
+                                    price,
+                                    product,
+                                    null,
+                                    ruleConfig,
+                                    constraint,
+                                    product.varient,
+                                    mutliProductName: name,
+                                    imageId: imageId);
                               } else {
                                 stateController.setCurrentTab(3);
                                 snackBarClass.showToast(
@@ -1306,16 +1237,17 @@ class PreCheckoutWidget extends StatelessWidget {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
                                 await cartController.addToCart(
-                                  '${refId}',
-                                  refName,
-                                  1,
-                                  price,
-                                  product,
-                                  null,
-                                  ruleConfig,
-                                  constraint,
-                                  product.varient,
-                                );
+                                    '${refId}',
+                                    refName,
+                                    1,
+                                    price,
+                                    product,
+                                    null,
+                                    ruleConfig,
+                                    constraint,
+                                    product.varient,
+                                    mutliProductName: name,
+                                    imageId: imageId);
                               }
                               stateController.showLoader.value = false;
                             },
@@ -1333,7 +1265,7 @@ class PreCheckoutWidget extends StatelessWidget {
 
   productCheckoutListWidget(context, cartController) {
     return SizedBox(
-      height: 240,
+      height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: cartController.cartProducts.length,
@@ -1352,6 +1284,7 @@ class PreCheckoutWidget extends StatelessWidget {
                   currentProduct.ref!.id,
                   currentProduct.ref!.name,
                   currentProduct.name,
+                  currentProduct.imageId,
                   currentProduct.price,
                   currentProduct.ruleConfig,
                   currentProduct.constraint,
@@ -1361,6 +1294,7 @@ class PreCheckoutWidget extends StatelessWidget {
                   currentProduct.ref!.id,
                   currentProduct.ref!.name,
                   currentProduct.name,
+                  currentProduct.imageId,
                   currentProduct.price,
                   currentProduct.ruleConfig,
                   currentProduct.constraint,

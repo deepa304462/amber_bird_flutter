@@ -83,7 +83,7 @@ class SplashOfferPage extends StatelessWidget {
                               .introImages!.length -
                           1,
                       duration: 700);
-                  if (locationController.pinCode.value.isNotEmpty ) {
+                  if (locationController.pinCode.value.isNotEmpty) {
                     Modular.to.navigate('/home/main');
                   } else {
                     Modular.to.navigate('/location');

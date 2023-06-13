@@ -1,4 +1,3 @@
-
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -71,7 +70,7 @@ class AboutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...compilanceController.compilanceList
-                            .map((Compilance el) { 
+                            .map((Compilance el) {
                           DetailedContent detailedContent =
                               el.detailedContent!.length > 0
                                   ? el.detailedContent![0]
@@ -86,7 +85,7 @@ class AboutPage extends StatelessWidget {
                                   .sectionHeading!.languageTexts![0].text;
                           return ListTile(
                             onTap: () {
-                               Modular.to
+                              Modular.to
                                   .pushNamed('/widget/compilance/' + el.id!);
                             },
                             title: Text(
@@ -100,7 +99,7 @@ class AboutPage extends StatelessWidget {
                                 },
                                 icon: const Icon(Icons.chevron_right)),
                           );
-                        }).toList(), 
+                        }).toList(),
                         // ListTile(
                         //   title: Text(
                         //     'Privacy Policy',

@@ -245,8 +245,6 @@ class ProductBottomDrawer extends StatelessWidget {
                                           constraints: const BoxConstraints(),
                                           onPressed: () async {
                                             if (stateController.isLogin.value) {
-                                           
-
                                               ProductSummary summary =
                                                   ProductSummary.fromMap({
                                                 "name": productController
@@ -295,7 +293,6 @@ class ProductBottomDrawer extends StatelessWidget {
                                           constraints: const BoxConstraints(),
                                           onPressed: () async {
                                             if (stateController.isLogin.value) {
-                                             
                                               ProductSummary summary =
                                                   ProductSummary.fromMap({
                                                 "name": productController
@@ -350,7 +347,6 @@ class ProductBottomDrawer extends StatelessWidget {
                                                   await stateController
                                                       .getUserIsActive();
                                               if (isCheckedActivate) {
- 
                                                 ProductSummary summary =
                                                     ProductSummary.fromMap({
                                                   "name": productController
@@ -381,7 +377,10 @@ class ProductBottomDrawer extends StatelessWidget {
                                                     productController
                                                         .varient.value.price!,
                                                     summary,
-                                                    null,null,null,null);
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null);
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(context,

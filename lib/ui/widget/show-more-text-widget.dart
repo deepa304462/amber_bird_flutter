@@ -1,5 +1,5 @@
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class ShowMoreWidget extends StatefulWidget {
@@ -39,8 +39,7 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
           : new Column(
               children: <Widget>[
                 new Html(
-                    data:
-                        flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+                    data: flag ? (firstHalf + "...") : (firstHalf + secondHalf),
                     style: {
                       "body": Style(
                           fontSize: FontSize(FontSizes.body),

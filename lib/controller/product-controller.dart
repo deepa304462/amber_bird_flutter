@@ -36,7 +36,7 @@ class ProductController extends GetxController {
     try {
       offerShipping.value = await Helper.getOfferedShipping();
     } catch (err) {
-       offerShipping.value =  {'amountRequired': 0, 'offeredShipping': 4.99};
+      offerShipping.value = {'amountRequired': 0, 'offeredShipping': 4.99};
     }
     offerShipping.refresh();
   }

@@ -81,6 +81,7 @@ dependencies:
   cached_network_image: ^3.2.3
   firebase_dynamic_links: ^4.3.11
   flutter_scroll_to_top: ^2.3.0
+  flutter_scatter: ^0.2.0
   
 dependency_overrides:
   intl: any  

@@ -156,16 +156,16 @@ class SignUp extends StatelessWidget {
                         isLoading.value = true;
                         // await mController.checkValidityUsername();
                         // if (mController.usernameValid.value) {
-                          
-                          var data = await mController.signUp();
-                          if (data['status'] == 'success') {
-                            controller.getLoginInfo();
-                            controller.setCurrentTab(0);
-                            cartController.fetchCart();
-                          }
-                          isLoading.value = false;
-                          // ignore: use_build_context_synchronously
-                          snackBarClass.showToast(context, data['msg']);
+
+                        var data = await mController.signUp();
+                        if (data['status'] == 'success') {
+                          controller.getLoginInfo();
+                          controller.setCurrentTab(0);
+                          cartController.fetchCart();
+                        }
+                        isLoading.value = false;
+                        // ignore: use_build_context_synchronously
+                        snackBarClass.showToast(context, data['msg']);
                         // } else {
                         //   // ignore: use_build_context_synchronously
                         //   snackBarClass.showToast(

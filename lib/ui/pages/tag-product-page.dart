@@ -27,7 +27,6 @@ class TagProductPage extends StatelessWidget {
   TagProductPage(this.keyword);
   @override
   Widget build(BuildContext context) {
-    
     final TagController tagController =
         Get.put(TagController(keyword ?? ''), tag: keyword ?? "");
     return Scaffold(

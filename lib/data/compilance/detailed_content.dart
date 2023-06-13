@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:amber_bird/data/deal_product/name.dart';
 
-import 'content.dart'; 
+import 'content.dart';
 
 class DetailedContent {
   Name? sectionHeading;
@@ -19,8 +19,7 @@ class DetailedContent {
     return DetailedContent(
       sectionHeading: data['sectionHeading'] == null
           ? null
-          : Name.fromMap(
-              data['sectionHeading'] as Map<String, dynamic>),
+          : Name.fromMap(data['sectionHeading'] as Map<String, dynamic>),
       content: (data['content'] as List<dynamic>?)
           ?.map((e) => Content.fromMap(e as Map<String, dynamic>))
           .toList(),

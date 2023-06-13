@@ -545,7 +545,8 @@ class CartController extends GetxController {
       RuleConfig? ruleConfig,
       Constraint? constraint,
       Varient? varient,
-      {String? mutliProductName}) async {
+      {String? mutliProductName,
+      String? imageId}) async {
     // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
@@ -585,6 +586,7 @@ class CartController extends GetxController {
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
           'name': mutliProductName ?? '',
+          'imageId': imageId ?? '',
           'price': {
             'actualPrice': price,
             'noMemberCoin': 0,
@@ -626,7 +628,8 @@ class CartController extends GetxController {
       RuleConfig? ruleConfig,
       Constraint? constraint,
       Varient? varient,
-      {String? mutliProductName}) async {
+      {String? mutliProductName,
+      String? imageId}) async {
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -665,6 +668,7 @@ class CartController extends GetxController {
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
           'productType': li.isNotEmpty ? null : product!.type,
           'name': mutliProductName ?? '',
+          'imageId': imageId ?? '',
           'price': (jsonDecode(priceInfo.toJson() ?? "{}"))
         });
         msdProducts[refId] = cartRow;
@@ -685,7 +689,9 @@ class CartController extends GetxController {
       List<ProductSummary>? products,
       RuleConfig? ruleConfig,
       Constraint? constraint,
-      Varient? varient) async {
+      Varient? varient,
+      {String? mutliProductName,
+      String? imageId}) async {
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);

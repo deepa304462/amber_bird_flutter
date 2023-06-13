@@ -1,4 +1,3 @@
-
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/product/product.tag.dart';
 import 'package:amber_bird/services/client-service.dart';

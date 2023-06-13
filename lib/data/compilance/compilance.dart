@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:amber_bird/data/deal_product/meta_data.dart';
 
 import 'detailed_content.dart';
- 
+
 class Compilance {
   MetaData? metaData;
   List<DetailedContent>? detailedContent;

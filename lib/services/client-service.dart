@@ -149,7 +149,7 @@ class ClientService {
       //
       var rng = Random();
       // for (var i = 0; i < 10; i++) {
-        // print(rng.nextInt(100));
+      // print(rng.nextInt(100));
       // }
       response = await dio.get(
           'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=name:*${_getTitleForm(queryData)}*&fq=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',

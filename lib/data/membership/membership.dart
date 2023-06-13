@@ -78,7 +78,7 @@ class Membership {
         'description': description?.toMap(),
         'benefits': benefits,
         'imageId': imageId,
-        'iconId':iconId,
+        'iconId': iconId,
         'msdProductDiscountPercent': msdProductDiscountPercent,
         'msdFlatDiscountPercent': msdFlatDiscountPercent,
         'cartValueAboveWhichOfferShippingApplied':

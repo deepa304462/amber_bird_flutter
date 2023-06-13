@@ -9,6 +9,8 @@ class AppColors {
   static Color primeColor = HexColor("#C71838"); //Colors.red.shade800;
   static Color off_red = HexColor("#FCF6F5"); //Colors.red.shade800;
   static Color white = Colors.white;
+  static Color blue = Colors.blue;
+  static Color cyan = Colors.cyan;
   static Color secondaryColor = Color.fromARGB(255, 104, 168, 136);
   static Color lightGrey = const Color.fromARGB(255, 235, 239, 241);
   static Color DarkGrey = HexColor("#393536");

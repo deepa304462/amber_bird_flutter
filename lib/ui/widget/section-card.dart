@@ -81,7 +81,6 @@ Widget addressCard(BuildContext context, LocationController locationController,
 
 displayLocationDialog(
     BuildContext context, LocationController locationController, String type) {
-  
   showGeneralDialog(
     context: context,
     barrierDismissible: false,

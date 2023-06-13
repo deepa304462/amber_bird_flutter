@@ -11,6 +11,7 @@ class ProductOrder {
   List<ProductSummary>? products;
   String? productType;
   String? name;
+  String? imageId;
   RuleConfig? ruleConfig;
   Constraint? constraint;
   Ref? ref;
@@ -26,11 +27,12 @@ class ProductOrder {
       this.ref,
       this.count,
       this.price,
-      this.name});
+      this.name,
+      this.imageId});
 
   @override
   String toString() {
-    return 'Product(product: $product, products: $products, productType: $productType,ruleConfig: $ruleConfig,constraint: $constraint, ref: $ref, count: $count, price: $price)';
+    return 'Product(product: $product, products: $products, productType: $productType,ruleConfig: $ruleConfig,constraint: $constraint, ref: $ref, count: $count, price: $price, imageId: $imageId)';
   }
 
   factory ProductOrder.fromMap(Map<String, dynamic> data) => ProductOrder(
@@ -45,6 +47,7 @@ class ProductOrder {
                 .toList(),
         productType: data['productType'] as String?,
         name: data['name'] as String?,
+        imageId: data['imageId'] as String?,
         ruleConfig: data['ruleConfig'] == null
             ? null
             : RuleConfig.fromMap(data['ruleConfig'] as Map<String, dynamic>),
@@ -67,6 +70,7 @@ class ProductOrder {
         'products': products?.map((e) => e.toMap()).toList(),
         'productType': productType,
         'name': name,
+        'imageId': imageId,
         'ruleConfig': ruleConfig?.toMap(),
         'constraint': constraint?.toMap(),
         'ref': ref?.toMap(),
@@ -95,16 +99,19 @@ class ProductOrder {
     Constraint? constraint,
     int? count,
     Price? price,
+    String? imageId,
+    String? name,
   }) {
     return ProductOrder(
-      product: product ?? this.product,
-      products: products ?? this.products,
-      productType: productType ?? this.productType,
-      ruleConfig: ruleConfig ?? this.ruleConfig,
-      constraint: constraint ?? this.constraint,
-      ref: ref ?? this.ref,
-      count: count ?? this.count,
-      price: price ?? this.price,
-    );
+        product: product ?? this.product,
+        products: products ?? this.products,
+        productType: productType ?? this.productType,
+        ruleConfig: ruleConfig ?? this.ruleConfig,
+        constraint: constraint ?? this.constraint,
+        ref: ref ?? this.ref,
+        count: count ?? this.count,
+        price: price ?? this.price,
+        name: name ?? this.name,
+        imageId: imageId ?? this.imageId);
   }
 }
