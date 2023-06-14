@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BackInStockProductWidget extends StatelessWidget {
-  RxList<ProductSummary> centProductList = <ProductSummary>[].obs;
+  RxList<ProductSummary> productList = <ProductSummary>[].obs;
 
   getSearchProd() async {
     var payload = {'backInStock': true};
@@ -34,14 +34,14 @@ class BackInStockProductWidget extends StatelessWidget {
               }).toList() ??
               []);
 
-      centProductList.value = summaryProdList;
+      productList.value = summaryProdList;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     getSearchProd();
-    return Obx(() => centProductList.isNotEmpty
+    return Obx(() => productList.isNotEmpty
         ? Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Container(
@@ -68,10 +68,9 @@ class BackInStockProductWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 5),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: centProductList.length,
+                        itemCount: productList.length,
                         itemBuilder: (_, index) {
-                          ProductSummary productSummary =
-                              centProductList[index];
+                          ProductSummary productSummary = productList[index];
                           return SizedBox(
                             width: 150,
                             child: Stack(

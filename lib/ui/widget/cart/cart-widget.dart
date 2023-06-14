@@ -52,7 +52,7 @@ class CartWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Grocceries',
+              'Groceries',
               style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
           ],
