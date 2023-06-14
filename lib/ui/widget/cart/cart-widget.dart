@@ -31,6 +31,33 @@ class CartWidget extends StatelessWidget {
     cartController =
         ControllerGenerator.create(CartController(), tag: 'cartController');
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 50,
+        leadingWidth: 50,
+        backgroundColor: AppColors.primeColor,
+        leading: MaterialButton(
+          onPressed: () {
+            // Navigator.pop(context);
+            stateController.navigateToUrl('/home/main');
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 15,
+          ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Grocceries',
+              style: TextStyles.headingFont.copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
             border: Border(top: BorderSide(width: 1, color: Colors.grey))),
