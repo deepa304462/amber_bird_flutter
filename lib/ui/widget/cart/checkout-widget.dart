@@ -53,7 +53,8 @@ class CheckoutWidget extends StatelessWidget {
             size: 15,
           ),
         ),
-        title: Column(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               'Cart',
@@ -140,7 +141,7 @@ class CheckoutWidget extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
-                          isLoading.value ? 'Loading' : 'Continue',
+                          isLoading.value ? 'Loading' : 'Pay Order',
                           style: TextStyles.bodyFontBold
                               .copyWith(color: Colors.white),
                         ),
@@ -275,38 +276,43 @@ class CheckoutWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Card(
-                  color: Colors.grey.shade300,
-                  elevation: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.pin_drop,
-                            color: Colors.grey,
+                InkWell(
+                  onTap: () {
+                    Modular.to.navigate('../widget/address-list');
+                  },
+                  child: Card(
+                    color: Colors.grey.shade300,
+                    elevation: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.pin_drop,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * .7,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(add.value.name ?? '',
-                                  style: TextStyles.bodyFontBold),
-                              Text(
-                                  '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
-                                  style: TextStyles.body.copyWith())
-                            ],
-                          ),
-                        )
-                      ],
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .7,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(add.value.name ?? '',
+                                    style: TextStyles.bodyFontBold),
+                                Text(
+                                    '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                    style: TextStyles.body.copyWith())
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

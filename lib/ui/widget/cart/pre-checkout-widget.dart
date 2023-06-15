@@ -61,10 +61,11 @@ class PreCheckoutWidget extends StatelessWidget {
             size: 15,
           ),
         ),
-        title: Column(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Cart',
+              'Pre Checkout',
               style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
           ],
@@ -133,8 +134,8 @@ class PreCheckoutWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                            padding:
-                                const EdgeInsetsDirectional.only(start: 16),
+                            padding: const EdgeInsetsDirectional.only(
+                                start: 16, top: 15),
                             child: Text('Products',
                                 style: TextStyles.headingFont)),
                         productCheckoutListWidget(context, cartController),

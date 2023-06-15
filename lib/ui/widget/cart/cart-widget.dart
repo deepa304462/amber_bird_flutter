@@ -55,6 +55,10 @@ class CartWidget extends StatelessWidget {
               'Groceries',
               style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
+            Text(
+              '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+              style: TextStyles.headingFont.copyWith(color: AppColors.white),
+            ),
           ],
         ),
       ),
@@ -73,82 +77,29 @@ class CartWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'TOTAL PRICE',
-                            style: TextStyles.body,
+                      Expanded(
+                        child: MaterialButton(
+                          color: Colors.green,
+                          visualDensity: const VisualDensity(horizontal: 4),
+                          onPressed: () async {
+                            checkoutClicked.value = true;
+                            var data = await cartController.checkoutCart();
+                            if (data['error']) {
+                              snackBarClass.showToast(context, data['msg']);
+                            } else {
+                              Modular.to.navigate('/widget/pre-checkout');
+                            }
+                          },
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Text(
+                            isLoading.value ? 'Loading' : 'Checkout',
+                            style: TextStyles.bodyFontBold
+                                .copyWith(color: Colors.white),
                           ),
-                          Text(
-                            '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-                            style: TextStyles.headingFont,
-                          ),
-                        ],
-                      ),
-                      MaterialButton(
-                        color: Colors.green,
-                        visualDensity: const VisualDensity(horizontal: 4),
-                        onPressed: () async {
-                          checkoutClicked.value = true;
-                          var data = await cartController.checkoutCart();
-                          if (data['error']) {
-                            snackBarClass.showToast(context, data['msg']);
-                          } else {
-                            Modular.to.navigate('/widget/pre-checkout');
-                          }
-
-                          // if (!isLoading.value) {
-                          //   isLoading.value = true;
-                          //   var checkoutResp =
-                          //       await cartController.createPayment();
-                          //   checkoutClicked.value = true;
-                          //   checkoutClicked.refresh();
-                          //   if (checkoutResp == null || checkoutResp['error']) {
-                          //     // ignore: use_build_context_synchronously
-                          //     snackBarClass.showToast(
-                          //         context,
-                          //         checkoutResp['msg'] ??
-                          //             'Something went wrong');
-
-                          //     isLoading.value = false;
-                          //   } else {
-                          //     if (cartController
-                          //             .checkoutData.value!.allAvailable ==
-                          //         true) {
-                          //       Timer(Duration(seconds: 5), () async {
-                          //         var paymentData =
-                          //             await cartController.searchPayment();
-                          //         if (paymentData['data'] != '') {
-                          //           Modular.to.navigate('/home/inapp',
-                          //               arguments: paymentData['data']);
-                          //           isLoading.value = false;
-                          //         } else {
-                          //           snackBarClass.showToast(
-                          //               context, paymentData['msg']);
-                          //           isLoading.value = false;
-                          //         }
-                          //       });
-                          //     } else {
-                          //       // ignore: use_build_context_synchronously
-                          //       snackBarClass.showToast(
-                          //           context, 'All product not available');
-                          //       isLoading.value = false;
-                          //     }
-                          //   }
-                          // }
-                        },
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
-                          isLoading.value ? 'Loading' : 'Checkout',
-                          style: TextStyles.bodyFontBold
-                              .copyWith(color: Colors.white),
                         ),
-                      )
+                      ),
                     ],
                   ))
               : const SizedBox(),
@@ -160,20 +111,43 @@ class CartWidget extends StatelessWidget {
           child: Obx(
             () {
               cartController.innerLists.clear();
-              // cartController.innerLists.add(
-              //   SliverList(
-              //     delegate: SliverChildBuilderDelegate(
-              //       (BuildContext context, int index) => ListView(
-              //         physics: const BouncingScrollPhysics(),
-              //         shrinkWrap: true,
-              //         children: [
-              //           shippingAddress(context),
-              //         ],
-              //       ),
-              //       childCount: 1,
-              //     ),
-              //   ),
-              // );
+              cartController.innerLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) => Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Shipping Charges',
+                                style: TextStyles.headingFont,
+                              ),
+                              cartController.calculatedPayment.value
+                                          .shippingAmount ==
+                                      0.00
+                                  ? Text(
+                                      'Free',
+                                      style: TextStyles.titleFont
+                                          .copyWith(color: AppColors.green),
+                                    )
+                                  : Text(
+                                      '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
+                                      style: TextStyles.headingFont,
+                                    ),
+                            ],
+                          ),
+                          Divider()
+                        ],
+                      ),
+                    ),
+                    childCount: 1,
+                  ),
+                ),
+              );
               cartController.innerLists.add(
                 SliverList(
                   delegate: SliverChildBuilderDelegate(

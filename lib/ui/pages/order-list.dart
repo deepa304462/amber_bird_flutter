@@ -210,6 +210,7 @@ class OrderListPage extends StatelessWidget {
                 ],
               ),
             ),
+            orderButtons(curOrder),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
@@ -229,5 +230,84 @@ class OrderListPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget orderButtons(Order curOrder) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        children: [
+          Visibility(
+            visible: checkValidMissingReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Missing',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: checkValidCancelReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Cancel',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: checkValidReturnReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Return',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  checkValidMissingReq(Order order) {
+    if (order.status == 'DELIVERED') {
+      String updatedAt = order.metaData!.updatedAt! ?? '';
+      var newDate = DateTime.now().toUtc();
+      var difference = DateTime.parse(updatedAt).difference(newDate);
+      if (difference.inHours > 8.0) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  checkValidCancelReq(Order order) {
+    if (order.status != 'TEMPORARY_OR_CART' ||
+        order.status != 'RETURNED' ||
+        order.status != 'REFUND' ||
+        order.status != 'CANCEL') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkValidReturnReq(Order order) {
+    if (order.status == 'DELIVERED') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
