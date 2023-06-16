@@ -1,13 +1,18 @@
+import 'package:amber_bird/controller/mega-menu-controller.dart';
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CentProductWidget extends StatelessWidget {
   RxList<ProductSummary> centProductList = <ProductSummary>[].obs;
-
+  final Controller stateController = Get.find();
   getSearchProd() async {
     var payload = {'lessThanOneEuroProducts': true};
 
@@ -26,7 +31,8 @@ class CentProductWidget extends StatelessWidget {
                 }).toList();
                 if (list.length > 0) {
                   productSummary.varient = list[0];
-                  productSummary.varients = list;
+                  productSummary.varients = [list[0]];
+                  //list;
                   return productSummary;
                 } else {
                   return ProductSummary();
@@ -59,6 +65,28 @@ class CentProductWidget extends StatelessWidget {
                           'Cents',
                           style: TextStyles.headingFont,
                         ),
+                        ViewMoreWidget(onTap: () async {
+                          MegaMenuController megaMenuController =
+                              ControllerGenerator.create(MegaMenuController(),
+                                  tag: 'megaMenuController');
+                          megaMenuController.selectedParentTab.value = 'DEAL';
+                          GenericTab parentTab = GenericTab(
+                              image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                              id: 'DEAL',
+                              type: 'DEAL',
+                              text: 'Deal');
+                          await megaMenuController.getSubMenu(parentTab);
+                          megaMenuController.selectedSubMenu.value = 'CENTS';
+                          megaMenuController.getAllProducts(
+                              GenericTab(
+                                  image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                                  id: 'CENTS',
+                                  type: 'DEAL',
+                                  text: 'Cents'),
+                              parentTab);
+
+                          stateController.setCurrentTab(1);
+                        }),
                       ],
                     ),
                   ),
@@ -68,7 +96,9 @@ class CentProductWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 5),
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: centProductList.length,
+                        itemCount: centProductList.length > 15
+                            ? 15
+                            : centProductList.length,
                         itemBuilder: (_, index) {
                           ProductSummary productSummary =
                               centProductList[index];
@@ -81,7 +111,7 @@ class CentProductWidget extends StatelessWidget {
                                     productSummary,
                                     productSummary.id,
                                     'CENTS',
-                                    productSummary.varient!.price!,
+                                    productSummary.varient!.price,
                                     null,
                                     null),
                               ],

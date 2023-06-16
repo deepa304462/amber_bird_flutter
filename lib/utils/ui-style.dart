@@ -21,6 +21,7 @@ class AppColors {
   static Color green = Colors.green;
   static Color backgroundGrey = HexColor("#efefef");
   static Color black = HexColor("#000000");
+  static Color teal = Colors.teal;
 }
 
 class FontSizes {

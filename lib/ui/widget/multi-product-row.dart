@@ -48,20 +48,56 @@ class MultiProductRow extends StatelessWidget {
                   multiprodController.getProductName(currenttypeName),
                   style: TextStyles.headingFont,
                 ),
-                ViewMoreWidget(onTap: () {
-                  MegaMenuController megaMenuController;
-                  if (Get.isRegistered<MegaMenuController>()) {
-                    megaMenuController = Get.find();
-                  } else {
-                    megaMenuController = Get.put(MegaMenuController());
-                  }
-                  megaMenuController.selectedParentTab.value = currenttypeName;
+                ViewMoreWidget(onTap: () async {
+                  MegaMenuController megaMenuController =
+                      ControllerGenerator.create(MegaMenuController(),
+                          tag: 'megaMenuController');
+                  megaMenuController.selectedParentTab.value = 'MULTI';
+                  GenericTab parentTab = GenericTab(
+                      image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                      id: 'MULTI',
+                      type: 'MULTI',
+                      text: 'Multi');
+                  await megaMenuController.getSubMenu(parentTab);
+                  megaMenuController.selectedSubMenu.value = currenttypeName;
                   if (currenttypeName == multiProductName.COMBO.name) {
-                    megaMenuController.getSubMenu(GenericTab(
-                        image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
-                        id: multiProductName.COMBO.name,
-                        type: 'MULTI',
-                        text: 'Combo'));
+                    // megaMenuController.getSubMenu(GenericTab(
+                    //     image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                    //     id: multiProductName.COMBO.name,
+                    //     type: 'MULTI',
+                    //     text: 'Combo'));
+                    megaMenuController.getAllProducts(
+                        GenericTab(
+                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                            id: multiProductName.COMBO.name,
+                            type: 'MULTI',
+                            text: 'Combo'),
+                        parentTab);
+                  } else if (currenttypeName == multiProductName.BUNDLE.name) {
+                    megaMenuController.getAllProducts(
+                        GenericTab(
+                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                            id: multiProductName.BUNDLE.name,
+                            type: 'MULTI',
+                            text: 'Bundle'),
+                        parentTab);
+                  } else if (currenttypeName ==
+                      multiProductName.COLLECTION.name) {
+                    megaMenuController.getAllProducts(
+                        GenericTab(
+                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                            id: multiProductName.COLLECTION.name,
+                            type: 'MULTI',
+                            text: 'Collection'),
+                        parentTab);
+                  } else if (currenttypeName == multiProductName.STORIES.name) {
+                    megaMenuController.getAllProducts(
+                        GenericTab(
+                            image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
+                            id: multiProductName.STORIES.name,
+                            type: 'MULTI',
+                            text: 'Stories'),
+                        parentTab);
                   }
                   stateController.setCurrentTab(1);
                 }),

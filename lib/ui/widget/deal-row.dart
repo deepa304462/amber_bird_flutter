@@ -2,6 +2,7 @@ import 'package:amber_bird/controller/deal-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/card-color-animated.dart';
 import 'package:amber_bird/ui/widget/deal_product-card.dart';
@@ -82,71 +83,111 @@ class DealRow extends StatelessWidget {
                                           Radius.circular(12))),
                                 )
                               : const SizedBox(),
-                          ViewMoreWidget(onTap: () {
-                            MegaMenuController megaMenuController;
-                            if (Get.isRegistered<MegaMenuController>()) {
-                              megaMenuController = Get.find();
-                            } else {
-                              megaMenuController =
-                                  Get.put(MegaMenuController());
-                            }
-                            megaMenuController.selectedParentTab.value =
+                          ViewMoreWidget(onTap: () async {
+                            MegaMenuController megaMenuController =
+                                ControllerGenerator.create(MegaMenuController(),
+                                    tag: 'megaMenuController');
+                            // megaMenuController.selectedParentTab.value =
+                            //     currentdealName;
+                            megaMenuController.selectedParentTab.value = 'DEAL';
+                            GenericTab parentTab = GenericTab(
+                                image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                                id: 'DEAL',
+                                type: 'DEAL',
+                                text: 'Deal');
+                            await megaMenuController.getSubMenu(parentTab);
+                            megaMenuController.selectedSubMenu.value =
                                 currentdealName;
                             if (currentdealName == dealName.FLASH.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '34038fcf-20e1-4840-a188-413b83d72e11',
-                                  id: dealName.FLASH.name,
-                                  type: 'DEAL',
-                                  text: 'Flash'));
+                              // megaMenuController.getSubMenu(GenericTab(
+                              //     image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                              //     id: dealName.FLASH.name,
+                              //     type: 'DEAL',
+                              //     text: 'Flash'));
+
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '34038fcf-20e1-4840-a188-413b83d72e11',
+                                      id: dealName.FLASH.name,
+                                      type: 'DEAL',
+                                      text: 'Flash'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.EXCLUSIVE_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.EXCLUSIVE_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Exclusive'));
+                              // megaMenuController.getSubMenu(GenericTab(
+                              //     image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                              //     id: dealName.EXCLUSIVE_DEAL.name,
+                              //     type: 'DEAL',
+                              //     text: 'Exclusive'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.EXCLUSIVE_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Exclusive'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.WEEKLY_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.WEEKLY_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Weekly deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.WEEKLY_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Weekly deal'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.SUPER_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.SUPER_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Super deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.SUPER_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Super deal'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.ONLY_COIN_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.ONLY_COIN_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Coin deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.ONLY_COIN_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Coin deal'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.MEMBER_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.MEMBER_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Member deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.MEMBER_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Member deal'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.PRIME_MEMBER_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.PRIME_MEMBER_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Prime deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.PRIME_MEMBER_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Prime deal'),
+                                  parentTab);
                             } else if (currentdealName ==
                                 dealName.CUSTOM_RULE_DEAL.name) {
-                              megaMenuController.getSubMenu(GenericTab(
-                                  image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-                                  id: dealName.CUSTOM_RULE_DEAL.name,
-                                  type: 'DEAL',
-                                  text: 'Custom deal'));
+                              megaMenuController.getAllProducts(
+                                  GenericTab(
+                                      image:
+                                          '993a345c-885b-423b-bb49-f4f1c6ba78d0',
+                                      id: dealName.CUSTOM_RULE_DEAL.name,
+                                      type: 'DEAL',
+                                      text: 'Custom deal'),
+                                  parentTab);
                             }
                             stateController.setCurrentTab(1);
                           }),

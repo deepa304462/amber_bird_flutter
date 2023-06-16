@@ -58,21 +58,24 @@ class TagProductPage extends StatelessWidget {
           style: TextStyles.body.copyWith(color: Colors.white, fontSize: 20),
         ),
       ),
-      body: Obx(
-        () => MasonryGridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 4,
-          crossAxisSpacing: 4,
-          itemCount: tagController.productList.length,
-          itemBuilder: (_, index) {
-            var currentProduct = tagController.productList[index];
-            if (currentProduct.varient != null) {
-              return ProductCard(currentProduct, currentProduct.id, 'TAG',
-                  currentProduct.varient!.price!, null, null);
-            } else {
-              return const SizedBox();
-            }
-          },
+      body: Padding(
+        padding: EdgeInsets.only(top: 15),
+        child: Obx(
+          () => MasonryGridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            itemCount: tagController.productList.length,
+            itemBuilder: (_, index) {
+              var currentProduct = tagController.productList[index];
+              if (currentProduct.varient != null) {
+                return ProductCard(currentProduct, currentProduct.id, 'TAG',
+                    currentProduct.varient!.price!, null, null);
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
         ),
       ),
     );

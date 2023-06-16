@@ -175,6 +175,10 @@ class MegaMenuController extends GetxController {
               type: 'DEAL',
               text: detail['name']));
         });
+        subMenuList.add(
+            GenericTab(image: '', id: 'CENTS', type: 'DEAL', text: 'Cents'));
+        subMenuList.add(GenericTab(
+            image: '', id: 'RESTOCKED', type: 'DEAL', text: 'Re-Stocked'));
       }
       // var resp = await ClientService.get(
       //     path: 'dealProduct/categorySummary', id: parentTab.id);
@@ -420,20 +424,79 @@ class MegaMenuController extends GetxController {
   }
 
   getDealProduct(GenericTab submenu, String name) async {
-    isLoading.value = true;
-    var payload = {"type": name};
-    // if (submenu.text != 'All') {
-    //   payload['categoryId'] = submenu.id!;
-    // }
-    var response = await ClientService.searchQuery(
-        path: 'cache/dealProduct/search', query: payload, lang: 'en');
-    if (response.statusCode == 200) {
-      List<DealProduct> dList = ((response.data as List<dynamic>?)
-              ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
-              .toList() ??
-          []);
-      dealProductList.value = (dList);
+    if (name == 'CENTS') {
+      var payload = {'lessThanOneEuroProducts': true};
+
+      var response = await ClientService.searchQuery(
+          path: 'product/searchSummary', query: payload, lang: 'en');
+      if (response.statusCode == 200) {
+        List<ProductSummary> summaryProdList =
+            ((response.data as List<dynamic>?)?.map((e) {
+                  ProductSummary productSummary =
+                      ProductSummary.fromMap(e as Map<String, dynamic>);
+                  var list = productSummary.varients!.where((i) {
+                    if (i.price!.offerPrice! < 1.00) {
+                      return true;
+                    }
+                    return false;
+                  }).toList();
+                  if (list.length > 0) {
+                    productSummary.varient = list[0];
+                    productSummary.varients = [list[0]];
+                    //list;
+                    return productSummary;
+                  } else {
+                    return ProductSummary();
+                  }
+                }).toList() ??
+                []);
+
+        productList.value = summaryProdList;
+        isLoading.value = false;
+      }
+    } else if (name == 'RESTOCKED') {
+      var payload = {'backInStock': true};
+
+      var response = await ClientService.searchQuery(
+          path: 'product/searchSummary', query: payload, lang: 'en');
+      if (response.statusCode == 200) {
+        List<ProductSummary> summaryProdList =
+            ((response.data as List<dynamic>?)?.map((e) {
+                  ProductSummary productSummary =
+                      ProductSummary.fromMap(e as Map<String, dynamic>);
+                  var list = productSummary.varients!.where((i) {
+                    if (i.price!.offerPrice! < 1.00) {
+                      return true;
+                    }
+                    return false;
+                  }).toList();
+                  if (list.length > 0) {
+                    productSummary.varient = list[0];
+                    productSummary.varients = [list[0]];
+                    //list;
+                    return productSummary;
+                  } else {
+                    return ProductSummary();
+                  }
+                }).toList() ??
+                []);
+
+        productList.value = summaryProdList;
+        isLoading.value = false;
+      }
+    } else {
+      isLoading.value = true;
+      var payload = {"type": name};
+      var response = await ClientService.searchQuery(
+          path: 'cache/dealProduct/search', query: payload, lang: 'en');
+      if (response.statusCode == 200) {
+        List<DealProduct> dList = ((response.data as List<dynamic>?)
+                ?.map((e) => DealProduct.fromMap(e as Map<String, dynamic>))
+                .toList() ??
+            []);
+        dealProductList.value = (dList);
+      }
+      isLoading.value = false;
     }
-    isLoading.value = false;
   }
 }

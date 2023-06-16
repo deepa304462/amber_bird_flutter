@@ -40,7 +40,7 @@ class WordCloud extends StatelessWidget {
     AppColors.primeColor,
     AppColors.white,
     AppColors.darkOrange,
-    AppColors.golden,
+    AppColors.teal,
     AppColors.secondaryColor,
     AppColors.blue,
     AppColors.green,
@@ -60,7 +60,7 @@ class WordCloud extends StatelessWidget {
             FlutterHashtag(
                 summaryProdList.lessSale![i],
                 colorList[random.nextInt(6)],
-                random.nextInt(88) + 20,
+                random.nextInt(20) + 20,
                 random.nextInt(2) == 0 ? false : true),
             i));
       }
@@ -69,7 +69,7 @@ class WordCloud extends StatelessWidget {
             FlutterHashtag(
                 summaryProdList.shortExpiry![i],
                 colorList[random.nextInt(6)],
-                random.nextInt(88) + 20,
+                random.nextInt(15) + 20,
                 random.nextInt(2) == 0 ? false : true),
             i));
       }
@@ -78,18 +78,20 @@ class WordCloud extends StatelessWidget {
             FlutterHashtag(
                 summaryProdList.intentionalPush![i],
                 colorList[random.nextInt(6)],
-                random.nextInt(88) + 20,
+                random.nextInt(10) + 20,
                 random.nextInt(2) == 0 ? false : true),
             i));
       }
       for (var i = 0; i < summaryProdList.remainingTags!.length; i++) {
-        widgets.add(ScatterItem(
-            FlutterHashtag(
-                summaryProdList.remainingTags![i],
-                colorList[random.nextInt(6)],
-                random.nextInt(88) + 20,
-                random.nextInt(2) == 0 ? false : true),
-            i));
+        if (widgets.length < 110) {
+          widgets.add(ScatterItem(
+              FlutterHashtag(
+                  summaryProdList.remainingTags![i],
+                  colorList[random.nextInt(6)],
+                  random.nextInt(6) + 20,
+                  random.nextInt(2) == 0 ? false : true),
+              i));
+        }
       }
       // for (var i = 0; i < kFlutterHashtags.length; i++) {
       //   widgets.add(ScatterItem(kFlutterHashtags[i], i));
@@ -102,25 +104,46 @@ class WordCloud extends StatelessWidget {
     getProductTags();
 
     final screenSize = MediaQuery.of(context).size;
-    final ratio = screenSize.width * 2.5 / screenSize.height;
+    final ratio = screenSize.width * 2.5 / (screenSize.height / 2);
 
-    return Center(
-      child: Obx(
-        () => widgets.length > 0
-            ? SizedBox(
-                height: screenSize.width,
-                width: screenSize.width - 20,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Scatter(
-                    fillGaps: true,
-                    delegate: ArchimedeanSpiralScatterDelegate(ratio: ratio),
-                    children: widgets,
-                  ),
-                ),
-              )
-            : const SizedBox(),
-      ),
+    return Container(
+      color: Colors.white,
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '#tags',
+                style: TextStyles.headingFont,
+              ),
+            ],
+          ),
+        ),
+        Center(
+          child: Obx(
+            () => widgets.length > 0
+                ? SizedBox(
+                    height: screenSize.width * 2,
+                    width: screenSize.width * 2,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: RotatedBox(
+                        quarterTurns: 3,
+                        child: Scatter(
+                          fillGaps: true,
+                          delegate: ArchimedeanSpiralScatterDelegate(ratio: .5),
+                          children: widgets,
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+        )
+      ]),
     );
   }
 }
@@ -132,8 +155,8 @@ class ScatterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle style = TextStyles.body.copyWith(
-      fontSize: hashtag.size.toDouble() ?? 12,
+    final TextStyle style = TextStyles.titleFont.copyWith(
+      fontSize: hashtag.size.toDouble() ?? 16,
       color: hashtag.color ?? AppColors.primeColor,
     );
     return RotatedBox(

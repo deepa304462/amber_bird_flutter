@@ -52,19 +52,19 @@ class CartWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Groceries',
+              'My Cart',
               style: TextStyles.headingFont.copyWith(color: Colors.white),
             ),
-            Text(
-              '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-              style: TextStyles.headingFont.copyWith(color: AppColors.white),
-            ),
+            // Text(
+            //   '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+            //   style: TextStyles.headingFont.copyWith(color: AppColors.white),
+            // ),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-            border: Border(top: BorderSide(width: 1, color: Colors.grey))),
+        // decoration: const BoxDecoration(
+        //     border: Border(top: BorderSide(width: 0, color: Colors.grey))),
         child: Obx(
           () => (cartController.cartProducts.isNotEmpty ||
                       cartController.cartProductsScoins.isNotEmpty ||
@@ -116,28 +116,61 @@ class CartWidget extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => Padding(
                       padding: EdgeInsetsDirectional.symmetric(
-                          horizontal: 15, vertical: 5),
+                          horizontal: 15, vertical: 10),
                       child: Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Shipping Charges',
+                                'Groceries',
                                 style: TextStyles.headingFont,
                               ),
-                              cartController.calculatedPayment.value
-                                          .shippingAmount ==
-                                      0.00
-                                  ? Text(
-                                      'Free',
-                                      style: TextStyles.titleFont
-                                          .copyWith(color: AppColors.green),
-                                    )
-                                  : Text(
-                                      '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
-                                      style: TextStyles.headingFont,
-                                    ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Total: ',
+                                        style: TextStyles.headingFont,
+                                      ),
+                                      Text(
+                                        '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+                                        style: TextStyles.headingFont
+                                            .copyWith(color: AppColors.green),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Shipping Charges: ',
+                                        style: TextStyles.headingFont,
+                                      ),
+                                      cartController.calculatedPayment.value
+                                                  .shippingAmount ==
+                                              0.00
+                                          ? Text(
+                                              'Free',
+                                              style: TextStyles.titleFont
+                                                  .copyWith(
+                                                      color: AppColors.green),
+                                            )
+                                          : Text(
+                                              '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
+                                              style: TextStyles.headingFont
+                                                  .copyWith(
+                                                      color: AppColors.green),
+                                            ),
+                                    ],
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                           Divider()

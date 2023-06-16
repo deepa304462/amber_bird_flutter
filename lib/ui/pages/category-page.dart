@@ -315,64 +315,69 @@ class CategoryPage extends StatelessWidget {
 
   Widget _dealGrid(
       MegaMenuController megaMenuController, BuildContext context) {
-    return Expanded(
-      child: megaMenuController.dealProductList.length > 0
-          ? MasonryGridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              itemCount: megaMenuController.dealProductList.length,
-              itemBuilder: (_, index) {
-                DealProduct dealProduct =
-                    megaMenuController.dealProductList[index];
-                if (dealProduct.product != null) {
-                  return SizedBox(
-                    width: 150,
-                    child: Stack(
-                      children: [
-                        ProductCard(
-                            fixedHeight: false,
-                            dealProduct.product,
-                            dealProduct.id,
-                            megaMenuController.selectedParentTab.value,
-                            dealProduct.dealPrice,
-                            dealProduct.ruleConfig,
-                            dealProduct.constraint),
-                        Positioned(
-                          top: 0,
-                          child: DiscountTag(
-                            price: dealProduct.dealPrice!,
+    if (megaMenuController.selectedSubMenu.value == 'CENTS')
+      return _ProductList(megaMenuController, context, 'CENTS');
+    else if (megaMenuController.selectedSubMenu.value == 'RESTOCKED')
+      return _ProductList(megaMenuController, context, 'RESTOCKED');
+    else
+      return Expanded(
+        child: megaMenuController.dealProductList.length > 0
+            ? MasonryGridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                itemCount: megaMenuController.dealProductList.length,
+                itemBuilder: (_, index) {
+                  DealProduct dealProduct =
+                      megaMenuController.dealProductList[index];
+                  if (dealProduct.product != null) {
+                    return SizedBox(
+                      width: 150,
+                      child: Stack(
+                        children: [
+                          ProductCard(
+                              fixedHeight: false,
+                              dealProduct.product,
+                              dealProduct.id,
+                              megaMenuController.selectedParentTab.value,
+                              dealProduct.dealPrice,
+                              dealProduct.ruleConfig,
+                              dealProduct.constraint),
+                          Positioned(
+                            top: 0,
+                            child: DiscountTag(
+                              price: dealProduct.dealPrice!,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    );
+                    // ProductCard(
+                    //           dealProduct.product,
+                    //           dealProduct.product!.id,
+                    //           megaMenuController.selectedParentTab.value,
+                    //           dealProduct.product!.varient!.price!,
+                    //           dealProduct.ruleConfig,
+                    //           dealProduct.constraint);
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              )
+            : Column(
+                children: [
+                  Lottie.asset('assets/no-data.json',
+                      width: MediaQuery.of(context).size.width * .5,
+                      fit: BoxFit.contain),
+                  Expanded(
+                    child: Text(
+                      'No product available in this section',
+                      style: TextStyles.bodyFont,
                     ),
-                  );
-                  // ProductCard(
-                  //           dealProduct.product,
-                  //           dealProduct.product!.id,
-                  //           megaMenuController.selectedParentTab.value,
-                  //           dealProduct.product!.varient!.price!,
-                  //           dealProduct.ruleConfig,
-                  //           dealProduct.constraint);
-                } else {
-                  return const SizedBox();
-                }
-              },
-            )
-          : Column(
-              children: [
-                Lottie.asset('assets/no-data.json',
-                    width: MediaQuery.of(context).size.width * .5,
-                    fit: BoxFit.contain),
-                Expanded(
-                  child: Text(
-                    'No product available in this section',
-                    style: TextStyles.bodyFont,
-                  ),
-                )
-              ],
-            ),
-    );
+                  )
+                ],
+              ),
+      );
   }
 
   Widget _multiProductList(
