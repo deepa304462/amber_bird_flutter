@@ -293,10 +293,9 @@ class OrderListPage extends StatelessWidget {
   }
 
   checkValidCancelReq(Order order) {
-    if (order.status != 'TEMPORARY_OR_CART' ||
-        order.status != 'RETURNED' ||
-        order.status != 'REFUND' ||
-        order.status != 'CANCEL') {
+    if (order.status != 'PAID' ||
+        order.status != 'SHIPPED' ||
+        order.status != 'DELIVERED') {
       return true;
     } else {
       return false;
