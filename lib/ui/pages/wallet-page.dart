@@ -56,7 +56,7 @@ class WalletPage extends StatelessWidget {
             children: [
               Text(
                 'My Wallet',
-                style: TextStyles.headingFont.copyWith(color: Colors.white),
+                style: TextStyles.bodyFont.copyWith(color: Colors.white),
               ),
             ],
           ),

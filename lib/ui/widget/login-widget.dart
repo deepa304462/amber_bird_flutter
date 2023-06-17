@@ -28,7 +28,7 @@ class LoginWidget extends StatelessWidget {
         backgroundColor: AppColors.primeColor,
         title: Text(
           'Login',
-          style: TextStyles.headingFont.copyWith(color: Colors.white),
+          style: TextStyles.bodyFont.copyWith(color: Colors.white),
         ),
         leading: IconButton(
           onPressed: () {

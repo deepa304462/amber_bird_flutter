@@ -66,7 +66,7 @@ class PreCheckoutWidget extends StatelessWidget {
           children: [
             Text(
               'Pre Checkout',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
           ],
         ),
@@ -97,7 +97,7 @@ class PreCheckoutWidget extends StatelessWidget {
                           ),
                           Text(
                             '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-                            style: TextStyles.headingFont,
+                            style: TextStyles.bodyFont.copyWith(fontSize: 20),
                           ),
                         ],
                       ),
@@ -105,15 +105,15 @@ class PreCheckoutWidget extends StatelessWidget {
                         color: Colors.green,
                         visualDensity: const VisualDensity(horizontal: 4),
                         onPressed: () async {
-                          Modular.to.navigate('/widget/checkout');
+                          Modular.to.pushNamed('/widget/checkout');
                         },
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
                           isLoading.value ? 'Loading' : 'Continue',
-                          style: TextStyles.bodyFontBold
-                              .copyWith(color: Colors.white),
+                          style: TextStyles.bodyFont
+                              .copyWith(color: Colors.white, fontSize: 20),
                         ),
                       )
                     ],

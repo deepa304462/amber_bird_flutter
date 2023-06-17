@@ -130,7 +130,7 @@ class LocationPage extends StatelessWidget {
                       title: ListTile(
                         title: Text(
                           'Save & Continue',
-                          style: TextStyles.headingFont
+                          style: TextStyles.bodyFont
                               .copyWith(color: AppColors.white),
                           textAlign: TextAlign.center,
                         ),

@@ -30,7 +30,7 @@ class EditProfilePage extends StatelessWidget {
           backgroundColor: AppColors.primeColor,
           title: Text(
             'Edit Profile',
-            style: TextStyles.headingFont.copyWith(color: Colors.white),
+            style: TextStyles.bodyFont.copyWith(color: Colors.white),
           ),
           leading: IconButton(
             onPressed: () {

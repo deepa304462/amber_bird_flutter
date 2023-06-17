@@ -56,7 +56,7 @@ class OrderListPage extends StatelessWidget {
           children: [
             Text(
               'My Orders',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
           ],
         ),

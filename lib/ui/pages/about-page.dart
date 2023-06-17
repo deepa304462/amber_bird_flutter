@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
           children: [
             Text(
               'About us',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
           ],
         ),

@@ -740,7 +740,7 @@ class ProductDetailScreen extends StatelessWidget {
                 const SizedBox(),
                 Text(
                   'Disclaimer',
-                  style: TextStyles.headingFont,
+                  style: TextStyles.bodyFont,
                 ),
                 IconButton(
                   onPressed: () {

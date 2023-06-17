@@ -53,7 +53,7 @@ class CartWidget extends StatelessWidget {
           children: [
             Text(
               'My Cart',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
             // Text(
             //   '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
@@ -74,34 +74,34 @@ class CartWidget extends StatelessWidget {
                       0
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: MaterialButton(
-                          color: Colors.green,
-                          visualDensity: const VisualDensity(horizontal: 4),
-                          onPressed: () async {
-                            checkoutClicked.value = true;
-                            var data = await cartController.checkoutCart();
-                            if (data['error']) {
-                              snackBarClass.showToast(context, data['msg']);
-                            } else {
-                              Modular.to.navigate('/widget/pre-checkout');
-                            }
-                          },
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          child: Text(
-                            isLoading.value ? 'Loading' : 'Checkout',
-                            style: TextStyles.bodyFontBold
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
+                  child: Expanded(
+                    child: MaterialButton(
+                      color: Colors.green,
+                      // visualDensity: const VisualDensity(horizontal: 4),
+                      onPressed: () async {
+                        checkoutClicked.value = true;
+                        if (!isLoading.value) {
+                          isLoading.value = true;
+                          var data = await cartController.checkoutCart();
+                          isLoading.value = false;
+                          if (data['error']) {
+                            snackBarClass.showToast(context, data['msg']);
+                          } else {
+                            Modular.to.pushNamed('/widget/pre-checkout');
+                          }
+                        }
+                      },
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        isLoading.value ? 'Loading' : 'Checkout',
+                        style: TextStyles.bodyFont
+                            .copyWith(color: Colors.white, fontSize: 20),
                       ),
-                    ],
-                  ))
+                    ),
+                  ),
+                )
               : const SizedBox(),
         ),
       ),
@@ -137,10 +137,12 @@ class CartWidget extends StatelessWidget {
                                         'Total: ',
                                         style: TextStyles.headingFont,
                                       ),
-                                      Text(
-                                        '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-                                        style: TextStyles.headingFont
-                                            .copyWith(color: AppColors.green),
+                                      Obx(
+                                        () => Text(
+                                          '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+                                          style: TextStyles.headingFont
+                                              .copyWith(color: AppColors.green),
+                                        ),
                                       ),
                                     ],
                                   ),

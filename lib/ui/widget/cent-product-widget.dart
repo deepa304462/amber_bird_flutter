@@ -39,8 +39,12 @@ class CentProductWidget extends StatelessWidget {
                 }
               }).toList() ??
               []);
+      List<ProductSummary> dList2 = summaryProdList
+          .where((i) => (i.id != null &&
+              stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0))
+          .toList();
 
-      centProductList.value = summaryProdList;
+      centProductList.value = dList2;
     }
   }
 

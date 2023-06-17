@@ -63,7 +63,7 @@ class WishListPage extends StatelessWidget {
           children: [
             Text(
               'My Wishlist',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
           ],
         ),

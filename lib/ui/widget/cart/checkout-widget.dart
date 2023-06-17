@@ -30,6 +30,31 @@ class CheckoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    checkoutLists.clear();
+    checkoutLists.add(
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) => ListView(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              shippingAddress(context),
+            ],
+          ),
+          childCount: 1,
+        ),
+      ),
+    );
+    checkoutLists.add(
+      SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) =>
+              _saveLaterAndCheckoutOptions(context),
+          childCount: 1,
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -58,7 +83,7 @@ class CheckoutWidget extends StatelessWidget {
           children: [
             Text(
               'Cart',
-              style: TextStyles.headingFont.copyWith(color: Colors.white),
+              style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
           ],
         ),
@@ -89,7 +114,7 @@ class CheckoutWidget extends StatelessWidget {
                           ),
                           Text(
                             '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-                            style: TextStyles.headingFont,
+                            style: TextStyles.bodyFont.copyWith(fontSize: 20),
                           ),
                         ],
                       ),
@@ -129,6 +154,7 @@ class CheckoutWidget extends StatelessWidget {
                                   }
                                 });
                               } else {
+                                isLoading.value = false;
                                 // ignore: use_build_context_synchronously
                                 snackBarClass.showToast(
                                     context, 'All product not available');
@@ -142,8 +168,8 @@ class CheckoutWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
                           isLoading.value ? 'Loading' : 'Pay Order',
-                          style: TextStyles.bodyFontBold
-                              .copyWith(color: Colors.white),
+                          style: TextStyles.bodyFont
+                              .copyWith(color: Colors.white, fontSize: 20),
                         ),
                       )
                     ],
@@ -151,85 +177,58 @@ class CheckoutWidget extends StatelessWidget {
               : const SizedBox(),
         ),
       ),
-      body: Stack(children: [
-        IgnorePointer(
-          ignoring: isLoading.value,
-          child: Obx(
-            () {
-              checkoutLists.clear();
-              checkoutLists.add(
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => ListView(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      children: [
-                        shippingAddress(context),
-                      ],
-                    ),
-                    childCount: 1,
-                  ),
-                ),
-              );
-              checkoutLists.add(
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) =>
-                        _saveLaterAndCheckoutOptions(context),
-                    childCount: 1,
-                  ),
-                ),
-              );
-              cartController.clearCheckout();
-
-              return (checkoutLists.isNotEmpty)
-                  ? CustomScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      slivers: checkoutLists,
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Your Cart is Empty',
-                              style: TextStyles.body,
+      body: Stack(
+        children: [
+          IgnorePointer(
+            ignoring: isLoading.value,
+            child: (checkoutLists.isNotEmpty)
+                ? CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: checkoutLists,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Your Cart is Empty',
+                            style: TextStyles.body,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primeColor,
+                                textStyle: TextStyles.body
+                                    .copyWith(color: AppColors.white)),
+                            onPressed: () {
+                              Modular.to.navigate('../home/main');
+                            },
+                            child: Text(
+                              'Add Products',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.white),
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primeColor,
-                                  textStyle: TextStyles.body
-                                      .copyWith(color: AppColors.white)),
-                              onPressed: () {
-                                Modular.to.navigate('../home/main');
-                              },
-                              child: Text(
-                                'Add Products',
-                                style: TextStyles.headingFont
-                                    .copyWith(color: AppColors.white),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-            },
+                    ),
+                  ),
           ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Obx(
-              () =>
-                  isLoading.value ? const LoadingWithLogo() : const SizedBox(),
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Obx(
+                () => isLoading.value
+                    ? const LoadingWithLogo()
+                    : const SizedBox(),
+              ),
             ),
           ),
-        )
-      ]),
+        ],
+      ),
     );
   }
 
@@ -516,8 +515,8 @@ class CheckoutWidget extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(),
-        SaveLater(),
+        // const Divider(),
+        // SaveLater(),
       ],
     );
   }

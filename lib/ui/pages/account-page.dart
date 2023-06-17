@@ -44,7 +44,7 @@ class AccountPage extends StatelessWidget {
             children: [
               Text(
                 'My Profile',
-                style: TextStyles.headingFont.copyWith(color: Colors.white),
+                style: TextStyles.bodyFont.copyWith(color: Colors.white),
               ),
             ],
           ),

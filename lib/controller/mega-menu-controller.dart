@@ -425,6 +425,7 @@ class MegaMenuController extends GetxController {
 
   getDealProduct(GenericTab submenu, String name) async {
     if (name == 'CENTS') {
+      isLoading.value = true;
       var payload = {'lessThanOneEuroProducts': true};
 
       var response = await ClientService.searchQuery(
@@ -450,8 +451,12 @@ class MegaMenuController extends GetxController {
                   }
                 }).toList() ??
                 []);
+        List<ProductSummary> dList2 =
+            summaryProdList.where((i) => (i.varient != null)).toList();
 
-        productList.value = summaryProdList;
+        productList.value = dList2;
+        isLoading.value = false;
+      } else {
         isLoading.value = false;
       }
     } else if (name == 'RESTOCKED') {

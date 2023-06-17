@@ -70,7 +70,7 @@ class DealBottomDrawer extends StatelessWidget {
                         children: [
                           Text(
                             '${name!.defaultText!.text}',
-                            style: TextStyles.headingFont
+                            style: TextStyles.bodyFont
                                 .copyWith(color: AppColors.grey),
                           ),
                           const SizedBox(

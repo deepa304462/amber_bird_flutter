@@ -63,8 +63,7 @@ class LocationDialog extends StatelessWidget {
                         )),
                     title: Text(
                       '${CodeHelp.titleCase(type)} Address',
-                      style:
-                          TextStyles.headingFont.copyWith(color: Colors.white),
+                      style: TextStyles.bodyFont.copyWith(color: Colors.white),
                     ),
                   ),
                   const SizedBox(

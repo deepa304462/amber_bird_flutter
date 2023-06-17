@@ -55,7 +55,7 @@ class AllAddressPage extends StatelessWidget {
                 children: [
                   Text(
                     'Address List',
-                    style: TextStyles.headingFont.copyWith(color: Colors.white),
+                    style: TextStyles.bodyFont.copyWith(color: Colors.white),
                   ),
                   TextButton.icon(
                     onPressed: () {
@@ -67,7 +67,7 @@ class AllAddressPage extends StatelessWidget {
                       color: AppColors.white,
                     ),
                     label: Text(
-                      'Add Address',
+                      'Add',
                       style:
                           TextStyles.bodyFont.copyWith(color: AppColors.white),
                     ),

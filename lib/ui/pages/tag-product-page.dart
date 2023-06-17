@@ -55,7 +55,7 @@ class TagProductPage extends StatelessWidget {
         ),
         title: Text(
           Uri.decodeComponent(keyword!),
-          style: TextStyles.body.copyWith(color: Colors.white, fontSize: 20),
+          style: TextStyles.bodyFont.copyWith(color: Colors.white),
         ),
       ),
       body: Padding(

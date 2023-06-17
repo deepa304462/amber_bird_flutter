@@ -41,7 +41,7 @@ class CompilanceWidget extends StatelessWidget {
         backgroundColor: AppColors.primeColor,
         title: Text(
           heading ?? '',
-          style: TextStyles.headingFont.copyWith(color: Colors.white),
+          style: TextStyles.bodyFont.copyWith(color: Colors.white),
         ),
         leading: IconButton(
           onPressed: () {
