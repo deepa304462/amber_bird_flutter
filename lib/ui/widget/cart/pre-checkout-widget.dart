@@ -15,6 +15,7 @@ import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
+import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -145,24 +146,24 @@ class PreCheckoutWidget extends StatelessWidget {
                   ),
                 ),
               );
-              checkoutLists.add(
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) =>
-                        scoinCheckoutPRoductList(context, cartController),
-                    childCount: 1,
-                  ),
-                ),
-              );
-              checkoutLists.add(
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) =>
-                        msdCheckoutPRoductList(context, cartController),
-                    childCount: 1,
-                  ),
-                ),
-              );
+              // checkoutLists.add(
+              //   SliverList(
+              //     delegate: SliverChildBuilderDelegate(
+              //       (BuildContext context, int index) =>
+              //           scoinCheckoutPRoductList(context, cartController),
+              //       childCount: 1,
+              //     ),
+              //   ),
+              // );
+              // checkoutLists.add(
+              //   SliverList(
+              //     delegate: SliverChildBuilderDelegate(
+              //       (BuildContext context, int index) =>
+              //           msdCheckoutPRoductList(context, cartController),
+              //       childCount: 1,
+              //     ),
+              //   ),
+              // );
 
               checkoutLists.add(
                 SliverList(
@@ -904,6 +905,7 @@ class PreCheckoutWidget extends StatelessWidget {
                       null,
                       mutliProductName: name,
                       imageId: imageId);
+                  stateController.showLoader.value = false;
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
@@ -914,9 +916,6 @@ class PreCheckoutWidget extends StatelessWidget {
               onIncrease: () async {
                 stateController.showLoader.value = true;
                 if (stateController.isLogin.value) {
-                  var valid = false;
-                  var msg = 'Something went wrong!';
-
                   await cartController.addToCart(
                       '${refId}',
                       refName,
@@ -944,9 +943,6 @@ class PreCheckoutWidget extends StatelessWidget {
                   bool isCheckedActivate =
                       await stateController.getUserIsActive();
                   if (isCheckedActivate) {
-                    var valid = false;
-                    var msg = 'Something went wrong!';
-
                     await cartController.addToCart(
                         '${refId}',
                         refName,
@@ -962,6 +958,7 @@ class PreCheckoutWidget extends StatelessWidget {
                     stateController.showLoader.value = false;
                   } else {
                     stateController.setCurrentTab(4);
+                    stateController.showLoader.value = false;
                     // ignore: use_build_context_synchronously
                     snackBarClass.showToast(
                         context, 'Your profile is not active yet');
@@ -1121,6 +1118,9 @@ class PreCheckoutWidget extends StatelessWidget {
                         Text('${name ?? ''} ',
                             overflow: TextOverflow.ellipsis,
                             style: TextStyles.body),
+                        Text('${product.name!.defaultText!.text ?? ''} ',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyles.body),
                         Wrap(
                           alignment: WrapAlignment.start,
                           direction: Axis.horizontal,
@@ -1179,28 +1179,40 @@ class PreCheckoutWidget extends StatelessWidget {
                           switchOutCurve: Curves.easeOut,
                           duration: const Duration(milliseconds: 200),
                           child: AddToCartButtons(
-                            hideAdd:
-                                cartController.checkProductInCart('$refId', ''),
-                            quantity:
-                                cartController.getCurrentQuantity('$refId', ''),
+                            hideAdd: cartController.checkProductInCart(
+                                '$refId', type),
+                            quantity: cartController.getCurrentQuantity(
+                                '$refId', type),
                             onAdd: stateController.isLogin.value
                                 ? () async {
                                     stateController.showLoader.value = true;
                                     bool isCheckedActivate =
                                         await stateController.getUserIsActive();
                                     if (isCheckedActivate) {
-                                      await cartController.addToCart(
-                                          '${refId}',
-                                          refName,
-                                          1,
-                                          price,
-                                          product,
-                                          null,
-                                          ruleConfig,
-                                          constraint,
-                                          product.varient,
-                                          mutliProductName: name,
-                                          imageId: imageId);
+                                      if (type == 'MSD') {
+                                        await cartController.addToCartMSD(
+                                            '$refId',
+                                            refName!,
+                                            1,
+                                            price,
+                                            product,
+                                            null,
+                                            ruleConfig,
+                                            constraint,
+                                            product.varient);
+                                      } else
+                                        await cartController.addToCart(
+                                            '${refId}',
+                                            refName,
+                                            1,
+                                            price,
+                                            product,
+                                            null,
+                                            ruleConfig,
+                                            constraint,
+                                            product.varient,
+                                            mutliProductName: name,
+                                            imageId: imageId);
                                     } else {
                                       snackBarClass.showToast(context,
                                           'Your profile is not active yet');
@@ -1215,18 +1227,30 @@ class PreCheckoutWidget extends StatelessWidget {
                             onDecrease: () async {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
-                                await cartController.addToCart(
-                                    '${refId}',
-                                    refName,
-                                    -1,
-                                    price,
-                                    product,
-                                    null,
-                                    ruleConfig,
-                                    constraint,
-                                    product.varient,
-                                    mutliProductName: name,
-                                    imageId: imageId);
+                                if (type == 'MSD') {
+                                  await cartController.addToCartMSD(
+                                      '$refId',
+                                      refName!,
+                                      -1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      product.varient);
+                                } else
+                                  await cartController.addToCart(
+                                      '${refId}',
+                                      refName,
+                                      -1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      product.varient,
+                                      mutliProductName: name,
+                                      imageId: imageId);
                               } else {
                                 stateController.setCurrentTab(3);
                                 snackBarClass.showToast(
@@ -1237,18 +1261,30 @@ class PreCheckoutWidget extends StatelessWidget {
                             onIncrease: () async {
                               stateController.showLoader.value = true;
                               if (stateController.isLogin.value) {
-                                await cartController.addToCart(
-                                    '${refId}',
-                                    refName,
-                                    1,
-                                    price,
-                                    product,
-                                    null,
-                                    ruleConfig,
-                                    constraint,
-                                    product.varient,
-                                    mutliProductName: name,
-                                    imageId: imageId);
+                                if (type == 'MSD') {
+                                  await cartController.addToCartMSD(
+                                      '$refId',
+                                      refName!,
+                                      1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      product.varient);
+                                } else
+                                  await cartController.addToCart(
+                                      '${refId}',
+                                      refName,
+                                      1,
+                                      price,
+                                      product,
+                                      null,
+                                      ruleConfig,
+                                      constraint,
+                                      product.varient,
+                                      mutliProductName: name,
+                                      imageId: imageId);
                               }
                               stateController.showLoader.value = false;
                             },
@@ -1264,43 +1300,91 @@ class PreCheckoutWidget extends StatelessWidget {
     );
   }
 
-  productCheckoutListWidget(context, cartController) {
+  productCheckoutListWidget(context, CartController cartController) {
     return SizedBox(
       height: 180,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: cartController.cartProducts.length,
+        itemCount: cartController.cartProducts.length +
+            cartController.cartProductsScoins.length +
+            cartController.msdProducts.length,
         itemBuilder: (_, index) {
-          var currentKey =
-              cartController.cartProducts.value.keys.elementAt(index);
-          var currentProduct = cartController.cartProducts.value[currentKey]!;
-          var minOrder = (currentProduct.constraint != null &&
-                  currentProduct.constraint.minimumOrder != null &&
-                  currentProduct.constraint.minimumOrder > 0)
-              ? currentProduct.constraint!.minimumOrder
-              : 1;
-          return currentProduct.products!.isNotEmpty
-              ? multiCheckoutProductCard(
-                  currentProduct.products,
-                  currentProduct.ref!.id,
-                  currentProduct.ref!.name,
-                  currentProduct.name,
-                  currentProduct.imageId,
-                  currentProduct.price,
-                  currentProduct.ruleConfig,
-                  currentProduct.constraint,
-                  context) // TODO add multi design
-              : checkoutProductCard(
-                  currentProduct.product,
-                  currentProduct.ref!.id,
-                  currentProduct.ref!.name,
-                  currentProduct.name,
-                  currentProduct.imageId,
-                  currentProduct.price,
-                  currentProduct.ruleConfig,
-                  currentProduct.constraint,
-                  'SINGLE',
-                  context);
+          if (index < cartController.cartProducts.length) {
+            var currentKey =
+                cartController.cartProducts.value.keys.elementAt(index);
+            var currentProduct = cartController.cartProducts.value[currentKey]!;
+            // var minOrder = (currentProduct.constraint != null &&
+            //         currentProduct.constraint.minimumOrder != null &&
+            //         currentProduct.constraint.minimumOrder > 0)
+            //     ? currentProduct.constraint!.minimumOrder
+            //     : 1;
+            return currentProduct.products!.isNotEmpty
+                ? multiCheckoutProductCard(
+                    currentProduct.products,
+                    currentProduct.ref!.id,
+                    currentProduct.ref!.name,
+                    currentProduct.name,
+                    currentProduct.imageId,
+                    currentProduct.price,
+                    currentProduct.ruleConfig,
+                    currentProduct.constraint,
+                    context) // TODO add multi design
+                : checkoutProductCard(
+                    currentProduct.product,
+                    currentProduct.ref!.id,
+                    currentProduct.ref!.name,
+                    currentProduct.name,
+                    currentProduct.imageId,
+                    currentProduct.price,
+                    currentProduct.ruleConfig,
+                    currentProduct.constraint,
+                    'SINGLE',
+                    context);
+          } else if (index >= cartController.cartProducts.length &&
+              index <
+                  cartController.cartProductsScoins.length +
+                      cartController.cartProducts.length) {
+            var currentKey = cartController.cartProductsScoins.value.keys
+                .elementAt(cartController.cartProducts.length - index);
+            var currentProduct =
+                cartController.cartProductsScoins.value[currentKey]!;
+            ProductSummary dProduct =
+                cartController.cartProductsScoins.value[currentKey]!.product!;
+            //  dProduct = cartController.cartProductsScoins[];
+            return SizedBox(
+              width: 150,
+              child: ProductCardScoin(
+                fixedHeight: true,
+                dProduct,
+                dProduct.id,
+                'SCOIN',
+                currentProduct.price,
+                currentProduct.ruleConfig,
+                currentProduct.constraint,
+              ),
+            );
+          } else {
+            var currentKey = cartController.msdProducts.value.keys.elementAt(
+                (cartController.cartProductsScoins.length +
+                        cartController.cartProducts.length) -
+                    index);
+            var currentProduct = cartController.msdProducts.value[currentKey]!;
+            ProductSummary dProduct =
+                cartController.msdProducts.value[currentKey]!.product!;
+            return checkoutProductCard(
+                currentProduct.product,
+                currentProduct.ref!.id,
+                currentProduct.ref!.name,
+                currentProduct.name,
+                currentProduct.imageId,
+                currentProduct.price,
+                currentProduct.ruleConfig,
+                currentProduct.constraint,
+                'MSD',
+                context);
+            ;
+            // return Text('msd ${index}');
+          }
         },
       ),
     );

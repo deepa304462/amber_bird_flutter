@@ -90,73 +90,117 @@ class BrandProductPage extends StatelessWidget {
 
   Widget categoryList(BrandProductPageController controller, context) {
     return SizedBox(
-      height: 75,
-      // width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: controller.categoryList.length,
-        itemBuilder: (_, index) {
-          Category currentCat = controller.categoryList[index];
-          return Padding(
-            padding: const EdgeInsets.only(left: 3),
-            child: Column(
+        height: 40,
+        // width: MediaQuery.of(context).size.width,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.categoryList.length,
+          itemBuilder: (_, index) {
+            Category currentCat = controller.categoryList[index];
+            return Row(
               children: [
                 InkWell(
-                    onTap: () {
-                      //  controller.categoryList
-                      controller.selectedCategory.value = currentCat.id!;
-                      controller.searchProducts();
-                    },
-                    child: Container(
-                      height: 25,
-                      padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                      margin: const EdgeInsets.fromLTRB(0, 5, 2, 0),
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: AppColors.primeColor),
-                        color:
-                            currentCat.id == controller.selectedCategory.value
-                                ? Colors.green[100]
-                                : AppColors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '${(controller.categoryList[index].name!.defaultText!.text ?? '')}',
-                        style:
-                            currentCat.id == controller.selectedCategory.value
+                  onTap: () {
+                    controller.selectedCategory.value = currentCat.id!;
+                    controller.searchProducts();
+                  },
+                  child: Obx(
+                    () => Card(
+                      elevation: 0,
+                      color:
+                          (currentCat.id == controller.selectedCategory.value)
+                              ? AppColors.primeColor
+                              : AppColors.commonBgColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(
+                              color: (currentCat.id ==
+                                      controller.selectedCategory.value)
+                                  ? AppColors.primeColor
+                                  : AppColors.commonBgColor)),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(4.0, 2, 4, 2),
+                        child: Text(
+                            '${(controller.categoryList[index].name!.defaultText!.text ?? '')}',
+                            style: (currentCat.id ==
+                                    controller.selectedCategory.value)
                                 ? TextStyles.body
-                                    .copyWith(fontWeight: FontWeight.bold)
-                                : TextStyles.body,
+                                    .copyWith(color: AppColors.white)
+                                : TextStyles.body),
                       ),
-                    )
-                    //  ImageBox(
-                    //   controller.categoryList[index].logoId!,
-                    //   width: 50,
-                    //   height: 50,
-                    // ),
                     ),
-                // Center(
-                //   child: Text(
-                //     (controller.categoryList[index].name!.defaultText!.text ??
-                //                     '')
-                //                 .length >
-                //             7
-                //         ? '${(controller.categoryList[index].name!.defaultText!.text ?? '').substring(0, 6)}...'
-                //         : controller
-                //                 .categoryList[index].name!.defaultText!.text ??
-                //             '',
-                //     style: currentCat.id == controller.selectedCategory.value
-                //         ? TextStyles.body.copyWith(fontWeight: FontWeight.bold)
-                //         : TextStyles.body,
-                //   ),
-                // )
+                  ),
+                ),
               ],
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        )
+
+        // ListView.builder(
+        //   scrollDirection: Axis.horizontal,
+        //   physics: const BouncingScrollPhysics(),
+        //   itemCount: controller.categoryList.length,
+        //   itemBuilder: (_, index) {
+        //     Category currentCat = controller.categoryList[index];
+        //     return Padding(
+        //       padding: const EdgeInsets.only(left: 3),
+        //       child: Column(
+        //         children: [
+        //           InkWell(
+        //               onTap: () {
+        //                 //  controller.categoryList
+        //                 controller.selectedCategory.value = currentCat.id!;
+        //                 controller.searchProducts();
+        //               },
+        //               child: Container(
+        //                 height: 25,
+        //                 padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+        //                 margin: const EdgeInsets.fromLTRB(0, 5, 2, 0),
+        //                 decoration: BoxDecoration(
+        //                   border:
+        //                       Border.all(width: 1, color: AppColors.primeColor),
+        //                   color:
+        //                       currentCat.id == controller.selectedCategory.value
+        //                           ? Colors.green[100]
+        //                           : AppColors.white,
+        //                   borderRadius: BorderRadius.circular(8),
+        //                 ),
+        //                 child: Text(
+        //                   '${(controller.categoryList[index].name!.defaultText!.text ?? '')}',
+        //                   style:
+        //                       currentCat.id == controller.selectedCategory.value
+        //                           ? TextStyles.body
+        //                               .copyWith(fontWeight: FontWeight.bold)
+        //                           : TextStyles.body,
+        //                 ),
+        //               )
+        //               //  ImageBox(
+        //               //   controller.categoryList[index].logoId!,
+        //               //   width: 50,
+        //               //   height: 50,
+        //               // ),
+        //               ),
+        //           // Center(
+        //           //   child: Text(
+        //           //     (controller.categoryList[index].name!.defaultText!.text ??
+        //           //                     '')
+        //           //                 .length >
+        //           //             7
+        //           //         ? '${(controller.categoryList[index].name!.defaultText!.text ?? '').substring(0, 6)}...'
+        //           //         : controller
+        //           //                 .categoryList[index].name!.defaultText!.text ??
+        //           //             '',
+        //           //     style: currentCat.id == controller.selectedCategory.value
+        //           //         ? TextStyles.body.copyWith(fontWeight: FontWeight.bold)
+        //           //         : TextStyles.body,
+        //           //   ),
+        //           // )
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // ),
+        );
   }
 
   Widget brandInfo(Rx<Brand> brand, BuildContext context) {

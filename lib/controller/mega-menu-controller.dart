@@ -319,7 +319,7 @@ class MegaMenuController extends GetxController {
             .where((i) =>
                 stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
             .toList();
-        productList.value = dList2;
+        productList.value = dList;
         isLoading.value = false;
       }
     } else if (parentTab.type == 'TAGS_PRODUCT') {
@@ -339,7 +339,7 @@ class MegaMenuController extends GetxController {
             .where((i) =>
                 stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
             .toList();
-        productList.value = dList2;
+        productList.value = dList;
       }
       isLoading.value = false;
     } else if (parentTab.type == 'MSD') {
@@ -386,10 +386,8 @@ class MegaMenuController extends GetxController {
                 }).toList() ??
                 []);
 
-        List<ProductSummary> dList2 = dList
-            .where((i) => (i.id != null &&
-                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0))
-            .toList();
+        List<ProductSummary> dList2 =
+            dList.where((i) => (i.id != null)).toList();
         productList.value = dList2;
       }
       isLoading.value = false;

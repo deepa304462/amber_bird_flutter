@@ -228,7 +228,7 @@ class CartController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    dev.log(cust.cart!.toJson());
+    // dev.log(cust.cart!.toJson());
     var resp = await ClientService.post(
         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
     if (resp.statusCode == 200) {

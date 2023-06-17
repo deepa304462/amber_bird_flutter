@@ -74,7 +74,8 @@ class CartWidget extends StatelessWidget {
                       0
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Expanded(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       color: Colors.green,
                       // visualDensity: const VisualDensity(horizontal: 4),
@@ -775,8 +776,11 @@ class CartWidget extends StatelessWidget {
                           ),
                         ),
                   Obx(() => checkoutClicked.value &&
+                          cartController.cartProducts.value[currentKey] !=
+                              null &&
                           !cartController.checktOrderRefAvailable(cartController
-                              .cartProducts.value[currentKey]!.ref)
+                              .cartProducts.value[currentKey]!.ref) &&
+                          !isLoading.value
                       ? recpmmondedProduct(context, cartController, currentKey)
                       : const SizedBox())
                 ],
