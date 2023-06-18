@@ -58,18 +58,15 @@ class SpointsPage extends StatelessWidget {
                   (element) {
                     return Container(
                       margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
                       decoration: BoxDecoration(),
                       child: Stack(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
                               Padding(
-                                padding: EdgeInsets.all(8),
+                                padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -77,53 +74,29 @@ class SpointsPage extends StatelessWidget {
                                       element.imageId!,
                                       width: MediaQuery.of(context).size.width -
                                           48,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .25,
                                       fit: BoxFit.contain,
                                     ),
                                   ],
                                 ),
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '(${element.spointsRangeMin} - ${element.spointsRangeMax})',
+                                    'Range: ${element.spointsRangeMin} - ${element.spointsRangeMax}',
                                     style: TextStyles.headingFont
                                         .copyWith(color: AppColors.green),
                                   ),
                                 ],
                               ),
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.start,
-                              //   children: [
-                              //     SizedBox(
-                              //       width: 110,
-                              //       child: ImageBox(
-                              //         element.imageId!,
-                              //         height: 100,
-                              //         width: 100,
-                              //         // fit: BoxFit.contain,
-                              //       ),
-                              //     ),
-                              //     Column(
-                              //       crossAxisAlignment: CrossAxisAlignment.start,
-                              //       children: [
-                              //         Text(
-                              //           element.name!.defaultText != null
-                              //               ? (element.name!.defaultText!.text ??
-                              //                   '')
-                              //               : element
-                              //                       .name!.languageTexts![0].text ??
-                              //                   '',
-                              //           style: TextStyles.headingFont.copyWith(
-                              //               color: AppColors.primeColor,
-                              //               fontSize: FontSizes.xLarge),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ],
-                              // ),
                               const SizedBox(
-                                height: 10,
+                                height: 30,
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -135,29 +108,33 @@ class SpointsPage extends StatelessWidget {
                                   ),
                                   ...element.benefits!.map(
                                     (benefit) {
-                                      return Row(children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              WidgetSpan(
-                                                child: Icon(
-                                                  Icons.thumb_up_alt_outlined,
-                                                  size: 14,
-                                                  color: AppColors.primeColor,
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.only(bottom: 5, top: 5),
+                                        child: Row(children: [
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                WidgetSpan(
+                                                  child: Icon(
+                                                    Icons.thumb_up_alt_outlined,
+                                                    size: 14,
+                                                    color: AppColors.primeColor,
+                                                  ),
                                                 ),
-                                              ),
-                                              TextSpan(text: '  '),
-                                              TextSpan(
-                                                text: benefit,
-                                                style: TextStyles.titleFont
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors.DarkGrey),
-                                              ),
-                                            ],
+                                                TextSpan(text: '  '),
+                                                TextSpan(
+                                                  text: benefit,
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color: AppColors
+                                                              .DarkGrey),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ]);
+                                        ]),
+                                      );
                                     },
                                   ).toList(),
                                 ],
@@ -204,18 +181,3 @@ class SpointsPage extends StatelessWidget {
     );
   }
 }
-
-// class Pages extends StatelessWidget {
-//   final text;
-//   Pages({this.text});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text(
-//         text,
-//         textAlign: TextAlign.center,
-//         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-//       ),
-//     );
-//   }
-// }

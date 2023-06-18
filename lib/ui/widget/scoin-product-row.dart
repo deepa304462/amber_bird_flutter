@@ -34,7 +34,7 @@ class ScoinProductRow extends StatelessWidget {
     return Obx(() {
       if (scoinController.sCoinProd.isNotEmpty) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.only(top: 8, bottom: 5),
           child: Container(
             color: Colors.white,
             child: Column(

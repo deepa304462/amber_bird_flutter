@@ -36,7 +36,7 @@ class BrandHorizontalCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                     child: Text(
-                      "Find your favourite brand",
+                      "Favourite brands",
                       style: TextStyles.headingFont,
                     ),
                   ),

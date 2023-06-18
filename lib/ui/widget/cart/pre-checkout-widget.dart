@@ -10,6 +10,7 @@ import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/add-to-cart-button.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
+import 'package:amber_bird/ui/widget/cent-product-widget.dart';
 import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -169,7 +170,7 @@ class PreCheckoutWidget extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(5),
                         child: DealRow(dealName.WEEKLY_DEAL.name)),
                     childCount: 1,
                   ),
@@ -180,6 +181,14 @@ class PreCheckoutWidget extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) =>
                         DealRow(dealName.FLASH.name),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              checkoutLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) => CentProductWidget(),
                     childCount: 1,
                   ),
                 ),

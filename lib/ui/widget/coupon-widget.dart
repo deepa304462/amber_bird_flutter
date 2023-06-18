@@ -88,7 +88,7 @@ class CouponWidget extends StatelessWidget {
             MaterialButton(
                 visualDensity: VisualDensity.compact,
                 child: Text(
-                  'View available promo codes',
+                  'Check promo codes',
                   style: TextStyles.body.copyWith(color: Colors.grey),
                 ),
                 onPressed: () {

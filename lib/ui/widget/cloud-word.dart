@@ -116,7 +116,7 @@ class WordCloud extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                '#tags',
+                '#Tags',
                 style: TextStyles.headingFont,
               ),
             ],

@@ -20,6 +20,16 @@ class ProductGuideRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+            child: Text(
+              'Themes',
+              style: TextStyles.headingFont,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
           SizedBox(
             height: 120,
             width: MediaQuery.of(context).size.width,
