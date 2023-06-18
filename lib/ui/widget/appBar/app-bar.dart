@@ -132,14 +132,13 @@ class AppBarShrinkWidget extends StatelessWidget {
       children: [
         // Image.asset(
         //   'assets/insidelogo.png',
-        //   width: 45,
+        //   width: 30,
         //   fit: BoxFit.cover,
         // ),
         const SizedBox(
           width: 10,
         ),
         SearchWidget(),
-
         const SizedBox(
           width: 10,
         ),
