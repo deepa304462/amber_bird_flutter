@@ -37,12 +37,22 @@ class WalletPage extends StatelessWidget {
             labelStyle: TextStyles.body.copyWith(color: AppColors.white),
             tabs: [
               Tab(
-                child: Text(
-                  'S-COINS',
-                  style:
-                      TextStyles.bodyFontBold.copyWith(color: AppColors.white),
-                ),
-              ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                    Text(
+                      'S-COINS',
+                      style: TextStyles.bodyFontBold
+                          .copyWith(color: AppColors.white),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Image.asset('assets/scoin.png',
+                          height: 15,
+                          fit: BoxFit.fill,
+                          colorBlendMode: BlendMode.color),
+                    ),
+                  ])),
               Tab(
                 child: Text(
                   'S-POINTS',

@@ -38,7 +38,9 @@ class CheckoutWidget extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             shrinkWrap: true,
             children: [
-              shippingAddress(context),
+              Column(
+                children: [shippingAddress(context), Divider()],
+              ),
             ],
           ),
           childCount: 1,
@@ -237,83 +239,84 @@ class CheckoutWidget extends StatelessWidget {
     // log(locationController.addressData.toString());
     var add = locationController.addressData;
     return Obx(
-      () => Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
+      () => Container(
+        color: AppColors.white,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(6, 4, 6, 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
                       'Shipping Address',
                       style: TextStyles.headingFont,
                     ),
-                    MaterialButton(
-                      color: Colors.white,
-                      elevation: 0,
-                      onPressed: (() =>
-                          {Modular.to.navigate('../widget/address-list')}),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Edit',
-                            style: TextStyles.titleFont
-                                .copyWith(color: AppColors.primeColor),
-                          ),
-                          Icon(
-                            Icons.edit,
-                            color: AppColors.primeColor,
-                            size: 15,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                InkWell(
-                  onTap: () {
-                    Modular.to.navigate('../widget/address-list');
-                  },
-                  child: Card(
-                    color: Colors.grey.shade300,
+                  ),
+                  MaterialButton(
+                    color: Colors.white,
                     elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.pin_drop,
-                              color: Colors.grey,
-                            ),
+                    onPressed: (() =>
+                        {Modular.to.navigate('../widget/address-list')}),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Edit',
+                          style: TextStyles.titleFont
+                              .copyWith(color: AppColors.primeColor),
+                        ),
+                        Icon(
+                          Icons.edit,
+                          color: AppColors.primeColor,
+                          size: 15,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              InkWell(
+                onTap: () {
+                  Modular.to.navigate('../widget/address-list');
+                },
+                child: Card(
+                  color: Colors.grey.shade300,
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.pin_drop,
+                            color: Colors.grey,
                           ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * .7,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(add.value.name ?? '',
-                                    style: TextStyles.bodyFontBold),
-                                Text(
-                                    '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
-                                    style: TextStyles.body.copyWith())
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * .7,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(add.value.name ?? '',
+                                  style: TextStyles.bodyFontBold),
+                              Text(
+                                  '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                  style: TextStyles.body.copyWith())
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -326,7 +329,7 @@ class CheckoutWidget extends StatelessWidget {
       shrinkWrap: true,
       children: [
         Padding(
-          padding: const EdgeInsets.all(5),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -334,9 +337,53 @@ class CheckoutWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 5),
                 child: CouponWidget(),
               ),
+              Divider(),
+              Container(
+                color: AppColors.white,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'S-Coins/S-Points',
+                        style: TextStyles.headingFont,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            child: Text(
+                              'You will be rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order.',
+                              style: TextStyles.body,
+                            ),
+                          ),
+                          cartController.calculatedPayment.value
+                                          .totalSavedAmount !=
+                                      null &&
+                                  cartController.calculatedPayment.value
+                                          .totalSavedAmount !=
+                                      0.00
+                              ? SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: Text(
+                                    'You will save ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.totalSavedAmount as double).toStringAsFixed(2)} on this purchase',
+                                    style: TextStyles.body,
+                                  ),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                    ]),
+              ),
+              Divider(),
               Text(
                 'Order Summary',
-                style: TextStyles.headingFont,
+                style: TextStyles.headingFont
+                    .copyWith(color: AppColors.primeColor),
               ),
               cartController.calculatedPayment.value.discountAmount != null &&
                       cartController.calculatedPayment.value.discountAmount !=
@@ -379,7 +426,7 @@ class CheckoutWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Shipping Charges',
+                    'Shipping Fee',
                     style: TextStyles.body,
                   ),
                   cartController.calculatedPayment.value.shippingAmount == 0.00
@@ -449,7 +496,7 @@ class CheckoutWidget extends StatelessWidget {
                         Text(
                           'Total ',
                           style: TextStyles.headingFont
-                              .copyWith(color: Colors.blue),
+                              .copyWith(color: AppColors.green),
                         ),
                         Text(
                           CodeHelp.euro +
@@ -481,31 +528,6 @@ class CheckoutWidget extends StatelessWidget {
                       ],
                     )
                   : const SizedBox(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text(
-                      'You will be rewarded with ${cartController.calculatedPayment.value.totalSCoinsEarned} SCOINS & ${cartController.calculatedPayment.value.totalSPointsEarned} SPOINTS on this order.',
-                      style: TextStyles.body,
-                    ),
-                  ),
-                  cartController.calculatedPayment.value.totalSavedAmount !=
-                              null &&
-                          cartController
-                                  .calculatedPayment.value.totalSavedAmount !=
-                              0.00
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Text(
-                            'You will save ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.totalSavedAmount as double).toStringAsFixed(2)} on this purchase',
-                            style: TextStyles.body,
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
-              ),
               (cartController.calculatedPayment.value.refferalDiscountApplied !=
                           null &&
                       cartController

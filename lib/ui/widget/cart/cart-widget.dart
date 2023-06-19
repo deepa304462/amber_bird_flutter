@@ -9,6 +9,7 @@ import 'package:amber_bird/ui/widget/cart/save-later-widget.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';
+import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -77,7 +78,7 @@ class CartWidget extends StatelessWidget {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: MaterialButton(
-                      color: Colors.green,
+                      color: AppColors.green,
                       // visualDensity: const VisualDensity(horizontal: 4),
                       onPressed: () async {
                         checkoutClicked.value = true;
@@ -125,7 +126,8 @@ class CartWidget extends StatelessWidget {
                             children: [
                               Text(
                                 'Groceries',
-                                style: TextStyles.headingFont,
+                                style: TextStyles.bodyFont
+                                    .copyWith(color: AppColors.primeColor),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -136,7 +138,7 @@ class CartWidget extends StatelessWidget {
                                     children: [
                                       Text(
                                         'Total: ',
-                                        style: TextStyles.headingFont,
+                                        style: TextStyles.bodyFont,
                                       ),
                                       Obx(
                                         () => Text(
@@ -152,15 +154,15 @@ class CartWidget extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        'Shipping Charges: ',
-                                        style: TextStyles.headingFont,
+                                        'Shipping Fee: ',
+                                        style: TextStyles.bodyFont,
                                       ),
                                       cartController.calculatedPayment.value
                                                   .shippingAmount ==
                                               0.00
                                           ? Text(
                                               'Free',
-                                              style: TextStyles.titleFont
+                                              style: TextStyles.bodyFont
                                                   .copyWith(
                                                       color: AppColors.green),
                                             )
@@ -841,8 +843,14 @@ class CartWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              Helper.getFormattedNumber(
+                            PriceTag(
+                              cartController.cartProductsScoins[currentKey]!
+                                  .price!.offerPrice!
+                                  .toString(),
+                              cartController.cartProductsScoins[currentKey]!
+                                  .price!.actualPrice!
+                                  .toString(),
+                              scoin: Helper.getFormattedNumber(
                                       Helper.getMemberCoinValue(
                                               cartController
                                                   .cartProductsScoins[
@@ -852,13 +860,31 @@ class CartWidget extends StatelessWidget {
                                           cartController
                                               .cartProductsScoins[currentKey]!
                                               .count)
-                                  .toString(),
-                              style: TextStyles.headingFont,
-                            ),
-                            Lottie.asset('assets/coin.json',
-                                height: 25, fit: BoxFit.fill, repeat: true),
+                                  .toInt(),
+                            )
                           ],
                         ),
+                        // Row(
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       children: [
+                        //         Text(
+                        //           Helper.getFormattedNumber(
+                        //                   Helper.getMemberCoinValue(
+                        //                           cartController
+                        //                               .cartProductsScoins[
+                        //                                   currentKey]!
+                        //                               .price!,
+                        //                           stateController.userType.value) *
+                        //                       cartController
+                        //                           .cartProductsScoins[currentKey]!
+                        //                           .count)
+                        //               .toString(),
+                        //           style: TextStyles.headingFont,
+                        //         ),
+                        //         Lottie.asset('assets/coin.json',
+                        //             height: 25, fit: BoxFit.fill, repeat: true),
+                        //       ],
+                        //     ),
                       ),
                       Card(
                         color: AppColors.primeColor,

@@ -237,7 +237,7 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 270,
+      height: 230,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -257,8 +257,8 @@ class MultiProductRow extends StatelessWidget {
 
   Widget multiProductTile(MultiProductController multiprodController,
       Multi multiProd, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
+    return Card(
+      color: AppColors.white,
       child: Stack(
         children: [
           Column(
@@ -309,18 +309,14 @@ class MultiProductRow extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    PriceTag(multiProd.price!.offerPrice.toString(),
-                        multiProd.price!.actualPrice.toString()),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    addToCartButton(multiprodController, multiProd, context),
-                  ])
+              Row(children: [
+                PriceTag(multiProd.price!.offerPrice.toString(),
+                    multiProd.price!.actualPrice.toString()),
+                const SizedBox(
+                  width: 10,
+                ),
+                addToCartButton(multiprodController, multiProd, context),
+              ])
             ],
           ),
           DiscountTag(price: multiProd.price!)

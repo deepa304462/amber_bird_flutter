@@ -117,35 +117,6 @@ class ProductDetailScreen extends StatelessWidget {
     return Obx(
       () => (productController.product.value.id != null)
           ? Scaffold(
-              // appBar: AppBar(
-              //   toolbarHeight: 40,
-              //   backgroundColor: AppColors.primeColor,
-              //   iconTheme: IconThemeData(color: AppColors.commonBgColor),
-              //   leadingWidth: 50,
-              //   leading: MaterialButton(
-              //     onPressed: () {
-              //       try {
-              //         if (Modular.to.canPop()) {
-              //           Modular.to.pop();
-              //         } else {
-              //           Modular.to.navigate('../../home/main');
-              //         }
-              //       } catch (err) {
-              //         Modular.to.pushNamed('../../home/main');
-              //       }
-              //     },
-              //     child: const Icon(
-              //       Icons.arrow_back_ios,
-              //       color: Colors.white,
-              //       size: 15,
-              //     ),
-              //   ),
-              //   title: Text(
-              //     productController.product.value.name!.defaultText!.text!,
-              //     style: TextStyles.body
-              //         .copyWith(color: Colors.white, fontSize: 20),
-              //   ),
-              // ),
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {
@@ -412,7 +383,8 @@ class ProductDetailScreen extends StatelessWidget {
                               children: [
                                 Card(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
+                                    padding:
+                                        const EdgeInsets.fromLTRB(8.0, 4, 8, 4),
                                     child: Text(
                                       "${productController.varient.value.price!.actualPrice!.toString()}${CodeHelp.euro}",
                                       style: TextStyles.headingFont,
@@ -563,7 +535,7 @@ class ProductDetailScreen extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              TextButton(
+                                              TextButton.icon(
                                                 style: TextButton.styleFrom(
                                                     padding: EdgeInsets.only(
                                                         left: 3, right: 10),
@@ -618,8 +590,12 @@ class ProductDetailScreen extends StatelessWidget {
                                                   stateController
                                                       .showLoader.value = false;
                                                 },
-                                                child: Text(
-                                                  "Add to cart",
+                                                icon: Icon(
+                                                  Icons.add_circle_outline,
+                                                  color: AppColors.white,
+                                                ),
+                                                label: Text(
+                                                  "Add",
                                                   style: TextStyles.titleFont
                                                       .copyWith(
                                                           color:
@@ -1032,12 +1008,39 @@ class ProductDetailScreen extends StatelessWidget {
                             height: 5,
                           ),
                           Text(
-                            'For information about how sbazar uses your personal data view iur privacy policy',
+                            'For information about how sbazar uses your personal data view our privacy policy',
                             style:
                                 TextStyles.body.copyWith(color: AppColors.grey),
                             softWrap: true,
                             maxLines: 3,
                           )
+                        ]),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    onTap: () {},
+                    leading: Icon(Icons.reset_tv_rounded,
+                        color: AppColors.black, size: 15),
+                    title: Text(
+                      'Easy return',
+                      style: TextStyles.headingFont,
+                    ),
+                    dense: true,
+                    minLeadingWidth: 20,
+                    horizontalTitleGap: 10,
+                    // contentPadding: const EdgeInsets.all(2),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Experience hassle-free satisfaction with our easy return policy, where simplicity meets peace of mind',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                            softWrap: true,
+                            maxLines: 6,
+                          ),
                         ]),
                   ),
                   const SizedBox(
@@ -1084,37 +1087,44 @@ class ProductDetailScreen extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-        itemCount: stateController.membershipList.length,
+        itemCount: stateController.membershipList.length + 1,
         itemBuilder: (_, index) {
-          var currentKey =
-              stateController.membershipList.value.keys.elementAt(index);
-          var currenMemberInfo =
-              stateController.membershipList.value[currentKey]!;
-
-          return currenMemberInfo.id != memberShipType.No_Membership.name
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: Row(
-                    children: [
-                      ImageBox(
-                        currenMemberInfo.imageId!,
-                        height: 20,
-                        width: 20,
-                        fit: BoxFit.contain,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        Helper.getFormattedNumber(Helper.getMsdAmount(
-                                price: price!, userType: currenMemberInfo.id!))
-                            .toString(),
-                        style: TextStyles.headingFont,
-                      ),
-                    ],
-                  ),
-                )
-              : SizedBox();
+          if (index == 0)
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              child: Text(
+                'MSD :',
+                style: TextStyles.headingFont.copyWith(color: AppColors.green),
+              ),
+            );
+          else {
+            var currentKey =
+                stateController.membershipList.value.keys.elementAt(index - 1);
+            var currenMemberInfo =
+                stateController.membershipList.value[currentKey]!;
+            return currenMemberInfo.id != memberShipType.No_Membership.name
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Row(
+                      children: [
+                        ImageBox(
+                          currenMemberInfo.imageId!,
+                          height: 20,
+                          width: 20,
+                          fit: BoxFit.contain,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '${Helper.getFormattedNumber(Helper.getMsdAmount(price: price!, userType: currenMemberInfo.id!)).toString()}${CodeHelp.euro}',
+                          style: TextStyles.headingFont,
+                        ),
+                      ],
+                    ),
+                  )
+                : SizedBox();
+          }
         },
       ),
     );
@@ -1251,7 +1261,7 @@ class ProductDetailScreen extends StatelessWidget {
                         size: 15,
                       ),
                       Text(
-                        'Customer Service',
+                        'Easy Return',
                         style: TextStyles.body.copyWith(color: AppColors.grey),
                       ),
                       const SizedBox(
@@ -1531,8 +1541,8 @@ class ProductDetailScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child:
-                            Html(
-                                data:
+                            ShowMoreWidget(
+                                text:
                                     productController
                                                     .product
                                                     .value
@@ -1559,13 +1569,13 @@ class ProductDetailScreen extends StatelessWidget {
                                                 .allergicDetail!
                                                 .languageTexts![0]
                                                 .text ??
-                                            '',
-                                style: {
-                              "body": Style(
-                                  fontSize: FontSize(FontSizes.body),
-                                  fontWeight: FontWeight.w300,
-                                  fontFamily: Fonts.body),
-                            }),
+                                            ''),
+                        //     style: {
+                        //   "body": Style(
+                        //       fontSize: FontSize(FontSizes.body),
+                        //       fontWeight: FontWeight.w300,
+                        //       fontFamily: Fonts.body),
+                        // }),
                       ),
                     )
                   ],

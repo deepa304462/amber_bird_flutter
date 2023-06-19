@@ -54,52 +54,58 @@ class DealBottomDrawer extends StatelessWidget {
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
       child: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppBar(
-                  backgroundColor: AppColors.white,
-                  elevation: 1,
-                  leadingWidth: 0,
-                  leading: const SizedBox(),
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            '${name!.defaultText!.text}',
-                            style: TextStyles.bodyFont
-                                .copyWith(color: AppColors.grey),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '(${totalNumberOfProducts} Products) ',
-                            style: TextStyles.headingFont
-                                .copyWith(color: AppColors.primeColor),
-                          ),
-                          DiscountTag(price: priceInfo!),
-                        ],
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close_rounded),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
+          Column(
+            children: [
+              AppBar(
+                backgroundColor: AppColors.white,
+                elevation: 1,
+                leadingWidth: 0,
+                leading: const SizedBox(),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '${name!.defaultText!.text}',
+                          style: TextStyles.bodyFont
+                              .copyWith(color: AppColors.primeColor),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          '(${totalNumberOfProducts} Products) ',
+                          style: TextStyles.headingFont
+                              .copyWith(color: AppColors.grey),
+                        ),
+                        DiscountTag(price: priceInfo!),
+                      ],
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close_rounded),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: products!.map((product) {
-                        product.varient!.price = priceInfo;
+              ),
+              SingleChildScrollView(
+                // physics: const BouncingScrollPhysics(),
+                child:
+                    //  Column(
+                    //     children: products!.map((product) {
+                    //       product.varient!.price = priceInfo;
+                    //       return
+
+                    SizedBox(
+                  height: 500,
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: products!.length,
+                      itemBuilder: (_, index) {
+                        var product = products![index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6.0),
                           child: Column(
@@ -160,12 +166,10 @@ class DealBottomDrawer extends StatelessWidget {
                             ],
                           ),
                         );
-                      }).toList(),
-                    ),
-                  ),
+                      }),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           Align(
             alignment: Alignment.bottomCenter,

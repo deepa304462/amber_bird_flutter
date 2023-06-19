@@ -360,16 +360,17 @@ class LocationController extends GetxController {
     changeAddressData.value.zipCode =
         findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
     changeAddressData.value.name = '';
-    changeAddressData.value.houseNo =
-        findValueFromAddressFromGoogleData(addressFromGoogle, 'premise');
-    changeAddressData.value.line1 = findValueFromAddressFromGoogleData(
-            addressFromGoogle, 'sublocality_level_2') +
-        ', ' +
-        findValueFromAddressFromGoogleData(
-            addressFromGoogle, 'sublocality_level_1');
+    changeAddressData.value.houseNo = findValueFromAddressFromGoogleData(
+                addressFromGoogle, 'premise') !=
+            ''
+        ? '${findValueFromAddressFromGoogleData(addressFromGoogle, 'premise')}'
+        : '${findValueFromAddressFromGoogleData(addressFromGoogle, 'street_number')} ';
+    changeAddressData.value.line1 =
+        '${findValueFromAddressFromGoogleData(addressFromGoogle, 'route')} ${findValueFromAddressFromGoogleData(addressFromGoogle, 'sublocality_level_2')}, ${findValueFromAddressFromGoogleData(addressFromGoogle, 'sublocality_level_1')}';
     changeAddressData.value.city =
-        findValueFromAddressFromGoogleData(addressFromGoogle, 'locality') ??
-            findValueFromAddressFromGoogleData(
+        findValueFromAddressFromGoogleData(addressFromGoogle, 'locality') != ''
+            ? findValueFromAddressFromGoogleData(addressFromGoogle, 'locality')
+            : findValueFromAddressFromGoogleData(
                 addressFromGoogle, 'administrative_area_level_2');
     changeAddressData.value.country =
         findValueFromAddressFromGoogleData(addressFromGoogle, 'country');

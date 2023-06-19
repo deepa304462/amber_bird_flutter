@@ -51,7 +51,7 @@ class ReferralPage extends StatelessWidget {
           Stack(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * .4,
+                height: MediaQuery.of(context).size.height * .36,
                 width: MediaQuery.of(context).size.width,
                 child: Lottie.network(
                     'https://cdn2.sbazar.app/26525fe0-b20f-4a8c-b9a5-50d6ec73c5f0',
@@ -71,49 +71,25 @@ class ReferralPage extends StatelessWidget {
                             style: TextStyles.bodyFont
                                 .copyWith(color: Colors.grey),
                           ),
+                          SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Card(
-                              //   shape: RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.circular(0),
-                              //       side: BorderSide(
-                              //           width: 2, color: AppColors.primeColor)),
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.all(8.0),
-                              //     child: Obx(() {
-                              //       return Text(
-                              //         controller.shortLink.value.shortUrl!,
-                              //         style: TextStyles.bodyFontBold
-                              //             .copyWith(color: AppColors.grey),
-                              //       );
-                              //     }),
-                              //   ),
-                              // ),
-                              // const Divider(),
                               MaterialButton(
                                 onPressed: () {
                                   CodeHelp.shareWithOther(
                                       'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
                                       'Share now');
                                 },
-                                color: AppColors.primeColor,
+                                color: AppColors.green,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0),
+                                  borderRadius: BorderRadius.circular(2),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      // const Icon(
-                                      //   Icons.share,
-                                      //   color: Colors.white,
-                                      //   size: 16,
-                                      // ),
-                                      // const SizedBox(
-                                      //   width: 5,
-                                      // ),
                                       Text(
                                         'Invite Now',
                                         style: TextStyles.bodyFont
@@ -125,6 +101,7 @@ class ReferralPage extends StatelessWidget {
                               )
                             ],
                           ),
+                          SizedBox(height: 10),
                         ],
                       )
                 : TextButton(
