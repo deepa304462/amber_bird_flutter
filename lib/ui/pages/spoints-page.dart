@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wallet-controller.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +47,12 @@ class SpointsPage extends StatelessWidget {
             )),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.7,
-          child: Obx(
-            () => PageView(
+          child: Obx(() {
+            var membershipType = stateController.getMemberShipText();
+            int indesMember = walletController.membershipInfo
+                .indexWhere((elem) => elem.id == membershipType);
+            controller = PageController(initialPage: indesMember);
+            return PageView(
               scrollDirection: Axis.horizontal,
               controller: controller,
               onPageChanged: (num) {
@@ -89,7 +94,9 @@ class SpointsPage extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Range: ${element.spointsRangeMin} - ${element.spointsRangeMax}',
+                                    element.id == memberShipType.Platinum.name
+                                        ? 'Range: Above ${element.spointsRangeMin}'
+                                        : 'Range: ${element.spointsRangeMin} - ${element.spointsRangeMax}',
                                     style: TextStyles.headingFont
                                         .copyWith(color: AppColors.green),
                                   ),
@@ -174,8 +181,8 @@ class SpointsPage extends StatelessWidget {
                   },
                 ),
               ],
-            ),
-          ),
+            );
+          }),
         ),
       ],
     );
