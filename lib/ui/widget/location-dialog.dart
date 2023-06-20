@@ -73,65 +73,71 @@ class LocationDialog extends StatelessWidget {
                       style: TextStyles.bodyFont.copyWith(color: Colors.white),
                     ),
                   ),
-                  const SizedBox(
-                    height: 15,
-                  ),
 
                   const SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 200,
-                    child: Column(
-                      children: [
-                        TextField(
-                          decoration: InputDecoration(
-                              labelText: "Search your home address",
-                              hintText: "Type home address",
-                              suffixIcon: InkWell(
-                                  onTap: () {
-                                    _textController.clear();
-                                    controller.addressSuggestions.clear();
+                  !searchedAdd.value
+                      ? SizedBox(
+                          height: 200,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  decoration: InputDecoration(
+                                      labelText: "Search your home address",
+                                      hintText: "Type home address",
+                                      suffixIcon: InkWell(
+                                          onTap: () {
+                                            _textController.clear();
+                                            controller.addressSuggestions
+                                                .clear();
+                                          },
+                                          child: const Icon(Icons.clear))),
+                                  controller: _textController,
+                                  onChanged: (String changedText) {
+                                    controller.search(changedText,
+                                        locationController.pinCode.value);
                                   },
-                                  child: const Icon(Icons.clear))),
-                          controller: _textController,
-                          onChanged: (String changedText) {
-                            controller.search(
-                                changedText, locationController.pinCode.value);
-                          },
-                        ),
-                        Expanded(
-                          child: Obx(
-                            () => ListView(
-                              shrinkWrap: true,
-                              children: controller.addressSuggestions
-                                  .map(
-                                    (element) => TextButton(
-                                      onPressed: () {
-                                        locationController
-                                            .updateCustomerAddress(element);
-                                        searchedAdd.value = true;
-                                        // Modular.to.pop(element);
-                                      },
-                                      style: const ButtonStyle(
-                                          alignment: Alignment.centerLeft),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          '${element['formatted_address']}',
-                                          style: TextStyles.bodyFont,
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ),
+                                ),
+                                Expanded(
+                                  child: Obx(
+                                    () => ListView(
+                                      shrinkWrap: true,
+                                      children: controller.addressSuggestions
+                                          .map(
+                                            (element) => TextButton(
+                                              onPressed: () {
+                                                locationController
+                                                    .updateCustomerAddress(
+                                                        element);
+                                                searchedAdd.value = true;
+                                                // Modular.to.pop(element);
+                                              },
+                                              style: const ButtonStyle(
+                                                  alignment:
+                                                      Alignment.centerLeft),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  '${element['formatted_address']}',
+                                                  style: TextStyles.bodyFont,
+                                                  textAlign: TextAlign.right,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
                                     ),
-                                  )
-                                  .toList(),
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         )
-                      ],
-                    ),
-                  ),
+                      : const SizedBox(),
                   // MaterialButton(
                   //   onPressed: () {
                   //     showDialog(
@@ -150,140 +156,198 @@ class LocationDialog extends StatelessWidget {
                   searchedAdd.value
                       ? Column(
                           children: [
-                            ITextBox(
-                                'Name (Required)',
-                                'name',
-                                locationController
-                                            .changeAddressData.value.name !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.name
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.text,
-                                false,
-                                false,
-                                callback),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          8,
+                                  child: ITextBox(
+                                      'Name (Required)',
+                                      'name',
+                                      locationController.changeAddressData.value
+                                                  .name !=
+                                              null
+                                          ? locationController
+                                              .changeAddressData.value.name
+                                              .toString()
+                                          : '',
+                                      false,
+                                      TextInputType.text,
+                                      false,
+                                      false,
+                                      callback),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          8,
+                                  child: ITextBox(
+                                      'Phone (Required)',
+                                      'phoneNumber',
+                                      locationController.changeAddressData.value
+                                                  .phoneNumber !=
+                                              null
+                                          ? locationController.changeAddressData
+                                              .value.phoneNumber
+                                              .toString()
+                                          : '',
+                                      false,
+                                      TextInputType.number,
+                                      false,
+                                      false,
+                                      callback),
+                                ),
+                              ],
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
-                            ITextBox(
-                                'House No (Required)',
-                                'houseNo',
-                                locationController
-                                            .changeAddressData.value.houseNo !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.houseNo
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.text,
-                                false,
-                                false,
-                                callback),
+                            Row(children: [
+                              SizedBox(
+                                width:
+                                    (MediaQuery.of(context).size.width / 4) - 8,
+                                child: ITextBox(
+                                    'House No (Required)',
+                                    'houseNo',
+                                    locationController.changeAddressData.value
+                                                .houseNo !=
+                                            null
+                                        ? locationController
+                                            .changeAddressData.value.houseNo
+                                            .toString()
+                                        : '',
+                                    false,
+                                    TextInputType.text,
+                                    false,
+                                    false,
+                                    callback),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                width: (MediaQuery.of(context).size.width *
+                                        3 /
+                                        4) -
+                                    8,
+                                child: ITextBox(
+                                    'Street name (Required)',
+                                    'line1',
+                                    locationController.changeAddressData.value
+                                                .line1 !=
+                                            null
+                                        ? locationController
+                                            .changeAddressData.value.line1
+                                            .toString()
+                                        : '',
+                                    false,
+                                    TextInputType.text,
+                                    false,
+                                    false,
+                                    callback),
+                              )
+                            ]),
                             const SizedBox(
                               height: 10,
                             ),
-                            ITextBox(
-                                'Phone (Required)',
-                                'phoneNumber',
-                                locationController.changeAddressData.value
-                                            .phoneNumber !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.phoneNumber
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.number,
-                                false,
-                                false,
-                                callback),
+                            Row(children: [
+                              SizedBox(
+                                width:
+                                    (MediaQuery.of(context).size.width / 2) - 8,
+                                child: ITextBox(
+                                    'City (Required)',
+                                    'city',
+                                    locationController
+                                                .changeAddressData.value.city !=
+                                            null
+                                        ? locationController
+                                            .changeAddressData.value.city
+                                            .toString()
+                                        : '',
+                                    false,
+                                    TextInputType.text,
+                                    false,
+                                    false,
+                                    callback),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                width:
+                                    (MediaQuery.of(context).size.width / 2) - 8,
+                                child: ITextBox(
+                                    'Zip Code',
+                                    'zipCode',
+                                    locationController.changeAddressData.value
+                                                .zipCode !=
+                                            null
+                                        ? locationController
+                                            .changeAddressData.value.zipCode
+                                            .toString()
+                                        : '',
+                                    false,
+                                    TextInputType.number,
+                                    false,
+                                    false,
+                                    callback),
+                              )
+                            ]),
                             const SizedBox(
                               height: 10,
                             ),
-                            ITextBox(
-                                'Street name (Required)',
-                                'line1',
-                                locationController
-                                            .changeAddressData.value.line1 !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.line1
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.text,
-                                false,
-                                false,
-                                callback),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ITextBox(
-                                'City (Required)',
-                                'city',
-                                locationController
-                                            .changeAddressData.value.city !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.city
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.text,
-                                false,
-                                false,
-                                callback),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ITextBox(
-                                'Zip Code',
-                                'zipCode',
-                                locationController
-                                            .changeAddressData.value.zipCode !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.zipCode
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.number,
-                                false,
-                                false,
-                                callback),
-                            ITextBox(
-                                'Country',
-                                'country',
-                                locationController
-                                            .changeAddressData.value.country !=
-                                        null
-                                    ? locationController
-                                        .changeAddressData.value.country
-                                        .toString()
-                                    : '',
-                                false,
-                                TextInputType.text,
-                                false,
-                                false,
-                                callback),
-                            Obx(
-                              () => IRadioBox(
-                                  'Type',
-                                  'addressType',
-                                  locationController.changeAddressData.value
-                                              .addressType !=
-                                          null
-                                      ? locationController
-                                          .changeAddressData.value.addressType
-                                          .toString()
-                                      : 'HOME',
-                                  ['HOME', 'OFFICE'],
-                                  false,
-                                  callback),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          8,
+                                  child: ITextBox(
+                                      'Country',
+                                      'country',
+                                      locationController.changeAddressData.value
+                                                  .country !=
+                                              null
+                                          ? locationController
+                                              .changeAddressData.value.country
+                                              .toString()
+                                          : '',
+                                      false,
+                                      TextInputType.text,
+                                      false,
+                                      false,
+                                      callback),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  width:
+                                      (MediaQuery.of(context).size.width / 2) -
+                                          8,
+                                  child: Obx(
+                                    () => IRadioBox(
+                                        'Type',
+                                        'addressType',
+                                        locationController.changeAddressData
+                                                    .value.addressType !=
+                                                null
+                                            ? locationController
+                                                .changeAddressData
+                                                .value
+                                                .addressType
+                                                .toString()
+                                            : 'HOME',
+                                        ['HOME', 'OFFICE'],
+                                        false,
+                                        callback),
+                                  ),
+                                )
+                              ],
                             ),
                             const SizedBox(
                               height: 10,
