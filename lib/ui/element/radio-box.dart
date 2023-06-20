@@ -24,7 +24,7 @@ class IRadioBox extends StatelessWidget {
     //     value.split('-').length > 1 ? value.split('-')[1] : value;
     return Container(
       // height: 55,
-      padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+      // padding: const EdgeInsets.fromLTRB(0, 2, 10, 2),
       decoration: BoxDecoration(color: Colors.transparent),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -41,6 +41,7 @@ class IRadioBox extends StatelessWidget {
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                dense: true,
                 title: Text(inputList[index], style: TextStyles.titleFont),
                 leading: Radio(
                   value: inputList[index],

@@ -261,18 +261,18 @@ class OrderListPage extends StatelessWidget {
               ),
             ),
           ),
-          Visibility(
-            visible: checkValidReturnReq(curOrder),
-            child: Expanded(
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Return',
-                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
-                ),
-              ),
-            ),
-          ),
+          // Visibility(
+          //   visible: checkValidReturnReq(curOrder),
+          //   child: Expanded(
+          //     child: TextButton(
+          //       onPressed: () {},
+          //       child: Text(
+          //         'Return',
+          //         style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -303,11 +303,11 @@ class OrderListPage extends StatelessWidget {
     }
   }
 
-  checkValidReturnReq(Order order) {
-    if (order.status == 'DELIVERED') {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // checkValidReturnReq(Order order) {
+  //   if (order.status == 'DELIVERED') {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }

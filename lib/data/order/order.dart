@@ -21,6 +21,7 @@ class Order {
   String? businessId;
   String? referredById;
   String? userFriendlyOrderId;
+  bool? eligibleForCancellation;
   String? id;
 
   Order({
@@ -36,12 +37,13 @@ class Order {
     this.businessId,
     this.referredById,
     this.userFriendlyOrderId,
+    this.eligibleForCancellation,
     this.id,
   });
 
   @override
   String toString() {
-    return 'Order(metaData: $metaData, payment: $payment, products: $products,productsViaSCoins: $productsViaSCoins, msdApplicableProducts:$msdApplicableProducts,status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId, id: $id)';
+    return 'Order(metaData: $metaData, payment: $payment, products: $products,productsViaSCoins: $productsViaSCoins, msdApplicableProducts:$msdApplicableProducts,status: $status, shipping: $shipping, customerRef: $customerRef, shareLink: $shareLink, businessId: $businessId, referredById: $referredById, userFriendlyOrderId: $userFriendlyOrderId,eligibleForCancellation:$eligibleForCancellation, id: $id)';
   }
 
   factory Order.fromMap(Map<String, dynamic> data) => Order(
@@ -73,6 +75,7 @@ class Order {
         businessId: data['businessId'] as String?,
         referredById: data['referredById'] as String?,
         userFriendlyOrderId: data['userFriendlyOrderId'] as String?,
+        eligibleForCancellation: data['eligibleForCancellation'] as bool?,
         id: data['_id'] as String?,
       );
 
@@ -90,6 +93,7 @@ class Order {
         'businessId': businessId,
         'referredById': referredById,
         'userFriendlyOrderId': userFriendlyOrderId,
+        'eligibleForCancellation': eligibleForCancellation,
         '_id': id,
       };
 

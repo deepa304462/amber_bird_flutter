@@ -359,7 +359,6 @@ class LocationController extends GetxController {
   void updateCustomerAddress(addressFromGoogle) {
     changeAddressData.value.zipCode =
         findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
-    changeAddressData.value.name = '';
     changeAddressData.value.houseNo = findValueFromAddressFromGoogleData(
                 addressFromGoogle, 'premise') !=
             ''
