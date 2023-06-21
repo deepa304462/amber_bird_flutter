@@ -127,7 +127,7 @@ class MegaMenuController extends GetxController {
           id: 'MULTI',
           type: 'MULTI',
           text: 'Multi'));
-      ((resp as List<dynamic>?)?.map((e) {
+      ((resp)?.map((e) {
             ProductCategory category =
                 ProductCategory.fromMap(e as Map<String, dynamic>);
             cList.add(GenericTab(
@@ -139,7 +139,7 @@ class MegaMenuController extends GetxController {
           }).toList() ??
           []);
       mainTabs.value = cList;
-      getSubMenu(mainTabs.value[0]);
+      getSubMenu(mainTabs[0]);
       isLoading.value = false;
       // }
     }
@@ -315,10 +315,10 @@ class MegaMenuController extends GetxController {
                   return productSummary;
                 }).toList() ??
                 []);
-        List<ProductSummary> dList2 = dList
-            .where((i) =>
-                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
-            .toList();
+        // List<ProductSummary> dList2 = dList
+        //     .where((i) =>
+        //         stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+        //     .toList();
         productList.value = dList;
         isLoading.value = false;
       }
@@ -335,10 +335,10 @@ class MegaMenuController extends GetxController {
                 }).toList() ??
                 []);
 
-        List<ProductSummary> dList2 = dList
-            .where((i) =>
-                stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
-            .toList();
+        // List<ProductSummary> dList2 = dList
+        //     .where((i) =>
+        //         stateController.dealsProductsIdList.indexOf(i.id ?? '') < 0)
+        //     .toList();
         productList.value = dList;
       }
       isLoading.value = false;

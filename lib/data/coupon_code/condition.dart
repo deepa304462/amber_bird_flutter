@@ -4,7 +4,7 @@ import 'applicable_for_profile_ref.dart';
 
 class Condition {
   bool? firstTimePurchase;
-  dynamic? maxCartAmount;
+  dynamic maxCartAmount;
   List<String>? applicableForZipcodes;
   List<String>? includeProductCategoryIds;
   List<String>? excludeProductCategoryIds;
@@ -16,7 +16,7 @@ class Condition {
   bool? onlyForGoldMember;
   bool? onlyForSilverMember;
   String? expireAtTime;
-  dynamic? maxUses;
+  dynamic maxUses;
 
   Condition({
     this.firstTimePurchase,
@@ -42,7 +42,7 @@ class Condition {
 
   factory Condition.fromMap(Map<String, dynamic> data) => Condition(
         firstTimePurchase: data['firstTimePurchase'] as bool?,
-        maxCartAmount: data['maxCartAmount'] as dynamic?,
+        maxCartAmount: data['maxCartAmount'] as dynamic,
         applicableForZipcodes: data['applicableForZipcodes'] == null
             ? null
             : (data['applicableForZipcodes'] as List<dynamic>?)
@@ -77,7 +77,7 @@ class Condition {
         onlyForGoldMember: data['onlyForGoldMember'] as bool?,
         onlyForSilverMember: data['onlyForSilverMember'] as bool?,
         expireAtTime: data['expireAtTime'] as String?,
-        maxUses: data['maxUses'] as dynamic?,
+        maxUses: data['maxUses'] as dynamic,
       );
 
   Map<String, dynamic> toMap() => {
@@ -111,7 +111,7 @@ class Condition {
 
   Condition copyWith({
     bool? firstTimePurchase,
-    dynamic? maxCartAmount,
+    dynamic maxCartAmount,
     List<String>? applicableForZipcodes,
     List<String>? includeProductCategoryIds,
     List<String>? excludeProductCategoryIds,
@@ -123,7 +123,7 @@ class Condition {
     bool? onlyForGoldMember,
     bool? onlyForSilverMember,
     String? expireAtTime,
-    dynamic? maxUses,
+    dynamic maxUses,
   }) {
     return Condition(
       firstTimePurchase: firstTimePurchase ?? this.firstTimePurchase,

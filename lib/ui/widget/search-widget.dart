@@ -177,13 +177,20 @@ class CustomSearchDelegate extends SearchDelegate {
         children: searchController.popularItems.map<Widget>(
       (data) {
         return Container(
-          height: 25,
+          height: 20,
           padding: const EdgeInsets.all(0),
-          margin: const EdgeInsets.fromLTRB(0, 5, 6, 0),
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           decoration: BoxDecoration(
-            border: Border.all(width: 1, color: AppColors.primeColor),
-            color: query == data['value'] ? Colors.green[100] : AppColors.white,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                width: 1,
+                color: query == data['value']
+                    ? AppColors.primeColor
+                    : AppColors.commonBgColor),
+            color: query == data['value']
+                ? AppColors.primeColor
+                : AppColors.commonBgColor,
+            // borderRadius: BorderRadius.circular(8),
           ),
           child: TextButton(
             style: TextButton.styleFrom(

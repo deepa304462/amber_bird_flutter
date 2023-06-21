@@ -16,7 +16,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../helpers/controller-generator.dart';
 
@@ -40,7 +39,6 @@ class CartWidget extends StatelessWidget {
         backgroundColor: AppColors.primeColor,
         leading: MaterialButton(
           onPressed: () {
-            // Navigator.pop(context);
             stateController.navigateToUrl('/home/main');
           },
           child: const Icon(
@@ -56,16 +54,10 @@ class CartWidget extends StatelessWidget {
               'My Cart',
               style: TextStyles.bodyFont.copyWith(color: Colors.white),
             ),
-            // Text(
-            //   '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
-            //   style: TextStyles.headingFont.copyWith(color: AppColors.white),
-            // ),
           ],
         ),
       ),
       bottomNavigationBar: Container(
-        // decoration: const BoxDecoration(
-        //     border: Border(top: BorderSide(width: 0, color: Colors.grey))),
         child: Obx(
           () => (cartController.cartProducts.isNotEmpty ||
                       cartController.cartProductsScoins.isNotEmpty ||
@@ -79,7 +71,6 @@ class CartWidget extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     child: MaterialButton(
                       color: AppColors.green,
-                      // visualDensity: const VisualDensity(horizontal: 4),
                       onPressed: () async {
                         checkoutClicked.value = true;
                         if (!isLoading.value) {
@@ -167,7 +158,7 @@ class CartWidget extends StatelessWidget {
                                                       color: AppColors.green),
                                             )
                                           : Text(
-                                              '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
+                                              '${Helper.formatNumberTwodigit(Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)))}${CodeHelp.euro}',
                                               style: TextStyles.headingFont
                                                   .copyWith(
                                                       color: AppColors.green),
@@ -295,259 +286,478 @@ class CartWidget extends StatelessWidget {
               var currentMemberPrice = Helper.getMsdAmount(
                   price: currentProduct.price!,
                   userType: stateController.userType.value);
-              return Column(
-                children: [
-                  currentProduct.products!.isNotEmpty
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              Row(children: <Widget>[
-                                SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .1,
-                                    child: Divider()),
-                                FitText(
-                                  '${currentProduct.name}',
-                                  style: TextStyles.headingFont
-                                      .copyWith(color: AppColors.primeColor),
-                                ),
-                                const Expanded(child: Divider()),
-                              ]),
-                              Row(
-                                children: [
+              return Container(
+                color: (checkoutClicked.value &&
+                        !cartController.checktOrderRefAvailable(
+                            cartController.msdProducts.value[currentKey]!.ref))
+                    ? AppColors.primeColor
+                    : AppColors.white,
+                child: Column(
+                  children: [
+                    currentProduct.products!.isNotEmpty
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                Row(children: <Widget>[
                                   SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .73,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount:
-                                          currentProduct.products!.length,
-                                      itemBuilder: (_, pIndex) {
-                                        var currentInnerProduct =
-                                            currentProduct.products![pIndex];
-                                        return ListTile(
-                                          dense: false,
-                                          visualDensity:
-                                              const VisualDensity(vertical: 3),
-                                          leading: ImageBox(
-                                            '${currentInnerProduct.images![0]}',
-                                            width: 80,
-                                            height: 80,
+                                      width: MediaQuery.of(context).size.width *
+                                          .1,
+                                      child: Divider()),
+                                  FitText(
+                                    '${currentProduct.name}',
+                                    style: TextStyles.headingFont
+                                        .copyWith(color: AppColors.primeColor),
+                                  ),
+                                  const Expanded(child: Divider()),
+                                ]),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          .73,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const BouncingScrollPhysics(),
+                                        scrollDirection: Axis.vertical,
+                                        itemCount:
+                                            currentProduct.products!.length,
+                                        itemBuilder: (_, pIndex) {
+                                          var currentInnerProduct =
+                                              currentProduct.products![pIndex];
+                                          return ListTile(
+                                            dense: false,
+                                            visualDensity: const VisualDensity(
+                                                vertical: 3),
+                                            leading: ImageBox(
+                                              '${currentInnerProduct.images![0]}',
+                                              width: 80,
+                                              height: 80,
+                                              fit: BoxFit.contain,
+                                            ),
+                                            title: FitText(
+                                              currentInnerProduct
+                                                  .name!.defaultText!.text!,
+                                              style: TextStyles.headingFont,
+                                              align: TextAlign.start,
+                                            ),
+                                            subtitle: Text(
+                                              '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
+                                              style: TextStyles.body,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 100,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          ImageBox(
+                                            stateController
+                                                .membershipIcon.value,
+                                            height: 20,
+                                            width: 20,
                                             fit: BoxFit.contain,
                                           ),
-                                          title: FitText(
-                                            currentInnerProduct
-                                                .name!.defaultText!.text!,
+                                          Text(
+                                            '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                             style: TextStyles.headingFont,
-                                            align: TextAlign.start,
                                           ),
-                                          subtitle: Text(
-                                            '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
-                                            style: TextStyles.body,
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                          Card(
+                                            color: AppColors.primeColor,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                IconButton(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  onPressed: () async {
+                                                    isLoading.value = true;
+                                                    if (stateController
+                                                        .isLogin.value) {
+                                                      var valid = false;
+                                                      var msg =
+                                                          'Something went wrong!';
+
+                                                      if (currentProduct
+                                                                  .ruleConfig !=
+                                                              null ||
+                                                          currentProduct
+                                                                  .constraint !=
+                                                              null) {
+                                                        dynamic data = await Helper
+                                                            .checkProductValidtoAddinCart(
+                                                                currentProduct
+                                                                    .ruleConfig,
+                                                                currentProduct
+                                                                    .constraint,
+                                                                currentProduct
+                                                                        .ref!
+                                                                        .id ??
+                                                                    '',
+                                                                currentProduct
+                                                                        .ref!
+                                                                        .id ??
+                                                                    '');
+                                                        valid = !data['error'];
+                                                        msg = data['msg'];
+                                                      }
+                                                      if (valid) {
+                                                        await cartController.addToCartMSD(
+                                                            '${currentProduct.ref!.id}',
+                                                            currentProduct
+                                                                .ref!.name!,
+                                                            minOrder,
+                                                            currentProduct
+                                                                .price,
+                                                            null,
+                                                            currentProduct
+                                                                .products,
+                                                            currentProduct
+                                                                .ruleConfig,
+                                                            currentProduct
+                                                                .constraint,
+                                                            null,
+                                                            mutliProductName:
+                                                                currentProduct
+                                                                        .name ??
+                                                                    "",
+                                                            imageId:
+                                                                currentProduct
+                                                                    .imageId);
+                                                      } else {
+                                                        snackBarClass.showToast(
+                                                            context, msg);
+                                                      }
+                                                    }
+                                                    isLoading.value = false;
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.remove_circle_outline,
+                                                    color: Colors.white,
+                                                    size: FontSizes.title,
+                                                  ),
+                                                ),
+                                                Text(
+                                                    cartController
+                                                        .getCurrentQuantity(
+                                                            '${currentProduct.ref!.id}',
+                                                            'MSD')
+                                                        .toString(),
+                                                    style: TextStyles
+                                                        .headingFont
+                                                        .copyWith(
+                                                            color:
+                                                                Colors.white)),
+                                                IconButton(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  onPressed: () async {
+                                                    isLoading.value = true;
+                                                    if (stateController
+                                                        .isLogin.value) {
+                                                      var valid = false;
+                                                      var msg =
+                                                          'Something went wrong!';
+
+                                                      if (currentProduct
+                                                                  .ruleConfig !=
+                                                              null ||
+                                                          currentProduct
+                                                                  .constraint !=
+                                                              null) {
+                                                        dynamic data = await Helper
+                                                            .checkProductValidtoAddinCart(
+                                                                currentProduct
+                                                                    .ruleConfig,
+                                                                currentProduct
+                                                                    .constraint,
+                                                                currentProduct
+                                                                        .ref!
+                                                                        .id ??
+                                                                    '',
+                                                                currentProduct
+                                                                        .ref!
+                                                                        .id ??
+                                                                    '');
+                                                        valid = !data['error'];
+                                                        msg = data['msg'];
+                                                      }
+                                                      if (valid) {
+                                                        await cartController.addToCartMSD(
+                                                            '${currentProduct.ref!.id}',
+                                                            currentProduct
+                                                                .ref!.name!,
+                                                            minOrder,
+                                                            currentProduct
+                                                                .price,
+                                                            null,
+                                                            currentProduct
+                                                                .products,
+                                                            currentProduct
+                                                                .ruleConfig,
+                                                            currentProduct
+                                                                .constraint,
+                                                            null,
+                                                            mutliProductName:
+                                                                currentProduct
+                                                                        .name ??
+                                                                    '',
+                                                            imageId:
+                                                                currentProduct
+                                                                    .imageId);
+                                                      } else {
+                                                        snackBarClass.showToast(
+                                                            context, msg);
+                                                      }
+                                                    }
+                                                    isLoading.value = false;
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.add_circle_outline,
+                                                    color: Colors.white,
+                                                    size: FontSizes.title,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    cartButtons(
+                                        context, cartController, currentKey),
+                                    MaterialButton(
+                                        onPressed: () async {
+                                          isLoading.value = true;
+                                          await cartController.removeProduct(
+                                              currentKey, 'MSD');
+                                          isLoading.value = false;
+                                        },
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.delete,
+                                              size: 16,
+                                              color: Colors.grey,
+                                            ),
+                                            Text(
+                                              'Remove',
+                                              style: TextStyles.body.copyWith(
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                )
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  dense: false,
+                                  visualDensity:
+                                      const VisualDensity(vertical: 3),
+                                  leading: ImageBox(
+                                    currentProduct.product!.images![0],
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.contain,
                                   ),
-                                  SizedBox(
-                                    width: 100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        ImageBox(
-                                          stateController.membershipIcon.value,
-                                          height: 20,
-                                          width: 20,
-                                          fit: BoxFit.contain,
+                                  title: FitText(
+                                    currentProduct
+                                        .product!.name!.defaultText!.text!,
+                                    style: TextStyles.headingFont,
+                                    align: TextAlign.start,
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      Text(
+                                        '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}/ ',
+                                        style: TextStyles.body,
+                                      ),
+                                      ImageBox(
+                                        stateController.membershipIcon.value,
+                                        height: 20,
+                                        width: 20,
+                                        fit: BoxFit.contain,
+                                      ),
+                                      Text(
+                                          '${Helper.getFormattedNumber(currentMemberPrice).toString()}${CodeHelp.euro} ',
+                                          style: TextStyles.body),
+                                    ],
+                                  ),
+                                  trailing: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 60,
+                                        child: Row(
+                                          children: [
+                                            ImageBox(
+                                              stateController
+                                                  .membershipIcon.value,
+                                              height: 20,
+                                              width: 20,
+                                              fit: BoxFit.contain,
+                                            ),
+                                            Text(
+                                              '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                              style: TextStyles.headingFont,
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
-                                          style: TextStyles.headingFont,
+                                      ),
+                                      Card(
+                                        color: AppColors.primeColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              padding: const EdgeInsets.all(4),
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              onPressed: () async {
+                                                isLoading.value = true;
+                                                if (stateController
+                                                    .isLogin.value) {
+                                                  await cartController
+                                                      .addToCartMSD(
+                                                    '${currentProduct.ref!.id}',
+                                                    currentProduct.ref!.name!,
+                                                    -minOrder,
+                                                    currentProduct.price,
+                                                    currentProduct.product,
+                                                    null,
+                                                    currentProduct.ruleConfig,
+                                                    currentProduct.constraint,
+                                                    currentProduct
+                                                        .product.varient,
+                                                  );
+                                                } else {
+                                                  stateController
+                                                      .setCurrentTab(3);
+
+                                                  snackBarClass.showToast(
+                                                      context,
+                                                      'Please Login to preoceed');
+                                                }
+                                                isLoading.value = false;
+                                              },
+                                              icon: Icon(
+                                                Icons.remove_circle_outline,
+                                                color: Colors.white,
+                                                size: FontSizes.title,
+                                              ),
+                                            ),
+                                            Text(
+                                              cartController
+                                                  .getCurrentQuantity(
+                                                      '${currentProduct.ref!.id}',
+                                                      'MSD')
+                                                  .toString(),
+                                              style: TextStyles.headingFont
+                                                  .copyWith(
+                                                      color: Colors.white),
+                                            ),
+                                            IconButton(
+                                              padding: const EdgeInsets.all(4),
+                                              constraints:
+                                                  const BoxConstraints(),
+                                              onPressed: () async {
+                                                isLoading.value = true;
+                                                if (stateController
+                                                    .isLogin.value) {
+                                                  var valid = false;
+                                                  var msg =
+                                                      'Something went wrong!';
+
+                                                  if (currentProduct
+                                                              .ruleConfig !=
+                                                          null ||
+                                                      currentProduct
+                                                              .constraint !=
+                                                          null) {
+                                                    dynamic data = await Helper
+                                                        .checkProductValidtoAddinCart(
+                                                            currentProduct
+                                                                .ruleConfig,
+                                                            currentProduct
+                                                                .constraint,
+                                                            currentProduct
+                                                                    .ref!.id ??
+                                                                "",
+                                                            currentProduct
+                                                                    .ref!.id ??
+                                                                '');
+                                                    valid = !data['error'];
+                                                    msg = data['msg'];
+                                                  }
+                                                  if (valid) {
+                                                    await cartController
+                                                        .addToCartMSD(
+                                                            '${currentProduct.ref!.id}',
+                                                            currentProduct
+                                                                .ref!.name!,
+                                                            minOrder,
+                                                            currentProduct
+                                                                .price,
+                                                            currentProduct
+                                                                .product,
+                                                            null,
+                                                            currentProduct
+                                                                .ruleConfig,
+                                                            currentProduct
+                                                                .constraint,
+                                                            currentProduct
+                                                                .product
+                                                                .varient);
+                                                  } else {
+                                                    snackBarClass.showToast(
+                                                        context, msg);
+                                                  }
+                                                }
+                                                isLoading.value = false;
+                                              },
+                                              icon: Icon(
+                                                Icons.add_circle_outline,
+                                                color: Colors.white,
+                                                size: FontSizes.title,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Card(
-                                          color: AppColors.primeColor,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(4),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  isLoading.value = true;
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
-
-                                                    if (currentProduct
-                                                                .ruleConfig !=
-                                                            null ||
-                                                        currentProduct
-                                                                .constraint !=
-                                                            null) {
-                                                      dynamic data = await Helper
-                                                          .checkProductValidtoAddinCart(
-                                                              currentProduct
-                                                                  .ruleConfig,
-                                                              currentProduct
-                                                                  .constraint,
-                                                              currentProduct
-                                                                      .ref!
-                                                                      .id ??
-                                                                  '',
-                                                              currentProduct
-                                                                      .ref!
-                                                                      .id ??
-                                                                  '');
-                                                      valid = !data['error'];
-                                                      msg = data['msg'];
-                                                    }
-                                                    if (valid) {
-                                                      await cartController
-                                                          .addToCartMSD(
-                                                              '${currentProduct.ref!.id}',
-                                                              currentProduct
-                                                                  .ref!.name!,
-                                                              minOrder,
-                                                              currentProduct
-                                                                  .price,
-                                                              null,
-                                                              currentProduct
-                                                                  .products,
-                                                              currentProduct
-                                                                  .ruleConfig,
-                                                              currentProduct
-                                                                  .constraint,
-                                                              null,
-                                                              mutliProductName:
-                                                                  currentProduct
-                                                                          .name ??
-                                                                      "",
-                                                              imageId:
-                                                                  currentProduct
-                                                                      .imageId);
-                                                    } else {
-                                                      var showToast =
-                                                          snackBarClass
-                                                              .showToast(
-                                                                  context, msg);
-                                                    }
-                                                  }
-                                                  isLoading.value = false;
-                                                },
-                                                icon: Icon(
-                                                  Icons.remove_circle_outline,
-                                                  color: Colors.white,
-                                                  size: FontSizes.title,
-                                                ),
-                                              ),
-                                              Text(
-                                                  cartController
-                                                      .getCurrentQuantity(
-                                                          '${currentProduct.ref!.id}',
-                                                          'MSD')
-                                                      .toString(),
-                                                  style: TextStyles.headingFont
-                                                      .copyWith(
-                                                          color: Colors.white)),
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(4),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  isLoading.value = true;
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
-
-                                                    if (currentProduct
-                                                                .ruleConfig !=
-                                                            null ||
-                                                        currentProduct
-                                                                .constraint !=
-                                                            null) {
-                                                      dynamic data = await Helper
-                                                          .checkProductValidtoAddinCart(
-                                                              currentProduct
-                                                                  .ruleConfig,
-                                                              currentProduct
-                                                                  .constraint,
-                                                              currentProduct
-                                                                      .ref!
-                                                                      .id ??
-                                                                  '',
-                                                              currentProduct
-                                                                      .ref!
-                                                                      .id ??
-                                                                  '');
-                                                      valid = !data['error'];
-                                                      msg = data['msg'];
-                                                    }
-                                                    if (valid) {
-                                                      await cartController
-                                                          .addToCartMSD(
-                                                              '${currentProduct.ref!.id}',
-                                                              currentProduct
-                                                                  .ref!.name!,
-                                                              minOrder,
-                                                              currentProduct
-                                                                  .price,
-                                                              null,
-                                                              currentProduct
-                                                                  .products,
-                                                              currentProduct
-                                                                  .ruleConfig,
-                                                              currentProduct
-                                                                  .constraint,
-                                                              null,
-                                                              mutliProductName:
-                                                                  currentProduct
-                                                                          .name ??
-                                                                      '',
-                                                              imageId:
-                                                                  currentProduct
-                                                                      .imageId);
-                                                    } else {
-                                                      var showToast =
-                                                          snackBarClass
-                                                              .showToast(
-                                                                  context, msg);
-                                                    }
-                                                  }
-                                                  isLoading.value = false;
-                                                },
-                                                icon: Icon(
-                                                  Icons.add_circle_outline,
-                                                  color: Colors.white,
-                                                  size: FontSizes.title,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  cartButtons(
-                                      context, cartController, currentKey),
-                                  MaterialButton(
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    cartButtons(
+                                        context, cartController, currentKey),
+                                    MaterialButton(
                                       onPressed: () async {
                                         isLoading.value = true;
                                         await cartController.removeProduct(
@@ -568,224 +778,25 @@ class CartWidget extends StatelessWidget {
                                             ),
                                           )
                                         ],
-                                      ))
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ListTile(
-                                dense: false,
-                                visualDensity: const VisualDensity(vertical: 3),
-                                leading: ImageBox(
-                                  currentProduct.product!.images![0],
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.contain,
-                                ),
-                                title: FitText(
-                                  currentProduct
-                                      .product!.name!.defaultText!.text!,
-                                  style: TextStyles.headingFont,
-                                  align: TextAlign.start,
-                                ),
-                                subtitle: Row(
-                                  children: [
-                                    Text(
-                                      '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}/ ',
-                                      style: TextStyles.body,
-                                    ),
-                                    ImageBox(
-                                      stateController.membershipIcon.value,
-                                      height: 20,
-                                      width: 20,
-                                      fit: BoxFit.contain,
-                                    ),
-                                    Text(
-                                        '${Helper.getFormattedNumber(currentMemberPrice).toString()}${CodeHelp.euro} ',
-                                        style: TextStyles.body),
-                                  ],
-                                ),
-                                trailing: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 60,
-                                      child: Row(
-                                        children: [
-                                          ImageBox(
-                                            stateController
-                                                .membershipIcon.value,
-                                            height: 20,
-                                            width: 20,
-                                            fit: BoxFit.contain,
-                                          ),
-                                          Text(
-                                            '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
-                                            style: TextStyles.headingFont,
-                                          ),
-                                        ],
                                       ),
-                                    ),
-                                    Card(
-                                      color: AppColors.primeColor,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            padding: const EdgeInsets.all(4),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              isLoading.value = true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                await cartController
-                                                    .addToCartMSD(
-                                                  '${currentProduct.ref!.id}',
-                                                  currentProduct.ref!.name!,
-                                                  -minOrder,
-                                                  currentProduct.price,
-                                                  currentProduct.product,
-                                                  null,
-                                                  currentProduct.ruleConfig,
-                                                  currentProduct.constraint,
-                                                  currentProduct
-                                                      .product.varient,
-                                                );
-                                              } else {
-                                                stateController
-                                                    .setCurrentTab(3);
-
-                                                snackBarClass.showToast(context,
-                                                    'Please Login to preoceed');
-                                              }
-                                              isLoading.value = false;
-                                            },
-                                            icon: Icon(
-                                              Icons.remove_circle_outline,
-                                              color: Colors.white,
-                                              size: FontSizes.title,
-                                            ),
-                                          ),
-                                          Text(
-                                            cartController
-                                                .getCurrentQuantity(
-                                                    '${currentProduct.ref!.id}',
-                                                    'MSD')
-                                                .toString(),
-                                            style: TextStyles.headingFont
-                                                .copyWith(color: Colors.white),
-                                          ),
-                                          IconButton(
-                                            padding: const EdgeInsets.all(4),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              isLoading.value = true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                var valid = false;
-                                                var msg =
-                                                    'Something went wrong!';
-
-                                                if (currentProduct.ruleConfig !=
-                                                        null ||
-                                                    currentProduct.constraint !=
-                                                        null) {
-                                                  dynamic data = await Helper
-                                                      .checkProductValidtoAddinCart(
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          currentProduct
-                                                                  .ref!.id ??
-                                                              "",
-                                                          currentProduct
-                                                                  .ref!.id ??
-                                                              '');
-                                                  valid = !data['error'];
-                                                  msg = data['msg'];
-                                                }
-                                                if (valid) {
-                                                  await cartController.addToCartMSD(
-                                                      '${currentProduct.ref!.id}',
-                                                      currentProduct.ref!.name!,
-                                                      minOrder,
-                                                      currentProduct.price,
-                                                      currentProduct.product,
-                                                      null,
-                                                      currentProduct.ruleConfig,
-                                                      currentProduct.constraint,
-                                                      currentProduct
-                                                          .product.varient);
-                                                } else {
-                                                  snackBarClass.showToast(
-                                                      context, msg);
-                                                }
-                                              }
-                                              isLoading.value = false;
-                                            },
-                                            icon: Icon(
-                                              Icons.add_circle_outline,
-                                              color: Colors.white,
-                                              size: FontSizes.title,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    )
                                   ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  cartButtons(
-                                      context, cartController, currentKey),
-                                  MaterialButton(
-                                    onPressed: () async {
-                                      isLoading.value = true;
-                                      await cartController.removeProduct(
-                                          currentKey, 'MSD');
-                                      isLoading.value = false;
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.delete,
-                                          size: 16,
-                                          color: Colors.grey,
-                                        ),
-                                        Text(
-                                          'Remove',
-                                          style: TextStyles.body.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                  Obx(() => checkoutClicked.value &&
-                          cartController.cartProducts.value[currentKey] !=
-                              null &&
-                          !cartController.checktOrderRefAvailable(cartController
-                              .cartProducts.value[currentKey]!.ref) &&
-                          !isLoading.value
-                      ? recpmmondedProduct(context, cartController, currentKey)
-                      : const SizedBox())
-                ],
+                    Obx(() => checkoutClicked.value &&
+                            cartController.cartProducts.value[currentKey] !=
+                                null &&
+                            !cartController.checktOrderRefAvailable(
+                                cartController
+                                    .cartProducts.value[currentKey]!.ref) &&
+                            !isLoading.value
+                        ? recpmmondedProduct(
+                            context, cartController, currentKey)
+                        : const SizedBox())
+                  ],
+                ),
               );
             },
           )),
@@ -802,8 +813,13 @@ class CartWidget extends StatelessWidget {
         itemBuilder: (_, index) {
           var currentKey =
               cartController.cartProductsScoins.value.keys.elementAt(index);
-          return SizedBox(
+          return Container(
             width: MediaQuery.of(context).size.width,
+            color: (checkoutClicked.value &&
+                    !cartController.checktOrderRefAvailable(cartController
+                        .cartProductsScoins.value[currentKey]!.ref))
+                ? AppColors.primeColor
+                : AppColors.white,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -864,27 +880,6 @@ class CartWidget extends StatelessWidget {
                             )
                           ],
                         ),
-                        // Row(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Text(
-                        //           Helper.getFormattedNumber(
-                        //                   Helper.getMemberCoinValue(
-                        //                           cartController
-                        //                               .cartProductsScoins[
-                        //                                   currentKey]!
-                        //                               .price!,
-                        //                           stateController.userType.value) *
-                        //                       cartController
-                        //                           .cartProductsScoins[currentKey]!
-                        //                           .count)
-                        //               .toString(),
-                        //           style: TextStyles.headingFont,
-                        //         ),
-                        //         Lottie.asset('assets/coin.json',
-                        //             height: 25, fit: BoxFit.fill, repeat: true),
-                        //       ],
-                        //     ),
                       ),
                       Card(
                         color: AppColors.primeColor,
@@ -920,7 +915,7 @@ class CartWidget extends StatelessWidget {
                                           .varient);
                                 } else {
                                   stateController.setCurrentTab(4);
-                                  var showToast = snackBarClass.showToast(
+                                  snackBarClass.showToast(
                                       context, 'Please Login to preoceed');
                                 }
                                 isLoading.value = false;
@@ -1030,75 +1025,329 @@ class CartWidget extends StatelessWidget {
                       currentProduct.constraint.minimumOrder > 0)
                   ? currentProduct.constraint!.minimumOrder
                   : 1;
-              return Column(
-                children: [
-                  currentProduct.products!.isNotEmpty
-                      ? SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              Row(children: <Widget>[
-                                SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .1,
-                                    child: const Divider()),
-                                FitText(
-                                  '${currentProduct.name}',
-                                  style: TextStyles.headingFont
-                                      .copyWith(color: AppColors.primeColor),
-                                ),
-                                const Expanded(child: Divider()),
-                              ]),
-                              Row(
+              return Obx(() => Column(
+                    children: [
+                      currentProduct.products!.isNotEmpty
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
                                 children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * .73,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount:
-                                          currentProduct.products!.length,
-                                      itemBuilder: (_, pIndex) {
-                                        var currentInnerProduct =
-                                            currentProduct.products![pIndex];
-                                        return ListTile(
-                                          dense: false,
-                                          visualDensity:
-                                              const VisualDensity(vertical: 3),
-                                          leading: ImageBox(
-                                            '${currentInnerProduct.images![0]}',
-                                            width: 80,
-                                            height: 80,
-                                            fit: BoxFit.contain,
-                                          ),
-                                          title: FitText(
-                                            currentInnerProduct
-                                                .name!.defaultText!.text!,
-                                            style: TextStyles.headingFont,
-                                            align: TextAlign.start,
-                                          ),
-                                          subtitle: Text(
-                                            '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
-                                            style: TextStyles.body,
-                                          ),
-                                        );
-                                      },
+                                  Row(children: <Widget>[
+                                    SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .1,
+                                        child: const Divider()),
+                                    FitText(
+                                      '${currentProduct.name}',
+                                      style: TextStyles.headingFont.copyWith(
+                                          color: AppColors.primeColor),
                                     ),
+                                    const Expanded(child: Divider()),
+                                  ]),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .73,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          scrollDirection: Axis.vertical,
+                                          itemCount:
+                                              currentProduct.products!.length,
+                                          itemBuilder: (_, pIndex) {
+                                            var currentInnerProduct =
+                                                currentProduct
+                                                    .products![pIndex];
+                                            return ListTile(
+                                              dense: false,
+                                              visualDensity:
+                                                  const VisualDensity(
+                                                      vertical: 3),
+                                              leading: ImageBox(
+                                                '${currentInnerProduct.images![0]}',
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.contain,
+                                              ),
+                                              title: FitText(
+                                                currentInnerProduct
+                                                    .name!.defaultText!.text!,
+                                                style: TextStyles.headingFont,
+                                                align: TextAlign.start,
+                                              ),
+                                              subtitle: Text(
+                                                '${currentInnerProduct.varient!.weight.toString()} ${CodeHelp.formatUnit(currentInnerProduct!.varient!.unit)}',
+                                                style: TextStyles.body,
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 100,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                              style: TextStyles.headingFont,
+                                            ),
+                                            Card(
+                                              color: AppColors.primeColor,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          12)),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  IconButton(
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    constraints:
+                                                        const BoxConstraints(),
+                                                    onPressed: () async {
+                                                      if (stateController
+                                                          .isLogin.value) {
+                                                        isLoading.value = true;
+
+                                                        // if (currentProduct
+                                                        //             .ruleConfig !=
+                                                        //         null ||
+                                                        //     currentProduct
+                                                        //             .constraint !=
+                                                        //         null) {
+                                                        //   dynamic data = await Helper
+                                                        //       .checkProductValidtoAddinCart(
+                                                        //           currentProduct
+                                                        //               .ruleConfig,
+                                                        //           currentProduct
+                                                        //               .constraint,
+                                                        //           currentProduct
+                                                        //                   .ref!
+                                                        //                   .id ??
+                                                        //               '',
+                                                        //           currentProduct
+                                                        //                   .ref!
+                                                        //                   .id ??
+                                                        //               '');
+                                                        //   valid = !data['error'];
+                                                        //   msg = data['msg'];
+                                                        // }
+                                                        // if (valid) {
+                                                        await cartController.addToCart(
+                                                            '${currentProduct.ref!.id}',
+                                                            currentProduct
+                                                                .ref!.name!,
+                                                            -minOrder,
+                                                            currentProduct
+                                                                .price,
+                                                            null,
+                                                            currentProduct
+                                                                .products,
+                                                            currentProduct
+                                                                .ruleConfig,
+                                                            currentProduct
+                                                                .constraint,
+                                                            null,
+                                                            mutliProductName:
+                                                                currentProduct
+                                                                        .name ??
+                                                                    "",
+                                                            imageId:
+                                                                currentProduct
+                                                                    .imageId);
+                                                        // } else {
+                                                        //   var showToast =
+                                                        //       snackBarClass
+                                                        //           .showToast(
+                                                        //               context, msg);
+                                                        // }
+                                                      }
+                                                      isLoading.value = false;
+                                                    },
+                                                    icon: Icon(
+                                                      Icons
+                                                          .remove_circle_outline,
+                                                      color: Colors.white,
+                                                      size: FontSizes.title,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                      cartController
+                                                          .getCurrentQuantity(
+                                                              '${currentProduct.ref!.id}',
+                                                              '')
+                                                          .toString(),
+                                                      style: TextStyles
+                                                          .headingFont
+                                                          .copyWith(
+                                                              color: Colors
+                                                                  .white)),
+                                                  IconButton(
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    constraints:
+                                                        const BoxConstraints(),
+                                                    onPressed: () async {
+                                                      if (stateController
+                                                          .isLogin.value) {
+                                                        isLoading.value = true;
+                                                        var valid = false;
+                                                        var msg =
+                                                            'Something went wrong!';
+
+                                                        if (currentProduct
+                                                                    .ruleConfig !=
+                                                                null ||
+                                                            currentProduct
+                                                                    .constraint !=
+                                                                null) {
+                                                          dynamic data = await Helper
+                                                              .checkProductValidtoAddinCart(
+                                                                  currentProduct
+                                                                      .ruleConfig,
+                                                                  currentProduct
+                                                                      .constraint,
+                                                                  currentProduct
+                                                                          .ref!
+                                                                          .id ??
+                                                                      '',
+                                                                  currentProduct
+                                                                          .ref!
+                                                                          .id ??
+                                                                      '');
+                                                          valid =
+                                                              !data['error'];
+                                                          msg = data['msg'];
+                                                        }
+                                                        if (valid) {
+                                                          await cartController.addToCart(
+                                                              '${currentProduct.ref!.id}',
+                                                              currentProduct
+                                                                  .ref!.name!,
+                                                              minOrder,
+                                                              currentProduct
+                                                                  .price,
+                                                              null,
+                                                              currentProduct
+                                                                  .products,
+                                                              currentProduct
+                                                                  .ruleConfig,
+                                                              currentProduct
+                                                                  .constraint,
+                                                              null,
+                                                              mutliProductName:
+                                                                  currentProduct
+                                                                          .name ??
+                                                                      '',
+                                                              imageId:
+                                                                  currentProduct
+                                                                      .imageId);
+                                                        } else {
+                                                          snackBarClass
+                                                              .showToast(
+                                                                  context, msg);
+                                                        }
+                                                      }
+                                                      isLoading.value = false;
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.add_circle_outline,
+                                                      color: Colors.white,
+                                                      size: FontSizes.title,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: 100,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                  Row(
+                                    children: [
+                                      cartButtons(
+                                          context, cartController, currentKey),
+                                      MaterialButton(
+                                          onPressed: () async {
+                                            isLoading.value = true;
+                                            await cartController.removeProduct(
+                                                currentKey, '');
+                                            isLoading.value = false;
+                                          },
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.delete,
+                                                size: 16,
+                                                color: Colors.grey,
+                                              ),
+                                              Text(
+                                                'Remove',
+                                                style: TextStyles.body.copyWith(
+                                                  color: Colors.grey,
+                                                ),
+                                              )
+                                            ],
+                                          ))
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          : SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ListTile(
+                                    dense: false,
+                                    visualDensity:
+                                        const VisualDensity(vertical: 3),
+                                    leading: ImageBox(
+                                      currentProduct.product!.images![0],
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.contain,
+                                    ),
+                                    title: FitText(
+                                      currentProduct
+                                          .product!.name!.defaultText!.text!,
+                                      style: TextStyles.headingFont,
+                                      align: TextAlign.start,
+                                    ),
+                                    subtitle: Row(
+                                      children: [
+                                        Text(
+                                          '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}',
+                                          style: TextStyles.body,
+                                        ),
+                                        Text(
+                                            '/${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)}${CodeHelp.euro} ',
+                                            style: TextStyles.body),
+                                      ],
+                                    ),
+                                    trailing: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
                                           '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
-                                          color: AppColors.primeColor,
+                                          color: (checkoutClicked.value &&
+                                                  !cartController
+                                                      .checktOrderRefAvailable(
+                                                          currentProduct!.ref))
+                                              ? AppColors.grey
+                                              : AppColors.primeColor,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(12)),
@@ -1111,62 +1360,29 @@ class CartWidget extends StatelessWidget {
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
+                                                  isLoading.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
-                                                    isLoading.value = true;
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
+                                                    await cartController
+                                                        .addToCart(
+                                                      '${currentProduct.ref!.id}',
+                                                      currentProduct.ref!.name!,
+                                                      -minOrder,
+                                                      currentProduct.price,
+                                                      currentProduct.product,
+                                                      null,
+                                                      currentProduct.ruleConfig,
+                                                      currentProduct.constraint,
+                                                      currentProduct
+                                                          .product.varient,
+                                                    );
+                                                  } else {
+                                                    stateController
+                                                        .setCurrentTab(3);
 
-                                                    // if (currentProduct
-                                                    //             .ruleConfig !=
-                                                    //         null ||
-                                                    //     currentProduct
-                                                    //             .constraint !=
-                                                    //         null) {
-                                                    //   dynamic data = await Helper
-                                                    //       .checkProductValidtoAddinCart(
-                                                    //           currentProduct
-                                                    //               .ruleConfig,
-                                                    //           currentProduct
-                                                    //               .constraint,
-                                                    //           currentProduct
-                                                    //                   .ref!
-                                                    //                   .id ??
-                                                    //               '',
-                                                    //           currentProduct
-                                                    //                   .ref!
-                                                    //                   .id ??
-                                                    //               '');
-                                                    //   valid = !data['error'];
-                                                    //   msg = data['msg'];
-                                                    // }
-                                                    // if (valid) {
-                                                    await cartController.addToCart(
-                                                        '${currentProduct.ref!.id}',
-                                                        currentProduct
-                                                            .ref!.name!,
-                                                        -minOrder,
-                                                        currentProduct.price,
-                                                        null,
-                                                        currentProduct.products,
-                                                        currentProduct
-                                                            .ruleConfig,
-                                                        currentProduct
-                                                            .constraint,
-                                                        null,
-                                                        mutliProductName:
-                                                            currentProduct
-                                                                    .name ??
-                                                                "",
-                                                        imageId: currentProduct
-                                                            .imageId);
-                                                    // } else {
-                                                    //   var showToast =
-                                                    //       snackBarClass
-                                                    //           .showToast(
-                                                    //               context, msg);
-                                                    // }
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to preoceed');
                                                   }
                                                   isLoading.value = false;
                                                 },
@@ -1177,23 +1393,24 @@ class CartWidget extends StatelessWidget {
                                                 ),
                                               ),
                                               Text(
-                                                  cartController
-                                                      .getCurrentQuantity(
-                                                          '${currentProduct.ref!.id}',
-                                                          '')
-                                                      .toString(),
-                                                  style: TextStyles.headingFont
-                                                      .copyWith(
-                                                          color: Colors.white)),
+                                                cartController
+                                                    .getCurrentQuantity(
+                                                        '${currentProduct.ref!.id}',
+                                                        '')
+                                                    .toString(),
+                                                style: TextStyles.headingFont
+                                                    .copyWith(
+                                                        color: Colors.white),
+                                              ),
                                               IconButton(
                                                 padding:
                                                     const EdgeInsets.all(4),
                                                 constraints:
                                                     const BoxConstraints(),
                                                 onPressed: () async {
+                                                  isLoading.value = true;
                                                   if (stateController
                                                       .isLogin.value) {
-                                                    isLoading.value = true;
                                                     var valid = false;
                                                     var msg =
                                                         'Something went wrong!';
@@ -1213,7 +1430,7 @@ class CartWidget extends StatelessWidget {
                                                               currentProduct
                                                                       .ref!
                                                                       .id ??
-                                                                  '',
+                                                                  "",
                                                               currentProduct
                                                                       .ref!
                                                                       .id ??
@@ -1222,27 +1439,24 @@ class CartWidget extends StatelessWidget {
                                                       msg = data['msg'];
                                                     }
                                                     if (valid) {
-                                                      await cartController.addToCart(
-                                                          '${currentProduct.ref!.id}',
-                                                          currentProduct
-                                                              .ref!.name!,
-                                                          minOrder,
-                                                          currentProduct.price,
-                                                          null,
-                                                          currentProduct
-                                                              .products,
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          null,
-                                                          mutliProductName:
+                                                      await cartController
+                                                          .addToCart(
+                                                              '${currentProduct.ref!.id}',
                                                               currentProduct
-                                                                      .name ??
-                                                                  '',
-                                                          imageId:
+                                                                  .ref!.name!,
+                                                              minOrder,
                                                               currentProduct
-                                                                  .imageId);
+                                                                  .price,
+                                                              currentProduct
+                                                                  .product,
+                                                              null,
+                                                              currentProduct
+                                                                  .ruleConfig,
+                                                              currentProduct
+                                                                  .constraint,
+                                                              currentProduct
+                                                                  .product
+                                                                  .varient);
                                                     } else {
                                                       snackBarClass.showToast(
                                                           context, msg);
@@ -1258,232 +1472,51 @@ class CartWidget extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  cartButtons(
-                                      context, cartController, currentKey),
-                                  MaterialButton(
-                                      onPressed: () async {
-                                        isLoading.value = true;
-                                        await cartController.removeProduct(
-                                            currentKey, '');
-                                        isLoading.value = false;
-                                      },
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.delete,
-                                            size: 16,
-                                            color: Colors.grey,
-                                          ),
-                                          Text(
-                                            'Remove',
-                                            style: TextStyles.body.copyWith(
+                                  ),
+                                  Row(
+                                    children: [
+                                      cartButtons(
+                                          context, cartController, currentKey),
+                                      MaterialButton(
+                                        onPressed: () async {
+                                          isLoading.value = true;
+                                          await cartController.removeProduct(
+                                              currentKey, '');
+                                          isLoading.value = false;
+                                        },
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.delete,
+                                              size: 16,
                                               color: Colors.grey,
                                             ),
-                                          )
-                                        ],
-                                      ))
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ListTile(
-                                dense: false,
-                                visualDensity: const VisualDensity(vertical: 3),
-                                leading: ImageBox(
-                                  currentProduct.product!.images![0],
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.contain,
-                                ),
-                                title: FitText(
-                                  currentProduct
-                                      .product!.name!.defaultText!.text!,
-                                  style: TextStyles.headingFont,
-                                  align: TextAlign.start,
-                                ),
-                                subtitle: Row(
-                                  children: [
-                                    Text(
-                                      '${currentProduct.product!.varient!.weight.toString()} ${CodeHelp.formatUnit(currentProduct.product!.varient!.unit)}',
-                                      style: TextStyles.body,
-                                    ),
-                                    Text(
-                                        '/${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)}${CodeHelp.euro} ',
-                                        style: TextStyles.body),
-                                  ],
-                                ),
-                                trailing: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
-                                      style: TextStyles.headingFont,
-                                    ),
-                                    Card(
-                                      color: AppColors.primeColor,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          IconButton(
-                                            padding: const EdgeInsets.all(4),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              isLoading.value = true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                await cartController.addToCart(
-                                                  '${currentProduct.ref!.id}',
-                                                  currentProduct.ref!.name!,
-                                                  -minOrder,
-                                                  currentProduct.price,
-                                                  currentProduct.product,
-                                                  null,
-                                                  currentProduct.ruleConfig,
-                                                  currentProduct.constraint,
-                                                  currentProduct
-                                                      .product.varient,
-                                                );
-                                              } else {
-                                                stateController
-                                                    .setCurrentTab(3);
-
-                                                snackBarClass.showToast(context,
-                                                    'Please Login to preoceed');
-                                              }
-                                              isLoading.value = false;
-                                            },
-                                            icon: Icon(
-                                              Icons.remove_circle_outline,
-                                              color: Colors.white,
-                                              size: FontSizes.title,
-                                            ),
-                                          ),
-                                          Text(
-                                            cartController
-                                                .getCurrentQuantity(
-                                                    '${currentProduct.ref!.id}',
-                                                    '')
-                                                .toString(),
-                                            style: TextStyles.headingFont
-                                                .copyWith(color: Colors.white),
-                                          ),
-                                          IconButton(
-                                            padding: const EdgeInsets.all(4),
-                                            constraints: const BoxConstraints(),
-                                            onPressed: () async {
-                                              isLoading.value = true;
-                                              if (stateController
-                                                  .isLogin.value) {
-                                                var valid = false;
-                                                var msg =
-                                                    'Something went wrong!';
-
-                                                if (currentProduct.ruleConfig !=
-                                                        null ||
-                                                    currentProduct.constraint !=
-                                                        null) {
-                                                  dynamic data = await Helper
-                                                      .checkProductValidtoAddinCart(
-                                                          currentProduct
-                                                              .ruleConfig,
-                                                          currentProduct
-                                                              .constraint,
-                                                          currentProduct
-                                                                  .ref!.id ??
-                                                              "",
-                                                          currentProduct
-                                                                  .ref!.id ??
-                                                              '');
-                                                  valid = !data['error'];
-                                                  msg = data['msg'];
-                                                }
-                                                if (valid) {
-                                                  await cartController.addToCart(
-                                                      '${currentProduct.ref!.id}',
-                                                      currentProduct.ref!.name!,
-                                                      minOrder,
-                                                      currentProduct.price,
-                                                      currentProduct.product,
-                                                      null,
-                                                      currentProduct.ruleConfig,
-                                                      currentProduct.constraint,
-                                                      currentProduct
-                                                          .product.varient);
-                                                } else {
-                                                  snackBarClass.showToast(
-                                                      context, msg);
-                                                }
-                                              }
-                                              isLoading.value = false;
-                                            },
-                                            icon: Icon(
-                                              Icons.add_circle_outline,
-                                              color: Colors.white,
-                                              size: FontSizes.title,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  cartButtons(
-                                      context, cartController, currentKey),
-                                  MaterialButton(
-                                    onPressed: () async {
-                                      isLoading.value = true;
-                                      await cartController.removeProduct(
-                                          currentKey, '');
-                                      isLoading.value = false;
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.delete,
-                                          size: 16,
-                                          color: Colors.grey,
+                                            Text(
+                                              'Remove',
+                                              style: TextStyles.body.copyWith(
+                                                color: Colors.grey,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          'Remove',
-                                          style: TextStyles.body.copyWith(
-                                            color: Colors.grey,
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      )
+                                    ],
                                   )
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                  Obx(() => checkoutClicked.value &&
-                          !cartController.checktOrderRefAvailable(cartController
-                              .cartProducts.value[currentKey]!.ref)
-                      ? recpmmondedProduct(context, cartController, currentKey)
-                      : const SizedBox())
-                ],
-              );
+                              ),
+                            ),
+                      checkoutClicked.value &&
+                              !cartController.checktOrderRefAvailable(
+                                  cartController
+                                      .cartProducts.value[currentKey]!.ref)
+                          ? recpmmondedProduct(
+                              context, cartController, currentKey)
+                          : const SizedBox()
+                    ],
+                  ));
             },
           )),
     );
@@ -1507,14 +1540,18 @@ class CartWidget extends StatelessWidget {
         .getRecommendedProd(cartController.cartProducts.value[currentKey]!.ref);
     return prod.productAvailabilityStatus != null
         ? prod.productAvailabilityStatus!.recommendedProducts!.isNotEmpty
-            ? Column(
-                children: [
-                  Text('Recommended Products', style: TextStyles.headingFont),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    height: 160,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: SizedBox(
+            ? Container(
+                padding: EdgeInsets.only(left: 2),
+                decoration: BoxDecoration(
+                    // color: AppColors.grey,
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: AppColors.primeColor)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Recommended Products', style: TextStyles.headingFont),
+                    SizedBox(
+                      height: 190,
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(),
@@ -1534,9 +1571,8 @@ class CartWidget extends StatelessWidget {
                         },
                       ),
                     ),
-                  ),
-                ],
-              )
+                  ],
+                ))
             : const SizedBox()
         : const SizedBox();
   }

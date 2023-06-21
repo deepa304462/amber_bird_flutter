@@ -28,6 +28,13 @@ class Helper {
       return 0;
   }
 
+  static String formatNumberTwodigit(num) {
+    if (num != null) {
+      return ((num).toString().padLeft(5, '0'));
+    } else
+      return '0';
+  }
+
   static double getMsdAmount({required Price price, required String userType}) {
     if (userType == memberShipType.Paid.name) {
       return price.membersSpecialPrice!.forGoldMember!;

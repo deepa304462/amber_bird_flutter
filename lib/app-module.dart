@@ -35,34 +35,7 @@ class AppModule extends Module {
         ChildRoute('/signup', child: (_, args) => SignUp()),
 
         ModuleRoute('/widget', module: WidgetRouteModule()),
-        // ChildRoute('/orders', child: (_, args) => OrderListPage()),
-        // ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
-        // ChildRoute('/cart', child: (_, args) => CartPage()),
-        // ChildRoute('/profile', child: (_, args) => ProfilePage()),
-        // ChildRoute(
-        //   '/brandProduct/:id',
-        //   child: (_, args) {
-        //     String productId = args.params['id'];
-        //     return BrandProductPage(productId);
-        //   },
-        // ),
-        // ChildRoute('/wishlist', child: (_, args) => WishListPage()),
-        // ChildRoute(
-        //   '/order-detail',
-        //   child: (_, args) {
-        //     String orderId = args.data['id'];
-        //     String navigateTo = args.data['navigateTo'] ?? '';
-        //     return OrderDetailPage(orderId, navigateTo, search: false);
-        //   },
-        // ),
-        // ChildRoute(
-        //   '/product/:id',
-        //   child: (_, args) {
-        //     String productId = args.params['id'];
-        //     return ProductPage(productId, search: false);
-        //   },
-        // ),
-        // ChildRoute('/wallet', child: (_, args) => WalletPage()),
+
         ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),

@@ -62,6 +62,7 @@ class CouponWidget extends StatelessWidget {
                       // ignore: use_build_context_synchronously
                       snackBarClass.showToast(context, 'Not found any coupon');
                     }
+                    stateController.showLoader.value = false;
                   },
                   child: Text(
                     'APPLY',
@@ -153,9 +154,9 @@ class CustomSearchDelegate extends SearchDelegate {
     cartController.getsearchData(query);
     return Obx(
       () => ListView.builder(
-        itemCount: cartController.searchCouponList.value.length,
+        itemCount: cartController.searchCouponList.length,
         itemBuilder: (context, index) {
-          var coupon = cartController.searchCouponList.value[index];
+          var coupon = cartController.searchCouponList[index];
           return Column(
             children: [
               ListTile(

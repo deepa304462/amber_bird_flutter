@@ -15,7 +15,7 @@ class Category {
   String? parentCategoryId;
   String? businessId;
   Parent? parent;
-  dynamic? orderBy;
+  dynamic orderBy;
   String? id;
 
   Category({
@@ -53,7 +53,7 @@ class Category {
         parent: data['parent'] == null
             ? null
             : Parent.fromMap(data['parent'] as Map<String, dynamic>),
-        orderBy: data['orderBy'] as dynamic?,
+        orderBy: data['orderBy'] as dynamic,
         id: data['_id'] as String?,
       );
 
@@ -91,7 +91,7 @@ class Category {
     String? parentCategoryId,
     String? businessId,
     Parent? parent,
-    dynamic? orderBy,
+    dynamic orderBy,
     String? id,
   }) {
     return Category(

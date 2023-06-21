@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class Reward {
-  dynamic? discountUptos;
-  dynamic? discountPercent;
-  dynamic? flatDiscount;
+  dynamic discountUptos;
+  dynamic discountPercent;
+  dynamic flatDiscount;
 
   Reward({this.discountUptos, this.discountPercent, this.flatDiscount});
 
@@ -13,9 +13,9 @@ class Reward {
   }
 
   factory Reward.fromMap(Map<String, dynamic> data) => Reward(
-        discountUptos: data['discountUptos'] as dynamic?,
-        discountPercent: data['discountPercent'] as dynamic?,
-        flatDiscount: data['flatDiscount'] as dynamic?,
+        discountUptos: data['discountUptos'] as dynamic,
+        discountPercent: data['discountPercent'] as dynamic,
+        flatDiscount: data['flatDiscount'] as dynamic,
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,9 +37,9 @@ class Reward {
   String toJson() => json.encode(toMap());
 
   Reward copyWith({
-    dynamic? discountUptos,
-    dynamic? discountPercent,
-    dynamic? flatDiscount,
+    dynamic discountUptos,
+    dynamic discountPercent,
+    dynamic flatDiscount,
   }) {
     return Reward(
       discountUptos: discountUptos ?? this.discountUptos,

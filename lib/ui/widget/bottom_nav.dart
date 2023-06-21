@@ -233,12 +233,10 @@ class _BottomBarItemState extends State<BottomBarItem>
                                   padding: const EdgeInsets.only(
                                       left: 6.0, right: 6, top: 4, bottom: 4),
                                   child: Text(
-                                      (cartController
-                                                  .cartProducts.value.length +
-                                              cartController.cartProductsScoins
-                                                  .value.length +
+                                      (cartController.cartProducts.length +
                                               cartController
-                                                  .msdProducts.value.length)
+                                                  .cartProductsScoins.length +
+                                              cartController.msdProducts.length)
                                           .toString(),
                                       style: TextStyles.bodySm
                                           .copyWith(color: AppColors.white)),

@@ -5,7 +5,7 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/payment-status-page.dart';
-import 'package:amber_bird/ui/pages/search-page.dart';
+// import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
@@ -44,13 +44,6 @@ class HomePageModule extends Module {
               return CategoryProductPage(productId);
             },
           ),
-          // ChildRoute(
-          //   '/brandProduct/:id',
-          //   child: (_, args) {
-          //     String productId = args.params['id'];
-          //     return BrandProductPage(productId);
-          //   },
-          // ),
           ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {
@@ -70,7 +63,7 @@ class HomePageModule extends Module {
           ChildRoute('/brand', child: (_, args) => BrandPage()),
 
           // ChildRoute('/profile', child: (_, args) => ProfilePage()),
-          ChildRoute('/search', child: (_, args) => SearchPage()),
+          // ChildRoute('/search', child: (_, args) => SearchPage()),
         ]),
   ];
 }

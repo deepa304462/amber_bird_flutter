@@ -5,7 +5,7 @@ import 'apply_only_for_location.dart';
 class RuleConfig {
   String? willExpireAt;
   String? willStartAt;
-  dynamic? minCartAmount;
+  dynamic minCartAmount;
   bool? onlyForPlatinumMember;
   bool? onlyForSilverMember;
   bool? onlyForGoldMember;
@@ -35,7 +35,7 @@ class RuleConfig {
   factory RuleConfig.fromMap(Map<String, dynamic> data) => RuleConfig(
         willExpireAt: data['willExpireAt'] as String?,
         willStartAt: data['willStartAt'] as String?,
-        minCartAmount: data['minCartAmount'] as dynamic?,
+        minCartAmount: data['minCartAmount'] as dynamic,
         onlyForPlatinumMember: data['onlyForPlatinumMember'] as bool?,
         onlyForSilverMember: data['onlyForSilverMember'] as bool?,
         onlyForGoldMember: data['onlyForGoldMember'] as bool?,
@@ -76,7 +76,7 @@ class RuleConfig {
   RuleConfig copyWith({
     String? willExpireAt,
     String? willStartAt,
-    dynamic? minCartAmount,
+    dynamic minCartAmount,
     bool? onlyForPlatinumMember,
     bool? onlyForSilverMember,
     bool? onlyForGoldMember,

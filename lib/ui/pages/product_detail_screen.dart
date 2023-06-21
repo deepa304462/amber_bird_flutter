@@ -1569,7 +1569,9 @@ class ProductDetailScreen extends StatelessWidget {
                                                 .allergicDetail!
                                                 .languageTexts![0]
                                                 .text ??
-                                            ''),
+                                            '',
+                                length: 50),
+
                         //     style: {
                         //   "body": Style(
                         //       fontSize: FontSize(FontSizes.body),
@@ -1601,7 +1603,8 @@ class ProductDetailScreen extends StatelessWidget {
               child: ShowMoreWidget(
                   text: productController
                           .product.value.description!.defaultText!.text ??
-                      '')),
+                      '',
+                  length: 200)),
         ],
       ),
     );

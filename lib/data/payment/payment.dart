@@ -10,17 +10,17 @@ class Payment {
   Ref? order;
   Ref? appliedCouponCode;
   bool? refferalDiscountApplied;
-  dynamic? discountAmount;
-  dynamic? totalAmount;
-  dynamic? paidAmount;
-  dynamic? totalSavedAmount;
+  dynamic discountAmount;
+  dynamic totalAmount;
+  dynamic paidAmount;
+  dynamic totalSavedAmount;
   String? currency;
   dynamic paidTo;
   String? status;
   double? shippingAmount;
   double? totalAdditionalDiscountAmount;
   PaymentGateWayDetail? paymentGateWayDetail;
-  dynamic? appliedTaxAmount;
+  dynamic appliedTaxAmount;
   List<TaxDetail>? appliedTaxDetail;
   String? description;
   dynamic businessId;
@@ -83,10 +83,10 @@ class Payment {
             : (data['appliedTaxDetail'] as List<dynamic>?)
                 ?.map((e) => TaxDetail.fromMap(e as Map<String, dynamic>))
                 .toList(),
-        discountAmount: data['discountAmount'] as dynamic?,
-        totalSavedAmount: data['totalSavedAmount'] as dynamic?,
-        totalAmount: data['totalAmount'] as dynamic?,
-        paidAmount: data['paidAmount'] as dynamic?,
+        discountAmount: data['discountAmount'] as dynamic,
+        totalSavedAmount: data['totalSavedAmount'] as dynamic,
+        totalAmount: data['totalAmount'] as dynamic,
+        paidAmount: data['paidAmount'] as dynamic,
         currency: data['currency'] as String?,
         paidTo: data['paidTo'] as dynamic,
         status: data['status'] as String?,
@@ -98,7 +98,7 @@ class Payment {
             ? null
             : PaymentGateWayDetail.fromMap(
                 data['paymentGateWayDetail'] as Map<String, dynamic>),
-        appliedTaxAmount: data['appliedTaxAmount'] as dynamic?,
+        appliedTaxAmount: data['appliedTaxAmount'] as dynamic,
         description: data['description'] as String?,
         businessId: data['businessId'] as dynamic,
         totalSCoinsEarned: data['totalSCoinsEarned'] as dynamic,
@@ -154,16 +154,16 @@ class Payment {
     Ref? order,
     bool? refferalDiscountApplied,
     Ref? appliedCouponCode,
-    dynamic? discountAmount,
-    dynamic? totalAmount,
-    dynamic? paidAmount,
+    dynamic discountAmount,
+    dynamic totalAmount,
+    dynamic paidAmount,
     String? currency,
     dynamic paidTo,
     String? status,
     double? shippingAmount,
     double? totalAdditionalDiscountAmount,
     PaymentGateWayDetail? paymentGateWayDetail,
-    dynamic? appliedTaxAmount,
+    dynamic appliedTaxAmount,
     List<TaxDetail>? appliedTaxDetail,
     String? description,
     dynamic businessId,

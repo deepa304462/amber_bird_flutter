@@ -15,8 +15,8 @@ class CustomerInsight {
   bool? promoter;
   String? email;
   String? userFriendlyCustomerId;
-  dynamic? scoins;
-  dynamic? spoints;
+  dynamic scoins;
+  dynamic spoints;
   String? id;
 
   CustomerInsight({
@@ -58,8 +58,8 @@ class CustomerInsight {
           : Ref.fromMap(data['customerTrackerRef'] as Map<String, dynamic>),
       email: data['email'] as String?,
       userFriendlyCustomerId: data['userFriendlyCustomerId'] as String?,
-      scoins: data['scoins'] as dynamic?,
-      spoints: data['spoints'] as dynamic?,
+      scoins: data['scoins'] as dynamic,
+      spoints: data['spoints'] as dynamic,
       id: data['_id'] as String?,
     );
   }
@@ -103,8 +103,8 @@ class CustomerInsight {
     bool? promoter,
     String? email,
     String? userFriendlyCustomerId,
-    dynamic? scoins,
-    dynamic? spoints,
+    dynamic scoins,
+    dynamic spoints,
     String? id,
   }) {
     return CustomerInsight(

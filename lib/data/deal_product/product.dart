@@ -18,7 +18,7 @@ class ProductSummary {
   String? countryCode;
   Brand? brand;
   bool? multiVarientExists;
-  dynamic? defaultPurchaseCount;
+  dynamic defaultPurchaseCount;
   String? type;
   List<Varient>? varients;
   List<Ref>? tags;
@@ -72,7 +72,7 @@ class ProductSummary {
             ? null
             : Brand.fromMap(data['brand'] as Map<String, dynamic>),
         multiVarientExists: data['multiVarientExists'] as bool?,
-        defaultPurchaseCount: data['defaultPurchaseCount'] as dynamic?,
+        defaultPurchaseCount: data['defaultPurchaseCount'] as dynamic,
         type: data['type'] as String?,
         varients: (data['varients'] as List<dynamic>?)
             ?.map((e) => Varient.fromMap(e as Map<String, dynamic>))
@@ -124,7 +124,7 @@ class ProductSummary {
     String? countryCode,
     Brand? brand,
     bool? multiVarientExists,
-    dynamic? defaultPurchaseCount,
+    dynamic defaultPurchaseCount,
     String? type,
     List<Varient>? varients,
     List<Ref>? tags,

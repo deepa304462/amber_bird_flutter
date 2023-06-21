@@ -7,7 +7,6 @@ import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
-import 'package:amber_bird/ui/widget/cart/save-later-widget.dart';
 import 'package:amber_bird/ui/widget/coupon-widget.dart';
 import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/utils/codehelp.dart';
@@ -396,7 +395,7 @@ class CheckoutWidget extends StatelessWidget {
                           style: TextStyles.body,
                         ),
                         Text(
-                          '${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0 as double).toStringAsFixed(2)}${CodeHelp.euro}',
+                          '${(cartController.calculatedPayment.value.discountAmount != null ? cartController.calculatedPayment.value.discountAmount : 0.0).toStringAsFixed(2)}${CodeHelp.euro}',
                           style: TextStyles.headingFont,
                         ),
                       ],

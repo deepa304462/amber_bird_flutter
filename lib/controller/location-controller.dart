@@ -9,7 +9,6 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -98,7 +97,7 @@ class LocationController extends GetxController {
     // if (locationExists) {
     //   var data = await OfflineDBService.get(OfflineDBService.location);
     //   address.value = data;
-    setAddressData(address.value);
+    setAddressData(address);
     pinCode.value = addressData.value.zipCode!;
     if (pinCode.value.isNotEmpty) {
       addressAvaiable.value = true;
@@ -141,8 +140,8 @@ class LocationController extends GetxController {
   }
 
   String findValueFromAddress(String key) {
-    if (address.value['address_components'] != null) {
-      for (dynamic element in (address.value['address_components'] as List)) {
+    if (address['address_components'] != null) {
+      for (dynamic element in (address['address_components'] as List)) {
         bool keyMatched = false;
         for (String value in (element['types'] as List)) {
           keyMatched = value == key;
@@ -192,10 +191,10 @@ class LocationController extends GetxController {
           address.value = Map();
         } else {
           error.value = false;
-          if (address.value['geometry'] != null) {
+          if (address['geometry'] != null) {
             currentLatLang.value = LatLng(
-                address.value['geometry']['location']['lat'],
-                address.value['geometry']['location']['lng']);
+                address['geometry']['location']['lat'],
+                address['geometry']['location']['lng']);
             addressAvaiable.value = true;
           }
         }

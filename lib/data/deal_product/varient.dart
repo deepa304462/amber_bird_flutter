@@ -9,7 +9,7 @@ class Varient {
   String? varientCode;
   double? weight;
   String? unit;
-  dynamic? currentStock;
+  dynamic currentStock;
   Price? price;
   Dimension? dimension;
   bool? applyExtraShipping;
@@ -41,7 +41,7 @@ class Varient {
         varientCode: data['varientCode'] as String?,
         weight: data['weight'] as double?,
         unit: data['unit'] as String?,
-        currentStock: data['currentStock'] as dynamic?,
+        currentStock: data['currentStock'] as dynamic,
         price: data['price'] == null
             ? null
             : Price.fromMap(data['price'] as Map<String, dynamic>),
@@ -87,7 +87,7 @@ class Varient {
     String? varientCode,
     double? weight,
     String? unit,
-    dynamic? currentStock,
+    dynamic currentStock,
     Price? price,
     Dimension? dimension,
     bool? applyExtraShipping,

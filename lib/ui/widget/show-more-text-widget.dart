@@ -4,8 +4,9 @@ import 'package:flutter_html/flutter_html.dart';
 
 class ShowMoreWidget extends StatefulWidget {
   final String text;
+  final int length;
 
-  ShowMoreWidget({required this.text});
+  ShowMoreWidget({required this.text, required this.length});
 
   @override
   _ShowMoreWidgetState createState() => new _ShowMoreWidgetState();
@@ -21,9 +22,9 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
   void initState() {
     super.initState();
 
-    if (widget.text.length > 70) {
-      firstHalf = widget.text.substring(0, 70);
-      secondHalf = widget.text.substring(70, widget.text.length);
+    if (widget.text.length > widget.length) {
+      firstHalf = widget.text.substring(0, widget.length);
+      secondHalf = widget.text.substring(widget.length, widget.text.length);
     } else {
       firstHalf = widget.text;
       secondHalf = "";
