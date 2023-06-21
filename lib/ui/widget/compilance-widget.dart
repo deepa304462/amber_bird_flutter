@@ -19,8 +19,7 @@ class CompilanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Compilance> result =
-        compilanceController.compilanceList.value.where((el) {
+    List<Compilance> result = compilanceController.compilanceList.where((el) {
       return el.id! == id;
     }).toList();
     print(result);

@@ -82,7 +82,7 @@ class WishlistController extends GetxController {
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
-    for (var v in wishlistProducts.value.values) {
+    for (var v in wishlistProducts.values) {
       listProd.add((jsonDecode(v.toJson())));
     }
     Ref custRef = await Helper.getCustomerRef();

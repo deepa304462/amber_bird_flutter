@@ -31,9 +31,9 @@ class UpdatePasswordController extends GetxController {
   }
 
   void setResetPassvalue(String text, String name) {
-    resetPasswordValue.value[name] = text;
-    if (resetPasswordValue.value['newPassword'] !=
-        resetPasswordValue.value['confirmPassword']) {
+    resetPasswordValue[name] = text;
+    if (resetPasswordValue['newPassword'] !=
+        resetPasswordValue['confirmPassword']) {
       passMatch.value = false;
     } else {
       passMatch.value = true;
@@ -44,7 +44,7 @@ class UpdatePasswordController extends GetxController {
     var controller = Get.find<Controller>();
     var payload = {
       'email': controller.loggedInProfile.value.email,
-      'password': resetPasswordValue.value['newPassword'],
+      'password': resetPasswordValue['newPassword'],
       'token': token
     };
     var userUpdateResp =

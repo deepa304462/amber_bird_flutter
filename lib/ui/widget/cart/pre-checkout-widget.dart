@@ -1319,14 +1319,8 @@ class PreCheckoutWidget extends StatelessWidget {
             cartController.msdProducts.length,
         itemBuilder: (_, index) {
           if (index < cartController.cartProducts.length) {
-            var currentKey =
-                cartController.cartProducts.value.keys.elementAt(index);
-            var currentProduct = cartController.cartProducts.value[currentKey]!;
-            // var minOrder = (currentProduct.constraint != null &&
-            //         currentProduct.constraint.minimumOrder != null &&
-            //         currentProduct.constraint.minimumOrder > 0)
-            //     ? currentProduct.constraint!.minimumOrder
-            //     : 1;
+            var currentKey = cartController.cartProducts.keys.elementAt(index);
+            var currentProduct = cartController.cartProducts[currentKey]!;
             return currentProduct.products!.isNotEmpty
                 ? multiCheckoutProductCard(
                     currentProduct.products,
@@ -1337,7 +1331,7 @@ class PreCheckoutWidget extends StatelessWidget {
                     currentProduct.price,
                     currentProduct.ruleConfig,
                     currentProduct.constraint,
-                    context) // TODO add multi design
+                    context)
                 : checkoutProductCard(
                     currentProduct.product,
                     currentProduct.ref!.id,
@@ -1353,13 +1347,11 @@ class PreCheckoutWidget extends StatelessWidget {
               index <
                   cartController.cartProductsScoins.length +
                       cartController.cartProducts.length) {
-            var currentKey = cartController.cartProductsScoins.value.keys
+            var currentKey = cartController.cartProductsScoins.keys
                 .elementAt(cartController.cartProducts.length - index);
-            var currentProduct =
-                cartController.cartProductsScoins.value[currentKey]!;
+            var currentProduct = cartController.cartProductsScoins[currentKey]!;
             ProductSummary dProduct =
-                cartController.cartProductsScoins.value[currentKey]!.product!;
-            //  dProduct = cartController.cartProductsScoins[];
+                cartController.cartProductsScoins[currentKey]!.product!;
             return SizedBox(
               width: 150,
               child: ProductCardScoin(
@@ -1373,13 +1365,13 @@ class PreCheckoutWidget extends StatelessWidget {
               ),
             );
           } else {
-            var currentKey = cartController.msdProducts.value.keys.elementAt(
+            var currentKey = cartController.msdProducts.keys.elementAt(
                 (cartController.cartProductsScoins.length +
                         cartController.cartProducts.length) -
                     index);
-            var currentProduct = cartController.msdProducts.value[currentKey]!;
-            ProductSummary dProduct =
-                cartController.msdProducts.value[currentKey]!.product!;
+            var currentProduct = cartController.msdProducts[currentKey]!;
+            // ProductSummary dProduct =
+            //     cartController.msdProducts.value[currentKey]!.product!;
             return checkoutProductCard(
                 currentProduct.product,
                 currentProduct.ref!.id,
@@ -1391,8 +1383,6 @@ class PreCheckoutWidget extends StatelessWidget {
                 currentProduct.constraint,
                 'MSD',
                 context);
-            ;
-            // return Text('msd ${index}');
           }
         },
       ),

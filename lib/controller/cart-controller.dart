@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -51,8 +50,6 @@ class CartController extends GetxController {
   @override
   void onInit() {
     fetchCart();
-    // print('${getCurrentTag()} controller __________________');
-
     super.onInit();
   }
 
@@ -206,7 +203,7 @@ class CartController extends GetxController {
 
   calculateTotalCost() {
     Price pr = Price.fromMap({'actualPrice': 0.0, 'offerPrice': 0.0});
-    for (var v in cartProducts.value.values) {
+    for (var v in cartProducts.values) {
       pr.actualPrice = pr.actualPrice! + v.price!.actualPrice!;
       pr.offerPrice = pr.offerPrice! + v.price!.actualPrice!;
     }
@@ -465,11 +462,9 @@ class CartController extends GetxController {
   }
 
   addTocartSaveLater(key) async {
-    cartProducts[key] = saveLaterProducts.value[key] ?? ProductOrder();
+    cartProducts[key] = saveLaterProducts[key] ?? ProductOrder();
     await createOrder();
     await removeSaveLater(key);
-    // saveLaterProducts.remove(key);
-    // await saveLaterCall();
   }
 
   resetCart() async {
@@ -640,9 +635,9 @@ class CartController extends GetxController {
       if (products != null) {
         for (var element in products) {
           li.add(element.toJson());
-          if (priceInfo == null) {
-            price = price + element.varient!.price!.offerPrice!;
-          }
+
+          price = price + element.varient!.price!.offerPrice!;
+
           if (getData != null) {
             quantity = getData.count!;
             quantity = quantity + addQuantity;

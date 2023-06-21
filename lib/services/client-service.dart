@@ -142,7 +142,7 @@ class ClientService {
       _APIVersion ver = _APIVersion.V1}) async {
     var response;
     Map<String, dynamic> header = Map();
-    var method = RESTMethod.GET;
+    // var method = RESTMethod.GET;
     header['diago-tag'] = 'fEC3wfDtpr/Gm43hdzFVifLj3IqlLAoXa2W/yyi5Ros=';
     try {
       //https://search.sbazar.app/product/select?indent=true&q.op=OR&q=name:*Shan*&fq=indexData:*shan**masala*

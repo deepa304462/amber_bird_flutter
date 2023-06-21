@@ -5,11 +5,11 @@ import 'members_special_price.dart';
 class Price {
   double? actualPrice;
   double? offerPrice;
-  dynamic? noMemberCoin;
-  dynamic? platinumMemberCoin;
-  dynamic? goldMemberCoin;
-  dynamic? silverMemberCoin;
-  dynamic? paidMemberCoin;
+  dynamic noMemberCoin;
+  dynamic platinumMemberCoin;
+  dynamic goldMemberCoin;
+  dynamic silverMemberCoin;
+  dynamic paidMemberCoin;
   MembersSpecialPrice? membersSpecialPrice;
 
   Price({
@@ -31,11 +31,11 @@ class Price {
   factory Price.fromMap(Map<String, dynamic> data) => Price(
         actualPrice: data['actualPrice'] as double?,
         offerPrice: data['offerPrice'] as double?,
-        noMemberCoin: data['noMemberCoin'] as dynamic?,
-        platinumMemberCoin: data['platinumMemberCoin'] as dynamic?,
-        goldMemberCoin: data['goldMemberCoin'] as dynamic?,
-        silverMemberCoin: data['silverMemberCoin'] as dynamic?,
-        paidMemberCoin: data['paidMemberCoin'] as dynamic?,
+        noMemberCoin: data['noMemberCoin'] as dynamic,
+        platinumMemberCoin: data['platinumMemberCoin'] as dynamic,
+        goldMemberCoin: data['goldMemberCoin'] as dynamic,
+        silverMemberCoin: data['silverMemberCoin'] as dynamic,
+        paidMemberCoin: data['paidMemberCoin'] as dynamic,
         membersSpecialPrice: data['membersSpecialPrice'] == null
             ? null
             : MembersSpecialPrice.fromMap(
@@ -68,11 +68,11 @@ class Price {
   Price copyWith({
     double? actualPrice,
     double? offerPrice,
-    dynamic? noMemberCoin,
-    dynamic? platinumMemberCoin,
-    dynamic? goldMemberCoin,
-    dynamic? silverMemberCoin,
-    dynamic? paidMemberCoin,
+    dynamic noMemberCoin,
+    dynamic platinumMemberCoin,
+    dynamic goldMemberCoin,
+    dynamic silverMemberCoin,
+    dynamic paidMemberCoin,
     MembersSpecialPrice? membersSpecialPrice,
   }) {
     return Price(

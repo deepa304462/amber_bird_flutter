@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class DealPrice {
-  dynamic? actualPrice;
-  dynamic? offerPrice;
-  dynamic? memberCoin;
-  dynamic? primeMemberCoin;
-  dynamic? goldMemberCoin;
-  dynamic? silverMemberCoin;
+  dynamic actualPrice;
+  dynamic offerPrice;
+  dynamic memberCoin;
+  dynamic primeMemberCoin;
+  dynamic goldMemberCoin;
+  dynamic silverMemberCoin;
 
   DealPrice({
     this.actualPrice,
@@ -53,12 +53,12 @@ class DealPrice {
   String toJson() => json.encode(toMap());
 
   DealPrice copyWith({
-    dynamic? actualPrice,
-    dynamic? offerPrice,
-    dynamic? memberCoin,
-    dynamic? primeMemberCoin,
-    dynamic? goldMemberCoin,
-    dynamic? silverMemberCoin,
+    dynamic actualPrice,
+    dynamic offerPrice,
+    dynamic memberCoin,
+    dynamic primeMemberCoin,
+    dynamic goldMemberCoin,
+    dynamic silverMemberCoin,
   }) {
     return DealPrice(
       actualPrice: actualPrice ?? this.actualPrice,

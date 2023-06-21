@@ -104,7 +104,7 @@ class WordCloud extends StatelessWidget {
     getProductTags();
 
     final screenSize = MediaQuery.of(context).size;
-    final ratio = screenSize.width * 2.5 / (screenSize.height / 2);
+    // final ratio = screenSize.width * 2.5 / (screenSize.height / 2);
 
     return Container(
       color: Colors.white,
@@ -156,8 +156,8 @@ class ScatterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle style = TextStyles.titleFont.copyWith(
-      fontSize: hashtag.size.toDouble() ?? 16,
-      color: hashtag.color ?? AppColors.primeColor,
+      fontSize: hashtag.size.toDouble(),
+      color: hashtag.color,
     );
     return RotatedBox(
       quarterTurns: hashtag.rotated ? 1 : 0,
