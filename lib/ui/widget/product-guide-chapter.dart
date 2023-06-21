@@ -29,12 +29,14 @@ class ProductGuideChapter extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        ImageBox(
-                          chapter.images![0],
-                          width: MediaQuery.of(context).size.width * .9,
-                          height: 100,
-                          fit: BoxFit.fitWidth,
-                        ),
+                        chapter.images!.length > 0
+                            ? ImageBox(
+                                chapter.images![0],
+                                width: MediaQuery.of(context).size.width * .9,
+                                height: 100,
+                                fit: BoxFit.fitWidth,
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                     Card(

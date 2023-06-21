@@ -25,7 +25,6 @@ class HelpCenterPage extends StatelessWidget {
         backgroundColor: AppColors.primeColor,
         leading: MaterialButton(
           onPressed: () {
-            // Navigator.pop(context);
             if (Modular.to.canPop()) {
               Modular.to.pop();
             } else if (Navigator.canPop(context)) {
@@ -33,7 +32,6 @@ class HelpCenterPage extends StatelessWidget {
             } else {
               Modular.to.navigate('../../home/main');
             }
-            // stateController.navigateToUrl('/home/main');
           },
           child: const Icon(
             Icons.arrow_back_ios,

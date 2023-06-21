@@ -73,7 +73,6 @@ class LocationDialog extends StatelessWidget {
                       style: TextStyles.bodyFont.copyWith(color: Colors.white),
                     ),
                   ),
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -84,6 +83,10 @@ class LocationDialog extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
+                                TextButton(
+                                    onPressed: () => {searchedAdd.value = true},
+                                    child:
+                                        Text('Tap here to fill full address ')),
                                 TextField(
                                   decoration: InputDecoration(
                                       labelText: "Search your home address",
@@ -138,21 +141,6 @@ class LocationDialog extends StatelessWidget {
                           ),
                         )
                       : const SizedBox(),
-                  // MaterialButton(
-                  //   onPressed: () {
-                  //     showDialog(
-                  //       context: context,
-                  //       builder: (context) {
-                  //         return GoogleAddressSuggest();
-                  //       },
-                  //     );
-                  //   },
-                  //   child: Text(
-                  //     'Click here for address autofill',
-                  //     textAlign: TextAlign.left,
-                  //     style: TextStyles.titleFont.copyWith(color: Colors.blue),
-                  //   ),
-                  // ),
                   searchedAdd.value
                       ? Column(
                           children: [

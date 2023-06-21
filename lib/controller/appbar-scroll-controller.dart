@@ -38,7 +38,9 @@ class AppbarScrollController extends GetxController {
         shrinkappbar.value = false;
       } else if (Modular.to.path.split('/').length > 2) {
         var arr = Modular.to.path.split('/');
-        if (arr[0] == 'widget' && arr[1] == 'product') {
+        if (arr[1] == 'widget' && arr[2] == 'product') {
+          shrinkappbar.value = false;
+        } else if (arr[0] == 'widget' && arr[1] == 'product') {
           shrinkappbar.value = false;
         } else {
           shrinkappbar.value = true;

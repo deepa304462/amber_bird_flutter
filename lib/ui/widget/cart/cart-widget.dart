@@ -329,11 +329,17 @@ class CartWidget extends StatelessWidget {
                                             dense: false,
                                             visualDensity: const VisualDensity(
                                                 vertical: 3),
-                                            leading: ImageBox(
-                                              '${currentInnerProduct.images![0]}',
-                                              width: 80,
-                                              height: 80,
-                                              fit: BoxFit.contain,
+                                            leading: InkWell(
+                                              onTap: () {
+                                                Modular.to.pushNamed(
+                                                    '/widget/product/${currentInnerProduct.id}');
+                                              },
+                                              child: ImageBox(
+                                                '${currentInnerProduct.images![0]}',
+                                                width: 80,
+                                                height: 80,
+                                                fit: BoxFit.contain,
+                                              ),
                                             ),
                                             title: FitText(
                                               currentInnerProduct
@@ -577,11 +583,17 @@ class CartWidget extends StatelessWidget {
                                   dense: false,
                                   visualDensity:
                                       const VisualDensity(vertical: 3),
-                                  leading: ImageBox(
-                                    currentProduct.product!.images![0],
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.contain,
+                                  leading: InkWell(
+                                    onTap: () {
+                                      Modular.to.pushNamed(
+                                          '/widget/product/${currentProduct.product!.id}');
+                                    },
+                                    child: ImageBox(
+                                      currentProduct.product!.images![0],
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                   title: FitText(
                                     currentProduct
@@ -826,12 +838,18 @@ class CartWidget extends StatelessWidget {
                 ListTile(
                   dense: false,
                   visualDensity: const VisualDensity(vertical: 3),
-                  leading: ImageBox(
-                    cartController.cartProductsScoins.value[currentKey]!
-                        .product!.images![0],
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.contain,
+                  leading: InkWell(
+                    onTap: () {
+                      Modular.to.pushNamed(
+                          '/widget/product/${cartController.cartProductsScoins.value[currentKey]!.product!.product!.id}');
+                    },
+                    child: ImageBox(
+                      cartController.cartProductsScoins.value[currentKey]!
+                          .product!.images![0],
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   title: FitText(
                     cartController.cartProductsScoins.value[currentKey]!
@@ -1067,11 +1085,17 @@ class CartWidget extends StatelessWidget {
                                               visualDensity:
                                                   const VisualDensity(
                                                       vertical: 3),
-                                              leading: ImageBox(
-                                                '${currentInnerProduct.images![0]}',
-                                                width: 80,
-                                                height: 80,
-                                                fit: BoxFit.contain,
+                                              leading: InkWell(
+                                                onTap: () {
+                                                  Modular.to.pushNamed(
+                                                      '/widget/product/${currentInnerProduct.id}');
+                                                },
+                                                child: ImageBox(
+                                                  '${currentInnerProduct.images![0]}',
+                                                  width: 80,
+                                                  height: 80,
+                                                  fit: BoxFit.contain,
+                                                ),
                                               ),
                                               title: FitText(
                                                 currentInnerProduct
@@ -1311,11 +1335,17 @@ class CartWidget extends StatelessWidget {
                                     dense: false,
                                     visualDensity:
                                         const VisualDensity(vertical: 3),
-                                    leading: ImageBox(
-                                      currentProduct.product!.images![0],
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.contain,
+                                    leading: InkWell(
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/widget/product/${currentProduct.product.id}');
+                                      },
+                                      child: ImageBox(
+                                        currentProduct.product!.images![0],
+                                        width: 80,
+                                        height: 80,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                     title: FitText(
                                       currentProduct

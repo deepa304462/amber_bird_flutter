@@ -25,24 +25,7 @@ class ProfilePage extends StatelessWidget {
       children: [
         profileCard(context, stateController.loggedInProfile.value,
             stateController.customerInsight.value),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Card(
-        //     child: SizedBox(
-        //       width: MediaQuery.of(context).size.width,
-        //       child: Align(
-        //         alignment: Alignment.centerLeft,
-        //         child: TextButton(
-        //           onPressed: () async {
-        //             stateController.logout();
-        //             cartController.fetchCart();
-        //           },
-        //           child: Text("Logout", style: TextStyles.headingFont),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
+
         sectionCard('Logout', '', Icons.logout, () {
           stateController.logout();
           cartController.fetchCart();
