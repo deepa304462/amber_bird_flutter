@@ -207,6 +207,7 @@ class CustomSearchDelegate extends SearchDelegate {
                             snackBarClass.showToast(
                                 context, 'coupon is not valid ');
                           }
+                          stateController.showLoader.value = false;
                         },
                         color: AppColors.primeColor,
                         child: Text(

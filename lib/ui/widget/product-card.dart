@@ -195,7 +195,7 @@ class ProductCard extends StatelessWidget {
       return (addedFrom == 'PRODUCT' ||
               addedFrom == 'CATEGORY' ||
               addedFrom == 'BRAND' ||
-              addedFrom == 'BRAND' ||
+              addedFrom == 'GUIDE' ||
               addedFrom == 'RECOMMENDED')
           ? Obx(() => Text(
                 "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
