@@ -357,26 +357,22 @@ class LocationController extends GetxController {
 
   void updateCustomerAddress(addressFromGoogle) {
     changeAddressData.value.zipCode =
-        findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
-    changeAddressData.value.houseNo = findValueFromAddressFromGoogleData(
-                addressFromGoogle, 'premise') !=
-            ''
-        ? '${findValueFromAddressFromGoogleData(addressFromGoogle, 'premise')}'
-        : '${findValueFromAddressFromGoogleData(addressFromGoogle, 'street_number')} ';
+        addressFromGoogle['properties']['postcode'];
+    // findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
+    changeAddressData.value.houseNo =
+        addressFromGoogle['properties']['housenumber'];
     changeAddressData.value.line1 =
-        '${findValueFromAddressFromGoogleData(addressFromGoogle, 'route')} ${findValueFromAddressFromGoogleData(addressFromGoogle, 'sublocality_level_2')}, ${findValueFromAddressFromGoogleData(addressFromGoogle, 'sublocality_level_1')}';
-    changeAddressData.value.city =
-        findValueFromAddressFromGoogleData(addressFromGoogle, 'locality') != ''
-            ? findValueFromAddressFromGoogleData(addressFromGoogle, 'locality')
-            : findValueFromAddressFromGoogleData(
-                addressFromGoogle, 'administrative_area_level_2');
+        '${addressFromGoogle['properties']['formatted']} ';
+    changeAddressData.value.city = addressFromGoogle['properties']['city'] != ''
+        ? addressFromGoogle['properties']['city']
+        : addressFromGoogle['properties']['district'];
     changeAddressData.value.country =
-        findValueFromAddressFromGoogleData(addressFromGoogle, 'country');
+        addressFromGoogle['properties']['country'];
     changeAddressData.refresh();
     changeAddressData.value.geoAddress = GeoAddress.fromMap({
       'coordinates': [
-        addressFromGoogle['geometry']['location']['lat'],
-        addressFromGoogle['geometry']['location']['lng']
+        addressFromGoogle['properties']['lat'],
+        addressFromGoogle['properties']['lon']
       ]
     });
   }

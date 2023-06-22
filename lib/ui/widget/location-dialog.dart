@@ -35,7 +35,7 @@ class LocationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    searchedAdd.value = false;
+    // searchedAdd.value = false;
     RxBool isLoading = false.obs;
     RxString errorMessage = ''.obs;
     return SafeArea(
@@ -78,7 +78,7 @@ class LocationDialog extends StatelessWidget {
                   ),
                   !searchedAdd.value
                       ? SizedBox(
-                          height: 200,
+                          height: MediaQuery.of(context).size.height * .9,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -126,7 +126,7 @@ class LocationDialog extends StatelessWidget {
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  '${element['properties']['name']} ${element['properties']['city']} ${element['properties']['state']} ${element['properties']['country']},${element['properties']['postcode']}',
+                                                  '${element['properties']['formatted']}',
                                                   style: TextStyles.bodyFont,
                                                   textAlign: TextAlign.right,
                                                 ),
@@ -464,7 +464,16 @@ class LocationDialog extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                            )
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                TextButton(
+                                    onPressed: () =>
+                                        {searchedAdd.value = false},
+                                    child: Text('Tap here to search address ')),
+                              ],
+                            ),
                           ],
                         )
                       : const SizedBox()

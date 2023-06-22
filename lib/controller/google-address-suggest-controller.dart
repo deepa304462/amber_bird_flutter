@@ -15,7 +15,7 @@ class GoogleAddressSuggestController extends GetxController {
       // var url =
       //     '$host?key=$mapKey&language=de&address=$changedText&sensor=true&components=postal_code:${pincode}';
       var url =
-          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=5&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726';
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
       // url = url + '|country:IN';
       var response = await dio.get(url);
       if (response.statusCode == 200) {
