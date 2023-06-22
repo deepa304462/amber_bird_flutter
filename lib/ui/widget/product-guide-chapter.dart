@@ -1,6 +1,7 @@
 import 'package:amber_bird/data/product_guide/chapter.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/show-more-text-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -33,7 +34,7 @@ class ProductGuideChapter extends StatelessWidget {
                             ? ImageBox(
                                 chapter.images![0],
                                 width: MediaQuery.of(context).size.width * .9,
-                                height: 100,
+                                height: 140,
                                 fit: BoxFit.fitWidth,
                               )
                             : const SizedBox(),
@@ -52,11 +53,8 @@ class ProductGuideChapter extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    chapter.subLabel!.defaultText!.text!,
-                    style: TextStyles.bodyFont,
-                    textAlign: TextAlign.justify,
-                  ),
+                  child: ShowMoreWidget(
+                      text: chapter.subLabel!.defaultText!.text!, length: 200),
                 ),
               ],
             ),

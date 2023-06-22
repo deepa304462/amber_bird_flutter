@@ -1,8 +1,10 @@
 import 'package:amber_bird/controller/product-guide-page-controller.dart';
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-guide-chapter.dart';
+import 'package:amber_bird/ui/widget/show-more-text-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -31,60 +33,72 @@ class ProductGuidePage extends StatelessWidget {
                 )
               : CustomScrollView(
                   slivers: <Widget>[
-                    SliverAppBar(
-                      backgroundColor: Colors.white,
-                      automaticallyImplyLeading: true,
-                      pinned: true,
-                      iconTheme: IconThemeData(color: AppColors.primeColor),
-                      floating: false,
-                      // backwardsCompatibility: true,
-                      excludeHeaderSemantics: true,
-                      expandedHeight: 300.0,
-                      stretch: false,
-                      leading: IconButton(
+                    SliverLayoutBuilder(
+                        builder: (BuildContext context, constraints) {
+                      final scrolled = constraints.scrollOffset >
+                          MediaQuery.of(context).size.height * .35;
+                      return SliverAppBar(
+                        backgroundColor: Colors.white,
+                        automaticallyImplyLeading: true,
+                        pinned: true,
+                        iconTheme: IconThemeData(color: AppColors.primeColor),
+                        floating: false,
+                        excludeHeaderSemantics: true,
+                        expandedHeight: 160.0,
+                        stretch: false,
+                        leading: IconButton(
                           onPressed: () {
                             if (Navigator.canPop(context)) {
                               Navigator.pop(context);
                             } else {
                               Modular.to.navigate('../../home/main');
-                              // Modular.to.pushNamed('/home/main');
                             }
                           },
                           icon: const Icon(
                             Icons.arrow_back_ios,
                             size: 15,
                             color: Colors.black,
-                          )),
-                      flexibleSpace: FlexibleSpaceBar(
-                        centerTitle: true,
-                        collapseMode: CollapseMode.pin,
-                        titlePadding: const EdgeInsets.all(0),
-                        title: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12)),
-                            padding: const EdgeInsets.all(4),
-                            child: Text(
-                              productGuidePageController.productGuide.value
-                                  .subject!.defaultText!.text!,
-                              style: TextStyles.titleFont
-                                  .copyWith(color: AppColors.primeColor),
-                            ),
                           ),
                         ),
-                        background: Padding(
-                          padding: const EdgeInsets.only(bottom: 5.0),
-                          child: ImageSlider(
+                        flexibleSpace: FlexibleSpaceBar(
+                          centerTitle: true,
+                          collapseMode: CollapseMode.pin,
+                          titlePadding: const EdgeInsets.all(0),
+                          title: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12)),
+                              padding: const EdgeInsets.all(4),
+                              child: Text(
+                                productGuidePageController.productGuide.value
+                                    .subject!.defaultText!.text!,
+                                style: TextStyles.titleFont
+                                    .copyWith(color: AppColors.primeColor),
+                              ),
+                            ),
+                          ),
+                          background:
+                              //  ImageBox(
+                              //   productGuidePageController
+                              //       .productGuide.value.images![0],
+                              //   fit: BoxFit.cover,
+                              // )
+                              Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: ImageSlider(
                               productGuidePageController
                                   .productGuide.value.images!,
                               MediaQuery.of(context).size.width,
                               disableTap: true,
-                              fit: BoxFit.fitWidth),
+                              height: 160,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
@@ -94,12 +108,14 @@ class ProductGuidePage extends StatelessWidget {
                               color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  productGuidePageController.productGuide.value
-                                      .description!.defaultText!.text!,
-                                  style: TextStyles.titleFont,
-                                  textAlign: TextAlign.justify,
-                                ),
+                                child: ShowMoreWidget(
+                                    text: productGuidePageController
+                                        .productGuide
+                                        .value
+                                        .description!
+                                        .defaultText!
+                                        .text!,
+                                    length: 200),
                               ),
                             ),
                           );

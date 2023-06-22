@@ -82,6 +82,7 @@ class LocationDialog extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextButton(
                                     onPressed: () => {searchedAdd.value = true},
@@ -125,7 +126,7 @@ class LocationDialog extends StatelessWidget {
                                                 padding:
                                                     const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  '${element['formatted_address']}',
+                                                  '${element['properties']['name']} ${element['properties']['city']} ${element['properties']['state']} ${element['properties']['country']},${element['properties']['postcode']}',
                                                   style: TextStyles.bodyFont,
                                                   textAlign: TextAlign.right,
                                                 ),

@@ -132,8 +132,6 @@ class ProductDetailScreen extends StatelessWidget {
                         automaticallyImplyLeading: true,
                         pinned: true,
                         iconTheme: IconThemeData(color: AppColors.primeColor),
-                        //  floating: false,
-                        // backwardsCompatibility: true,
                         excludeHeaderSemantics: true,
                         expandedHeight:
                             MediaQuery.of(context).size.height * .35,
@@ -143,29 +141,14 @@ class ProductDetailScreen extends StatelessWidget {
                             appbarScrollController.shrinkappbar.value = false;
                             try {
                               if (Navigator.canPop(context)) {
-                                // Navigator.pop(context);
                                 Navigator.pop(context);
-                                // int count = 0;
-
-                                // Navigator.of(context)
-                                // .popUntil((_) => count++ >= 2);
-
-                                // Modular.to.pop();
                               } else if (Modular.to.canPop()) {
-                                // Navigator.pop(context);
                                 Navigator.pop(context);
                                 Modular.to.pop();
                               } else {
-                                // Modular.to.navigate('../../home/main');
-                                // Modular.to
-                                //     .pushReplacementNamed('../../home/main');
-
                                 Modular.to.navigate('/home/main');
                               }
                             } catch (err) {
-                              // Modular.to.pushNamed('../../home/main');
-                              // Modular.to
-                              //     .pushReplacementNamed('../../home/main');
                               Modular.to.navigate('/home/main');
                             }
                           },
