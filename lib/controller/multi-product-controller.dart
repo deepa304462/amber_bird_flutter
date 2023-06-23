@@ -9,6 +9,20 @@ import 'package:get/get.dart';
 
 class MultiProductController extends GetxController {
   RxList<Multi> multiProd = <Multi>[].obs;
+  List months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
 
   final tag;
 
@@ -54,12 +68,13 @@ class MultiProductController extends GetxController {
   }
 
   getProductName(name) {
+    var now = new DateTime.now();
     if (multiProductName.COMBO.name == name) {
-      return "Combo Deal";
+      return "${months[now.month - 1]} Combo Deal";
     } else if (multiProductName.BUNDLE.name == name) {
-      return "Bundle Deal";
+      return "${months[now.month - 1]} Bundle Deal";
     } else if (multiProductName.COLLECTION.name == name) {
-      return "Collections";
+      return "${months[now.month - 1]} Collections";
     } else {
       return "Flash Deal";
     }

@@ -61,11 +61,6 @@ class MultiProductRow extends StatelessWidget {
                   await megaMenuController.getSubMenu(parentTab);
                   megaMenuController.selectedSubMenu.value = currenttypeName;
                   if (currenttypeName == multiProductName.COMBO.name) {
-                    // megaMenuController.getSubMenu(GenericTab(
-                    //     image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
-                    //     id: multiProductName.COMBO.name,
-                    //     type: 'MULTI',
-                    //     text: 'Combo'));
                     megaMenuController.getAllProducts(
                         GenericTab(
                             image: '7e572f4e-6e21-4c0f-a8a8-44e2c7d64fd2',
@@ -200,8 +195,8 @@ class MultiProductRow extends StatelessWidget {
                                   mProduct.name!.defaultText!.text ?? '',
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyles.titleFont.copyWith(
-                                      color: AppColors.grey.withBlue(200)),
+                                  style: TextStyles.titleFont
+                                      .copyWith(color: AppColors.primeColor),
                                 ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .6,
@@ -304,7 +299,8 @@ class MultiProductRow extends StatelessWidget {
                 children: [
                   Text(
                     '${multiProd.name!.defaultText!.text}',
-                    style: TextStyles.body.copyWith(color: Colors.grey),
+                    style: TextStyles.titleFont
+                        .copyWith(color: AppColors.primeColor),
                     textAlign: TextAlign.left,
                   ),
                 ],

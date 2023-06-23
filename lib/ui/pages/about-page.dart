@@ -92,12 +92,7 @@ class AboutPage extends StatelessWidget {
                               heading ?? '',
                               style: TextStyles.titleFont,
                             ),
-                            trailing: IconButton(
-                                onPressed: () {
-                                  //  CompilanceWidget(heading ??'', content: el);
-                                  // Modular.to.pushNamed('/widget/compilance/'+el.id! );
-                                },
-                                icon: const Icon(Icons.chevron_right)),
+                            trailing: const Icon(Icons.chevron_right),
                           );
                         }).toList(),
                         // ListTile(

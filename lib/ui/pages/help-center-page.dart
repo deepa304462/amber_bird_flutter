@@ -103,7 +103,10 @@ class HelpCenterPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/widget/compilance/BUYER_PROTECTION');
+                                      },
                                       child: ImageBox(
                                         '2229ac1f-3b17-4477-8970-d4441f5e6447',
                                         width: 50,
@@ -243,7 +246,7 @@ class HelpCenterPage extends StatelessWidget {
                         ),
                         ListTile(
                           title: Text(
-                            'Buy X get Y% Disfcount promotion',
+                            'Buy X get Y% Disccount promotion',
                             style: TextStyles.titleFont,
                           ),
                           trailing: const Icon(Icons.chevron_right),

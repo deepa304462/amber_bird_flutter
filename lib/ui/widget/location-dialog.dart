@@ -471,7 +471,7 @@ class LocationDialog extends StatelessWidget {
                                 TextButton(
                                     onPressed: () =>
                                         {searchedAdd.value = false},
-                                    child: Text('Tap here to search address ')),
+                                    child: Text('Tap here to change address ')),
                               ],
                             ),
                           ],

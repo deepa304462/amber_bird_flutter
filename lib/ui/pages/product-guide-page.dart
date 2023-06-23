@@ -1,7 +1,6 @@
 import 'package:amber_bird/controller/product-guide-page-controller.dart';
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
-import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/product-guide-chapter.dart';
 import 'package:amber_bird/ui/widget/show-more-text-widget.dart';
@@ -33,72 +32,77 @@ class ProductGuidePage extends StatelessWidget {
                 )
               : CustomScrollView(
                   slivers: <Widget>[
-                    SliverLayoutBuilder(
-                        builder: (BuildContext context, constraints) {
-                      final scrolled = constraints.scrollOffset >
-                          MediaQuery.of(context).size.height * .35;
-                      return SliverAppBar(
-                        backgroundColor: Colors.white,
-                        automaticallyImplyLeading: true,
-                        pinned: true,
-                        iconTheme: IconThemeData(color: AppColors.primeColor),
-                        floating: false,
-                        excludeHeaderSemantics: true,
-                        expandedHeight: 160.0,
-                        stretch: false,
-                        leading: IconButton(
-                          onPressed: () {
-                            if (Navigator.canPop(context)) {
-                              Navigator.pop(context);
-                            } else {
-                              Modular.to.navigate('../../home/main');
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            size: 15,
-                            color: Colors.black,
+                    SliverAppBar(
+                      backgroundColor: Colors.white,
+                      automaticallyImplyLeading: true,
+                      pinned: true,
+                      iconTheme: IconThemeData(color: AppColors.primeColor),
+                      floating: false,
+                      excludeHeaderSemantics: true,
+                      expandedHeight: 180.0,
+                      stretch: false,
+                      leading: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(50)),
+                          child: IconButton(
+                            onPressed: () {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                Modular.to.navigate('../../home/main');
+                              }
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_new_outlined,
+                              size: 15,
+                              color: AppColors.primeColor,
+                            ),
+                            iconSize: 15,
                           ),
                         ),
-                        flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          collapseMode: CollapseMode.pin,
-                          titlePadding: const EdgeInsets.all(0),
-                          title: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12)),
-                              padding: const EdgeInsets.all(4),
-                              child: Text(
-                                productGuidePageController.productGuide.value
-                                    .subject!.defaultText!.text!,
-                                style: TextStyles.titleFont
-                                    .copyWith(color: AppColors.primeColor),
-                              ),
-                            ),
-                          ),
-                          background:
-                              //  ImageBox(
-                              //   productGuidePageController
-                              //       .productGuide.value.images![0],
-                              //   fit: BoxFit.cover,
-                              // )
-                              Padding(
-                            padding: const EdgeInsets.only(bottom: 5.0),
-                            child: ImageSlider(
-                              productGuidePageController
-                                  .productGuide.value.images!,
-                              MediaQuery.of(context).size.width,
-                              disableTap: true,
-                              height: 160,
-                              fit: BoxFit.cover,
-                            ),
+                      ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        collapseMode: CollapseMode.pin,
+                        titlePadding: const EdgeInsets.all(0),
+                        title: const SizedBox(),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Container(
+                        //     decoration: BoxDecoration(
+                        //         color: Colors.white,
+                        //         borderRadius: BorderRadius.circular(12)),
+                        //     padding: const EdgeInsets.all(4),
+                        //     child: Text(
+                        //       productGuidePageController.productGuide.value
+                        //           .subject!.defaultText!.text!,
+                        //       style: TextStyles.titleFont
+                        //           .copyWith(color: AppColors.primeColor),
+                        //     ),
+                        //   ),
+                        // ),
+                        background:
+                            //  ImageBox(
+                            //   productGuidePageController
+                            //       .productGuide.value.images![0],
+                            //   fit: BoxFit.cover,
+                            // )
+                            Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0),
+                          child: ImageSlider(
+                            productGuidePageController
+                                .productGuide.value.images!,
+                            MediaQuery.of(context).size.width,
+                            disableTap: true,
+                            height: 180,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {

@@ -362,7 +362,7 @@ class LocationController extends GetxController {
     changeAddressData.value.houseNo =
         addressFromGoogle['properties']['housenumber'];
     changeAddressData.value.line1 =
-        '${addressFromGoogle['properties']['formatted']} ';
+        '${addressFromGoogle['properties']['street']} ';
     changeAddressData.value.city = addressFromGoogle['properties']['city'] != ''
         ? addressFromGoogle['properties']['city']
         : addressFromGoogle['properties']['district'];

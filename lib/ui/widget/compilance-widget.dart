@@ -26,10 +26,12 @@ class CompilanceWidget extends StatelessWidget {
     DetailedContent detailedContent = result[0].detailedContent!.length > 0
         ? result[0].detailedContent![0]
         : {} as DetailedContent;
-    var heading = detailedContent.sectionHeading! != null &&
+    var heading = detailedContent.sectionHeading != null &&
             detailedContent.sectionHeading!.defaultText != null
         ? detailedContent.sectionHeading!.defaultText!.text
-        : detailedContent.sectionHeading!.languageTexts![0].text;
+        : (detailedContent.sectionHeading != null
+            ? detailedContent.sectionHeading!.languageTexts![0].text
+            : '');
     // Compilance currentCompilance = result[0];
     return Scaffold(
       appBar: AppBar(
@@ -71,13 +73,18 @@ class CompilanceWidget extends StatelessWidget {
                 itemBuilder: (_, index) {
                   DetailedContent currentDetaildContent =
                       result[0].detailedContent![index];
-                  var sectionHeading = currentDetaildContent.sectionHeading! !=
+                  var sectionHeading = currentDetaildContent.sectionHeading !=
                               null &&
                           currentDetaildContent.sectionHeading!.defaultText !=
                               null
                       ? currentDetaildContent.sectionHeading!.defaultText!.text
-                      : currentDetaildContent
-                          .sectionHeading!.languageTexts![0].text;
+                      : ((currentDetaildContent.sectionHeading != null &&
+                              currentDetaildContent
+                                      .sectionHeading!.languageTexts!.length >
+                                  0)
+                          ? currentDetaildContent
+                              .sectionHeading!.languageTexts![0].text
+                          : '');
                   List<Content> contentList = currentDetaildContent.content!;
                   return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,10 +94,13 @@ class CompilanceWidget extends StatelessWidget {
                           style: TextStyles.headingFont,
                         ),
                         ...contentList.map((e) {
-                          var subHeading = e.subHeading! != null &&
+                          var subHeading = e.subHeading != null &&
                                   e.subHeading!.defaultText != null
                               ? e.subHeading!.defaultText!.text
-                              : e.subHeading!.languageTexts![0].text;
+                              : ((e.subHeading != null &&
+                                      e.subHeading!.languageTexts!.length > 0)
+                                  ? e.subHeading!.languageTexts![0].text
+                                  : '');
                           List<Name> subContentList = e.content ?? [];
                           return Column(children: [
                             Text(

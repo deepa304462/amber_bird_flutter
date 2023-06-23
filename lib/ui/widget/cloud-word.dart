@@ -8,32 +8,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_scatter/flutter_scatter.dart';
 import 'package:get/get.dart';
 
-// class TextApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Directionality(
-//       textDirection: TextDirection.ltr,
-//       child: Align(
-//         alignment: Alignment.center,
-//         child: Scatter(
-//           alignment: Alignment.center,
-//           delegate: AlignScatterDelegate(alignment: Alignment.topCenter),
-//           children: List.generate(
-//             4,
-//             (i) => Container(
-//               width: (i + 1) * 20.0,
-//               height: (i + 1) * 20.0,
-//               key: ValueKey(i),
-//               color: i.isEven ? Colors.blue : Colors.orange,
-//               child: Text('$i'),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class WordCloud extends StatelessWidget {
   RxList<Widget> widgets = <Widget>[].obs;
   List colorList = [
@@ -48,54 +22,57 @@ class WordCloud extends StatelessWidget {
   ];
 
   getProductTags() async {
-    var responseProd =
-        await ClientService.post(path: 'product/get100HashTags', payload: {});
-    if (responseProd.statusCode == 200) {
-      Random random = new Random();
-      HashTag summaryProdList =
-          HashTag.fromMap(responseProd.data as Map<String, dynamic>);
+    print(widgets.length);
+    if (widgets.length <= 0) {
+      var responseProd =
+          await ClientService.post(path: 'product/get100HashTags', payload: {});
+      if (responseProd.statusCode == 200) {
+        Random random = new Random();
+        HashTag summaryProdList =
+            HashTag.fromMap(responseProd.data as Map<String, dynamic>);
 
-      for (var i = 0; i < summaryProdList.lessSale!.length; i++) {
-        widgets.add(ScatterItem(
-            FlutterHashtag(
-                summaryProdList.lessSale![i],
-                colorList[random.nextInt(6)],
-                random.nextInt(20) + 20,
-                random.nextInt(2) == 0 ? false : true),
-            i));
-      }
-      for (var i = 0; i < summaryProdList.shortExpiry!.length; i++) {
-        widgets.add(ScatterItem(
-            FlutterHashtag(
-                summaryProdList.shortExpiry![i],
-                colorList[random.nextInt(6)],
-                random.nextInt(15) + 20,
-                random.nextInt(2) == 0 ? false : true),
-            i));
-      }
-      for (var i = 0; i < summaryProdList.intentionalPush!.length; i++) {
-        widgets.add(ScatterItem(
-            FlutterHashtag(
-                summaryProdList.intentionalPush![i],
-                colorList[random.nextInt(6)],
-                random.nextInt(10) + 20,
-                random.nextInt(2) == 0 ? false : true),
-            i));
-      }
-      for (var i = 0; i < summaryProdList.remainingTags!.length; i++) {
-        if (widgets.length < 110) {
+        for (var i = 0; i < summaryProdList.lessSale!.length; i++) {
           widgets.add(ScatterItem(
               FlutterHashtag(
-                  summaryProdList.remainingTags![i],
+                  summaryProdList.lessSale![i],
                   colorList[random.nextInt(6)],
-                  random.nextInt(6) + 20,
+                  random.nextInt(20) + 20,
                   random.nextInt(2) == 0 ? false : true),
               i));
         }
+        for (var i = 0; i < summaryProdList.shortExpiry!.length; i++) {
+          widgets.add(ScatterItem(
+              FlutterHashtag(
+                  summaryProdList.shortExpiry![i],
+                  colorList[random.nextInt(6)],
+                  random.nextInt(15) + 20,
+                  random.nextInt(2) == 0 ? false : true),
+              i));
+        }
+        for (var i = 0; i < summaryProdList.intentionalPush!.length; i++) {
+          widgets.add(ScatterItem(
+              FlutterHashtag(
+                  summaryProdList.intentionalPush![i],
+                  colorList[random.nextInt(6)],
+                  random.nextInt(10) + 20,
+                  random.nextInt(2) == 0 ? false : true),
+              i));
+        }
+        for (var i = 0; i < summaryProdList.remainingTags!.length; i++) {
+          if (widgets.length < 110) {
+            widgets.add(ScatterItem(
+                FlutterHashtag(
+                    summaryProdList.remainingTags![i],
+                    colorList[random.nextInt(6)],
+                    random.nextInt(6) + 20,
+                    random.nextInt(2) == 0 ? false : true),
+                i));
+          }
+        }
+        // for (var i = 0; i < kFlutterHashtags.length; i++) {
+        //   widgets.add(ScatterItem(kFlutterHashtags[i], i));
+        // }
       }
-      // for (var i = 0; i < kFlutterHashtags.length; i++) {
-      //   widgets.add(ScatterItem(kFlutterHashtags[i], i));
-      // }
     }
   }
 

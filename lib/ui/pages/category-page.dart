@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/mega-menu-controller.dart';
 import 'package:amber_bird/controller/multi-product-controller.dart';
+import 'package:amber_bird/controller/product-guide-row-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
@@ -16,13 +17,13 @@ import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/product-guide-card.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../helpers/controller-generator.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -31,9 +32,15 @@ class CategoryPage extends StatelessWidget {
       ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
+  ProductGuideController productGuideController =
+      Get.put(ProductGuideController());
+
   CategoryPage() {
     megaMenuController = ControllerGenerator.create(MegaMenuController(),
         tag: 'megaMenuController');
+    if (productGuideController.productGuides.isNotEmpty) {
+      productGuideController.productGuides.shuffle();
+    }
   }
   Widget _productGrid(
       MegaMenuController categoryController, BuildContext context) {
@@ -237,6 +244,25 @@ class CategoryPage extends StatelessWidget {
     );
   }
 
+  Widget _ProductGuideList(MegaMenuController megaMenuController,
+      BuildContext context, String type) {
+    return Obx(
+      () => Expanded(
+        child: productGuideController.productGuides.isNotEmpty
+            ? MasonryGridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                itemCount: productGuideController.productGuides.length,
+                itemBuilder: (_, index) {
+                  return ProductGuideCard(
+                      productGuideController.productGuides[index]);
+                })
+            : SizedBox(),
+      ),
+    );
+  }
+
   Widget _ProductList(MegaMenuController megaMenuController,
       BuildContext context, String type) {
     return Expanded(
@@ -319,6 +345,8 @@ class CategoryPage extends StatelessWidget {
       return _ProductList(megaMenuController, context, 'CENTS');
     else if (megaMenuController.selectedSubMenu.value == 'RESTOCKED')
       return _ProductList(megaMenuController, context, 'RESTOCKED');
+    else if (megaMenuController.selectedSubMenu.value == 'THEMES')
+      return _ProductGuideList(megaMenuController, context, 'THEMES');
     else
       return Expanded(
         child: megaMenuController.dealProductList.length > 0
@@ -352,13 +380,6 @@ class CategoryPage extends StatelessWidget {
                         ],
                       ),
                     );
-                    // ProductCard(
-                    //           dealProduct.product,
-                    //           dealProduct.product!.id,
-                    //           megaMenuController.selectedParentTab.value,
-                    //           dealProduct.product!.varient!.price!,
-                    //           dealProduct.ruleConfig,
-                    //           dealProduct.constraint);
                   } else {
                     return const SizedBox();
                   }

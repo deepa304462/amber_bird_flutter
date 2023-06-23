@@ -33,22 +33,22 @@ class ProductGuideCard extends StatelessWidget {
                   disableTap: true,
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  color: Colors.black.withOpacity(.4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        guide.subject!.defaultText!.text!,
-                        style: TextStyles.headingFont
-                            .copyWith(color: AppColors.white),
-                      )
-                    ],
-                  ),
-                ),
-              )
+              // Align(
+              //   alignment: Alignment.bottomRight,
+              //   child: Container(
+              //     color: Colors.black.withOpacity(.4),
+              //     child: Row(
+              //       mainAxisSize: MainAxisSize.max,
+              //       children: [
+              //         Text(
+              //           guide.subject!.defaultText!.text!,
+              //           style: TextStyles.headingFont
+              //               .copyWith(color: AppColors.white),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

@@ -7,8 +7,9 @@ class ProductGuideController extends GetxController {
 
   @override
   void onInit() {
-    ClientService.post(path: 'productGuide/search?locale=en', payload: {})
-        .then((value) {
+    ClientService.post(
+        path: 'productGuide/search?locale=en',
+        payload: {'active': true}).then((value) {
       for (var element in (value.data as List)) {
         productGuides.add(ProductGuide.fromMap(element));
       }
