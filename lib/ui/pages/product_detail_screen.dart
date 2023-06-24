@@ -259,9 +259,6 @@ class ProductDetailScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  // const SizedBox(height: 5),
-                                  // soldFrom(productController.product.value),
-                                  // const SizedBox(height: 5),
                                   productController
                                           .varient.value.msdApplicableProduct!
                                       ? Divider(
@@ -304,34 +301,6 @@ class ProductDetailScreen extends StatelessWidget {
                                         )
                                       : const SizedBox(),
                                   specification(productController),
-                                  // tags(productController.product.value, context),
-                                  // Divider(
-                                  //   color: AppColors.lightGrey,
-                                  //   height: 8,
-                                  //   thickness: 8,
-                                  // ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       left: 8.0, right: 8),
-                                  //   child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: [
-                                  //         Text(
-                                  //           'Details',
-                                  //           style: TextStyles.headingFont,
-                                  //         ),
-                                  //         ShowMoreWidget(
-                                  //           text: productController
-                                  //                   .product
-                                  //                   .value
-                                  //                   .description!
-                                  //                   .defaultText!
-                                  //                   .text ??
-                                  //               '',
-                                  //         ),
-                                  //       ]),
-                                  // ),
                                   Divider(
                                     color: AppColors.lightGrey,
                                     height: 8,

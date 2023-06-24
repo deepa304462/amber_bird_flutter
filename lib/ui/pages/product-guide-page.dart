@@ -49,11 +49,23 @@ class ProductGuidePage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50)),
                           child: IconButton(
                             onPressed: () {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else {
-                                Modular.to.navigate('../../home/main');
+                              try {
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else if (Modular.to.canPop()) {
+                                  Navigator.pop(context);
+                                  Modular.to.pop();
+                                } else {
+                                  Modular.to.navigate('/home/main');
+                                }
+                              } catch (err) {
+                                Modular.to.navigate('/home/main');
                               }
+                              // if (Navigator.canPop(context)) {
+                              //   Navigator.pop(context);
+                              // } else {
+                              //   Modular.to.navigate('../../home/main');
+                              // }
                             },
                             icon: Icon(
                               Icons.arrow_back_ios_new_outlined,

@@ -150,7 +150,7 @@ class MultiProductRow extends StatelessWidget {
                                 : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
                             height: 60,
                             width: MediaQuery.of(context).size.width * .6,
-                            fit: BoxFit.fitHeight,
+                            fit: BoxFit.cover,
                           ),
                         ),
                         Container(

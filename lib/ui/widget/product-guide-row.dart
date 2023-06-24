@@ -46,7 +46,7 @@ class ProductGuideRow extends StatelessWidget {
                       type: 'DEAL',
                       text: 'Deal');
                   await megaMenuController.getSubMenu(parentTab);
-                  megaMenuController.selectedSubMenu.value = 'CENTS';
+                  megaMenuController.selectedSubMenu.value = 'THEMES';
                   megaMenuController.getAllProducts(
                       GenericTab(
                           image: '34038fcf-20e1-4840-a188-413b83d72e11',
