@@ -71,7 +71,7 @@ class MainPage extends StatelessWidget {
             TagsProductColumn(),
             CentProductWidget(),
             BackInStockProductWidget(),
-            const ProductGuideRow(),
+            ProductGuideRow(),
             ScoinProductRow(),
             Divider(
               color: AppColors.lightGrey,

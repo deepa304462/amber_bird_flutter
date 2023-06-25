@@ -9,23 +9,19 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-//https://maps.googleapis.com/maps/api/geocode/json?address=84%20Ghanta%20Mandir&sensor=true&components=postal_code:243001|country:IN&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo
-//https://maps.googleapis.com/maps/api/geocode/json?address=226010&sensor=true&key=AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo
 
-//https://stackoverflow.com/questions/73612276/flutter-google-maps-how-to-show-active-areas-with-border
 class LocationController extends GetxController {
   // Locale currentLocale = const Locale('en');
   Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
-  RxMap address = {}.obs;
+  RxMap<dynamic, dynamic> address = <dynamic, dynamic>{}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> deliveryAddress = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
   Rx<String> pinCode = ''.obs;
-
+  RxList pincodeSuggestions = [].obs;
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
   late GoogleMapController mapController;
@@ -48,28 +44,40 @@ class LocationController extends GetxController {
     mapController = controller;
   }
 
-  Future<void> findLocalityFromPinCode() async {
-    String host = 'https://maps.google.com/maps/api/geocode/json';
-    final url =
-        '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=de&components=country:de';
-    var response = await dio.get(url);
-    if (response.statusCode == 200) {
-      if (response.data['results'].length > 0) {
-        dynamic southwest =
-            response.data['results'][0]['geometry']['bounds']['southwest'];
-        dynamic northeast =
-            response.data['results'][0]['geometry']['bounds']['northeast'];
-        mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
-            LatLngBounds(
-                southwest: LatLng(southwest['lat'], southwest['lng']),
-                northeast: LatLng(northeast['lat'], northeast['lng'])),
-            1));
-        dynamic centerLocation =
-            response.data['results'][0]['geometry']['location'];
-        checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
+  Future<void> searchPincode(String changedText) async {
+    if (changedText.length > 2) {
+      var url =
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
+      var response = await dio.get(url);
+      if (response.statusCode == 200) {
+        pincodeSuggestions.value =
+            (response.data['features'] as List).map((e) => e).toList();
       }
     }
   }
+
+  // Future<void> findLocalityFromPinCode() async {
+  //   String host = 'https://maps.google.com/maps/api/geocode/json';
+  //   final url =
+  //       '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=de&components=country:de';
+  //   var response = await dio.get(url);
+  //   if (response.statusCode == 200) {
+  //     if (response.data['results'].length > 0) {
+  //       dynamic southwest =
+  //           response.data['results'][0]['geometry']['bounds']['southwest'];
+  //       dynamic northeast =
+  //           response.data['results'][0]['geometry']['bounds']['northeast'];
+  //       mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
+  //           LatLngBounds(
+  //               southwest: LatLng(southwest['lat'], southwest['lng']),
+  //               northeast: LatLng(northeast['lat'], northeast['lng'])),
+  //           1));
+  //       dynamic centerLocation =
+  //           response.data['results'][0]['geometry']['location'];
+  //       checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
+  //     }
+  //   }
+  // }
 
   void setLocation() async {
     var locationExists =
@@ -123,21 +131,21 @@ class LocationController extends GetxController {
     mapLoad.value = false;
   }
 
-  saveAddress() {
-    // OfflineDBService.save(OfflineDBService.location, address.value);
-    pinCode.value = findValueFromAddress('postal_code');
+  // saveAddress() {
+  //   // OfflineDBService.save(OfflineDBService.location, address.value);
+  //   pinCode.value = findValueFromAddress('postal_code');
 
-    // getLocation();
-    try {
-      if (Modular.to.canPop())
-        Modular.to.pop(this.address);
-      else
-        Modular.to.pushReplacementNamed('/home/main');
-    } catch (e) {
-      Modular.to.pushReplacementNamed('/home/main');
-      // code that handles the exception
-    }
-  }
+  //   // getLocation();
+  //   try {
+  //     if (Modular.to.canPop())
+  //       Modular.to.pop(this.address);
+  //     else
+  //       Modular.to.pushReplacementNamed('/home/main');
+  //   } catch (e) {
+  //     Modular.to.pushReplacementNamed('/home/main');
+  //     // code that handles the exception
+  //   }
+  // }
 
   String findValueFromAddress(String key) {
     if (address['address_components'] != null) {
@@ -177,32 +185,32 @@ class LocationController extends GetxController {
     return '';
   }
 
-  getAddressFromLatLng(double lat, double lng) async {
-    String host = 'https://maps.google.com/maps/api/geocode/json';
-    final url = '$host?key=$mapKey&language=de&latlng=$lat,$lng';
-    if (lat != null && lng != null) {
-      var response = await dio.get(url);
+  // getAddressFromLatLng(double lat, double lng) async {
+  //   String host = 'https://maps.google.com/maps/api/geocode/json';
+  //   final url = '$host?key=$mapKey&language=de&latlng=$lat,$lng';
+  //   if (lat != null && lng != null) {
+  //     var response = await dio.get(url);
 
-      if (response.statusCode == 200) {
-        address.value = response.data["results"][0];
-        var zipcode = findValueFromAddress('postal_code');
-        if (pinCode.value != zipcode) {
-          error.value = true;
-          address.value = Map();
-        } else {
-          error.value = false;
-          if (address['geometry'] != null) {
-            currentLatLang.value = LatLng(
-                address['geometry']['location']['lat'],
-                address['geometry']['location']['lng']);
-            addressAvaiable.value = true;
-          }
-        }
+  //     if (response.statusCode == 200) {
+  //       address.value = response.data["results"][0];
+  //       var zipcode = findValueFromAddress('postal_code');
+  //       if (pinCode.value != zipcode) {
+  //         error.value = true;
+  //         address.value = Map();
+  //       } else {
+  //         error.value = false;
+  //         if (address['geometry'] != null) {
+  //           currentLatLang.value = LatLng(
+  //               address['geometry']['location']['lat'],
+  //               address['geometry']['location']['lng']);
+  //           addressAvaiable.value = true;
+  //         }
+  //       }
 
-        // setAddressData(address.value);
-      }
-    }
-  }
+  //       // setAddressData(address.value);
+  //     }
+  //   }
+  // }
 
   setAddressData(dynamic data) {
     addressAvaiable.value = true;
@@ -321,9 +329,9 @@ class LocationController extends GetxController {
     if (response.statusCode == 200) {}
   }
 
-  void checkAddress(LatLng coOrdinate) {
-    getAddressFromLatLng(coOrdinate.latitude, coOrdinate.longitude);
-  }
+  // void checkAddress(LatLng coOrdinate) {
+  //   getAddressFromLatLng(coOrdinate.latitude, coOrdinate.longitude);
+  // }
 
   setFielsvalue(String text, String name) {
     if (name == 'city') {

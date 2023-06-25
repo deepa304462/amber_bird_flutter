@@ -12,6 +12,7 @@ import 'package:lottie/lottie.dart';
 
 class LocationPage extends StatelessWidget {
   LocationController locationController = Get.find();
+  TextEditingController _textController = TextEditingController();
   late GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
@@ -56,56 +57,99 @@ class LocationPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: AppColors.white)),
-                              child: ITextBox(
-                                  'Pin Code',
-                                  'pinCode',
-                                  locationController.pinCode.value != null
-                                      ? locationController.pinCode.value
-                                          .toString()
-                                      : '',
-                                  false,
-                                  TextInputType.number,
-                                  false,
-                                  false, (key, value) {
-                                locationController.pinCode.value = value;
-                              }),
-                            ),
-                            // ITextBox(
-                            //     'Pincode',
-                            //     'pinCode',
-                            //     locationController.pinCode.value != null
-                            //         ? locationController.pinCode.value
-                            //             .toString()
-                            //         : '',
-                            //     false,
-                            //     TextInputType.number,
-                            //     false,
-                            //     false, (key, value) {
-                            //   locationController.pinCode.value = value;
-                            // }),
-                            MaterialButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              onPressed: locationController.pinCode.isEmpty
-                                  ? null
-                                  : () {
-                                      locationController
-                                          .findLocalityFromPinCode();
-                                    },
-                              color: locationController.pinCode.isEmpty
-                                  ? AppColors.grey
-                                  : AppColors.primeColor,
-                              child: Text(
-                                'Okay',
-                                style: TextStyles.headingFont
-                                    .copyWith(color: AppColors.white),
-                              ),
-                            ),
+                                decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: AppColors.white)),
+                                child: SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        TextField(
+                                          decoration: InputDecoration(
+                                              labelText: "Search your Pincode",
+                                              hintText: "Type home address",
+                                              suffixIcon: InkWell(
+                                                  onTap: () {
+                                                    _textController.clear();
+                                                    locationController
+                                                        .pincodeSuggestions
+                                                        .clear();
+                                                  },
+                                                  child:
+                                                      const Icon(Icons.clear))),
+                                          controller: _textController,
+                                          onChanged: (String changedText) {
+                                            locationController
+                                                .searchPincode(changedText);
+                                          },
+                                        ),
+                                        Expanded(
+                                          child: Obx(
+                                            () => ListView(
+                                              shrinkWrap: true,
+                                              children: locationController
+                                                  .pincodeSuggestions
+                                                  .map(
+                                                    (element) => TextButton(
+                                                      onPressed: () {
+                                                        locationController
+                                                            .pinCode
+                                                            .value = element[
+                                                                'properties']
+                                                            ['postcode'];
+                                                        locationController
+                                                            .updateCustomerAddress(
+                                                                element);
+                                                        locationController
+                                                            .address
+                                                            .value = element;
+                                                        locationController
+                                                                .currentLatLang
+                                                                .value =
+                                                            LatLng(
+                                                                element['properties']
+                                                                    ['lat'],
+                                                                element['properties']
+                                                                    ['lon']);
+                                                        locationController
+                                                            .addressAvaiable
+                                                            .value = true;
+                                                        locationController
+                                                            .pincodeSuggestions
+                                                            .clear();
+                                                        // searchedAdd.value = true;
+                                                      },
+                                                      style: const ButtonStyle(
+                                                          alignment: Alignment
+                                                              .centerLeft),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          '${element['properties']['postcode']}',
+                                                          style: TextStyles
+                                                              .bodyFont,
+                                                          textAlign:
+                                                              TextAlign.right,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )),
                             locationController.currentLatLang.value.latitude !=
                                     0
                                 ? _showAddress(context, locationController)
@@ -115,10 +159,6 @@ class LocationPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Image.asset(
-                  //   "assets/top-view-map-blue-background.jpg",
-                  //   width: 250,
-                  // ),
                   Visibility(
                     visible: locationController.addressAvaiable.value,
                     child: AppBar(
@@ -136,41 +176,6 @@ class LocationPage extends StatelessWidget {
                         ),
                         onTap: () {
                           if (!locationController.error.value) {
-                            locationController.saveAddress();
-                            // locationController.setLocation();
-                            locationController.pinCode.value =
-                                locationController
-                                    .findValueFromAddress('postal_code');
-                            locationController.changeAddressData.value =
-                                Address.fromMap({
-                              'line1': locationController
-                                  .address['formatted_address'],
-                              'houseNo': '',
-                              'name': '',
-                              'line2': '',
-                              'landMark': '',
-                              'zipCode': locationController
-                                  .findValueFromAddress('postal_code'),
-                              'city': locationController
-                                      .findValueFromAddress('locality') ??
-                                  locationController.findValueFromAddress(
-                                      'administrative_area_level_2'),
-                              'country': locationController
-                                  .findValueFromAddress('country'),
-                              'localArea': locationController
-                                  .findValueFromAddress('sublocality_level_1'),
-                              // 'addressType': '',
-                              'geoAddress': {
-                                'coordinates': [
-                                  locationController.address['geometry']
-                                      ['location']['lat'],
-                                  locationController.address['geometry']
-                                      ['location']['lng']
-                                ]
-                              },
-                              'phoneNumber': '',
-                              'directionComment': '',
-                            });
                             try {
                               if (Navigator.canPop(context))
                                 Navigator.pop(context);
@@ -181,8 +186,6 @@ class LocationPage extends StatelessWidget {
                               // code that handles the exception
                             }
                           }
-                          // _displayDialog(context, locationController, 'ADD');
-                          // locationController.saveAddress();
                         },
                       ),
                     ),
@@ -251,14 +254,12 @@ class LocationPage extends StatelessWidget {
               style:
                   TextStyles.headingFont.copyWith(color: AppColors.primeColor),
             ),
-            locationController.findValueFromAddress('sublocality_level_1') !=
+            (locationController.address['properties'] != null &&
+                    locationController.address['properties']['formatted'] !=
                         null &&
-                    locationController
-                            .findValueFromAddress('sublocality_level_1') !=
-                        '' &&
-                    !locationController.error.value
+                    !locationController.error.value)
                 ? Text(
-                    '${locationController.findValueFromAddress('sublocality_level_1')}, ${locationController.findValueFromAddress('locality')}, ${locationController.findValueFromAddress('country')}, ${locationController.findValueFromAddress('postal_code')}' ??
+                    '${locationController.address['properties']['formatted']}' ??
                         '',
                     style: TextStyles.titleFont,
                   )

@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/referral-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,9 @@ class ReferralPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReferralController controller = Get.put(ReferralController());
+    ReferralController controller = ControllerGenerator.create(
+        ReferralController(),
+        tag: 'referralController');
     Controller stateController = Get.find();
     return Scaffold(
       appBar: AppBar(

@@ -179,8 +179,6 @@ class MegaMenuController extends GetxController {
             GenericTab(image: '', id: 'CENTS', type: 'DEAL', text: 'Cents'));
         subMenuList.add(GenericTab(
             image: '', id: 'RESTOCKED', type: 'DEAL', text: 'Re-Stocked'));
-        subMenuList.add(
-            GenericTab(image: '', id: 'THEMES', type: 'DEAL', text: 'Theme'));
       }
       // var resp = await ClientService.get(
       //     path: 'dealProduct/categorySummary', id: parentTab.id);
@@ -217,6 +215,8 @@ class MegaMenuController extends GetxController {
               type: 'MULTI',
               text: detail['name']));
         });
+        subMenuList.add(
+            GenericTab(image: '', id: 'THEMES', type: 'MULTI', text: 'Theme'));
       }
       // var resp = await ClientService.get(
       //     path: 'multiProduct/categorySummary', id: parentTab.id);

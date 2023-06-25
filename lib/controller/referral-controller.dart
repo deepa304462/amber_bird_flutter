@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 class ReferralController extends GetxController {
   Rx<ShortLink> shortLink = ShortLink().obs;
   Rx<bool> isLoading = true.obs;
+
   @override
   void onInit() {
     syncShortLink();

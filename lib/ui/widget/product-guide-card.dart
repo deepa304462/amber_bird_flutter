@@ -13,7 +13,7 @@ class ProductGuideCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         // Modular.to.pushNamed
-        Modular.to.navigate('/widget/guide/${guide.id}');
+        Modular.to.pushNamed('/widget/guide/${guide.id}');
       },
       child: Card(
         elevation: 5,
