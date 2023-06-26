@@ -1330,6 +1330,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  word_cloud:
+    dependency: "direct main"
+    description:
+      name: word_cloud
+      sha256: "72fe356a4534ee24d84d0b2a1dc7f93f5cebf3f909bacd9762569643c835ce74"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   xdg_directories:
     dependency: transitive
     description:

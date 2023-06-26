@@ -82,6 +82,7 @@ dependencies:
   firebase_dynamic_links: ^4.3.11
   flutter_scroll_to_top: ^2.3.0
   flutter_scatter: ^0.2.0
+  word_cloud: ^1.0.1
   
 dependency_overrides:
   intl: any  
