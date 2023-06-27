@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 class ForgotPassDrawer extends StatelessWidget {
   final AuthController authController = Get.find();
   RxBool isLoading = false.obs;
+  RxString error = ''.obs;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -32,15 +33,26 @@ class ForgotPassDrawer extends StatelessWidget {
                 false,
                 callback),
             const SizedBox(height: 10),
+            Obx(() => error.value != ''
+                ? Text(error.value,
+                    style:
+                        TextStyles.body.copyWith(color: AppColors.primeColor))
+                : const SizedBox()),
             TextButton(
               onPressed: () async {
                 if (!isLoading.value) {
+                  error.value = '';
                   isLoading.value = true;
-                  await authController.resetPassInit();
+                  var data = await authController.resetPassInit();
                   isLoading.value = false;
-                  snackBarClass.showToast(
-                      context, 'Please check your mail! ,thanks');
-                  Navigator.of(context).pop();
+                  if (data['status'] == 'success') {
+                    snackBarClass.showToast(
+                        context, 'Please check your mail! ,thanks');
+                    Navigator.of(context).pop();
+                  } else {
+                    error.value = data['msg'];
+                    snackBarClass.showToast(context, data['msg']);
+                  }
                 }
               },
               style: ButtonStyle(

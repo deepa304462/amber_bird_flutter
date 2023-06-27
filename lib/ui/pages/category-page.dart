@@ -421,7 +421,7 @@ class CategoryPage extends StatelessWidget {
               },
             );
             return SizedBox(
-              height: 320,
+              height: 340,
               child: Card(
                 child: Column(
                   children: [
@@ -430,9 +430,9 @@ class CategoryPage extends StatelessWidget {
                               mProduct.displayImageId!.length > 3
                           ? mProduct.displayImageId!
                           : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                      height: 60,
+                      height: 90,
                       width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),

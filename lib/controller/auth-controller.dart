@@ -156,9 +156,7 @@ class AuthController extends GetxController {
   }
 
   dynamic signUp() async {
-    if (fieldValue['email'] != '' &&
-        fieldValue['email'] != '' &&
-        fieldValue['email'] != '') {
+    if (fieldValue['email'] != '') {
       var payload = {
         // "suggestedUsername": fieldValue['username'],
         "suggestedUsername": fieldValue['email'],
@@ -251,26 +249,31 @@ class AuthController extends GetxController {
   LoginWithGoogle() async {
     loginWith.value = LoginType.googleToken;
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
-    dev.inspect(googleSignInAccount);
-    if (googleSignInAccount != null) {
-      fieldValue.value = {
-        'fullName': googleSignInAccount.displayName ?? '',
-        'email': googleSignInAccount.email,
-        'thirdPartyId': googleSignInAccount.id,
-        'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
-        'isThirdParty': true,
-        'thirdPartyName': 'GOOGLE',
-        'mobile': '',
-        'password': '',
-        'username': '',
-        'countryCode': '',
-        'profileImageId': ''
-      };
-      var respLogin = await login();
-      return respLogin;
-    } else {
+    try {
+      // googleSignIn.signOut();
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+      dev.inspect(googleSignInAccount);
+      if (googleSignInAccount != null) {
+        fieldValue.value = {
+          'fullName': googleSignInAccount.displayName ?? '',
+          'email': googleSignInAccount.email,
+          'thirdPartyId': googleSignInAccount.id,
+          'imageFromSocialMedia': googleSignInAccount.photoUrl ?? '',
+          'isThirdParty': true,
+          'thirdPartyName': 'GOOGLE',
+          'mobile': '',
+          'password': '',
+          'username': '',
+          'countryCode': '',
+          'profileImageId': ''
+        };
+        var respLogin = await login();
+        return respLogin;
+      } else {
+        return {"msg": "Something Went Wrong!!", "status": "error"};
+      }
+    } catch (err) {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }
   }
@@ -278,6 +281,7 @@ class AuthController extends GetxController {
   dynamic signInWithGoogle() async {
     // FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    // googleSignIn.signOut();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
     dev.inspect(googleSignInAccount);
@@ -381,7 +385,7 @@ class AuthController extends GetxController {
     if (tokenResp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Mail is not registered!!", "status": "error"};
     }
   }
 

@@ -14,6 +14,46 @@
       },
       "oauth_client": [
         {
+          "client_id": "779408576826-073ctkt9brg2mgehup22864vp5dvc8sg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "798d5ef6d044e96c1412cfa10b000d7c8a8363fa"
+          }
+        },
+        {
+          "client_id": "779408576826-apgrfb6ilb1udn6bqfvddu8v2cepv519.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "169bb1df9d8e412694701da4e9b3b612d9a60278"
+          }
+        },
+        {
+          "client_id": "779408576826-f0bigf7kaqf25cov4hgiodiipet1qj5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "f2beb067e1faea677fa380e7e9ce18fb425114d0"
+          }
+        },
+        {
+          "client_id": "779408576826-kt8r517umr0ukj5dr0cmm45gpngtjlhe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "0c15ca139747cde6c5a2ee3f792ea8c75142155e"
+          }
+        },
+        {
+          "client_id": "779408576826-p0npfhmloai6b6dirbncn3f1ib36dtj7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmbh.sbazar",
+            "certificate_hash": "4b540170ee34d5f26d3c3c5aaf801642ea38de5e"
+          }
+        },
+        {
           "client_id": "779408576826-254h0rs10ovlrod7l8f68rmsl6g8jajt.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +69,13 @@
             {
               "client_id": "779408576826-254h0rs10ovlrod7l8f68rmsl6g8jajt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "779408576826-rjfmm0pqcvs40ltpr5qvs4qe2m2ehsc2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmbh.sbazar"
+              }
             }
           ]
         }

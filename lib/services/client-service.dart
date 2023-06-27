@@ -249,6 +249,7 @@ class ClientService {
       } else if (error.response?.statusCode == 401) {
         return error.response;
       } else {
+        return error.response;
         throw e;
       }
     }

@@ -91,7 +91,7 @@ class LocationController extends GetxController {
         pinCode.value = addressData.value.zipCode ?? '0';
       } else {
         addressData.value = Address();
-        pinCode.value = '0';
+        if (pinCode.value.isEmpty) pinCode.value = '0';
         // getLocation();
       }
     } else {

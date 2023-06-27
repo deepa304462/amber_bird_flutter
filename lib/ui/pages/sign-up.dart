@@ -106,25 +106,7 @@ class SignUp extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  // ITextBox(
-                  //     'Username',
-                  //     'username',
-                  //     mController.fieldValue['username'].toString(),
-                  //     false,
-                  //     TextInputType.text,
-                  //     false,
-                  //     false,
-                  //     callback),
-                  // mController.usernameValid.value
-                  //     ? const SizedBox()
-                  //     : Text(
-                  //         'Not Valid Username. Suggestion: ${mController.suggestedUsername.value}',
-                  //         style: TextStyles.body
-                  //             .copyWith(color: AppColors.DarkGrey),
-                  //       ),
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
+
                   ITextBox(
                       'Email',
                       'email',
@@ -231,7 +213,7 @@ class SignUp extends StatelessWidget {
                               border: Border.all(color: AppColors.primeColor)),
                           child: IconButton(
                               icon: isLoading.value
-                                  ? const Icon(Icons.refresh_outlined)
+                                  ? const Text('Loading')
                                   : Image.asset(
                                       "assets/google_logo.png",
                                       width: 25,

@@ -120,7 +120,7 @@ class MultiProductRow extends StatelessWidget {
   Widget twoProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 310,
+      height: 340,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -148,9 +148,9 @@ class MultiProductRow extends StatelessWidget {
                                     mProduct.displayImageId!.length > 3
                                 ? mProduct.displayImageId!
                                 : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                            height: 60,
+                            height: 90,
                             width: MediaQuery.of(context).size.width * .6,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         Container(
@@ -289,7 +289,7 @@ class MultiProductRow extends StatelessWidget {
                 child: ImageBox(
                   multiProd.displayImageId!,
                   width: MediaQuery.of(context).size.width * .4,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
               Row(
