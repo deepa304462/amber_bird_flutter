@@ -85,7 +85,8 @@ class CompilanceWidget extends StatelessWidget {
                           ? currentDetaildContent
                               .sectionHeading!.languageTexts![0].text
                           : '');
-                  List<Content> contentList = currentDetaildContent.content!;
+                  List<Content> contentList =
+                      currentDetaildContent.content ?? [];
                   return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -77,7 +77,10 @@ class HelpCenterPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/widget/compilance/RETURN_REFUND');
+                                      },
                                       child: ImageBox(
                                         '316204af-0bc0-486d-81fb-55dd28e4674c',
                                         width: 50,
@@ -131,7 +134,10 @@ class HelpCenterPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/widget/compilance/PARTNERSHIP');
+                                      },
                                       child: ImageBox(
                                         '82b731de-b1f2-49a2-ad4e-eb5ed0ccb0a3',
                                         width: 50,
@@ -156,7 +162,10 @@ class HelpCenterPage extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/widget/compilance/HIRING');
+                                      },
                                       child: ImageBox(
                                         'a739ca3d-d626-4f84-9fa1-a4f92b53f970',
                                         width: 50,
@@ -238,6 +247,10 @@ class HelpCenterPage extends StatelessWidget {
                           trailing: const Icon(Icons.chevron_right),
                         ),
                         ListTile(
+                          onTap: () {
+                            Modular.to
+                                .pushNamed('/widget/compilance/RETURN_REFUND');
+                          },
                           title: Text(
                             'How to get a refund',
                             style: TextStyles.titleFont,
@@ -245,6 +258,10 @@ class HelpCenterPage extends StatelessWidget {
                           trailing: const Icon(Icons.chevron_right),
                         ),
                         ListTile(
+                          onTap: () {
+                            Modular.to
+                                .pushNamed('/widget/compilance/EARN_SCOINS');
+                          },
                           title: Text(
                             'Buy X get Y% Disccount promotion',
                             style: TextStyles.titleFont,
