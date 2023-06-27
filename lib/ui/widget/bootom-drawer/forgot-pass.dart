@@ -31,32 +31,26 @@ class ForgotPassDrawer extends StatelessWidget {
                 false,
                 false,
                 callback),
-            //           ITextBox(
-            // 'Username',
-            // 'username',
-            // authController.fieldValue['username'].toString(),
-            // false,
-            // TextInputType.text,
-            // false,
-            // false,
-            // callback),
             const SizedBox(height: 10),
             TextButton(
               onPressed: () async {
-                isLoading.value = true;
-                await authController.resetPassInit();
-                isLoading.value = false;
-                snackBarClass.showToast(
-                    context, 'Please check your mail! ,thanks');
-                Navigator.of(context).pop();
+                if (!isLoading.value) {
+                  isLoading.value = true;
+                  await authController.resetPassInit();
+                  isLoading.value = false;
+                  snackBarClass.showToast(
+                      context, 'Please check your mail! ,thanks');
+                  Navigator.of(context).pop();
+                }
               },
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(AppColors.primeColor)),
-              child: Text(
-                !isLoading.value ? 'Forgot Password' : 'Loading',
-                style: TextStyles.titleFont.copyWith(color: AppColors.white),
-              ),
+              child: Obx(() => Text(
+                    !isLoading.value ? 'Forgot Password' : 'Loading',
+                    style:
+                        TextStyles.titleFont.copyWith(color: AppColors.white),
+                  )),
             )
           ],
         ),

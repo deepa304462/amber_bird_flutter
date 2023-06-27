@@ -205,7 +205,7 @@ class LoginWidget extends StatelessWidget {
                                     Border.all(color: AppColors.primeColor)),
                             child: IconButton(
                               icon: isLoading.value
-                                  ? const Icon(Icons.refresh_outlined)
+                                  ? const Text('Loading')
                                   : Image.asset(
                                       "assets/google_logo.png",
                                       width: 25,

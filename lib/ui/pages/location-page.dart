@@ -57,99 +57,97 @@ class LocationPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                                decoration: BoxDecoration(
-                                    color: AppColors.white,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: AppColors.white)),
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * .3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        TextField(
-                                          decoration: InputDecoration(
-                                              labelText: "Search your Pincode",
-                                              hintText: "Type home address",
-                                              suffixIcon: InkWell(
-                                                  onTap: () {
-                                                    _textController.clear();
-                                                    locationController
-                                                        .pincodeSuggestions
-                                                        .clear();
-                                                  },
-                                                  child:
-                                                      const Icon(Icons.clear))),
-                                          controller: _textController,
-                                          onChanged: (String changedText) {
-                                            locationController
-                                                .searchPincode(changedText);
-                                          },
-                                        ),
-                                        Expanded(
-                                          child: Obx(
-                                            () => ListView(
-                                              shrinkWrap: true,
-                                              children: locationController
-                                                  .pincodeSuggestions
-                                                  .map(
-                                                    (element) => TextButton(
-                                                      onPressed: () {
-                                                        locationController
-                                                            .pinCode
-                                                            .value = element[
-                                                                'properties']
-                                                            ['postcode'];
-                                                        locationController
-                                                            .updateCustomerAddress(
-                                                                element);
-                                                        locationController
-                                                            .address
-                                                            .value = element;
-                                                        locationController
-                                                                .currentLatLang
-                                                                .value =
-                                                            LatLng(
-                                                                element['properties']
-                                                                    ['lat'],
-                                                                element['properties']
-                                                                    ['lon']);
-                                                        locationController
-                                                            .addressAvaiable
-                                                            .value = true;
-                                                        locationController
-                                                            .pincodeSuggestions
-                                                            .clear();
-                                                        // searchedAdd.value = true;
-                                                      },
-                                                      style: const ButtonStyle(
-                                                          alignment: Alignment
-                                                              .centerLeft),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          '${element['properties']['postcode']}',
-                                                          style: TextStyles
-                                                              .bodyFont,
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                        ),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(color: AppColors.white)),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.height * .3,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextField(
+                                        decoration: InputDecoration(
+                                            labelText: "Search your Pincode",
+                                            hintText: "Type home address",
+                                            suffixIcon: InkWell(
+                                                onTap: () {
+                                                  _textController.clear();
+                                                  locationController
+                                                      .pincodeSuggestions
+                                                      .clear();
+                                                },
+                                                child:
+                                                    const Icon(Icons.clear))),
+                                        controller: _textController,
+                                        onChanged: (String changedText) {
+                                          locationController
+                                              .searchPincode(changedText);
+                                        },
+                                      ),
+                                      Expanded(
+                                        child: Obx(
+                                          () => ListView(
+                                            shrinkWrap: true,
+                                            children: locationController
+                                                .pincodeSuggestions
+                                                .map(
+                                                  (element) => TextButton(
+                                                    onPressed: () {
+                                                      locationController
+                                                              .pinCode.value =
+                                                          element['properties']
+                                                              ['postcode'];
+                                                      locationController
+                                                          .updateCustomerAddress(
+                                                              element);
+                                                      locationController.address
+                                                          .value = element;
+                                                      locationController
+                                                              .currentLatLang
+                                                              .value =
+                                                          LatLng(
+                                                              element['properties']
+                                                                  ['lat'],
+                                                              element['properties']
+                                                                  ['lon']);
+                                                      locationController
+                                                          .addressAvaiable
+                                                          .value = true;
+                                                      locationController
+                                                          .pincodeSuggestions
+                                                          .clear();
+                                                      // searchedAdd.value = true;
+                                                    },
+                                                    style: const ButtonStyle(
+                                                        alignment: Alignment
+                                                            .centerLeft),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        '${element['properties']['postcode']}',
+                                                        style:
+                                                            TextStyles.bodyFont,
+                                                        textAlign:
+                                                            TextAlign.right,
                                                       ),
                                                     ),
-                                                  )
-                                                  .toList(),
-                                            ),
+                                                  ),
+                                                )
+                                                .toList(),
                                           ),
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )),
+                                ),
+                              ),
+                            ),
                             locationController.currentLatLang.value.latitude !=
                                     0
                                 ? _showAddress(context, locationController)
