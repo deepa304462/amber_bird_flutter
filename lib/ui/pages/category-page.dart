@@ -432,7 +432,7 @@ class CategoryPage extends StatelessWidget {
                           : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
                       height: 90,
                       width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill,
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),

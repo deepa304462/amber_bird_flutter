@@ -136,9 +136,14 @@ class MultiProductRow extends StatelessWidget {
               Multi mProduct = multiprodController.multiProd[index];
               return Stack(
                 children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    width: MediaQuery.of(context).size.width * .7,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      shape: BoxShape.rectangle,
+                      color: AppColors.white,
+                    ),
                     child: Column(
                       children: [
                         Container(
@@ -149,8 +154,8 @@ class MultiProductRow extends StatelessWidget {
                                 ? mProduct.displayImageId!
                                 : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
                             height: 90,
-                            width: MediaQuery.of(context).size.width * .6,
-                            fit: BoxFit.contain,
+                            width: MediaQuery.of(context).size.width * .7,
+                            fit: BoxFit.fill,
                           ),
                         ),
                         Container(
