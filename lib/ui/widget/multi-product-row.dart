@@ -120,7 +120,7 @@ class MultiProductRow extends StatelessWidget {
   Widget twoProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 340,
+      height: 315,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -146,17 +146,35 @@ class MultiProductRow extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Container(
-                          color: Colors.white,
-                          child: ImageBox(
-                            mProduct.displayImageId != null &&
-                                    mProduct.displayImageId!.length > 3
-                                ? mProduct.displayImageId!
-                                : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                            height: 90,
-                            width: MediaQuery.of(context).size.width * .7,
-                            fit: BoxFit.fill,
-                          ),
+                        Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Container(
+                              color: Colors.white,
+                              child: ImageBox(
+                                mProduct.displayImageId != null &&
+                                        mProduct.displayImageId!.length > 3
+                                    ? mProduct.displayImageId!
+                                    : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
+                                height: 90,
+                                width: MediaQuery.of(context).size.width * .7,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            Card(
+                              margin: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(
+                                  (mProduct.name!.defaultText!.text ?? ''),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyles.body
+                                      .copyWith(color: AppColors.primeColor),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
                           margin: const EdgeInsets.all(5.0),
@@ -196,13 +214,13 @@ class MultiProductRow extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  mProduct.name!.defaultText!.text ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyles.titleFont
-                                      .copyWith(color: AppColors.primeColor),
-                                ),
+                                // Text(
+                                //   mProduct.name!.defaultText!.text ?? '',
+                                //   overflow: TextOverflow.ellipsis,
+                                //   maxLines: 1,
+                                //   style: TextStyles.titleFont
+                                //       .copyWith(color: AppColors.primeColor),
+                                // ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Row(

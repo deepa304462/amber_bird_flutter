@@ -421,22 +421,40 @@ class CategoryPage extends StatelessWidget {
               },
             );
             return SizedBox(
-              height: 340,
+              height: 370,
               child: Card(
                 child: Column(
                   children: [
-                    ImageBox(
-                      mProduct.displayImageId != null &&
-                              mProduct.displayImageId!.length > 3
-                          ? mProduct.displayImageId!
-                          : 'd5e438b9-6eee-4214-b1bd-c15cd1f57f81',
-                      height: 90,
-                      width: MediaQuery.of(context).size.width,
-                      fit: BoxFit.fill,
+                    Stack(
+                      alignment: Alignment.bottomLeft,
+                      children: [
+                        ImageBox(
+                          mProduct.displayImageId != null &&
+                                  mProduct.displayImageId!.length > 3
+                              ? mProduct.displayImageId!
+                              : 'd5e438b9-6eee-4214-b1bd- ',
+                          height: 110,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.fill,
+                        ),
+                        Card(
+                          margin: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              (mProduct.name!.defaultText!.text ?? ''),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.primeColor),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
-                      height: 160,
+                      height: 180,
                       child: ListView(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -468,27 +486,20 @@ class CategoryPage extends StatelessWidget {
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10))),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  (mProduct.name!.defaultText!.text ?? ''),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyles.bodyFontBold,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  ' ${totalNumberOfProducts} Products',
-                                  style: TextStyles.bodyFont
-                                      .copyWith(color: AppColors.primeColor),
-                                )
-                              ],
-                            ),
+                            totalNumberOfProducts > 2
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        ' ${totalNumberOfProducts} Products',
+                                        style: TextStyles.bodyFont.copyWith(
+                                            color: AppColors.primeColor),
+                                      )
+                                    ],
+                                  )
+                                : const SizedBox(),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 1,
                               child: Row(

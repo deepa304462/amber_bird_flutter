@@ -42,7 +42,7 @@ class ProductGuideChapter extends StatelessWidget {
                     ),
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Text(
                           chapter.label!.defaultText!.text!,
                           style: TextStyles.body,

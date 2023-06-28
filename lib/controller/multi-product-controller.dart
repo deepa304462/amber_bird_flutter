@@ -70,9 +70,9 @@ class MultiProductController extends GetxController {
   getProductName(name) {
     var now = new DateTime.now();
     if (multiProductName.COMBO.name == name) {
-      return "${months[now.month - 1]} Combo";
+      return "${months[now.month - 1]} Combos";
     } else if (multiProductName.BUNDLE.name == name) {
-      return "${months[now.month - 1]} Bundle";
+      return "${months[now.month - 1]} Bundles";
     } else if (multiProductName.COLLECTION.name == name) {
       return "${months[now.month - 1]} Collections";
     } else {
