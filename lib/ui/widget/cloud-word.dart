@@ -59,15 +59,15 @@ class WordCloud extends StatelessWidget {
               i));
         }
         for (var i = 0; i < summaryProdList.remainingTags!.length; i++) {
-          if (widgets.length < 110) {
-            widgets.add(ScatterItem(
-                FlutterHashtag(
-                    summaryProdList.remainingTags![i],
-                    colorList[random.nextInt(6)],
-                    random.nextInt(6) + 20,
-                    random.nextInt(2) == 0 ? false : true),
-                i));
-          }
+          // if (widgets.length < 110) {
+          widgets.add(ScatterItem(
+              FlutterHashtag(
+                  summaryProdList.remainingTags![i],
+                  colorList[random.nextInt(6)],
+                  random.nextInt(6) + 20,
+                  random.nextInt(2) == 0 ? false : true),
+              i));
+          // }
         }
         // for (var i = 0; i < kFlutterHashtags.length; i++) {
         //   widgets.add(ScatterItem(kFlutterHashtags[i], i));

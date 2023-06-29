@@ -66,44 +66,44 @@ class SplashOfferPage extends StatelessWidget {
                 ignoreUserGestureWhileAnimating: true,
               )
             : const SizedBox(),
+        // Align(
+        //   alignment: Alignment.bottomRight,
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(25.0),
+        //     child: ElevatedButton(
+        //       style: ElevatedButton.styleFrom(
+        //           backgroundColor: AppColors.primeColor,
+        //           textStyle: TextStyles.body.copyWith(color: AppColors.white)),
+        //       onPressed: () async {
+        //         SharedData.save('true', 'onboardingDone');
+        //         if (onBoardingController.onboardingData.value.appIntro !=
+        //             null) {
+        //           liquidController.animateToPage(
+        //               page: onBoardingController.onboardingData.value.appIntro!
+        //                       .introImages!.length -
+        //                   1,
+        //               duration: 700);
+        //           if (locationController.pinCode.value.isNotEmpty) {
+        //             Modular.to.navigate('/home/main');
+        //           } else {
+        //             Modular.to.navigate('/location');
+        //           }
+        //         }
+        //       },
+        //       child: Text(
+        //         "Skip to End",
+        //         style: TextStyles.body.copyWith(color: AppColors.white),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Align(
           alignment: Alignment.bottomRight,
           child: Padding(
             padding: const EdgeInsets.all(25.0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.darkOrange,
-                  textStyle: TextStyles.body.copyWith(color: AppColors.white)),
-              onPressed: () async {
-                SharedData.save('true', 'onboardingDone');
-                if (onBoardingController.onboardingData.value.appIntro !=
-                    null) {
-                  liquidController.animateToPage(
-                      page: onBoardingController.onboardingData.value.appIntro!
-                              .introImages!.length -
-                          1,
-                      duration: 700);
-                  if (locationController.pinCode.value.isNotEmpty) {
-                    Modular.to.navigate('/home/main');
-                  } else {
-                    Modular.to.navigate('/location');
-                  }
-                }
-              },
-              child: Text(
-                "Skip to End",
-                style: TextStyles.body.copyWith(color: AppColors.white),
-              ),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomLeft,
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.darkOrange,
+                  backgroundColor: AppColors.primeColor,
                   textStyle: TextStyles.body.copyWith(color: AppColors.white)),
               onPressed: () {
                 if (onBoardingController.onboardingData.value.appIntro !=

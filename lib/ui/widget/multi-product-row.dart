@@ -162,7 +162,13 @@ class MultiProductRow extends StatelessWidget {
                               ),
                             ),
                             Card(
-                              margin: const EdgeInsets.fromLTRB(5, 2, 5, 2),
+                              margin: const EdgeInsets.fromLTRB(0, 2, 5, 0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(5),
+                                  bottomRight: Radius.circular(5),
+                                ),
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Text(

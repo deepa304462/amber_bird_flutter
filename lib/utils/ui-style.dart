@@ -19,6 +19,7 @@ class AppColors {
   static Color commonBgColor = HexColor("#FAFAFA");
   static Color golden = HexColor("#e1b530");
   static Color green = Colors.green;
+  static Color orange = HexColor("#FF5F1F");
   static Color backgroundGrey = HexColor("#efefef");
   static Color black = HexColor("#000000");
   static Color teal = Colors.teal;

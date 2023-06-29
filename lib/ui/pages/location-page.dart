@@ -47,8 +47,9 @@ class LocationPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter pincode of your area (Only works in Germany)',
-                          style: TextStyles.body,
+                          'Enter POSTCODE to connect with your nearest warehouse',
+                          style: TextStyles.bodyFont
+                              .copyWith(color: AppColors.primeColor),
                         ),
                         const SizedBox(
                           height: 10,
@@ -130,7 +131,7 @@ class LocationPage extends StatelessWidget {
                                                           const EdgeInsets.all(
                                                               8.0),
                                                       child: Text(
-                                                        '${element['properties']['postcode']}',
+                                                        '${element['properties']['postcode']} ${element['properties']['city']}',
                                                         style:
                                                             TextStyles.bodyFont,
                                                         textAlign:

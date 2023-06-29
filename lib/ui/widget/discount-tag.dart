@@ -12,7 +12,8 @@ class DiscountTag extends StatelessWidget {
     return Visibility(
       visible: discount > 0,
       child: Card(
-        color: Colors.green,
+        // color: Color.fromRGBO(57, 255, 20, 1),
+        color: AppColors.orange,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(5), bottomRight: Radius.circular(5))),

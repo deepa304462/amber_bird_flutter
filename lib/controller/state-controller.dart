@@ -73,8 +73,8 @@ class Controller extends GetxController {
         title: 'Wishlist & favourite products');
     showKeyMap['refer'] = ShowcaseKey(
         key: GlobalKey(),
-        desc: 'Refer your friends and get 9 ${CodeHelp.euro} discount',
-        title: 'Share Sbazar');
+        desc: '',
+        title: 'Refer your friends and get 9 ${CodeHelp.euro} discount');
     showKeyMap['coinWallet'] = ShowcaseKey(
         key: GlobalKey(), desc: 'Check your scoin wallet', title: 'S-Wallet');
     backButtonPress.value = 0;
