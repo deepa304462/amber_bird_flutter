@@ -68,6 +68,8 @@ class DealBottomDrawer extends StatelessWidget {
                       children: [
                         Text(
                           '${name!.defaultText!.text}',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyles.bodyFont
                               .copyWith(color: AppColors.primeColor),
                         ),

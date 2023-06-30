@@ -53,9 +53,9 @@ class CentProductWidget extends StatelessWidget {
     getSearchProd();
     return Obx(() => centProductList.isNotEmpty
         ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 5),
             child: Container(
-              color: Colors.white,
+              // color: Colors.white,
               child: Column(
                 children: [
                   Padding(
@@ -95,7 +95,7 @@ class CentProductWidget extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 200,
+                    height: 180,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: ListView.builder(

@@ -7,6 +7,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../helpers/controller-generator.dart';
 
@@ -16,8 +17,16 @@ class AboutPage extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
+  RxString version = ''.obs;
+
+  getVerInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    version.value = '${packageInfo.version}-${packageInfo.buildNumber}';
+  }
+
   @override
   Widget build(BuildContext context) {
+    getVerInfo();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,6 +78,13 @@ class AboutPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(
+                          child: Image.asset(
+                            'assets/home.png',
+                            width: MediaQuery.of(context).size.width * .4,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                         ...compilanceController.compilanceList
                             .map((Compilance el) {
                           DetailedContent detailedContent =
@@ -139,6 +155,10 @@ class AboutPage extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+          child: Obx(() => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Text('Version: ${version.value}')]))),
     );
   }
 }

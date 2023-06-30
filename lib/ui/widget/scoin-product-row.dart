@@ -36,7 +36,7 @@ class ScoinProductRow extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(top: 8, bottom: 5),
           child: Container(
-            color: Colors.white,
+            // color: Colors.white,
             child: Column(
               children: [
                 Padding(
@@ -65,8 +65,9 @@ class ScoinProductRow extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    height: 220,
-                    child: ScoinProductCard(scoinController, context))
+                  height: 180,
+                  child: ScoinProductCard(scoinController, context),
+                )
               ],
             ),
           ),

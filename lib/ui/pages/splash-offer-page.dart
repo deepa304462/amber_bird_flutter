@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -49,8 +51,14 @@ class SplashOfferPage extends StatelessWidget {
                                   .introImages!.length -
                               1 ==
                           onBoardingController.activePage.value) {
-                    SharedData.save('true', 'onboardingDone');
-                    if (locationController.pinCode.value.isNotEmpty) {
+                    var statusOnboarding = {
+                      'status': 'true',
+                      'time': DateTime.now().toUtc().toString()
+                    };
+                    SharedData.save(
+                        jsonEncode(statusOnboarding), 'onboardingDone');
+                    if (locationController.pinCode.value.isNotEmpty &&
+                        locationController.pinCode.value != '0') {
                       Modular.to.navigate('/home/main');
                     } else {
                       Modular.to.navigate('/location');
@@ -108,13 +116,40 @@ class SplashOfferPage extends StatelessWidget {
               onPressed: () {
                 if (onBoardingController.onboardingData.value.appIntro !=
                     null) {
-                  liquidController.jumpToPage(
-                      page: liquidController.currentPage + 1 >
-                              onBoardingController.onboardingData.value
-                                      .appIntro!.introImages!.length -
-                                  1
-                          ? 0
-                          : liquidController.currentPage + 1);
+                  if (onBoardingController.onboardingData.value.appIntro!
+                                  .introImages!.length -
+                              1 ==
+                          onBoardingController.activePage.value &&
+                      onBoardingController.onboardingData.value.appIntro!
+                                  .introImages!.length -
+                              1 ==
+                          onBoardingController.activePage.value) {
+                    var statusOnboarding = {
+                      'status': 'true',
+                      'time': DateTime.now().toUtc().toString()
+                    };
+                    SharedData.save(
+                        jsonEncode(statusOnboarding), 'onboardingDone');
+                    liquidController.animateToPage(
+                        page: onBoardingController.onboardingData.value
+                                .appIntro!.introImages!.length -
+                            1,
+                        duration: 700);
+                    if (locationController.pinCode.value.isNotEmpty &&
+                        locationController.pinCode.value != '0') {
+                      Modular.to.navigate('/home/main');
+                    } else {
+                      Modular.to.navigate('/location');
+                    }
+                  } else {
+                    liquidController.jumpToPage(
+                        page: liquidController.currentPage + 1 >
+                                onBoardingController.onboardingData.value
+                                        .appIntro!.introImages!.length -
+                                    1
+                            ? 0
+                            : liquidController.currentPage + 1);
+                  }
                 }
               },
               child: Text("Next",

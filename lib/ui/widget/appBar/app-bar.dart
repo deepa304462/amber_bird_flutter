@@ -21,13 +21,13 @@ class AppBarWidget extends StatelessWidget {
           // mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              child: Showcase(
-                  key: stateController.showKeyMap['pincode']!.key,
-                  description: stateController.showKeyMap['pincode']!.desc,
-                  title: stateController.showKeyMap['pincode']!.title,
-                  child: LocationWidget()),
-            ),
+            Expanded(child: LocationWidget()
+                // Showcase(
+                //     key: stateController.showKeyMap['pincode']!.key,
+                //     description: stateController.showKeyMap['pincode']!.desc,
+                //     title: stateController.showKeyMap['pincode']!.title,
+                //     child: LocationWidget()),
+                ),
             Expanded(
               child: Image.asset(
                 'assets/home.png',
@@ -47,6 +47,8 @@ class AppBarWidget extends StatelessWidget {
                     key: stateController.showKeyMap['refer']!.key,
                     description: stateController.showKeyMap['refer']!.desc,
                     title: stateController.showKeyMap['refer']!.title,
+                    titleTextStyle: TextStyles.titleFont,
+                    descTextStyle: TextStyles.body,
                     child: IconButton(
                         onPressed: () =>
                             Modular.to.navigate('/widget/refer-page'),
@@ -56,6 +58,8 @@ class AppBarWidget extends StatelessWidget {
                     key: stateController.showKeyMap['coinWallet']!.key,
                     description: stateController.showKeyMap['coinWallet']!.desc,
                     title: stateController.showKeyMap['coinWallet']!.title,
+                    titleTextStyle: TextStyles.titleFont,
+                    descTextStyle: TextStyles.body,
                     child: Stack(
                       fit: StackFit.loose,
                       children: [
@@ -150,6 +154,8 @@ class AppBarShrinkWidget extends StatelessWidget {
               key: stateController.showKeyMap['refer']!.key,
               description: stateController.showKeyMap['refer']!.desc,
               title: stateController.showKeyMap['refer']!.title,
+              titleTextStyle: TextStyles.titleFont,
+              descTextStyle: TextStyles.body,
               child: IconButton(
                   onPressed: () => Modular.to.pushNamed('/widget/refer-page'),
                   icon: Icon(Icons.share, color: AppColors.DarkGrey)),
@@ -158,6 +164,8 @@ class AppBarShrinkWidget extends StatelessWidget {
               key: stateController.showKeyMap['coinWallet']!.key,
               description: stateController.showKeyMap['coinWallet']!.desc,
               title: stateController.showKeyMap['coinWallet']!.title,
+              titleTextStyle: TextStyles.headingFont,
+              descTextStyle: TextStyles.body,
               child: Stack(
                 fit: StackFit.loose,
                 children: [

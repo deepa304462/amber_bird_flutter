@@ -116,11 +116,11 @@ class ProductCard extends StatelessWidget {
                   ? TextOverflow.ellipsis
                   : TextOverflow.visible,
               style: TextStyles.body),
-          addedFrom == 'MULTIPRODUCT'
-              ? Text(
-                  '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',
-                  style: TextStyles.bodySm)
-              : const SizedBox(),
+          // addedFrom == 'MULTIPRODUCT'
+          //     ? Text(
+          //         '${product.defaultPurchaseCount.toString()} * ${activeVariant.value.price!.offerPrice!}',
+          //         style: TextStyles.bodySm)
+          //     : const SizedBox(),
           Wrap(
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
@@ -214,7 +214,7 @@ class ProductCard extends StatelessWidget {
         : 1;
 
     return Padding(
-      padding: const EdgeInsetsDirectional.all(2),
+      padding: const EdgeInsetsDirectional.all(5),
       child: Container(
         color: Colors.white,
         child: ClipRRect(

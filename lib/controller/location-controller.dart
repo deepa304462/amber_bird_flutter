@@ -56,29 +56,6 @@ class LocationController extends GetxController {
     }
   }
 
-  // Future<void> findLocalityFromPinCode() async {
-  //   String host = 'https://maps.google.com/maps/api/geocode/json';
-  //   final url =
-  //       '$host?address=zip ${pinCode.value}&sensor=true&key=$mapKey&language=de&components=country:de';
-  //   var response = await dio.get(url);
-  //   if (response.statusCode == 200) {
-  //     if (response.data['results'].length > 0) {
-  //       dynamic southwest =
-  //           response.data['results'][0]['geometry']['bounds']['southwest'];
-  //       dynamic northeast =
-  //           response.data['results'][0]['geometry']['bounds']['northeast'];
-  //       mapController.obs.value.animateCamera(CameraUpdate.newLatLngBounds(
-  //           LatLngBounds(
-  //               southwest: LatLng(southwest['lat'], southwest['lng']),
-  //               northeast: LatLng(northeast['lat'], northeast['lng'])),
-  //           1));
-  //       dynamic centerLocation =
-  //           response.data['results'][0]['geometry']['location'];
-  //       checkAddress(LatLng(centerLocation['lat'], centerLocation['lng']));
-  //     }
-  //   }
-  // }
-
   void setLocation() async {
     var locationExists =
         await OfflineDBService.checkBox(OfflineDBService.customerInsight);
@@ -91,32 +68,33 @@ class LocationController extends GetxController {
         pinCode.value = addressData.value.zipCode ?? '0';
       } else {
         addressData.value = Address();
-        if (pinCode.value.isEmpty) pinCode.value = '0';
+        if (pinCode.value.isEmpty) {
+          var pin = await SharedData.read('pinCode');
+          pinCode.value = pin ?? '0';
+        }
         // getLocation();
       }
     } else {
+      var pin = await SharedData.read('pinCode');
+      pinCode.value = pin ?? '0';
       // getLocation();
     }
   }
 
-  getLocation() async {
-    // var locationExists =
-    //     await OfflineDBService.checkBox(OfflineDBService.location);
-    // if (locationExists) {
-    //   var data = await OfflineDBService.get(OfflineDBService.location);
-    //   address.value = data;
-    setAddressData(address);
-    pinCode.value = addressData.value.zipCode!;
-    if (pinCode.value.isNotEmpty) {
-      addressAvaiable.value = true;
-    }
-    // }
-    // return locationExists;
-  }
-
-  locationReqest() {
-    // initializeLocationAndSave();
-  }
+  // getLocation() async {
+  //   // var locationExists =
+  //   //     await OfflineDBService.checkBox(OfflineDBService.location);
+  //   // if (locationExists) {
+  //   //   var data = await OfflineDBService.get(OfflineDBService.location);
+  //   //   address.value = data;
+  //   setAddressData(address);
+  //   pinCode.value = addressData.value.zipCode!;
+  //   if (pinCode.value.isNotEmpty) {
+  //     addressAvaiable.value = true;
+  //   }
+  //   // }
+  //   // return locationExists;
+  // }
 
   void updatePosition(CameraPosition _position) {
     currentPin.value = Marker(
@@ -130,22 +108,6 @@ class LocationController extends GetxController {
     mapLoad.value = true;
     mapLoad.value = false;
   }
-
-  // saveAddress() {
-  //   // OfflineDBService.save(OfflineDBService.location, address.value);
-  //   pinCode.value = findValueFromAddress('postal_code');
-
-  //   // getLocation();
-  //   try {
-  //     if (Modular.to.canPop())
-  //       Modular.to.pop(this.address);
-  //     else
-  //       Modular.to.pushReplacementNamed('/home/main');
-  //   } catch (e) {
-  //     Modular.to.pushReplacementNamed('/home/main');
-  //     // code that handles the exception
-  //   }
-  // }
 
   String findValueFromAddress(String key) {
     if (address['address_components'] != null) {
@@ -165,25 +127,25 @@ class LocationController extends GetxController {
     return '';
   }
 
-  String findValueFromAddressFromGoogleData(
-      Map<String, dynamic> googleData, String key) {
-    if (googleData['address_components'] != null) {
-      for (dynamic element in (googleData['address_components'] as List)) {
-        bool keyMatched = false;
+  // String findValueFromAddressFromGoogleData(
+  //     Map<String, dynamic> googleData, String key) {
+  //   if (googleData['address_components'] != null) {
+  //     for (dynamic element in (googleData['address_components'] as List)) {
+  //       bool keyMatched = false;
 
-        for (String value in (element['types'] as List)) {
-          keyMatched = value == key;
-          if (keyMatched) {
-            break;
-          }
-        }
-        if (keyMatched) {
-          return element['long_name'];
-        }
-      }
-    }
-    return '';
-  }
+  //       for (String value in (element['types'] as List)) {
+  //         keyMatched = value == key;
+  //         if (keyMatched) {
+  //           break;
+  //         }
+  //       }
+  //       if (keyMatched) {
+  //         return element['long_name'];
+  //       }
+  //     }
+  //   }
+  //   return '';
+  // }
 
   // getAddressFromLatLng(double lat, double lng) async {
   //   String host = 'https://maps.google.com/maps/api/geocode/json';
@@ -212,21 +174,21 @@ class LocationController extends GetxController {
   //   }
   // }
 
-  setAddressData(dynamic data) {
-    addressAvaiable.value = true;
-    addressData.value.zipCode = findValueFromAddress('postal_code');
-    addressData.value.line1 = data['formatted_address'];
-    addressData.value.localArea = findValueFromAddress('sublocality_level_1');
-    addressData.value.city = findValueFromAddress('locality') ??
-        findValueFromAddress('administrative_area_level_2');
-    addressData.value.country = findValueFromAddress('country');
-    addressData.value.geoAddress = GeoAddress.fromMap({
-      'coordinates': [
-        data['geometry']['location']['lat'],
-        data['geometry']['location']['lng']
-      ]
-    });
-  }
+  // setAddressData(dynamic data) {
+  //   addressAvaiable.value = true;
+  //   addressData.value.zipCode = findValueFromAddress('postal_code');
+  //   addressData.value.line1 = data['formatted_address'];
+  //   addressData.value.localArea = findValueFromAddress('sublocality_level_1');
+  //   addressData.value.city = findValueFromAddress('locality') ??
+  //       findValueFromAddress('administrative_area_level_2');
+  //   addressData.value.country = findValueFromAddress('country');
+  //   addressData.value.geoAddress = GeoAddress.fromMap({
+  //     'coordinates': [
+  //       data['geometry']['location']['lat'],
+  //       data['geometry']['location']['lng']
+  //     ]
+  //   });
+  // }
 
   setAddressCall() async {
     if (Get.isRegistered<Controller>()) {
@@ -328,10 +290,6 @@ class LocationController extends GetxController {
         path: 'productInventory/getNearestWarehouse', payload: payload);
     if (response.statusCode == 200) {}
   }
-
-  // void checkAddress(LatLng coOrdinate) {
-  //   getAddressFromLatLng(coOrdinate.latitude, coOrdinate.longitude);
-  // }
 
   setFielsvalue(String text, String name) {
     if (name == 'city') {

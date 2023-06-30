@@ -68,16 +68,20 @@ class MultiProductController extends GetxController {
   }
 
   getProductName(name) {
-    var now = new DateTime.now();
     if (multiProductName.COMBO.name == name) {
-      return "${months[now.month - 1]} Combos";
+      return "Combos";
     } else if (multiProductName.BUNDLE.name == name) {
-      return "${months[now.month - 1]} Bundles";
+      return "Bundles";
     } else if (multiProductName.COLLECTION.name == name) {
-      return "${months[now.month - 1]} Collections";
+      return "Collections";
     } else {
       return "Flash Deal";
     }
+  }
+
+  getMonth() {
+    var now = new DateTime.now();
+    return months[now.month - 1];
   }
 
   checkValidDeal(String id, String type, String cartId) async {

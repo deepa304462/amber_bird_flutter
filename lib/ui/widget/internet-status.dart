@@ -22,8 +22,15 @@ class InternetStatus extends StatelessWidget {
       color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.close)),
+          ),
           Lottie.asset('assets/no-internet.json',
               width: MediaQuery.of(context).size.width * .5,
               fit: BoxFit.contain),
@@ -33,7 +40,7 @@ class InternetStatus extends StatelessWidget {
               'No internet connectivity',
               style: TextStyles.bodyFontBold,
             ),
-          )
+          ),
         ],
       ),
     );

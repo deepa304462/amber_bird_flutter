@@ -95,7 +95,8 @@ class DealRow extends StatelessWidget {
                                 id: 'DEAL',
                                 type: 'DEAL',
                                 text: 'Deal');
-                            await megaMenuController.getSubMenu(parentTab);
+                            await megaMenuController.getSubMenu(parentTab,
+                                loadProd: false);
                             megaMenuController.selectedSubMenu.value =
                                 currentdealName;
                             if (currentdealName == dealName.FLASH.name) {

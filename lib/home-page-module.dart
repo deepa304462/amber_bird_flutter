@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amber_bird/ui/pages/category-page.dart';
 import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
@@ -5,7 +7,6 @@ import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';
 import 'package:amber_bird/ui/pages/main-page.dart';
 import 'package:amber_bird/ui/pages/payment-status-page.dart';
-// import 'package:amber_bird/ui/pages/search-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
 import 'package:amber_bird/ui/widget/add-address.dart';
 import 'package:amber_bird/ui/widget/inAppView.dart';
@@ -73,8 +74,20 @@ class AppOnboardingGuard extends RouteGuard {
 
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
-    var onboardLocal = await (SharedData.read('onboardingDone'));
-    bool onboard = onboardLocal.toString() != 'true';
+    var onboardLocal =
+        jsonDecode(await (SharedData.read('onboardingDone')) ?? '{}');
+    bool onboard = true;
+    if (onboardLocal['time'] != null) {
+      String expire = onboardLocal['time'] ?? '';
+      var newDate = DateTime.now().toUtc();
+      var difference = DateTime.parse(expire).difference(newDate);
+      if (difference.inDays > 6) {
+        SharedData.remove('onboardingDone');
+      } else {
+        onboard = false;
+      }
+    }
+    // bool onboard = onboardLocal.toString() != 'true';
     // bool onboard = false;
     FlutterNativeSplash.remove();
     return onboard;

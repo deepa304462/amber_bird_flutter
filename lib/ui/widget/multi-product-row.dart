@@ -44,9 +44,23 @@ class MultiProductRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  multiprodController.getProductName(currenttypeName),
-                  style: TextStyles.headingFont,
+                RichText(
+                  text: TextSpan(style: TextStyles.body, children: <TextSpan>[
+                    TextSpan(
+                      text: multiprodController.getMonth(),
+                      style: TextStyles.headingFont
+                          .copyWith(color: AppColors.primeColor),
+                    ),
+                    TextSpan(
+                      text: ' ',
+                      style: TextStyles.headingFont
+                          .copyWith(color: AppColors.primeColor),
+                    ),
+                    TextSpan(
+                      text: multiprodController.getProductName(currenttypeName),
+                      style: TextStyles.headingFont,
+                    )
+                  ]),
                 ),
                 ViewMoreWidget(onTap: () async {
                   MegaMenuController megaMenuController =
@@ -58,7 +72,8 @@ class MultiProductRow extends StatelessWidget {
                       id: 'MULTI',
                       type: 'MULTI',
                       text: 'Multi');
-                  await megaMenuController.getSubMenu(parentTab);
+                  await megaMenuController.getSubMenu(parentTab,
+                      loadProd: false);
                   megaMenuController.selectedSubMenu.value = currenttypeName;
                   if (currenttypeName == multiProductName.COMBO.name) {
                     megaMenuController.getAllProducts(
@@ -120,7 +135,7 @@ class MultiProductRow extends StatelessWidget {
   Widget twoProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 315,
+      height: 300,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -140,8 +155,8 @@ class MultiProductRow extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 5),
                     width: MediaQuery.of(context).size.width * .7,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      shape: BoxShape.rectangle,
+                      // borderRadius: BorderRadius.all(Radius.circular(20)),
+                      // shape: BoxShape.rectangle,
                       color: AppColors.white,
                     ),
                     child: Column(
@@ -184,7 +199,7 @@ class MultiProductRow extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.all(5.0),
-                          height: 160,
+                          height: 150,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
@@ -193,7 +208,7 @@ class MultiProductRow extends StatelessWidget {
                                   i < mProduct.products!.length;
                                   i++) ...[
                                 SizedBox(
-                                  width: 120,
+                                  width: 130,
                                   child: ProductCard(
                                       mProduct.products![i],
                                       mProduct.products![i].id,
@@ -220,13 +235,6 @@ class MultiProductRow extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Text(
-                                //   mProduct.name!.defaultText!.text ?? '',
-                                //   overflow: TextOverflow.ellipsis,
-                                //   maxLines: 1,
-                                //   style: TextStyles.titleFont
-                                //       .copyWith(color: AppColors.primeColor),
-                                // ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Row(
@@ -261,7 +269,7 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 240,
+      height: 210,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -281,59 +289,88 @@ class MultiProductRow extends StatelessWidget {
 
   Widget multiProductTile(MultiProductController multiprodController,
       Multi multiProd, BuildContext context) {
-    return Card(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       color: AppColors.white,
       child: Stack(
         children: [
           Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              GestureDetector(
-                onTap: () {
-                  print('tapped the row');
-                  showModalBottomSheet<void>(
-                    // context and builder are
-                    // required properties in this widget
-                    context: context,
-                    useRootNavigator: true,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13)),
-                    backgroundColor: Colors.white,
-                    isScrollControlled: true,
-                    elevation: 3,
-                    builder: (context) {
-                      return DealBottomDrawer(
-                        multiProd.products,
-                        multiProd.id,
-                        currenttypeName,
-                        multiProd.price,
-                        multiProd.constraint,
-                        multiProd.name,
-                        'MULTIPRODUCT',
-                      );
-                    },
-                  );
-                },
-                child: ImageBox(
-                  multiProd.displayImageId!,
-                  width: MediaQuery.of(context).size.width * .4,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${multiProd.name!.defaultText!.text}',
-                    style: TextStyles.titleFont
-                        .copyWith(color: AppColors.primeColor),
-                    textAlign: TextAlign.left,
+              Stack(alignment: Alignment.bottomLeft, children: [
+                GestureDetector(
+                  onTap: () {
+                    print('tapped the row');
+                    showModalBottomSheet<void>(
+                      // context and builder are
+                      // required properties in this widget
+                      context: context,
+                      useRootNavigator: true,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(13)),
+                      backgroundColor: Colors.white,
+                      isScrollControlled: true,
+                      elevation: 3,
+                      builder: (context) {
+                        return DealBottomDrawer(
+                          multiProd.products,
+                          multiProd.id,
+                          currenttypeName,
+                          multiProd.price,
+                          multiProd.constraint,
+                          multiProd.name,
+                          'MULTIPRODUCT',
+                        );
+                      },
+                    );
+                  },
+                  child: ImageBox(
+                    multiProd.displayImageId!,
+                    width: MediaQuery.of(context).size.width * .4,
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
+                ),
+                Card(
+                  margin: const EdgeInsets.fromLTRB(0, 2, 5, 0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          (multiProd.name!.defaultText!.text ?? ''),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: TextStyles.body
+                              .copyWith(color: AppColors.primeColor),
+                        ),
+                        Text(
+                          '(${multiProd.products!.length} Products) ',
+                          style:
+                              TextStyles.body.copyWith(color: AppColors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+              // Row(
+              //   mainAxisSize: MainAxisSize.max,
+              //   mainAxisAlignment: MainAxisAlignment.start,
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Text(
+              //       '${multiProd.name!.defaultText!.text}',
+              //       style: TextStyles.titleFont
+              //           .copyWith(color: AppColors.primeColor),
+              //       textAlign: TextAlign.left,
+              //     ),
+              //   ],
+              // ),
               Row(children: [
                 PriceTag(multiProd.price!.offerPrice.toString(),
                     multiProd.price!.actualPrice.toString()),

@@ -421,7 +421,7 @@ class CategoryPage extends StatelessWidget {
               },
             );
             return SizedBox(
-              height: 370,
+              height: 330,
               child: Card(
                 child: Column(
                   children: [
@@ -454,7 +454,7 @@ class CategoryPage extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
-                      height: 180,
+                      height: 140,
                       child: ListView(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -468,7 +468,7 @@ class CategoryPage extends StatelessWidget {
                                     mProduct.products![i],
                                     mProduct.products![i].id,
                                     'MULTIPRODUCT',
-                                    fixedHeight: false,
+                                    fixedHeight: true,
                                     mProduct.products![i].varient!.price!,
                                     null,
                                     null),

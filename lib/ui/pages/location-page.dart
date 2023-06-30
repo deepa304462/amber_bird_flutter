@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
 import 'package:lottie/lottie.dart';
+import 'package:amber_bird/utils/data-cache-service.dart';
 
 class LocationPage extends StatelessWidget {
   LocationController locationController = Get.find();
@@ -100,6 +101,10 @@ class LocationPage extends StatelessWidget {
                                                               .pinCode.value =
                                                           element['properties']
                                                               ['postcode'];
+                                                      SharedData.save(
+                                                          locationController
+                                                              .pinCode.value,
+                                                          'pinCode');
                                                       locationController
                                                           .updateCustomerAddress(
                                                               element);
@@ -129,7 +134,7 @@ class LocationPage extends StatelessWidget {
                                                           const EdgeInsets.all(
                                                               8.0),
                                                       child: Text(
-                                                        '${element['properties']['postcode']} ${element['properties']['city']}',
+                                                        '${element['properties']['postcode']} ${element['properties']['suburb'] != null ? element['properties']['suburb'] : ''} ${element['properties']['city']}',
                                                         style:
                                                             TextStyles.bodyFont,
                                                         textAlign:

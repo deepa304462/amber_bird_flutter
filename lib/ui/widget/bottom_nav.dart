@@ -192,11 +192,13 @@ class _BottomBarItemState extends State<BottomBarItem>
         description: widget.givenKey.desc,
         title: widget.givenKey.title,
         key: widget.givenKey.key,
-        titleAlignment: TextAlign.left,
-        scaleAnimationAlignment: Alignment.centerRight,
-        descriptionPadding: const EdgeInsets.all(0),
-        tooltipPadding: const EdgeInsets.all(2),
-        titleTextStyle: TextStyles.bodyFont,
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.body,
+        titleAlignment: TextAlign.center,
+        // scaleAnimationAlignment: Alignment.centerRight,
+        // descriptionPadding: const EdgeInsets.all(0),
+        // tooltipPadding: const EdgeInsets.all(2),
+        // titleTextStyle: TextStyles.bodyFont,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
           child: SizedBox(

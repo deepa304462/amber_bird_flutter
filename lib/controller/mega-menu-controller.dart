@@ -145,7 +145,7 @@ class MegaMenuController extends GetxController {
     }
   }
 
-  getSubMenu(GenericTab parentTab) async {
+  getSubMenu(GenericTab parentTab, {bool? loadProd}) async {
     subMenuList.clear();
     selectedType.value = parentTab.type!;
     selectedParentTab.value = parentTab.id!;
@@ -267,7 +267,8 @@ class MegaMenuController extends GetxController {
       }
     }
     isLoading.value = false;
-    getAllProducts(subMenuList[0], parentTab);
+    if (loadProd == null || loadProd)
+      await getAllProducts(subMenuList[0], parentTab);
   }
 
   Future<void> getAllProducts(GenericTab subMenu, GenericTab parentTab) async {

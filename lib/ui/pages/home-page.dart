@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
           (_) => ShowCaseWidget.of(context).startShowCase([
                 myController.showKeyMap['category']!.key,
                 myController.showKeyMap['brand']!.key,
-                myController.showKeyMap['pincode']!.key,
+                // myController.showKeyMap['pincode']!.key,
                 myController.showKeyMap['refer']!.key,
                 myController.showKeyMap['coinWallet']!.key,
               ]));

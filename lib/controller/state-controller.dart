@@ -17,6 +17,7 @@ import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
+import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,7 @@ class Controller extends GetxController {
   var isLogin = false.obs;
   var currentTab = 0.obs;
   var activePageName = ''.obs;
-  var onboardingDone = false.obs;
+  // var onboardingDone = false.obs;
   var isActivate = false.obs;
   var isEmailVerified = false.obs;
   var isPhoneVerified = false.obs;
@@ -53,30 +54,74 @@ class Controller extends GetxController {
   @override
   void onInit() {
     showKeyMap['home'] = ShowcaseKey(
-        key: GlobalKey(), desc: 'All starts from here', title: 'Home');
-    showKeyMap['category'] =
-        ShowcaseKey(key: GlobalKey(), desc: '', title: 'Category');
-    showKeyMap['brand'] =
-        ShowcaseKey(key: GlobalKey(), desc: '', title: 'Brands');
-    showKeyMap['cart'] = ShowcaseKey(key: GlobalKey(), desc: '', title: '');
+      key: GlobalKey(),
+      desc: 'All starts from here',
+      title: 'Home',
+      descTextStyle: TextStyles.bodyFont,
+      titleTextStyle: TextStyles.titleFont,
+      targetPadding: const EdgeInsets.all(5),
+      tooltipBackgroundColor: AppColors.commonBgColor,
+      textColor: AppColors.black,
+    );
+    showKeyMap['category'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Browse your favourite products',
+        title: 'Category',
+        titleTextStyle: TextStyles.titleFont,
+        targetPadding: const EdgeInsets.all(5),
+        tooltipBackgroundColor: AppColors.commonBgColor,
+        textColor: AppColors.black,
+        // targetShapeBorder: const CircleBorder(),
+        // child: Container(
+        //     padding: const EdgeInsets.all(5),
+        //     width: 45,
+        //     height: 30,
+        //     decoration: BoxDecoration(
+        //         shape: BoxShape.circle, color: AppColors.primeColor),
+        //     child: Text('vfffffffffffffffffffffffff')),
+        descTextStyle: TextStyles.bodyFont);
+    showKeyMap['brand'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: 'Explore all brands',
+        title: 'Brands',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
+    showKeyMap['cart'] = ShowcaseKey(
+        key: GlobalKey(),
+        desc: '',
+        title: '',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
     showKeyMap['profile'] = ShowcaseKey(
         key: GlobalKey(),
         desc: 'Access or create your profile',
-        title: 'Checkout cart');
-    showKeyMap['pincode'] = ShowcaseKey(
-        key: GlobalKey(),
-        desc: 'Enter pincode to connect with your nearest warehouse',
-        title: 'Pincode');
+        title: 'Checkout cart',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
+    // showKeyMap['pincode'] = ShowcaseKey(
+    //     key: GlobalKey(),
+    //     desc: 'Enter pincode to connect with your nearest warehouse',
+    //     title: 'Pincode',
+    //     titleTextStyle: TextStyles.titleFont,
+    //     descTextStyle: TextStyles.bodyFont);
     showKeyMap['wishlist'] = ShowcaseKey(
         key: GlobalKey(),
         desc: 'Access your favourite products',
-        title: 'Wishlist & favourite products');
+        title: 'Wishlist & favourite products',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
     showKeyMap['refer'] = ShowcaseKey(
         key: GlobalKey(),
-        desc: '',
-        title: 'Refer your friends and get 9 ${CodeHelp.euro} discount');
+        desc: 'Earn coins, Refer and get 9 ${CodeHelp.euro}',
+        title: 'Share',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
     showKeyMap['coinWallet'] = ShowcaseKey(
-        key: GlobalKey(), desc: 'Check your scoin wallet', title: 'S-Wallet');
+        key: GlobalKey(),
+        desc: 'Check your S-COIN wallet',
+        title: 'S-Wallet',
+        titleTextStyle: TextStyles.titleFont,
+        descTextStyle: TextStyles.bodyFont);
     backButtonPress.value = 0;
     getLoginInfo();
     getMembershipData();
@@ -151,9 +196,9 @@ class Controller extends GetxController {
   }
 
   getLoginInfo() async {
-    var onboardLocarl = await (SharedData.read('onboardingDone'));
-    bool onboard = onboardLocarl.toString() == 'true';
-    onboardingDone.value = onboard;
+    // var onboardLocarl = await (SharedData.read('onboardingDone'));
+    // bool onboard = onboardLocarl.toString() == 'true';
+    // onboardingDone.value = onboard;
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;

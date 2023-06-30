@@ -88,10 +88,9 @@ class HelpCenterPage extends StatelessWidget {
                                       ),
                                     ),
                                     Center(
-                                        child: Flexible(
                                       child: Text('Return & refund',
                                           style: TextStyles.body),
-                                    ))
+                                    )
                                   ],
                                 ),
                               ),
