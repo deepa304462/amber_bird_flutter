@@ -74,13 +74,17 @@ class MainPage extends StatelessWidget {
             // CentProductWidget(),
             BackInStockProductWidget(),
             ProductGuideRow(),
-            // ScoinProductRow(),
             Divider(
               color: AppColors.lightGrey,
               height: 2,
               thickness: 2,
             ),
-            WordCloud()
+            WordCloud(),
+            Divider(
+              color: AppColors.lightGrey,
+              height: 2,
+              thickness: 2,
+            ),
           ],
         ),
       ),

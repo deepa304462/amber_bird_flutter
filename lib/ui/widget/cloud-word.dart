@@ -102,18 +102,16 @@ class WordCloud extends StatelessWidget {
         Center(
           child: Obx(
             () => widgets.length > 0
-                ? SizedBox(
-                    height: screenSize.width * 2,
-                    width: screenSize.width * 2,
-                    child: FittedBox(
-                      fit: BoxFit.contain,
-                      child: RotatedBox(
-                        quarterTurns: 3,
-                        child: Scatter(
-                          fillGaps: true,
-                          delegate: ArchimedeanSpiralScatterDelegate(ratio: .5),
-                          children: widgets,
-                        ),
+                ? FittedBox(
+                    fit: BoxFit.contain,
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: Scatter(
+                        fillGaps: false,
+                        alignment: Alignment.center,
+                        delegate: ArchimedeanSpiralScatterDelegate(
+                            a: .2, b: 1, step: 1 / 50),
+                        children: widgets,
                       ),
                     ),
                   )
@@ -137,7 +135,7 @@ class ScatterItem extends StatelessWidget {
       color: hashtag.color,
     );
     return RotatedBox(
-      quarterTurns: hashtag.rotated ? 1 : 0,
+      quarterTurns: 1,
       child: InkWell(
         onTap: () {
           Modular.to.pushNamed('/widget/tag-product/${hashtag.hashtag}');
