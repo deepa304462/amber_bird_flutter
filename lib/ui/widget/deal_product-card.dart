@@ -43,8 +43,11 @@ class DealProductCard extends StatelessWidget {
                       dProduct.constraint),
                   Positioned(
                     top: 0,
-                    child: DiscountTag(
-                      price: dProduct.dealPrice!,
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 5, top: 5),
+                      child: DiscountTag(
+                        price: dProduct.dealPrice!,
+                      ),
                     ),
                   ),
                 ],

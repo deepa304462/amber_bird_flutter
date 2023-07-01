@@ -114,7 +114,7 @@ class ReferralPage extends StatelessWidget {
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           side: BorderSide(
-                            color: AppColors.primeColor, // your color here
+                            color: AppColors.green, // your color here
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(5.0))),

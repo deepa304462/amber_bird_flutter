@@ -156,7 +156,10 @@ class AuthController extends GetxController {
   }
 
   dynamic signUp() async {
-    if (fieldValue['email'] != '') {
+    if (fieldValue['email'] != '' &&
+        fieldValue['fullName'] != '' &&
+        fieldValue['password'] != '' &&
+        fieldValue['mobile'] != '') {
       var payload = {
         // "suggestedUsername": fieldValue['username'],
         "suggestedUsername": fieldValue['email'],

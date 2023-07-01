@@ -11,14 +11,16 @@ import 'package:get/get.dart';
 class WordCloud extends StatelessWidget {
   RxList<Widget> widgets = <Widget>[].obs;
   List colorList = [
-    AppColors.primeColor,
-    AppColors.white,
-    AppColors.darkOrange,
-    AppColors.teal,
-    AppColors.secondaryColor,
-    AppColors.blue,
-    AppColors.green,
-    AppColors.cyan
+    AppColors.electricBlue,
+    AppColors.coralPink,
+    AppColors.violetPurple,
+    AppColors.mintGreen,
+    AppColors.goldenYellow,
+    AppColors.royalPurple,
+    AppColors.tealBlue,
+    AppColors.salmonPink,
+    AppColors.deepRed,
+    AppColors.neonGreen
   ];
 
   getProductTags() async {
@@ -35,7 +37,7 @@ class WordCloud extends StatelessWidget {
           widgets.add(ScatterItem(
               FlutterHashtag(
                   summaryProdList.lessSale![i],
-                  colorList[random.nextInt(6)],
+                  colorList[random.nextInt(9)],
                   random.nextInt(20) + 20,
                   random.nextInt(2) == 0 ? false : true),
               i));
@@ -44,7 +46,7 @@ class WordCloud extends StatelessWidget {
           widgets.add(ScatterItem(
               FlutterHashtag(
                   summaryProdList.shortExpiry![i],
-                  colorList[random.nextInt(6)],
+                  colorList[random.nextInt(9)],
                   random.nextInt(15) + 20,
                   random.nextInt(2) == 0 ? false : true),
               i));
@@ -53,21 +55,21 @@ class WordCloud extends StatelessWidget {
           widgets.add(ScatterItem(
               FlutterHashtag(
                   summaryProdList.intentionalPush![i],
-                  colorList[random.nextInt(6)],
+                  colorList[random.nextInt(9)],
                   random.nextInt(10) + 20,
                   random.nextInt(2) == 0 ? false : true),
               i));
         }
         for (var i = 0; i < summaryProdList.remainingTags!.length; i++) {
-          // if (widgets.length < 110) {
-          widgets.add(ScatterItem(
-              FlutterHashtag(
-                  summaryProdList.remainingTags![i],
-                  colorList[random.nextInt(6)],
-                  random.nextInt(6) + 20,
-                  random.nextInt(2) == 0 ? false : true),
-              i));
-          // }
+          if (widgets.length < 90) {
+            widgets.add(ScatterItem(
+                FlutterHashtag(
+                    summaryProdList.remainingTags![i],
+                    colorList[random.nextInt(9)],
+                    random.nextInt(6) + 20,
+                    random.nextInt(2) == 0 ? false : true),
+                i));
+          }
         }
         // for (var i = 0; i < kFlutterHashtags.length; i++) {
         //   widgets.add(ScatterItem(kFlutterHashtags[i], i));
@@ -80,7 +82,7 @@ class WordCloud extends StatelessWidget {
   Widget build(BuildContext context) {
     getProductTags();
 
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
     // final ratio = screenSize.width * 2.5 / (screenSize.height / 2);
 
     return Container(

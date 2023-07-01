@@ -11,12 +11,16 @@ class DiscountTag extends StatelessWidget {
     int discount = _calcDiscount();
     return Visibility(
       visible: discount > 0,
-      child: Card(
+      child: Container(
         // color: Color.fromRGBO(57, 255, 20, 1),
-        color: AppColors.orange,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(5), bottomRight: Radius.circular(5))),
+
+        decoration: BoxDecoration(
+          color: AppColors.orange,
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+          // shape: RoundedRectangleBorder(
+          //     borderRadius: ),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Row(

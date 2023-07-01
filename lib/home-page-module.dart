@@ -39,13 +39,6 @@ class HomePageModule extends Module {
           ChildRoute('/main', child: (_, args) => MainPage()),
 
           ChildRoute(
-            '/categoryProduct/:id',
-            child: (_, args) {
-              String productId = args.params['id'];
-              return CategoryProductPage(productId);
-            },
-          ),
-          ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {
               String id = args.params['id'];

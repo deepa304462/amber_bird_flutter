@@ -21,7 +21,17 @@ class AppColors {
   static Color green = Colors.green;
   static Color orange = HexColor("#FF5F1F");
   static Color backgroundGrey = HexColor("#efefef");
+  static Color electricBlue = HexColor("#00FFFF");
+  static Color coralPink = HexColor("#FF7F50");
+  static Color violetPurple = HexColor("#8A2BE2");
+  static Color mintGreen = HexColor("#98FF98");
+  static Color goldenYellow = HexColor("#FFD700");
+  static Color royalPurple = HexColor("#6A0DAD");
+  static Color tealBlue = HexColor("#008080");
+  static Color salmonPink = HexColor("#FF8C69");
+  static Color deepRed = HexColor("#8B0000");
   static Color black = HexColor("#000000");
+  static Color neonGreen = HexColor("#39FF14");
   static Color teal = Colors.teal;
 }
 

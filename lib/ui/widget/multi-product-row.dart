@@ -256,7 +256,9 @@ class MultiProductRow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  DiscountTag(price: mProduct.price!)
+                  Container(
+                      margin: const EdgeInsets.only(left: 5, top: 5),
+                      child: DiscountTag(price: mProduct.price!))
                 ],
               );
             },
@@ -381,7 +383,9 @@ class MultiProductRow extends StatelessWidget {
               ])
             ],
           ),
-          DiscountTag(price: multiProd.price!)
+          Container(
+              margin: const EdgeInsets.only(top: 5),
+              child: DiscountTag(price: multiProd.price!))
         ],
       ),
     );

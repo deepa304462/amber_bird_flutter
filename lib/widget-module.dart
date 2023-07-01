@@ -2,6 +2,7 @@ import 'package:amber_bird/loader-page.dart';
 import 'package:amber_bird/ui/pages/about-page.dart';
 import 'package:amber_bird/ui/pages/account-page.dart';
 import 'package:amber_bird/ui/pages/all-address-page.dart';
+import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/help-center-page.dart';
 import 'package:amber_bird/ui/pages/order-list.dart';
 import 'package:amber_bird/ui/pages/product-guide-page.dart';
@@ -65,6 +66,13 @@ class WidgetRouteModule extends Module {
           String orderId = args.data['id'];
           String navigateTo = args.data['navigateTo'] ?? '';
           return OrderDetailPage(orderId, navigateTo, search: false);
+        },
+      ),
+      ChildRoute(
+        '/categoryProduct/:id',
+        child: (_, args) {
+          String productId = args.params['id'];
+          return CategoryProductPage(productId);
         },
       ),
       ChildRoute(

@@ -46,9 +46,22 @@ class ScoinProductRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        "Redeem with S-COINS",
-                        style: TextStyles.headingFont,
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyles.body,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Redeem',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.primeColor),
+                            ),
+                            TextSpan(
+                              text: 'S-Coins',
+                              style: TextStyles.headingFont
+                                  .copyWith(color: AppColors.primeColor),
+                            ),
+                          ],
+                        ),
                       ),
                       ViewMoreWidget(onTap: () {
                         ControllerGenerator.create(MegaMenuController(),
