@@ -50,6 +50,7 @@ class PreCheckoutWidget extends StatelessWidget {
         leading: MaterialButton(
           onPressed: () {
             if (Modular.to.canPop()) {
+              Navigator.pop(context);
               Modular.to.pop();
             } else if (Navigator.canPop(context)) {
               Navigator.pop(context);

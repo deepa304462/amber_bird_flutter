@@ -10,6 +10,7 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
@@ -227,10 +228,10 @@ class CategoryPage extends StatelessWidget {
         return _dealGrid(megaMenuController, context);
       case 'MULTI':
         return _multiProductList(megaMenuController, context);
-      case 'SCOIN':
-        return _scoinProductList(megaMenuController, context);
-      case 'MSD':
-        return _ProductList(megaMenuController, context, 'MSD');
+      // case 'SCOIN':
+      //   return _scoinProductList(megaMenuController, context);
+      // case 'MSD':
+      //   return _ProductList(megaMenuController, context, 'MSD');
       case 'TAGS_PRODUCT':
         return _ProductList(megaMenuController, context, 'TAGS_PRODUCT');
       default:
@@ -346,6 +347,11 @@ class CategoryPage extends StatelessWidget {
       return _ProductList(megaMenuController, context, 'CENTS');
     else if (megaMenuController.selectedSubMenu.value == 'RESTOCKED')
       return _ProductList(megaMenuController, context, 'RESTOCKED');
+    else if (megaMenuController.selectedSubMenu.value ==
+        dealName.ONLY_COIN_DEAL.name)
+      return _scoinProductList(megaMenuController, context);
+    else if (megaMenuController.selectedSubMenu.value == 'MSD')
+      return _ProductList(megaMenuController, context, 'MSD');
     else
       return Expanded(
         child: megaMenuController.dealProductList.length > 0
@@ -421,7 +427,7 @@ class CategoryPage extends StatelessWidget {
               },
             );
             return SizedBox(
-              height: 330,
+              height: 340,
               child: Card(
                 child: Column(
                   children: [
@@ -454,7 +460,7 @@ class CategoryPage extends StatelessWidget {
                     ),
                     Container(
                       margin: const EdgeInsets.all(5.0),
-                      height: 140,
+                      height: 150,
                       child: ListView(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
@@ -508,167 +514,176 @@ class CategoryPage extends StatelessWidget {
                                       mProduct.price!.offerPrice.toString(),
                                       mProduct.price!.actualPrice.toString()),
                                   const Spacer(),
-                                  Obx(() => cartController.checkProductInCart(
-                                          mProduct.id, '')
-                                      ? Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          color: AppColors.primeColor,
-                                          child: Row(
-                                            children: [
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  stateController
-                                                      .showLoader.value = true;
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
+                                  Obx(
+                                    () => cartController.checkProductInCart(
+                                            mProduct.id, '')
+                                        ? Card(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            margin: const EdgeInsets.all(0),
+                                            color: AppColors.primeColor,
+                                            child: Row(
+                                              children: [
+                                                IconButton(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          4, 2, 4, 2),
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  onPressed: () async {
+                                                    stateController.showLoader
+                                                        .value = true;
+                                                    if (stateController
+                                                        .isLogin.value) {
+                                                      var valid = false;
+                                                      var msg =
+                                                          'Something went wrong!';
 
-                                                    if (Get.isRegistered<
-                                                            MultiProductController>(
-                                                        tag: megaMenuController
-                                                            .selectedParentTab
-                                                            .value)) {
-                                                      var multiprodController = Get.find<
+                                                      if (Get.isRegistered<
                                                               MultiProductController>(
                                                           tag: megaMenuController
                                                               .selectedParentTab
-                                                              .value);
-                                                      var data =
-                                                          await multiprodController
-                                                              .checkValidDeal(
-                                                                  mProduct.id!,
-                                                                  'negative',
-                                                                  mProduct.id!);
-                                                      valid = !data['error'];
-                                                      msg = data['msg'];
-                                                    }
-                                                    if (valid) {
-                                                      await cartController.addToCart(
-                                                          mProduct.id!,
-                                                          megaMenuController
-                                                              .selectedParentTab
-                                                              .value,
-                                                          (-(mProduct.constraint
-                                                                      ?.minimumOrder ??
-                                                                  1)) ??
-                                                              -1,
-                                                          mProduct.price,
-                                                          null,
-                                                          mProduct.products,
-                                                          null,
-                                                          mProduct.constraint,
-                                                          null);
-                                                    } else {
-                                                      // ignore: use_build_context_synchronously
-                                                      snackBarClass.showToast(
-                                                          context, msg);
-                                                    }
-                                                  } else {
-                                                    stateController
-                                                        .setCurrentTab(3);
-                                                    // ignore: use_build_context_synchronously
-                                                    snackBarClass.showToast(
-                                                        context,
-                                                        'Please Login to preoceed');
-                                                  }
-                                                  stateController
-                                                      .showLoader.value = false;
-                                                },
-                                                icon: const Icon(
-                                                  Icons.remove_circle_outline,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                              ),
-                                              Text(
-                                                cartController
-                                                    .getCurrentQuantity(
-                                                        mProduct.id, '')
-                                                    .toString(),
-                                                style: TextStyles.titleFont,
-                                              ),
-                                              IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(8),
-                                                constraints:
-                                                    const BoxConstraints(),
-                                                onPressed: () async {
-                                                  stateController
-                                                      .showLoader.value = true;
-                                                  if (stateController
-                                                      .isLogin.value) {
-                                                    var valid = false;
-                                                    var msg =
-                                                        'Something went wrong!';
-
-                                                    if (Get.isRegistered<
-                                                            MultiProductController>(
-                                                        tag: megaMenuController
-                                                            .selectedParentTab
-                                                            .value)) {
-                                                      var multiprodController = Get.find<
-                                                              MultiProductController>(
-                                                          tag: megaMenuController
-                                                              .selectedParentTab
-                                                              .value);
-
-                                                      var data =
-                                                          await multiprodController
-                                                              .checkValidDeal(
-                                                                  mProduct.id!,
-                                                                  'positive',
-                                                                  mProduct.id!);
-
-                                                      valid = !data['error'];
-                                                      msg = data['msg'];
-                                                    }
-                                                    if (valid) {
-                                                      await cartController
-                                                          .addToCart(
-                                                              mProduct.id!,
-                                                              megaMenuController
-                                                                  .selectedParentTab
-                                                                  .value,
-                                                              1,
-                                                              mProduct.price!,
-                                                              null,
-                                                              mProduct.products,
-                                                              null,
-                                                              mProduct
-                                                                  .constraint,
-                                                              null);
+                                                              .value)) {
+                                                        var multiprodController = Get.find<
+                                                                MultiProductController>(
+                                                            tag: megaMenuController
+                                                                .selectedParentTab
+                                                                .value);
+                                                        var data =
+                                                            await multiprodController
+                                                                .checkValidDeal(
+                                                                    mProduct
+                                                                        .id!,
+                                                                    'negative',
+                                                                    mProduct
+                                                                        .id!);
+                                                        valid = !data['error'];
+                                                        msg = data['msg'];
+                                                      }
+                                                      if (valid) {
+                                                        await cartController.addToCart(
+                                                            mProduct.id!,
+                                                            megaMenuController
+                                                                .selectedParentTab
+                                                                .value,
+                                                            (-(mProduct.constraint
+                                                                        ?.minimumOrder ??
+                                                                    1)) ??
+                                                                -1,
+                                                            mProduct.price,
+                                                            null,
+                                                            mProduct.products,
+                                                            null,
+                                                            mProduct.constraint,
+                                                            null);
+                                                      } else {
+                                                        // ignore: use_build_context_synchronously
+                                                        snackBarClass.showToast(
+                                                            context, msg);
+                                                      }
                                                     } else {
                                                       stateController
                                                           .setCurrentTab(3);
                                                       // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
-                                                          context, msg);
+                                                          context,
+                                                          'Please Login to preoceed');
                                                     }
-                                                  }
-                                                  stateController
-                                                      .showLoader.value = false;
-                                                },
-                                                icon: Icon(
-                                                  Icons.add_circle_outline,
-                                                  color: AppColors.white,
-                                                  size: 20,
+                                                    stateController.showLoader
+                                                        .value = false;
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.remove_circle_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : CircleAvatar(
-                                          backgroundColor: AppColors.primeColor,
-                                          radius: 20,
-                                          child: IconButton(
+                                                Text(
+                                                  cartController
+                                                      .getCurrentQuantity(
+                                                          mProduct.id, '')
+                                                      .toString(),
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white),
+                                                ),
+                                                IconButton(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          4, 2, 4, 2),
+                                                  constraints:
+                                                      const BoxConstraints(),
+                                                  onPressed: () async {
+                                                    stateController.showLoader
+                                                        .value = true;
+                                                    if (stateController
+                                                        .isLogin.value) {
+                                                      var valid = false;
+                                                      var msg =
+                                                          'Something went wrong!';
+
+                                                      if (Get.isRegistered<
+                                                              MultiProductController>(
+                                                          tag: megaMenuController
+                                                              .selectedParentTab
+                                                              .value)) {
+                                                        var multiprodController = Get.find<
+                                                                MultiProductController>(
+                                                            tag: megaMenuController
+                                                                .selectedParentTab
+                                                                .value);
+
+                                                        var data =
+                                                            await multiprodController
+                                                                .checkValidDeal(
+                                                                    mProduct
+                                                                        .id!,
+                                                                    'positive',
+                                                                    mProduct
+                                                                        .id!);
+
+                                                        valid = !data['error'];
+                                                        msg = data['msg'];
+                                                      }
+                                                      if (valid) {
+                                                        await cartController
+                                                            .addToCart(
+                                                                mProduct.id!,
+                                                                megaMenuController
+                                                                    .selectedParentTab
+                                                                    .value,
+                                                                1,
+                                                                mProduct.price!,
+                                                                null,
+                                                                mProduct
+                                                                    .products,
+                                                                null,
+                                                                mProduct
+                                                                    .constraint,
+                                                                null);
+                                                      } else {
+                                                        stateController
+                                                            .setCurrentTab(3);
+                                                        // ignore: use_build_context_synchronously
+                                                        snackBarClass.showToast(
+                                                            context, msg);
+                                                      }
+                                                    }
+                                                    stateController.showLoader
+                                                        .value = false;
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.add_circle_outline,
+                                                    color: AppColors.white,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : IconButton(
                                             constraints: const BoxConstraints(),
                                             color: Colors.white,
                                             onPressed:
@@ -713,13 +728,13 @@ class CategoryPage extends StatelessWidget {
                                                             context,
                                                             'Please Login to preoceed');
                                                       },
-                                            icon: const Icon(
-                                              Icons.add,
-                                              size: 25,
-                                              color: Colors.white,
+                                            icon: Icon(
+                                              Icons.add_circle_outline,
+                                              size: 26,
+                                              color: AppColors.primeColor,
                                             ),
                                           ),
-                                        )),
+                                  ),
                                   // CircleAvatar(
                                   //   backgroundColor: AppColors.primeColor,
                                   //   radius: 20,

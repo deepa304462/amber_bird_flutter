@@ -58,7 +58,7 @@ class LoginWidget extends StatelessWidget {
                     Text(
                       'Welcome',
                       style: TextStyles.headingFont
-                          .copyWith(color: AppColors.DarkGrey),
+                          .copyWith(color: AppColors.primeColor),
                     ),
                     Text(
                       'Glad to see You!',
@@ -105,7 +105,7 @@ class LoginWidget extends StatelessWidget {
                         },
                         child: Text(
                           'Forgot Password ?',
-                          style: TextStyles.headingFont
+                          style: TextStyles.body
                               .copyWith(color: AppColors.DarkGrey),
                         ),
                       ),

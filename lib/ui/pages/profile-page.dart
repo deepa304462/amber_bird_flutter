@@ -83,39 +83,66 @@ class ProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: ListTile(
-                          title: FitText(
-                            CodeHelp.titleCase(value.fullName ?? ''),
-                            style: TextStyles.titleFont
-                                .copyWith(color: Colors.black),
-                          ),
+                          title: Row(children: [
+                            FitText(
+                              CodeHelp.titleCase(value.fullName ?? ''),
+                              style: TextStyles.headingFont
+                                  .copyWith(color: Colors.black),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  Modular.to
+                                      .pushNamed('../widget/edit-profile');
+                                },
+                                icon: const Icon(
+                                  Icons.edit_rounded,
+                                  size: 18,
+                                ))
+                          ]),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.person,
-                                    size: 15,
-                                  ),
-                                  FitText(value.userName!,
-                                      style: TextStyles.bodyFontBold),
-                                ],
+                              const SizedBox(
+                                height: 5,
                               ),
-                              insight.userFriendlyCustomerId != null
-                                  ? Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.person,
-                                          size: 15,
-                                        ),
-                                        FitText(
-                                            '#${insight.userFriendlyCustomerId}',
-                                            style: TextStyles.bodyFontBold),
-                                      ],
-                                    )
-                                  : SizedBox(),
+                              // Row(
+                              //   children: [
+                              //     const Icon(
+                              //       Icons.person,
+                              //       size: 15,
+                              //     ),
+                              //     FitText(value.userName!,
+                              //         style: TextStyles.bodyFontBold),
+                              //   ],
+                              // ),
+                              // insight.userFriendlyCustomerId != null
+                              //     ? Row(
+                              //         children: [
+                              //           const Icon(
+                              //             Icons.person,
+                              //             size: 15,
+                              //           ),
+                              //           FitText(
+                              //               '#${insight.userFriendlyCustomerId}',
+                              //               style: TextStyles.bodyFontBold),
+                              //         ],
+                              //       )
+                              //     : SizedBox(),
                               Column(
                                 children: [
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.unfold_less_rounded,
+                                        size: 15,
+                                      ),
+                                      FitText(stateController.userType.value,
+                                          style: TextStyles.titleFont),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 1,
+                                  ),
                                   Row(
                                     children: [
                                       const Icon(
@@ -123,8 +150,11 @@ class ProfilePage extends StatelessWidget {
                                         size: 15,
                                       ),
                                       FitText(value.mobile!,
-                                          style: TextStyles.bodyFontBold),
+                                          style: TextStyles.titleFont),
                                     ],
+                                  ),
+                                  const SizedBox(
+                                    height: 1,
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -134,18 +164,18 @@ class ProfilePage extends StatelessWidget {
                                         size: 15,
                                       ),
                                       FitText(value.email!,
-                                          style: TextStyles.bodyFontBold),
+                                          style: TextStyles.titleFont),
                                     ],
                                   )
                                 ],
                               ),
                             ],
                           ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                Modular.to.pushNamed('../widget/edit-profile');
-                              },
-                              icon: const Icon(Icons.edit)),
+                          // trailing: IconButton(
+                          //     onPressed: () {
+                          //       Modular.to.pushNamed('../widget/edit-profile');
+                          //     },
+                          //     icon: const Icon(Icons.edit)),
                         ),
                       ),
                     ],

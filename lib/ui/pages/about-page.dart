@@ -37,6 +37,7 @@ class AboutPage extends StatelessWidget {
         leading: MaterialButton(
           onPressed: () {
             if (Modular.to.canPop()) {
+              Navigator.pop(context);
               Modular.to.pop();
             } else if (Navigator.canPop(context)) {
               Navigator.pop(context);
@@ -69,6 +70,33 @@ class AboutPage extends StatelessWidget {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width,
+                height: 200,
+                child: Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/home.png',
+                            width: MediaQuery.of(context).size.width * .5,
+                            fit: BoxFit.cover,
+                          ),
+                          Text(
+                            '${version.value}',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                          )
+                        ]),
+                  ),
+                ),
+              ),
+              Divider(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
                 child: Card(
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
@@ -78,12 +106,8 @@ class AboutPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Image.asset(
-                            'assets/home.png',
-                            width: MediaQuery.of(context).size.width * .4,
-                            fit: BoxFit.cover,
-                          ),
+                        const SizedBox(
+                          height: 5,
                         ),
                         ...compilanceController.compilanceList
                             .map((Compilance el) {
@@ -150,15 +174,42 @@ class AboutPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
+              Divider(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                child: Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Coyright 2023-2030 Sbazar',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                          ),
+                          Text(
+                            'All rights reseved',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                          )
+                        ]),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-          child: Obx(() => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text('Version: ${version.value}')]))),
+      // bottomNavigationBar: Container(
+      //     child: Obx(() => Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [Text('Version: ${version.value}')]))),
     );
   }
 }

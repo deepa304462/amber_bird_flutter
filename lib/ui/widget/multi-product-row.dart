@@ -32,7 +32,6 @@ class MultiProductRow extends StatelessWidget {
     final MultiProductController multiprodController = Get.put(
         MultiProductController(currenttypeName),
         tag: currenttypeName.toString());
-    // if (dealController.dealProd.isNotEmpty) {
 
     return Column(
       children: [
@@ -271,7 +270,7 @@ class MultiProductRow extends StatelessWidget {
   Widget multiProductListing(
       MultiProductController multiprodController, BuildContext context) {
     return SizedBox(
-      height: 210,
+      height: 230,
       child: Obx(() {
         if (multiprodController.multiProd.isNotEmpty) {
           multiprodController.multiProd.shuffle();
@@ -350,29 +349,28 @@ class MultiProductRow extends StatelessWidget {
                           style: TextStyles.body
                               .copyWith(color: AppColors.primeColor),
                         ),
-                        Text(
-                          '(${multiProd.products!.length} Products) ',
-                          style:
-                              TextStyles.body.copyWith(color: AppColors.grey),
-                        ),
                       ],
                     ),
                   ),
                 ),
               ]),
-              // Row(
-              //   mainAxisSize: MainAxisSize.max,
-              //   mainAxisAlignment: MainAxisAlignment.start,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(
-              //       '${multiProd.name!.defaultText!.text}',
-              //       style: TextStyles.titleFont
-              //           .copyWith(color: AppColors.primeColor),
-              //       textAlign: TextAlign.left,
-              //     ),
-              //   ],
-              // ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '(${multiProd.products!.length} Products) ',
+                    style: TextStyles.body.copyWith(color: AppColors.grey),
+                  ),
+                  // Text(
+                  //   '${multiProd.name!.defaultText!.text}',
+                  //   style: TextStyles.titleFont
+                  //       .copyWith(color: AppColors.primeColor),
+                  //   textAlign: TextAlign.left,
+                  // ),
+                ],
+              ),
               Row(children: [
                 PriceTag(multiProd.price!.offerPrice.toString(),
                     multiProd.price!.actualPrice.toString()),

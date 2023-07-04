@@ -103,7 +103,7 @@ class SpointsPage extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 40,
                               ),
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,

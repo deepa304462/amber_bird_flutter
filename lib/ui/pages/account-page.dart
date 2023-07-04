@@ -2,7 +2,6 @@ import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/pages/profile-page.dart';
-import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/section-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -81,32 +80,12 @@ class AccountPage extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: (stateController.loggedInProfile.value
-                                              .profileIcon !=
-                                          '' &&
-                                      stateController.loggedInProfile.value
-                                              .profileIcon !=
-                                          null)
-                                  ? ImageBox(
-                                      '${stateController.loggedInProfile.value.profileIcon}',
-                                      width: MediaQuery.of(context).size.width *
-                                          .2,
-                                      type: 'download',
-                                    )
-                                  : ImageBox(
-                                      '35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
-                                      width: MediaQuery.of(context).size.width *
-                                          .2,
-                                    ),
-                            ),
                             Expanded(
-                              child: ListTile(
-                                title: FitText(
-                                  'Full Name',
-                                  style: TextStyles.titleFont
-                                      .copyWith(color: Colors.black),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: ImageBox(
+                                  '35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
+                                  width: MediaQuery.of(context).size.width * .2,
                                 ),
                               ),
                             ),
@@ -133,7 +112,7 @@ class AccountPage extends StatelessWidget {
                                   AppColors.primeColor),
                             ),
                             child: Text(
-                              isLoading.value ? 'Loading' : 'Login',
+                              isLoading.value ? 'Loading' : 'Login / Sign up',
                               style: TextStyles.headingFont
                                   .copyWith(color: AppColors.white),
                             ),
@@ -146,7 +125,7 @@ class AccountPage extends StatelessWidget {
               ),
             ),
           ),
-          sectionCard('Help Center', '', Icons.question_mark_rounded,
+          sectionCard('Help Center', '', Icons.help_outline,
               () => {Modular.to.pushNamed('/widget/help-center')}),
           sectionCard(
             'About Sbazar',

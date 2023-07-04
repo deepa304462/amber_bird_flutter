@@ -35,8 +35,6 @@ import 'package:get/get.dart';
 import '../../helpers/controller-generator.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  // final PageController _pageController = PageController(initialPage: 0);
-  // final Controller myController = Get.put(Controller(), tag: 'mycontroller');
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
@@ -44,19 +42,106 @@ class ProductDetailScreen extends StatelessWidget {
   LocationController locationController = Get.find();
   final AppbarScrollController appbarScrollController = Get.find();
   final String? pId;
-  // final Price? dealPrice;
   final String? refId;
   final String? addedFrom;
   RxList<Address> addressList = <Address>[].obs;
   ProductDetailScreen(this.pId, this.refId, this.addedFrom, {Key? key});
 
-  Widget productPageView(
-      Product product, double width, double height, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0),
-      child: ImageSlider(
-          product.images!, MediaQuery.of(context).size.width * .8,
-          height: MediaQuery.of(context).size.height * .23),
+  Widget productPageView(ProductController productController, Product product,
+      double width, double height, BuildContext context) {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0),
+          child: ImageSlider(
+              product.images!, MediaQuery.of(context).size.width * .8,
+              height: MediaQuery.of(context).size.height * .23),
+        ),
+        Align(
+          // alignment: Alignment.topCenter,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Obx(
+                () => SizedBox(
+                  width: 15,
+                  child: IconButton(
+                    onPressed: () async {
+                      stateController.showLoader.value = true;
+                      if (stateController.isLogin.value) {
+                        ProductSummary prodSummary = ProductSummary.fromMap({
+                          "name": productController.product.value.name!.toMap(),
+                          "description": productController
+                              .product.value.description!
+                              .toMap(),
+                          "images": productController.product.value.images,
+                          "varient": productController.varient.value.toMap(),
+                          "varients": productController.product.value.varients
+                              ?.map((e) => e.toMap())
+                              .toList(),
+                          "category":
+                              productController.product.value.category!.toMap(),
+                          "countryCode":
+                              productController.product.value.countryCode,
+                          "id": productController.product.value.id
+                        });
+                        await wishlistController.addToWishlist(
+                            '${productController.product.value.id}@${productController.varient.value.varientCode}',
+                            // productController.product.value.id,
+                            prodSummary,
+                            null,
+                            addedFrom);
+                      } else {
+                        stateController.setCurrentTab(3);
+
+                        snackBarClass.showToast(
+                            context, 'Please login to proceed');
+                      }
+                      stateController.showLoader.value = false;
+                    },
+                    icon: Icon(
+                      Icons.favorite,
+                      size: 15,
+                      color: wishlistController.checkIfProductWishlist(
+                              '${productController.product.value.id}@${productController.varient.value.varientCode}')
+                          ? AppColors.primeColor
+                          : AppColors.grey,
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () async {
+                    // await productController
+                    CodeHelp.shareWithOther(
+                        'Buy this Product now, ${productController.shortLink.value}',
+                        'Share now');
+                  },
+                  icon: Icon(
+                    CupertinoIcons.share,
+                    size: 15,
+                    color: AppColors.primeColor,
+                  )),
+            ],
+          ),
+        ),
+        // Align(
+        //   alignment: Alignment.bottomRight,
+        //   child: IconButton(
+        //       onPressed: () async {
+        //         // await productController
+        //         CodeHelp.shareWithOther(
+        //             'Buy this Product now, ${productController.shortLink.value}',
+        //             'Share now');
+        //       },
+        //       icon: Icon(
+        //         CupertinoIcons.share,
+        //         size: 15,
+        //         color: AppColors.primeColor,
+        //       )),
+        // )
+      ],
     );
   }
 
@@ -169,16 +254,20 @@ class ProductDetailScreen extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(0)),
                                   padding: const EdgeInsets.all(0),
                                   child: productPageView(
+                                      productController,
                                       productController.product.value,
                                       width,
                                       height,
                                       context),
                                 )
-                              : Text(
-                                  productController
-                                      .product.value.name!.defaultText!.text!,
-                                  style: TextStyles.body.copyWith(
-                                      color: Colors.white, fontSize: 20),
+                              : Padding(
+                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                  child: Text(
+                                    productController
+                                        .product.value.name!.defaultText!.text!,
+                                    style: TextStyles.body.copyWith(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
                                 ),
                           background: Padding(
                             padding: const EdgeInsets.only(bottom: 5.0),
@@ -220,42 +309,37 @@ class ProductDetailScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.6,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              productController
+                                                      .product
+                                                      .value
+                                                      .name!
+                                                      .defaultText!
+                                                      .text ??
+                                                  '',
+                                              style: TextStyles.headingFont
+                                                  .copyWith(
+                                                      color:
+                                                          AppColors.primeColor,
+                                                      fontSize: 20),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            productVarientView(
+                                                productController.product.value
+                                                        .varients ??
+                                                    [],
                                                 productController
-                                                        .product
-                                                        .value
-                                                        .name!
-                                                        .defaultText!
-                                                        .text ??
-                                                    '',
-                                                style: TextStyles.headingFont
-                                                    .copyWith(
-                                                        color: AppColors
-                                                            .primeColor,
-                                                        fontSize: 20),
-                                              ),
-                                              const SizedBox(height: 4),
-                                              productVarientView(
-                                                  productController.product
-                                                          .value.varients ??
-                                                      [],
-                                                  productController
-                                                      .activeIndexVariant.value,
-                                                  productController),
-                                            ],
-                                          ),
+                                                    .activeIndexVariant.value,
+                                                productController),
+                                          ],
                                         ),
-                                        detailsHead(productController,
-                                            stateController, context),
+
+                                        // detailsHead(productController,
+                                        //     stateController, context),
                                       ],
                                     ),
                                   ),
@@ -578,7 +662,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Container(
       color: AppColors.lightGrey,
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 8),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             'Disclaimer',
@@ -612,29 +696,6 @@ class ProductDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Text(
-          //   'Product description on SBazar website and app are for informational purposes only',
-          //   style: TextStyles.body,
-          // ),
-          // TextButton(
-          //   onPressed: () async {
-          //     showModalBottomSheet(
-          //         context: context,
-          //         isScrollControlled: true,
-          //         enableDrag: false,
-          //         builder: (context) {
-          //           return SizedBox(
-          //               height: MediaQuery.of(context).size.height * .7,
-          //               child: DisclaimerWidgetDrawer(context));
-          //         });
-          //   },
-          //   style: ButtonStyle(
-          //       ),
-          //   child: Text(
-          //     'See our disclaimer',
-          //     style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
-          //   ),
-          // ),
         ]),
       ),
     );
@@ -722,7 +783,7 @@ class ProductDetailScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 180,
+            height: 185,
             child: Obx(
               () => Padding(
                 padding: const EdgeInsets.only(top: 2),
@@ -1523,13 +1584,6 @@ class ProductDetailScreen extends StatelessWidget {
                                                 .text ??
                                             '',
                                 length: 50),
-
-                        //     style: {
-                        //   "body": Style(
-                        //       fontSize: FontSize(FontSizes.body),
-                        //       fontWeight: FontWeight.w300,
-                        //       fontFamily: Fonts.body),
-                        // }),
                       ),
                     )
                   ],
@@ -1551,7 +1605,7 @@ class ProductDetailScreen extends StatelessWidget {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.all(0),
+              padding: const EdgeInsets.only(right: 16),
               child: ShowMoreWidget(
                   text: productController
                           .product.value.description!.defaultText!.text ??
@@ -1605,58 +1659,58 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  detailsHead(ProductController productController, Controller controller,
-      BuildContext context) {
-    return Obx(
-      () => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    controller.showLoader.value = true;
-                    if (stateController.isLogin.value) {
-                      await wishlistController.addToWishlist(
-                          productController.product.value.id,
-                          productController.product.value,
-                          null,
-                          addedFrom);
-                    } else {
-                      stateController.setCurrentTab(3);
+  // detailsHead(ProductController productController, Controller controller,
+  //     BuildContext context) {
+  //   return Obx(
+  //     () => Row(
+  //       mainAxisAlignment: MainAxisAlignment.end,
+  //       children: [
+  //         Row(
+  //           children: [
+  //             IconButton(
+  //                 onPressed: () async {
+  //                   controller.showLoader.value = true;
+  //                   if (stateController.isLogin.value) {
+  //                     await wishlistController.addToWishlist(
+  //                         productController.product.value.id,
+  //                         productController.product.value,
+  //                         null,
+  //                         addedFrom);
+  //                   } else {
+  //                     stateController.setCurrentTab(3);
 
-                      snackBarClass.showToast(
-                          context, 'Please login to proceed');
-                    }
-                    controller.showLoader.value = false;
-                  },
-                  icon: Icon(
-                    Icons.favorite,
-                    color: wishlistController.checkIfProductWishlist(
-                            productController.product.value.id)
-                        ? AppColors.primeColor
-                        : AppColors.grey,
-                  )),
-              const SizedBox(
-                width: 5,
-              ),
-              IconButton(
-                  onPressed: () async {
-                    // await productController
-                    CodeHelp.shareWithOther(
-                        'Buy this Product now, ${productController.shortLink.value}',
-                        'Share now');
-                  },
-                  icon: Icon(
-                    CupertinoIcons.share,
-                    color: AppColors.primeColor,
-                  ))
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  //                     snackBarClass.showToast(
+  //                         context, 'Please login to proceed');
+  //                   }
+  //                   controller.showLoader.value = false;
+  //                 },
+  //                 icon: Icon(
+  //                   Icons.favorite,
+  //                   color: wishlistController.checkIfProductWishlist(
+  //                           productController.product.value.id)
+  //                       ? AppColors.primeColor
+  //                       : AppColors.grey,
+  //                 )),
+  //             const SizedBox(
+  //               width: 5,
+  //             ),
+  //             IconButton(
+  //                 onPressed: () async {
+  //                   // await productController
+  //                   CodeHelp.shareWithOther(
+  //                       'Buy this Product now, ${productController.shortLink.value}',
+  //                       'Share now');
+  //                 },
+  //                 icon: Icon(
+  //                   CupertinoIcons.share,
+  //                   color: AppColors.primeColor,
+  //                 ))
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   brandTile(Brand? brand) {
     return Padding(

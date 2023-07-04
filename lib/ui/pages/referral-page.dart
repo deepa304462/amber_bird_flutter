@@ -17,6 +17,7 @@ class ReferralPage extends StatelessWidget {
         ReferralController(),
         tag: 'referralController');
     Controller stateController = Get.find();
+    controller.syncShortLink();
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
@@ -118,8 +119,8 @@ class ReferralPage extends StatelessWidget {
                             width: 1,
                           ),
                           borderRadius: BorderRadius.circular(5.0))),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          AppColors.primeColor),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(AppColors.green),
                     ),
                     child: Text(
                       'Invite Now',

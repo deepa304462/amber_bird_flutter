@@ -64,7 +64,7 @@ class _ImageSlider extends State<ImageSlider> {
                     return Builder(
                       builder: (BuildContext context) {
                         return ImageBox(
-                          imageObj,
+                          imageObj ?? '',
                           fit: widget.fit,
                           width: widget.width,
                         );

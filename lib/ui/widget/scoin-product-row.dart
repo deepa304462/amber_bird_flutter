@@ -7,6 +7,8 @@ import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
+import 'package:amber_bird/data/product_category/generic-tab.dart';
+import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/view-more-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -56,22 +58,33 @@ class ScoinProductRow extends StatelessWidget {
                                   .copyWith(color: AppColors.primeColor),
                             ),
                             TextSpan(
-                              text: 'S-Coins',
-                              style: TextStyles.headingFont
-                                  .copyWith(color: AppColors.primeColor),
+                              text: ' S-Coins',
+                              style: TextStyles.headingFont,
                             ),
                           ],
                         ),
                       ),
-                      ViewMoreWidget(onTap: () {
-                        ControllerGenerator.create(MegaMenuController(),
-                            tag: 'megaMenuController');
-                        // MegaMenuController megaMenuController;
-                        // if (Get.isRegistered<MegaMenuController>()) {
-                        //   megaMenuController = Get.find();
-                        // } else {
-                        //   megaMenuController = Get.put(MegaMenuController());
-                        // }
+                      ViewMoreWidget(onTap: () async {
+                        MegaMenuController megaMenuController =
+                            ControllerGenerator.create(MegaMenuController(),
+                                tag: 'megaMenuController');
+                        megaMenuController.selectedParentTab.value = 'DEAL';
+                        GenericTab parentTab = GenericTab(
+                            image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                            id: 'DEAL',
+                            type: 'DEAL',
+                            text: 'Deal');
+                        await megaMenuController.getSubMenu(parentTab,
+                            loadProd: false);
+                        megaMenuController.selectedSubMenu.value =
+                            dealName.ONLY_COIN_DEAL.name;
+                        megaMenuController.getAllProducts(
+                            GenericTab(
+                                image: '34038fcf-20e1-4840-a188-413b83d72e11',
+                                id: dealName.ONLY_COIN_DEAL.name,
+                                type: 'DEAL',
+                                text: 'Redeem'),
+                            parentTab);
                         stateController.setCurrentTab(1);
                       }),
                     ],

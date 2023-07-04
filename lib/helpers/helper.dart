@@ -122,7 +122,7 @@ class Helper {
       };
     } else if (dealType == multiProductName.COLLECTION.name) {
       return {
-        'name': 'Collection',
+        'name': 'Jumbos',
         'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
       };
     } else {

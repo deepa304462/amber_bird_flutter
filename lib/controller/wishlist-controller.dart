@@ -60,6 +60,7 @@ class WishlistController extends GetxController {
   }
 
   removeWishList(pid) async {
+    // resetWishlist();
     wishlistProducts.remove(pid);
     await saveWishlist();
   }
@@ -68,10 +69,8 @@ class WishlistController extends GetxController {
     wishlistProducts.clear();
     var insightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    // log(insightDetail.toString());
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     cust.wishList = null;
-    // log(cust.toString());
     await saveWishlist();
     OfflineDBService.save(
         OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
@@ -87,7 +86,6 @@ class WishlistController extends GetxController {
     }
     Ref custRef = await Helper.getCustomerRef();
     var payload, resp;
-
     if (wishlistId.value != '') {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
@@ -106,9 +104,7 @@ class WishlistController extends GetxController {
     }
     if (resp.statusCode == 200) {
       if (wishlistId.value == '') wishlistId.value = resp.data['_id'];
-
       cust.wishList = WishList.fromMap(resp.data);
-      // log(jsonEncode(cust).toString());
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     }

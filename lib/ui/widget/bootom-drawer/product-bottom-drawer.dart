@@ -185,18 +185,37 @@ class ProductBottomDrawer extends StatelessWidget {
                                             Icons.favorite,
                                             color: wishlistController
                                                     .checkIfProductWishlist(
-                                                        productController
-                                                            .product.value.id)
+                                                        '${productController.product.value.id}@${productController.varient.value.varientCode}')
                                                 ? AppColors.primeColor
                                                 : AppColors.grey,
                                           ),
-                                          onPressed: () => {
+                                          onPressed: () {
+                                            ProductSummary prodSummary =
+                                                ProductSummary.fromMap({
+                                              "name": productController
+                                                  .product.value.name!
+                                                  .toMap(),
+                                              "description": productController
+                                                  .product.value.description!
+                                                  .toMap(),
+                                              "images": productController
+                                                  .product.value.images,
+                                              "varient": productController
+                                                  .varient.value
+                                                  .toMap(),
+                                              "category": productController
+                                                  .product.value.category!
+                                                  .toMap(),
+                                              "countryCode": productController
+                                                  .product.value.countryCode,
+                                              "id": productController
+                                                  .product.value.id
+                                            });
                                             wishlistController.addToWishlist(
-                                                productController
-                                                    .product.value.id,
-                                                productController.product.value,
+                                                '${productController.product.value.id}@${productController.varient.value.varientCode}',
+                                                prodSummary,
                                                 null,
-                                                'PRODUCT')
+                                                'PRODUCT');
                                           },
                                         ),
                                       ),

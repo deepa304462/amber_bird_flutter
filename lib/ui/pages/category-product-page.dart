@@ -1,6 +1,5 @@
 import 'package:amber_bird/controller/category-product-page-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
-import 'package:amber_bird/data/product_category/product_category.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -30,6 +29,7 @@ class CategoryProductPage extends StatelessWidget {
                   onPressed: () {
                     try {
                       if (Modular.to.canPop()) {
+                        Navigator.pop(context);
                         Modular.to.pop();
                       } else if (Navigator.canPop(context)) {
                         Navigator.pop(context);

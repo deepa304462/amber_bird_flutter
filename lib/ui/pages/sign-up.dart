@@ -17,6 +17,7 @@ class SignUp extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
+  RxBool agreeTerms = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +73,7 @@ class SignUp extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  // SizedBox(
-                  //   height: 200,
-                  //   child: ImagePickerPage(
-                  //       controller.loggedInProfile.value.profileIcon ?? '',
-                  //       imageCallback,
-                  //       isLoadingCallback),
-                  // ),
+
                   const SizedBox(
                     height: 0,
                   ),
@@ -129,30 +124,66 @@ class SignUp extends StatelessWidget {
                       false,
                       callback),
                   const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: agreeTerms.value,
+                        onChanged: (val) => agreeTerms.value = val!,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyles.body,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'I have read and Agree',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.DarkGrey),
+                            ),
+                            TextSpan(
+                              text: ' Terms & Condiotions',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.primeColor),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  // Modular.to.navigate(
+                                  //     '/widget/compilance/TERMS_AND_CONDITIONS');
+                                  Modular.to.navigate(
+                                      '/widget/compilance/TERMS_AND_CONDITIONS');
+                                },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(
                     height: 30,
                   ),
+
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: TextButton(
                       onPressed: () async {
-                        isLoading.value = true;
-                        // await mController.checkValidityUsername();
-                        // if (mController.usernameValid.value) {
-
-                        var data = await mController.signUp();
-                        if (data['status'] == 'success') {
-                          controller.getLoginInfo();
-                          controller.setCurrentTab(0);
-                          cartController.fetchCart();
+                        if (agreeTerms.value) {
+                          isLoading.value = true;
+                          var data = await mController.signUp();
+                          if (data['status'] == 'success') {
+                            controller.getLoginInfo();
+                            controller.setCurrentTab(0);
+                            cartController.fetchCart();
+                          }
+                          isLoading.value = false;
+                          snackBarClass.showToast(context, data['msg']);
+                        } else {
+                          snackBarClass.showToast(
+                              context, 'Please agree terms & conditions');
                         }
-                        isLoading.value = false;
-                        // ignore: use_build_context_synchronously
-                        snackBarClass.showToast(context, data['msg']);
-                        // } else {
-                        //   // ignore: use_build_context_synchronously
-                        //   snackBarClass.showToast(
-                        //       context, 'Please fill corrct username');
-                        // }
                       },
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(

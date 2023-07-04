@@ -57,7 +57,6 @@ class MultiProductController extends GetxController {
               dp.products!.forEach(
                   (e) => stateController.dealsProductsIdList.add(e.id ?? ''));
             }
-            // stateController.dealsProductsIdList.add(dp.id ?? '');
             return dp;
           }).toList() ??
           []);
@@ -73,7 +72,7 @@ class MultiProductController extends GetxController {
     } else if (multiProductName.BUNDLE.name == name) {
       return "Bundles";
     } else if (multiProductName.COLLECTION.name == name) {
-      return "Collections";
+      return "Jumbos";
     } else {
       return "Flash Deal";
     }
@@ -87,7 +86,7 @@ class MultiProductController extends GetxController {
   checkValidDeal(String id, String type, String cartId) async {
     RuleConfig? ruleConfig;
     Constraint? constraint;
-    List outputList = multiProd.value.where((o) => o.id == id).toList();
+    List outputList = multiProd.where((o) => o.id == id).toList();
 
     Multi multiProduct = outputList[0];
     ruleConfig = RuleConfig();

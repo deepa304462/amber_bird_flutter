@@ -36,6 +36,7 @@ class AllAddressPage extends StatelessWidget {
                 onPressed: () {
                   // Navigator.pop(context);
                   if (Modular.to.canPop()) {
+                    Navigator.pop(context);
                     Modular.to.pop();
                   } else if (Navigator.canPop(context)) {
                     Navigator.pop(context);

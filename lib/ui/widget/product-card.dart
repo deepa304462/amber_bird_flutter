@@ -85,11 +85,15 @@ class ProductCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: LikeButton(
-                isLiked: wishlistController.checkIfProductWishlist(product.id),
+                isLiked: wishlistController.checkIfProductWishlist(
+                    '${product.id}@${product.varient!.varientCode}'),
                 onPressed: () async {
                   stateController.showLoader.value = true;
                   await wishlistController.addToWishlist(
-                      product.id, product, null, addedFrom);
+                      '${product.id}@${product.varient!.varientCode}',
+                      product,
+                      null,
+                      addedFrom);
                   stateController.showLoader.value = false;
                 },
               ),

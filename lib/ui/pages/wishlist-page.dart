@@ -71,39 +71,6 @@ class WishListPage extends StatelessWidget {
       body: Obx(
         () => Column(
           children: [
-            // AppBar(
-            //   centerTitle: true,
-            //   automaticallyImplyLeading: false,
-            //   toolbarHeight: 150,
-            //   leadingWidth: 100,
-            //   backgroundColor: AppColors.primeColor,
-            //   title: Column(
-            //     children: [
-            //       Lottie.asset('assets/wish-list.json',
-            //           width: 100, fit: BoxFit.cover),
-            //       Text(
-            //         'My Wishlist',
-            //         style: TextStyles.headingFont.copyWith(color: Colors.white),
-            //       ),
-            //     ],
-            //   ),
-            //   leading: MaterialButton(
-            //       onPressed: () {
-            //         Navigator.pop(context);
-            //       },
-            //       child: Row(
-            //         children: [
-            //           const Icon(
-            //             Icons.arrow_back,
-            //             color: Colors.white,
-            //           ),
-            //           Text(
-            //             'Back',
-            //             style: TextStyles.bodyFont.copyWith(color: Colors.white),
-            //           )
-            //         ],
-            //       )),
-            // ),
             wishlistController.wishlistProducts.isNotEmpty
                 ? Expanded(
                     child: MasonryGridView.count(
@@ -176,15 +143,15 @@ class WishListPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        PriceTag(
-                            curwishList.product!.varient!.price!.offerPrice
-                                .toString(),
-                            curwishList.product!.varient!.price!.actualPrice
-                                .toString()),
-                        Text(
-                          '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
-                          style: TextStyles.bodyFont,
-                        ),
+                        // PriceTag(
+                        //     curwishList.product!.varient!.price!.offerPrice
+                        //         .toString(),
+                        //     curwishList.product!.varient!.price!.actualPrice
+                        //         .toString()),
+                        // Text(
+                        //   '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
+                        //   style: TextStyles.bodyFont,
+                        // ),
                       ],
                     ),
                     MaterialButton(
@@ -232,17 +199,20 @@ class WishListPage extends StatelessWidget {
               ],
             ),
             Positioned(
-                right: 0,
-                child: IconButton(
-                  onPressed: () async {
-                    await wishlistController.addToWishlist(
-                        curwishList.product!.id, curwishList.product, null, '');
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: AppColors.grey,
-                  ),
-                ))
+              right: 0,
+              child: IconButton(
+                onPressed: () async {
+                  await wishlistController
+                      .removeWishList(curwishList.ref!.id ?? '');
+                  // await wishlistController.addToWishlist(
+                  //     curwishList.product!.id, curwishList.product, null, '');
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: AppColors.grey,
+                ),
+              ),
+            ),
           ],
         ),
       ),

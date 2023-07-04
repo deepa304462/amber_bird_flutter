@@ -96,25 +96,25 @@ class ProductCardScoin extends StatelessWidget {
                 ),
               )
             : const SizedBox(),
-        Obx(() {
-          return Visibility(
-            visible: checkFavVisibility(),
-            child: IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: wishlistController.checkIfProductWishlist(product.id)
-                    ? AppColors.primeColor
-                    : const Color(0xFFA6A3A0),
-              ),
-              onPressed: () async {
-                stateController.showLoader.value = true;
-                await wishlistController.addToWishlist(
-                    product.id, product, null, addedFrom);
-                stateController.showLoader.value = false;
-              },
-            ),
-          );
-        }),
+        // Obx(() {
+        //   return Visibility(
+        //     visible: checkFavVisibility(),
+        //     child: IconButton(
+        //       icon: Icon(
+        //         Icons.favorite,
+        //         color: wishlistController.checkIfProductWishlist(product.id)
+        //             ? AppColors.primeColor
+        //             : const Color(0xFFA6A3A0),
+        //       ),
+        //       onPressed: () async {
+        //         stateController.showLoader.value = true;
+        //         await wishlistController.addToWishlist(
+        //             product.id, product, null, addedFrom);
+        //         stateController.showLoader.value = false;
+        //       },
+        //     ),
+        //   );
+        // }),
       ],
     );
   }
@@ -209,8 +209,8 @@ class ProductCardScoin extends StatelessWidget {
                   return Visibility(
                     visible: checkBuyProductVisibility(),
                     child: Positioned(
-                      right: 0,
-                      top: 80,
+                      right: 5,
+                      top: 65,
                       child: AnimatedSwitcher(
                         duration: const Duration(milliseconds: 200),
                         child: AddToCartButtons(
