@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
+import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
@@ -16,6 +17,7 @@ import '../../helpers/controller-generator.dart';
 
 class ProfilePage extends StatelessWidget {
   final Controller stateController = Get.find();
+  final WishlistController wishlistController = Get.find();
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
@@ -25,28 +27,244 @@ class ProfilePage extends StatelessWidget {
       children: [
         profileCard(context, stateController.loggedInProfile.value,
             stateController.customerInsight.value),
-
-        sectionCard('Logout', '', Icons.logout, () {
-          stateController.logout();
-          cartController.fetchCart();
-        }),
-        sectionCard('Help Center', '', Icons.question_mark_rounded,
-            () => {Modular.to.pushNamed('/widget/help-center')}),
-        sectionCard(
-          'About Sbazar',
-          '',
-          Icons.info_outline_rounded,
-          () => {Modular.to.pushNamed('/widget/about-page')},
+        myOrders(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Card(
+            child: Column(
+              children: [
+                sectionCard(
+                    'Refer Friends, Get 9${CodeHelp.euro}',
+                    '',
+                    Icons.wallet_giftcard,
+                    () => {Modular.to.pushNamed('/widget/refer-page')},
+                    isDense: true),
+              ],
+            ),
+          ),
         ),
-        // PrivacyHelpTermsSection(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Card(
+              child: Column(
+            children: [
+              sectionCard('Help Center', '', Icons.help_outline_rounded,
+                  () => {Modular.to.pushNamed('/widget/help-center')},
+                  isDense: true),
+              sectionCard(
+                'About Sbazar',
+                '',
+                Icons.info_outline_rounded,
+                () => {Modular.to.pushNamed('/widget/about-page')},
+                isDense: true,
+              ),
+            ],
+          )),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Card(
+            child: Center(
+              child: InkWell(
+                onTap: () {
+                  stateController.logout();
+                  cartController.fetchCart();
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: 10),
+                  height: 300,
+                  child: Text(
+                    'Log Out',
+                    style: TextStyles.headingFont,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+
+  myOrders() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Card(
+        child: Column(children: [
+          InkWell(
+            onTap: () {
+              Modular.to.pushNamed('../widget/orders');
+            },
+            child: ListTile(
+              dense: true,
+              leading: Icon(Icons.list_alt),
+              title: Text(
+                'Orders',
+                style: TextStyles.headingFont,
+              ),
+              trailing: const Icon(Icons.chevron_right),
+            ),
+          ),
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                height: 70,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Modular.to.pushNamed('../widget/orders');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                            border: Border.all(color: AppColors.lightGrey)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.lock_clock,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text('Pending', style: TextStyles.body),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 80,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Modular.to.pushNamed('../widget/orders');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                            border: Border.all(color: AppColors.lightGrey)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.shopping_bag,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: FitText('Unshipped', style: TextStyles.body),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 80,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Modular.to.pushNamed('../widget/orders');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                            border: Border.all(color: AppColors.lightGrey)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.local_shipping,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: FitText('Sipped', style: TextStyles.body),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 80,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Modular.to.pushNamed('../widget/orders');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                            border: Border.all(color: AppColors.lightGrey)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.comment,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: FitText("To Review", style: TextStyles.body),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 80,
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Modular.to.pushNamed('../widget/orders');
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(50),
+                            ),
+                            border: Border.all(color: AppColors.lightGrey)),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(
+                            Icons.assignment_return,
+                            size: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: FitText('Returns', style: TextStyles.body),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          )
+        ]),
+      ),
     );
   }
 
   profileCard(
       BuildContext context, UserProfile value, CustomerInsight insight) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Card(
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -55,7 +273,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             Lottie.asset('assets/profile-cover-background.json',
                 width: MediaQuery.of(context).size.width,
-                height: 200,
+                height: 230,
                 fit: BoxFit.cover),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -105,38 +323,24 @@ class ProfilePage extends StatelessWidget {
                               const SizedBox(
                                 height: 5,
                               ),
-                              // Row(
-                              //   children: [
-                              //     const Icon(
-                              //       Icons.person,
-                              //       size: 15,
-                              //     ),
-                              //     FitText(value.userName!,
-                              //         style: TextStyles.bodyFontBold),
-                              //   ],
-                              // ),
-                              // insight.userFriendlyCustomerId != null
-                              //     ? Row(
-                              //         children: [
-                              //           const Icon(
-                              //             Icons.person,
-                              //             size: 15,
-                              //           ),
-                              //           FitText(
-                              //               '#${insight.userFriendlyCustomerId}',
-                              //               style: TextStyles.bodyFontBold),
-                              //         ],
-                              //       )
-                              //     : SizedBox(),
                               Column(
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(
-                                        Icons.unfold_less_rounded,
-                                        size: 15,
+                                      ImageBox(
+                                        stateController.membershipList[
+                                                    stateController
+                                                        .userType.value] !=
+                                                null
+                                            ? stateController
+                                                .membershipList[stateController
+                                                    .userType.value]!
+                                                .iconId!
+                                            : '',
+                                        width: 15,
                                       ),
-                                      FitText(stateController.userType.value,
+                                      FitText(
+                                          stateController.getMemberShipText(),
                                           style: TextStyles.titleFont),
                                     ],
                                   ),
@@ -182,59 +386,186 @@ class ProfilePage extends StatelessWidget {
                   ),
                   const Divider(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      MaterialButton(
-                        onPressed: (() {
-                          Modular.to.pushNamed('../widget/orders');
-                        }),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.grade,
-                              color: Colors.blue,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: InkWell(
+                              onTap: () {
+                                Modular.to.pushNamed('/widget/wallet');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    stateController.customerDetail.value
+                                                .personalInfo !=
+                                            null
+                                        ? stateController.customerDetail.value
+                                            .personalInfo!.spoints
+                                            .toString()
+                                        : '0',
+                                    style: TextStyles.headingFont,
+                                  ),
+                                  Center(
+                                    child: Text('S-Points',
+                                        style: TextStyles.body),
+                                  )
+                                ],
+                              ),
                             ),
-                            Text(
-                              'Orders',
-                              style: TextStyles.headingFont,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                      MaterialButton(
-                        onPressed: (() {
-                          Modular.to.pushNamed('../widget/wishlist');
-                        }),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: InkWell(
+                              onTap: () {
+                                Modular.to.pushNamed('/widget/wallet');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    stateController.customerDetail.value
+                                                .personalInfo !=
+                                            null
+                                        ? stateController.customerDetail.value
+                                            .personalInfo!.scoins
+                                            .toString()
+                                        : '0',
+                                    style: TextStyles.headingFont,
+                                  ),
+                                  Center(
+                                    child: FitText('S-Coins',
+                                        style: TextStyles.body),
+                                  )
+                                ],
+                              ),
                             ),
-                            Text(
-                              'Wishlist',
-                              style: TextStyles.headingFont,
-                            ),
-                          ],
+                          ),
                         ),
                       ),
-                      MaterialButton(
-                        onPressed: (() {}),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.local_activity,
-                              color: Colors.amberAccent,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: InkWell(
+                              onTap: () {
+                                Modular.to.pushNamed('/widget/wishlist');
+                              },
+                              child: Column(children: [
+                                Text(
+                                  wishlistController.wishlistProducts.length > 0
+                                      ? wishlistController
+                                          .wishlistProducts.length
+                                          .toString()
+                                      : '0',
+                                  style: TextStyles.headingFont,
+                                ),
+                                Center(
+                                  child: FitText('Wishlist',
+                                      style: TextStyles.body),
+                                ),
+                              ]),
                             ),
-                            Text(
-                              'Events',
-                              style: TextStyles.headingFont,
-                            ),
-                          ],
+                          ),
                         ),
-                      )
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                          height: 50,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: InkWell(
+                              onTap: () {
+                                Modular.to.pushNamed('/widget/cart');
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    (cartController.cartProducts.length +
+                                            cartController
+                                                .cartProductsScoins.length +
+                                            cartController.msdProducts.length)
+                                        .toString(),
+                                    style: TextStyles.headingFont,
+                                  ),
+                                  Center(
+                                    child:
+                                        FitText("Cart", style: TextStyles.body),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     MaterialButton(
+                  //       onPressed: (() {
+                  //         Modular.to.pushNamed('../widget/orders');
+                  //       }),
+                  //       child: Row(
+                  //         children: [
+                  //           const Icon(
+                  //             Icons.grade,
+                  //             color: Colors.blue,
+                  //           ),
+                  //           Text(
+                  //             'Orders',
+                  //             style: TextStyles.headingFont,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     MaterialButton(
+                  //       onPressed: (() {
+                  //         Modular.to.pushNamed('../widget/wishlist');
+                  //       }),
+                  //       child: Row(
+                  //         children: [
+                  //           const Icon(
+                  //             Icons.favorite,
+                  //             color: Colors.red,
+                  //           ),
+                  //           Text(
+                  //             'Wishlist',
+                  //             style: TextStyles.headingFont,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     MaterialButton(
+                  //       onPressed: (() {}),
+                  //       child: Row(
+                  //         children: [
+                  //           const Icon(
+                  //             Icons.local_activity,
+                  //             color: Colors.amberAccent,
+                  //           ),
+                  //           Text(
+                  //             'Events',
+                  //             style: TextStyles.headingFont,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
                 ],
               ),
             )

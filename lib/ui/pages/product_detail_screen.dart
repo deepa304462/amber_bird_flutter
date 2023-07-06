@@ -47,149 +47,6 @@ class ProductDetailScreen extends StatelessWidget {
   RxList<Address> addressList = <Address>[].obs;
   ProductDetailScreen(this.pId, this.refId, this.addedFrom, {Key? key});
 
-  Widget productPageView(ProductController productController, Product product,
-      double width, double height, BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: ImageSlider(
-              product.images!, MediaQuery.of(context).size.width * .8,
-              height: MediaQuery.of(context).size.height * .23),
-        ),
-        Align(
-          // alignment: Alignment.topCenter,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Obx(
-                () => SizedBox(
-                  width: 15,
-                  child: IconButton(
-                    onPressed: () async {
-                      stateController.showLoader.value = true;
-                      if (stateController.isLogin.value) {
-                        ProductSummary prodSummary = ProductSummary.fromMap({
-                          "name": productController.product.value.name!.toMap(),
-                          "description": productController
-                              .product.value.description!
-                              .toMap(),
-                          "images": productController.product.value.images,
-                          "varient": productController.varient.value.toMap(),
-                          "varients": productController.product.value.varients
-                              ?.map((e) => e.toMap())
-                              .toList(),
-                          "category":
-                              productController.product.value.category!.toMap(),
-                          "countryCode":
-                              productController.product.value.countryCode,
-                          "id": productController.product.value.id
-                        });
-                        await wishlistController.addToWishlist(
-                            '${productController.product.value.id}@${productController.varient.value.varientCode}',
-                            // productController.product.value.id,
-                            prodSummary,
-                            null,
-                            addedFrom);
-                      } else {
-                        stateController.setCurrentTab(3);
-
-                        snackBarClass.showToast(
-                            context, 'Please login to proceed');
-                      }
-                      stateController.showLoader.value = false;
-                    },
-                    icon: Icon(
-                      Icons.favorite,
-                      size: 15,
-                      color: wishlistController.checkIfProductWishlist(
-                              '${productController.product.value.id}@${productController.varient.value.varientCode}')
-                          ? AppColors.primeColor
-                          : AppColors.grey,
-                    ),
-                  ),
-                ),
-              ),
-              IconButton(
-                  onPressed: () async {
-                    // await productController
-                    CodeHelp.shareWithOther(
-                        'Buy this Product now, ${productController.shortLink.value}',
-                        'Share now');
-                  },
-                  icon: Icon(
-                    CupertinoIcons.share,
-                    size: 15,
-                    color: AppColors.primeColor,
-                  )),
-            ],
-          ),
-        ),
-        // Align(
-        //   alignment: Alignment.bottomRight,
-        //   child: IconButton(
-        //       onPressed: () async {
-        //         // await productController
-        //         CodeHelp.shareWithOther(
-        //             'Buy this Product now, ${productController.shortLink.value}',
-        //             'Share now');
-        //       },
-        //       icon: Icon(
-        //         CupertinoIcons.share,
-        //         size: 15,
-        //         color: AppColors.primeColor,
-        //       )),
-        // )
-      ],
-    );
-  }
-
-  Widget productVarientView(List<Varient> varientList, activeVariant,
-      ProductController productController) {
-    return SizedBox(
-      height: 30,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: varientList.length,
-        shrinkWrap: true,
-        itemBuilder: (_, index) {
-          var currentVarient = varientList[index];
-          return InkWell(
-            onTap: () {
-              productController.setVarient(currentVarient);
-            },
-            child: SizedBox(
-              height: 20,
-              child: Card(
-                color: currentVarient.varientCode ==
-                        productController.varient.value.varientCode
-                    ? AppColors.primeColor
-                    : Colors.white,
-                margin: const EdgeInsets.all(3),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: currentVarient.varientCode !=
-                                  productController.varient.value.varientCode
-                              ? AppColors.primeColor
-                              : Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -221,27 +78,108 @@ class ProductDetailScreen extends StatelessWidget {
                         expandedHeight:
                             MediaQuery.of(context).size.height * .35,
                         stretch: false,
-                        leading: IconButton(
-                          onPressed: () {
-                            appbarScrollController.shrinkappbar.value = false;
-                            try {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else if (Modular.to.canPop()) {
-                                Navigator.pop(context);
-                                Modular.to.pop();
-                              } else {
-                                Modular.to.navigate('/home/main');
-                              }
-                            } catch (err) {
-                              Modular.to.navigate('/home/main');
-                            }
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            size: 15,
-                            color: !scrolled ? Colors.black : AppColors.white,
+                        actions: [
+                          Obx(
+                            () => IconButton(
+                              onPressed: () async {
+                                stateController.showLoader.value = true;
+                                if (stateController.isLogin.value) {
+                                  ProductSummary prodSummary =
+                                      ProductSummary.fromMap({
+                                    "name": productController
+                                        .product.value.name!
+                                        .toMap(),
+                                    "description": productController
+                                        .product.value.description!
+                                        .toMap(),
+                                    "images":
+                                        productController.product.value.images,
+                                    "varient":
+                                        productController.varient.value.toMap(),
+                                    "varients": productController
+                                        .product.value.varients
+                                        ?.map((e) => e.toMap())
+                                        .toList(),
+                                    "category": productController
+                                        .product.value.category!
+                                        .toMap(),
+                                    "countryCode": productController
+                                        .product.value.countryCode,
+                                    "id": productController.product.value.id
+                                  });
+                                  await wishlistController.addToWishlist(
+                                      '${productController.product.value.id}@${productController.varient.value.varientCode}',
+                                      // productController.product.value.id,
+                                      prodSummary,
+                                      null,
+                                      addedFrom);
+                                } else {
+                                  stateController.setCurrentTab(3);
+                                  snackBarClass.showToast(
+                                      context, 'Please login to proceed');
+                                }
+                                stateController.showLoader.value = false;
+                              },
+                              icon: Icon(
+                                Icons.favorite,
+                                size: 20,
+                                color: wishlistController.checkIfProductWishlist(
+                                        '${productController.product.value.id}@${productController.varient.value.varientCode}')
+                                    ? (!scrolled
+                                        ? AppColors.primeColor
+                                        : AppColors.coralPink)
+                                    : AppColors.grey,
+                              ),
+                            ),
                           ),
+                          IconButton(
+                            onPressed: () async {
+                              // await productController
+                              CodeHelp.shareWithOther(
+                                  'Buy this Product now, ${productController.shortLink.value}',
+                                  'Share now');
+                            },
+                            icon: Icon(
+                              CupertinoIcons.share,
+                              size: 20,
+                              color: !scrolled
+                                  ? AppColors.primeColor
+                                  : AppColors.grey,
+                            ),
+                          ),
+                        ],
+                        leading: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                appbarScrollController.shrinkappbar.value =
+                                    false;
+                                try {
+                                  if (Navigator.canPop(context)) {
+                                    // Navigator.popUntil(context, (val) {
+                                    //   print(val);
+                                    //   return false;
+                                    // });
+                                    Navigator.pop(context);
+                                  } else if (Modular.to.canPop()) {
+                                    Navigator.pop(context);
+                                    Modular.to.pop();
+                                  } else {
+                                    Modular.to.navigate('/home/main');
+                                  }
+                                } catch (err) {
+                                  Modular.to.navigate('/home/main');
+                                }
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                size: 15,
+                                color:
+                                    !scrolled ? Colors.black : AppColors.white,
+                              ),
+                            ),
+                          ],
                         ),
                         flexibleSpace: FlexibleSpaceBar(
                           centerTitle: true,
@@ -337,9 +275,6 @@ class ProductDetailScreen extends StatelessWidget {
                                                 productController),
                                           ],
                                         ),
-
-                                        // detailsHead(productController,
-                                        //     stateController, context),
                                       ],
                                     ),
                                   ),
@@ -655,6 +590,61 @@ class ProductDetailScreen extends StatelessWidget {
           : const Center(
               child: Text("Loading"),
             ),
+    );
+  }
+
+  Widget productPageView(ProductController productController, Product product,
+      double width, double height, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 0),
+      child: ImageSlider(
+          product.images!, MediaQuery.of(context).size.width * .8,
+          height: MediaQuery.of(context).size.height * .23),
+    );
+  }
+
+  Widget productVarientView(List<Varient> varientList, activeVariant,
+      ProductController productController) {
+    return SizedBox(
+      height: 30,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: varientList.length,
+        shrinkWrap: true,
+        itemBuilder: (_, index) {
+          var currentVarient = varientList[index];
+          return InkWell(
+            onTap: () {
+              productController.setVarient(currentVarient);
+            },
+            child: SizedBox(
+              height: 20,
+              child: Card(
+                color: currentVarient.varientCode ==
+                        productController.varient.value.varientCode
+                    ? AppColors.primeColor
+                    : Colors.white,
+                margin: const EdgeInsets.all(3),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: currentVarient.varientCode !=
+                                  productController.varient.value.varientCode
+                              ? AppColors.primeColor
+                              : Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

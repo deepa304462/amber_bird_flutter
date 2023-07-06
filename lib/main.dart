@@ -82,19 +82,6 @@ void main() async {
 
   Get.put(AppbarScrollController());
   runApp(
-    ModularApp(module: AppModule(), child: AppWidget()
-        // Stack(
-        //     textDirection: TextDirection.ltr,
-        //     alignment: Alignment.topCenter,
-        //     children: [
-        // IgnorePointer(
-        //     ignoring: controller.showLoader.value, child: AppWidget()),
-        //       Obx(
-        //         () => controller.showLoader.value
-        //             ? MaterialApp(home: Scaffold(body: LoadingWithLogo()))
-        //             : SizedBox(),
-        //       ),
-        //     ]),
-        ),
+    ModularApp(module: AppModule(), child: AppWidget()),
   );
 }

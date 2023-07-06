@@ -6,31 +6,26 @@ import 'package:amber_bird/ui/widget/web-page-viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 
-Widget sectionCard(
-  String title,
-  String subtitleVal,
-  icon,
-  Function() onTap,
-) {
+Widget sectionCard(String title, String subtitleVal, icon, Function() onTap,
+    {bool isDense = false}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: InkWell(
       onTap: onTap,
-      child: Card(
-        child: ListTile(
-          leading: icon != null ? Icon(icon) : const SizedBox(),
-          title: Text(
-            title,
-            style: TextStyles.headingFont,
-          ),
-          subtitle: subtitleVal != ''
-              ? Text(
-                  subtitleVal,
-                  style: TextStyles.bodyFont,
-                )
-              : null,
-          trailing: const Icon(Icons.chevron_right),
+      child: ListTile(
+        dense: isDense,
+        leading: icon != null ? Icon(icon) : const SizedBox(),
+        title: Text(
+          title,
+          style: TextStyles.headingFont,
         ),
+        subtitle: subtitleVal != ''
+            ? Text(
+                subtitleVal,
+                style: TextStyles.bodyFont,
+              )
+            : null,
+        trailing: const Icon(Icons.chevron_right),
       ),
     ),
   );

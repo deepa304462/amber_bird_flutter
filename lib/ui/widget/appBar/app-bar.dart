@@ -132,13 +132,7 @@ class AppBarShrinkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Image.asset(
-        //   'assets/insidelogo.png',
-        //   width: 30,
-        //   fit: BoxFit.cover,
-        // ),
         const SizedBox(
           width: 10,
         ),
@@ -157,7 +151,7 @@ class AppBarShrinkWidget extends StatelessWidget {
               titleTextStyle: TextStyles.titleFont,
               descTextStyle: TextStyles.body,
               child: IconButton(
-                  onPressed: () => Modular.to.pushNamed('/widget/refer-page'),
+                  onPressed: () => Modular.to.navigate('/widget/refer-page'),
                   icon: Icon(Icons.share, color: AppColors.DarkGrey)),
             ),
             Showcase(
@@ -172,9 +166,10 @@ class AppBarShrinkWidget extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       if (stateController.isLogin.value) {
-                        Modular.to.pushNamed('/widget/wallet');
+                        // Modular.to.pushNamed('/widget/wallet');
+                        Modular.to.navigate('/widget/wallet');
                       } else {
-                        Modular.to.navigate('/login');
+                        Modular.to.navigate('/widget/account');
                       }
                     },
                     icon:
@@ -183,9 +178,10 @@ class AppBarShrinkWidget extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       if (stateController.isLogin.value) {
-                        Modular.to.pushNamed('/widget/wallet');
+                        // Modular.to.pushNamed('/widget/wallet');
+                        Modular.to.navigate('/widget/wallet');
                       } else {
-                        Modular.to.navigate('/login');
+                        Modular.to.navigate('/widget/account');
                       }
                     },
                     child: Card(

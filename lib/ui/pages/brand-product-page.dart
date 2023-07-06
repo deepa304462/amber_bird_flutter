@@ -37,20 +37,36 @@ class BrandProductPage extends StatelessWidget {
                 leading: IconButton(
                   onPressed: () {
                     try {
-                      if (Modular.to.canPop()) {
+                      if (Navigator.canPop(context)) {
+                        // Navigator.popUntil(context, (val) {
+                        //   print(val);
+                        //   return false;
+                        // });
+                        Navigator.pop(context);
+                      } else if (Modular.to.canPop()) {
                         Navigator.pop(context);
                         Modular.to.pop();
-                      } else if (Navigator.canPop(context)) {
-                        // appbarScrollController.navigateToPop(context);
-                        int count = 0;
-                        Navigator.of(context).popUntil((_) => count++ >= 2);
                       } else {
-                        appbarScrollController.navigateTo('../../home/main');
-                        // Modular.to.pushNamed('/home/main');
+                        Modular.to.navigate('/home/main');
                       }
                     } catch (err) {
                       Modular.to.navigate('/home/main');
                     }
+                    // try {
+                    //   if (Modular.to.canPop()) {
+                    //     Navigator.pop(context);
+                    //     Modular.to.pop();
+                    //   } else if (Navigator.canPop(context)) {
+                    //     // appbarScrollController.navigateToPop(context);
+                    //     int count = 0;
+                    //     Navigator.of(context).popUntil((_) => count++ >= 2);
+                    //   } else {
+                    //     appbarScrollController.navigateTo('../../home/main');
+                    //     // Modular.to.pushNamed('/home/main');
+                    //   }
+                    // } catch (err) {
+                    //   Modular.to.navigate('/home/main');
+                    // }
                   },
                   icon: const Icon(
                     Icons.arrow_back_ios,

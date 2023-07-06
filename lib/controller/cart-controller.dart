@@ -169,7 +169,6 @@ class CartController extends GetxController {
           // dev.log(jsonEncode(resp1.data).toString());
           if (resp1.statusCode == 200) {
             if (orderId.value == '') orderId.value = resp1.data['_id'];
-            // var ord = Order.fromMap(resp1.data);
             cust.cart = Order.fromMap(resp1.data);
             calculatedPayment.value = cust.cart!.payment!;
             OfflineDBService.save(OfflineDBService.customerInsightDetail,
@@ -246,7 +245,6 @@ class CartController extends GetxController {
   }
 
   createPayment() async {
-    // double total = 0.0;
     List<dynamic> listSumm = [];
     List<dynamic> listScoins = [];
     List<dynamic> listMsd = [];
@@ -286,47 +284,7 @@ class CartController extends GetxController {
         checkoutData.value = data;
         if (data.allAvailable == true) {
           var resp1;
-          // if (cust.cart != null && cust.cart!.id != '') {
-          //   payload = {
-          //     'status': 'INIT',
-          //     'customerRef': (jsonDecode(custRef.toJson())),
-          //     'products': listSumm,
-          //     'productsViaSCoins': listScoins,
-          //     'msdApplicableProducts': listMsd,
-          //     "payment": {
-          //       "paidBy": (jsonDecode(custRef.toJson())),
-          //       "order": orderId.value != ''
-          //           ? {"name": custRef.id, "_id": orderId.value}
-          //           : null,
-          //       "currency": "EUR", //{"currencyCode": "USD"},
-          //       "paidTo": {"name": "sbazar", "_id": "sbazar"},
-          //       "status": "OPEN",
-          //       "description": "order created",
-          //       "paymentGateWayDetail": {
-          //         "usedPaymentGateWay": selectedPaymentMethod.value,
-          //       },
-          //       "appliedCouponCode": selectedCoupon.value.couponCode != null
-          //           ? {
-          //               "name": selectedCoupon.value.couponCode,
-          //               "_id": selectedCoupon.value.id
-          //             }
-          //           : null,
-          //     },
-          //     '_id': cust.cart!.id,
-          //     'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
-          //     'shipping': {
-          //       'orderRef': orderId.value != ''
-          //           ? {"name": custRef.id, "_id": cust.cart!.id}
-          //           : null,
-          //       'destination': {
-          //         'customerAddress': (jsonDecode(selectedAdd.toJson())),
-          //       }
-          //     },
-          //     'referredById': referredbyId != null ? referredbyId : null,
-          //   };
-          //   resp1 = await ClientService.Put(
-          //       path: 'order', id: cust.cart!.id!, payload: payload);
-          // } else {
+
           payload = {
             'status': 'INIT',
             'customerRef': (jsonDecode(custRef.toJson())),
@@ -541,7 +499,6 @@ class CartController extends GetxController {
       Varient? varient,
       {String? mutliProductName,
       String? imageId}) async {
-    // bool createOrderRequired = true;
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -693,43 +650,13 @@ class CartController extends GetxController {
       var getData = cartProductsScoins[refId];
       int quantity = 0 + addQuantity!;
       List li = [];
-      // var userType = null;
-      // var priceObj = {
-      //   'actualPrice': 0.0,
-      //   'offerPrice':  0.0,
-      //   'noMemberCoin':  0.0,
-      //   'platinumMemberCoin':  0.0,
-      //   'goldMemberCoin':  0.0,
-      //   'silverMemberCoin':  0.0,
-      //   'paidMemberCoin':  0.0,
-      // };
-      // if (Get.isRegistered<Controller>()) {
-      //   var stateController = Get.find<Controller>();
-      //   userType = stateController.userType.value;
-      // }
+
       if (getData != null) {
         quantity = getData.count!;
         quantity = quantity + addQuantity;
       }
 
-      // if (userType != null) {
-      //   if (userType == memberShipType.Gold.name) {
-      //     priceObj['goldMemberCoin'] = priceInfo!.goldMemberCoin!;
-      //   } else if (userType == memberShipType.Platinum.name) {
-      //     priceObj['platinumMemberCoin'] = priceInfo!.platinumMemberCoin!;
-      //   } else if (userType == memberShipType.Silver.name) {
-      //     priceObj['silverMemberCoin'] = priceInfo!.silverMemberCoin!;
-      //   } else if (userType == memberShipType.Paid.name) {
-      //     priceObj['paidMemberCoin'] = priceInfo!.paidMemberCoin!;
-      //   } else {
-      //     priceObj['noMemberCoin'] = priceInfo!.noMemberCoin!;
-      //   }
-      // } else {
-      //   priceObj['noMemberCoin'] = priceInfo!.noMemberCoin!;
-      // }
-
       product!.varient = varient;
-      // }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
           'products': li.isNotEmpty
@@ -1025,7 +952,6 @@ class CartController extends GetxController {
       }
     }
     if (coupon.condition!.firstTimePurchase != null && valid) {
-      // Ref custRef = await Helper.getCustomerRef();
       var customerInsightDetail =
           await OfflineDBService.get(OfflineDBService.customerInsightDetail);
       if (coupon.condition!.firstTimePurchase == true &&

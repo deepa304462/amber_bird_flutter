@@ -81,21 +81,6 @@ class LocationController extends GetxController {
     }
   }
 
-  // getLocation() async {
-  //   // var locationExists =
-  //   //     await OfflineDBService.checkBox(OfflineDBService.location);
-  //   // if (locationExists) {
-  //   //   var data = await OfflineDBService.get(OfflineDBService.location);
-  //   //   address.value = data;
-  //   setAddressData(address);
-  //   pinCode.value = addressData.value.zipCode!;
-  //   if (pinCode.value.isNotEmpty) {
-  //     addressAvaiable.value = true;
-  //   }
-  //   // }
-  //   // return locationExists;
-  // }
-
   void updatePosition(CameraPosition _position) {
     currentPin.value = Marker(
         markerId: const MarkerId('pin'),
@@ -126,69 +111,6 @@ class LocationController extends GetxController {
     }
     return '';
   }
-
-  // String findValueFromAddressFromGoogleData(
-  //     Map<String, dynamic> googleData, String key) {
-  //   if (googleData['address_components'] != null) {
-  //     for (dynamic element in (googleData['address_components'] as List)) {
-  //       bool keyMatched = false;
-
-  //       for (String value in (element['types'] as List)) {
-  //         keyMatched = value == key;
-  //         if (keyMatched) {
-  //           break;
-  //         }
-  //       }
-  //       if (keyMatched) {
-  //         return element['long_name'];
-  //       }
-  //     }
-  //   }
-  //   return '';
-  // }
-
-  // getAddressFromLatLng(double lat, double lng) async {
-  //   String host = 'https://maps.google.com/maps/api/geocode/json';
-  //   final url = '$host?key=$mapKey&language=de&latlng=$lat,$lng';
-  //   if (lat != null && lng != null) {
-  //     var response = await dio.get(url);
-
-  //     if (response.statusCode == 200) {
-  //       address.value = response.data["results"][0];
-  //       var zipcode = findValueFromAddress('postal_code');
-  //       if (pinCode.value != zipcode) {
-  //         error.value = true;
-  //         address.value = Map();
-  //       } else {
-  //         error.value = false;
-  //         if (address['geometry'] != null) {
-  //           currentLatLang.value = LatLng(
-  //               address['geometry']['location']['lat'],
-  //               address['geometry']['location']['lng']);
-  //           addressAvaiable.value = true;
-  //         }
-  //       }
-
-  //       // setAddressData(address.value);
-  //     }
-  //   }
-  // }
-
-  // setAddressData(dynamic data) {
-  //   addressAvaiable.value = true;
-  //   addressData.value.zipCode = findValueFromAddress('postal_code');
-  //   addressData.value.line1 = data['formatted_address'];
-  //   addressData.value.localArea = findValueFromAddress('sublocality_level_1');
-  //   addressData.value.city = findValueFromAddress('locality') ??
-  //       findValueFromAddress('administrative_area_level_2');
-  //   addressData.value.country = findValueFromAddress('country');
-  //   addressData.value.geoAddress = GeoAddress.fromMap({
-  //     'coordinates': [
-  //       data['geometry']['location']['lat'],
-  //       data['geometry']['location']['lng']
-  //     ]
-  //   });
-  // }
 
   setAddressCall() async {
     if (Get.isRegistered<Controller>()) {

@@ -19,7 +19,10 @@ class WalletPage extends StatelessWidget {
           leading: MaterialButton(
             onPressed: () {
               // Navigator.pop(context);
-              if (Navigator.canPop(context)) {
+              if (Modular.to.canPop()) {
+                Navigator.pop(context);
+                Modular.to.pop();
+              } else if (Navigator.canPop(context)) {
                 Navigator.pop(context);
               } else {
                 Modular.to.navigate('../../home/main');

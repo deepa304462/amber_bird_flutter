@@ -29,7 +29,6 @@ class Controller extends GetxController {
   var isLogin = false.obs;
   var currentTab = 0.obs;
   var activePageName = ''.obs;
-  // var onboardingDone = false.obs;
   var isActivate = false.obs;
   var isEmailVerified = false.obs;
   var isPhoneVerified = false.obs;
@@ -152,8 +151,11 @@ class Controller extends GetxController {
     var membershipInfo =
         await ClientService.post(path: 'membershipInfo/search', payload: {});
     if (membershipInfo.statusCode == 200) {
-      // List<Membership> list = [];
-      membershipInfo.data.forEach(
+      List data = membershipInfo.data;
+      data.sort(
+        (a, b) => a['orderBy'].compareTo(b['orderBy']),
+      );
+      data.forEach(
         (elem) {
           Membership member = Membership.fromMap(elem);
           membershipList[member.id ?? ''] = member;
@@ -368,43 +370,22 @@ class Controller extends GetxController {
     switch (currentTab) {
       case 0:
         navigateToUrl('/home/main');
-        // activePageName.value = 'main';
-        // Modular.to.navigate('/home/main');
         break;
       case 2:
         navigateToUrl('/home/brand');
-        // activePageName.value = 'search';
-        // Modular.to.navigate('/home/brand');
         break;
       case 1:
-        // if (isLogin.value) {
-        //   activePageName.value = 'refer';
-        //   Modular.to.navigate('/home/refer');
-        // } else {
-        //   activePageName.value = 'profile';
-        // }
         navigateToUrl('/home/category');
         break;
       case 3:
         if (isLogin.value) {
-          // activePageName.value = 'cart';
-          // Modular.to.navigate('/home/cart');
           navigateToUrl('/widget/cart');
         } else {
-          // activePageName.value = 'login';
-          // Modular.to.navigate('/home/login');
           navigateToUrl('/widget/account');
         }
         break;
       case 4:
-        // if (isLogin.value) {
-        // activePageName.value = 'profile';
         navigateToUrl('/widget/account');
-        // } else {
-        // activePageName.value = 'login';
-        // Modular.to.navigate('/home/login');
-        //   navigateToUrl('/login');
-        // }
         break;
     }
   }

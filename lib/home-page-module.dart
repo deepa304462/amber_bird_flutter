@@ -28,16 +28,12 @@ class HomePageModule extends Module {
     ChildRoute('/',
         child: (_, args) => SplashOfferPage(), guards: [AppOnboardingGuard()]),
     ChildRoute('/location', child: (_, args) => LocationPage()),
-
-    // ChildRoute('/search-location',
-    //     child: (_, args) => SearchLocationFromMapPage()),
     ChildRoute('/home',
         child: (_, args) =>
             ShowCaseWidget(builder: Builder(builder: (context) => HomePage())),
         children: [
           ChildRoute('/add-address', child: (_, args) => AddAddress()),
           ChildRoute('/main', child: (_, args) => MainPage()),
-
           ChildRoute(
             '/paymentStatus/:id/:paymentId',
             child: (_, args) {
@@ -46,18 +42,12 @@ class HomePageModule extends Module {
               return PaymentSatusPage(id, paymentId);
             },
           ),
-
           ChildRoute('/scoin-checkout',
               child: (_, args) => ScoinCheckoutWidget()),
-
           ChildRoute('/category', child: (_, args) => CategoryPage()),
           ChildRoute('/coin-wallet', child: (_, args) => CoinWalletPage()),
           ChildRoute('/inapp', child: (_, args) => InApp()),
-
           ChildRoute('/brand', child: (_, args) => BrandPage()),
-
-          // ChildRoute('/profile', child: (_, args) => ProfilePage()),
-          // ChildRoute('/search', child: (_, args) => SearchPage()),
         ]),
   ];
 }
@@ -80,8 +70,6 @@ class AppOnboardingGuard extends RouteGuard {
         onboard = false;
       }
     }
-    // bool onboard = onboardLocal.toString() != 'true';
-    // bool onboard = false;
     FlutterNativeSplash.remove();
     return onboard;
   }

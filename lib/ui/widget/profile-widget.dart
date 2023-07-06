@@ -4,6 +4,8 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/ui/element/i-text-box.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-picker.dart';
+import 'package:amber_bird/ui/widget/section-card.dart';
+import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -75,19 +77,6 @@ class EditProfilePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       IconButton(
-                //           onPressed: () {
-                //             if (Navigator.canPop(context)) {
-                //               Navigator.pop(context);
-                //             } else {
-                //               Modular.to.navigate('/home/main');
-                //             }
-                //           },
-                //           icon: const Icon(Icons.arrow_back_ios,size: 15,))
-                //     ]),
                 SizedBox(
                   // height: ,
                   child: ImagePickerPage(
@@ -113,42 +102,127 @@ class EditProfilePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Email', style: TextStyles.bodyFont),
-                    Text(stateController.loggedInProfile.value.email ?? '',
-                        style: TextStyles.bodyFontBold),
-                  ],
+                Card(
+                  child: Column(children: [
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.email),
+                      title: Row(children: [
+                        Text(
+                          'Email',
+                          style: TextStyles.body,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        stateController.isEmailVerified.value
+                            ? Icon(
+                                Icons.done_outline_outlined,
+                                color: AppColors.green,
+                                size: 15,
+                              )
+                            : const SizedBox()
+                      ]),
+                      subtitle: Text(
+                        stateController.loggedInProfile.value.email ?? '',
+                        style: TextStyles.headingFont,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: Icon(Icons.phone),
+                      title: Row(children: [
+                        Text(
+                          'Mobile',
+                          style: TextStyles.body,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        stateController.isPhoneVerified.value
+                            ? Icon(
+                                Icons.done_outline_outlined,
+                                color: AppColors.green,
+                                size: 15,
+                              )
+                            : const SizedBox()
+                      ]),
+                      subtitle: Text(
+                        stateController.loggedInProfile.value.mobile ?? '',
+                        style: TextStyles.headingFont,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ]),
                 ),
-                Text(
-                    'Email is ${stateController.isEmailVerified.value ? ' verified' : 'not verified'}',
-                    style: TextStyles.bodyFont),
-                Text(
-                    'Mobile number is ${stateController.isPhoneVerified.value ? ' verified' : 'not verified'}',
-                    style: TextStyles.bodyFont),
-                const SizedBox(
-                  height: 10,
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    onTap: () => {Modular.to.navigate('/widget/address-list')},
+                    leading: Icon(Icons.book),
+                    title: Text(
+                      'Address Book',
+                      style: TextStyles.headingFont,
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                  ),
                 ),
-                TextButton(
-                    onPressed: () {
-                      Modular.to.navigate('../widget/address-list');
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    onTap: () async {
+                      isLoading.value = true;
+                      // Modular.to.navigate('../home/reset-password');
+                      await stateController.resetPassInit();
+                      isLoading.value = false;
+                      snackBarClass.showToast(
+                          context, 'Please check your mail !,thanks');
                     },
-                    child: Text('Click to check saved addresses',
-                        style: TextStyles.headingFont)),
-                TextButton(
-                  onPressed: () async {
-                    isLoading.value = true;
-                    // Modular.to.navigate('../home/reset-password');
-                    await stateController.resetPassInit();
-                    isLoading.value = false;
-                    snackBarClass.showToast(
-                        context, 'Please check your mail !,thanks');
-                  },
-                  child: Text(
-                      isLoading.value ? "Loading" : "Click to reset password",
-                      style: TextStyles.headingFont),
+                    leading: Icon(Icons.lock_reset),
+                    title: Text(
+                      isLoading.value ? "Loading" : 'Reset Password',
+                      style: TextStyles.headingFont,
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                  ),
                 ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     Text('Email', style: TextStyles.bodyFont),
+                //     Text(stateController.loggedInProfile.value.email ?? '',
+                //         style: TextStyles.bodyFontBold),
+                //   ],
+                // ),
+                // Text(
+                //     'Email is ${stateController.isEmailVerified.value ? ' verified' : 'not verified'}',
+                //     style: TextStyles.bodyFont),
+                // Text(
+                //     'Mobile number is ${stateController.isPhoneVerified.value ? ' verified' : 'not verified'}',
+                //     style: TextStyles.bodyFont),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // TextButton(
+                //     onPressed: () {
+                //       Modular.to.navigate('../widget/address-list');
+                //     },
+                //     child: Text('Click to check saved addresses',
+                //         style: TextStyles.headingFont)),
+                // TextButton(
+                //   onPressed: () async {
+                //     isLoading.value = true;
+                //     // Modular.to.navigate('../home/reset-password');
+                //     await stateController.resetPassInit();
+                //     isLoading.value = false;
+                //     snackBarClass.showToast(
+                //         context, 'Please check your mail !,thanks');
+                //   },
+                //   child: Text(
+                //       isLoading.value ? "Loading" : "Click to reset password",
+                //       style: TextStyles.headingFont),
+                // ),
               ],
             ),
           ),

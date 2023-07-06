@@ -45,11 +45,11 @@ class ProductCard extends StatelessWidget {
         product.images!.isNotEmpty
             ? InkWell(
                 onTap: () {
-                  if (addedFrom == 'BRAND') {
-                    Modular.to.pushNamed('../product/${product.id}');
-                  } else {
-                    Modular.to.pushNamed('/widget/product/${product.id}');
-                  }
+                  // if (addedFrom == 'BRAND') {
+                  //   Modular.to.pushNamed('../product/${product.id}');
+                  // } else {
+                  Modular.to.pushNamed('/widget/product/${product.id}');
+                  // }
                 },
                 child: SizedBox(
                   width: 100,

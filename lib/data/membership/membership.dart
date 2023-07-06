@@ -19,6 +19,7 @@ class Membership {
   double? offerShippingCharge;
   int? spointsRangeMin;
   int? spointsRangeMax;
+  int? orderBy;
   String? id;
 
   Membership({
@@ -36,6 +37,7 @@ class Membership {
     this.offerShippingCharge,
     this.spointsRangeMin,
     this.spointsRangeMax,
+    this.orderBy,
     this.id,
   });
 
@@ -68,6 +70,7 @@ class Membership {
         offerShippingCharge: data['offerShippingCharge'] as double?,
         spointsRangeMin: data['spointsRangeMin'] as int?,
         spointsRangeMax: data['spointsRangeMax'] as int?,
+        orderBy: data['orderBy'] as int?,
         id: data['_id'] as String?,
       );
 
@@ -87,6 +90,7 @@ class Membership {
         'offerShippingCharge': offerShippingCharge,
         'spointsRangeMin': spointsRangeMin,
         'spointsRangeMax': spointsRangeMax,
+        'orderBy': orderBy,
         '_id': id,
       };
 
@@ -117,6 +121,7 @@ class Membership {
     double? offerShippingCharge,
     int? spointsRangeMin,
     int? spointsRangeMax,
+    int? orderBy,
     String? id,
   }) {
     return Membership(
@@ -139,6 +144,7 @@ class Membership {
       offerShippingCharge: offerShippingCharge ?? this.offerShippingCharge,
       spointsRangeMin: spointsRangeMin ?? this.spointsRangeMin,
       spointsRangeMax: spointsRangeMax ?? this.spointsRangeMax,
+      orderBy: orderBy ?? this.orderBy,
       id: id ?? this.id,
     );
   }

@@ -143,15 +143,15 @@ class WishListPage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // PriceTag(
-                        //     curwishList.product!.varient!.price!.offerPrice
-                        //         .toString(),
-                        //     curwishList.product!.varient!.price!.actualPrice
-                        //         .toString()),
-                        // Text(
-                        //   '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
-                        //   style: TextStyles.bodyFont,
-                        // ),
+                        PriceTag(
+                            curwishList.product!.varient!.price!.offerPrice
+                                .toString(),
+                            curwishList.product!.varient!.price!.actualPrice
+                                .toString()),
+                        Text(
+                          '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
+                          style: TextStyles.bodyFont,
+                        ),
                       ],
                     ),
                     MaterialButton(

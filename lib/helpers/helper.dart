@@ -13,7 +13,6 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
-
 import 'controller-generator.dart';
 
 class Helper {
@@ -112,12 +111,12 @@ class Helper {
   static dynamic getCatMultiName(String dealType) {
     if (dealType == multiProductName.COMBO.name) {
       return {
-        'name': 'Combo',
+        'name': 'Combos',
         'imageId': '441a4502-d2a0-44fc-9ade-56af13a2f7f0'
       };
     } else if (dealType == multiProductName.BUNDLE.name) {
       return {
-        'name': 'Bundle',
+        'name': 'Bundles',
         'imageId': '993a345c-885b-423b-bb49-f4f1c6ba78d0'
       };
     } else if (dealType == multiProductName.COLLECTION.name) {

@@ -98,7 +98,6 @@ class AuthController extends GetxController {
     var loginPayload = {
       "password": fieldValue['password'],
       "userName": fieldValue['username'],
-      // "appName": "DIAGO_TEAM_WEB_APP"
     };
     if (loginWith.value == LoginType.usernamePassword &&
         fieldValue['password'] != '' &&
@@ -161,7 +160,6 @@ class AuthController extends GetxController {
         fieldValue['password'] != '' &&
         fieldValue['mobile'] != '') {
       var payload = {
-        // "suggestedUsername": fieldValue['username'],
         "suggestedUsername": fieldValue['email'],
         "orgRef": {"name": "sbazar", "_id": "sbazar"},
         "email": fieldValue['email'],
@@ -169,7 +167,6 @@ class AuthController extends GetxController {
             '${fieldValue['countryCode'].toString()}-${fieldValue['mobile'].toString()}',
         "fullName": fieldValue['fullName'],
         "acls": ["user"],
-        // "profileType": "DIAGO_APP_PROFILE",
         "password": fieldValue['password'],
         "profileType": "CUSTOMER",
         "orgShortCode": "",
@@ -183,10 +180,7 @@ class AuthController extends GetxController {
         dev.log(jsonEncode(resp.data).toString());
         var loginPayload = {
           "password": fieldValue['password'],
-          // "userName": fieldValue['username'],
-          // "userName": resp.data['userName'],
           "email": fieldValue['email']
-          // "userName": fieldValue['email'],
         };
         var loginResp = await ClientService.post(
             path: 'auth/authenticate', payload: loginPayload);
@@ -253,7 +247,6 @@ class AuthController extends GetxController {
     loginWith.value = LoginType.googleToken;
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
-      // googleSignIn.signOut();
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
       dev.inspect(googleSignInAccount);
@@ -282,14 +275,11 @@ class AuthController extends GetxController {
   }
 
   dynamic signInWithGoogle() async {
-    // FirebaseAuth auth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    // googleSignIn.signOut();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
     dev.inspect(googleSignInAccount);
     if (googleSignInAccount != null) {
-      // var pw = generatePassword();
       fieldValue.value = {
         'fullName': googleSignInAccount.displayName ?? '',
         'email': googleSignInAccount.email,
@@ -304,8 +294,6 @@ class AuthController extends GetxController {
         'profileImageId': ''
       };
       return {"msg": "Please fill all field !!", "status": "success"};
-      // var respSignup = await signUp();
-      // return respSignup;
     } else {
       return {"msg": "Something Went Wrong!!", "status": "error"};
     }

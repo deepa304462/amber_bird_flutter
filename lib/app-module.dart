@@ -17,7 +17,6 @@ class AppModule extends Module {
   // Provide all the routes for your module
   @override
   List<ModularRoute> get routes => [
-        // ChildRoute('/', child: (_, args) => LoginPageWidget()),
         ChildRoute('/splash', child: (_, args) => SplashOfferPage()),
         ChildRoute('/verify', child: (_, args) {
           return EmailVerificationPage(
@@ -33,9 +32,7 @@ class AppModule extends Module {
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
         ChildRoute('/signup', child: (_, args) => SignUp()),
-
         ModuleRoute('/widget', module: WidgetRouteModule()),
-
         ChildRoute('/password-reset',
             child: (_, args) => ResetPasswordWidget(
                 args.queryParams['email']!, args.queryParams['token']!)),

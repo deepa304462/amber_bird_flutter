@@ -94,7 +94,7 @@ class AboutPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(),
+              // Divider(),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Card(
@@ -102,7 +102,7 @@ class AboutPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -115,67 +115,44 @@ class AboutPage extends StatelessWidget {
                               el.detailedContent!.length > 0
                                   ? el.detailedContent![0]
                                   : {} as DetailedContent;
-                          var heading = detailedContent.sectionHeading! !=
-                                      null &&
-                                  detailedContent.sectionHeading!.defaultText !=
-                                      null
-                              ? detailedContent
-                                  .sectionHeading!.defaultText!.text
-                              : detailedContent
-                                  .sectionHeading!.languageTexts![0].text;
-                          return ListTile(
-                            onTap: () {
-                              Modular.to
-                                  .pushNamed('/widget/compilance/' + el.id!);
-                            },
-                            title: Text(
-                              heading ?? '',
-                              style: TextStyles.titleFont,
+                          var heading =
+                              detailedContent.sectionHeading != null &&
+                                      detailedContent
+                                              .sectionHeading!.defaultText !=
+                                          null
+                                  ? detailedContent
+                                      .sectionHeading!.defaultText!.text
+                                  : detailedContent
+                                      .sectionHeading!.languageTexts![0].text;
+                          return Container(
+                            margin: EdgeInsets.all(0),
+                            padding: EdgeInsets.all(0),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                    width: 1.5, color: AppColors.lightGrey),
+                              ),
                             ),
-                            trailing: const Icon(Icons.chevron_right),
+                            child: ListTile(
+                              dense: true,
+                              onTap: () {
+                                Modular.to
+                                    .pushNamed('/widget/compilance/' + el.id!);
+                              },
+                              title: Text(
+                                heading ?? '',
+                                style: TextStyles.titleFont,
+                              ),
+                              trailing: const Icon(Icons.chevron_right),
+                            ),
                           );
                         }).toList(),
-                        // ListTile(
-                        //   title: Text(
-                        //     'Privacy Policy',
-                        //     style: TextStyles.titleFont,
-                        //   ),
-                        //   trailing: const Icon(Icons.chevron_right),
-                        // ),
-                        // ListTile(
-                        //   title: Text(
-                        //     'Cookies Settings',
-                        //     style: TextStyles.titleFont,
-                        //   ),
-                        //   trailing: const Icon(Icons.chevron_right),
-                        // ),
-                        // ListTile(
-                        //   title: Text(
-                        //     'Accessibility Statement',
-                        //     style: TextStyles.titleFont,
-                        //   ),
-                        //   trailing: const Icon(Icons.chevron_right),
-                        // ),
-                        // ListTile(
-                        //   title: Text(
-                        //     'Brand Endorsement Policy',
-                        //     style: TextStyles.titleFont,
-                        //   ),
-                        //   trailing: const Icon(Icons.chevron_right),
-                        // ),
-                        // ListTile(
-                        //   title: Text(
-                        //     'DCMA',
-                        //     style: TextStyles.titleFont,
-                        //   ),
-                        //   trailing: const Icon(Icons.chevron_right),
-                        // ),
                       ],
                     ),
                   ),
                 ),
               ),
-              Divider(),
+              // Divider(),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: 150,

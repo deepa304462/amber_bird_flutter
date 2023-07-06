@@ -62,13 +62,7 @@ class CategoryController extends GetxController {
   }
 
   getProductList() async {
-    var payload = {
-      // "productCategoryId": selectedSubCatergory.value.id,
-      // "parentCategoryId": selectedCatergory.value.id,
-      // "brandId": "string",
-      // "keywords": "string"
-      "": ""
-    };
+    var payload = {"": ""};
     if (selectedSubCatergory.value != '' &&
         selectedSubCatergory.value != 'all') {
       payload = {

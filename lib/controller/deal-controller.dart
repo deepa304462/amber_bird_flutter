@@ -99,9 +99,6 @@ class DealController extends GetxController {
     });
     ruleConfig = dealProduct.ruleConfig;
     constraint = dealProduct.constraint;
-    // DealProduct();
-    // var insight = await OfflineDBService.get(OfflineDBService.customerInsight);
-    // CustomerInsight custInsight = CustomerInsight.fromJson(jsonEncode(insight));
     if (type == 'positive') {
       dynamic data = await Helper.checkProductValidtoAddinCart(
           ruleConfig, constraint, id, cartId);

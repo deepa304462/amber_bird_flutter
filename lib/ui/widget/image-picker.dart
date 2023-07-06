@@ -65,26 +65,19 @@ class _MyPageState extends State<ImagePickerPage> {
                 ),
               ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(
-              onPressed: () {
-                _getFromGallery();
-              },
-              child: Text(
-                "Select from Gallery",
-                style: TextStyles.bodyFont,
-              ),
-            ),
-            TextButton(
+            IconButton(
+                onPressed: () {
+                  _getFromGallery();
+                },
+                icon: Icon(Icons.collections)),
+            IconButton(
               onPressed: () {
                 _getFromCamera();
               },
-              child: Text(
-                "Click a picture",
-                style: TextStyles.bodyFont,
-              ),
-            )
+              icon: Icon(Icons.camera),
+            ),
           ],
         ),
       ],
