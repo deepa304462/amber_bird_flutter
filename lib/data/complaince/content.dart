@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:amber_bird/data/deal_product/name.dart';
+import 'package:amber_bird/data/deal_product/description.dart';
 
 class Content {
-  Name? subHeading;
-  List<Name>? content;
+  Description? subHeading;
+  List<Description>? content;
 
   Content({this.subHeading, this.content});
 
@@ -14,9 +14,9 @@ class Content {
   factory Content.fromMap(Map<String, dynamic> data) => Content(
         subHeading: data['subHeading'] == null
             ? null
-            : Name.fromMap(data['subHeading'] as Map<String, dynamic>),
-        content: (data['Name'] as List<dynamic>?)
-            ?.map((e) => Name.fromMap(e as Map<String, dynamic>))
+            : Description.fromMap(data['subHeading'] as Map<String, dynamic>),
+        content: (data['content'] as List<dynamic>?)
+            ?.map((e) => Description.fromMap(e as Map<String, dynamic>))
             .toList(),
       );
 
@@ -38,8 +38,8 @@ class Content {
   String toJson() => json.encode(toMap());
 
   Content copyWith({
-    Name? subHeading,
-    List<Name>? content,
+    Description? subHeading,
+    List<Description>? content,
   }) {
     return Content(
       subHeading: subHeading ?? this.subHeading,

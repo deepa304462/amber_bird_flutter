@@ -179,4 +179,3 @@ class FlutterHashtag {
 //   static const Color gray600 = Color(0xFF60646B);
 //   static const Color gray = Color(0xFF202124);
 // }
- 

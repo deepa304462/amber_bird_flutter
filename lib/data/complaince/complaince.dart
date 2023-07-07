@@ -4,20 +4,27 @@ import 'package:amber_bird/data/deal_product/meta_data.dart';
 
 import 'detailed_content.dart';
 
-class Compilance {
+class Complaince {
   MetaData? metaData;
   List<DetailedContent>? detailedContent;
   String? type;
+  int? orderBy;
   String? id;
 
-  Compilance({this.metaData, this.detailedContent, this.type, this.id});
+  Complaince({
+    this.metaData,
+    this.detailedContent,
+    this.type,
+    this.orderBy,
+    this.id,
+  });
 
   @override
   String toString() {
-    return 'Compilance(metaData: $metaData, detailedContent: $detailedContent, type: $type, id: $id)';
+    return 'Complaince(metaData: $metaData, detailedContent: $detailedContent, type: $type, orderBy: $orderBy, id: $id)';
   }
 
-  factory Compilance.fromMap(Map<String, dynamic> data) => Compilance(
+  factory Complaince.fromMap(Map<String, dynamic> data) => Complaince(
         metaData: data['metaData'] == null
             ? null
             : MetaData.fromMap(data['metaData'] as Map<String, dynamic>),
@@ -25,6 +32,7 @@ class Compilance {
             ?.map((e) => DetailedContent.fromMap(e as Map<String, dynamic>))
             .toList(),
         type: data['type'] as String?,
+        orderBy: data['orderBy'] as int?,
         id: data['_id'] as String?,
       );
 
@@ -32,31 +40,34 @@ class Compilance {
         'metaData': metaData?.toMap(),
         'detailedContent': detailedContent?.map((e) => e.toMap()).toList(),
         'type': type,
+        'orderBy': orderBy,
         '_id': id,
       };
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Compilance].
-  factory Compilance.fromJson(String data) {
-    return Compilance.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [Complaince].
+  factory Complaince.fromJson(String data) {
+    return Complaince.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [Compilance] to a JSON string.
+  /// Converts [Complaince] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Compilance copyWith({
+  Complaince copyWith({
     MetaData? metaData,
     List<DetailedContent>? detailedContent,
     String? type,
+    int? orderBy,
     String? id,
   }) {
-    return Compilance(
+    return Complaince(
       metaData: metaData ?? this.metaData,
       detailedContent: detailedContent ?? this.detailedContent,
       type: type ?? this.type,
+      orderBy: orderBy ?? this.orderBy,
       id: id ?? this.id,
     );
   }

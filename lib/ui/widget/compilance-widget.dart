@@ -1,9 +1,9 @@
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
-import 'package:amber_bird/data/compilance/compilance.dart';
-import 'package:amber_bird/data/compilance/content.dart';
-import 'package:amber_bird/data/compilance/detailed_content.dart';
-import 'package:amber_bird/data/deal_product/name.dart';
+import 'package:amber_bird/data/complaince/complaince.dart';
+import 'package:amber_bird/data/complaince/content.dart';
+import 'package:amber_bird/data/complaince/detailed_content.dart';
+import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -19,7 +19,7 @@ class CompilanceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Compilance> result = compilanceController.compilanceList.where((el) {
+    List<Complaince> result = compilanceController.compilanceList.where((el) {
       return el.id! == id;
     }).toList();
     print(result);
@@ -101,27 +101,29 @@ class CompilanceWidget extends StatelessWidget {
                                       e.subHeading!.languageTexts!.length > 0)
                                   ? e.subHeading!.languageTexts![0].text
                                   : '');
-                          List<Name> subContentList = e.content ?? [];
-                          return Column(children: [
-                            Text(
-                              subHeading ?? '',
-                              style: TextStyles.titleFont,
-                            ),
-                            ...subContentList.map((subContent) {
-                              var currentSubContent = subContent != null &&
-                                      subContent.defaultText != null
-                                  ? subContent.defaultText!.text
-                                  : subContent.languageTexts![0].text;
-                              return Html(
-                                  data: currentSubContent ?? '',
-                                  style: {
-                                    ".": Style(
-                                        fontSize: FontSize(FontSizes.body),
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: Fonts.body),
-                                  });
-                            }).toList()
-                          ]);
+                          List<Description> subContentList = e!.content ?? [];
+                          return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  subHeading ?? '',
+                                  style: TextStyles.titleFont,
+                                ),
+                                ...subContentList.map((subContent) {
+                                  var currentSubContent = subContent != null &&
+                                          subContent.defaultText != null
+                                      ? subContent.defaultText!.text
+                                      : subContent.languageTexts![0].text;
+                                  return Html(
+                                      data: currentSubContent ?? '',
+                                      style: {
+                                        "body": Style(
+                                            fontSize: FontSize(FontSizes.body),
+                                            fontWeight: FontWeight.w300,
+                                            fontFamily: Fonts.body),
+                                      });
+                                }).toList()
+                              ]);
                         }).toList()
                       ]);
                 })),

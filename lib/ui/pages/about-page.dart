@@ -1,8 +1,8 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
-import 'package:amber_bird/data/compilance/compilance.dart';
-import 'package:amber_bird/data/compilance/detailed_content.dart';
+import 'package:amber_bird/data/complaince/complaince.dart';
+import 'package:amber_bird/data/complaince/detailed_content.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -110,7 +110,7 @@ class AboutPage extends StatelessWidget {
                           height: 5,
                         ),
                         ...compilanceController.compilanceList
-                            .map((Compilance el) {
+                            .map((Complaince el) {
                           DetailedContent detailedContent =
                               el.detailedContent!.length > 0
                                   ? el.detailedContent![0]

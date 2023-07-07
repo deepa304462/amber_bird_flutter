@@ -1,9 +1,9 @@
-import 'package:amber_bird/data/compilance/compilance.dart';
+import 'package:amber_bird/data/complaince/complaince.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
 
 class CompilanceController extends GetxController {
-  RxList<Compilance> compilanceList = <Compilance>[].obs;
+  RxList<Complaince> compilanceList = <Complaince>[].obs;
   @override
   void onInit() {
     getCompilance();
@@ -15,7 +15,7 @@ class CompilanceController extends GetxController {
         .then((value) {
       if (value.statusCode == 200) {
         compilanceList.value =
-            (value.data as List).map((e) => Compilance.fromMap(e)).toList();
+            (value.data as List).map((e) => Complaince.fromMap(e)).toList();
       }
     });
   }
