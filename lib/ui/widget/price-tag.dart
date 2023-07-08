@@ -19,7 +19,7 @@ class PriceTag extends StatelessWidget {
             verticalDirection: VerticalDirection.up,
             children: [
               Text(
-                "${num.parse(showPrice).toStringAsFixed(2)} ${CodeHelp.euro}",
+                "${num.parse(showPrice).toStringAsFixed(2)}${CodeHelp.euro}",
                 style: TextStyles.headingFont,
               ),
               const SizedBox(width: 3),

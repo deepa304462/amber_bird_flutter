@@ -115,7 +115,7 @@ class WishListPage extends StatelessWidget {
   WishlistTile(BuildContext context, Favorite curwishList) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(4.0),
         child: Stack(
           children: [
             Column(
@@ -150,7 +150,7 @@ class WishListPage extends StatelessWidget {
                                 .toString()),
                         Text(
                           '${curwishList.product!.varient!.weight} ${CodeHelp.formatUnit(curwishList.product!.varient!.unit)} ',
-                          style: TextStyles.bodyFont,
+                          style: TextStyles.body,
                         ),
                       ],
                     ),

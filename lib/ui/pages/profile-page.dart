@@ -110,7 +110,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               SizedBox(
-                height: 70,
+                height: 80,
                 child: Column(
                   children: [
                     InkWell(
@@ -128,6 +128,7 @@ class ProfilePage extends StatelessWidget {
                           child: Icon(
                             Icons.lock_clock,
                             size: 30,
+                            color: Colors.grey.shade600,
                           ),
                         ),
                       ),
@@ -155,14 +156,15 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.shopping_bag,
+                            Icons.pause_circle_outline_sharp,
                             size: 30,
+                            color: Colors.grey.shade600,
                           ),
                         ),
                       ),
                     ),
                     Center(
-                      child: FitText('Unshipped', style: TextStyles.body),
+                      child: FitText('Processing', style: TextStyles.body),
                     )
                   ],
                 ),
@@ -184,8 +186,9 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.local_shipping,
+                            Icons.shopping_bag,
                             size: 30,
+                            color: Colors.grey.shade600,
                           ),
                         ),
                       ),
@@ -213,14 +216,15 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.comment,
+                            Icons.local_shipping_outlined,
                             size: 30,
+                            color: Colors.grey.shade600,
                           ),
                         ),
                       ),
                     ),
                     Center(
-                      child: FitText("To Review", style: TextStyles.body),
+                      child: FitText("Dispatched", style: TextStyles.body),
                     )
                   ],
                 ),
@@ -242,14 +246,15 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.assignment_return,
+                            Icons.cancel,
                             size: 30,
+                            color: Colors.grey.shade600,
                           ),
                         ),
                       ),
                     ),
                     Center(
-                      child: FitText('Returns', style: TextStyles.body),
+                      child: FitText('Cancel', style: TextStyles.body),
                     )
                   ],
                 ),
@@ -375,18 +380,13 @@ class ProfilePage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // trailing: IconButton(
-                          //     onPressed: () {
-                          //       Modular.to.pushNamed('../widget/edit-profile');
-                          //     },
-                          //     icon: const Icon(Icons.edit)),
                         ),
                       ),
                     ],
                   ),
                   const Divider(),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 10),
@@ -405,13 +405,13 @@ class ProfilePage extends StatelessWidget {
                                                 .personalInfo !=
                                             null
                                         ? stateController.customerDetail.value
-                                            .personalInfo!.spoints
+                                            .personalInfo!.scoins
                                             .toString()
                                         : '0',
                                     style: TextStyles.headingFont,
                                   ),
                                   Center(
-                                    child: Text('S-Points',
+                                    child: FitText('S-Coins',
                                         style: TextStyles.body),
                                   )
                                 ],
@@ -437,13 +437,13 @@ class ProfilePage extends StatelessWidget {
                                                 .personalInfo !=
                                             null
                                         ? stateController.customerDetail.value
-                                            .personalInfo!.scoins
+                                            .personalInfo!.spoints
                                             .toString()
                                         : '0',
                                     style: TextStyles.headingFont,
                                   ),
                                   Center(
-                                    child: FitText('S-Coins',
+                                    child: Text('S-Points',
                                         style: TextStyles.body),
                                   )
                                 ],
@@ -493,16 +493,13 @@ class ProfilePage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    (cartController.cartProducts.length +
-                                            cartController
-                                                .cartProductsScoins.length +
-                                            cartController.msdProducts.length)
+                                    (cartController.saveLaterProducts.length)
                                         .toString(),
                                     style: TextStyles.headingFont,
                                   ),
                                   Center(
-                                    child:
-                                        FitText("Cart", style: TextStyles.body),
+                                    child: FitText("Saved",
+                                        style: TextStyles.body),
                                   ),
                                 ],
                               ),

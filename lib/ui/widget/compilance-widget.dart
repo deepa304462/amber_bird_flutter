@@ -61,13 +61,13 @@ class CompilanceWidget extends StatelessWidget {
       body: Container(
         color: AppColors.commonBgColor,
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height - 50,
         child: Padding(
             padding: EdgeInsets.all(8),
             child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+                // scrollDirection: Axis.vertical,
+                // shrinkWrap: true,
+                // physics: const NeverScrollableScrollPhysics(),
                 itemCount: result[0].detailedContent!.length,
                 itemBuilder: (_, index) {
                   DetailedContent currentDetaildContent =
