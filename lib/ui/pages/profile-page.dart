@@ -33,12 +33,38 @@ class ProfilePage extends StatelessWidget {
           child: Card(
             child: Column(
               children: [
-                sectionCard(
-                    'Refer Friends, Get 9${CodeHelp.euro}',
-                    '',
-                    Icons.wallet_giftcard,
-                    () => {Modular.to.pushNamed('/widget/refer-page')},
-                    isDense: true),
+                InkWell(
+                  onTap: () {
+                    Modular.to.pushNamed('/widget/refer-page');
+                  },
+                  child: ListTile(
+                    dense: true,
+                    leading: Icon(Icons.wallet_giftcard),
+                    title: RichText(
+                      text: TextSpan(
+                        style: TextStyles.body,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'Refer Friends, Get ',
+                            style: TextStyles.headingFont,
+                          ),
+                          TextSpan(
+                            text: '9${CodeHelp.euro}',
+                            style: TextStyles.headingFont
+                                .copyWith(color: AppColors.primeColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                  ),
+                ),
+                // sectionCard(
+                //     'Refer Friends, Get 9${CodeHelp.euro}',
+                //     '',
+                //     Icons.wallet_giftcard,
+                //     () => {Modular.to.pushNamed('/widget/refer-page')},
+                //     isDense: true),
               ],
             ),
           ),
@@ -306,78 +332,82 @@ class ProfilePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: ListTile(
-                          title: Row(children: [
-                            FitText(
-                              CodeHelp.titleCase(value.fullName ?? ''),
-                              style: TextStyles.headingFont
-                                  .copyWith(color: Colors.black),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  Modular.to
-                                      .pushNamed('../widget/edit-profile');
-                                },
-                                icon: const Icon(
-                                  Icons.edit_rounded,
-                                  size: 18,
-                                ))
-                          ]),
+                          dense: true,
+                          title: Row(
+                            children: [
+                              FitText(
+                                CodeHelp.titleCase(value.fullName ?? ''),
+                                style: TextStyles.headingFont
+                                    .copyWith(color: Colors.black),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    Modular.to
+                                        .pushNamed('../widget/edit-profile');
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit_rounded,
+                                    size: 18,
+                                  ))
+                            ],
+                          ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Column(
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      ImageBox(
-                                        stateController.membershipList[
-                                                    stateController
-                                                        .userType.value] !=
-                                                null
-                                            ? stateController
-                                                .membershipList[stateController
-                                                    .userType.value]!
-                                                .iconId!
-                                            : '',
-                                        width: 15,
-                                      ),
-                                      FitText(
-                                          stateController.getMemberShipText(),
-                                          style: TextStyles.titleFont),
-                                    ],
+                                  ImageBox(
+                                    stateController.membershipList[
+                                                stateController
+                                                    .userType.value] !=
+                                            null
+                                        ? stateController
+                                            .membershipList[
+                                                stateController.userType.value]!
+                                            .iconId!
+                                        : '',
+                                    width: 15,
                                   ),
                                   const SizedBox(
-                                    height: 1,
+                                    width: 2,
                                   ),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.call,
-                                        size: 15,
-                                      ),
-                                      FitText(value.mobile!,
-                                          style: TextStyles.titleFont),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 1,
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      const Icon(
-                                        Icons.email,
-                                        size: 15,
-                                      ),
-                                      FitText(value.email!,
-                                          style: TextStyles.titleFont),
-                                    ],
-                                  )
+                                  FitText(stateController.getMemberShipText(),
+                                      style: TextStyles.titleFont),
                                 ],
                               ),
+                              const SizedBox(
+                                height: 1,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.call,
+                                    size: 15,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  FitText(value.mobile!,
+                                      style: TextStyles.titleFont),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 1,
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const Icon(
+                                    Icons.email,
+                                    size: 15,
+                                  ),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  FitText(value.email!,
+                                      style: TextStyles.titleFont),
+                                ],
+                              )
                             ],
                           ),
                         ),

@@ -18,6 +18,7 @@ import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
+import 'package:amber_bird/ui/widget/product-tag-row.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -130,38 +131,20 @@ class PreCheckoutWidget extends StatelessWidget {
           child: Obx(
             () {
               checkoutLists.clear();
-              checkoutLists.add(
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                                start: 16, top: 15),
-                            child: Text('Products',
-                                style: TextStyles.headingFont)),
-                        productCheckoutListWidget(context, cartController),
-                      ],
-                    ),
-                    childCount: 1,
-                  ),
-                ),
-              );
               // checkoutLists.add(
               //   SliverList(
               //     delegate: SliverChildBuilderDelegate(
-              //       (BuildContext context, int index) =>
-              //           scoinCheckoutPRoductList(context, cartController),
-              //       childCount: 1,
-              //     ),
-              //   ),
-              // );
-              // checkoutLists.add(
-              //   SliverList(
-              //     delegate: SliverChildBuilderDelegate(
-              //       (BuildContext context, int index) =>
-              //           msdCheckoutPRoductList(context, cartController),
+              //       (BuildContext context, int index) => Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Padding(
+              //               padding: const EdgeInsetsDirectional.only(
+              //                   start: 16, top: 15),
+              //               child: Text('Products',
+              //                   style: TextStyles.headingFont)),
+              //           productCheckoutListWidget(context, cartController),
+              //         ],
+              //       ),
               //       childCount: 1,
               //     ),
               //   ),
@@ -189,11 +172,22 @@ class PreCheckoutWidget extends StatelessWidget {
               checkoutLists.add(
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => CentProductWidget(),
+                    (BuildContext context, int index) => Padding(
+                        padding: EdgeInsets.all(5),
+                        child: ProductTagRow(
+                            '4850fa67-1029-41d8-af58-40a30ad9dbfe_Featured')),
                     childCount: 1,
                   ),
                 ),
               );
+              // checkoutLists.add(
+              //   SliverList(
+              //     delegate: SliverChildBuilderDelegate(
+              //       (BuildContext context, int index) => CentProductWidget(),
+              //       childCount: 1,
+              //     ),
+              //   ),
+              // );
 
               // cartController.clearCheckout();
 

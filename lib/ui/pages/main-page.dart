@@ -1,6 +1,7 @@
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/back-stock-budget.dart';
 import 'package:amber_bird/ui/widget/category-row.dart';
@@ -9,8 +10,8 @@ import 'package:amber_bird/ui/widget/cloud-word.dart';
 import 'package:amber_bird/ui/widget/deal-row.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
 import 'package:amber_bird/ui/widget/multi-product-row.dart';
-import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/ui/widget/product-guide-row.dart';
+import 'package:amber_bird/ui/widget/product-tag-row.dart';
 import 'package:amber_bird/ui/widget/scoin-product-row.dart';
 import 'package:amber_bird/ui/widget/shimmer-widget.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -21,8 +22,9 @@ import '../widget/brand-horizontal-cart.dart';
 
 class MainPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
-  final ProductTagController productTagController =
-      Get.put(ProductTagController());
+  ProductTagController productTagController = ControllerGenerator.create(
+      ProductTagController(),
+      tag: 'productTagController');
   RxList<ProductSummary> centProductList = <ProductSummary>[].obs;
   @override
   Widget build(BuildContext context) {
@@ -101,68 +103,7 @@ class MainPage extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               var currentKey =
                   productTagController.tagsProductsList.keys.elementAt(index);
-
-              var title = currentKey.split('_')[1];
-              var currentData =
-                  productTagController.tagsProductsList[currentKey];
-
-              if (currentData!.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                title,
-                                style: TextStyles.headingFont,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 200,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: currentData.length,
-                              itemBuilder: (_, index) {
-                                ProductSummary productSummary =
-                                    currentData[index];
-                                return SizedBox(
-                                  width: 150,
-                                  child: Stack(
-                                    children: [
-                                      ProductCard(
-                                          fixedHeight: true,
-                                          productSummary,
-                                          productSummary.id,
-                                          'TAGS_PRODUCT',
-                                          productSummary.varient!.price!,
-                                          null,
-                                          null),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const SizedBox();
-              }
+              return ProductTagRow(currentKey);
             },
           )
         : const SizedBox());

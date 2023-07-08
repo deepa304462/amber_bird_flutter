@@ -1,5 +1,6 @@
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/product-guide-row-controller.dart';
+import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:get/get.dart';
 
@@ -29,8 +30,8 @@ class ControllerGenerator {
           var controllerOld = Get.find<ProductGuideController>(tag: tag);
           return controllerOld;
         }
-        if (tag == 'productGuideController') {
-          var controllerOld = Get.find<ProductGuideController>(tag: tag);
+        if (tag == 'productTagController') {
+          var controllerOld = Get.find<ProductTagController>(tag: tag);
           return controllerOld;
         }
         if (tag == 'Controller') {
@@ -46,8 +47,15 @@ class ControllerGenerator {
         if (tag == 'cartController') {
           return Get.put(CartController(), tag: tag);
         }
+        if (tag == 'productGuideController') {
+          return Get.put<ProductGuideController>(ProductGuideController(),
+              tag: tag);
+        }
         if (tag == 'productGuidePageController') {
           return Get.put(ProductGuidePageController(), tag: tag);
+        }
+        if (tag == 'productTagController') {
+          return Get.put(ProductTagController(), tag: tag);
         }
         if (tag == 'Controller') {
           var controllerOld = Get.put<Controller>(Controller());
