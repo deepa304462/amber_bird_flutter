@@ -72,6 +72,7 @@ class MainPage extends StatelessWidget {
             MultiProductRow(multiProductName.COMBO.name),
             ScoinProductRow(),
             MultiProductRow(multiProductName.BUNDLE.name),
+            MultiProductRow(multiProductName.COLLECTION.name),
             TagsProductColumn(),
             // CentProductWidget(),
             BackInStockProductWidget(),

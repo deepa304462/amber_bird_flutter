@@ -9,8 +9,8 @@ import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/add-to-cart-button.dart';
+import 'package:amber_bird/ui/widget/back-stock-budget.dart';
 import 'package:amber_bird/ui/widget/bootom-drawer/deal-bottom-drawer.dart';
-import 'package:amber_bird/ui/widget/cent-product-widget.dart';
 import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -18,7 +18,7 @@ import 'package:amber_bird/ui/widget/loading-with-logo.dart';
 import 'package:amber_bird/ui/widget/price-tag.dart';
 import 'package:amber_bird/ui/widget/product-card-scoin.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
-import 'package:amber_bird/ui/widget/product-tag-row.dart';
+import 'package:amber_bird/ui/widget/scoin-product-row.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -173,9 +173,20 @@ class PreCheckoutWidget extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ProductTagRow(
-                            '4850fa67-1029-41d8-af58-40a30ad9dbfe_Featured')),
+                      padding: EdgeInsets.all(5),
+                      child: ScoinProductRow(),
+                    ),
+                    childCount: 1,
+                  ),
+                ),
+              );
+              checkoutLists.add(
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) => Padding(
+                      padding: EdgeInsets.all(5),
+                      child: BackInStockProductWidget(),
+                    ),
                     childCount: 1,
                   ),
                 ),

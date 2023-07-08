@@ -306,7 +306,7 @@ class CheckoutWidget extends StatelessWidget {
                               Text(add.value.name ?? '',
                                   style: TextStyles.bodyFontBold),
                               Text(
-                                  '(${add.value.zipCode ?? ''} ${add.value.line1 ?? ''})',
+                                  '(${add.value.zipCode ?? ''}, ${add.value.houseNo ?? ''} ${add.value.line1 ?? ''} ${add.value.city ?? ''} ${add.value.country ?? ''})',
                                   style: TextStyles.body.copyWith())
                             ],
                           ),
