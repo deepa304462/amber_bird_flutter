@@ -21,7 +21,7 @@ class AboutPage extends StatelessWidget {
 
   getVerInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    version.value = '${packageInfo.version}-${packageInfo.buildNumber}';
+    version.value = 'V${packageInfo.version}-${packageInfo.buildNumber}';
   }
 
   @override
@@ -77,20 +77,21 @@ class AboutPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12)),
                   child: Center(
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/home.png',
-                            width: MediaQuery.of(context).size.width * .5,
-                            fit: BoxFit.cover,
-                          ),
-                          Text(
-                            '${version.value}',
-                            style:
-                                TextStyles.body.copyWith(color: AppColors.grey),
-                          )
-                        ]),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/home.png',
+                          width: MediaQuery.of(context).size.width * .5,
+                          fit: BoxFit.cover,
+                        ),
+                        Text(
+                          '${version.value}',
+                          style:
+                              TextStyles.body.copyWith(color: AppColors.grey),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

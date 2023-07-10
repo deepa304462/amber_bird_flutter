@@ -48,8 +48,7 @@ class ControllerGenerator {
           return Get.put(CartController(), tag: tag);
         }
         if (tag == 'productGuideController') {
-          return Get.put<ProductGuideController>(ProductGuideController(),
-              tag: tag);
+          return Get.put(ProductGuideController(), tag: tag);
         }
         if (tag == 'productGuidePageController') {
           return Get.put(ProductGuidePageController(), tag: tag);

@@ -173,7 +173,7 @@ class HelpCenterPage extends StatelessWidget {
                                       ),
                                     ),
                                     Center(
-                                      child: FitText("We're Hiring!",
+                                      child: FitText("Hiring",
                                           style: TextStyles.body),
                                     )
                                   ],
@@ -206,7 +206,7 @@ class HelpCenterPage extends StatelessWidget {
                         ListTile(
                           leading: Icon(Icons.mail),
                           title: Text(
-                            'Support at sbazar.app',
+                            'Support at hello@sbazar.app',
                             style: TextStyles.titleFont,
                           ),
                           trailing: const Icon(Icons.chevron_right),

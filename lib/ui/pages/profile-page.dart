@@ -152,7 +152,7 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.lock_clock,
+                            Icons.monitor,
                             size: 30,
                             color: Colors.grey.shade600,
                           ),
@@ -182,7 +182,7 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.pause_circle_outline_sharp,
+                            Icons.shopping_bag,
                             size: 30,
                             color: Colors.grey.shade600,
                           ),
@@ -212,7 +212,7 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.shopping_bag,
+                            Icons.local_shipping_outlined,
                             size: 30,
                             color: Colors.grey.shade600,
                           ),
@@ -220,7 +220,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Center(
-                      child: FitText('Sipped', style: TextStyles.body),
+                      child: FitText('Shipped', style: TextStyles.body),
                     )
                   ],
                 ),
@@ -242,7 +242,7 @@ class ProfilePage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.all(10),
                           child: Icon(
-                            Icons.local_shipping_outlined,
+                            Icons.done,
                             size: 30,
                             color: Colors.grey.shade600,
                           ),
@@ -250,7 +250,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Center(
-                      child: FitText("Dispatched", style: TextStyles.body),
+                      child: FitText("Received", style: TextStyles.body),
                     )
                   ],
                 ),
@@ -352,7 +352,7 @@ class ProfilePage extends StatelessWidget {
                             ],
                           ),
                           subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [

@@ -22,8 +22,12 @@ class ProductTagController extends GetxController {
           []);
 
       tagList.forEach((element) async {
-        var responseProd = await ClientService.post(
-            path: 'product/searchSummary', payload: {'tagId': element.id});
+        var responseProd = await ClientService.searchQuery(
+            path: 'cache/product/searchSummary',
+            query: {'tagId': element.id},
+            lang: 'en');
+        // var responseProd = await ClientService.post(
+        //     path: 'product/searchSummary', payload: {'tagId': element.id});
         if (responseProd.statusCode == 200) {
           List<ProductSummary> summaryProdList = ((responseProd.data
                       as List<dynamic>?)
@@ -31,7 +35,6 @@ class ProductTagController extends GetxController {
                       (e) => ProductSummary.fromMap(e as Map<String, dynamic>))
                   .toList() ??
               []);
-
           tagsProductsList[
                   '${element.id}_${element.title!.defaultText != null ? element.title!.defaultText!.text : element.title!.languageTexts![0].text}'] =
               summaryProdList;
