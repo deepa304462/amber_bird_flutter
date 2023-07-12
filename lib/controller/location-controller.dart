@@ -165,7 +165,7 @@ class LocationController extends GetxController {
           setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
-          return {"msg": "Something Went Wrong!!", "status": "error"};
+          return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
       }
     }
@@ -197,7 +197,7 @@ class LocationController extends GetxController {
           setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
         } else {
-          return {"msg": "Something Went Wrong!!", "status": "error"};
+          return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
       }
     }

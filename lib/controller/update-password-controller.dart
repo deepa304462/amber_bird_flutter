@@ -53,7 +53,7 @@ class UpdatePasswordController extends GetxController {
       Modular.to.navigate('/home/main');
       return {"msg": "Edited Successfully!!", "status": "success"};
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 }

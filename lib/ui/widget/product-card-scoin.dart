@@ -250,7 +250,7 @@ class ProductCardScoin extends StatelessWidget {
                             } else {
                               stateController.setCurrentTab(3);
                               snackBarClass.showToast(
-                                  context, 'Please Login to preoceed');
+                                  context, 'Please Login to proceed!!');
                             }
                             stateController.showLoader.value = false;
                           },
@@ -405,15 +405,15 @@ class ProductCardScoin extends StatelessWidget {
                                       }
                                     }
                                   } else {
-                                    snackBarClass.showToast(context,
-                                        'Your profile is not active yet');
+                                    snackBarClass.showToast(
+                                        context, 'Your profile is Inactive!!');
                                   }
                                   stateController.showLoader.value = false;
                                 }
                               : () {
                                   stateController.setCurrentTab(3);
                                   snackBarClass.showToast(
-                                      context, 'Please Login to preoceed');
+                                      context, 'Please Login to proceed!!');
                                 },
                         ),
                       ),

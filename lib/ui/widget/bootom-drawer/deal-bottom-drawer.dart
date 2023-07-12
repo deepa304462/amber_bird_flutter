@@ -274,7 +274,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       stateController.showLoader.value = false;
                                       stateController.setCurrentTab(3);
                                       snackBarClass.showToast(
-                                          context, 'Please Login to preoceed');
+                                          context, 'Please Login to proceed!!');
                                     }
                                   },
                                   icon: Icon(Icons.remove_circle_outline,
@@ -353,7 +353,7 @@ class DealBottomDrawer extends StatelessWidget {
                                               false;
                                           stateController.setCurrentTab(3);
                                           snackBarClass.showToast(context,
-                                              'Please Login to preoceed');
+                                              'Please Login to proceed!!');
                                         }
                                       }
                                     }
@@ -448,7 +448,7 @@ class DealBottomDrawer extends StatelessWidget {
                                         Navigator.of(context).pop();
                                         // ignore: use_build_context_synchronously
                                         snackBarClass.showToast(context,
-                                            'Your profile is not active yet');
+                                            'Your profile is Inactive!!');
                                       }
                                       stateController.showLoader.value = false;
                                     }
@@ -456,7 +456,7 @@ class DealBottomDrawer extends StatelessWidget {
                                       Navigator.of(context).pop();
                                       stateController.setCurrentTab(3);
                                       snackBarClass.showToast(
-                                          context, 'Please Login to preoceed');
+                                          context, 'Please Login to proceed!!');
                                     },
                               child: Text("Add to cart",
                                   style: TextStyles.headingFont

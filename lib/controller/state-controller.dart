@@ -290,7 +290,7 @@ class Controller extends GetxController {
     if (resp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 
@@ -431,7 +431,7 @@ class Controller extends GetxController {
     if (tokenResp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 

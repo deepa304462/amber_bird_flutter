@@ -674,7 +674,7 @@ class CartWidget extends StatelessWidget {
 
                                                   snackBarClass.showToast(
                                                       context,
-                                                      'Please Login to preoceed');
+                                                      'Please Login to proceed!!');
                                                 }
                                                 isLoading.value = false;
                                               },
@@ -934,7 +934,7 @@ class CartWidget extends StatelessWidget {
                                 } else {
                                   stateController.setCurrentTab(4);
                                   snackBarClass.showToast(
-                                      context, 'Please Login to preoceed');
+                                      context, 'Please Login to proceed!!');
                                 }
                                 isLoading.value = false;
                               },
@@ -1412,7 +1412,7 @@ class CartWidget extends StatelessWidget {
 
                                                     snackBarClass.showToast(
                                                         context,
-                                                        'Please Login to preoceed');
+                                                        'Please Login to proceed!!');
                                                   }
                                                   isLoading.value = false;
                                                 },

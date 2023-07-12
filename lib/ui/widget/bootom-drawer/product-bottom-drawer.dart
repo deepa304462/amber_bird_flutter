@@ -403,7 +403,7 @@ class ProductBottomDrawer extends StatelessWidget {
                                               } else {
                                                 Navigator.of(context).pop();
                                                 snackBarClass.showToast(context,
-                                                    'Your profile is not active yet');
+                                                    'Your profile is Inactive!!');
                                               }
                                               stateController.showLoader.value =
                                                   false;
@@ -412,7 +412,7 @@ class ProductBottomDrawer extends StatelessWidget {
                                               Navigator.of(context).pop();
                                               stateController.setCurrentTab(3);
                                               snackBarClass.showToast(context,
-                                                  'Please Login to preoceed');
+                                                  'Please Login to proceed!!');
                                             },
                                       child: Text("Add to cart",
                                           style: TextStyles.headingFont

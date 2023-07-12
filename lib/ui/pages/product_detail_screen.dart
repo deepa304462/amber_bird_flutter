@@ -487,7 +487,7 @@ class ProductDetailScreen extends StatelessWidget {
                                                         .setCurrentTab(3);
                                                     snackBarClass.showToast(
                                                         context,
-                                                        'Please Login to preoceed');
+                                                        'Please Login to proceed!!');
                                                   }
                                                   stateController
                                                       .showLoader.value = false;
@@ -548,7 +548,7 @@ class ProductDetailScreen extends StatelessWidget {
                                                       // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
-                                                          'Your profile is not active yet');
+                                                          'Your profile is Inactive!!');
                                                     }
                                                   } else {
                                                     stateController
@@ -556,7 +556,7 @@ class ProductDetailScreen extends StatelessWidget {
 
                                                     snackBarClass.showToast(
                                                         context,
-                                                        'Please Login to preoceed');
+                                                        'Please Login to proceed!!');
                                                   }
                                                   stateController
                                                       .showLoader.value = false;

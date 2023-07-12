@@ -592,7 +592,7 @@ class PreCheckoutWidget extends StatelessWidget {
                                           stateController.setCurrentTab(3);
 
                                           snackBarClass.showToast(context,
-                                              'Please Login to preoceed');
+                                              'Please Login to proceed!!');
                                         }
                                         isLoading.value = false;
                                       },
@@ -807,7 +807,7 @@ class PreCheckoutWidget extends StatelessWidget {
                               } else {
                                 stateController.setCurrentTab(4);
                                 snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
+                                    context, 'Please Login to proceed!!');
                               }
                               isLoading.value = false;
                             },
@@ -924,7 +924,7 @@ class PreCheckoutWidget extends StatelessWidget {
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
               },
               quantity: cartController.getCurrentQuantity(refId, ''),
@@ -948,7 +948,7 @@ class PreCheckoutWidget extends StatelessWidget {
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
               },
               onAdd: () async {
@@ -976,11 +976,11 @@ class PreCheckoutWidget extends StatelessWidget {
                     stateController.showLoader.value = false;
                     // ignore: use_build_context_synchronously
                     snackBarClass.showToast(
-                        context, 'Your profile is not active yet');
+                        context, 'Your profile is Inactive!!');
                   }
                 } else {
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
                 stateController.showLoader.value = false;
               },
@@ -1230,14 +1230,14 @@ class PreCheckoutWidget extends StatelessWidget {
                                             imageId: imageId);
                                     } else {
                                       snackBarClass.showToast(context,
-                                          'Your profile is not active yet');
+                                          'Your profile is Inactive!!');
                                     }
                                     stateController.showLoader.value = false;
                                   }
                                 : () {
                                     stateController.setCurrentTab(3);
                                     snackBarClass.showToast(
-                                        context, 'Please Login to preoceed');
+                                        context, 'Please Login to proceed!!');
                                   },
                             onDecrease: () async {
                               stateController.showLoader.value = true;
@@ -1269,7 +1269,7 @@ class PreCheckoutWidget extends StatelessWidget {
                               } else {
                                 stateController.setCurrentTab(3);
                                 snackBarClass.showToast(
-                                    context, 'Please Login to preoceed');
+                                    context, 'Please Login to proceed!!');
                               }
                               stateController.showLoader.value = false;
                             },

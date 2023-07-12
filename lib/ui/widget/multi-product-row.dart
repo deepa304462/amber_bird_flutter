@@ -430,7 +430,7 @@ class MultiProductRow extends StatelessWidget {
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
               },
               quantity: cartController.getCurrentQuantity(multiProd.id, ''),
@@ -464,7 +464,7 @@ class MultiProductRow extends StatelessWidget {
                 } else {
                   stateController.showLoader.value = false;
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
               },
               onAdd: () async {
@@ -504,11 +504,11 @@ class MultiProductRow extends StatelessWidget {
                     stateController.setCurrentTab(4);
                     // ignore: use_build_context_synchronously
                     snackBarClass.showToast(
-                        context, 'Your profile is not active yet');
+                        context, 'Your profile is Inactive!!');
                   }
                 } else {
                   stateController.setCurrentTab(3);
-                  snackBarClass.showToast(context, 'Please Login to preoceed');
+                  snackBarClass.showToast(context, 'Please Login to proceed!!');
                 }
                 stateController.showLoader.value = false;
               },

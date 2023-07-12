@@ -144,9 +144,9 @@ class AuthController extends GetxController {
           SharedData.save(jsonEncode(tokenResp.data), 'userData');
           SharedData.save(true.toString(), 'isLogin');
           FCMSyncService.subcribeTopic('all');
-          return {"msg": "Login Successfully!!", "status": "success"};
+          return {"msg": "Login Successfull!!", "status": "success"};
         } else {
-          return {"msg": "Something Went Wrong!!", "status": "error"};
+          return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
       }
     } else {
@@ -222,7 +222,7 @@ class AuthController extends GetxController {
                 "status": "success"
               };
             } else {
-              return {"msg": "Something Went Wrong!!", "status": "error"};
+              return {"msg": "Oops, Something went Wrong!!", "status": "error"};
             }
           } else {
             SharedData.save(true.toString(), 'isLogin');
@@ -233,10 +233,10 @@ class AuthController extends GetxController {
             };
           }
         } else {
-          return {"msg": "Something Went Wrong!!", "status": "error"};
+          return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
       } else {
-        return {"msg": "Something Went Wrong!!", "status": "error"};
+        return {"msg": "Oops, Something went Wrong!!", "status": "error"};
       }
     } else {
       return {"msg": "Please fill all field!!", "status": "error"};
@@ -267,10 +267,10 @@ class AuthController extends GetxController {
         var respLogin = await login();
         return respLogin;
       } else {
-        return {"msg": "Something Went Wrong!!", "status": "error"};
+        return {"msg": "Oops, Something went Wrong!!", "status": "error"};
       }
     } catch (err) {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 
@@ -293,9 +293,9 @@ class AuthController extends GetxController {
         'countryCode': '',
         'profileImageId': ''
       };
-      return {"msg": "Please fill all field !!", "status": "success"};
+      return {"msg": "Please fill all fields!", "status": "success"};
     } else {
-      return {"msg": "Something Went Wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 
@@ -333,10 +333,10 @@ class AuthController extends GetxController {
     //     'profileImageId': ''
     //   };
     //   // final AccessToken accessToken = result.accessToken!;
-    //   return {"msg": "Please fill all field !!", "status": "success"};
+    //   return {"msg": "Please fill all fields!", "status": "success"};
     // } else {
     //   dev.inspect(result);
-    //   return {"msg": "Something Went Wrong!!", "status": "error"};
+    //   return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     // }
   }
 
@@ -376,7 +376,7 @@ class AuthController extends GetxController {
     if (tokenResp.statusCode == 200) {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
-      return {"msg": "Mail is not registered!!", "status": "error"};
+      return {"msg": "This email is not registered!!", "status": "error"};
     }
   }
 
@@ -399,10 +399,10 @@ class AuthController extends GetxController {
       if (userUpdateResp.statusCode == 200) {
         return {"msg": "Profile saved successfully!!", "status": "success"};
       } else {
-        return {"msg": "Something went wrong!!", "status": "error"};
+        return {"msg": "Oops, Something went Wrong!!", "status": "error"};
       }
     } else {
-      return {"msg": "Something went wrong!!", "status": "error"};
+      return {"msg": "Oops, Something went Wrong!!", "status": "error"};
     }
   }
 }

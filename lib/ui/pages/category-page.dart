@@ -588,7 +588,7 @@ class CategoryPage extends StatelessWidget {
                                                       // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
-                                                          'Please Login to preoceed');
+                                                          'Please Login to proceed!!');
                                                     }
                                                     stateController.showLoader
                                                         .value = false;
@@ -715,7 +715,7 @@ class CategoryPage extends StatelessWidget {
                                                           // ignore: use_build_context_synchronously
                                                           snackBarClass.showToast(
                                                               context,
-                                                              'Your profile is not active yet');
+                                                              'Your profile is Inactive!!');
                                                         }
                                                         stateController
                                                             .showLoader
@@ -726,7 +726,7 @@ class CategoryPage extends StatelessWidget {
                                                             .setCurrentTab(3);
                                                         snackBarClass.showToast(
                                                             context,
-                                                            'Please Login to preoceed');
+                                                            'Please Login to proceed!!');
                                                       },
                                             icon: Icon(
                                               Icons.add_circle_outline,

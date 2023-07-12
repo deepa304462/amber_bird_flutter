@@ -52,15 +52,14 @@ class CouponWidget extends StatelessWidget {
                         cartController.setSearchVal(coupon.couponCode);
                         stateController.showLoader.value = false;
                         // ignore: use_build_context_synchronously
-                        snackBarClass.showToast(context, 'coupon is valid ');
+                        snackBarClass.showToast(context, 'Valid Coupon!! ');
                       } else {
                         // ignore: use_build_context_synchronously
-                        snackBarClass.showToast(
-                            context, 'coupon is not valid ');
+                        snackBarClass.showToast(context, 'Invalid Coupon!! ');
                       }
                     } else {
                       // ignore: use_build_context_synchronously
-                      snackBarClass.showToast(context, 'Not found any coupon');
+                      snackBarClass.showToast(context, 'Coupon not Found!!');
                     }
                     stateController.showLoader.value = false;
                   },
@@ -198,14 +197,13 @@ class CustomSearchDelegate extends SearchDelegate {
                             // controller.text = cartController.couponName.toString();
                             cartController.setSearchVal(coupon.couponCode);
                             stateController.showLoader.value = false;
-                            snackBarClass.showToast(
-                                context, 'coupon is valid ');
+                            snackBarClass.showToast(context, 'Valid Coupon!! ');
                             close(
                                 context, cartController.couponName.toString());
                           } else {
                             // ignore: use_build_context_synchronously
                             snackBarClass.showToast(
-                                context, 'coupon is not valid ');
+                                context, 'Invalid Coupon!! ');
                           }
                           stateController.showLoader.value = false;
                         },

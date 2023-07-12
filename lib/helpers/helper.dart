@@ -238,7 +238,7 @@ class Helper {
         if (!ruleConfig.forWeekDays!.contains(date.weekday)) {
           return ({
             'error': true,
-            'msg': 'Deal is not applicable today',
+            'msg': 'Deal not applicable today!',
             'type': ''
           });
         }
@@ -259,7 +259,7 @@ class Helper {
           custInsight.membershipType != memberShipType.Gold.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Golden member',
+          'msg': 'Deal applicable only for Gold Members!',
           'type': ''
         });
       }
@@ -267,7 +267,7 @@ class Helper {
           custInsight.membershipType != memberShipType.Platinum.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Prime member',
+          'msg': 'Deal applicable only for Platinum Members!',
           'type': ''
         });
       }
@@ -275,7 +275,7 @@ class Helper {
           custInsight.membershipType != memberShipType.Silver.name) {
         return ({
           'error': true,
-          'msg': 'Deal is applicable for only Silver member',
+          'msg': 'Deal applicable only for Silver Members!',
           'type': ''
         });
       }

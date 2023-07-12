@@ -178,7 +178,7 @@ class CartController extends GetxController {
             return ({
               'error': false,
               'data': '',
-              'msg': 'Something went wrong!!'
+              'msg': 'Oops, Something went Wrong!!'
             });
           }
         } else {
@@ -189,7 +189,11 @@ class CartController extends GetxController {
           });
         }
       } else {
-        return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'Oops, Something went Wrong!!'
+        });
       }
     } else {
       return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
@@ -240,7 +244,11 @@ class CartController extends GetxController {
         });
       }
     } else {
-      return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+      return ({
+        'error': true,
+        'data': '',
+        'msg': 'Oops, Something went Wrong!!'
+      });
     }
   }
 
@@ -325,7 +333,7 @@ class CartController extends GetxController {
             return ({
               'error': true,
               'data': '',
-              'msg': 'Something went wrong!!'
+              'msg': 'Oops, Something went Wrong!!'
             });
           }
         } else {
@@ -336,7 +344,11 @@ class CartController extends GetxController {
           });
         }
       } else {
-        return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'Oops, Something went Wrong!!'
+        });
       }
     } else {
       return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
@@ -370,7 +382,11 @@ class CartController extends GetxController {
         });
       }
     } else {
-      return ({'error': true, 'data': '', 'msg': 'Something went wrong!!'});
+      return ({
+        'error': true,
+        'data': '',
+        'msg': 'Oops, Something went Wrong!!'
+      });
     }
   }
 

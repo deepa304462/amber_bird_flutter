@@ -47,7 +47,7 @@ class ForgotPassDrawer extends StatelessWidget {
                   isLoading.value = false;
                   if (data['status'] == 'success') {
                     snackBarClass.showToast(
-                        context, 'Please check your mail! ,thanks');
+                        context, 'Please check your email!!');
                     Navigator.of(context).pop();
                   } else {
                     error.value = data['msg'];

@@ -182,7 +182,7 @@ class SignUp extends StatelessWidget {
                           snackBarClass.showToast(context, data['msg']);
                         } else {
                           snackBarClass.showToast(
-                              context, 'Please agree terms & conditions');
+                              context, 'Please accept Terms & Conditions');
                         }
                       },
                       style: ButtonStyle(
@@ -262,7 +262,7 @@ class SignUp extends StatelessWidget {
                                 } catch (e) {
                                   isLoading.value = false;
                                   snackBarClass.showToast(
-                                      context, 'Something went wrong...');
+                                      context, 'Oops, Something went Wrong!!');
                                 }
                               }),
                         ),

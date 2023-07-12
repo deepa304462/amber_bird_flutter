@@ -184,7 +184,7 @@ class WishListPage extends StatelessWidget {
                         } else {
                           // ignore: use_build_context_synchronously
                           snackBarClass.showToast(
-                              context, 'Your profile is not active yet');
+                              context, 'Your profile is Inactive!!');
                         }
                         stateController.showLoader.value = false;
                       },
