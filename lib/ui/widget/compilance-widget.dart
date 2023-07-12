@@ -45,7 +45,10 @@ class CompilanceWidget extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            if (Navigator.canPop(context)) {
+            if (Modular.to.canPop()) {
+              Navigator.pop(context);
+              Modular.to.pop();
+            } else if (Navigator.canPop(context)) {
               Navigator.pop(context);
             } else {
               Modular.to.navigate('/home/main');
