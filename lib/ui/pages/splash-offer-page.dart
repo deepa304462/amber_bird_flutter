@@ -16,7 +16,14 @@ class SplashOfferPage extends StatelessWidget {
   final OnBoardingController onBoardingController = Get.find();
 
   // Making list of pages needed to pass in IntroViewsFlutter constructor.
-  var colorList = [Colors.greenAccent, Colors.deepPurpleAccent, Colors.pink];
+  var colorList = [
+    Colors.greenAccent,
+    Colors.deepPurpleAccent,
+    Colors.pink,
+    Colors.greenAccent,
+    Colors.deepPurpleAccent,
+    Colors.pink
+  ];
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -66,7 +73,7 @@ class SplashOfferPage extends StatelessWidget {
                   }
                   onBoardingController.activePage.value = lpage;
                 },
-                waveType: WaveType.liquidReveal,
+                waveType: WaveType.circularReveal,
                 liquidController: liquidController,
                 fullTransitionValue: 880,
                 enableSideReveal: true,
@@ -74,37 +81,33 @@ class SplashOfferPage extends StatelessWidget {
                 ignoreUserGestureWhileAnimating: true,
               )
             : const SizedBox(),
-        // Align(
-        //   alignment: Alignment.bottomRight,
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(25.0),
-        //     child: ElevatedButton(
-        //       style: ElevatedButton.styleFrom(
-        //           backgroundColor: AppColors.primeColor,
-        //           textStyle: TextStyles.body.copyWith(color: AppColors.white)),
-        //       onPressed: () async {
-        //         SharedData.save('true', 'onboardingDone');
-        //         if (onBoardingController.onboardingData.value.appIntro !=
-        //             null) {
-        //           liquidController.animateToPage(
-        //               page: onBoardingController.onboardingData.value.appIntro!
-        //                       .introImages!.length -
-        //                   1,
-        //               duration: 700);
-        //           if (locationController.pinCode.value.isNotEmpty) {
-        //             Modular.to.navigate('/home/main');
-        //           } else {
-        //             Modular.to.navigate('/location');
-        //           }
-        //         }
-        //       },
-        //       child: Text(
-        //         "Skip to End",
-        //         style: TextStyles.body.copyWith(color: AppColors.white),
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        onBoardingController.activePage.value != 0
+            ? Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primeColor,
+                        textStyle:
+                            TextStyles.body.copyWith(color: AppColors.white)),
+                    onPressed: () async {
+                      liquidController.jumpToPage(
+                          page: liquidController.currentPage + 1 >
+                                  onBoardingController.onboardingData.value
+                                          .appIntro!.introImages!.length -
+                                      1
+                              ? 0
+                              : liquidController.currentPage - 1);
+                    },
+                    child: Text(
+                      "Prev",
+                      style: TextStyles.body.copyWith(color: AppColors.white),
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox(),
         Align(
           alignment: Alignment.bottomRight,
           child: Padding(
@@ -117,13 +120,9 @@ class SplashOfferPage extends StatelessWidget {
                 if (onBoardingController.onboardingData.value.appIntro !=
                     null) {
                   if (onBoardingController.onboardingData.value.appIntro!
-                                  .introImages!.length -
-                              1 ==
-                          onBoardingController.activePage.value &&
-                      onBoardingController.onboardingData.value.appIntro!
-                                  .introImages!.length -
-                              1 ==
-                          onBoardingController.activePage.value) {
+                              .introImages!.length -
+                          1 ==
+                      onBoardingController.activePage.value) {
                     var statusOnboarding = {
                       'status': 'true',
                       'time': DateTime.now().toUtc().toString()
@@ -143,7 +142,7 @@ class SplashOfferPage extends StatelessWidget {
                     }
                   } else {
                     liquidController.jumpToPage(
-                        page: liquidController.currentPage + 1 >
+                        page: onBoardingController.activePage.value >
                                 onBoardingController.onboardingData.value
                                         .appIntro!.introImages!.length -
                                     1
