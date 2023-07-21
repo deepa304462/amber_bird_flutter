@@ -250,7 +250,7 @@ class ClientService {
         return error.response;
       } else {
         return error.response;
-        throw e;
+        // throw e;
       }
     }
   }

@@ -148,21 +148,23 @@ class CartWidget extends StatelessWidget {
                                         'Shipping Fee: ',
                                         style: TextStyles.bodyFont,
                                       ),
-                                      cartController.calculatedPayment.value
-                                                  .shippingAmount ==
-                                              0.00
-                                          ? Text(
-                                              'Free',
-                                              style: TextStyles.bodyFont
-                                                  .copyWith(
-                                                      color: AppColors.green),
-                                            )
-                                          : Text(
-                                              '${Helper.formatNumberTwodigit(Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)))}${CodeHelp.euro}',
-                                              style: TextStyles.headingFont
-                                                  .copyWith(
-                                                      color: AppColors.green),
-                                            ),
+                                      Obx(
+                                        () => cartController.calculatedPayment
+                                                    .value.shippingAmount ==
+                                                0.00
+                                            ? Text(
+                                                'Free',
+                                                style: TextStyles.bodyFont
+                                                    .copyWith(
+                                                        color: AppColors.green),
+                                              )
+                                            : Text(
+                                                '${Helper.formatNumberTwodigit(Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)))}${CodeHelp.euro}',
+                                                style: TextStyles.headingFont
+                                                    .copyWith(
+                                                        color: AppColors.green),
+                                              ),
+                                      )
                                     ],
                                   ),
                                 ],

@@ -19,6 +19,10 @@ class snackBarClass {
                 .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
           ),
         ),
+        // margin: EdgeInsets.only(
+        //     bottom: MediaQuery.of(context).size.height - 150,
+        //     right: 20,
+        //     left: 20),
         duration: const Duration(milliseconds: 3000),
         padding: const EdgeInsets.all(8),
         behavior: SnackBarBehavior.floating,

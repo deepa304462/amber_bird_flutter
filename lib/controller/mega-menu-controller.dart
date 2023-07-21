@@ -139,11 +139,6 @@ class MegaMenuController extends GetxController {
               'dealProduct/getDealsAndMultiProductsTypesWithProductsAvailable');
 
       if (responseDeal.statusCode == 200) {
-        // subMenuList.add(GenericTab(
-        // image: '993a345c-885b-423b-bb49-f4f1c6ba78d0',
-        // id: 'collection_view',
-        // type: 'MULTI',
-        // text: 'Collection'));
         ProductAvailabilityResp data =
             ProductAvailabilityResp.fromMap(responseDeal.data);
 
@@ -158,18 +153,6 @@ class MegaMenuController extends GetxController {
         subMenuList.add(
             GenericTab(image: '', id: 'THEMES', type: 'MULTI', text: 'Theme'));
       }
-      // var resp = await ClientService.get(
-      //     path: 'multiProduct/categorySummary', id: parentTab.id);
-      // ((resp.data as List<dynamic>?)?.map((e) {
-      //       ProductCategory category =
-      //           ProductCategory.fromMap(e as Map<String, dynamic>);
-      //       subMenuList.add(GenericTab(
-      //           id: category.id,
-      //           image: category.logoId,
-      //           text: category.name!.languageTexts![0].text,
-      //           type: parentTab.type));
-      //     }).toList() ??
-      //     []);
     } else if (parentTab.type == 'CAT') {
       var payload = {"parentCategoryId": parentTab.id};
       var response = await ClientService.searchQuery(

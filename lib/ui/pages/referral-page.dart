@@ -82,7 +82,7 @@ class ReferralPage extends StatelessWidget {
                               MaterialButton(
                                 onPressed: () {
                                   CodeHelp.shareWithOther(
-                                      'Try SBazar app now, ${controller.shortLink.value.shortUrl}',
+                                      'Join our Journey - ${controller.shortLink.value.shortUrl}',
                                       'Share now');
                                 },
                                 color: AppColors.green,
