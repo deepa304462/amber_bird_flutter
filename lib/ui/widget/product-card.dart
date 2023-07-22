@@ -68,7 +68,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _gridItemHeader(ProductSummary product) {
+  Widget _gridItemHeader(ProductSummary product, BuildContext context) {
     // String timeLeft = '';
     // var difference;
     // if (addedFrom == dealName.FLASH.name) {
@@ -89,11 +89,19 @@ class ProductCard extends StatelessWidget {
                     '${product.id}@${product.varient!.varientCode}'),
                 onPressed: () async {
                   stateController.showLoader.value = true;
-                  await wishlistController.addToWishlist(
-                      '${product.id}@${product.varient!.varientCode}',
-                      product,
-                      null,
-                      addedFrom);
+                  stateController.showLoader.value = true;
+
+                  if (stateController.isLogin.value) {
+                    await wishlistController.addToWishlist(
+                        '${product.id}@${product.varient!.varientCode}',
+                        product,
+                        null,
+                        addedFrom);
+                  } else {
+                    stateController.setCurrentTab(3);
+                    snackBarClass.showToast(
+                        context, 'Please Login to proceed!!');
+                  }
                   stateController.showLoader.value = false;
                 },
               ),
@@ -227,7 +235,7 @@ class ProductCard extends StatelessWidget {
             fit: StackFit.loose,
             children: [
               _gridItemBody(product!, context),
-              _gridItemHeader(product!),
+              _gridItemHeader(product!, context),
               Obx(() {
                 return Visibility(
                   visible: checkBuyProductVisibility(),

@@ -100,7 +100,7 @@ class PreCheckoutWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+                            '${(cartController.calculatedPayment.value.totalAmount != null ? Helper.formatNumberTwodigit(Helper.getFormattedNumber(cartController.calculatedPayment.value.totalAmount as double)) : 0.00)}${CodeHelp.euro}',
                             style: TextStyles.bodyFont.copyWith(fontSize: 20),
                           ),
                         ],

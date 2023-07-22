@@ -13,6 +13,7 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'controller-generator.dart';
 
 class Helper {
@@ -20,11 +21,12 @@ class Helper {
     return Product();
   }
 
-  static double getFormattedNumber(num) {
+  static String getFormattedNumber(num) {
     if (num != null) {
-      return double.parse((num).toStringAsFixed(2));
+      print((num).toStringAsFixed(2));
+      return ((num).toStringAsFixed(2));
     } else
-      return 0;
+      return '0.00';
   }
 
   static String formatNumberTwodigit(num) {

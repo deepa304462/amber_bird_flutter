@@ -223,7 +223,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 Modular.to.navigate('/widget/product/${product.id}');
               },
               leading: ImageBox(
-                jsonDecode(product.extraData!)['images'][0],
+                jsonDecode(product.extraData!)['images'][0] ?? '',
                 key: Key(product.id!),
                 width: 30,
                 height: 30,

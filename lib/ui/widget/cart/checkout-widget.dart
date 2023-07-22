@@ -115,7 +115,7 @@ class CheckoutWidget extends StatelessWidget {
                             style: TextStyles.body,
                           ),
                           Text(
-                            '${(cartController.calculatedPayment.value.totalAmount != null ? cartController.calculatedPayment.value.totalAmount as double : 0).toStringAsFixed(2)}${CodeHelp.euro}',
+                            '${(cartController.calculatedPayment.value.totalAmount != null ? Helper.formatNumberTwodigit(Helper.getFormattedNumber(cartController.calculatedPayment.value.totalAmount as double)) : 0.00)}${CodeHelp.euro}',
                             style: TextStyles.bodyFont.copyWith(fontSize: 20),
                           ),
                         ],
@@ -370,7 +370,7 @@ class CheckoutWidget extends StatelessWidget {
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   child: Text(
-                                    'You will save ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.totalSavedAmount as double).toStringAsFixed(2)} on this purchase',
+                                    'You will save ${CodeHelp.euro}${Helper.getFormattedNumber(cartController.calculatedPayment.value.totalSavedAmount as double)} on this purchase',
                                     style: TextStyles.body,
                                   ),
                                 )
@@ -436,7 +436,7 @@ class CheckoutWidget extends StatelessWidget {
                               .copyWith(color: AppColors.green),
                         )
                       : Text(
-                          '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)).toStringAsFixed(2)}${CodeHelp.euro}',
+                          '${Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0))}${CodeHelp.euro}',
                           style: TextStyles.headingFont,
                         ),
                 ],
@@ -449,7 +449,7 @@ class CheckoutWidget extends StatelessWidget {
                     style: TextStyles.body,
                   ),
                   Text(
-                    '${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount).toStringAsFixed(2)}${CodeHelp.euro}',
+                    '${Helper.getFormattedNumber(cartController.calculatedPayment.value.appliedTaxAmount)}${CodeHelp.euro}',
                     style: TextStyles.headingFont,
                   ),
                 ],
@@ -500,10 +500,11 @@ class CheckoutWidget extends StatelessWidget {
                         ),
                         Text(
                           CodeHelp.euro +
-                              (cartController.calculatedPayment.value
-                                      .totalAmount as double)
-                                  .toStringAsFixed(2)
-                                  .toString(),
+                              (Helper.formatNumberTwodigit(
+                                  Helper.getFormattedNumber(cartController
+                                      .calculatedPayment
+                                      .value
+                                      .totalAmount as double))),
                           style: TextStyles.headingFont,
                         ),
                       ],

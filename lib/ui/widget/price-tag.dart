@@ -1,3 +1,4 @@
+import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class PriceTag extends StatelessWidget {
             verticalDirection: VerticalDirection.up,
             children: [
               Text(
-                "${num.parse(showPrice).toStringAsFixed(2)}${CodeHelp.euro}",
+                "${Helper.formatNumberTwodigit(num.parse(showPrice).toStringAsFixed(2))}${CodeHelp.euro}",
                 style: TextStyles.headingFont,
               ),
               const SizedBox(width: 3),

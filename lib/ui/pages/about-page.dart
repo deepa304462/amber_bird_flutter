@@ -85,11 +85,11 @@ class AboutPage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width * .5,
                           fit: BoxFit.cover,
                         ),
-                        Text(
-                          '${version.value}',
-                          style:
-                              TextStyles.body.copyWith(color: AppColors.grey),
-                        )
+                        Obx(() => Text(
+                              '${version.value}',
+                              style: TextStyles.body
+                                  .copyWith(color: AppColors.grey),
+                            ))
                       ],
                     ),
                   ),

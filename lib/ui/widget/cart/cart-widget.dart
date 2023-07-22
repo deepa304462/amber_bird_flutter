@@ -159,7 +159,7 @@ class CartWidget extends StatelessWidget {
                                                         color: AppColors.green),
                                               )
                                             : Text(
-                                                '${Helper.formatNumberTwodigit(Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0)))}${CodeHelp.euro}',
+                                                '${Helper.formatNumberTwodigit(Helper.getFormattedNumber((cartController.calculatedPayment.value.shippingAmount ?? 0.00)).toString())}${CodeHelp.euro}',
                                                 style: TextStyles.headingFont
                                                     .copyWith(
                                                         color: AppColors.green),
@@ -371,7 +371,7 @@ class CartWidget extends StatelessWidget {
                                             fit: BoxFit.contain,
                                           ),
                                           Text(
-                                            '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                            '${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentMemberPrice * currentProduct.count))}${CodeHelp.euro}',
                                             style: TextStyles.headingFont,
                                           ),
                                           Card(
@@ -616,7 +616,7 @@ class CartWidget extends StatelessWidget {
                                         fit: BoxFit.contain,
                                       ),
                                       Text(
-                                          '${Helper.getFormattedNumber(currentMemberPrice).toString()}${CodeHelp.euro} ',
+                                          '${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentMemberPrice)).toString()}${CodeHelp.euro} ',
                                           style: TextStyles.body),
                                     ],
                                   ),
@@ -635,7 +635,7 @@ class CartWidget extends StatelessWidget {
                                               fit: BoxFit.contain,
                                             ),
                                             Text(
-                                              '${Helper.getFormattedNumber(currentMemberPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                              '${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentMemberPrice * currentProduct.count)).toString()}${CodeHelp.euro}',
                                               style: TextStyles.headingFont,
                                             ),
                                           ],
@@ -886,17 +886,15 @@ class CartWidget extends StatelessWidget {
                               cartController.cartProductsScoins[currentKey]!
                                   .price!.actualPrice!
                                   .toString(),
-                              scoin: Helper.getFormattedNumber(
-                                      Helper.getMemberCoinValue(
-                                              cartController
-                                                  .cartProductsScoins[
-                                                      currentKey]!
-                                                  .price!,
-                                              stateController.userType.value) *
+                              scoin: int.parse(Helper.getFormattedNumber(
+                                  Helper.getMemberCoinValue(
                                           cartController
                                               .cartProductsScoins[currentKey]!
-                                              .count)
-                                  .toInt(),
+                                              .price!,
+                                          stateController.userType.value) *
+                                      cartController
+                                          .cartProductsScoins[currentKey]!
+                                          .count)),
                             )
                           ],
                         ),
@@ -1120,7 +1118,7 @@ class CartWidget extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           children: [
                                             Text(
-                                              '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                              '${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count)).toString()}${CodeHelp.euro}',
                                               style: TextStyles.headingFont,
                                             ),
                                             Card(
@@ -1362,7 +1360,7 @@ class CartWidget extends StatelessWidget {
                                           style: TextStyles.body,
                                         ),
                                         Text(
-                                            '/${Helper.getFormattedNumber(currentProduct.price!.offerPrice!)}${CodeHelp.euro} ',
+                                            '/${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentProduct.price!.offerPrice!)).toString()}${CodeHelp.euro} ',
                                             style: TextStyles.body),
                                       ],
                                     ),
@@ -1370,7 +1368,7 @@ class CartWidget extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Text(
-                                          '${Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count).toString()}${CodeHelp.euro}',
+                                          '${Helper.formatNumberTwodigit(Helper.getFormattedNumber(currentProduct.price!.offerPrice * currentProduct.count)).toString()}${CodeHelp.euro}',
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
