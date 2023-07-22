@@ -157,7 +157,7 @@ class EditProfilePage extends StatelessWidget {
                 Card(
                   child: ListTile(
                     dense: true,
-                    onTap: () => {Modular.to.navigate('/widget/address-list')},
+                    onTap: () => {Modular.to.pushNamed('/widget/address-list')},
                     leading: Icon(Icons.book),
                     title: Text(
                       'Address Book',
