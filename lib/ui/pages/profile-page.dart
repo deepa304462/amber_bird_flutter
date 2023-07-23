@@ -326,7 +326,7 @@ class ProfilePage extends StatelessWidget {
                                 type: 'download',
                               )
                             : ImageBox(
-                                '35b50ba9-3bfe-4688-8b22-1d56f657f3bb',
+                                '80febc8a-4623-476e-b948-f96c207a774b',
                                 width: MediaQuery.of(context).size.width * .2,
                               ),
                       ),
