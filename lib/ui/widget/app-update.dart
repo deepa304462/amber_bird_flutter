@@ -36,7 +36,7 @@ class AppUpdate extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  inAppReview.openStoreListing();
+                  inAppReview.openStoreListing(appStoreId:"6448874245" );
                 },
                 color: AppColors.primeColor,
                 child: Text(
