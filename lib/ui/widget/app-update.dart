@@ -30,17 +30,14 @@ class AppUpdate extends StatelessWidget {
                   style: TextStyles.bodyFontBold,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 5),
-                child: MaterialButton(
-                  onPressed: () {
-                    inAppReview.openStoreListing();
-                  },
-                  color: AppColors.primeColor,
-                  child: Text(
-                    'Install update',
-                    style: TextStyles.bodyFontBold.copyWith(color: Colors.white),
-                  ),
+              MaterialButton(
+                onPressed: () {
+                  inAppReview.openStoreListing(appStoreId:"6448874245" );
+                },
+                color: AppColors.primeColor,
+                child: Text(
+                  'Install update',
+                  style: TextStyles.bodyFontBold.copyWith(color: Colors.white),
                 ),
               )
             ],
