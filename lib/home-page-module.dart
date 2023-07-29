@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:amber_bird/ui/pages/category-page.dart';
-import 'package:amber_bird/ui/pages/category-product-page.dart';
 import 'package:amber_bird/ui/pages/coin-wallet-page.dart';
 import 'package:amber_bird/ui/pages/home-page.dart';
 import 'package:amber_bird/ui/pages/location-page.dart';

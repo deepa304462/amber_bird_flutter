@@ -41,7 +41,8 @@ class WildCardPageController extends GetxController {
           path: 'product/shortLinkToProduct', payload: payload);
       if (resp.statusCode == 200 && resp.data != null && resp.data != '') {
         FlutterNativeSplash.remove();
-        Modular.to.pushReplacementNamed('/widget/product/${resp.data}');
+        Modular.to
+            .pushReplacementNamed('/widget/product', arguments: resp.data);
         // Navigator.pushReplacement(context,
         //     MaterialPageRoute(builder: (BuildContext context) => PageA()));
         // Modular.to.pushNamed('/widget/product/${resp.data}');
