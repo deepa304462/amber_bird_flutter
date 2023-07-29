@@ -48,8 +48,16 @@ class ProductCard extends StatelessWidget {
                   // if (addedFrom == 'BRAND') {
                   //   Modular.to.pushNamed('../product/${product.id}');
                   // } else {
-                  Modular.to.pushNamed('/widget/product/${product.id}');
-                  // }
+                  // Modular.to.pushNamed('/widget/product/${product.id}');
+                  Modular.to.pushNamed(
+                    '/widget/product',
+                    arguments: product.id,
+                  );
+                  //                   Navigator.of(context).pushNamed(
+                  //   '/second',
+                  //   arguments: 'Hello there from the first page!',
+                  // );
+                  //          }
                 },
                 child: SizedBox(
                   width: 100,

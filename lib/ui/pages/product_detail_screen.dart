@@ -52,7 +52,7 @@ class ProductDetailScreen extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final ProductController productController =
-        Get.put(ProductController(pId ?? ''), tag: pId ?? "");
+        Get.put(ProductController(pId), tag: pId);
     if (pId == null || pId == '') {
       Modular.to.navigate('/home/main');
     }
@@ -1464,7 +1464,8 @@ class ProductDetailScreen extends StatelessWidget {
                                         child: GestureDetector(
                                           onTap: () {
                                             Modular.to.pushNamed(
-                                                '/widget/tag-product/${currentTag}');
+                                                '/widget/tag-product',
+                                                arguments: currentTag);
                                           },
                                           child: Text('${currentTag}',
                                               style: TextStyles.body.copyWith(
@@ -1713,7 +1714,7 @@ class ProductDetailScreen extends StatelessWidget {
                   TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
           ListTile(
             onTap: () {
-              Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
+              Modular.to.pushNamed('/widget/brandProduct', arguments: brand.id);
             },
             leading: ImageBox(
               brand.logoId!,

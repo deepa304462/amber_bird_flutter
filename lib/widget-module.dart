@@ -31,30 +31,30 @@ class WidgetRouteModule extends Module {
       ChildRoute('/refer-page', child: (_, args) => ReferralPage()),
       ChildRoute('/cart', child: (_, args) => CartPage()),
       ChildRoute('/pre-checkout', child: (_, args) => PreCheckoutWidget()),
-      ChildRoute('/checkout', child: (_, args) => CheckoutWidget()), 
+      ChildRoute('/checkout', child: (_, args) => CheckoutWidget()),
       ChildRoute('/account', child: (_, args) => AccountPage()),
       ChildRoute('/help-center', child: (_, args) => HelpCenterPage()),
       ChildRoute('/about-page', child: (_, args) => AboutPage()),
       ChildRoute('/edit-profile', child: (_, args) => EditProfilePage()),
       ChildRoute('/address-list', child: (_, args) => AllAddressPage()),
       ChildRoute(
-        '/guide/:id',
+        '/guide',
         child: (_, args) {
-          String productId = args.params['id'];
+          String productId = args.data; //args.params['id'];
           return ProductGuidePage(productId);
         },
       ),
       ChildRoute(
-        '/compilance/:id',
+        '/compilance',
         child: (_, args) {
-          String productId = args.params['id'];
+          String productId = args.data; //args.params['id'];
           return CompilanceWidget(productId);
         },
       ),
       ChildRoute(
-        '/brandProduct/:id',
+        '/brandProduct',
         child: (_, args) {
-          String productId = args.params['id'];
+          String productId = args.data; // args.params['id'];
           return BrandProductPage(productId);
         },
       ),
@@ -68,23 +68,26 @@ class WidgetRouteModule extends Module {
         },
       ),
       ChildRoute(
-        '/categoryProduct/:id',
+        '/categoryProduct',
         child: (_, args) {
-          String productId = args.params['id'];
+          String productId = args.data;
+          //args.params['id'];
           return CategoryProductPage(productId);
         },
       ),
       ChildRoute(
-        '/product/:id',
+        '/product',
         child: (_, args) {
-          String productId = args.params['id'] ?? '';
+          String productId = args.data;
+          // args.params['id'] ?? '';
           return ProductPage(productId, search: false);
         },
       ),
       ChildRoute(
-        '/tag-product/:id',
+        '/tag-product',
         child: (_, args) {
-          String keyword = args.params['id'];
+          String keyword = args.data;
+          // args.params['id'];
           if (keyword == '') {
             keyword = args.fragment;
           }
