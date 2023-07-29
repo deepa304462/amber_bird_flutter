@@ -97,7 +97,6 @@ class ProductCard extends StatelessWidget {
                     '${product.id}@${product.varient!.varientCode}'),
                 onPressed: () async {
                   stateController.showLoader.value = true;
-                  stateController.showLoader.value = true;
 
                   if (stateController.isLogin.value) {
                     await wishlistController.addToWishlist(
