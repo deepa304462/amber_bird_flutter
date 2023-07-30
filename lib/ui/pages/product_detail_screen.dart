@@ -52,7 +52,7 @@ class ProductDetailScreen extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final ProductController productController =
-        Get.put(ProductController(pId ?? ''), tag: pId ?? "");
+        Get.put(ProductController(pId), tag: pId);
     if (pId == null || pId == '') {
       Modular.to.navigate('/home/main');
     }
@@ -1464,7 +1464,8 @@ class ProductDetailScreen extends StatelessWidget {
                                         child: GestureDetector(
                                           onTap: () {
                                             Modular.to.pushNamed(
-                                                '/widget/tag-product/${currentTag}');
+                                                '/widget/tag-product',
+                                                arguments: currentTag);
                                           },
                                           child: Text('${currentTag}',
                                               style: TextStyles.body.copyWith(
@@ -1498,26 +1499,7 @@ class ProductDetailScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Html(
-                            data: productController.product.value
-                                            .nutritionDetail!.defaultText !=
-                                        null &&
-                                    productController
-                                            .product
-                                            .value
-                                            .nutritionDetail!
-                                            .defaultText!
-                                            .text !=
-                                        null
-                                ? productController.product.value
-                                        .nutritionDetail!.defaultText!.text ??
-                                    ''
-                                : productController
-                                        .product
-                                        .value
-                                        .nutritionDetail!
-                                        .languageTexts![0]
-                                        .text ??
-                                    '',
+                            data: getTextData(productController, 'nutrition'),
                             style: {
                               "body": Style(
                                   fontSize: FontSize(FontSizes.body),
@@ -1543,37 +1525,9 @@ class ProductDetailScreen extends StatelessWidget {
                     TableCell(
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child:
-                            ShowMoreWidget(
-                                text:
-                                    productController
-                                                    .product
-                                                    .value
-                                                    .allergicDetail!
-                                                    .defaultText !=
-                                                null &&
-                                            productController
-                                                    .product
-                                                    .value
-                                                    .allergicDetail!
-                                                    .defaultText!
-                                                    .text !=
-                                                null
-                                        ? productController
-                                                .product
-                                                .value
-                                                .allergicDetail!
-                                                .defaultText!
-                                                .text ??
-                                            ''
-                                        : productController
-                                                .product
-                                                .value
-                                                .allergicDetail!
-                                                .languageTexts![0]
-                                                .text ??
-                                            '',
-                                length: 50),
+                        child: ShowMoreWidget(
+                            text: getTextData(productController, 'allergy'),
+                            length: 50),
                       ),
                     )
                   ],
@@ -1713,7 +1667,7 @@ class ProductDetailScreen extends StatelessWidget {
                   TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
           ListTile(
             onTap: () {
-              Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
+              Modular.to.pushNamed('/widget/brandProduct', arguments: brand.id);
             },
             leading: ImageBox(
               brand.logoId!,
@@ -1730,5 +1684,32 @@ class ProductDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  getTextData(productController, type) {
+    if (type == 'nutrition') {
+      var nutritionDetail = productController.product.value.nutritionDetail;
+      if (nutritionDetail != null) {
+        return nutritionDetail.defaultText != null &&
+                nutritionDetail.defaultText!.text != null
+            ? nutritionDetail.defaultText!.text ?? ''
+            : nutritionDetail.languageTexts![0].text ?? '';
+      } else {
+        return '';
+      }
+    }
+    if (type == 'allergy') {
+      var allergyDetail = productController.product.value.allergicDetail;
+      if (allergyDetail != null) {
+        return allergyDetail.defaultText != null &&
+                allergyDetail.defaultText!.text != null
+            ? allergyDetail.defaultText!.text ?? ''
+            : allergyDetail.languageTexts![0].text ?? '';
+      } else {
+        return '';
+      }
+    } else {
+      return '';
+    }
   }
 }

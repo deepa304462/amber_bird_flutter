@@ -334,7 +334,9 @@ class CartWidget extends StatelessWidget {
                                             leading: InkWell(
                                               onTap: () {
                                                 Modular.to.pushNamed(
-                                                    '/widget/product/${currentInnerProduct.id}');
+                                                    '/widget/product',
+                                                    arguments:
+                                                        currentInnerProduct.id);
                                               },
                                               child: ImageBox(
                                                 '${currentInnerProduct.images![0]}',
@@ -587,8 +589,9 @@ class CartWidget extends StatelessWidget {
                                       const VisualDensity(vertical: 3),
                                   leading: InkWell(
                                     onTap: () {
-                                      Modular.to.pushNamed(
-                                          '/widget/product/${currentProduct.product!.id}');
+                                      Modular.to.pushNamed('/widget/product',
+                                          arguments:
+                                              currentProduct.product!.id);
                                     },
                                     child: ImageBox(
                                       currentProduct.product!.images![0],
@@ -842,8 +845,9 @@ class CartWidget extends StatelessWidget {
                   visualDensity: const VisualDensity(vertical: 3),
                   leading: InkWell(
                     onTap: () {
-                      Modular.to.pushNamed(
-                          '/widget/product/${cartController.cartProductsScoins.value[currentKey]!.product!.product!.id}');
+                      Modular.to.pushNamed('/widget/product',
+                          arguments: cartController.cartProductsScoins
+                              .value[currentKey]!.product!.product!.id);
                     },
                     child: ImageBox(
                       cartController.cartProductsScoins.value[currentKey]!
@@ -1337,11 +1341,13 @@ class CartWidget extends StatelessWidget {
                                         const VisualDensity(vertical: 3),
                                     leading: InkWell(
                                       onTap: () {
-                                        Modular.to.pushNamed(
-                                            '/widget/product/${currentProduct.product.id}');
+                                        Modular.to.pushNamed('/widget/product',
+                                            arguments:
+                                                currentProduct.product.id);
                                       },
                                       child: ImageBox(
-                                        currentProduct.product!.images![0],
+                                        currentProduct.product!.images![0] ??
+                                            '',
                                         width: 80,
                                         height: 80,
                                         fit: BoxFit.contain,

@@ -71,9 +71,6 @@ class WordCloud extends StatelessWidget {
                 i));
           }
         }
-        // for (var i = 0; i < kFlutterHashtags.length; i++) {
-        //   widgets.add(ScatterItem(kFlutterHashtags[i], i));
-        // }
       }
     }
   }
@@ -81,9 +78,6 @@ class WordCloud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getProductTags();
-
-    // final screenSize = MediaQuery.of(context).size;
-    // final ratio = screenSize.width * 2.5 / (screenSize.height / 2);
 
     return Container(
       color: Colors.white,
@@ -140,7 +134,8 @@ class ScatterItem extends StatelessWidget {
       quarterTurns: 1,
       child: InkWell(
         onTap: () {
-          Modular.to.pushNamed('/widget/tag-product/${hashtag.hashtag}');
+          Modular.to
+              .navigate('/widget/tag-product', arguments: hashtag.hashtag);
         },
         child: Text(
           hashtag.hashtag,
