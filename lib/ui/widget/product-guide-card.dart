@@ -1,6 +1,5 @@
 import 'package:amber_bird/data/product_guide/product_guide.dart';
 import 'package:amber_bird/ui/widget/image-slider.dart';
-import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

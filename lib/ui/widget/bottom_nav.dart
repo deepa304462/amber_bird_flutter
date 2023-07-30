@@ -31,8 +31,7 @@ class BottomNav extends StatefulWidget {
       this.animationDuration = const Duration(milliseconds: 200),
       this.backgroundColor = Colors.white,
       this.radius = 16.0})
-      : assert(items != null),
-        assert(items.length >= 2);
+      : assert(items.length >= 2);
 
   @override
   _BottomNavState createState() => _BottomNavState();
@@ -62,7 +61,7 @@ class _BottomNavState extends State<BottomNav> with TickerProviderStateMixin {
     setState(() {
       currentIndex = i;
     });
-    if (widget.onTap != null) widget.onTap(i);
+ widget.onTap(i);
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
-import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -104,7 +104,7 @@ class CompilanceWidget extends StatelessWidget {
                                       e.subHeading!.languageTexts!.length > 0)
                                   ? e.subHeading!.languageTexts![0].text
                                   : '');
-                          List<Description> subContentList = e!.content ?? [];
+                          List<Description> subContentList = e.content ?? [];
                           return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -113,8 +113,7 @@ class CompilanceWidget extends StatelessWidget {
                                   style: TextStyles.titleFont,
                                 ),
                                 ...subContentList.map((subContent) {
-                                  var currentSubContent = subContent != null &&
-                                          subContent.defaultText != null
+                                  var currentSubContent = subContent.defaultText != null
                                       ? subContent.defaultText!.text
                                       : subContent.languageTexts![0].text;
                                   return Html(
