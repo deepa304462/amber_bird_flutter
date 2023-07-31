@@ -152,8 +152,8 @@ class SignUp extends StatelessWidget {
                                 ..onTap = () {
                                   // Modular.to.navigate(
                                   //     '/widget/compilance/TERMS_AND_CONDITIONS');
-                                  Modular.to.pushNamed(
-                                      '/widget/compilance/TERMS_AND_CONDITIONS');
+                                  Modular.to.pushNamed('/widget/compilance',
+                                      arguments: 'TERMS_AND_CONDITIONS');
                                 },
                             ),
                           ],

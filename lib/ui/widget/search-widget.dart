@@ -220,7 +220,7 @@ class CustomSearchDelegate extends SearchDelegate {
             child: ListTile(
               onTap: () {
                 close(context, null);
-                Modular.to.navigate('/widget/product/${product.id}');
+                Modular.to.navigate('/widget/product', arguments: product.id);
               },
               leading: ImageBox(
                 jsonDecode(product.extraData!)['images'][0] ?? '',
@@ -250,7 +250,8 @@ class CustomSearchDelegate extends SearchDelegate {
               child: ListTile(
                 onTap: () {
                   close(context, null);
-                  Modular.to.navigate('/widget/categoryProduct/${category.id}');
+                  Modular.to.navigate('/widget/categoryProduct',
+                      arguments: category.id);
                 },
                 leading: jsonDecode(category.extraData!)['logoId'] != null
                     ? ImageBox(
@@ -281,7 +282,8 @@ class CustomSearchDelegate extends SearchDelegate {
             child: ListTile(
               onTap: () {
                 close(context, null);
-                Modular.to.navigate('/widget/brandProduct/${brand.id}');
+                Modular.to
+                    .navigate('/widget/brandProduct', arguments: brand.id);
               },
               leading: jsonDecode(brand.extraData!)['logoId'] != null
                   ? ImageBox(

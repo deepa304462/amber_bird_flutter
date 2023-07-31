@@ -457,8 +457,7 @@ class CheckoutWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              (cartController.calculatedPayment.value != null &&
-                      cartController.calculatedPayment.value.appliedTaxDetail !=
+              (cartController.calculatedPayment.value.appliedTaxDetail !=
                           null &&
                       cartController
                           .calculatedPayment.value.appliedTaxDetail!.isNotEmpty)

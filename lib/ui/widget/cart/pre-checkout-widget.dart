@@ -1104,8 +1104,8 @@ class PreCheckoutWidget extends StatelessWidget {
                   product.images!.isNotEmpty
                       ? InkWell(
                           onTap: () {
-                            Modular.to
-                                .pushNamed('/widget/product/${product.id}');
+                            Modular.to.pushNamed('/widget/product',
+                                arguments: product.id);
                           },
                           child: SizedBox(
                             width: 100,

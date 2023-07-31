@@ -17,7 +17,7 @@ class FitText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return text != null && text != ''
+    return text != ''
         ? FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
