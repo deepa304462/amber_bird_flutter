@@ -49,7 +49,7 @@ class CartController extends GetxController {
 
   @override
   void onInit() {
-    cartAvability();
+  //  cartAvability();
     fetchCart();
     super.onInit();
   }
