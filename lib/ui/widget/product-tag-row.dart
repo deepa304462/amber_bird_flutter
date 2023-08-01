@@ -3,7 +3,6 @@ import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/ui/widget/product-card.dart';
 import 'package:amber_bird/utils/ui-style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProductTagRow extends StatelessWidget {

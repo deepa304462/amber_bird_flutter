@@ -79,7 +79,7 @@ class AppBarWidget extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             if (stateController.isLogin.value) {
-                              Modular.to.pushNamed('/widget/wallet');
+                              Modular.to.navigate('/widget/wallet');
                             } else {
                               Modular.to.navigate('/widget/account');
                             }

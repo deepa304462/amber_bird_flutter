@@ -52,11 +52,8 @@ void main() async {
   FirebaseDynamicLinks.instance.onLink.listen(
     (pendingDynamicLinkData) {
       // Set up the `onLink` event listener next as it may be received here
-      if (pendingDynamicLinkData != null) {
-        final Uri deepLink = pendingDynamicLinkData.link;
-        Modular.to.navigate(deepLink.path);
-        // Example of using the dynamic link to push the user to a different screen
-      }
+      final Uri deepLink = pendingDynamicLinkData.link;
+      Modular.to.navigate(deepLink.path);
     },
   );
 

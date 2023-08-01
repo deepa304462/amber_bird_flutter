@@ -80,7 +80,8 @@ class HelpCenterPage extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         Modular.to.pushNamed(
-                                            '/widget/compilance/RETURN_REFUND');
+                                            '/widget/compilance',
+                                            arguments: 'RETURN_REFUND');
                                       },
                                       child: ImageBox(
                                         '316204af-0bc0-486d-81fb-55dd28e4674c',
@@ -108,7 +109,8 @@ class HelpCenterPage extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         Modular.to.pushNamed(
-                                            '/widget/compilance/BUYER_PROTECTION');
+                                            '/widget/compilance',
+                                            arguments: 'BUYER_PROTECTION');
                                       },
                                       child: ImageBox(
                                         '2229ac1f-3b17-4477-8970-d4441f5e6447',
@@ -136,7 +138,8 @@ class HelpCenterPage extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         Modular.to.pushNamed(
-                                            '/widget/compilance/PARTNERSHIP');
+                                            '/widget/compilance',
+                                            arguments: 'PARTNERSHIP');
                                       },
                                       child: ImageBox(
                                         '82b731de-b1f2-49a2-ad4e-eb5ed0ccb0a3',
@@ -164,7 +167,8 @@ class HelpCenterPage extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         Modular.to.pushNamed(
-                                            '/widget/compilance/HIRING');
+                                            '/widget/compilance',
+                                            arguments: 'HIRING');
                                       },
                                       child: ImageBox(
                                         'a739ca3d-d626-4f84-9fa1-a4f92b53f970',
@@ -248,8 +252,8 @@ class HelpCenterPage extends StatelessWidget {
                         ),
                         ListTile(
                           onTap: () {
-                            Modular.to
-                                .pushNamed('/widget/compilance/RETURN_REFUND');
+                            Modular.to.pushNamed('/widget/compilance',
+                                arguments: 'RETURN_REFUND');
                           },
                           title: Text(
                             'How to get a refund',
@@ -259,8 +263,8 @@ class HelpCenterPage extends StatelessWidget {
                         ),
                         ListTile(
                           onTap: () {
-                            Modular.to
-                                .pushNamed('/widget/compilance/EARN_SCOINS');
+                            Modular.to.pushNamed('/widget/compilance',
+                                arguments: 'EARN_SCOINS');
                           },
                           title: Text(
                             'Buy X get Y% Disccount promotion',

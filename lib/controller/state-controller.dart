@@ -175,16 +175,14 @@ class Controller extends GetxController {
   }
 
   checkAuth() async {
-    if (loggedInPRofileId.value != null) {
-      var tokenResp =
-          await ClientService.get(path: 'auth', id: tokenManagerEntityId.value);
-      if (tokenResp.statusCode == 200) {
-        var userData = tokenResp.data;
-        if (userData['mappedTo'] != null) {
-          isActivate.value = userData['authEmailVerified'];
-          isEmailVerified.value = userData['authEmailVerified'];
-          isPhoneVerified.value = userData['mobileVerified'];
-        }
+    var tokenResp =
+        await ClientService.get(path: 'auth', id: tokenManagerEntityId.value);
+    if (tokenResp.statusCode == 200) {
+      var userData = tokenResp.data;
+      if (userData['mappedTo'] != null) {
+        isActivate.value = userData['authEmailVerified'];
+        isEmailVerified.value = userData['authEmailVerified'];
+        isPhoneVerified.value = userData['mobileVerified'];
       }
     }
     return null;
@@ -436,7 +434,7 @@ class Controller extends GetxController {
   }
 
   String getMemberShipText() {
-    if (userType == null || userType == 'No_Membership') {
+    if (userType == 'No_Membership') {
       return "Newbie";
     }
     return userType.toString();

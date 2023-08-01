@@ -45,11 +45,10 @@ class ProductCard extends StatelessWidget {
         product.images!.isNotEmpty
             ? InkWell(
                 onTap: () {
-                  // if (addedFrom == 'BRAND') {
-                  //   Modular.to.pushNamed('../product/${product.id}');
-                  // } else {
-                  Modular.to.pushNamed('/widget/product/${product.id}');
-                  // }
+                  Modular.to.pushNamed(
+                    '/widget/product',
+                    arguments: product.id,
+                  );
                 },
                 child: SizedBox(
                   width: 100,
@@ -88,7 +87,6 @@ class ProductCard extends StatelessWidget {
                 isLiked: wishlistController.checkIfProductWishlist(
                     '${product.id}@${product.varient!.varientCode}'),
                 onPressed: () async {
-                  stateController.showLoader.value = true;
                   stateController.showLoader.value = true;
 
                   if (stateController.isLogin.value) {

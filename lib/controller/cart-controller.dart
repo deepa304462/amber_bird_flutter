@@ -210,16 +210,14 @@ class CartController extends GetxController {
       pr.actualPrice = pr.actualPrice! + v.price!.actualPrice!;
       pr.offerPrice = pr.offerPrice! + v.price!.actualPrice!;
     }
-    if (selectedCoupon.value != null) {
-      var reward = selectedCoupon.value.reward;
-      if (reward?.discountUptos != null) {
-        pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
-      } else if (reward?.flatDiscount != null) {
-        pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
-      } else if (reward?.discountPercent != null) {
-        var disc = (pr.offerPrice! * reward?.discountPercent) / 100;
-        pr.offerPrice = pr.offerPrice! - disc;
-      }
+    var reward = selectedCoupon.value.reward;
+    if (reward?.discountUptos != null) {
+      pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
+    } else if (reward?.flatDiscount != null) {
+      pr.offerPrice = pr.offerPrice! - reward?.discountUptos;
+    } else if (reward?.discountPercent != null) {
+      var disc = (pr.offerPrice! * reward?.discountPercent) / 100;
+      pr.offerPrice = pr.offerPrice! - disc;
     }
     totalPrice.value = pr;
   }

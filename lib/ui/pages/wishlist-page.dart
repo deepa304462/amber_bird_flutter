@@ -122,8 +122,8 @@ class WishListPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Modular.to.pushNamed(
-                        '/widget/product/${curwishList.product!.id}');
+                    Modular.to.pushNamed('/widget/product',
+                        arguments: curwishList.product!.id);
                   },
                   child: ImageBox(
                       curwishList.product != null

@@ -104,7 +104,8 @@ class ProductGuidePage extends StatelessWidget {
                               padding: const EdgeInsets.only(bottom: 5.0),
                               child: ImageSlider(
                                 productGuidePageController
-                                    .productGuide.value.images!,
+                                        .productGuide.value.images ??
+                                    [],
                                 MediaQuery.of(context).size.width,
                                 disableTap: true,
                                 height: 180,

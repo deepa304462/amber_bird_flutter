@@ -4,6 +4,14 @@
 	<dict>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Connecting to nearest warehouse</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>To update Profile picture.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>This app does not require access to the microphone.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>This app requires access to the camera, to update Profile picture</string>
 		<key>CFBundleDisplayName</key>
 		<string>Amber Bird</string>
 		<key>CFBundleExecutable</key>
@@ -47,5 +55,7 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
 	</dict>
 </plist>

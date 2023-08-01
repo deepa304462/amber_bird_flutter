@@ -137,8 +137,8 @@ class AboutPage extends StatelessWidget {
                             child: ListTile(
                               dense: true,
                               onTap: () {
-                                Modular.to
-                                    .pushNamed('/widget/compilance/' + el.id!);
+                                Modular.to.pushNamed('/widget/compilance',
+                                    arguments: el.id!);
                               },
                               title: Text(
                                 heading ?? '',

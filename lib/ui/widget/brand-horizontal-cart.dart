@@ -51,6 +51,7 @@ class BrandHorizontalCard extends StatelessWidget {
                           return InkWell(
                             onTap: () {
                               Modular.to.navigate('/home/brand');
+
                               //  Modular.to.pushReplacementNamed('/home/brand');
                             },
                             child: Card(
@@ -88,7 +89,10 @@ class BrandHorizontalCard extends StatelessWidget {
   Widget _brandCard(Brand brand, BuildContext context) {
     return InkWell(
       onTap: () {
-        Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
+        // Modular.to.pushNamed('/widget/brandProduct/${brand.id}');
+        Modular.to.navigate('/widget/brandProduct', arguments: brand.id);
+        //  Modular.to
+        //     .pushReplacementNamed('/widget/product', arguments: resp.data);
       },
       child: Card(
         clipBehavior: Clip.hardEdge,

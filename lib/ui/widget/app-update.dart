@@ -10,9 +10,7 @@ class AppUpdate extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.hardEdge,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
       color: Colors.white,
       child: Stack(
         children: [
@@ -21,9 +19,7 @@ class AppUpdate extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Lottie.asset('assets/app-update.json',
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.fill,
-                  height: 250),
+                  width: MediaQuery.of(context).size.width, fit: BoxFit.fill, height: MediaQuery.of(context).size.height * .3),
               SizedBox(
                 height: 50,
               ),
