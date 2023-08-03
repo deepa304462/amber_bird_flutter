@@ -81,12 +81,14 @@ class CartController extends GetxController {
       selectedAdd = locationController.addressData.value;
     }
     Ref custRef = await Helper.getCustomerRef();
-    var insightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     var referredbyId = await SharedData.read('referredById');
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     var payload;
     if (selectedAdd != null && selectedAdd.name != null) {
-      var resp = await ClientService.post(path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+      var resp = await ClientService.post(
+          path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
       if (resp.statusCode == 200) {
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
@@ -101,7 +103,9 @@ class CartController extends GetxController {
               'msdApplicableProducts': listMsd,
               "payment": {
                 "paidBy": (jsonDecode(custRef.toJson())),
-                "order": orderId.value != '' ? {"name": custRef.id, "_id": orderId.value} : null,
+                "order": orderId.value != ''
+                    ? {"name": custRef.id, "_id": orderId.value}
+                    : null,
                 "currency": "EUR", //{"currencyCode": "USD"},
                 "paidTo": {"name": "sbazar", "_id": "sbazar"},
                 "status": "OPEN",
@@ -110,20 +114,26 @@ class CartController extends GetxController {
                   "usedPaymentGateWay": selectedPaymentMethod.value,
                 },
                 "appliedCouponCode": selectedCoupon.value.couponCode != null
-                    ? {"name": selectedCoupon.value.couponCode, "_id": selectedCoupon.value.id}
+                    ? {
+                        "name": selectedCoupon.value.couponCode,
+                        "_id": selectedCoupon.value.id
+                      }
                     : null,
               },
               '_id': cust.cart!.id,
               'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
               'shipping': {
-                'orderRef': orderId.value != '' ? {"name": custRef.id, "_id": cust.cart!.id} : null,
+                'orderRef': orderId.value != ''
+                    ? {"name": custRef.id, "_id": cust.cart!.id}
+                    : null,
                 'destination': {
                   'customerAddress': (jsonDecode(selectedAdd.toJson())),
                 }
               },
               'referredById': referredbyId != null ? referredbyId : null,
             };
-            resp1 = await ClientService.Put(path: 'order', id: cust.cart!.id!, payload: payload);
+            resp1 = await ClientService.Put(
+                path: 'order', id: cust.cart!.id!, payload: payload);
           } else {
             payload = {
               'status': 'INIT',
@@ -141,7 +151,10 @@ class CartController extends GetxController {
                   "usedPaymentGateWay": selectedPaymentMethod.value,
                 },
                 "appliedCouponCode": selectedCoupon.value.couponCode != null
-                    ? {"name": selectedCoupon.value.couponCode, "_id": selectedCoupon.value.id}
+                    ? {
+                        "name": selectedCoupon.value.couponCode,
+                        "_id": selectedCoupon.value.id
+                      }
                     : null,
               },
               'referredById': referredbyId,
@@ -158,16 +171,29 @@ class CartController extends GetxController {
             if (orderId.value == '') orderId.value = resp1.data['_id'];
             cust.cart = Order.fromMap(resp1.data);
             calculatedPayment.value = cust.cart!.payment!;
-            OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+            OfflineDBService.save(OfflineDBService.customerInsightDetail,
+                (jsonDecode(cust.toJson())));
             return ({'error': false, 'data': '', 'msg': ''});
           } else {
-            return ({'error': false, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+            return ({
+              'error': false,
+              'data': '',
+              'msg': 'Oops, Something went Wrong!!'
+            });
           }
         } else {
-          return ({'error': true, 'data': '', 'msg': 'All products not available!!'});
+          return ({
+            'error': true,
+            'data': '',
+            'msg': 'All products not available!!'
+          });
         }
       } else {
-        return ({'error': true, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'Oops, Something went Wrong!!'
+        });
       }
     } else {
       return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
@@ -197,20 +223,30 @@ class CartController extends GetxController {
   }
 
   checkoutCart() async {
-    var insightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     // dev.log(cust.cart!.toJson());
-    var resp = await ClientService.post(path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+    var resp = await ClientService.post(
+        path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
     if (resp.statusCode == 200) {
       Checkout data = Checkout.fromMap(resp.data);
       checkoutData.value = data;
       if (data.allAvailable == true) {
         return ({'error': false, 'data': '', 'msg': ''});
       } else {
-        return ({'error': true, 'data': '', 'msg': 'All products not available!!'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'All products not available!!'
+        });
       }
     } else {
-      return ({'error': true, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+      return ({
+        'error': true,
+        'data': '',
+        'msg': 'Oops, Something went Wrong!!'
+      });
     }
   }
 
@@ -240,13 +276,15 @@ class CartController extends GetxController {
       selectedAdd = locationController.addressData.value;
     }
     Ref custRef = await Helper.getCustomerRef();
-    var insightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     var referredbyId = await SharedData.read('referredById');
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     if (selectedAdd != null && selectedAdd.name != null) {
       var payload;
 
-      var resp = await ClientService.post(path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+      var resp = await ClientService.post(
+          path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
       if (resp.statusCode == 200) {
         Checkout data = Checkout.fromMap(resp.data);
         checkoutData.value = data;
@@ -269,7 +307,10 @@ class CartController extends GetxController {
                 "usedPaymentGateWay": selectedPaymentMethod.value,
               },
               "appliedCouponCode": selectedCoupon.value.couponCode != null
-                  ? {"name": selectedCoupon.value.couponCode, "_id": selectedCoupon.value.id}
+                  ? {
+                      "name": selectedCoupon.value.couponCode,
+                      "_id": selectedCoupon.value.id
+                    }
                   : null,
             },
             'referredById': referredbyId,
@@ -283,16 +324,29 @@ class CartController extends GetxController {
           if (resp1.statusCode == 200) {
             checkoutOrderId.value = resp1.data['_id'];
             calculatedPayment.value = cust.cart!.payment!;
-            OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+            OfflineDBService.save(OfflineDBService.customerInsightDetail,
+                (jsonDecode(cust.toJson())));
             return ({'error': false, 'data': '', 'msg': ''});
           } else {
-            return ({'error': true, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+            return ({
+              'error': true,
+              'data': '',
+              'msg': 'Oops, Something went Wrong!!'
+            });
           }
         } else {
-          return ({'error': true, 'data': '', 'msg': 'All products not available!!'});
+          return ({
+            'error': true,
+            'data': '',
+            'msg': 'All products not available!!'
+          });
         }
       } else {
-        return ({'error': true, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'Oops, Something went Wrong!!'
+        });
       }
     } else {
       return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
@@ -300,26 +354,43 @@ class CartController extends GetxController {
   }
 
   searchPayment() async {
-    var respPayment = await ClientService.post(path: 'payment/search', payload: {"orderId": checkoutOrderId.value, "status": "OPEN"});
+    var respPayment = await ClientService.post(
+        path: 'payment/search',
+        payload: {"orderId": checkoutOrderId.value, "status": "OPEN"});
     if (respPayment.statusCode == 200) {
-      if (respPayment.data.length > 0 && respPayment.data[respPayment.data.length - 1] != null) {
-        paymentData.value = Payment.fromMap(respPayment.data[respPayment.data.length - 1] as Map<String, dynamic>);
+      if (respPayment.data.length > 0 &&
+          respPayment.data[respPayment.data.length - 1] != null) {
+        paymentData.value = Payment.fromMap(respPayment
+            .data[respPayment.data.length - 1] as Map<String, dynamic>);
         if (paymentData.value!.checkoutUrl != null) {
           await resetCart();
           return ({'error': false, 'data': paymentData.value!.checkoutUrl});
         } else {
-          return ({'error': true, 'data': '', 'msg': 'Please try again in some time'});
+          return ({
+            'error': true,
+            'data': '',
+            'msg': 'Please try again in some time'
+          });
         }
       } else {
-        return ({'error': true, 'data': '', 'msg': 'Please try again in some time'});
+        return ({
+          'error': true,
+          'data': '',
+          'msg': 'Please try again in some time'
+        });
       }
     } else {
-      return ({'error': true, 'data': '', 'msg': 'Oops, Something went Wrong!!'});
+      return ({
+        'error': true,
+        'data': '',
+        'msg': 'Oops, Something went Wrong!!'
+      });
     }
   }
 
   paymentStatusCheck() async {
-    var resp = await ClientService.get(path: 'payment/mollie/getPayment', id: paymentData.value!.id);
+    var resp = await ClientService.get(
+        path: 'payment/mollie/getPayment', id: paymentData.value!.id);
     if (resp.statusCode == 200) {
       paymentData.value = Payment.fromMap(resp.data as Map<String, dynamic>);
       resetCustomerDetail();
@@ -332,10 +403,13 @@ class CartController extends GetxController {
   resetCustomerDetail() async {
     if (Get.isRegistered<Controller>()) {
       var controller = Get.find<Controller>();
-      var customerInsightDetail =
-          await ClientService.post(path: 'customerInsight/detail', payload: {}, payloadAsString: controller.loggedInPRofileId.value);
+      var customerInsightDetail = await ClientService.post(
+          path: 'customerInsight/detail',
+          payload: {},
+          payloadAsString: controller.loggedInPRofileId.value);
       if (customerInsightDetail.statusCode == 200) {
-        OfflineDBService.save(OfflineDBService.customerInsightDetail, customerInsightDetail.data);
+        OfflineDBService.save(
+            OfflineDBService.customerInsightDetail, customerInsightDetail.data);
         // resetCart();
         fetchCart();
       }
@@ -370,11 +444,13 @@ class CartController extends GetxController {
     cartProductsScoins.clear();
     msdProducts.clear();
     calculatedPayment.value = Payment();
-    var insightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     cust.cart = null;
     await createOrder();
-    OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+    OfflineDBService.save(
+        OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
   }
 
   fetchCart() async {
@@ -382,11 +458,14 @@ class CartController extends GetxController {
     cartProductsScoins.clear();
     msdProducts.clear();
     calculatedPayment.value = Payment();
-    var insightDetailloc = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetailloc =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (insightDetailloc != null) {
-      Customer cust = Customer.fromMap((jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
+      Customer cust = Customer.fromMap(
+          (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
       if (cust.cart != null) {
-        calculatedPayment.value = cust.cart!.payment != null ? cust.cart!.payment! : Payment();
+        calculatedPayment.value =
+            cust.cart!.payment != null ? cust.cart!.payment! : Payment();
         orderId.value = cust.cart!.id ?? '';
         for (var element in cust.cart!.products!) {
           cartProducts[element.ref!.id ?? ''] = element;
@@ -422,11 +501,21 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> addToCart(String refId, String addedFrom, int? addQuantity, Price? priceInfo, ProductSummary? product,
-      List<ProductSummary>? products, RuleConfig? ruleConfig, Constraint? constraint, Varient? varient,
-      {String? mutliProductName, String? imageId}) async {
+  Future<void> addToCart(
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint,
+      Varient? varient,
+      {String? mutliProductName,
+      String? imageId}) async {
     clearCheckout();
-    var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
@@ -452,7 +541,9 @@ class CartController extends GetxController {
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
-          'products': li.isNotEmpty ? (jsonDecode(li.toString())) : (jsonDecode(li.toString())),
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'count': quantity,
           'ref': {'_id': refId, 'name': addedFrom},
@@ -470,12 +561,16 @@ class CartController extends GetxController {
             'paidMemberCoin': 0,
             'offerPrice': price,
             'membersSpecialPrice': {
-              'onlyForPlatinumMember': priceInfo.membersSpecialPrice!.onlyForPlatinumMember,
-              'onlyForSilverMember': priceInfo.membersSpecialPrice!.onlyForSilverMember,
-              'onlyForGoldMember': priceInfo.membersSpecialPrice!.onlyForGoldMember,
+              'onlyForPlatinumMember':
+                  priceInfo.membersSpecialPrice!.onlyForPlatinumMember,
+              'onlyForSilverMember':
+                  priceInfo.membersSpecialPrice!.onlyForSilverMember,
+              'onlyForGoldMember':
+                  priceInfo.membersSpecialPrice!.onlyForGoldMember,
               'forSilverMember': priceInfo.membersSpecialPrice!.forSilverMember,
               'forGoldMember': priceInfo.membersSpecialPrice!.forGoldMember,
-              'forPlatinumMember': priceInfo.membersSpecialPrice!.forPlatinumMember,
+              'forPlatinumMember':
+                  priceInfo.membersSpecialPrice!.forPlatinumMember,
             }
           }
         });
@@ -488,11 +583,21 @@ class CartController extends GetxController {
     await createOrder();
   }
 
-  Future<void> addToCartMSD(String refId, String addedFrom, int? addQuantity, Price? priceInfo, ProductSummary? product,
-      List<ProductSummary>? products, RuleConfig? ruleConfig, Constraint? constraint, Varient? varient,
-      {String? mutliProductName, String? imageId}) async {
+  Future<void> addToCartMSD(
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint,
+      Varient? varient,
+      {String? mutliProductName,
+      String? imageId}) async {
     clearCheckout();
-    var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       var getData = msdProducts[refId];
       int quantity = 0 + addQuantity!;
@@ -518,7 +623,9 @@ class CartController extends GetxController {
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
-          'products': li.isNotEmpty ? (jsonDecode(li.toString())) : (jsonDecode(li.toString())),
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'count': quantity,
           'ref': {'_id': refId, 'name': addedFrom},
@@ -538,11 +645,21 @@ class CartController extends GetxController {
     await createOrder();
   }
 
-  Future<void> addToCartScoins(String refId, String addedFrom, int? addQuantity, Price? priceInfo, ProductSummary? product,
-      List<ProductSummary>? products, RuleConfig? ruleConfig, Constraint? constraint, Varient? varient,
-      {String? mutliProductName, String? imageId}) async {
+  Future<void> addToCartScoins(
+      String refId,
+      String addedFrom,
+      int? addQuantity,
+      Price? priceInfo,
+      ProductSummary? product,
+      List<ProductSummary>? products,
+      RuleConfig? ruleConfig,
+      Constraint? constraint,
+      Varient? varient,
+      {String? mutliProductName,
+      String? imageId}) async {
     clearCheckout();
-    var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       var getData = cartProductsScoins[refId];
       int quantity = 0 + addQuantity!;
@@ -556,7 +673,9 @@ class CartController extends GetxController {
       product!.varient = varient;
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
-          'products': li.isNotEmpty ? (jsonDecode(li.toString())) : (jsonDecode(li.toString())),
+          'products': li.isNotEmpty
+              ? (jsonDecode(li.toString()))
+              : (jsonDecode(li.toString())),
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'count': quantity,
           'ref': {'_id': refId, 'name': addedFrom},
@@ -575,8 +694,10 @@ class CartController extends GetxController {
   }
 
   saveLaterCall() async {
-    var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
-    Customer cust = Customer.fromMap(customerInsightDetail as Map<String, dynamic>);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    Customer cust =
+        Customer.fromMap(customerInsightDetail as Map<String, dynamic>);
     List<dynamic> listSumm = [];
     for (var v in saveLaterProducts.values) {
       listSumm.add((jsonDecode(v.toJson())));
@@ -592,7 +713,8 @@ class CartController extends GetxController {
         'metaData': (jsonDecode(cust.saveLater!.metaData!.toJson())),
       };
       // log(jsonEncode(payload).toString());
-      resp = await ClientService.Put(path: 'saveLater', id: saveLaterId.value, payload: payload);
+      resp = await ClientService.Put(
+          path: 'saveLater', id: saveLaterId.value, payload: payload);
     } else {
       payload = {
         'customerRef': (jsonDecode(custRef.toJson())),
@@ -603,14 +725,16 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       if (saveLaterId.value == '') saveLaterId.value = resp.data['_id'];
       cust.saveLater = Order.fromMap(resp.data);
-      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }
   }
 
   createSaveLater(cartRow, refId) async {
-    var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
       // var getData = cartProducts[refId];
       saveLaterProducts[refId] = cartRow;
@@ -623,7 +747,8 @@ class CartController extends GetxController {
     List<dynamic> listSumm = [];
     List<dynamic> listScoins = [];
     List<dynamic> listMsd = [];
-    var insightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    var insightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
     for (var v in cartProducts.values) {
       listSumm.add((jsonDecode(v.toJson())));
@@ -664,11 +789,16 @@ class CartController extends GetxController {
           "paymentGateWayDetail": {
             "usedPaymentGateWay": selectedPaymentMethod.value,
           },
-          "appliedCouponCode":
-              selectedCoupon.value.couponCode != null ? {"name": selectedCoupon.value.couponCode, "_id": selectedCoupon.value.id} : null,
+          "appliedCouponCode": selectedCoupon.value.couponCode != null
+              ? {
+                  "name": selectedCoupon.value.couponCode,
+                  "_id": selectedCoupon.value.id
+                }
+              : null,
         },
       };
-      resp = await ClientService.Put(path: 'order', id: cust.cart!.id!, payload: payload);
+      resp = await ClientService.Put(
+          path: 'order', id: cust.cart!.id!, payload: payload);
     } else {
       payload = {
         'status': 'TEMPORARY_OR_CART',
@@ -686,8 +816,12 @@ class CartController extends GetxController {
           "paymentGateWayDetail": {
             "usedPaymentGateWay": selectedPaymentMethod.value,
           },
-          "appliedCouponCode":
-              selectedCoupon.value.couponCode != null ? {"name": selectedCoupon.value.couponCode, "_id": selectedCoupon.value.id} : null,
+          "appliedCouponCode": selectedCoupon.value.couponCode != null
+              ? {
+                  "name": selectedCoupon.value.couponCode,
+                  "_id": selectedCoupon.value.id
+                }
+              : null,
         },
       };
       resp = await ClientService.post(path: 'order', payload: payload);
@@ -697,7 +831,8 @@ class CartController extends GetxController {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);
       calculatedPayment.value = cust.cart!.payment!;
-      OfflineDBService.save(OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
+      OfflineDBService.save(
+          OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));
     } else {
       print('TODO');
     }
@@ -751,7 +886,8 @@ class CartController extends GetxController {
   checktOrderRefAvailable(Ref? ref) {
     bool available = true;
     print(checkoutData.value);
-    if (checkoutData.value != null && checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
+    if (checkoutData.value != null &&
+        checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
       checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
         // var data = elem;
         if (elem.ref!.id == ref!.id) {
@@ -788,10 +924,13 @@ class CartController extends GetxController {
 
   getsearchData(query) async {
     var payload = {'keywords': query, "active": true};
-    var response = await ClientService.post(path: 'couponCode/search', payload: payload);
+    var response =
+        await ClientService.post(path: 'couponCode/search', payload: payload);
     if (response.statusCode == 200) {
-      List<CouponCode> cList =
-          ((response.data as List<dynamic>?)?.map((e) => CouponCode.fromMap(e as Map<String, dynamic>)).toList() ?? []);
+      List<CouponCode> cList = ((response.data as List<dynamic>?)
+              ?.map((e) => CouponCode.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
       searchCouponList.value = (cList);
     }
   }
@@ -815,7 +954,8 @@ class CartController extends GetxController {
       }
     }
     if (coupon.condition!.maxCartAmount != null && valid) {
-      if (calculatedPayment.value.totalAmount <= coupon.condition!.maxCartAmount) {
+      if (calculatedPayment.value.totalAmount <=
+          coupon.condition!.maxCartAmount) {
         valid = false;
       }
     }
@@ -826,7 +966,8 @@ class CartController extends GetxController {
       }
     }
     if (coupon.condition!.firstTimePurchase != null && valid) {
-      var customerInsightDetail = await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+      var customerInsightDetail =
+          await OfflineDBService.get(OfflineDBService.customerInsightDetail);
       if (coupon.condition!.firstTimePurchase == true &&
           customerInsightDetail['orders'] != null &&
           customerInsightDetail['orders'].length != null) {
