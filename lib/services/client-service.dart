@@ -152,7 +152,7 @@ class ClientService {
       // print(rng.nextInt(100));
       // }
       response = await dio.get(
-          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=name:*${_getTitleForm(queryData)}*&fq=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',
+          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',
           options: Options(headers: header));
       return response;
     } catch (e) {
