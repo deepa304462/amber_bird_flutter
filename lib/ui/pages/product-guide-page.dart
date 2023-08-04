@@ -37,7 +37,7 @@ class ProductGuidePage extends StatelessWidget {
                         final scrolled = constraints.scrollOffset > 120;
                         return SliverAppBar(
                           backgroundColor: Colors.white,
-                          automaticallyImplyLeading: true,
+                          // automaticallyImplyLeading: true,
                           pinned: true,
                           iconTheme: IconThemeData(color: AppColors.primeColor),
                           floating: false,
@@ -52,17 +52,12 @@ class ProductGuidePage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(50)),
                               child: IconButton(
                                 onPressed: () {
-                                  try {
-                                    if (Navigator.canPop(context)) {
-                                      Navigator.pop(context);
-                                    } else if (Modular.to.canPop()) {
-                                      Navigator.pop(context);
-                                      Modular.to.pop();
-                                    } else {
-                                      Modular.to.navigate('/home/main');
-                                    }
-                                  } catch (err) {
-                                    Modular.to.navigate('/home/main');
+                                  // Navigator.pop(context);
+                                  if (Navigator.canPop(context)) {
+                                    Navigator.pop(context);
+                                  } else {
+                                    Modular.to.navigate('../../home/main');
+                                    // Modular.to.pushNamed('/home/main');
                                   }
                                 },
                                 icon: Icon(
