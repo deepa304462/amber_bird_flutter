@@ -22,7 +22,7 @@ import '../../../helpers/controller-generator.dart';
 class CartWidget extends StatelessWidget {
   late CartController cartController;
   final Controller stateController = Get.find();
-  RxBool checkoutClicked = false.obs;
+  // RxBool checkoutClicked = false.obs;
   RxBool isLoading = false.obs;
   TextEditingController ipController = TextEditingController();
 
@@ -30,7 +30,7 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     cartController =
         ControllerGenerator.create(CartController(), tag: 'cartController');
-         cartController.checkoutCart();
+    cartController.checkoutCart();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -73,7 +73,7 @@ class CartWidget extends StatelessWidget {
                     child: MaterialButton(
                       color: AppColors.green,
                       onPressed: () async {
-                        checkoutClicked.value = true;
+                        // checkoutClicked.value = true;
                         if (!isLoading.value) {
                           isLoading.value = true;
                           var data = await cartController.checkoutCart();
@@ -290,9 +290,8 @@ class CartWidget extends StatelessWidget {
                   price: currentProduct.price!,
                   userType: stateController.userType.value);
               return Container(
-                color: (checkoutClicked.value &&
-                        !cartController.checktOrderRefAvailable(
-                            cartController.msdProducts.value[currentKey]!.ref))
+                color: (!cartController.checktOrderRefAvailable(
+                        cartController.msdProducts.value[currentKey]!.ref))
                     ? AppColors.primeColor
                     : AppColors.white,
                 child: Column(
@@ -803,16 +802,15 @@ class CartWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                    Obx(() => checkoutClicked.value &&
-                            cartController.cartProducts.value[currentKey] !=
-                                null &&
-                            !cartController.checktOrderRefAvailable(
-                                cartController
-                                    .cartProducts.value[currentKey]!.ref) &&
-                            !isLoading.value
-                        ? recpmmondedProduct(
-                            context, cartController, currentKey)
-                        : const SizedBox())
+                    Obx(() =>
+                        cartController.cartProducts.value[currentKey] != null &&
+                                !cartController.checktOrderRefAvailable(
+                                    cartController
+                                        .cartProducts.value[currentKey]!.ref) &&
+                                !isLoading.value
+                            ? recpmmondedProduct(
+                                context, cartController, currentKey)
+                            : const SizedBox())
                   ],
                 ),
               );
@@ -833,9 +831,8 @@ class CartWidget extends StatelessWidget {
               cartController.cartProductsScoins.value.keys.elementAt(index);
           return Container(
             width: MediaQuery.of(context).size.width,
-            color: (checkoutClicked.value &&
-                    !cartController.checktOrderRefAvailable(cartController
-                        .cartProductsScoins.value[currentKey]!.ref))
+            color: (!cartController.checktOrderRefAvailable(
+                    cartController.cartProductsScoins.value[currentKey]!.ref))
                 ? AppColors.primeColor
                 : AppColors.white,
             child: Column(
@@ -1379,10 +1376,9 @@ class CartWidget extends StatelessWidget {
                                           style: TextStyles.headingFont,
                                         ),
                                         Card(
-                                          color: (checkoutClicked.value &&
-                                                  !cartController
-                                                      .checktOrderRefAvailable(
-                                                          currentProduct!.ref))
+                                          color: (!cartController
+                                                  .checktOrderRefAvailable(
+                                                      currentProduct!.ref))
                                               ? AppColors.grey
                                               : AppColors.primeColor,
                                           shape: RoundedRectangleBorder(
@@ -1545,10 +1541,8 @@ class CartWidget extends StatelessWidget {
                                 ],
                               ),
                             ),
-                      checkoutClicked.value &&
-                              !cartController.checktOrderRefAvailable(
-                                  cartController
-                                      .cartProducts.value[currentKey]!.ref)
+                      !cartController.checktOrderRefAvailable(cartController
+                              .cartProducts.value[currentKey]!.ref)
                           ? recpmmondedProduct(
                               context, cartController, currentKey)
                           : const SizedBox()
