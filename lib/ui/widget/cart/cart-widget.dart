@@ -30,6 +30,7 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     cartController =
         ControllerGenerator.create(CartController(), tag: 'cartController');
+         cartController.checkoutCart();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
