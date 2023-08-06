@@ -2,10 +2,14 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdate extends StatelessWidget {
   AppUpdate({Key? key}) : super(key: key);
   final InAppReview inAppReview = InAppReview.instance;
+  final Uri url =
+      Uri.parse('https://apps.apple.com/in/app/sbazar/id6448874245');
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,7 +36,9 @@ class AppUpdate extends StatelessWidget {
               ),
               MaterialButton(
                 onPressed: () {
-                  inAppReview.openStoreListing(appStoreId:"6448874245" );
+                  Platform.isIOS
+                      ? _launchUrl
+                      : inAppReview.openStoreListing(appStoreId: "6448874245");
                 },
                 color: AppColors.primeColor,
                 child: Text(
@@ -55,5 +61,13 @@ class AppUpdate extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw Exception('Could not launch $url');
+    }
   }
 }

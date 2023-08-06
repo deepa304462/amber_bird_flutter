@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
+import 'package:amber_bird/firebase_options.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
@@ -61,7 +62,8 @@ class AuthController extends GetxController {
   }
 
   initializeFirebase() async {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
   }
 
   resetFieldValue() {
