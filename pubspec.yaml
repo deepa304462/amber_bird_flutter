@@ -51,7 +51,7 @@ dependencies:
   get: ^4.6.5
   localization: 2.0.0
   animations: ^2.0.3
-  firebase_core: ^1.23.0 
+  firebase_core: ^1.24.0 
   firebase_auth: ^3.10.0
   google_sign_in: ^5.4.2 
   liquid_swipe: ^3.0.0
