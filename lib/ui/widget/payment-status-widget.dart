@@ -37,21 +37,12 @@ class PaymentStatusWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                // Container(
-                //   height: 170,
-                //   // padding: EdgeInsets.all(35),
-                //   decoration: BoxDecoration(
-                //     color: AppColors.primeColor,
-                //     shape: BoxShape.circle,
-                //   ),
-                //   child:
                 Lottie.asset(
                   'assets/10470-confirm.json',
                   width: 200,
                   height: 200,
                   fit: BoxFit.contain,
                 ),
-                // ),
                 SizedBox(height: screenHeight * 0.1),
                 Text(
                   "Thank You!",
@@ -95,14 +86,7 @@ class PaymentStatusWidget extends StatelessWidget {
                     style: TextStyles.body.copyWith(color: AppColors.white),
                   ),
                 ),
-
                 SizedBox(height: screenHeight * 0.06),
-                // Flexible(
-                //   child: HomeButton(
-                //     title: 'Home',
-                //     onTap: () {},
-                //   ),
-                // ),
               ],
             ),
           ),
