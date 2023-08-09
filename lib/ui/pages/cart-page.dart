@@ -7,7 +7,12 @@ class CartPage extends StatelessWidget {
   final Controller stateController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return CartWidget();
+    return WillPopScope(
+        onWillPop: () {
+          stateController.navigateToUrl('/home/main');
+          return Future<bool>.value(false);
+        },
+        child: CartWidget());
     // Scaffold(
     // appBar: AppBar(
     //   centerTitle: true,
