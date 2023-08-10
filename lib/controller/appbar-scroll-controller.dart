@@ -31,6 +31,7 @@ class AppbarScrollController extends GetxController {
 
     Modular.to.addListener(() {
       inspect(Modular);
+      print("tffy"+Modular.to.path);
 
       if (Modular.to.path == '/home/main') {
         shrinkappbar.value = false;
@@ -38,15 +39,23 @@ class AppbarScrollController extends GetxController {
         shrinkappbar.value = false;
       } else if (Modular.to.path.split('/').length > 2) {
         var arr = Modular.to.path.split('/');
+        print(arr);
         if (arr[1] == 'widget' && arr[2] == 'product') {
           shrinkappbar.value = false;
         } else if (arr[0] == 'widget' && arr[1] == 'product') {
+          print("agbc wert"+Modular.to.path);
+          shrinkappbar.value = false;
+        }else if (arr[0] == 'widget' && arr[1] == 'guide') {
+          shrinkappbar.value = false;
+        }else if (arr[1] == 'widget' && arr[2] == 'guide') {
           shrinkappbar.value = false;
         } else {
           shrinkappbar.value = true;
+          print("tffy wert"+Modular.to.path);
         }
       } else {
         shrinkappbar.value = true;
+        print("tffy 234"+Modular.to.path);
       }
     });
   }
