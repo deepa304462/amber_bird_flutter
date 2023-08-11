@@ -5,31 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Dart",
-            "type": "dart",
+            "name": "amber_bird_flutter",
             "request": "launch",
-            "program": "bin/main.dart"
-        },
-        
-        {
-            "name": "Flutter",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "debug"
-        },  
-        {
-            "name": "Flutter",
-            "type": "dart",
-            "request": "launch",
-            "program": "lib/main.dart"
+            "type": "dart"
         },
         {
-            "name": "Dart: Run all Tests",
-            "type": "dart",
+            "name": "amber_bird_flutter (profile mode)",
             "request": "launch",
-            "program": "./test/"
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "amber_bird_flutter (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
-    
-        
     ]
 }

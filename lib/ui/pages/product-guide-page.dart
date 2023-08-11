@@ -9,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../controller/appbar-scroll-controller.dart';
 import '../widget/loading-with-logo.dart';
 
 class ProductGuidePage extends StatelessWidget {
+
+  final AppbarScrollController appbarScrollController = Get.find();
   final String productGuideId;
   late ProductGuidePageController productGuidePageController;
   ProductGuidePage(this.productGuideId, {Key? key}) : super(key: key) {
@@ -37,7 +40,7 @@ class ProductGuidePage extends StatelessWidget {
                         final scrolled = constraints.scrollOffset > 120;
                         return SliverAppBar(
                           backgroundColor: Colors.white,
-                          automaticallyImplyLeading: true,
+                          // automaticallyImplyLeading: true,
                           pinned: true,
                           iconTheme: IconThemeData(color: AppColors.primeColor),
                           floating: false,
@@ -64,6 +67,8 @@ class ProductGuidePage extends StatelessWidget {
                                   } catch (err) {
                                     Modular.to.navigate('/home/main');
                                   }
+
+
                                 },
                                 icon: Icon(
                                   Icons.arrow_back_ios_new_outlined,
