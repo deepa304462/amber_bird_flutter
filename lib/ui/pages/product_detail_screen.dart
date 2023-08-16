@@ -56,6 +56,7 @@ class ProductDetailScreen extends StatelessWidget {
     if (pId == null || pId == '') {
       Modular.to.navigate('/home/main');
     }
+
     return Obx(
       () => (productController.product.value.id != null)
           ? Scaffold(
@@ -818,7 +819,6 @@ class ProductDetailScreen extends StatelessWidget {
     productController.getofferShipping();
 
     getAddressList();
-
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -908,7 +908,7 @@ class ProductDetailScreen extends StatelessWidget {
               thickness: 1,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.40,
+              height: MediaQuery.of(context).size.height * 0.20,
               child: SingleChildScrollView(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -933,6 +933,56 @@ class ProductDetailScreen extends StatelessWidget {
                   },
                 ),
               ),
+            ),
+            // SizedBox(
+            //   height: 30,
+            //   child: TabBar(
+            //     tabs: [
+            //       Tab(text: "Newbie"),
+            //       Tab(text: "Silver"),
+            //       Tab(text: "Gold"),
+            //       Tab(text: "Platinum")
+            //     ],
+            //   ),
+            // )
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.30,
+              child: DefaultTabController(
+                length: 5,
+
+                child: Column(children: [
+                  SizedBox(
+                    height: 48,
+                    child: AppBar(
+                      toolbarHeight: 15,
+                      automaticallyImplyLeading: false,
+                      leading: SizedBox(),
+                      bottom: const TabBar(
+                        tabs: [
+                          Tab(icon: Icon(Icons.music_note)),
+                          Tab(icon: Icon(Icons.music_video)),
+                          Tab(icon: Icon(Icons.camera_alt)),
+                          Tab(icon: Icon(Icons.grade)),
+                          Tab(icon: Icon(Icons.email)),
+                        ],
+                      ), // TabBar
+
+                      backgroundColor: Colors.green,
+                    ),
+                  ), // AppBar
+                  Expanded(
+                    child: const TabBarView(
+                      children: [
+                        Icon(Icons.music_note),
+                        Icon(Icons.music_video),
+                        Icon(Icons.camera_alt),
+                        Icon(Icons.grade),
+                        Icon(Icons.email),
+                      ],
+                    ),
+                  ), // TabBarView
+                ]), // Scaffold
+              ), // DefaultTabControlle,
             )
           ],
         ),
