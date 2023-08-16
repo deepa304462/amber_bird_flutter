@@ -28,12 +28,12 @@ class ProductCard extends StatelessWidget {
   final Price? dealPrice;
   final RuleConfig? ruleConfig;
   final Constraint? constraint;
-
+  final String? CurrentKey;
   final bool fixedHeight;
   Rx<Varient> activeVariant = Varient().obs;
   ProductCard(this.product, this.refId, this.addedFrom, this.dealPrice,
       this.ruleConfig, this.constraint,
-      {super.key, this.fixedHeight = false});
+      {super.key, this.fixedHeight = false, this.CurrentKey});
 
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
@@ -285,6 +285,52 @@ class ProductCard extends StatelessWidget {
                                         ruleConfig,
                                         constraint,
                                         activeVariant.value);
+                                    await cartController.removeProduct(
+                                        CurrentKey, '');
+                                  } else if (addedFrom ==
+                                      'RECOMMEDED_PRODUCT') {
+                                    var data;
+                                    if (Get.isRegistered<DealController>(
+                                        tag: addedFrom!)) {
+                                      var dealController =
+                                          Get.find<DealController>(
+                                              tag: addedFrom!);
+                                      data = await dealController.checkValidDeal(
+                                          refId!,
+                                          'positive',
+                                          '$refId@${activeVariant.value.varientCode}');
+                                      valid = !data['error'];
+                                      msg = data['msg'];
+                                    }
+                                    if (valid) {
+                                      await cartController.addToCart(
+                                          '$refId@${activeVariant.value.varientCode}',
+                                          addedFrom!,
+                                          1,
+                                          dealPrice,
+                                          product,
+                                          null,
+                                          ruleConfig,
+                                          constraint,
+                                          activeVariant.value);
+                                      await cartController.removeProduct(
+                                          CurrentKey, '');
+                                    } else if (data['type'] ==
+                                        'maxNumberExceeded') {
+                                      snackBarClass.showToast(context, msg);
+                                      await cartController.addToCart(
+                                          '${product!.id}@${product!.varient!.varientCode}',
+                                          'CATEGORY',
+                                          1,
+                                          product!.varient!.price,
+                                          product,
+                                          null,
+                                          RuleConfig(),
+                                          Constraint(),
+                                          product!.varient!);
+                                    } else {
+                                      snackBarClass.showToast(context, msg);
+                                    }
                                   } else {
                                     var data;
                                     if (Get.isRegistered<DealController>(

@@ -1593,12 +1593,14 @@ class CartWidget extends StatelessWidget {
                           var curProd = prod.productAvailabilityStatus!
                               .recommendedProducts![index];
                           return ProductCard(
-                              curProd,
-                              curProd.id,
-                              'RECOMMEDED_PRODUCT',
-                              curProd.varient!.price!,
-                              null,
-                              null);
+                            curProd,
+                            curProd.id,
+                            'RECOMMEDED_PRODUCT',
+                            curProd.varient!.price!,
+                            null,
+                            null,
+                            CurrentKey: currentKey,
+                          );
                         },
                       ),
                     ),
