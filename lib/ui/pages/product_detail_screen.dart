@@ -864,6 +864,53 @@ class ProductDetailScreen extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
+                style: TextStyles.bodyFont,
+              ),
+            ),
+            Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              // textDirection: TextDirection.,
+              border: TableBorder.all(color: Colors.black, width: 1.5),
+              columnWidths: const {
+                0: FlexColumnWidth(0.8),
+                1: FlexColumnWidth(1.1),
+                2: FlexColumnWidth(0.9),
+                3: FlexColumnWidth(1),
+                4: FlexColumnWidth(0.8),
+              },
+              children: [
+                //  buildRow(["Newbie", "Silver", "Gold", "Platinum", ""]),
+                buildRow([
+                  "User Level",
+                  " Standard Cart Value",
+                  " Standard Price(€)",
+                  " Offer Cart Value",
+                  "Offer Price"
+                ], isheader: true),
+                buildRow([
+                  "Newbie",
+                  "Less than 49€",
+                  "4.99€",
+                  "Above 49€",
+                  "2.99€",
+                ]),
+                buildRow(
+                    ["Silver", "Less than 49€", "4.99€", "Above 49€", "Free"]),
+                buildRow(
+                    ["Gold", "Less than 39€", "3.99€", "Above 39€", "Free"]),
+                buildRow([
+                  "Platinum",
+                  "Less than 29€",
+                  "2.99€",
+                  "Above 29€",
+                  "Free"
+                ]),
+              ],
+            ),
             ListTile(
               onTap: () {},
               dense: true,
@@ -908,7 +955,9 @@ class ProductDetailScreen extends StatelessWidget {
               thickness: 1,
             ),
             SizedBox(
-              height:addressList.length>5 ?  MediaQuery.of(context).size.height * 0.20:0,
+              height: addressList.length > 0
+                  ? MediaQuery.of(context).size.height * 0.20
+                  : 0,
               child: SingleChildScrollView(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -934,562 +983,6 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.25,
-              child: DefaultTabController(
-                length: 4,
-                child: Scaffold(
-                  appBar: AppBar(
-                    toolbarHeight: 2,
-                    automaticallyImplyLeading: false,
-                    bottom: const TabBar(
-                      padding: EdgeInsets.zero,
-                      labelColor: Colors.white,
-                      tabs: [
-                        Tab(text: "Newbie"),
-                        Tab(text: "Silver"),
-                        Tab(text: "Gold"),
-                        Tab(text: "Platinum")
-                      ],
-                    ), // TabBar
-
-                    backgroundColor: AppColors.primeColor,
-                  ), // AppBar
-                  body: TabBarView(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 1),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1)),
-                                      ),
-                                      child: Text(
-                                        "Cart Value",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2)),
-                                      ),
-                                      child: Text("Less than 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1)),
-                                      ),
-                                      child: Text(
-                                        "Std. Shipping Price",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2)),
-                                      ),
-                                      child: Text("4.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1)),
-                                      ),
-                                      child: Text(
-                                        "Cart Value Offer",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2)),
-                                      ),
-                                      child: Text("Above 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1)),
-                                      ),
-                                      child: Text(
-                                        "Offer Shipping Price",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        border: BorderDirectional(
-                                            top: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            start: BorderSide(
-                                                color: Colors.black87,
-                                                width: 1),
-                                            bottom: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2),
-                                            end: BorderSide(
-                                                color: Colors.black87,
-                                                width: 2)),
-                                      ),
-                                      child: Text("2.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Less than 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Std. Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("4.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value Offer"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Above 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Offer Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("2.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Less than 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Std. Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("4.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value Offer"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Above 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Offer Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("2.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Less than 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Std. Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("4.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Cart Value Offer"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Above 49€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("Offer Shipping Price"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.black87)),
-                                      child: Text("2.99€"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ), // TabBarView
-                ), // Scaffold
-              ), // DefaultTabControlle/ DefaultTabControlle,
-            )
           ],
         ),
       ),
@@ -2268,4 +1761,21 @@ class ProductDetailScreen extends StatelessWidget {
       return '';
     }
   }
+
+  TableRow buildRow(List<String> cells, {bool isheader = false}) => TableRow(
+      children: cells
+          .map((e) => Padding(
+                padding: isheader
+                    ? const EdgeInsets.symmetric(vertical: 6, horizontal: 2)
+                    : const EdgeInsets.all(2.5),
+                child: Center(
+                    child: Text(
+                  e,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight:
+                          isheader ? FontWeight.bold : FontWeight.normal),
+                )),
+              ))
+          .toList());
 }
