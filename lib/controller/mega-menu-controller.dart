@@ -150,8 +150,8 @@ class MegaMenuController extends GetxController {
               type: 'MULTI',
               text: detail['name']));
         });
-        subMenuList.add(
-            GenericTab(image: '', id: 'THEMES', type: 'MULTI', text: 'Theme'));
+        subMenuList.add(GenericTab(
+            image: '', id: 'THEMES', type: 'MULTI', text: 'We-Care'));
       }
     } else if (parentTab.type == 'CAT') {
       var payload = {"parentCategoryId": parentTab.id};
