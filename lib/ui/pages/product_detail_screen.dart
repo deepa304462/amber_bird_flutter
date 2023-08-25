@@ -1,9 +1,11 @@
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/complaince/complaince.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -37,6 +39,8 @@ import '../../helpers/controller-generator.dart';
 class ProductDetailScreen extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
+  final CompilanceController compilanceController =
+      Get.put(CompilanceController());
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   LocationController locationController = Get.find();
@@ -864,53 +868,6 @@ class ProductDetailScreen extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
-                style: TextStyles.bodyFont,
-              ),
-            ),
-            Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              // textDirection: TextDirection.,
-              border: TableBorder.all(color: Colors.black, width: 1.5),
-              columnWidths: const {
-                0: FlexColumnWidth(0.8),
-                1: FlexColumnWidth(1.1),
-                2: FlexColumnWidth(0.9),
-                3: FlexColumnWidth(1),
-                4: FlexColumnWidth(0.8),
-              },
-              children: [
-                //  buildRow(["Newbie", "Silver", "Gold", "Platinum", ""]),
-                buildRow([
-                  "User Level",
-                  " Standard Cart Value",
-                  " Standard Price(€)",
-                  " Offer Cart Value",
-                  "Offer Price"
-                ], isheader: true),
-                buildRow([
-                  "Newbie",
-                  "Less than 49€",
-                  "4.99€",
-                  "Above 49€",
-                  "2.99€",
-                ]),
-                buildRow(
-                    ["Silver", "Less than 49€", "4.99€", "Above 49€", "Free"]),
-                buildRow(
-                    ["Gold", "Less than 39€", "3.99€", "Above 39€", "Free"]),
-                buildRow([
-                  "Platinum",
-                  "Less than 29€",
-                  "2.99€",
-                  "Above 29€",
-                  "Free"
-                ]),
-              ],
-            ),
             ListTile(
               onTap: () {},
               dense: true,
@@ -953,6 +910,73 @@ class ProductDetailScreen extends StatelessWidget {
               color: AppColors.lightGrey,
               height: 1,
               thickness: 1,
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                child: RichText(
+                  text: TextSpan(
+                    text:
+                        "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
+                    style: TextStyles.titleFont,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: ' Learn more',
+                          style: TextStyles.linkFont,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Modular.to.popAndPushNamed('/widget/compilance',
+                                  arguments: 'EARN_SCOINS');
+                            }),
+                    ],
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                // textDirection: TextDirection.,
+                border: TableBorder.all(color: Colors.black, width: 1.2),
+                columnWidths: const {
+                  0: FlexColumnWidth(0.8),
+                  1: FlexColumnWidth(1.1),
+                  2: FlexColumnWidth(0.9),
+                  3: FlexColumnWidth(1),
+                  4: FlexColumnWidth(0.8),
+                },
+                children: [
+                  //  buildRow(["Newbie", "Silver", "Gold", "Platinum", ""]),
+                  buildRow([
+                    "User Level",
+                    "Standard Cart Value",
+                    "Standard Price(€)",
+                    "Offer Cart Value",
+                    "Offer Price"
+                  ], isheader: true),
+                  buildRow([
+                    "Newbie",
+                    "Less than 49€",
+                    "4.99€",
+                    "Above 49€",
+                    "2.99€",
+                  ]),
+                  buildRow([
+                    "Silver",
+                    "Less than 49€",
+                    "4.99€",
+                    "Above 49€",
+                    "Free"
+                  ]),
+                  buildRow(
+                      ["Gold", "Less than 39€", "3.99€", "Above 39€", "Free"]),
+                  buildRow([
+                    "Platinum",
+                    "Less than 29€",
+                    "2.99€",
+                    "Above 29€",
+                    "Free"
+                  ]),
+                ],
+              ),
             ),
             SizedBox(
               height: addressList.length > 0
@@ -1766,15 +1790,13 @@ class ProductDetailScreen extends StatelessWidget {
       children: cells
           .map((e) => Padding(
                 padding: isheader
-                    ? const EdgeInsets.symmetric(vertical: 6, horizontal: 2)
-                    : const EdgeInsets.all(2.5),
+                    ? const EdgeInsets.symmetric(vertical: 8, horizontal: 2)
+                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 2.5),
                 child: Center(
                     child: Text(
                   e,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight:
-                          isheader ? FontWeight.bold : FontWeight.normal),
+                  textAlign: TextAlign.center,
+                  style: isheader ? TextStyles.headingFont : TextStyles.body,
                 )),
               ))
           .toList());
