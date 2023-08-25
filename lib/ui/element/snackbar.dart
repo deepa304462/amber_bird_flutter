@@ -43,8 +43,7 @@ class snackBarClass {
       Card(
             color: AppColors.primeColor,
             shape: RoundedRectangleBorder(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12), topRight: Radius.circular(12)),
+                borderRadius:  BorderRadius.circular(12),
                 side: BorderSide(
                   color: AppColors.white,
                   width: 1,
