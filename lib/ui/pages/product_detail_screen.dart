@@ -912,25 +912,6 @@ class ProductDetailScreen extends StatelessWidget {
               thickness: 1,
             ),
             Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                child: RichText(
-                  text: TextSpan(
-                    text:
-                        "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
-                    style: TextStyles.titleFont,
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: ' Learn more',
-                          style: TextStyles.linkFont,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Modular.to.popAndPushNamed('/widget/compilance',
-                                  arguments: 'EARN_SCOINS');
-                            }),
-                    ],
-                  ),
-                )),
-            Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -978,6 +959,25 @@ class ProductDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                child: RichText(
+                  text: TextSpan(
+                    text:
+                        "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
+                    style: TextStyles.titleFont,
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: ' Learn more',
+                          style: TextStyles.linkFont,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Modular.to.popAndPushNamed('/widget/compilance',
+                                  arguments: 'EARN_SCOINS');
+                            }),
+                    ],
+                  ),
+                )),
             SizedBox(
               height: addressList.length > 0
                   ? MediaQuery.of(context).size.height * 0.20
