@@ -912,7 +912,7 @@ class ProductDetailScreen extends StatelessWidget {
               thickness: 1,
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+              padding: const EdgeInsets.symmetric(horizontal:20,vertical:10),
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 // textDirection: TextDirection.,
