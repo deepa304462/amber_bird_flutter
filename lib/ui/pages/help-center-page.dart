@@ -4,19 +4,25 @@ import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_faq/flutter_faq.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/faq-controller.dart';
+import '../../data/faq/faq-model.dart';
 import '../../helpers/controller-generator.dart';
 
 class HelpCenterPage extends StatelessWidget {
+  final FaqController faqController = Get.find();
   final Controller stateController = Get.find();
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
+    List<Faq> result = faqController.faqList;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -254,51 +260,75 @@ class HelpCenterPage extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  clipBehavior: Clip.hardEdge,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('FAQ', style: TextStyles.headingFont),
-                        ListTile(
-                          title: Text(
-                            'Mail Order FAQ',
-                            style: TextStyles.titleFont,
+                  width: MediaQuery.of(context).size.width,
+                  child: Card(
+                      clipBehavior: Clip.hardEdge,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: SizedBox(
+                           width: MediaQuery.of(context).size.width,
+                          //       height: MediaQuery.of(context).size.height * .2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('FAQ', style: TextStyles.headingFont),
+                              ListView.builder(
+                                  // scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: result[0].questions?.length,
+                                  itemBuilder: (_, index) {
+                                    return FAQ(
+                                      queStyle: TextStyle(
+                                          fontFamily: result[0]
+                                              .questions?[index]
+                                              .question
+                                              ?.font
+                                              ?.family,
+                                          fontSize: result[0]
+                                              .questions?[index]
+                                              .question
+                                              ?.font
+                                              ?.size,
+                                          color: result[0]
+                                              .questions?[index]
+                                              .question
+                                              ?.font
+                                              ?.color),
+                                      question: result[0]
+                                              .questions?[index]
+                                              .question
+                                              ?.text ??
+                                          "",
+                                      answer: result[0]
+                                              .questions?[index]
+                                              .answer
+                                              ?.text ??
+                                          "",
+                                      ansStyle: TextStyle(
+                                          fontFamily: result[0]
+                                              .questions?[index]
+                                              .answer
+                                              ?.font
+                                              ?.family,
+                                          fontSize: result[0]
+                                              .questions?[index]
+                                              .answer
+                                              ?.font
+                                              ?.size,
+                                          color: result[0]
+                                              .questions?[index]
+                                              .answer
+                                              ?.font
+                                              ?.color),
+                                    );
+                                  }),
+                            ],
                           ),
-                          trailing: const Icon(Icons.chevron_right),
                         ),
-                        ListTile(
-                          onTap: () {
-                            Modular.to.pushNamed('/widget/compilance',
-                                arguments: 'RETURN_REFUND');
-                          },
-                          title: Text(
-                            'How to get a refund',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Modular.to.pushNamed('/widget/compilance',
-                                arguments: 'EARN_SCOINS');
-                          },
-                          title: Text(
-                            'Buy X get Y% Disccount promotion',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
+                      ))),
             ],
           ),
         ),

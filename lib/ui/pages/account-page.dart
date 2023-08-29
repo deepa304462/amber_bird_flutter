@@ -10,10 +10,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../controller/faq-controller.dart';
 import '../../helpers/controller-generator.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
+   final FaqController faqController = Get.put(FaqController());
   final CompilanceController compilanceController =
       Get.put(CompilanceController());
 
