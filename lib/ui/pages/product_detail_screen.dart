@@ -861,12 +861,14 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              leading: ImageBox(
-                stateController.membershipIcon.value,
-                width: 15,
-                height: 15,
-                fit: BoxFit.contain,
-              ),
+              leading: stateController.membershipIcon.value.isNotEmpty
+                  ? ImageBox(
+                      stateController.membershipIcon.value,
+                      width: 15,
+                      height: 15,
+                      fit: BoxFit.contain,
+                    )
+                  : const SizedBox(),
             ),
             ListTile(
               onTap: () {},
