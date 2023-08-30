@@ -281,23 +281,21 @@ class HelpCenterPage extends StatelessWidget {
                                   itemCount: result[0].questions?.length,
                                   itemBuilder: (_, index) {
                                     return FAQ(
-                                      queStyle: TextStyle(
-                                          fontFamily: result[0]
-                                              .questions?[index]
-                                              .question
-                                              ?.font
-                                              ?.family,
-                                          fontSize: result[0]
-                                              .questions?[index]
-                                              .question
-                                              ?.font
-                                              ?.size,
-                                          color: result[0]
-                                              .questions?[index]
-                                              .question
-                                              ?.font
-                                              ?.color),
-                                      question: result[0]
+                                      queStyle: TextStyles.titleFont,
+                                      //  TextStyle(
+                                      //     fontFamily: result[0]
+                                      //         .questions?[index]
+                                      //         .question
+                                      //         ?.font
+                                      //         ?.family,
+                                      //     fontSize: result[0]
+                                      //         .questions?[index]
+                                      //         .question
+                                      //         ?.font
+                                      //         ?.size,
+                                      //     color: result[0]
+                                      //         .questions?[index].question?.font?.color),
+                                       question: result[0]
                                               .questions?[index]
                                               .question
                                               ?.text ??
@@ -307,22 +305,25 @@ class HelpCenterPage extends StatelessWidget {
                                               .answer
                                               ?.text ??
                                           "",
-                                      ansStyle: TextStyle(
-                                          fontFamily: result[0]
-                                              .questions?[index]
-                                              .answer
-                                              ?.font
-                                              ?.family,
-                                          fontSize: result[0]
-                                              .questions?[index]
-                                              .answer
-                                              ?.font
-                                              ?.size,
-                                          color: result[0]
-                                              .questions?[index]
-                                              .answer
-                                              ?.font
-                                              ?.color),
+                                      ansStyle: TextStyles.bodyFont
+
+                                      // TextStyle(
+                                      //     fontFamily: result[0]
+                                      //         .questions?[index]
+                                      //         .answer
+                                      //         ?.font
+                                      //         ?.family,
+                                      //     fontSize: result[0]
+                                      //         .questions?[index]
+                                      //         .answer
+                                      //         ?.font
+                                      //         ?.size,
+                                      //     color: result[0]
+                                      //         .questions?[index]
+                                      //         .answer
+                                      //         ?.font
+                                      //         ?.color),
+                                   
                                     );
                                   }),
                             ],
