@@ -9,9 +9,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
 import 'package:lottie/lottie.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 
-class LocationPage extends StatelessWidget {
+class LocationPage extends StatefulWidget {
+  @override
+  State<LocationPage> createState() => _LocationPageState();
+}
+
+class _LocationPageState extends State<LocationPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    locationController.getCoordinate();
+    super.initState();
+  }
   LocationController locationController = Get.find();
+
   TextEditingController _textController = TextEditingController();
+
   late GoogleMapController mapController;
   @override
   Widget build(BuildContext context) {
@@ -26,10 +39,12 @@ class LocationPage extends StatelessWidget {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: GoogleMap(
+
                         onMapCreated: locationController.onMapCreated,
                         initialCameraPosition: CameraPosition(
                           target: locationController.currentLatLang.value,
                           zoom: 18.0,
+
                         ),
                         onCameraMove: locationController.updatePosition,
                         markers: {

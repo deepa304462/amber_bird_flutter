@@ -12,19 +12,24 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../data/location/location.dart';
+import 'dart:async';
+
 class LocationController extends GetxController {
   // Locale currentLocale = const Locale('en');
-  Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
+  Rx<LatLng> currentLatLang = const LatLng(26.4770531, 80.2878786).obs;
   RxMap<dynamic, dynamic> address = <dynamic, dynamic>{}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> deliveryAddress = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
+  Rx<Location> location = Location().obs;
   Rx<String> pinCode = ''.obs;
   RxList pincodeSuggestions = [].obs;
+  final Completer<GoogleMapController> mapController =   Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
-  late GoogleMapController mapController;
+  // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
@@ -41,7 +46,9 @@ class LocationController extends GetxController {
   }
 
   void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+
+    mapController.complete(controller);
+
   }
 
   Future<void> searchPincode(String changedText) async {
@@ -277,5 +284,19 @@ class LocationController extends GetxController {
       }
       changeAddressData.refresh();
     } catch (e) {}
+  }
+  void getCoordinate() {
+    // isLoading.value = true;
+    ClientService.get(path: 'shipping/getGenericAddressWithIp').then((value) {
+           print("fhtfhfh"+value.data.toString());
+           location.value = Location.fromJson(value.data);
+           currentLatLang.value=LatLng(26.4770531, 80.2878786) ;
+           currentPin.value = Marker(
+               markerId: const MarkerId('pin'),
+               position:
+               LatLng(26.4770531, 80.2878786)
+           );
+           // currentLatLang.value=LatLng(Location.fromJson(value.data).geo!.coordinates![0].toDouble(), Location.fromJson(value.data).geo!.coordinates![1].toDouble()) ;
+    });
   }
 }
