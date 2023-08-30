@@ -40,25 +40,29 @@ class snackBarClass {
     // );\
     showTopSnackBar(
       Overlay.of(context),
-      Card(
-            color: AppColors.primeColor,
-            shape: RoundedRectangleBorder(
-                borderRadius:  BorderRadius.circular(12),
-                side: BorderSide(
-                  color: AppColors.white,
-                  width: 1,
-                )),
-        child: Container(
-          height: 50,
-          child: CustomSnackBar.info(
-            backgroundColor:AppColors.primeColor,
-            message:msg ?? "Please try again!",
-                    messagePadding: EdgeInsets.zero,
-                    textStyle: TextStyles.titleFont
-                        .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
-                  ),
-        ),
-        ),
+      Padding(
+        padding: const EdgeInsets.only(top:38.0),
+        child: Card(
+              color: AppColors.primeColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius:  BorderRadius.circular(12),
+                  side: BorderSide(
+                    color: AppColors.white,
+                    width: 1,
+                  )),
+          child: Container(
+            height: 50,
+            child: CustomSnackBar.info(
+
+              backgroundColor:AppColors.primeColor,
+              message:msg ?? "Please try again!",
+                      messagePadding: EdgeInsets.zero,
+                      textStyle: TextStyles.titleFont
+                          .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
+                    ),
+          ),
+          ),
+      ),
       snackBarPosition: SnackBarPosition.top,
       animationDuration: const Duration(milliseconds: 3000),
     );
