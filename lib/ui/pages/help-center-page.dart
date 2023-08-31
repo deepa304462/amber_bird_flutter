@@ -75,7 +75,7 @@ class HelpCenterPage extends StatelessWidget {
                     children: [
                       Text('Contact Us', style: TextStyles.headingFont),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -219,11 +219,11 @@ class HelpCenterPage extends StatelessWidget {
                         Text('Need Immeddiate Assistance?',
                             style: TextStyles.headingFont),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             launch('mailto:hello@sbazar.app');
                           },
                           child: ListTile(
-                            horizontalTitleGap:0.0,
+                            horizontalTitleGap: 0.0,
                             leading: Icon(Icons.mail),
                             title: Text(
                               'hello@sbazar.app',
@@ -233,17 +233,22 @@ class HelpCenterPage extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () async{
-                            const url = 'https://api.whatsapp.com/message/7CXH5SMN32HXN1?autoload=1&app_absent=0';
+                          onTap: () async {
+                            const url =
+                                'https://api.whatsapp.com/message/7CXH5SMN32HXN1?autoload=1&app_absent=0';
                             if (await canLaunch(url)) {
-                            await launch(url, forceWebView: true);
+                              await launch(url, forceWebView: true);
                             } else {
-                            throw 'Could not launch $url';
+                              throw 'Could not launch $url';
                             }
                           },
                           child: ListTile(
-                            horizontalTitleGap:0.0,
-                            leading: Image.asset("assets/whatsapp.png",height: 20,width: 20,),
+                            horizontalTitleGap: 0.0,
+                            leading: Image.asset(
+                              "assets/whatsapp.png",
+                              height: 20,
+                              width: 20,
+                            ),
                             title: Text(
                               'Sbazar',
                               style: TextStyles.linkFont,
@@ -268,7 +273,7 @@ class HelpCenterPage extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(8),
                         child: SizedBox(
-                           width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
                           //       height: MediaQuery.of(context).size.height * .2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,54 +283,76 @@ class HelpCenterPage extends StatelessWidget {
                                   // scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   // physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: result[0].questions?.length,
-                                  itemBuilder: (_, index) {
-                                    return FAQ(
-                                      queStyle: TextStyles.titleFont,
-                                      //  TextStyle(
-                                      //     fontFamily: result[0]
-                                      //         .questions?[index]
-                                      //         .question
-                                      //         ?.font
-                                      //         ?.family,
-                                      //     fontSize: result[0]
-                                      //         .questions?[index]
-                                      //         .question
-                                      //         ?.font
-                                      //         ?.size,
-                                      //     color: result[0]
-                                      //         .questions?[index].question?.font?.color),
-                                       question: result[0]
-                                              .questions?[index]
-                                              .question
-                                              ?.text ??
-                                          "",
-                                      answer: result[0]
-                                              .questions?[index]
-                                              .answer
-                                              ?.text ??
-                                          "",
-                                      ansStyle: TextStyles.bodyFont
+                                  itemCount: result.length,
+                                  itemBuilder: (_, indx) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 12),
+                                          child: Text(result[indx].topic ?? "",
+                                              style: TextStyles.headingFont),
+                                        ),
+                                        ListView.builder(
+                                            // scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            // physics: const NeverScrollableScrollPhysics(),
+                                            itemCount:
+                                                result[indx].questions?.length,
+                                            itemBuilder: (_, index) {
+                                              return FAQ(
+                                                  showDivider: false,
+                                                  queStyle:
+                                                      TextStyles.titleFont,
+                                                  //  TextStyle(
+                                                  //     fontFamily: result[0]
+                                                  //         .questions?[index]
+                                                  //         .question
+                                                  //         ?.font
+                                                  //         ?.family,
+                                                  //     fontSize: result[0]
+                                                  //         .questions?[index]
+                                                  //         .question
+                                                  //         ?.font
+                                                  //         ?.size,
+                                                  //     color: result[0]
+                                                  //         .questions?[index].question?.font?.color),
+                                                  question: result[indx]
+                                                          .questions?[index]
+                                                          .question
+                                                          ?.text ??
+                                                      "",
+                                                  answer: result[indx]
+                                                          .questions?[index]
+                                                          .answer
+                                                          ?.text ??
+                                                      "",
+                                                  ansStyle: TextStyles.bodyFont
 
-                                      // TextStyle(
-                                      //     fontFamily: result[0]
-                                      //         .questions?[index]
-                                      //         .answer
-                                      //         ?.font
-                                      //         ?.family,
-                                      //     fontSize: result[0]
-                                      //         .questions?[index]
-                                      //         .answer
-                                      //         ?.font
-                                      //         ?.size,
-                                      //     color: result[0]
-                                      //         .questions?[index]
-                                      //         .answer
-                                      //         ?.font
-                                      //         ?.color),
-                                   
+                                                  // TextStyle(
+                                                  //     fontFamily: result[0]
+                                                  //         .questions?[index]
+                                                  //         .answer
+                                                  //         ?.font
+                                                  //         ?.family,
+                                                  //     fontSize: result[0]
+                                                  //         .questions?[index]
+                                                  //         .answer
+                                                  //         ?.font
+                                                  //         ?.size,
+                                                  //     color: result[0]
+                                                  //         .questions?[index]
+                                                  //         .answer
+                                                  //         ?.font
+                                                  //         ?.color),
+
+                                                  );
+                                            }),
+                                      ],
                                     );
-                                  }),
+                                  })
                             ],
                           ),
                         ),
