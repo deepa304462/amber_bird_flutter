@@ -388,11 +388,11 @@ class Controller extends GetxController {
     }
   }
 
-  addToCart(product) {
-    product.quantity++;
-    cartProducts.add(product);
-    calculateTotalPrice();
-  }
+  // addToCart(product) {
+  //   product.quantity++;
+  //   cartProducts.add(product);
+  //   calculateTotalPrice();
+  // }
 
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
