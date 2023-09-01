@@ -19,13 +19,16 @@ class _LocationPageState extends State<LocationPage> {
   void initState() {
     // TODO: implement initState
     locationController.getCoordinate();
+     print("latitude"+locationController.currentLatLang.value.toString());
     super.initState();
   }
+
   LocationController locationController = Get.find();
 
   TextEditingController _textController = TextEditingController();
 
   late GoogleMapController mapController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +37,17 @@ class _LocationPageState extends State<LocationPage> {
           return SafeArea(
             child: Stack(
               children: [
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                   Expanded(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: GoogleMap(
-
                         onMapCreated: locationController.onMapCreated,
                         initialCameraPosition: CameraPosition(
                           target: locationController.currentLatLang.value,
                           zoom: 18.0,
-
                         ),
                         onCameraMove: locationController.updatePosition,
                         markers: {
@@ -61,7 +64,7 @@ class _LocationPageState extends State<LocationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter POSTCODE to connect with your nearest warehouse',
+                          'Enter POSTCODE to connect with your nearest warehouse${locationController.currentLatLang.value}',
                           style: TextStyles.bodyFont
                               .copyWith(color: AppColors.primeColor),
                         ),

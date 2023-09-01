@@ -289,14 +289,18 @@ class LocationController extends GetxController {
     // isLoading.value = true;
     ClientService.get(path: 'shipping/getGenericAddressWithIp').then((value) {
            print("fhtfhfh"+value.data.toString());
-           location.value = Location.fromJson(value.data);
-           currentLatLang.value=LatLng(26.4770531, 80.2878786) ;
-           currentPin.value = Marker(
-               markerId: const MarkerId('pin'),
-               position:
-               LatLng(26.4770531, 80.2878786)
-           );
-           // currentLatLang.value=LatLng(Location.fromJson(value.data).geo!.coordinates![0].toDouble(), Location.fromJson(value.data).geo!.coordinates![1].toDouble()) ;
+           var locations=Location.fromJson(value.data);
+           location.value = locations;
+           // currentLatLang.value=LatLng(26.4770531, 80.2878786) ;
+           // currentPin.value = Marker(
+           //     markerId: const MarkerId('pin'),
+           //     position:
+           //     LatLng(26.4770531, 80.2878786)
+           // );
+
+           currentLatLang.value=LatLng(locations.geo!.coordinates![0].toDouble(), locations.geo!.coordinates![1].toDouble()) ;
+    print("latitude"+locations.geo!.coordinates![0].toString());
+    print("longitude"+locations.geo!.coordinates![1].toString());
     });
   }
 }

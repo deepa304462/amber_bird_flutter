@@ -34,9 +34,9 @@ class ClientService {
   static String urlV2 =
       "https://api.to.diago-app.com/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
   // static String urlV2 =
-  //     "http://localhost:8080/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
+  //     "://localhost:8080/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
   // static String urlV2 =
-  //     "http://192.168.43.155/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
+  //     "://192.168.43.155/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
 
   static String url = "https://prod.sbazar.app/";
   static String cdnUrl = "https://cdn2.sbazar.app/";
@@ -322,7 +322,7 @@ class ClientService {
   }
 }
 
-String baseUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places';
+String baseUrl = 's://api.mapbox.com/geocoding/v5/mapbox.places';
 String accessToken = dotenv.env['MAPBOX_ACCESS_TOKEN']!;
 
 Dio _dio = Dio();
