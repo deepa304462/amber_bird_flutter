@@ -17,17 +17,25 @@ class LocationPage extends StatefulWidget {
 class _LocationPageState extends State<LocationPage> {
   @override
   void initState() {
-    // TODO: implement initState
-    locationController.getCoordinate();
-     print("latitude"+locationController.currentLatLang.value.toString());
+    getCoordinate();
+
     super.initState();
   }
 
-  LocationController locationController = Get.find();
+  getCoordinate() async {
+    isLoading.value = true;
 
+    await locationController.getCoordinate();
+    isLoading.value = false;
+    mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: locationController.currentLatLang.value, zoom: 17)));
+  }
+
+  LocationController locationController = Get.find();
+  RxBool isLoading = true.obs;
   TextEditingController _textController = TextEditingController();
 
-  late GoogleMapController mapController;
+  GoogleMapController? mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +45,36 @@ class _LocationPageState extends State<LocationPage> {
           return SafeArea(
             child: Stack(
               children: [
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Expanded(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: GoogleMap(
-                        onMapCreated: locationController.onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: locationController.currentLatLang.value,
-                          zoom: 18.0,
-                        ),
-                        onCameraMove: locationController.updatePosition,
-                        markers: {
-                          const GoogleMapLib.Marker(
-                            markerId: MarkerId('value'),
-                          )
-                        },
-                      ),
+                      child: !isLoading.value
+                          ? GoogleMap(
+                              onMapCreated: (GoogleMapController controller) {
+                                locationController.gmapController?.value =
+                                    controller;
+                                setState(() {
+                                  mapController = controller;
+                                });
+
+                                // setState(() {});
+                              },
+// }locationController.onMapCreated,
+                              initialCameraPosition: CameraPosition(
+                                target: locationController.currentLatLang.value,
+                                zoom: 18.0,
+                              ),
+                              onCameraMove: locationController.updatePosition,
+                              markers: {
+                                const GoogleMapLib.Marker(
+                                  markerId: MarkerId('value'),
+                                )
+                              },
+                            )
+                          : Lottie.network(
+                              'https://cdn2.sbazar.app/26525fe0-b20f-4a8c-b9a5-50d6ec73c5f0',
+                              repeat: true),
                     ),
                   ),
                   Padding(
@@ -64,7 +83,7 @@ class _LocationPageState extends State<LocationPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter POSTCODE to connect with your nearest warehouse${locationController.currentLatLang.value}',
+                          'Enter POSTCODE to connect with your nearest warehouse',
                           style: TextStyles.bodyFont
                               .copyWith(color: AppColors.primeColor),
                         ),
