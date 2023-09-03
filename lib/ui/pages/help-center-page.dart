@@ -4,7 +4,6 @@ import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_faq/flutter_faq.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -21,8 +20,8 @@ class HelpCenterPage extends StatelessWidget {
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
-    List<Faq> result = faqController.faqList;
-
+  
+  List<Faq> result = faqController.faqList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -285,73 +284,33 @@ class HelpCenterPage extends StatelessWidget {
                                   // physics: const NeverScrollableScrollPhysics(),
                                   itemCount: result.length,
                                   itemBuilder: (_, indx) {
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 12),
-                                          child: Text(result[indx].topic ?? "",
-                                              style: TextStyles.headingFont),
+                                    return       Container(
+                                      margin: EdgeInsets.all(0),
+                                      padding: EdgeInsets.all(0),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              width: 1.5,
+                                              color: AppColors.lightGrey),
                                         ),
-                                        ListView.builder(
-                                            // scrollDirection: Axis.vertical,
-                                            shrinkWrap: true,
-                                            // physics: const NeverScrollableScrollPhysics(),
-                                            itemCount:
-                                                result[indx].questions?.length,
-                                            itemBuilder: (_, index) {
-                                              return FAQ(
-                                                  showDivider: false,
-                                                  queStyle:
-                                                      TextStyles.titleFont,
-                                                  //  TextStyle(
-                                                  //     fontFamily: result[0]
-                                                  //         .questions?[index]
-                                                  //         .question
-                                                  //         ?.font
-                                                  //         ?.family,
-                                                  //     fontSize: result[0]
-                                                  //         .questions?[index]
-                                                  //         .question
-                                                  //         ?.font
-                                                  //         ?.size,
-                                                  //     color: result[0]
-                                                  //         .questions?[index].question?.font?.color),
-                                                  question: result[indx]
-                                                          .questions?[index]
-                                                          .question
-                                                          ?.text ??
-                                                      "",
-                                                  answer: result[indx]
-                                                          .questions?[index]
-                                                          .answer
-                                                          ?.text ??
-                                                      "",
-                                                  ansStyle: TextStyles.bodyFont
-
-                                                  // TextStyle(
-                                                  //     fontFamily: result[0]
-                                                  //         .questions?[index]
-                                                  //         .answer
-                                                  //         ?.font
-                                                  //         ?.family,
-                                                  //     fontSize: result[0]
-                                                  //         .questions?[index]
-                                                  //         .answer
-                                                  //         ?.font
-                                                  //         ?.size,
-                                                  //     color: result[0]
-                                                  //         .questions?[index]
-                                                  //         .answer
-                                                  //         ?.font
-                                                  //         ?.color),
-
-                                                  );
-                                            }),
-                                      ],
+                                      ),
+                                      child: ListTile(
+                                        dense: true,
+                                        onTap: () {
+                                          Modular.to.pushNamed(
+                                              '/widget/faq',
+                                              arguments: result[indx].id!);
+                                        },
+                                        title: Text(
+                                          result[indx].topic ?? '',
+                                          style: TextStyles.titleFont,
+                                        ),
+                                        trailing:
+                                            const Icon(Icons.chevron_right),
+                                      ),
                                     );
+                       
+                                   
                                   })
                             ],
                           ),
