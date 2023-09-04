@@ -69,6 +69,11 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: AppColors.DarkGrey);
+  static TextStyle get headingFont2 => TextStyle(
+      fontFamily: Fonts.body,
+      fontSize: FontSizes.title2,
+      fontWeight: FontWeight.bold,
+      color: AppColors.DarkGrey);
 
   static TextStyle get body =>
       bodyFont.copyWith(fontSize: FontSizes.body, fontWeight: FontWeight.w300);

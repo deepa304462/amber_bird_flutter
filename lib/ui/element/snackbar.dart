@@ -1,6 +1,7 @@
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/safe_area_values.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class snackBarClass {
@@ -40,31 +41,33 @@ class snackBarClass {
     // );\
     showTopSnackBar(
       Overlay.of(context),
-      Padding(
-        padding: const EdgeInsets.only(top:38.0),
-        child: Card(
-              color: AppColors.primeColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius:  BorderRadius.circular(12),
-                  side: BorderSide(
-                    color: AppColors.white,
-                    width: 1,
-                  )),
-          child: Container(
-            height: 50,
-            child: CustomSnackBar.info(
+      Card(
+            color: Colors.black26,
+            shape: RoundedRectangleBorder(
+                borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15)),
 
-              backgroundColor:AppColors.primeColor,
-              message:msg ?? "Please try again!",
-                      messagePadding: EdgeInsets.zero,
-                      textStyle: TextStyles.titleFont
-                          .copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
-                    ),
-          ),
-          ),
-      ),
+            ),
+        child: Container(
+          padding: EdgeInsets.zero,
+          height: 100,
+          child: CustomSnackBar.info(
+            backgroundColor:Colors.black26,
+            iconRotationAngle: 10,
+            iconPositionTop: 10,
+            iconPositionLeft: 20,
+            icon: Icon(Icons.check_circle_rounded,color: Colors.green,size: 34,),
+            messagePadding: EdgeInsets.only(top: 22),
+            message:msg ?? "Please try again!",
+                    textStyle: TextStyles.headingFont2
+                        .copyWith(color: AppColors.white),
+                  ),
+        ),
+        ),
       snackBarPosition: SnackBarPosition.top,
       animationDuration: const Duration(milliseconds: 3000),
+      safeAreaValues: SafeAreaValues(
+       top :false,
+      )
     );
   }
 }
