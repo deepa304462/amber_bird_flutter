@@ -1,13 +1,6 @@
 import 'package:amber_bird/controller/auth-controller.dart';
-import 'package:amber_bird/controller/compiilance-controller.dart';
-import 'package:amber_bird/data/complaince/complaince.dart';
-import 'package:amber_bird/data/complaince/content.dart';
-import 'package:amber_bird/data/complaince/detailed_content.dart';
-import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_faq/flutter_faq.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +8,14 @@ import '../../controller/faq-controller.dart';
 import '../../data/faq/faq-model.dart';
 
 class FAQWidget extends StatelessWidget {
-  final AuthController authController = Get.find();
-  RxBool isLoading = false.obs;
-  final FaqController faqController = Get.find();
-  String id;
+  final String id;
   FAQWidget(this.id);
+
+  final AuthController authController = Get.find();
+
+  RxBool isLoading = false.obs;
+
+  final FaqController faqController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -64,64 +60,33 @@ class FAQWidget extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
+      body: SingleChildScrollView(
+        //    padding: EdgeInsets.all(2),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              detailedContent.topic ?? '',
-              style: TextStyles.headingFont,
-            ),
-            Expanded(
-              child: ListView.builder(
-                  padding: EdgeInsets.only(top: 10),
-                  // scrollDirection: Axis.vertical,
-                  // shrinkWrap: true,
-                  // physics: const NeverScrollableScrollPhysics(),
-                  itemCount: result[0].questions!.length,
-                  itemBuilder: (_, index) {
-                    return FAQ(
-                        isExpanded: false,
-                        showDivider: false,
-                        queStyle: TextStyles.titleFont,
-                        //  TextStyle(
-                        //     fontFamily: result[0]
-                        //         .questions?[index]
-                        //         .question
-                        //         ?.font
-                        //         ?.family,
-                        //     fontSize: result[0]
-                        //         .questions?[index]
-                        //         .question
-                        //         ?.font
-                        //         ?.size,
-                        //     color: result[0]
-                        //         .questions?[index].question?.font?.color),
-                        question:
-                            result[0].questions?[index].question?.text ?? "",
-                        answer: result[0].questions?[index].answer?.text ?? "",
-                        ansStyle: TextStyles.bodyFont
-
-                        // TextStyle(
-                        //     fontFamily: result[0]
-                        //         .questions?[index]
-                        //         .answer
-                        //         ?.font
-                        //         ?.family,
-                        //     fontSize: result[0]
-                        //         .questions?[index]
-                        //         .answer
-                        //         ?.font
-                        //         ?.size,
-                        //     color: result[0]
-                        //         .questions?[index]
-                        //         .answer
-                        //         ?.font
-                        //         ?.color),
-
-                        );
-                  }),
+            ExpansionPanelList.radio(
+              elevation: 4,
+              //  expandedHeaderPadding: EdgeInsets.only(bottom: 100),
+              children: result[0]
+                  .questions!
+                  .map<ExpansionPanelRadio>((QuestionElement questionElement) {
+                return ExpansionPanelRadio(
+                    backgroundColor: Colors.grey[100],
+                    canTapOnHeader: true,
+                    headerBuilder: (BuildContext context, bool isExpanded) =>
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 5, 0),
+                          child: Text("${questionElement.question?.text}",
+                              textAlign: TextAlign.start,
+                              style: TextStyles.titleFont),
+                        ),
+                    body: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 5, 20),
+                      child: Text("${questionElement.answer?.text}",
+                          style: TextStyles.body),
+                    ),
+                    value: questionElement.question ?? "");
+              }).toList(),
             ),
           ],
         ),
