@@ -72,8 +72,8 @@ class _LocationPageState extends State<LocationPage> {
                                 )
                               },
                             )
-                          : Lottie.network(
-                              'https://cdn2.sbazar.app/26525fe0-b20f-4a8c-b9a5-50d6ec73c5f0',
+                          : Lottie.asset(
+                              'assets/maps.json',
                               repeat: true),
                     ),
                   ),
