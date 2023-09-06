@@ -60,6 +60,10 @@ class TextStyles {
       fontFamily: Fonts.body,
       fontSize: FontSizes.title,
       color: AppColors.DarkGrey);
+  static TextStyle get linkFont => TextStyle(
+      fontFamily: Fonts.body,
+      fontSize: FontSizes.title,
+      color: AppColors.blue);
   static TextStyle get headingFont => TextStyle(
       fontFamily: Fonts.body,
       fontSize: FontSizes.title,

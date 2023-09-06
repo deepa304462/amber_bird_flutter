@@ -1,9 +1,11 @@
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/complaince/complaince.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -37,6 +39,8 @@ import '../../helpers/controller-generator.dart';
 class ProductDetailScreen extends StatelessWidget {
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
+  final CompilanceController compilanceController =
+      Get.put(CompilanceController());
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   LocationController locationController = Get.find();
@@ -56,6 +60,7 @@ class ProductDetailScreen extends StatelessWidget {
     if (pId == null || pId == '') {
       Modular.to.navigate('/home/main');
     }
+
     return Obx(
       () => (productController.product.value.id != null)
           ? Scaffold(
@@ -342,11 +347,13 @@ class ProductDetailScreen extends StatelessWidget {
                               backgroundColor: AppColors.primeColor,
                               textStyle: TextStyles.body
                                   .copyWith(color: AppColors.white)),
-                          onPressed: productController
-                                      .product.value.varients![0].currentStock >
-                                  0
-                              ? () {}
-                              : () {},
+                          onPressed:
+                              // productController
+                              //             .product.value.varients![0].currentStock >
+                              //         0
+                              //     ? () {}
+                              // :
+                              () {},
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Row(
@@ -818,7 +825,6 @@ class ProductDetailScreen extends StatelessWidget {
     productController.getofferShipping();
 
     getAddressList();
-
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -830,111 +836,193 @@ class ProductDetailScreen extends StatelessWidget {
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
       child: Obx(
-        () => Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AppBar(
-              elevation: 1,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12))),
-              backgroundColor: AppColors.white,
-              leadingWidth: 50,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  const SizedBox(),
-                  Text(
-                    'Shipping Policy',
-                    style: TextStyles.headingFont,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              leading: ImageBox(
-                stateController.membershipIcon.value,
-                width: 15,
-                height: 15,
-                fit: BoxFit.contain,
-              ),
-            ),
-            ListTile(
-              onTap: () {},
-              dense: true,
-              minLeadingWidth: 20,
-              horizontalTitleGap: 10,
-              trailing: SizedBox(
-                width: 100,
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text(locationController.addressData.value.country ?? ' '),
-                  Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15)
-                ]),
-              ),
-              leading:
-                  Icon(Icons.pin_drop_sharp, color: AppColors.black, size: 20),
-              title: Text(
-                'Ship to',
-                style: TextStyles.headingFont,
-              ),
-            ),
-            Divider(
-              color: AppColors.lightGrey,
-              height: 1,
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-              child:
-                  (productController.offerShipping.value['amountRequired'] < 0)
-                      ? Text(
-                          'Free shipping ',
-                          style: TextStyles.headingFont,
-                        )
-                      : Text(
-                          'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
-                          //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
-                          style: TextStyles.body,
-                        ),
-            ),
-            Divider(
-              color: AppColors.lightGrey,
-              height: 1,
-              thickness: 1,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.40,
-              child: SingleChildScrollView(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: addressList.length,
-                  itemBuilder: (_, index) {
-                    var currentAddress = addressList[index];
-                    return addressCard(
-                      context,
-                      locationController,
-                      index,
-                      currentAddress,
-                      () {
-                        locationController.addressData.value = currentAddress;
-                        locationController.pinCode.value =
-                            currentAddress.zipCode!;
+        () => SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppBar(
+                elevation: 1,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12))),
+                backgroundColor: AppColors.white,
+                leadingWidth: 50,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const SizedBox(),
+                    Text(
+                      'Shipping Policy',
+                      style: TextStyles.headingFont,
+                    ),
+                    IconButton(
+                      onPressed: () {
                         Navigator.pop(context);
-                        return {};
                       },
-                    );
-                  },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ],
+                ),
+                leading: stateController.membershipIcon.value.isNotEmpty
+                    ? ImageBox(
+                        stateController.membershipIcon.value,
+                        width: 15,
+                        height: 15,
+                        fit: BoxFit.contain,
+                      )
+                    : const SizedBox(),
+              ),
+              ListTile(
+                onTap: () {},
+                dense: true,
+                minLeadingWidth: 20,
+                horizontalTitleGap: 10,
+                trailing: SizedBox(
+                  width: 100,
+                  child:
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Text(locationController.addressData.value.country ?? ' '),
+                    Icon(Icons.arrow_forward_ios,
+                        color: AppColors.grey, size: 15)
+                  ]),
+                ),
+                leading: Icon(Icons.pin_drop_sharp,
+                    color: AppColors.black, size: 20),
+                title: Text(
+                  'Ship to',
+                  style: TextStyles.headingFont,
                 ),
               ),
-            )
-          ],
+              Divider(
+                color: AppColors.lightGrey,
+                height: 1,
+                thickness: 1,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                child:
+                    (productController.offerShipping.value['amountRequired'] <
+                            0)
+                        ? Text(
+                            'Free shipping ',
+                            style: TextStyles.headingFont,
+                          )
+                        : Text(
+                            'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
+                            //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                            style: TextStyles.body,
+                          ),
+              ),
+              Divider(
+                color: AppColors.lightGrey,
+                height: 1,
+                thickness: 1,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                  // textDirection: TextDirection.,
+                  border: TableBorder.all(color: Colors.black, width: 1.2),
+                  columnWidths: const {
+                    0: FlexColumnWidth(0.8),
+                    1: FlexColumnWidth(1.1),
+                    2: FlexColumnWidth(0.9),
+                    3: FlexColumnWidth(1),
+                    4: FlexColumnWidth(0.8),
+                  },
+                  children: [
+                    //  buildRow(["Newbie", "Silver", "Gold", "Platinum", ""]),
+                    buildRow([
+                      "User Level",
+                      "Standard Cart Value",
+                      "Standard Price(€)",
+                      "Offer Cart Value",
+                      "Offer Price"
+                    ], isheader: true),
+                    buildRow([
+                      "Newbie",
+                      "Less than 49€",
+                      "4.99€",
+                      "Above 49€",
+                      "2.99€",
+                    ]),
+                    buildRow([
+                      "Silver",
+                      "Less than 49€",
+                      "4.99€",
+                      "Above 49€",
+                      "Free"
+                    ]),
+                    buildRow([
+                      "Gold",
+                      "Less than 39€",
+                      "3.99€",
+                      "Above 39€",
+                      "Free"
+                    ]),
+                    buildRow([
+                      "Platinum",
+                      "Less than 29€",
+                      "2.99€",
+                      "Above 29€",
+                      "Free"
+                    ]),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: RichText(
+                    text: TextSpan(
+                      text:
+                          "Thank you for selecting SBazar as your go-to online shopping platform. Our dedication lies in offering you a smooth and pleasing shopping journey. The following Shipping Policy details vital information regarding the shipping services and delivery choices for orders made through our application. Please note that this shipping policy is valid exclusively for Germany.",
+                      style: TextStyles.titleFont,
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: ' Learn more',
+                            style: TextStyles.linkFont,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Modular.to.popAndPushNamed('/widget/compilance',
+                                    arguments: 'EARN_SCOINS');
+                              }),
+                      ],
+                    ),
+                  )),
+              SizedBox(
+                height: addressList.length > 0
+                    ? MediaQuery.of(context).size.height * 0.20
+                    : 0,
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: addressList.length,
+                    itemBuilder: (_, index) {
+                      var currentAddress = addressList[index];
+                      return addressCard(
+                        context,
+                        locationController,
+                        index,
+                        currentAddress,
+                        () {
+                          locationController.addressData.value = currentAddress;
+                          locationController.pinCode.value =
+                              currentAddress.zipCode!;
+                          Navigator.pop(context);
+                          return {};
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1712,4 +1800,19 @@ class ProductDetailScreen extends StatelessWidget {
       return '';
     }
   }
+
+  TableRow buildRow(List<String> cells, {bool isheader = false}) => TableRow(
+      children: cells
+          .map((e) => Padding(
+                padding: isheader
+                    ? const EdgeInsets.symmetric(vertical: 8, horizontal: 2)
+                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 2.5),
+                child: Center(
+                    child: Text(
+                  e,
+                  textAlign: TextAlign.center,
+                  style: isheader ? TextStyles.headingFont : TextStyles.body,
+                )),
+              ))
+          .toList());
 }

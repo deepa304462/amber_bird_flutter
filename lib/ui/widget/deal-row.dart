@@ -72,8 +72,8 @@ class DealRow extends StatelessWidget {
                                       difference.inHours != null
                                           ? '${difference.inHours}H left'
                                           : '${difference.inMinutes}M left',
-                                      style: TextStyles.bodyFontBold
-                                          .copyWith(color: Colors.white),
+                                      style: TextStyles.headingFont
+                                          .copyWith(color: AppColors.primeColor),
                                     ),
                                   ),
                                   Colors.red,
