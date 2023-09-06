@@ -20,8 +20,7 @@ class HelpCenterPage extends StatelessWidget {
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
-  
-  List<Faq> result = faqController.faqList;
+    List<Faq> result = faqController.faqList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -279,12 +278,12 @@ class HelpCenterPage extends StatelessWidget {
                             children: [
                               Text('FAQ', style: TextStyles.headingFont),
                               ListView.builder(
-                                  // scrollDirection: Axis.vertical,
+                                  scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  // physics: const NeverScrollableScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   itemCount: result.length,
                                   itemBuilder: (_, indx) {
-                                    return       Container(
+                                    return Container(
                                       margin: EdgeInsets.all(0),
                                       padding: EdgeInsets.all(0),
                                       decoration: BoxDecoration(
@@ -297,8 +296,7 @@ class HelpCenterPage extends StatelessWidget {
                                       child: ListTile(
                                         dense: true,
                                         onTap: () {
-                                          Modular.to.pushNamed(
-                                              '/widget/faq',
+                                          Modular.to.pushNamed('/widget/faq',
                                               arguments: result[indx].id!);
                                         },
                                         title: Text(
@@ -309,8 +307,6 @@ class HelpCenterPage extends StatelessWidget {
                                             const Icon(Icons.chevron_right),
                                       ),
                                     );
-                       
-                                   
                                   })
                             ],
                           ),
