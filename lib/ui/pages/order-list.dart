@@ -287,7 +287,7 @@ class OrderListPage extends StatelessWidget {
                                       ),
                                       controlAffinity:
                                           ListTileControlAffinity.leading,
-                                      // activeColor: Colors.red,
+                                      activeColor: AppColors.primeColor,
                                       // checkColor: Colors.yellow,
                                       selected: _isChecked,
                                       value: _isChecked,
@@ -298,27 +298,48 @@ class OrderListPage extends StatelessWidget {
                                       },
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: ElevatedButton(
-                                        child: Text(
-                                          "Continue",
-                                          style: TextStyle(
-                                              fontFamily: Fonts.body,
-                                              fontSize: FontSizes.title,
-                                              color: AppColors.white),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: _isChecked
-                                              ? AppColors.primeColor
-                                              : AppColors.DarkGrey,
-                                          elevation: 0,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          OutlinedButton(
+                                            child: Text("Cancel"),
+                                            style: OutlinedButton.styleFrom(
+                                              // primary: Colors.red,
+                                              side: BorderSide(
+                                                width: 2,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text(
+                                              "Continue",
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
+                                              elevation: 0,
+                                            ),
+                                            onPressed: () {
+                                              if (_isChecked) {
+                                                Navigator.of(context).pop();
 
-                                          _showCancelOrderConfirmationDialog(
-                                              context);
-                                        },
+                                                _showCancelOrderConfirmationDialog(
+                                                    context, curOrder.id);
+                                              }
+                                            },
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -353,17 +374,20 @@ class OrderListPage extends StatelessWidget {
     );
   }
 
-  Future<void> openEmailApp() async {
+  Future<void> openEmailApp(String? orderID) async {
     const toEmail = 'hello@sbazar.app';
     const subject = 'Cancellation';
-    const body = 'Hello,\n';
+    String body =
+        'Hello,\n I would like to return my order with order id ${orderID.toString()}\n';
+
     final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     }
   }
 
-  Future<void> _showCancelOrderConfirmationDialog(BuildContext context) async {
+  Future<void> _showCancelOrderConfirmationDialog(
+      BuildContext context, String? orderID) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // User must tap button!
@@ -391,7 +415,7 @@ class OrderListPage extends StatelessWidget {
                 // You can put your order cancellation code here
                 // After cancellation, you can navigate to a new screen or perform other actions
                 Navigator.of(context).pop();
-                openEmailApp(); // Close the dialog
+                openEmailApp(orderID); // Close the dialog
               },
             ),
           ],
