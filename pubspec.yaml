@@ -87,6 +87,8 @@ dependencies:
   
 dependency_overrides:
   intl: any  
+  firebase_auth_platform_interface: 6.7.0
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
