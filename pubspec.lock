@@ -314,13 +314,13 @@ packages:
     source: hosted
     version: "3.11.2"
   firebase_auth_platform_interface:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: firebase_auth_platform_interface
-      sha256: ab20ecbc411726e139250a49fa03fe1ae0105fd990c5330b2a148ec08dfb140b
+      sha256: c9c9dfdb11ca7df56c6bf3d5af8aa408ab85152caa6138874323e09977e25941
       url: "https://pub.dev"
     source: hosted
-    version: "6.10.1"
+    version: "6.7.0"
   firebase_auth_web:
     dependency: transitive
     description:
@@ -338,13 +338,13 @@ packages:
     source: hosted
     version: "1.24.0"
   firebase_core_platform_interface:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: firebase_core_platform_interface
-      sha256: b63e3be6c96ef5c33bdec1aab23c91eb00696f6452f0519401d640938c94cba2
+      sha256: b51257a8b4388565cd66062d727d3e60067b5f5cc3390eb0ecd20b8f97741bdb
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.5.1"
   firebase_core_web:
     dependency: transitive
     description:
