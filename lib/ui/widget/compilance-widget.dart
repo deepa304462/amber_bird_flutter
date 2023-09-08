@@ -32,6 +32,7 @@ class CompilanceWidget extends StatelessWidget {
         : (detailedContent.sectionHeading != null
             ? detailedContent.sectionHeading!.languageTexts![0].text
             : '');
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

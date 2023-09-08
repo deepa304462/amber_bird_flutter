@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/auth-controller.dart';
+import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -11,11 +12,10 @@ class FAQWidget extends StatelessWidget {
   final String id;
   FAQWidget(this.id);
 
-  final AuthController authController = Get.find();
-
   RxBool isLoading = false.obs;
 
-  final FaqController faqController = Get.find();
+  final FaqController faqController =
+      ControllerGenerator.create(FaqController(), tag: 'faqController');
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,7 @@ class FAQWidget extends StatelessWidget {
     print(result);
     Faq detailedContent =
         result[0].questions!.length > 0 ? result[0] : {} as Faq;
-    // var heading = detailedContent.sectionHeading != null &&
-    //         detailedContent.sectionHeading!.defaultText != null
-    //     ? detailedContent.sectionHeading!.defaultText!.text
-    //     : (detailedContent.sectionHeading != null
-    //         ? detailedContent.sectionHeading!.languageTexts![0].text
-    //         : '');
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

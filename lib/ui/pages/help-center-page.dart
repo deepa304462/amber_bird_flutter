@@ -13,7 +13,8 @@ import '../../data/faq/faq-model.dart';
 import '../../helpers/controller-generator.dart';
 
 class HelpCenterPage extends StatelessWidget {
-  final FaqController faqController = Get.find();
+  final FaqController faqController =
+      ControllerGenerator.create(FaqController(), tag: 'faqController');
   final Controller stateController = Get.find();
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');

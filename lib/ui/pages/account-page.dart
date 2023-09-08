@@ -15,7 +15,8 @@ import '../../helpers/controller-generator.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
-   final FaqController faqController = Get.put(FaqController());
+  final FaqController faqController =
+      ControllerGenerator.create(FaqController(), tag: 'faqController');
   final CompilanceController compilanceController =
       Get.put(CompilanceController());
 
