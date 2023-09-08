@@ -33,7 +33,7 @@ class ProductGuideRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'We-Care',
+                  'V Care',
                   style: TextStyles.headingFont,
                 ),
                 ViewMoreWidget(onTap: () async {
@@ -53,7 +53,7 @@ class ProductGuideRow extends StatelessWidget {
                           image: '34038fcf-20e1-4840-a188-413b83d72e11',
                           id: 'THEMES',
                           type: 'MULTI',
-                          text: 'We-Care'),
+                          text: 'V Care'),
                       parentTab);
 
                   stateController.setCurrentTab(1);

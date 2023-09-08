@@ -376,12 +376,12 @@ class CategoryPage extends StatelessWidget {
                               dealProduct.dealPrice,
                               dealProduct.ruleConfig,
                               dealProduct.constraint),
-                          Positioned(
-                            top: 0,
-                            child: DiscountTag(
-                              price: dealProduct.dealPrice!,
-                            ),
-                          ),
+                          // Positioned(
+                          //   top: 0,
+                          //   child: DiscountTag(
+                          //     price: dealProduct.dealPrice!,
+                          //   ),
+                          // ),
                         ],
                       ),
                     );

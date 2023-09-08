@@ -1,4 +1,4 @@
- import 'dart:async';
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:amber_bird/controller/location-controller.dart';
@@ -520,13 +520,16 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice!).toDouble();
+      double actualPrice = (priceInfo!.actualPrice!).toDouble();
       List li = [];
       if (products != null) {
         for (var element in products) {
           li.add(element.toJson());
           if (priceInfo == null) {
             price = price + element.varient!.price!.offerPrice!;
+            actualPrice = actualPrice + element.varient!.price!.actualPrice!;
           }
+
           if (getData != null) {
             quantity = getData.count!;
             quantity = quantity + addQuantity;
@@ -553,7 +556,7 @@ class CartController extends GetxController {
           'name': mutliProductName ?? '',
           'imageId': imageId ?? '',
           'price': {
-            'actualPrice': price,
+            'actualPrice': actualPrice,
             'noMemberCoin': 0,
             'platinumMemberCoin': 0,
             'goldMemberCoin': 0,

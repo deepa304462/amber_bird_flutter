@@ -37,19 +37,19 @@ class DealProductCard extends StatelessWidget {
                       fixedHeight: true,
                       dProduct.product,
                       dProduct.id,
-                      'DEAL', // currentdealName.toString(),
+                      currentdealName.toString(), //'DEAL', //
                       dProduct.dealPrice,
                       dProduct.ruleConfig,
                       dProduct.constraint),
-                  Positioned(
-                    top: 0,
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 5, top: 5),
-                      child: DiscountTag(
-                        price: dProduct.dealPrice!,
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: 0,
+                  //   child: Container(
+                  //     margin: const EdgeInsets.only(left: 5, top: 5),
+                  //     child: DiscountTag(
+                  //       price: dProduct.dealPrice!,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             );
