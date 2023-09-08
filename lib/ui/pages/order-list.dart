@@ -378,7 +378,7 @@ class OrderListPage extends StatelessWidget {
     const toEmail = 'hello@sbazar.app';
     const subject = 'Cancellation';
     String body =
-        'Hello,\n I would like to return my order with order id ${orderID.toString()}\n';
+        'Hello,\n I would like to Cancel my order with the order id ${orderID.toString()}\n';
 
     final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
     if (await canLaunchUrl(url)) {
@@ -393,11 +393,17 @@ class OrderListPage extends StatelessWidget {
       barrierDismissible: false, // User must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Order Cancellation'),
+          title: Text(
+            'Confirm Order Cancellation',
+            style: TextStyles.titleFont,
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure you want to cancel this order?'),
+                Text(
+                  'Are you sure you want to cancel this order?',
+                  style: TextStyles.body,
+                ),
               ],
             ),
           ),
