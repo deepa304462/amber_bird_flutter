@@ -125,7 +125,8 @@ class AboutPage extends StatelessWidget {
                                       .sectionHeading!.defaultText!.text
                                   : detailedContent
                                       .sectionHeading!.languageTexts![0].text;
-                          return Container(
+                          return
+                           Container(
                             margin: EdgeInsets.all(0),
                             padding: EdgeInsets.all(0),
                             decoration: BoxDecoration(
