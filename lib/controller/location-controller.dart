@@ -12,27 +12,37 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../data/location/location.dart';
+import 'dart:async';
+
 class LocationController extends GetxController {
   // Locale currentLocale = const Locale('en');
-  Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
+  Rx<LatLng> currentLatLang = const LatLng(26.4770531, 80.2878786).obs;
   RxMap<dynamic, dynamic> address = <dynamic, dynamic>{}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> deliveryAddress = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
+  Rx<Location> location = Location().obs;
   Rx<String> pinCode = ''.obs;
   RxList pincodeSuggestions = [].obs;
+  final Completer<GoogleMapController> mapController =
+      Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
-  late GoogleMapController mapController;
+  // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
-  LatLng latLng = const LatLng(0, 0);
+  // LatLng latLng = const LatLng(0, 0);
+  // Rx<GoogleMapController> mapController;
   Rx<Marker> currentPin = const Marker(
     markerId: MarkerId('pin'),
   ).obs;
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
+
+  Rx<GoogleMapController>? gmapController;
+
   @override
   void onInit() {
     currentLatLang.value = LatLng(52.520008, 13.404954);
@@ -41,7 +51,9 @@ class LocationController extends GetxController {
   }
 
   void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    mapController.complete(controller);
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: currentLatLang.value, zoom: 18)));
   }
 
   Future<void> searchPincode(String changedText) async {
@@ -72,7 +84,6 @@ class LocationController extends GetxController {
           var pin = await SharedData.read('pinCode');
           pinCode.value = pin ?? '0';
         }
-        // getLocation();
       }
     } else {
       var pin = await SharedData.read('pinCode');
@@ -277,5 +288,32 @@ class LocationController extends GetxController {
       }
       changeAddressData.refresh();
     } catch (e) {}
+  }
+
+  Future<String> getCoordinate() {
+    // isLoading.value = true;
+    return ClientService.get(path: 'shipping/getGenericAddressWithIp')
+        .then((value) {
+      print("fhtfhfh" + value.data.toString());
+      var locations = Location.fromJson(value.data);
+      location.value = locations;
+
+      // currentLatLang.value=LatLng(26.4770531, 80.2878786) ;
+      // currentPin.value = Marker(
+      //     markerId: const MarkerId('pin'),
+      //     position:
+      //     LatLng(26.4770531, 80.2878786)
+      // );
+
+      currentLatLang.value = LatLng(locations.geo!.coordinates![1].toDouble(),
+          locations.geo!.coordinates![0].toDouble());
+      gmapController?.value.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: currentLatLang.value, zoom: 12)));
+      // updatePosition(CameraPosition(target: currentLatLang.value, zoom: 12));
+
+      print("latitude" + locations.geo!.coordinates![0].toString());
+      print("longitude" + locations.geo!.coordinates![1].toString());
+      return '';
+    });
   }
 }

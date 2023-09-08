@@ -9,10 +9,34 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as GoogleMapLib;
 import 'package:lottie/lottie.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 
-class LocationPage extends StatelessWidget {
+class LocationPage extends StatefulWidget {
+  @override
+  State<LocationPage> createState() => _LocationPageState();
+}
+
+class _LocationPageState extends State<LocationPage> {
+  @override
+  void initState() {
+    getCoordinate();
+
+    super.initState();
+  }
+
+  getCoordinate() async {
+    isLoading.value = true;
+
+    await locationController.getCoordinate();
+    isLoading.value = false;
+    mapController?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: locationController.currentLatLang.value, zoom: 17)));
+  }
+
   LocationController locationController = Get.find();
+  RxBool isLoading = true.obs;
   TextEditingController _textController = TextEditingController();
-  late GoogleMapController mapController;
+
+  GoogleMapController? mapController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,19 +49,32 @@ class LocationPage extends StatelessWidget {
                   Expanded(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: GoogleMap(
-                        onMapCreated: locationController.onMapCreated,
-                        initialCameraPosition: CameraPosition(
-                          target: locationController.currentLatLang.value,
-                          zoom: 18.0,
-                        ),
-                        onCameraMove: locationController.updatePosition,
-                        markers: {
-                          const GoogleMapLib.Marker(
-                            markerId: MarkerId('value'),
-                          )
-                        },
-                      ),
+                      child: !isLoading.value
+                          ? GoogleMap(
+                              onMapCreated: (GoogleMapController controller) {
+                                locationController.gmapController?.value =
+                                    controller;
+                                setState(() {
+                                  mapController = controller;
+                                });
+
+                                // setState(() {});
+                              },
+// }locationController.onMapCreated,
+                              initialCameraPosition: CameraPosition(
+                                target: locationController.currentLatLang.value,
+                                zoom: 18.0,
+                              ),
+                              onCameraMove: locationController.updatePosition,
+                              markers: {
+                                const GoogleMapLib.Marker(
+                                  markerId: MarkerId('value'),
+                                )
+                              },
+                            )
+                          : Lottie.asset(
+                              'assets/maps.json',
+                              repeat: true),
                     ),
                   ),
                   Padding(
