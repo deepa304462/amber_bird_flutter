@@ -27,13 +27,15 @@ class LocationController extends GetxController {
   Rx<String> pinCode = ''.obs;
   RxList pincodeSuggestions = [].obs;
   final Completer<GoogleMapController> mapController =
-      Completer<GoogleMapController>();
+  Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
+
   // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
+
   // LatLng latLng = const LatLng(0, 0);
   // Rx<GoogleMapController> mapController;
   Rx<Marker> currentPin = const Marker(
@@ -58,22 +60,63 @@ class LocationController extends GetxController {
 
   Future<void> searchPincode(String changedText) async {
     if (changedText.length > 2) {
+      List<String> europeanCountryCodes = [
+          'in',
+          'de',
+          'it',
+          'nl',
+          'es',
+          'ch',
+          'fr',
+          'ie',
+          'be',
+          'se',
+          'no',
+          'at',
+          'dk',
+          'pt',
+          'fi',
+          'gr',
+          'hu',
+          'cz',
+          'pl',
+          'ru',
+          'ro',
+          'cy',
+          'is',
+          'mt',
+          'si',
+          'bg',
+          'ee',
+          'sk',
+          'lv',
+          'lt',
+          'hr',
+          'rs',
+          'al',
+          'lu',
+          'me' // Spain
+        // Add more European country codes as needed
+      ];
+
+      // Convert the list of country codes into a filter string
+      String countryFilter = europeanCountryCodes.join(',');
       var url =
-          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
-      var response = await dio.get(url);
-      if (response.statusCode == 200) {
-        pincodeSuggestions.value =
-            (response.data['features'] as List).map((e) => e).toList();
-      }
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:${countryFilter}';
+    var response = await dio.get(url);
+    if (response.statusCode == 200) {
+    pincodeSuggestions.value =
+    (response.data['features'] as List).map((e) => e).toList();
     }
+  }
   }
 
   void setLocation() async {
     var locationExists =
-        await OfflineDBService.checkBox(OfflineDBService.customerInsight);
+    await OfflineDBService.checkBox(OfflineDBService.customerInsight);
     if (locationExists) {
       var insight =
-          await OfflineDBService.get(OfflineDBService.customerInsight);
+      await OfflineDBService.get(OfflineDBService.customerInsight);
       CustomerInsight cust = CustomerInsight.fromJson(jsonEncode(insight));
       if (cust.addresses!.isNotEmpty) {
         addressData.value = cust.addresses![cust.addresses!.length - 1];
@@ -96,7 +139,7 @@ class LocationController extends GetxController {
     currentPin.value = Marker(
         markerId: const MarkerId('pin'),
         position:
-            LatLng(_position.target.latitude, _position.target.longitude));
+        LatLng(_position.target.latitude, _position.target.longitude));
   }
 
   void initializeLocationAndSave() async {
@@ -128,9 +171,9 @@ class LocationController extends GetxController {
       var controller = Get.find<Controller>();
       if (controller.isLogin.value) {
         var insightDetail =
-            await OfflineDBService.get(OfflineDBService.customerInsight);
+        await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
-            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+        CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
         if (cust.addresses!.isEmpty) {
           cust.addresses = [addressData.value];
           pinCode.value = addressData.value.zipCode!;
@@ -140,7 +183,7 @@ class LocationController extends GetxController {
         var payload = cust.toMap();
         // log(payload.toString());
         var userData =
-            jsonDecode((await (SharedData.read('userData')) ?? '{}'));
+        jsonDecode((await (SharedData.read('userData')) ?? '{}'));
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -159,9 +202,9 @@ class LocationController extends GetxController {
       var controller = Get.find<Controller>();
       if (controller.isLogin.value) {
         var insightDetail =
-            await OfflineDBService.get(OfflineDBService.customerInsight);
+        await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
-            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+        CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
         cust.addresses![seelctedIndexToEdit.value] = (addressData.value);
         var payload = cust.toMap();
         // log(payload.toString());
@@ -187,16 +230,16 @@ class LocationController extends GetxController {
       var controller = Get.find<Controller>();
       if (controller.isLogin.value) {
         var insightDetail =
-            await OfflineDBService.get(OfflineDBService.customerInsight);
+        await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
-            CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
+        CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
 
         cust.addresses!.add(addressData.value);
 
         var payload = cust.toMap();
         // log(payload.toString());
         var userData =
-            jsonDecode((await (SharedData.read('userData'))) ?? '{}');
+        jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
             path: 'customerInsight',
             id: userData['mappedTo']['_id'],
@@ -256,17 +299,17 @@ class LocationController extends GetxController {
 
   void updateCustomerAddress(addressFromGoogle) {
     changeAddressData.value.zipCode =
-        addressFromGoogle['properties']['postcode'];
+    addressFromGoogle['properties']['postcode'];
     // findValueFromAddressFromGoogleData(addressFromGoogle, 'postal_code');
     changeAddressData.value.houseNo =
-        addressFromGoogle['properties']['housenumber'];
+    addressFromGoogle['properties']['housenumber'];
     changeAddressData.value.line1 =
-        '${addressFromGoogle['properties']['street']} ';
+    '${addressFromGoogle['properties']['street']} ';
     changeAddressData.value.city = addressFromGoogle['properties']['city'] != ''
         ? addressFromGoogle['properties']['city']
         : addressFromGoogle['properties']['district'];
     changeAddressData.value.country =
-        addressFromGoogle['properties']['country'];
+    addressFromGoogle['properties']['country'];
     changeAddressData.refresh();
     changeAddressData.value.geoAddress = GeoAddress.fromMap({
       'coordinates': [
