@@ -133,6 +133,9 @@ class AccountPage extends StatelessWidget {
           ),
           sectionCard('Help Center', '', Icons.help_outline,
               () => {Modular.to.pushNamed('/widget/help-center')}),
+          sectionCard('Setting', '', Icons.settings,
+              () => { Modular.to
+                  .pushNamed('../widget/edit-profile')}),
           sectionCard(
             'About Sbazar',
             '',
