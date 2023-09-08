@@ -357,28 +357,134 @@ class OrderListPage extends StatelessWidget {
               ),
             ),
           ),
-          // Visibility(
-          //   visible: checkValidReturnReq(curOrder),
-          //   child: Expanded(
-          //     child: TextButton(
-          //       onPressed: () {},
-          //       child: Text(
-          //         'Return',
-          //         style: TextStyles.headingFont.copyWith(color: AppColors.grey),
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          Visibility(
+            visible: checkValidReturnReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useRootNavigator: true,
+                    isDismissible: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    elevation: 3,
+                    builder: (context) {
+                      bool _isChecked = false;
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height * .75,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child: CompilanceWidget('RETURN_REFUND')),
+                              StatefulBuilder(
+                                builder: (BuildContext context, state) =>
+                                    Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    CheckboxListTile(
+                                      title: Text(
+                                        'I have read and agree with the above Term and condition',
+                                        style: TextStyles.titleFont,
+                                      ),
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      activeColor: AppColors.primeColor,
+                                      // checkColor: Colors.yellow,
+                                      selected: _isChecked,
+                                      value: _isChecked,
+                                      onChanged: (value) {
+                                        state(() {
+                                          _isChecked = value!;
+                                        });
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          OutlinedButton(
+                                            child: Text("Cancel"),
+                                            style: OutlinedButton.styleFrom(
+                                              // primary: Colors.red,
+                                              side: BorderSide(
+                                                width: 2,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text(
+                                              "Continue",
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
+                                              elevation: 0,
+                                            ),
+                                            onPressed: () {
+                                              if (_isChecked) {
+                                                Navigator.of(context).pop();
+
+                                                ReturnOrderConfirmationDialog(
+                                                    context, curOrder.id);
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ));
+                    },
+                  );
+                },
+                child: Text(
+                  'Return',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Future<void> openEmailApp(String? orderID) async {
+  Future<void> EmailCancelOrder(String? orderID) async {
     const toEmail = 'hello@sbazar.app';
-    const subject = 'Cancellation';
+    String subject = 'cancel order $orderID';
     String body =
         'Hello,\n I would like to Cancel my order with the order id ${orderID.toString()}\n';
+
+    final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    }
+  }
+
+  Future<void> ReturnOrderEmail(String? orderID) async {
+    const toEmail = 'hello@sbazar.app';
+    String subject = 'return order $orderID';
+    String body =
+        'Hello,\n I would like to Return my order with the order id ${orderID.toString()}\n';
 
     final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
     if (await canLaunchUrl(url)) {
@@ -417,11 +523,49 @@ class OrderListPage extends StatelessWidget {
             TextButton(
               child: Text('Confirm'),
               onPressed: () {
-                // Perform the cancellation logic here
-                // You can put your order cancellation code here
-                // After cancellation, you can navigate to a new screen or perform other actions
                 Navigator.of(context).pop();
-                openEmailApp(orderID); // Close the dialog
+                EmailCancelOrder(orderID); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> ReturnOrderConfirmationDialog(
+      BuildContext context, String? orderID) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Confirm Order Return',
+            style: TextStyles.titleFont,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to Return this order?',
+                  style: TextStyles.body,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Confirm'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                ReturnOrderEmail(orderID); // Close the dialog
               },
             ),
           ],
@@ -454,11 +598,11 @@ class OrderListPage extends StatelessWidget {
     }
   }
 
-  // checkValidReturnReq(Order order) {
-  //   if (order.status == 'DELIVERED') {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  checkValidReturnReq(Order order) {
+    if (order.status == 'DELIVERED') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
