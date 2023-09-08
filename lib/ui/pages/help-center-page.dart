@@ -280,7 +280,7 @@ class HelpCenterPage extends StatelessWidget {
                               ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: result.length,
                                   itemBuilder: (_, indx) {
                                     return Container(
