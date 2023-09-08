@@ -68,9 +68,6 @@ class CompilanceWidget extends StatelessWidget {
         child: Padding(
             padding: EdgeInsets.all(8),
             child: ListView.builder(
-                // scrollDirection: Axis.vertical,
-                // shrinkWrap: true,
-                // physics: const NeverScrollableScrollPhysics(),
                 itemCount: result[0].detailedContent!.length,
                 itemBuilder: (_, index) {
                   DetailedContent currentDetaildContent =
