@@ -6,7 +6,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 import '../../controller/faq-controller.dart';
 import '../../data/faq/faq-model.dart';
