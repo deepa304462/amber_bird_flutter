@@ -36,7 +36,12 @@ class _ShowMoreWidgetState extends State<ShowMoreWidget> {
     return new Container(
       // padding: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       child: secondHalf.isEmpty
-          ? new Html(data: firstHalf)
+          ? new Html(data: firstHalf, style: {
+              "body": Style(
+                  fontSize: FontSize(FontSizes.body),
+                  fontWeight: FontWeight.w300,
+                  fontFamily: Fonts.body),
+            })
           : new Column(
               children: <Widget>[
                 new Html(

@@ -346,13 +346,7 @@ class ProductDetailScreen extends StatelessWidget {
                               backgroundColor: AppColors.primeColor,
                               textStyle: TextStyles.body
                                   .copyWith(color: AppColors.white)),
-                          onPressed:
-                              // productController
-                              //             .product.value.varients![0].currentStock >
-                              //         0
-                              //     ? () {}
-                              // :
-                              () {},
+                          onPressed: () {},
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Row(

@@ -44,7 +44,7 @@
             android:value="AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notification_icon" />
+            android:resource="@mipmap/launcher_icon" />
         <meta-data android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/sbazar_color" />
         <activity
