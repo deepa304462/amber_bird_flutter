@@ -5,7 +5,6 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
-import 'package:amber_bird/data/complaince/complaince.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
@@ -1190,9 +1189,8 @@ class ProductDetailScreen extends StatelessWidget {
             );
           else {
             var currentKey =
-                stateController.membershipList.value.keys.elementAt(index - 1);
-            var currenMemberInfo =
-                stateController.membershipList.value[currentKey]!;
+                stateController.membershipList.keys.elementAt(index - 1);
+            var currenMemberInfo = stateController.membershipList[currentKey]!;
             return currenMemberInfo.id != memberShipType.No_Membership.name
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),

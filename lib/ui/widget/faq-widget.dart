@@ -1,4 +1,3 @@
-import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
@@ -59,30 +58,31 @@ class FAQWidget extends StatelessWidget {
         //    padding: EdgeInsets.all(2),
         child: Column(
           children: [
-            ExpansionPanelList.radio(
-              elevation: 4,
-              //  expandedHeaderPadding: EdgeInsets.only(bottom: 100),
-              children: result[0]
-                  .questions!
-                  .map<ExpansionPanelRadio>((QuestionElement questionElement) {
-                return ExpansionPanelRadio(
-                    backgroundColor: Colors.grey[100],
-                    canTapOnHeader: true,
-                    headerBuilder: (BuildContext context, bool isExpanded) =>
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 5, 0),
-                          child: Text("${questionElement.question?.text}",
-                              textAlign: TextAlign.start,
-                              style: TextStyles.titleFont),
-                        ),
-                    body: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 5, 20),
-                      child: Text("${questionElement.answer?.text}",
-                          style: TextStyles.body),
-                    ),
-                    value: questionElement.question ?? "");
-              }).toList(),
-            ),
+            Obx(
+              () => ExpansionPanelList.radio(
+                elevation: 4,
+                //  expandedHeaderPadding: EdgeInsets.only(bottom: 100),
+                children: result[0].questions!.map<ExpansionPanelRadio>(
+                    (QuestionElement questionElement) {
+                  return ExpansionPanelRadio(
+                      backgroundColor: Colors.grey[100],
+                      canTapOnHeader: true,
+                      headerBuilder: (BuildContext context, bool isExpanded) =>
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 10, 5, 0),
+                            child: Text("${questionElement.question?.text}",
+                                textAlign: TextAlign.start,
+                                style: TextStyles.titleFont),
+                          ),
+                      body: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 5, 20),
+                        child: Text("${questionElement.answer?.text}",
+                            style: TextStyles.body),
+                      ),
+                      value: questionElement.question ?? "");
+                }).toList(),
+              ),
+            )
           ],
         ),
       ),

@@ -388,7 +388,7 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice!).toDouble();
-      double actualPrice = (priceInfo!.actualPrice!).toDouble();
+      double actualPrice = (priceInfo.actualPrice!).toDouble();
       List li = [];
       if (products != null) {
         for (var element in products) {
@@ -408,7 +408,7 @@ class CartController extends GetxController {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
         }
-        product!.varient = varient;
+        product.varient = varient;
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
@@ -420,7 +420,7 @@ class CartController extends GetxController {
           'ref': {'_id': refId, 'name': addedFrom},
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
-          'productType': li.isNotEmpty ? null : product!.type,
+          'productType': li.isNotEmpty ? null : product.type,
           'name': mutliProductName ?? '',
           'imageId': imageId ?? '',
           'price': {
