@@ -10,6 +10,8 @@ import 'dart:math';
 
 enum _APIVersion { V1, V2 }
 
+enum Environment { dev, prod }
+
 enum RESTMethod { POST, PUT, DELETE, DOWNLOAD, GET, SEARCH, AUTH }
 
 enum dealName {
@@ -39,6 +41,8 @@ class ClientService {
   //     "://192.168.43.155/"; // DO NOT CHANGE, USE setUrl method from main.dart only.
 
   static String url = "https://prod.sbazar.app/";
+  static String solrUrl = "https://search.sbazar.app/";
+
   static String cdnUrl = "https://cdn2.sbazar.app/";
   static String downloadUrl = "https://prod.sbazar.app/fileStorage/download/";
   static Dio dio = Dio();
@@ -50,6 +54,17 @@ class ClientService {
       url = newUrl!;
     } else if (ver == _APIVersion.V2) {
       urlV2 = newUrl!;
+    }
+  }
+
+  static setEnv({required Environment env}) {
+    if (env == Environment.dev) {
+      url = "https://prod.sbazar.app/";
+      downloadUrl = "https://prod.sbazar.app/fileStorage/download/";
+      solrUrl = "https://search.sbazar.app/";
+    } else if (env == Environment.prod) {
+      url = "https://prod-api.sbazar.app/";
+      solrUrl = "https://search-prod.sbazar.app";
     }
   }
 
@@ -152,7 +167,7 @@ class ClientService {
       // print(rng.nextInt(100));
       // }
       response = await dio.get(
-          'https://search.sbazar.app/${path}/select?indent=true&q.op=OR&q=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',
+          '${solrUrl}${path}/select?indent=true&q.op=OR&q=indexData:${_whileCardQueryFormat(queryData)}&sort=random_${rng.nextInt(100)}+desc',
           options: Options(headers: header));
       return response;
     } catch (e) {
