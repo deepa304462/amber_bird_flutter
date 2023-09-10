@@ -8,6 +8,7 @@ import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
+import 'package:amber_bird/ui/element/analytics.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -18,7 +19,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'firebase_options.dart';
 
 // https://cdn2.sbazar.app/0ad51820-35be-4a37-8a41-fb3915c1b2a0
@@ -26,6 +27,11 @@ import 'firebase_options.dart';
 // sbazar_123 is the password for play store
 class ChangeLocale {
   static Function change = () {};
+}
+
+Future<void> _initMixpanel() async {
+  Mixpanel _mixpanel = await MixpanelManager.init();
+  _mixpanel.track('App Started');
 }
 
 // keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
@@ -37,6 +43,8 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FCMSyncService.init();
   await OfflineDBService.init();
+  _initMixpanel();
+
   AnalyticsService.logEvent('initalization', {
     "message": 'initalized App',
   });

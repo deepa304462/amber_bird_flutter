@@ -13,6 +13,7 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:get/get.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'controller-generator.dart';
 
 class Helper {
@@ -34,6 +35,8 @@ class Helper {
     } else
       return '0';
   }
+
+  sendEventMixPanel(String evName, dynamic property) {}
 
   static double getMsdAmount({required Price price, required String userType}) {
     if (userType == memberShipType.Paid.name) {
