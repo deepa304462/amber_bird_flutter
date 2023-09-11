@@ -91,10 +91,28 @@ class _LocationPageState extends State<LocationPage> {
                         RichText(
                           text: TextSpan(
                             text:
-                                'Pincode links you to the nearest warehouse. Now in Germany, Europe up next!',
+                                'Pincode links you to the nearest warehouse. Now in',
                             style: TextStyles.bodyFont
                                 .copyWith(color: AppColors.black),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: ' Germany',
+                                style: TextStyles.bodyFontBold
+                                    .copyWith(color: AppColors.black),
+                              ),
+                              TextSpan(
+                                text: ' , Europe up next!',
+                                style: TextStyles.bodyFont
+                                    .copyWith(color: AppColors.black),
+                              ),
+                            ],
                           ),
+                          // text: TextSpan(
+                          //   text:
+                          //       'Pincode links you to the nearest warehouse. Now in Germany, Europe up next!',
+                          //   style: TextStyles.bodyFont
+                          //       .copyWith(color: AppColors.black),
+                          // ),
                         ),
                         const SizedBox(
                           height: 10,
