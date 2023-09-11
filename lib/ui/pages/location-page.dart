@@ -72,9 +72,7 @@ class _LocationPageState extends State<LocationPage> {
                                 )
                               },
                             )
-                          : Lottie.asset(
-                              'assets/maps.json',
-                              repeat: true),
+                          : Lottie.asset('assets/maps.json', repeat: true),
                     ),
                   ),
                   Padding(
@@ -92,17 +90,15 @@ class _LocationPageState extends State<LocationPage> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: 'Pincode links you to the nearest warehouse. Now in Germany, Europe up next!',
+                            text:
+                                'Pincode links you to the nearest warehouse. Now in Germany, Europe up next!',
                             style: TextStyles.bodyFont
                                 .copyWith(color: AppColors.black),
-
                           ),
                         ),
-
                         const SizedBox(
                           height: 10,
                         ),
-
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
