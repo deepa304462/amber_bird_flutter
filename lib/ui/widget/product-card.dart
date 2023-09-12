@@ -183,6 +183,7 @@ class ProductCard extends StatelessWidget {
             ],
           ),
           (addedFrom == 'TAGS_PRODUCT' ||
+                  addedFrom == 'DEAL' ||
                   addedFrom == dealName.WEEKLY_DEAL.name ||
                   addedFrom == dealName.FLASH.name ||
                   addedFrom == dealName.SALES.name ||
@@ -220,21 +221,24 @@ class ProductCard extends StatelessWidget {
         ),
       ]);
     } else {
-      return (addedFrom == 'PRODUCT' ||
-              addedFrom == 'CATEGORY' ||
-              addedFrom == 'BRAND' ||
-              addedFrom == 'GUIDE' ||
-              addedFrom == 'RECOMMENDED')
-          ? Obx(() => PriceTag(
-                  activeVariant.value.price!.offerPrice!.toString(),
+      return
+          // (addedFrom == 'PRODUCT' ||
+          //         addedFrom == 'CATEGORY' ||
+          //         addedFrom == 'TAGS_PRODUCT' ||
+          //         addedFrom == 'TAG' ||
+          //         addedFrom == 'BRAND' ||
+          //         addedFrom == 'GUIDE' ||
+          //         addedFrom == 'RECOMMENDED')
+          //     ?
+          Obx(() => PriceTag(activeVariant.value.price!.offerPrice!.toString(),
                   activeVariant.value.price!.actualPrice!.toString())
               //  Text(
               //       "${activeVariant.value.price!.actualPrice!.toString()} ${CodeHelp.euro}",
               //       style: TextStyles.headingFont,
               //     )
-              )
-          : PriceTag(dealPrice!.offerPrice!.toString(),
-              dealPrice!.actualPrice!.toString());
+              );
+      // : PriceTag(dealPrice!.offerPrice!.toString(),
+      //     dealPrice!.actualPrice!.toString());
     }
   }
 
@@ -563,33 +567,6 @@ class ProductCard extends StatelessWidget {
                       ),
                     );
                   }),
-                  (product!.tags!.length > 0 &&
-                          addedFrom != 'TAGS_PRODUCT' &&
-                          addedFrom != dealName.WEEKLY_DEAL.name &&
-                          addedFrom != dealName.FLASH.name &&
-                          addedFrom != dealName.SALES.name &&
-                          addedFrom != dealName.SUPER_DEAL.name &&
-                          addedFrom != dealName.ONLY_COIN_DEAL.name &&
-                          addedFrom != dealName.EXCLUSIVE_DEAL.name &&
-                          addedFrom != dealName.MEMBER_DEAL.name &&
-                          addedFrom != dealName.PRIME_MEMBER_DEAL.name &&
-                          addedFrom != dealName.CUSTOM_RULE_DEAL.name)
-                      ? Positioned(
-                          top: 0,
-                          child: Card(
-                              color: AppColors.secondaryColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(5),
-                                      bottomRight: Radius.circular(5))),
-                              child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Text(
-                                    product!.tags![0].name!,
-                                    style: TextStyles.body
-                                        .copyWith(color: AppColors.white),
-                                  ))))
-                      : const SizedBox()
                 ],
               ),
             ),
@@ -604,6 +581,33 @@ class ProductCard extends StatelessWidget {
             ),
           ),
         ),
+        (product!.tags!.length > 0 &&
+                addedFrom != 'TAGS_PRODUCT' &&
+                addedFrom != dealName.WEEKLY_DEAL.name &&
+                addedFrom != dealName.FLASH.name &&
+                addedFrom != dealName.SALES.name &&
+                addedFrom != dealName.SUPER_DEAL.name &&
+                addedFrom != dealName.ONLY_COIN_DEAL.name &&
+                addedFrom != dealName.EXCLUSIVE_DEAL.name &&
+                addedFrom != dealName.MEMBER_DEAL.name &&
+                addedFrom != dealName.PRIME_MEMBER_DEAL.name &&
+                addedFrom != dealName.CUSTOM_RULE_DEAL.name)
+            ? Positioned(
+                top: 25,
+                child: Card(
+                    color: AppColors.secondaryColor,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(5),
+                            bottomRight: Radius.circular(5))),
+                    child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Text(
+                          product!.tags![0].name!,
+                          style:
+                              TextStyles.body.copyWith(color: AppColors.white),
+                        ))))
+            : const SizedBox()
       ],
     );
   }
