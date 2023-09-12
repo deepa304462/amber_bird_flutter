@@ -66,9 +66,6 @@ class DealController extends GetxController {
   getDealProduct(name) async {
     Controller stateController =
         ControllerGenerator.create(Controller(), tag: 'Controller');
-    // if (Get.isRegistered<Controller>()) {
-    //   stateController = Get.find<Controller>();
-    // }
     var payload = {"type": name};
     var response = await ClientService.searchQuery(
         path: 'dealProduct/search', query: payload, lang: 'en');

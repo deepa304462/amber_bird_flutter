@@ -30,7 +30,7 @@ class DealRow extends StatelessWidget {
     return Obx(() {
       if (dealController.dealProd.isNotEmpty) {
         dealController.dealProd.shuffle();
-        String timeLeft = '';
+        // String timeLeft = '';
         var difference;
         if (currentdealName == dealName.FLASH.name) {
           // String expire = ruleConfig!.willExpireAt ?? '';
@@ -72,8 +72,8 @@ class DealRow extends StatelessWidget {
                                       difference.inHours != null
                                           ? '${difference.inHours}H left'
                                           : '${difference.inMinutes}M left',
-                                      style: TextStyles.headingFont
-                                          .copyWith(color: AppColors.primeColor),
+                                      style: TextStyles.headingFont.copyWith(
+                                          color: AppColors.primeColor),
                                     ),
                                   ),
                                   Colors.red,
