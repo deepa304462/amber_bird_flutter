@@ -10,10 +10,13 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../controller/faq-controller.dart';
 import '../../helpers/controller-generator.dart';
 
 class AccountPage extends StatelessWidget {
   final Controller stateController = Get.find();
+  final FaqController faqController =
+      ControllerGenerator.create(FaqController(), tag: 'faqController');
   final CompilanceController compilanceController =
       Get.put(CompilanceController());
 
@@ -133,6 +136,9 @@ class AccountPage extends StatelessWidget {
           ),
           sectionCard('Help Center', '', Icons.help_outline,
               () => {Modular.to.pushNamed('/widget/help-center')}),
+          sectionCard('Setting', '', Icons.settings,
+              () => { Modular.to
+                  .pushNamed('../widget/edit-profile')}),
           sectionCard(
             'About Sbazar',
             '',

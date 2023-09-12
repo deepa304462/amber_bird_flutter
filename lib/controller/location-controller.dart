@@ -25,6 +25,7 @@ class LocationController extends GetxController {
   Rx<Address> changeAddressData = Address().obs;
   Rx<Location> location = Location().obs;
   Rx<String> pinCode = ''.obs;
+  RxInt addAddressApiCallCount = 0.obs;
   RxList pincodeSuggestions = [].obs;
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
@@ -190,11 +191,10 @@ class LocationController extends GetxController {
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
             CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
-
+        addAddressApiCallCount.value = addAddressApiCallCount.value + 1;
         cust.addresses!.add(addressData.value);
 
         var payload = cust.toMap();
-        // log(payload.toString());
         var userData =
             jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
@@ -202,11 +202,18 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
-          // getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
           setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
+        } else if (response.statusCode == 500) {
+          if (addAddressApiCallCount.value < 2) {
+            await controller
+                .getCustomerDetail(controller.loggedInProfile.value.id);
+            addAddressCall();
+          } else {
+            return {"msg": "Oops, Something went Wrong!!", "status": "error"};
+          }
         } else {
           return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }

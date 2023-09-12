@@ -35,6 +35,8 @@ class Helper {
       return '0';
   }
 
+  sendEventMixPanel(String evName, dynamic property) {}
+
   static double getMsdAmount({required Price price, required String userType}) {
     if (userType == memberShipType.Paid.name) {
       return price.membersSpecialPrice!.forGoldMember!;

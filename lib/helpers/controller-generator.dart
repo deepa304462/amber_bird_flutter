@@ -1,4 +1,5 @@
 import 'package:amber_bird/controller/cart-controller.dart';
+import 'package:amber_bird/controller/faq-controller.dart';
 import 'package:amber_bird/controller/product-guide-row-controller.dart';
 import 'package:amber_bird/controller/product-tag-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
@@ -11,11 +12,7 @@ class ControllerGenerator {
   ControllerGenerator._();
   static create(GetxController controller, {String? tag}) {
     if (tag == null) {
-      // if (Get.isRegistered<controller>()) {
-      // return Get.find<controller>();
-      // }else{
       return Get.put(controller);
-      // }
     } else {
       try {
         if (tag == 'cartController') {
@@ -30,8 +27,8 @@ class ControllerGenerator {
           var controllerOld = Get.find<ProductGuideController>(tag: tag);
           return controllerOld;
         }
-        if (tag == 'productTagController') {
-          var controllerOld = Get.find<ProductTagController>(tag: tag);
+        if (tag == 'faqController') {
+          var controllerOld = Get.find<FaqController>(tag: tag);
           return controllerOld;
         }
         if (tag == 'Controller') {
@@ -55,6 +52,12 @@ class ControllerGenerator {
         }
         if (tag == 'productTagController') {
           return Get.put(ProductTagController(), tag: tag);
+        }
+        if (tag == 'productTagController') {
+          return Get.put(ProductTagController(), tag: tag);
+        }
+        if (tag == 'faqController') {
+          return Get.put(FaqController(), tag: tag);
         }
         if (tag == 'Controller') {
           var controllerOld = Get.put<Controller>(Controller());

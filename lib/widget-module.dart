@@ -20,6 +20,8 @@ import 'package:amber_bird/ui/pages/order-detail-page.dart';
 import 'package:amber_bird/ui/pages/product-page.dart';
 import 'package:amber_bird/ui/pages/referral-page.dart';
 
+import 'ui/widget/faq-widget.dart';
+
 class WidgetRouteModule extends Module {
   @override
   List<Bind> get binds => [];
@@ -49,6 +51,13 @@ class WidgetRouteModule extends Module {
         child: (_, args) {
           String productId = args.data; //args.params['id'];
           return CompilanceWidget(productId);
+        },
+      ),
+      ChildRoute(
+        '/faq',
+        child: (_, args) {
+          String productId = args.data; //args.params['id'];
+          return FAQWidget(productId);
         },
       ),
       ChildRoute(

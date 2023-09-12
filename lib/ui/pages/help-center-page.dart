@@ -6,17 +6,21 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-
 import 'package:url_launcher/url_launcher.dart';
+import '../../controller/faq-controller.dart';
+import '../../data/faq/faq-model.dart';
 import '../../helpers/controller-generator.dart';
 
 class HelpCenterPage extends StatelessWidget {
+  final FaqController faqController =
+      ControllerGenerator.create(FaqController(), tag: 'faqController');
   final Controller stateController = Get.find();
   final CartController cartController =
       ControllerGenerator.create(CartController(), tag: 'cartController');
   RxBool isLoading = false.obs;
   @override
   Widget build(BuildContext context) {
+    List<Faq> result = faqController.faqList;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -69,7 +73,7 @@ class HelpCenterPage extends StatelessWidget {
                     children: [
                       Text('Contact Us', style: TextStyles.headingFont),
                       Padding(
-                        padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -213,11 +217,11 @@ class HelpCenterPage extends StatelessWidget {
                         Text('Need Immeddiate Assistance?',
                             style: TextStyles.headingFont),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             launch('mailto:hello@sbazar.app');
                           },
                           child: ListTile(
-                            horizontalTitleGap:0.0,
+                            horizontalTitleGap: 0.0,
                             leading: Icon(Icons.mail),
                             title: Text(
                               'hello@sbazar.app',
@@ -227,17 +231,22 @@ class HelpCenterPage extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () async{
-                            const url = 'https://api.whatsapp.com/message/7CXH5SMN32HXN1?autoload=1&app_absent=0';
+                          onTap: () async {
+                            const url =
+                                'https://api.whatsapp.com/message/7CXH5SMN32HXN1?autoload=1&app_absent=0';
                             if (await canLaunch(url)) {
-                            await launch(url, forceWebView: true);
+                              await launch(url, forceWebView: true);
                             } else {
-                            throw 'Could not launch $url';
+                              throw 'Could not launch $url';
                             }
                           },
                           child: ListTile(
-                            horizontalTitleGap:0.0,
-                            leading: Image.asset("assets/whatsapp.png",height: 20,width: 20,),
+                            horizontalTitleGap: 0.0,
+                            leading: Image.asset(
+                              "assets/whatsapp.png",
+                              height: 20,
+                              width: 20,
+                            ),
                             title: Text(
                               'Sbazar',
                               style: TextStyles.linkFont,
@@ -254,51 +263,55 @@ class HelpCenterPage extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  clipBehavior: Clip.hardEdge,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('FAQ', style: TextStyles.headingFont),
-                        ListTile(
-                          title: Text(
-                            'Mail Order FAQ',
-                            style: TextStyles.titleFont,
+                  width: MediaQuery.of(context).size.width,
+                  child: Card(
+                      clipBehavior: Clip.hardEdge,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          //       height: MediaQuery.of(context).size.height * .2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('FAQ', style: TextStyles.headingFont),
+                              ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: result.length,
+                                  itemBuilder: (_, indx) {
+                                    return Container(
+                                      margin: EdgeInsets.all(0),
+                                      padding: EdgeInsets.all(0),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                              width: 1.5,
+                                              color: AppColors.lightGrey),
+                                        ),
+                                      ),
+                                      child: ListTile(
+                                        dense: true,
+                                        onTap: () {
+                                          Modular.to.pushNamed('/widget/faq',
+                                              arguments: result[indx].id!);
+                                        },
+                                        title: Text(
+                                          result[indx].topic ?? '',
+                                          style: TextStyles.titleFont,
+                                        ),
+                                        trailing:
+                                            const Icon(Icons.chevron_right),
+                                      ),
+                                    );
+                                  })
+                            ],
                           ),
-                          trailing: const Icon(Icons.chevron_right),
                         ),
-                        ListTile(
-                          onTap: () {
-                            Modular.to.pushNamed('/widget/compilance',
-                                arguments: 'RETURN_REFUND');
-                          },
-                          title: Text(
-                            'How to get a refund',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Modular.to.pushNamed('/widget/compilance',
-                                arguments: 'EARN_SCOINS');
-                          },
-                          title: Text(
-                            'Buy X get Y% Disccount promotion',
-                            style: TextStyles.titleFont,
-                          ),
-                          trailing: const Icon(Icons.chevron_right),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
+                      ))),
             ],
           ),
         ),
