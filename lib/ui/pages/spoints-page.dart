@@ -10,17 +10,10 @@ class SpointsPage extends StatelessWidget {
   WalletController walletController = Get.put(WalletController());
   final Controller stateController = Get.find();
   PageController controller = PageController();
-  // getWallet() async {
-
-  //     coinWallet.value = controller.customerDetail.value.personalInfo.!;
-
-  // }
-
   final RxInt _curr = 0.obs;
 
   @override
   Widget build(BuildContext context) {
-    // getWallet();
     return Column(
       children: [
         Container(
