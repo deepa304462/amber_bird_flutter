@@ -328,7 +328,7 @@ class OrderListPage extends StatelessWidget {
             visible: checkValidReturnReq(curOrder),
             child: Expanded(
               child: TextButton(
-                onPressed: () {           
+                onPressed: () {
                   showModalBottomSheet(
                     context: context,
                     useRootNavigator: true,
@@ -548,11 +548,16 @@ class OrderListPage extends StatelessWidget {
     if (dateTimeString == null) {
       return false;
     } else {
-      DateTime givenDateTime = DateTime.parse(dateTimeString);
-      DateTime currentDate = DateTime.now();
-      Duration difference = currentDate.difference(givenDateTime);
+      try {
+        DateTime givenDateTime = DateTime.parse(dateTimeString);
+        DateTime currentDate = DateTime.now();
+        Duration difference = currentDate.difference(givenDateTime);
 
-      return difference.inDays <= 14;
+        return difference.inDays <= 14;
+      } catch (e) {
+        debugPrint("$e issue in date time paerse");
+        return false;
+      }
     }
   }
 
