@@ -328,7 +328,7 @@ class OrderListPage extends StatelessWidget {
             visible: checkValidReturnReq(curOrder),
             child: Expanded(
               child: TextButton(
-                onPressed: () {
+                onPressed: () {           
                   showModalBottomSheet(
                     context: context,
                     useRootNavigator: true,
@@ -544,8 +544,22 @@ class OrderListPage extends StatelessWidget {
     }
   }
 
+  bool isDateTime14DaysOld(String? dateTimeString) {
+    if (dateTimeString == null) {
+      return false;
+    } else {
+      DateTime givenDateTime = DateTime.parse(dateTimeString);
+      DateTime currentDate = DateTime.now();
+      Duration difference = currentDate.difference(givenDateTime);
+
+      return difference.inDays <= 14;
+    }
+  }
+
   checkValidReturnReq(Order order) {
-    if (order.status == 'DELIVERED') {
+    //   bool isDateTime14Daysold = isDateTime14DaysOld("2023-09-08T12:00:00");
+    bool isDateTime14Daysold = isDateTime14DaysOld(order.shipping?.lastMovement?.time);
+    if (order.status == 'DELIVERED' && order.shipping?.lastMovement?.status == "SHIPPED" && isDateTime14Daysold) {
       return true;
     } else {
       return false;
