@@ -23,12 +23,12 @@ class AppModule extends Module {
               args.queryParams['email']!, args.queryParams['token']!);
         }),
         ChildRoute('/refer-app/:id', child: (_, args) {
-          return WildCardRoutePage(args.uri);
+          return WildCardRoutePage(args.uri, args.data);
         }),
         ModuleRoute('/',
             module: HomePageModule(), guards: [DynamicLinkGaurd()]),
         WildcardRoute(child: (context, args) {
-          return WildCardRoutePage(args.uri);
+          return WildCardRoutePage(args.uri, args.data);
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
         ChildRoute('/signup', child: (_, args) => SignUp()),
