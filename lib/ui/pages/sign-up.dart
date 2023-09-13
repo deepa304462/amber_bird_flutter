@@ -173,16 +173,22 @@ class SignUp extends StatelessWidget {
                         if (agreeTerms.value) {
                           isLoading.value = true;
                           var data = await mController.signUp();
+
+                          isLoading.value = false;
                           if (data['status'] == 'success') {
                             controller.getLoginInfo();
                             controller.setCurrentTab(0);
                             cartController.fetchCart();
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.success);
                           }
-                          isLoading.value = false;
-                          snackBarClass.showToast(context, data['msg']);
+                          else if (data['status'] == 'warning') {
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.warning);
+                          } else if (data['status'] == 'error') {
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.error);
+                          }
                         } else {
                           snackBarClass.showToast(
-                              context, 'Please accept Terms & Conditions');
+                              context, 'Please accept Terms & Conditions',type: SnackBarType.warning);
                         }
                       },
                       style: ButtonStyle(

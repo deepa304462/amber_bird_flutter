@@ -120,14 +120,22 @@ class LoginWidget extends StatelessWidget {
                         onPressed: () async {
                           isLoading.value = true;
                           var data = await authController.login();
+                          isLoading.value = false;
                           if (data['status'] == 'success') {
                             controller.getLoginInfo();
                             controller.isLogin.value = true;
                             controller.setCurrentTab(0);
                             cartController.fetchCart();
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.success);
                           }
-                          isLoading.value = false;
-                          snackBarClass.showToast(context, data['msg']);
+                          else if (data['status'] == 'warning') {
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.warning);
+                          } else if (data['status'] == 'error') {
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.error);
+                          }else{
+                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.warning);
+                          }
+
                         },
                         style: ButtonStyle(
                           shape:
