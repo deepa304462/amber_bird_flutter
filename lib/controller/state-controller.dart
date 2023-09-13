@@ -14,6 +14,7 @@ import 'package:amber_bird/data/showcase-key.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
+import 'package:amber_bird/ui/element/analytics.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
@@ -21,6 +22,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
 import '../helpers/controller-generator.dart';
 
@@ -49,9 +51,11 @@ class Controller extends GetxController {
   Rx<Customer> customerDetail = Customer().obs;
   RxString membershipIcon = ''.obs;
   Rx<CustomerInsight> customerInsight = CustomerInsight().obs;
+  late final Mixpanel _mixpanel;
 
   @override
   void onInit() {
+    _initMixpanel();
     showKeyMap['home'] = ShowcaseKey(
       key: GlobalKey(),
       desc: 'All starts from here',
@@ -147,6 +151,10 @@ class Controller extends GetxController {
     super.onInit();
   }
 
+  Future<void> _initMixpanel() async {
+    _mixpanel = await MixpanelManager.init();
+  }
+
   getMembershipData() async {
     var membershipInfo =
         await ClientService.post(path: 'membershipInfo/search', payload: {});
@@ -213,6 +221,7 @@ class Controller extends GetxController {
     }
     // update token
     //end update token
+
     if (authData['tokenManagerEntityId'] != null) {
       tokenManagerEntityId.value = authData['tokenManagerEntityId'];
     }
@@ -277,6 +286,18 @@ class Controller extends GetxController {
         LocationController locationController = Get.find();
         locationController.setLocation();
       }
+      People people = _mixpanel.getPeople();
+
+      _mixpanel.identify(loggedInProfile.value.id ?? '');
+      people.set("name", cust.name);
+      people.set("\$name", cust.name);
+      people.set("email", cust.email);
+      people.set("\$email", cust.email);
+      people.set("scoins", cust.scoins);
+      people.set("spoints", cust.spoints);
+      people.set("id", cust.id);
+      people.set("userFriendlyCustomerId", cust.userFriendlyCustomerId);
+      people.set("customerTrackerRef", cust.customerTrackerRef);
     }
   }
 

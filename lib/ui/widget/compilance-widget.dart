@@ -1,7 +1,7 @@
 import 'package:amber_bird/controller/auth-controller.dart';
 import 'package:amber_bird/controller/compiilance-controller.dart';
 import 'package:amber_bird/data/complaince/complaince.dart';
-import 'package:amber_bird/data/complaince/content.dart';
+import 'package:amber_bird/data/complaince/content.dart' as ComplianceContent;
 import 'package:amber_bird/data/complaince/detailed_content.dart';
 import 'package:amber_bird/data/deal_product/description.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -32,6 +32,7 @@ class CompilanceWidget extends StatelessWidget {
         : (detailedContent.sectionHeading != null
             ? detailedContent.sectionHeading!.languageTexts![0].text
             : '');
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -68,9 +69,6 @@ class CompilanceWidget extends StatelessWidget {
         child: Padding(
             padding: EdgeInsets.all(8),
             child: ListView.builder(
-                // scrollDirection: Axis.vertical,
-                // shrinkWrap: true,
-                // physics: const NeverScrollableScrollPhysics(),
                 itemCount: result[0].detailedContent!.length,
                 itemBuilder: (_, index) {
                   DetailedContent currentDetaildContent =
@@ -87,7 +85,7 @@ class CompilanceWidget extends StatelessWidget {
                           ? currentDetaildContent
                               .sectionHeading!.languageTexts![0].text
                           : '');
-                  List<Content> contentList =
+                  List<ComplianceContent.Content> contentList =
                       currentDetaildContent.content ?? [];
                   return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,9 +111,10 @@ class CompilanceWidget extends StatelessWidget {
                                   style: TextStyles.titleFont,
                                 ),
                                 ...subContentList.map((subContent) {
-                                  var currentSubContent = subContent.defaultText != null
-                                      ? subContent.defaultText!.text
-                                      : subContent.languageTexts![0].text;
+                                  var currentSubContent =
+                                      subContent.defaultText != null
+                                          ? subContent.defaultText!.text
+                                          : subContent.languageTexts![0].text;
                                   return Html(
                                       data: currentSubContent ?? '',
                                       style: {

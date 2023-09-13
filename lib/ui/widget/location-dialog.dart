@@ -444,6 +444,8 @@ class LocationDialog extends StatelessWidget {
                                         return;
                                       } else {
                                         if (type == 'ADD') {
+                                          locationController
+                                              .addAddressApiCallCount.value = 0;
                                           data = await locationController
                                               .addAddressCall();
                                         } else {

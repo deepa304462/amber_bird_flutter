@@ -5,6 +5,7 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:amber_bird/ui/element/snackbar.dart';
 
 class AddAddress extends StatelessWidget {
   bool isLoading = false;
@@ -117,11 +118,31 @@ class AddAddress extends StatelessWidget {
                   ),
                   MaterialButton(
                     onPressed: () async {
-                      locationController.addressData.value =
-                          locationController.changeAddressData.value;
-                      await locationController.setAddressCall();
-                      //  Navigator.of(context).pop();
-                      Modular.to.navigate('/widget/address-list');
+                      if (locationController.changeAddressData.value.line1 !=
+                              '' ||
+                          locationController.changeAddressData.value.line1 !=
+                              null) {
+                        snackBarClass.showToast(
+                            context, 'Street name required');
+                      } else if (locationController
+                                  .changeAddressData.value.zipCode !=
+                              '' ||
+                          locationController.changeAddressData.value.zipCode !=
+                              null) {
+                        snackBarClass.showToast(context, 'ZipCode required');
+                      } else if (locationController
+                                  .changeAddressData.value.city !=
+                              '' ||
+                          locationController.changeAddressData.value.city !=
+                              null) {
+                        snackBarClass.showToast(context, 'City required');
+                      } else {
+                        locationController.addressData.value =
+                            locationController.changeAddressData.value;
+                        await locationController.setAddressCall();
+                        //  Navigator.of(context).pop();
+                        Modular.to.navigate('/widget/address-list');
+                      }
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),

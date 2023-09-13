@@ -12,27 +12,40 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../data/location/location.dart';
+import 'dart:async';
+
 class LocationController extends GetxController {
   // Locale currentLocale = const Locale('en');
-  Rx<LatLng> currentLatLang = const LatLng(0, 0).obs;
+  Rx<LatLng> currentLatLang = const LatLng(26.4770531, 80.2878786).obs;
   RxMap<dynamic, dynamic> address = <dynamic, dynamic>{}.obs;
   RxInt seelctedIndexToEdit = 0.obs;
   Rx<Address> addressData = Address().obs;
   Rx<Address> deliveryAddress = Address().obs;
   Rx<Address> changeAddressData = Address().obs;
+  Rx<Location> location = Location().obs;
   Rx<String> pinCode = ''.obs;
+  RxInt addAddressApiCallCount = 0.obs;
   RxList pincodeSuggestions = [].obs;
+  final Completer<GoogleMapController> mapController =
+      Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
-  late GoogleMapController mapController;
+
+  // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
-  LatLng latLng = const LatLng(0, 0);
+
+  // LatLng latLng = const LatLng(0, 0);
+  // Rx<GoogleMapController> mapController;
   Rx<Marker> currentPin = const Marker(
     markerId: MarkerId('pin'),
   ).obs;
   String mapKey = 'AIzaSyCAX95S6o_c9fiX2gF3fYmZ-zjRWUN_nRo';
+
+  Rx<GoogleMapController>? gmapController;
+
   @override
   void onInit() {
     currentLatLang.value = LatLng(52.520008, 13.404954);
@@ -41,13 +54,56 @@ class LocationController extends GetxController {
   }
 
   void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+    mapController.complete(controller);
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: currentLatLang.value, zoom: 18)));
   }
 
   Future<void> searchPincode(String changedText) async {
     if (changedText.length > 2) {
+      List<String> europeanCountryCodes = [
+        'in',
+        'de',
+        'it',
+        'nl',
+        'es',
+        'ch',
+        'fr',
+        'ie',
+        'be',
+        'se',
+        'no',
+        'at',
+        'dk',
+        'pt',
+        'fi',
+        'gr',
+        'hu',
+        'cz',
+        'pl',
+        'ru',
+        'ro',
+        'cy',
+        'is',
+        'mt',
+        'si',
+        'bg',
+        'ee',
+        'sk',
+        'lv',
+        'lt',
+        'hr',
+        'rs',
+        'al',
+        'lu',
+        'me' // Spain
+        // Add more European country codes as needed
+      ];
+
+      // Convert the list of country codes into a filter string
+      String countryFilter = europeanCountryCodes.join(',');
       var url =
-          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:${countryFilter}';
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         pincodeSuggestions.value =
@@ -72,7 +128,6 @@ class LocationController extends GetxController {
           var pin = await SharedData.read('pinCode');
           pinCode.value = pin ?? '0';
         }
-        // getLocation();
       }
     } else {
       var pin = await SharedData.read('pinCode');
@@ -179,11 +234,10 @@ class LocationController extends GetxController {
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
             CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
-
+        addAddressApiCallCount.value = addAddressApiCallCount.value + 1;
         cust.addresses!.add(addressData.value);
 
         var payload = cust.toMap();
-        // log(payload.toString());
         var userData =
             jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
@@ -191,11 +245,18 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
-          // getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
           setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
+        } else if (response.statusCode == 500) {
+          if (addAddressApiCallCount.value < 2) {
+            await controller
+                .getCustomerDetail(controller.loggedInProfile.value.id);
+            addAddressCall();
+          } else {
+            return {"msg": "Oops, Something went Wrong!!", "status": "error"};
+          }
         } else {
           return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
@@ -250,7 +311,7 @@ class LocationController extends GetxController {
     changeAddressData.value.houseNo =
         addressFromGoogle['properties']['housenumber'];
     changeAddressData.value.line1 =
-        '${addressFromGoogle['properties']['street']} ';
+        '${addressFromGoogle['properties']['street'] == null ? '' : addressFromGoogle['properties']['street']}';
     changeAddressData.value.city = addressFromGoogle['properties']['city'] != ''
         ? addressFromGoogle['properties']['city']
         : addressFromGoogle['properties']['district'];
@@ -277,5 +338,20 @@ class LocationController extends GetxController {
       }
       changeAddressData.refresh();
     } catch (e) {}
+  }
+
+  Future<String> getCoordinate() {
+    // isLoading.value = true;
+    return ClientService.get(path: 'shipping/getGenericAddressWithIp')
+        .then((value) {
+      print("fhtfhfh" + value.data.toString());
+      var locations = Location.fromJson(value.data);
+      location.value = locations;
+      currentLatLang.value = LatLng(locations.geo!.coordinates![1].toDouble(),
+          locations.geo!.coordinates![0].toDouble());
+      gmapController?.value.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(target: currentLatLang.value, zoom: 12)));
+      return '';
+    });
   }
 }
