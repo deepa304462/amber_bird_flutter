@@ -66,7 +66,7 @@ void main() async {
 
   if (initialLink != null) {
     final Uri deepLink = initialLink.link;
-    Modular.to.navigate(deepLink.path);
+    Modular.to.navigate(deepLink.path, arguments: deepLink.toString());
     // Example of using the dynamic link to push the user to a different screen
   }
 
@@ -74,7 +74,7 @@ void main() async {
     (pendingDynamicLinkData) {
       // Set up the `onLink` event listener next as it may be received here
       final Uri deepLink = pendingDynamicLinkData.link;
-      Modular.to.navigate(deepLink.path);
+      Modular.to.navigate(deepLink.path, arguments: deepLink.queryParameters);
     },
   );
 
