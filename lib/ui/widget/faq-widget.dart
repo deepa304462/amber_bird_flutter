@@ -13,8 +13,7 @@ class FAQWidget extends StatelessWidget {
 
   RxBool isLoading = false.obs;
 
-  final FaqController faqController =
-      ControllerGenerator.create(FaqController(), tag: 'faqController');
+  final FaqController faqController = ControllerGenerator.create(FaqController(), tag: 'faqController');
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +21,7 @@ class FAQWidget extends StatelessWidget {
       return el.id! == id;
     }).toList();
     print(result);
-    Faq detailedContent =
-        result[0].questions!.length > 0 ? result[0] : {} as Faq;
+    Faq detailedContent = result[0].questions!.length > 0 ? result[0] : {} as Faq;
 
     return Scaffold(
       appBar: AppBar(
@@ -58,31 +56,25 @@ class FAQWidget extends StatelessWidget {
         //    padding: EdgeInsets.all(2),
         child: Column(
           children: [
-            Obx(
-              () => ExpansionPanelList.radio(
+          ExpansionPanelList.radio(
                 elevation: 4,
                 //  expandedHeaderPadding: EdgeInsets.only(bottom: 100),
-                children: result[0].questions!.map<ExpansionPanelRadio>(
-                    (QuestionElement questionElement) {
+                children: result[0].questions!.map<ExpansionPanelRadio>((QuestionElement questionElement) {
                   return ExpansionPanelRadio(
                       backgroundColor: Colors.grey[100],
                       canTapOnHeader: true,
-                      headerBuilder: (BuildContext context, bool isExpanded) =>
-                          Padding(
+                      headerBuilder: (BuildContext context, bool isExpanded) => Padding(
                             padding: const EdgeInsets.fromLTRB(10, 10, 5, 0),
-                            child: Text("${questionElement.question?.text}",
-                                textAlign: TextAlign.start,
-                                style: TextStyles.titleFont),
+                            child: Text("${questionElement.question?.text}", textAlign: TextAlign.start, style: TextStyles.titleFont),
                           ),
                       body: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 0, 5, 20),
-                        child: Text("${questionElement.answer?.text}",
-                            style: TextStyles.body),
+                        child: Text("${questionElement.answer?.text}", style: TextStyles.body),
                       ),
                       value: questionElement.question ?? "");
                 }).toList(),
               ),
-            )
+        
           ],
         ),
       ),
