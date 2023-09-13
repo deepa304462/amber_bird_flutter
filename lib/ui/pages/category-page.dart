@@ -588,7 +588,7 @@ class CategoryPage extends StatelessWidget {
                                                       // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
-                                                          'Please Login to proceed!!');
+                                                          'Please Login to proceed!!',type: SnackBarType.error);
                                                     }
                                                     stateController.showLoader
                                                         .value = false;
@@ -715,7 +715,7 @@ class CategoryPage extends StatelessWidget {
                                                           // ignore: use_build_context_synchronously
                                                           snackBarClass.showToast(
                                                               context,
-                                                              'Your profile is Inactive!!');
+                                                              'Your profile is Inactive!!',type: SnackBarType.error);
                                                         }
                                                         stateController
                                                             .showLoader
@@ -726,7 +726,7 @@ class CategoryPage extends StatelessWidget {
                                                             .setCurrentTab(3);
                                                         snackBarClass.showToast(
                                                             context,
-                                                            'Please Login to proceed!!');
+                                                            'Please Login to proceed!!',type:SnackBarType.error);
                                                       },
                                             icon: Icon(
                                               Icons.add_circle_outline,

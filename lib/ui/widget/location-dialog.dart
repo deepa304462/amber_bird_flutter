@@ -19,6 +19,7 @@ class LocationDialog extends StatelessWidget {
   TextEditingController _textController = TextEditingController();
   RxBool searchedAdd = false.obs;
   String type;
+
   LocationDialog(this.type, {super.key}) {
     controller = ControllerGenerator.create(GoogleAddressSuggestController(),
         tag: 'googleAddressSuggestController');
@@ -449,10 +450,26 @@ class LocationDialog extends StatelessWidget {
                                           data = await locationController
                                               .editAddressCall();
                                         }
-                                        if (data['status'] == 'success') {}
+                                        if (data['status'] == 'success') {
+                                          snackBarClass.showToast(
+                                              context, data['msg'],
+                                              type: SnackBarType.success);
+                                        } else if (data['status'] ==
+                                            'warning') {
+                                          snackBarClass.showToast(
+                                              context, data['msg'],
+                                              type: SnackBarType.warning);
+                                        } else if (data['status'] == 'error') {
+                                          snackBarClass.showToast(
+                                              context, data['msg'],
+                                              type: SnackBarType.error);
+                                        } else {
+                                          snackBarClass.showToast(context,
+                                              'Please accept Terms & Conditions',
+                                              type: SnackBarType.warning);
+                                        }
                                         isLoading.value = false;
-                                        snackBarClass.showToast(
-                                            context, data['msg']);
+
                                         Navigator.of(context).pop();
                                       }
                                     },

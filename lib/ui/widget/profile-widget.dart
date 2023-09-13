@@ -175,7 +175,7 @@ class EditProfilePage extends StatelessWidget {
                       await stateController.resetPassInit();
                       isLoading.value = false;
                       snackBarClass.showToast(
-                          context, 'Please check your mail !,thanks');
+                          context, 'Please check your mail !,thanks',type: SnackBarType.success);
                     },
                     leading: Icon(Icons.lock_reset),
                     title: Text(

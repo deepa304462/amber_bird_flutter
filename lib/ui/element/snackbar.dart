@@ -31,7 +31,8 @@ class snackBarClass {
     final IconData? iconData = iconDataMap[type ?? SnackBarType.info];
     final Color? iconColor = iconColorMap[type ?? SnackBarType.info];
     final Color? snackBarColor = snackBarColorMap[type ?? SnackBarType.info];
-
+print( "iuh"+iconDataMap[type??SnackBarType.info].toString());
+print((type??SnackBarType.info));
     showTopSnackBar(
           Overlay.of(context),
           padding:EdgeInsets.all(0.0),
@@ -42,13 +43,14 @@ class snackBarClass {
               iconRotationAngle: 1,
               iconPositionLeft: 20,
               iconPositionTop: 10,
-              textScaleFactor: 0.9,
+              textScaleFactor: 1.0,
               maxLines: 2,
 
               icon: Icon(
-                iconData,
+
+                iconDataMap[type??SnackBarType.info],
                 color: iconColor,
-                size: 50,
+                size: 40,
               ),
               messagePadding: EdgeInsets.only(left: 34,right: 24,top: 10),
               // message: msg  ?? "Please try again!",
