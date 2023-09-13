@@ -31,10 +31,12 @@ class LocationController extends GetxController {
       Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
+
   // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
+
   // LatLng latLng = const LatLng(0, 0);
   // Rx<GoogleMapController> mapController;
   Rx<Marker> currentPin = const Marker(
@@ -59,8 +61,49 @@ class LocationController extends GetxController {
 
   Future<void> searchPincode(String changedText) async {
     if (changedText.length > 2) {
+      List<String> europeanCountryCodes = [
+        'in',
+        'de',
+        'it',
+        'nl',
+        'es',
+        'ch',
+        'fr',
+        'ie',
+        'be',
+        'se',
+        'no',
+        'at',
+        'dk',
+        'pt',
+        'fi',
+        'gr',
+        'hu',
+        'cz',
+        'pl',
+        'ru',
+        'ro',
+        'cy',
+        'is',
+        'mt',
+        'si',
+        'bg',
+        'ee',
+        'sk',
+        'lv',
+        'lt',
+        'hr',
+        'rs',
+        'al',
+        'lu',
+        'me' // Spain
+        // Add more European country codes as needed
+      ];
+
+      // Convert the list of country codes into a filter string
+      String countryFilter = europeanCountryCodes.join(',');
       var url =
-          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:${countryFilter}';
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         pincodeSuggestions.value =

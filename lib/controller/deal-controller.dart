@@ -75,7 +75,6 @@ class DealController extends GetxController {
 
             if (dp.product != null) {
               stateController.dealsProductsIdList.add(dp.product!.id ?? '');
-              // dp.product!.varients!.forEach((e) => stateController.dealsProductsIdList.add(e ?? ''));
             }
             return dp;
           }).toList() ??
