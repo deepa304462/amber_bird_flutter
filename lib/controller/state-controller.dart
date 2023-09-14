@@ -288,7 +288,10 @@ class Controller extends GetxController {
       }
       People people = _mixpanel.getPeople();
 
-      _mixpanel.identify(loggedInProfile.value.id ?? '');
+      _mixpanel.identify('${loggedInProfile.value.id}@profile');
+
+//       _mixpanel.people.set('d3a0334f-c3d3-4025-aee0-9d21f9482a51@profile');
+// _mixpanel.identify();
       people.set("name", cust.name);
       people.set("\$name", cust.name);
       people.set("email", cust.email);
