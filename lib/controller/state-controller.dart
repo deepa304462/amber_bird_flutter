@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:amber_bird/controller/appbar-scroll-controller.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
@@ -9,6 +10,7 @@ import 'package:amber_bird/data/customer/customer.insight.detail.dart';
 import 'package:amber_bird/data/customer_insight/customer_insight.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/membership/membership.dart';
+import 'package:amber_bird/data/profile/profile.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/data/showcase-key.dart';
 import 'package:amber_bird/data/user_profile/user_profile.dart';
@@ -412,12 +414,6 @@ class Controller extends GetxController {
     }
   }
 
-  // addToCart(product) {
-  //   product.quantity++;
-  //   cartProducts.add(product);
-  //   calculateTotalPrice();
-  // }
-
   void switchBetweenProductImages(int index) {
     productImageDefaultIndex.value = index;
   }
@@ -454,6 +450,35 @@ class Controller extends GetxController {
       return {"msg": "Mail sent Successfully!!", "status": "success"};
     } else {
       return {"msg": "Oops, Something went Wrong!!", "status": "error"};
+    }
+  }
+
+  deleteAccount() async {
+    var tokenResp =
+        await ClientService.get(path: 'auth', id: tokenManagerEntityId.value);
+    if (tokenResp.statusCode == 200) {
+      Profile userData = Profile.fromMap(tokenResp.data);
+      userData.enabled = false;
+      // log(jsonEncode(tokenResp.data).toString());
+      // log(jsonEncode(userData).toString());
+      // log(jsonEncode(userData));
+      // print(userData);
+      // userData payload = {
+      //   'customerRef': (jsonDecode(custRef.toJson())),
+      //   'favorites': listProd,
+      //   '_id': wishlistId.value,
+      //   'metaData': (jsonDecode(cust.wishList!.metaData!.toJson())),
+      // };
+      var updateResp = await ClientService.Put(
+          path: 'auth',
+          id: tokenManagerEntityId.value ?? '',
+          payload: jsonDecode(userData.toJson()));
+      if (updateResp.statusCode == 200) {
+        logout();
+        return {"msg": "Deleted Successfully!!", "status": "success"};
+      } else {
+        return {"msg": "Oops, Something went Wrong!!", "status": "error"};
+      }
     }
   }
 

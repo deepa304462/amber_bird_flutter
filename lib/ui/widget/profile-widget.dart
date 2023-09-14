@@ -18,6 +18,7 @@ class EditProfilePage extends StatelessWidget {
       ControllerGenerator.create(CartController(), tag: 'cartController');
 
   RxBool isLoading = false.obs;
+  RxBool isDeleteAccountLoading = false.obs;
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -175,11 +176,38 @@ class EditProfilePage extends StatelessWidget {
                       await stateController.resetPassInit();
                       isLoading.value = false;
                       snackBarClass.showToast(
-                          context, 'Please check your mail !,thanks',type: SnackBarType.success);
+                          context, 'Please check your mail !,thanks',
+                          type: SnackBarType.success);
                     },
                     leading: Icon(Icons.lock_reset),
                     title: Text(
                       isLoading.value ? "Loading" : 'Reset Password',
+                      style: TextStyles.headingFont,
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                  ),
+                ),
+                Card(
+                  child: ListTile(
+                    dense: true,
+                    onTap: () async {
+                      isDeleteAccountLoading.value = true;
+                      // Modular.to.navigate('../home/reset-password');
+                      var resp = await stateController.deleteAccount();
+                      isDeleteAccountLoading.value = false;
+                      if (resp['status'] == 'success') {
+                        snackBarClass.showToast(context, resp['msg'],
+                            type: SnackBarType.success);
+                      } else {
+                        snackBarClass.showToast(context, resp['msg'],
+                            type: SnackBarType.error);
+                      }
+                    },
+                    leading: Icon(Icons.delete_forever),
+                    title: Text(
+                      isDeleteAccountLoading.value
+                          ? "Loading"
+                          : 'Delete Account',
                       style: TextStyles.headingFont,
                     ),
                     trailing: const Icon(Icons.chevron_right),
