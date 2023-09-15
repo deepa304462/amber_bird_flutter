@@ -266,7 +266,7 @@ class ProductCardScoin extends StatelessWidget {
                               var data = await Helper.checkValidScoin(
                                   dealPrice!,
                                   stateController.userType.value,
-                                  cartController.cartProductsScoins.value,
+                                  cartController.cartProductsScoins,
                                   stateController.customerDetail.value
                                       .coinWalletDetail!.totalActiveCoins,
                                   cartController.getCurrentQuantity(
@@ -320,8 +320,7 @@ class ProductCardScoin extends StatelessWidget {
                                       var data = await Helper.checkValidScoin(
                                           dealPrice!,
                                           stateController.userType.value,
-                                          cartController
-                                              .cartProductsScoins.value,
+                                          cartController.cartProductsScoins,
                                           stateController
                                               .customerDetail
                                               .value
@@ -375,8 +374,7 @@ class ProductCardScoin extends StatelessWidget {
                                         var data = await Helper.checkValidScoin(
                                             dealPrice!,
                                             stateController.userType.value,
-                                            cartController
-                                                .cartProductsScoins.value,
+                                            cartController.cartProductsScoins,
                                             stateController
                                                 .customerDetail
                                                 .value

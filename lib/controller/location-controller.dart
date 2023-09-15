@@ -25,15 +25,18 @@ class LocationController extends GetxController {
   Rx<Address> changeAddressData = Address().obs;
   Rx<Location> location = Location().obs;
   Rx<String> pinCode = ''.obs;
+  RxInt addAddressApiCallCount = 0.obs;
   RxList pincodeSuggestions = [].obs;
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
   Rx<bool> mapLoad = false.obs;
   Rx<bool> addressAvaiable = false.obs;
+
   // late GoogleMapController mapController;
   RxString addressErrorString = ''.obs;
   Dio dio = Dio();
   RxBool error = false.obs;
+
   // LatLng latLng = const LatLng(0, 0);
   // Rx<GoogleMapController> mapController;
   Rx<Marker> currentPin = const Marker(
@@ -58,8 +61,49 @@ class LocationController extends GetxController {
 
   Future<void> searchPincode(String changedText) async {
     if (changedText.length > 2) {
+      List<String> europeanCountryCodes = [
+        'in',
+        'de',
+        'it',
+        'nl',
+        'es',
+        'ch',
+        'fr',
+        'ie',
+        'be',
+        'se',
+        'no',
+        'at',
+        'dk',
+        'pt',
+        'fi',
+        'gr',
+        'hu',
+        'cz',
+        'pl',
+        'ru',
+        'ro',
+        'cy',
+        'is',
+        'mt',
+        'si',
+        'bg',
+        'ee',
+        'sk',
+        'lv',
+        'lt',
+        'hr',
+        'rs',
+        'al',
+        'lu',
+        'me' // Spain
+        // Add more European country codes as needed
+      ];
+
+      // Convert the list of country codes into a filter string
+      String countryFilter = europeanCountryCodes.join(',');
       var url =
-          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:de';
+          'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:${countryFilter}';
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         pincodeSuggestions.value =
@@ -190,11 +234,10 @@ class LocationController extends GetxController {
             await OfflineDBService.get(OfflineDBService.customerInsight);
         CustomerInsight cust =
             CustomerInsight.fromMap(insightDetail as Map<String, dynamic>);
-
+        addAddressApiCallCount.value = addAddressApiCallCount.value + 1;
         cust.addresses!.add(addressData.value);
 
         var payload = cust.toMap();
-        // log(payload.toString());
         var userData =
             jsonDecode((await (SharedData.read('userData'))) ?? '{}');
         var response = await ClientService.Put(
@@ -202,11 +245,18 @@ class LocationController extends GetxController {
             id: userData['mappedTo']['_id'],
             payload: payload);
         if (response.statusCode == 200) {
-          // getLocation();
           OfflineDBService.save(
               OfflineDBService.customerInsight, response.data);
           setLocation();
           return {"msg": "Updated Successfully!!", "status": "success"};
+        } else if (response.statusCode == 500) {
+          if (addAddressApiCallCount.value < 2) {
+            await controller
+                .getCustomerDetail(controller.loggedInProfile.value.id);
+            addAddressCall();
+          } else {
+            return {"msg": "Oops, Something went Wrong!!", "status": "error"};
+          }
         } else {
           return {"msg": "Oops, Something went Wrong!!", "status": "error"};
         }
