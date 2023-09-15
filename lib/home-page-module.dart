@@ -63,7 +63,7 @@ class AppOnboardingGuard extends RouteGuard {
       String expire = onboardLocal['time'] ?? '';
       var newDate = DateTime.now().toUtc();
       var difference = DateTime.parse(expire).difference(newDate);
-      if (difference.inDays > 6) {
+      if (difference.inDays >= 3) {
         SharedData.remove('onboardingDone');
       } else {
         onboard = false;
