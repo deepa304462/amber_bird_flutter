@@ -12,7 +12,7 @@ class WildCardPageController extends GetxController {
     syncPath(givenUri, args);
   }
 
-  Future<void> syncPath(Uri givenUri, dynamic args) async {
+  Future<void> syncPath(dynamic givenUri, dynamic args) async {
     print(givenUri);
     print("givenUri");
     print(args);
@@ -34,34 +34,19 @@ class WildCardPageController extends GetxController {
       FlutterNativeSplash.remove();
       Modular.to.navigate("/home/main");
     } else if (givenUri.path.contains('product')) {
-      // String shortcodeId = givenUri.path.split('/')[2];
-      // var payload = {
-      //   "shortUrl": 'https://sbazar.app/app/${shortcodeId}',
-      // };
-      // print(payload);
-      // var resp = await ClientService.post(
-      //     path: 'product/shortLinkToProduct', payload: payload);
-      // if (resp.statusCode == 200 && resp.data != null && resp.data != '') {
-      //   FlutterNativeSplash.remove();
-
-      // args.forEach((key, value) {
-      //   print(key);
-      //   print(value);
-      //   if (key == 'id') {
-      FlutterNativeSplash.remove();
-      // Modular.to.popUntil((p0) => true);
-      // Modular.to.pushReplacementNamed('/widget/product', arguments: value);
-      Modular.to.navigate('/widget/product', arguments: args['id']);
-      //   }
-      // });
-
-      // Navigator.pushReplacement(context,
-      //     MaterialPageRoute(builder: (BuildContext context) => PageA()));
-      // Modular.to.pushNamed('/widget/product/${resp.data}');
-      // } else {
-      //   FlutterNativeSplash.remove();
-      //   Modular.to.navigate("/home/main");
-      // }
+      print('inside product ');
+      print(args);
+      if (args is String) {
+        final parsedUrl = Uri.parse(args);
+        print(parsedUrl.queryParameters);
+        FlutterNativeSplash.remove();
+        Modular.to.navigate('/widget/product',
+            arguments: parsedUrl.queryParameters['id']);
+      } else {
+        print(args['id']);
+        FlutterNativeSplash.remove();
+        Modular.to.navigate('/widget/product', arguments: args['id']);
+      }
     }
   }
 }

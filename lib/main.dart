@@ -49,7 +49,7 @@ void main() async {
   final remoteConfig = FirebaseRemoteConfig.instance;
   print('${remoteConfig.getValue('app_env_version').asInt()} envversion');
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  if (int.parse(packageInfo.buildNumber) ==
+  if (int.parse(packageInfo.buildNumber) >=
       remoteConfig.getValue('app_env_version').asInt()) {
     ClientService.setEnv(env: Environment.prod);
   }
