@@ -78,8 +78,7 @@ class ProfilePage extends StatelessWidget {
                   () => {Modular.to.pushNamed('/widget/help-center')},
                   isDense: true),
               sectionCard('Setting', '', Icons.settings,
-                  () => {  Modular.to
-                      .pushNamed('../widget/edit-profile')},
+                  () => {Modular.to.pushNamed('../widget/edit-profile')},
                   isDense: true),
               sectionCard(
                 'About Sbazar',

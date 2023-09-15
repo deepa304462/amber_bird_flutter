@@ -69,7 +69,8 @@ class Profile {
         authorities: (data['authorities'] as List<dynamic>?)
             ?.map((e) => Authority.fromMap(e as Map<String, dynamic>))
             .toList(),
-        acls: data['acls'] as List<String>?,
+        acls:
+            (data['acls'] as List<dynamic>?)?.map((e) => e as String).toList(),
         accountNonExpired: data['accountNonExpired'] as bool?,
         accountNonLocked: data['accountNonLocked'] as bool?,
         credentialsNonExpired: data['credentialsNonExpired'] as bool?,

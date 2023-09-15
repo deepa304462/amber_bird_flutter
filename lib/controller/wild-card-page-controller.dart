@@ -1,4 +1,3 @@
-import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -8,14 +7,17 @@ import 'package:get/get.dart';
 class WildCardPageController extends GetxController {
   Rx<Uri> uri = Uri().obs;
 
-  WildCardPageController(Uri givenUri) {
+  WildCardPageController(Uri givenUri, dynamic args) {
     uri.value = givenUri;
-    syncPath(givenUri);
+    syncPath(givenUri, args);
   }
 
-  Future<void> syncPath(Uri givenUri) async {
+  Future<void> syncPath(dynamic givenUri, dynamic args) async {
     print(givenUri);
     print("givenUri");
+    print(args);
+    // print(args['id']);
+    print("args");
 
     if (givenUri.path.contains('refer')) {
       String referById = givenUri.path.split('/')[2];
@@ -31,24 +33,19 @@ class WildCardPageController extends GetxController {
       }
       FlutterNativeSplash.remove();
       Modular.to.navigate("/home/main");
-    } else if (givenUri.path.contains('app')) {
-      String shortcodeId = givenUri.path.split('/')[2];
-      var payload = {
-        "shortUrl": 'https://sbazar.app/app/${shortcodeId}',
-      };
-      print(payload);
-      var resp = await ClientService.post(
-          path: 'product/shortLinkToProduct', payload: payload);
-      if (resp.statusCode == 200 && resp.data != null && resp.data != '') {
+    } else if (givenUri.path.contains('product')) {
+      print('inside product ');
+      print(args);
+      if (args is String) {
+        final parsedUrl = Uri.parse(args);
+        print(parsedUrl.queryParameters);
         FlutterNativeSplash.remove();
-        Modular.to
-            .pushReplacementNamed('/widget/product', arguments: resp.data);
-        // Navigator.pushReplacement(context,
-        //     MaterialPageRoute(builder: (BuildContext context) => PageA()));
-        // Modular.to.pushNamed('/widget/product/${resp.data}');
+        Modular.to.navigate('/widget/product',
+            arguments: parsedUrl.queryParameters['id']);
       } else {
+        print(args['id']);
         FlutterNativeSplash.remove();
-        Modular.to.navigate("/home/main");
+        Modular.to.navigate('/widget/product', arguments: args['id']);
       }
     }
   }

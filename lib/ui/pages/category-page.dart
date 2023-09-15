@@ -11,7 +11,6 @@ import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/multi/multi.product.dart';
 import 'package:amber_bird/data/product_category/generic-tab.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/widget/discount-tag.dart';
 import 'package:amber_bird/ui/widget/fit-text.dart';
 import 'package:amber_bird/ui/element/snackbar.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
@@ -588,7 +587,7 @@ class CategoryPage extends StatelessWidget {
                                                       // ignore: use_build_context_synchronously
                                                       snackBarClass.showToast(
                                                           context,
-                                                          'Please Login to proceed!!');
+                                                          'Please Login to proceed!!',type: SnackBarType.error);
                                                     }
                                                     stateController.showLoader
                                                         .value = false;
@@ -715,7 +714,7 @@ class CategoryPage extends StatelessWidget {
                                                           // ignore: use_build_context_synchronously
                                                           snackBarClass.showToast(
                                                               context,
-                                                              'Your profile is Inactive!!');
+                                                              'Your profile is Inactive!!',type: SnackBarType.error);
                                                         }
                                                         stateController
                                                             .showLoader
@@ -726,7 +725,7 @@ class CategoryPage extends StatelessWidget {
                                                             .setCurrentTab(3);
                                                         snackBarClass.showToast(
                                                             context,
-                                                            'Please Login to proceed!!');
+                                                            'Please Login to proceed!!',type:SnackBarType.error);
                                                       },
                                             icon: Icon(
                                               Icons.add_circle_outline,

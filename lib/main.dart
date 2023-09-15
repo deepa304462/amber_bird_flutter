@@ -49,7 +49,7 @@ void main() async {
   final remoteConfig = FirebaseRemoteConfig.instance;
   print('${remoteConfig.getValue('app_env_version').asInt()} envversion');
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  if (int.parse(packageInfo.buildNumber) ==
+  if (int.parse(packageInfo.buildNumber) >=
       remoteConfig.getValue('app_env_version').asInt()) {
     ClientService.setEnv(env: Environment.prod);
   }
@@ -66,7 +66,7 @@ void main() async {
 
   if (initialLink != null) {
     final Uri deepLink = initialLink.link;
-    Modular.to.navigate(deepLink.path);
+    Modular.to.navigate(deepLink.path, arguments: deepLink.toString());
     // Example of using the dynamic link to push the user to a different screen
   }
 
@@ -74,7 +74,7 @@ void main() async {
     (pendingDynamicLinkData) {
       // Set up the `onLink` event listener next as it may be received here
       final Uri deepLink = pendingDynamicLinkData.link;
-      Modular.to.navigate(deepLink.path);
+      Modular.to.navigate(deepLink.path, arguments: deepLink.queryParameters);
     },
   );
 

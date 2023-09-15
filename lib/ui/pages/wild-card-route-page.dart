@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 
 class WildCardRoutePage extends StatelessWidget {
   final Uri url;
-  const WildCardRoutePage(this.url, {Key? key}) : super(key: key);
+  final dynamic args;
+  const WildCardRoutePage(this.url, this.args, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Get.put(WildCardPageController(url));
+    Get.put(WildCardPageController(url, args));
     return Container(
       color: Colors.red,
       child: SizedBox(
