@@ -6,6 +6,7 @@ import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
+import 'package:amber_bird/data/notification/notification.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/services/firebase-analytics-log.dart';
 import 'package:amber_bird/services/firebase-cloud-message-sync-service.dart';
@@ -42,15 +43,14 @@ void main() async {
   await dotenv.load(fileName: "assets/config/.env");
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
+  NotificationService().initNotification();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FCMSyncService.init();
   await OfflineDBService.init();
   final remoteConfig = FirebaseRemoteConfig.instance;
   print('${remoteConfig.getValue('app_env_version').asInt()} envversion');
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  if (int.parse(packageInfo.buildNumber) ==
-      remoteConfig.getValue('app_env_version').asInt()) {
+  if (int.parse(packageInfo.buildNumber) == remoteConfig.getValue('app_env_version').asInt()) {
     ClientService.setEnv(env: Environment.prod);
   }
 
@@ -61,8 +61,7 @@ void main() async {
   });
 
   // Check if you received the link via `getInitialLink` first
-  final PendingDynamicLinkData? initialLink =
-      await FirebaseDynamicLinks.instance.getInitialLink();
+  final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
 
   if (initialLink != null) {
     final Uri deepLink = initialLink.link;
@@ -90,8 +89,7 @@ void main() async {
   // await FCMSyncService.tokenSync(Ref());
 
   // ignore: unused_local_variable
-  final OnBoardingController onBoardingController =
-      Get.put(OnBoardingController());
+  final OnBoardingController onBoardingController = Get.put(OnBoardingController());
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
   Get.put(AuthController());
