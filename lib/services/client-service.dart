@@ -64,7 +64,7 @@ class ClientService {
       solrUrl = "https://search.sbazar.app/";
     } else if (env == Environment.prod) {
       url = "https://prod-api.sbazar.app/";
-      solrUrl = "https://search-prod.sbazar.app";
+      solrUrl = "https://search-prod.sbazar.app/";
     }
   }
 
