@@ -126,16 +126,18 @@ class LoginWidget extends StatelessWidget {
                             controller.isLogin.value = true;
                             controller.setCurrentTab(0);
                             cartController.fetchCart();
-                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.success);
-                          }
-                          else if (data['status'] == 'warning') {
-                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.warning);
+                            snackBarClass.showToast(context, data['msg'],
+                                type: SnackBarType.success);
+                          } else if (data['status'] == 'warning') {
+                            snackBarClass.showToast(context, data['msg'],
+                                type: SnackBarType.warning);
                           } else if (data['status'] == 'error') {
-                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.error);
-                          }else{
-                            snackBarClass.showToast(context, data['msg'],type: SnackBarType.warning);
+                            snackBarClass.showToast(context, data['msg'],
+                                type: SnackBarType.error);
+                          } else {
+                            snackBarClass.showToast(context, data['msg'],
+                                type: SnackBarType.warning);
                           }
-
                         },
                         style: ButtonStyle(
                           shape:
@@ -198,61 +200,46 @@ class LoginWidget extends StatelessWidget {
                     //     style: (TextStyles.bodyFont),
                     //   ),
                     // ),
-                    const SizedBox(
-                      height: 35,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: AppColors.white,
-                                borderRadius: BorderRadius.circular(5),
-                                border:
-                                    Border.all(color: AppColors.primeColor)),
-                            child: IconButton(
-                              icon: isLoading.value
-                                  ? const Text('Loading')
-                                  : Image.asset(
-                                      "assets/google_logo.png",
-                                      width: 25,
-                                    ),
-                              iconSize: 10,
-                              onPressed: () async {
-                                isLoading.value = true;
-                                var data =
-                                    await authController.LoginWithGoogle();
-                                if (data['status'] == 'success') {
-                                  controller.isLogin.value = true;
-                                  controller.getLoginInfo();
-                                  controller.setCurrentTab(0);
-                                  cartController.fetchCart();
-                                }
-                                isLoading.value = false;
-                                snackBarClass.showToast(context, data['msg']);
-                              },
-                            ),
-                          ),
-                        ),
-                        // const SizedBox(
-                        //   width: 15,
-                        // ),
-                        // Expanded(
-                        //   child: Container(
-                        //     decoration: BoxDecoration(
-                        //         color: AppColors.white,
-                        //         borderRadius: BorderRadius.circular(5),
-                        //         border:
-                        //             Border.all(color: AppColors.primeColor)),
-                        //     child: IconButton(
-                        //       icon: const Icon(Icons.facebook),
-                        //       onPressed: () {},
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
+                    // const SizedBox(
+                    //   height: 35,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Expanded(
+                    //       child: Container(
+                    //         decoration: BoxDecoration(
+                    //             color: AppColors.white,
+                    //             borderRadius: BorderRadius.circular(5),
+                    //             border:
+                    //                 Border.all(color: AppColors.primeColor)),
+                    //         child: IconButton(
+                    //           icon: isLoading.value
+                    //               ? const Text('Loading')
+                    //               : Image.asset(
+                    //                   "assets/google_logo.png",
+                    //                   width: 25,
+                    //                 ),
+                    //           iconSize: 10,
+                    //           onPressed: () async {
+                    //             isLoading.value = true;
+                    //             var data =
+                    //                 await authController.LoginWithGoogle();
+                    //             if (data['status'] == 'success') {
+                    //               controller.isLogin.value = true;
+                    //               controller.getLoginInfo();
+                    //               controller.setCurrentTab(0);
+                    //               cartController.fetchCart();
+                    //             }
+                    //             isLoading.value = false;
+                    //             snackBarClass.showToast(context, data['msg']);
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ),
+
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 60,
                     ),
