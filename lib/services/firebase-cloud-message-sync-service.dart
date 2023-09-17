@@ -1,7 +1,9 @@
+import 'package:amber_bird/data/notification/notification.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import '../firebase_options.dart';
 // Import the generated file
 
@@ -12,7 +14,7 @@ class FCMSyncService {
   static init() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     setupInteractedMessage();
-    await messaging.requestPermission(
+    final settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
@@ -21,12 +23,32 @@ class FCMSyncService {
       provisional: false,
       sound: true,
     );
+    if (kDebugMode) {
+      print('Permission granted: ${settings.authorizationStatus}');
+    }
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.data}');
-
+      if (kDebugMode) {
+        print('Handling a foreground message: ${message.messageId}');
+        print('Message data: ${message.data}');
+        print('Message notification: ${message.notification?.title}');
+        print('Message notification: ${message.notification?.body}');
+      }
       if (message.notification != null) {
+        RemoteNotification notification = message.notification!;
+        AndroidNotification? android = message.notification!.android;
+
+        // If `onMessage` is triggered with a notification, construct our own
+        // local notification to show to users using the created channel.
+        if (android != null) {
+          NotificationService().showNotification(
+            id: notification.hashCode,
+            title: notification.title,
+            body: notification.body,
+          );
+        }
         print('Message also contained a notification: ${message.notification}');
       }
     });
@@ -36,8 +58,7 @@ class FCMSyncService {
   static Future<void> setupInteractedMessage() async {
     // Get any messages which caused the application to open from
     // a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
@@ -54,17 +75,16 @@ class FCMSyncService {
     Ref profile,
   ) async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    ClientService.post(path: 'notificationToken/add', payload: {
-      'profile': profile.toMap(),
-      'uniqueDeviceKey': profile.id,
-      'deviceType': 'ANDROID',
-      'token': fcmToken
-    });
+    if (kDebugMode) {
+      print('Firebase Token: $fcmToken');
+    }
+    ClientService.post(
+        path: 'notificationToken/add',
+        payload: {'profile': profile.toMap(), 'uniqueDeviceKey': profile.id, 'deviceType': 'ANDROID', 'token': fcmToken});
   }
 
   static Future<Map<String, dynamic>> getFCMData() async {
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     return initialMessage!.data;
   }
 
