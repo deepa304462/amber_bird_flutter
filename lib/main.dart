@@ -49,11 +49,12 @@ void main() async {
   await OfflineDBService.init();
   final remoteConfig = FirebaseRemoteConfig.instance;
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  if (int.parse(packageInfo.buildNumber) >=
-      remoteConfig.getValue('app_env_version').asInt()) {
+  if ((int.parse(packageInfo.buildNumber) >=
+          remoteConfig.getValue('app_env_version').asInt()) ||
+      (int.parse(packageInfo.buildNumber) == 0)) {
     ClientService.setEnv(env: Environment.prod);
-  }else{
-     ClientService.setEnv(env: Environment.dev);
+  } else {
+    ClientService.setEnv(env: Environment.dev);
   }
 
   _initMixpanel();
