@@ -69,27 +69,24 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Card(
-              child: Column(
-            children: [
-              sectionCard('Help Center', '', Icons.help_outline_rounded,
-                  () => {Modular.to.pushNamed('/widget/help-center')},
-                  isDense: true),
-              sectionCard('Setting', '', Icons.settings,
-                  () => {Modular.to.pushNamed('../widget/edit-profile')},
-                  isDense: true),
-              sectionCard(
-                'About Sbazar',
-                '',
-                Icons.info_outline_rounded,
-                () => {Modular.to.pushNamed('/widget/about-page')},
-                isDense: true,
-              ),
-            ],
-          )),
-        ),
+        Card(
+            child: Column(
+          children: [
+            sectionCard('Help Center', '', Icons.help_outline_rounded,
+                () => {Modular.to.pushNamed('/widget/help-center')},
+                isDense: true),
+            sectionCard('Setting', '', Icons.settings,
+                () => {Modular.to.pushNamed('../widget/edit-profile')},
+                isDense: true),
+            sectionCard(
+              'About Sbazar',
+              '',
+              Icons.info_outline_rounded,
+              () => {Modular.to.pushNamed('/widget/about-page')},
+              isDense: true,
+            ),
+          ],
+        )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Card(
