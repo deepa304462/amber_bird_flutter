@@ -28,7 +28,7 @@ class snackBarClass {
       SnackBarType.error: Colors.black87,
     };
 
-    final IconData? iconData = iconDataMap[type ?? SnackBarType.info];
+    // final IconData? iconData = iconDataMap[type ?? SnackBarType.info];
     final Color? iconColor = iconColorMap[type ?? SnackBarType.info];
     final Color? snackBarColor = snackBarColorMap[type ?? SnackBarType.info];
 print( "iuh"+iconDataMap[type??SnackBarType.info].toString());

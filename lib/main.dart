@@ -53,6 +53,8 @@ void main() async {
   if (int.parse(packageInfo.buildNumber) >=
       remoteConfig.getValue('app_env_version').asInt()) {
     ClientService.setEnv(env: Environment.prod);
+  }else{
+     ClientService.setEnv(env: Environment.dev);
   }
 
   _initMixpanel();
