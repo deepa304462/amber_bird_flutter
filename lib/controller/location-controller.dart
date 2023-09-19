@@ -100,7 +100,6 @@ class LocationController extends GetxController {
         // Add more European country codes as needed
       ];
 
-      // Convert the list of country codes into a filter string
       String countryFilter = europeanCountryCodes.join(',');
       var url =
           'https://api.geoapify.com/v1/geocode/autocomplete?text=${changedText}&limit=10&lang=de&apiKey=1f1c1cf8a8b6497bb721b99d76567726&filter=countrycode:${countryFilter}';
