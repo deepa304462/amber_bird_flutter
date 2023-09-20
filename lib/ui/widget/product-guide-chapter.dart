@@ -69,8 +69,13 @@ class ProductGuideChapter extends StatelessWidget {
             itemBuilder: (_, index) {
               var currentProduct = chapter.products![index];
               if (currentProduct.varient != null) {
-                return ProductCard(currentProduct, currentProduct.id, 'GUIDE',
-                    currentProduct.varient!.price!, null, null);
+                return ProductCard(
+                    currentProduct,
+                    currentProduct.id,
+                    'GUIDE',
+                    currentProduct.varient!.price!,
+                    null,
+                    currentProduct.varient!.constraint);
               } else {
                 return const SizedBox();
               }

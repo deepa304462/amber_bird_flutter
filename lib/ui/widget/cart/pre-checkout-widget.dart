@@ -1423,7 +1423,7 @@ class PreCheckoutWidget extends StatelessWidget {
                               'RECOMMEDED_PRODUCT',
                               curProd.varient!.price!,
                               null,
-                              null);
+                              curProd.varient!.constraint);
                         },
                       ),
                     ),

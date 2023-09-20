@@ -82,7 +82,7 @@ class BackInStockProductWidget extends StatelessWidget {
                                     'CENTS',
                                     productSummary.varient!.price!,
                                     null,
-                                    null),
+                                    productSummary.varient!.constraint),
                               ],
                             ),
                           );

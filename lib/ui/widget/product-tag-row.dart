@@ -57,7 +57,7 @@ class ProductTagRow extends StatelessWidget {
                                 'TAGS_PRODUCT',
                                 productSummary.varient!.price!,
                                 null,
-                                null),
+                                productSummary.varient!.constraint),
                           ],
                         ),
                       );

@@ -218,7 +218,8 @@ class CartWidget extends StatelessWidget {
               );
               cartController.clearCheckout();
               return (cartController.cartProducts.isNotEmpty ||
-                      cartController.cartProductsScoins.isNotEmpty)
+                      cartController.cartProductsScoins.isNotEmpty ||
+                      cartController.msdProducts.isNotEmpty)
                   ? CustomScrollView(
                       physics: const BouncingScrollPhysics(),
                       slivers: cartController.innerLists,
@@ -1598,7 +1599,7 @@ class CartWidget extends StatelessWidget {
                             'RECOMMEDED_PRODUCT',
                             curProd.varient!.price!,
                             null,
-                            null,
+                            curProd.varient!.constraint!,
                             CurrentKey: currentKey,
                           );
                         },
