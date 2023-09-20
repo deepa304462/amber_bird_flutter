@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 
 Widget sectionCard(String title, String subtitleVal, icon, Function() onTap,
-    {bool isDense = false}) {
+    {bool isDense = false, double horizontalPaddingvalue = 8.0}) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding:
+        EdgeInsets.symmetric(horizontal: horizontalPaddingvalue, vertical: 8),
     child: InkWell(
       onTap: onTap,
       child: ListTile(
