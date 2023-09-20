@@ -485,7 +485,9 @@ class MultiProductRow extends StatelessWidget {
                       await cartController.addToCart(
                           multiProd.id!,
                           'MULTIPRODUCT',
-                          multiProd.constraint!.minimumOrder ?? 1,
+                          multiProd.constraint != null
+                              ? (multiProd.constraint!.minimumOrder) ?? 1
+                              : 1,
                           multiProd.price,
                           null,
                           multiProd.products,
