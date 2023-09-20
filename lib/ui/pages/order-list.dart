@@ -152,8 +152,7 @@ class OrderListPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
-                          style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
+                      Text('${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}', style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
                       Text(
                         'Paid ',
                         style: TextStyles.titleFont.copyWith(color: Colors.grey),
@@ -304,7 +303,7 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                _showCancelOrderConfirmationDialog(context, curOrder.id);
+                                                _showCancelOrderConfirmationDialog(context, curOrder.userFriendlyOrderId!);
                                               }
                                             },
                                           ),
@@ -395,7 +394,7 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                ReturnOrderConfirmationDialog(context, curOrder.id);
+                                                ReturnOrderConfirmationDialog(context, curOrder.userFriendlyOrderId);
                                               }
                                             },
                                           ),
@@ -591,8 +590,7 @@ class OrderListPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
                   decoration: ShapeDecoration(shape: StadiumBorder(), color: Helper.getColor(curOrder.status).withOpacity(0.2)),
-                  child: Text('${CodeHelp.titleCase(curOrder.status!)}',
-                      style: TextStyles.headingFont.copyWith(color: Helper.getColor(curOrder.status))),
+                  child: Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.headingFont.copyWith(color: Helper.getColor(curOrder.status))),
                 ),
               ]),
             ),
