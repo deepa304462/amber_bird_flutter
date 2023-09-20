@@ -54,8 +54,13 @@ class CategoryPage extends StatelessWidget {
       itemBuilder: (_, index) {
         var currentProduct = categoryController.productList[index];
         if (currentProduct.varient != null) {
-          return ProductCard(currentProduct, currentProduct.id, 'CATEGORY',
-              currentProduct.varient!.price!, null, null);
+          return ProductCard(
+              currentProduct,
+              currentProduct.id,
+              'CATEGORY',
+              currentProduct.varient!.price!,
+              null,
+              currentProduct.varient!.constraint);
         } else {
           return const SizedBox();
         }
@@ -277,14 +282,13 @@ class CategoryPage extends StatelessWidget {
               itemBuilder: (_, index) {
                 ProductSummary product = megaMenuController.productList[index];
                 return ProductCard(
-                  fixedHeight: false,
-                  product,
-                  product.id,
-                  type,
-                  product.varient!.price,
-                  RuleConfig(),
-                  Constraint(),
-                );
+                    fixedHeight: false,
+                    product,
+                    product.id,
+                    type,
+                    product.varient!.price,
+                    RuleConfig(),
+                    product.varient!.constraint);
               },
             )
           : Column(

@@ -295,7 +295,7 @@ class BrandProductPage extends StatelessWidget {
               itemBuilder: (_, index) {
                 var product = controller.productList[index];
                 return ProductCard(product, product.id, 'BRAND',
-                    product.varient!.price!, null, null);
+                    product.varient!.price!, null, product.varient!.constraint);
               },
             ),
           ),

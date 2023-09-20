@@ -36,8 +36,10 @@ import 'package:get/get.dart';
 import '../../helpers/controller-generator.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final CartController cartController = ControllerGenerator.create(CartController(), tag: 'cartController');
-  final CompilanceController compilanceController = Get.put(CompilanceController());
+  final CartController cartController =
+      ControllerGenerator.create(CartController(), tag: 'cartController');
+  final CompilanceController compilanceController =
+      Get.put(CompilanceController());
   final Controller stateController = Get.find();
   final WishlistController wishlistController = Get.find();
   LocationController locationController = Get.find();
@@ -52,7 +54,8 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
-    final ProductController productController = Get.put(ProductController(pId), tag: pId);
+    final ProductController productController =
+        Get.put(ProductController(pId), tag: pId);
     if (pId == null || pId == '') {
       Modular.to.navigate('/home/main');
     }
@@ -61,18 +64,23 @@ class ProductDetailScreen extends StatelessWidget {
       () => (productController.product.value.id != null)
           ? Scaffold(
               body: NestedScrollView(
-                headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
-                    SliverLayoutBuilder(builder: (BuildContext context, constraints) {
-                      final scrolled = constraints.scrollOffset > MediaQuery.of(context).size.height * .35;
+                    SliverLayoutBuilder(
+                        builder: (BuildContext context, constraints) {
+                      final scrolled = constraints.scrollOffset >
+                          MediaQuery.of(context).size.height * .35;
                       return new SliverAppBar(
                         toolbarHeight: 40,
-                        backgroundColor: !scrolled ? Colors.white : AppColors.primeColor,
+                        backgroundColor:
+                            !scrolled ? Colors.white : AppColors.primeColor,
                         automaticallyImplyLeading: true,
                         pinned: true,
                         iconTheme: IconThemeData(color: AppColors.primeColor),
                         excludeHeaderSemantics: true,
-                        expandedHeight: MediaQuery.of(context).size.height * .35,
+                        expandedHeight:
+                            MediaQuery.of(context).size.height * .35,
                         stretch: false,
                         actions: [
                           Obx(
@@ -80,14 +88,27 @@ class ProductDetailScreen extends StatelessWidget {
                               onPressed: () async {
                                 stateController.showLoader.value = true;
                                 if (stateController.isLogin.value) {
-                                  ProductSummary prodSummary = ProductSummary.fromMap({
-                                    "name": productController.product.value.name!.toMap(),
-                                    "description": productController.product.value.description!.toMap(),
-                                    "images": productController.product.value.images,
-                                    "varient": productController.varient.value.toMap(),
-                                    "varients": productController.product.value.varients?.map((e) => e.toMap()).toList(),
-                                    "category": productController.product.value.category!.toMap(),
-                                    "countryCode": productController.product.value.countryCode,
+                                  ProductSummary prodSummary =
+                                      ProductSummary.fromMap({
+                                    "name": productController
+                                        .product.value.name!
+                                        .toMap(),
+                                    "description": productController
+                                        .product.value.description!
+                                        .toMap(),
+                                    "images":
+                                        productController.product.value.images,
+                                    "varient":
+                                        productController.varient.value.toMap(),
+                                    "varients": productController
+                                        .product.value.varients
+                                        ?.map((e) => e.toMap())
+                                        .toList(),
+                                    "category": productController
+                                        .product.value.category!
+                                        .toMap(),
+                                    "countryCode": productController
+                                        .product.value.countryCode,
                                     "id": productController.product.value.id
                                   });
                                   await wishlistController.addToWishlist(
@@ -98,7 +119,8 @@ class ProductDetailScreen extends StatelessWidget {
                                       addedFrom);
                                 } else {
                                   stateController.setCurrentTab(3);
-                                  snackBarClass.showToast(context, 'Please login to proceed');
+                                  snackBarClass.showToast(
+                                      context, 'Please login to proceed');
                                 }
                                 stateController.showLoader.value = false;
                               },
@@ -107,7 +129,9 @@ class ProductDetailScreen extends StatelessWidget {
                                 size: 20,
                                 color: wishlistController.checkIfProductWishlist(
                                         '${productController.product.value.id}@${productController.varient.value.varientCode}')
-                                    ? (!scrolled ? AppColors.primeColor : AppColors.coralPink)
+                                    ? (!scrolled
+                                        ? AppColors.primeColor
+                                        : AppColors.coralPink)
                                     : AppColors.grey,
                               ),
                             ),
@@ -115,12 +139,16 @@ class ProductDetailScreen extends StatelessWidget {
                           IconButton(
                             onPressed: () async {
                               // await productController
-                              CodeHelp.shareWithOther('Buy this Product now, ${productController.shortLink.value}', 'Share now');
+                              CodeHelp.shareWithOther(
+                                  'Buy this Product now, ${productController.shortLink.value}',
+                                  'Share now');
                             },
                             icon: Icon(
                               CupertinoIcons.share,
                               size: 20,
-                              color: !scrolled ? AppColors.primeColor : AppColors.grey,
+                              color: !scrolled
+                                  ? AppColors.primeColor
+                                  : AppColors.grey,
                             ),
                           ),
                         ],
@@ -129,7 +157,8 @@ class ProductDetailScreen extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {
-                                appbarScrollController.shrinkappbar.value = false;
+                                appbarScrollController.shrinkappbar.value =
+                                    false;
                                 try {
                                   if (Navigator.canPop(context)) {
                                     // Navigator.popUntil(context, (val) {
@@ -150,7 +179,8 @@ class ProductDetailScreen extends StatelessWidget {
                               icon: Icon(
                                 Icons.arrow_back_ios,
                                 size: 15,
-                                color: !scrolled ? Colors.black : AppColors.white,
+                                color:
+                                    !scrolled ? Colors.black : AppColors.white,
                               ),
                             ),
                           ],
@@ -161,15 +191,24 @@ class ProductDetailScreen extends StatelessWidget {
                           titlePadding: const EdgeInsets.all(0),
                           title: !scrolled
                               ? Container(
-                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(0)),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(0)),
                                   padding: const EdgeInsets.all(0),
-                                  child: productPageView(productController, productController.product.value, width, height, context),
+                                  child: productPageView(
+                                      productController,
+                                      productController.product.value,
+                                      width,
+                                      height,
+                                      context),
                                 )
                               : Padding(
                                   padding: const EdgeInsets.only(bottom: 5.0),
                                   child: Text(
-                                    productController.product.value.name!.defaultText!.text!,
-                                    style: TextStyles.body.copyWith(color: Colors.white, fontSize: 20),
+                                    productController
+                                        .product.value.name!.defaultText!.text!,
+                                    style: TextStyles.body.copyWith(
+                                        color: Colors.white, fontSize: 20),
                                   ),
                                 ),
                           background: Padding(
@@ -184,7 +223,8 @@ class ProductDetailScreen extends StatelessWidget {
                 body: Stack(
                   children: [
                     ScrollWrapper(
-                      promptReplacementBuilder: (context, function) => MaterialButton(
+                      promptReplacementBuilder: (context, function) =>
+                          MaterialButton(
                         onPressed: () => function(),
                         child: const Text(''),
                       ),
@@ -208,32 +248,52 @@ class ProductDetailScreen extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.all(8),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              productController.product.value.name!.defaultText!.text ?? '',
-                                              style: TextStyles.headingFont.copyWith(color: AppColors.primeColor, fontSize: 20),
+                                              productController
+                                                      .product
+                                                      .value
+                                                      .name!
+                                                      .defaultText!
+                                                      .text ??
+                                                  '',
+                                              style: TextStyles.headingFont
+                                                  .copyWith(
+                                                      color:
+                                                          AppColors.primeColor,
+                                                      fontSize: 20),
                                             ),
                                             const SizedBox(height: 4),
-                                            productVarientView(productController.product.value.varients ?? [],
-                                                productController.activeIndexVariant.value, productController),
+                                            productVarientView(
+                                                productController.product.value
+                                                        .varients ??
+                                                    [],
+                                                productController
+                                                    .activeIndexVariant.value,
+                                                productController),
                                           ],
                                         ),
                                       ],
                                     ),
                                   ),
-                                  productController.varient.value.msdApplicableProduct!
+                                  productController
+                                          .varient.value.msdApplicableProduct!
                                       ? Divider(
                                           color: AppColors.lightGrey,
                                           height: 8,
                                           thickness: 8,
                                         )
                                       : const SizedBox(),
-                                  productController.varient.value.msdApplicableProduct!
-                                      ? MsdPrice(context, productController.varient.value.price)
+                                  productController
+                                          .varient.value.msdApplicableProduct!
+                                      ? MsdPrice(context,
+                                          productController.varient.value.price)
                                       : const SizedBox(),
                                   Divider(
                                     color: AppColors.lightGrey,
@@ -246,13 +306,16 @@ class ProductDetailScreen extends StatelessWidget {
                                     height: 8,
                                     thickness: 8,
                                   ),
-                                  brandTile(productController.product.value.brand),
+                                  brandTile(
+                                      productController.product.value.brand),
                                   Divider(
                                     color: AppColors.lightGrey,
                                     height: 8,
                                     thickness: 8,
                                   ),
-                                  productController.recommendedProd.length > 0 ? recommendedProd(productController) : const SizedBox(),
+                                  productController.recommendedProd.length > 0
+                                      ? recommendedProd(productController)
+                                      : const SizedBox(),
                                   productController.recommendedProd.length > 0
                                       ? Divider(
                                           color: AppColors.lightGrey,
@@ -280,142 +343,329 @@ class ProductDetailScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primeColor, textStyle: TextStyles.body.copyWith(color: AppColors.white)),
+                              backgroundColor: AppColors.primeColor,
+                              textStyle: TextStyles.body
+                                  .copyWith(color: AppColors.white)),
                           onPressed: () {},
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(8.0, 4, 8, 4),
-                                    child: Text(
-                                      "${productController.varient.value.price!.actualPrice!.toString()}${CodeHelp.euro}",
-                                      style: TextStyles.headingFont,
+                            child: Obx(
+                              () {
+                                var currentMemberPrice;
+                                if (productController
+                                    .varient.value.msdApplicableProduct!) {
+                                  currentMemberPrice = Helper.getMsdAmount(
+                                      price: productController
+                                          .varient.value.price!,
+                                      userType: stateController.userType.value);
+                                }
+                                var minOrder = (productController
+                                                .varient.value.constraint !=
+                                            null &&
+                                        productController.varient.value
+                                                .constraint!.minimumOrder !=
+                                            null &&
+                                        productController.varient.value
+                                                .constraint!.minimumOrder !=
+                                            0)
+                                    ? productController
+                                        .varient.value.constraint!.minimumOrder
+                                    : 1;
+                                ProductSummary summary =
+                                    ProductSummary.fromMap({
+                                  "name": productController.product.value.name!
+                                      .toMap(),
+                                  "description": productController
+                                      .product.value.description!
+                                      .toMap(),
+                                  "images":
+                                      productController.product.value.images,
+                                  "varient":
+                                      productController.varient.value.toMap(),
+                                  "category": productController
+                                      .product.value.category!
+                                      .toMap(),
+                                  "countryCode": productController
+                                      .product.value.countryCode,
+                                  "id": productController.product.value.id
+                                });
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 4, 8, 4),
+                                        child: Text(
+                                          "${productController.varient.value.msdApplicableProduct! ? currentMemberPrice.toString() : productController.varient.value.price!.offerPrice!.toString()}${CodeHelp.euro}",
+                                          style: TextStyles.headingFont,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Obx(
-                                  () {
-                                    ProductSummary summary = ProductSummary.fromMap({
-                                      "name": productController.product.value.name!.toMap(),
-                                      "description": productController.product.value.description!.toMap(),
-                                      "images": productController.product.value.images,
-                                      "varient": productController.varient.value.toMap(),
-                                      "category": productController.product.value.category!.toMap(),
-                                      "countryCode": productController.product.value.countryCode,
-                                      "id": productController.product.value.id
-                                    });
-                                    return cartController.checkProductInCart(
-                                            '${productController.product.value.id!}@${productController.varient.value.varientCode}', addedFrom)
+                                    checkProductAvailability(productController)
                                         ? Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             children: [
                                               IconButton(
-                                                padding: const EdgeInsets.all(0),
-                                                constraints: const BoxConstraints(),
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                constraints:
+                                                    const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController.showLoader.value = true;
-                                                  if (stateController.isLogin.value) {
-                                                    await cartController.addToCart(
-                                                        '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                        addedFrom!,
-                                                        -1,
-                                                        productController.varient.value.price!,
-                                                        summary,
-                                                        null,
-                                                        null,
-                                                        null,
-                                                        productController.varient.value);
-                                                    productController.getofferShipping();
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    if (productController
+                                                        .varient
+                                                        .value
+                                                        .msdApplicableProduct!) {
+                                                      await cartController
+                                                          .addToCartMSD(
+                                                              '$refId@${productController.varient.value.varientCode}',
+                                                              addedFrom!,
+                                                              -minOrder!,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .price,
+                                                              summary,
+                                                              null,
+                                                              null,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .constraint,
+                                                              productController
+                                                                  .varient
+                                                                  .value);
+                                                    } else {
+                                                      await cartController
+                                                          .addToCart(
+                                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                              addedFrom!,
+                                                              -minOrder!,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .price!,
+                                                              summary,
+                                                              null,
+                                                              null,
+                                                              null,
+                                                              productController
+                                                                  .varient
+                                                                  .value);
+                                                    }
+                                                    productController
+                                                        .getofferShipping();
                                                   } else {
-                                                    stateController.showLoader.value = false;
-                                                    stateController.setCurrentTab(3);
+                                                    stateController.showLoader
+                                                        .value = false;
+                                                    stateController
+                                                        .setCurrentTab(3);
 
-                                                    snackBarClass.showToast(context, 'Please login to proceed');
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please login to proceed');
                                                   }
-                                                  stateController.showLoader.value = false;
+                                                  stateController
+                                                      .showLoader.value = false;
                                                   // cController.addToCart(p, refId!, addedFrom!, -1);
                                                 },
-                                                icon: const Icon(Icons.remove_circle_outline, size: 25, color: Colors.white),
+                                                icon: const Icon(
+                                                    Icons.remove_circle_outline,
+                                                    size: 25,
+                                                    color: Colors.white),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 8),
                                                 child: Text(
-                                                  cartController
-                                                      .getCurrentQuantity(
-                                                          '${productController.product.value.id!}@${productController.varient.value.varientCode}', '')
-                                                      .toString(),
-                                                  style: TextStyles.titleFont.copyWith(color: AppColors.white).copyWith(fontWeight: FontWeight.bold),
+                                                  productController
+                                                          .varient
+                                                          .value
+                                                          .msdApplicableProduct!
+                                                      ? cartController
+                                                          .getCurrentQuantity(
+                                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                              'MSD')
+                                                          .toString()
+                                                      : cartController
+                                                          .getCurrentQuantity(
+                                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                              '')
+                                                          .toString(),
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white)
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                 ),
                                               ),
                                               IconButton(
-                                                padding: const EdgeInsets.all(0),
-                                                constraints: const BoxConstraints(),
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                constraints:
+                                                    const BoxConstraints(),
                                                 onPressed: () async {
-                                                  stateController.showLoader.value = true;
-                                                  if (stateController.isLogin.value) {
-                                                    await cartController.addToCart(
-                                                        '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                        addedFrom!,
-                                                        1,
-                                                        productController.varient.value.price!,
-                                                        summary,
-                                                        null,
-                                                        null,
-                                                        null,
-                                                        productController.varient.value);
-                                                    productController.getofferShipping();
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    if (productController
+                                                        .varient
+                                                        .value
+                                                        .msdApplicableProduct!) {
+                                                      await cartController
+                                                          .addToCartMSD(
+                                                              '$refId@${productController.varient.value.varientCode}',
+                                                              addedFrom!,
+                                                              minOrder!,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .price,
+                                                              summary,
+                                                              null,
+                                                              null,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .constraint,
+                                                              productController
+                                                                  .varient
+                                                                  .value);
+                                                    } else {
+                                                      await cartController
+                                                          .addToCart(
+                                                              '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                              addedFrom!,
+                                                              minOrder,
+                                                              productController
+                                                                  .varient
+                                                                  .value
+                                                                  .price!,
+                                                              summary,
+                                                              null,
+                                                              null,
+                                                              null,
+                                                              productController
+                                                                  .varient
+                                                                  .value);
+                                                    }
+                                                    productController
+                                                        .getofferShipping();
                                                   } else {
-                                                    stateController.setCurrentTab(3);
-                                                    snackBarClass.showToast(context, 'Please Login to proceed!!');
+                                                    stateController
+                                                        .setCurrentTab(3);
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to proceed!!');
                                                   }
-                                                  stateController.showLoader.value = false;
+                                                  stateController
+                                                      .showLoader.value = false;
                                                   // cController.addToCart(p, refId!, addedFrom!, 1);
                                                 },
-                                                icon: const Icon(Icons.add_circle_outline, size: 25, color: Colors.white),
+                                                icon: const Icon(
+                                                    Icons.add_circle_outline,
+                                                    size: 25,
+                                                    color: Colors.white),
                                               ),
                                             ],
                                           )
                                         : Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
                                             children: [
                                               TextButton.icon(
                                                 style: TextButton.styleFrom(
-                                                    padding: EdgeInsets.only(left: 3, right: 10),
+                                                    padding: EdgeInsets.only(
+                                                        left: 3, right: 10),
                                                     minimumSize: Size(50, 30),
-                                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                    alignment: Alignment.centerLeft),
+                                                    tapTargetSize:
+                                                        MaterialTapTargetSize
+                                                            .shrinkWrap,
+                                                    alignment:
+                                                        Alignment.centerLeft),
                                                 onPressed: () async {
-                                                  stateController.showLoader.value = true;
-                                                  if (stateController.isLogin.value) {
-                                                    bool isCheckedActivate = await stateController.getUserIsActive();
+                                                  stateController
+                                                      .showLoader.value = true;
+                                                  if (stateController
+                                                      .isLogin.value) {
+                                                    bool isCheckedActivate =
+                                                        await stateController
+                                                            .getUserIsActive();
                                                     if (isCheckedActivate) {
-                                                      await cartController.addToCart(
-                                                          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
-                                                          addedFrom!,
-                                                          1,
-                                                          productController.varient.value.price!,
-                                                          summary,
-                                                          null,
-                                                          null,
-                                                          null,
-                                                          productController.varient.value);
-                                                      productController.getofferShipping();
+                                                      if (productController
+                                                          .varient
+                                                          .value
+                                                          .msdApplicableProduct!) {
+                                                        await cartController
+                                                            .addToCartMSD(
+                                                                '$refId@${productController.varient.value.varientCode}',
+                                                                addedFrom!,
+                                                                minOrder!,
+                                                                productController
+                                                                    .varient
+                                                                    .value
+                                                                    .price,
+                                                                summary,
+                                                                null,
+                                                                null,
+                                                                productController
+                                                                    .varient
+                                                                    .value
+                                                                    .constraint,
+                                                                productController
+                                                                    .varient
+                                                                    .value);
+                                                      } else {
+                                                        await cartController
+                                                            .addToCart(
+                                                                '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+                                                                addedFrom!,
+                                                                minOrder,
+                                                                productController
+                                                                    .varient
+                                                                    .value
+                                                                    .price!,
+                                                                summary,
+                                                                null,
+                                                                null,
+                                                                null,
+                                                                productController
+                                                                    .varient
+                                                                    .value);
+                                                      }
+                                                      productController
+                                                          .getofferShipping();
                                                     } else {
                                                       // Navigator.of(context).pop();
                                                       // ignore: use_build_context_synchronously
-                                                      snackBarClass.showToast(context, 'Your profile is Inactive!!');
+                                                      snackBarClass.showToast(
+                                                          context,
+                                                          'Your profile is Inactive!!');
                                                     }
                                                   } else {
-                                                    stateController.setCurrentTab(3);
+                                                    stateController
+                                                        .setCurrentTab(3);
 
-                                                    snackBarClass.showToast(context, 'Please Login to proceed!!');
+                                                    snackBarClass.showToast(
+                                                        context,
+                                                        'Please Login to proceed!!');
                                                   }
-                                                  stateController.showLoader.value = false;
+                                                  stateController
+                                                      .showLoader.value = false;
                                                 },
                                                 icon: Icon(
                                                   Icons.add_circle_outline,
@@ -423,14 +673,17 @@ class ProductDetailScreen extends StatelessWidget {
                                                 ),
                                                 label: Text(
                                                   "Add",
-                                                  style: TextStyles.titleFont.copyWith(color: AppColors.white),
+                                                  style: TextStyles.titleFont
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.white),
                                                 ),
                                               )
                                             ],
-                                          );
-                                  },
-                                )
-                              ],
+                                          )
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ),
@@ -446,14 +699,18 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget productPageView(ProductController productController, Product product, double width, double height, BuildContext context) {
+  Widget productPageView(ProductController productController, Product product,
+      double width, double height, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0),
-      child: ImageSlider(product.images!, MediaQuery.of(context).size.width * .8, height: MediaQuery.of(context).size.height * .23),
+      child: ImageSlider(
+          product.images!, MediaQuery.of(context).size.width * .8,
+          height: MediaQuery.of(context).size.height * .23),
     );
   }
 
-  Widget productVarientView(List<Varient> varientList, activeVariant, ProductController productController) {
+  Widget productVarientView(List<Varient> varientList, activeVariant,
+      ProductController productController) {
     return SizedBox(
       height: 30,
       child: ListView.builder(
@@ -469,7 +726,10 @@ class ProductDetailScreen extends StatelessWidget {
             child: SizedBox(
               height: 20,
               child: Card(
-                color: currentVarient.varientCode == productController.varient.value.varientCode ? AppColors.primeColor : Colors.white,
+                color: currentVarient.varientCode ==
+                        productController.varient.value.varientCode
+                    ? AppColors.primeColor
+                    : Colors.white,
                 margin: const EdgeInsets.all(3),
                 child: Center(
                   child: Padding(
@@ -479,7 +739,10 @@ class ProductDetailScreen extends StatelessWidget {
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: currentVarient.varientCode != productController.varient.value.varientCode ? AppColors.primeColor : Colors.white),
+                          color: currentVarient.varientCode !=
+                                  productController.varient.value.varientCode
+                              ? AppColors.primeColor
+                              : Colors.white),
                     ),
                   ),
                 ),
@@ -506,7 +769,8 @@ class ProductDetailScreen extends StatelessWidget {
               style: TextStyles.body,
               children: <TextSpan>[
                 TextSpan(
-                  text: 'Product description on SBazar website and app are for informational purposes only ',
+                  text:
+                      'Product description on SBazar website and app are for informational purposes only ',
                   style: TextStyles.body.copyWith(color: AppColors.DarkGrey),
                 ),
                 TextSpan(
@@ -519,7 +783,10 @@ class ProductDetailScreen extends StatelessWidget {
                             isScrollControlled: true,
                             enableDrag: false,
                             builder: (context) {
-                              return SizedBox(height: MediaQuery.of(context).size.height * .25, child: DisclaimerWidgetDrawer(context));
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .25,
+                                  child: DisclaimerWidgetDrawer(context));
                             });
                       }),
               ],
@@ -546,7 +813,10 @@ class ProductDetailScreen extends StatelessWidget {
         children: [
           AppBar(
             elevation: 1,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12))),
             backgroundColor: AppColors.white,
             leadingWidth: 50,
             title: Row(
@@ -617,7 +887,8 @@ class ProductDetailScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: productController.recommendedProd.length,
                   itemBuilder: (_, index) {
-                    ProductSummary product = productController.recommendedProd[index];
+                    ProductSummary product =
+                        productController.recommendedProd[index];
                     return SizedBox(
                       width: 150,
                       child: Stack(
@@ -629,7 +900,7 @@ class ProductDetailScreen extends StatelessWidget {
                               'RECOMMENDED', // currentdealName.toString(),
                               product.varient!.price,
                               RuleConfig(),
-                              Constraint()),
+                              product.varient!.constraint),
                         ],
                       ),
                     );
@@ -661,12 +932,16 @@ class ProductDetailScreen extends StatelessWidget {
           topRight: Radius.circular(25.0),
         ),
       ),
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * .75),
       child: Obx(
         () => Scaffold(
           appBar: AppBar(
             elevation: 1,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12))),
             backgroundColor: AppColors.white,
             leadingWidth: 50,
             title: Row(
@@ -706,12 +981,17 @@ class ProductDetailScreen extends StatelessWidget {
                   horizontalTitleGap: 10,
                   trailing: SizedBox(
                     width: 100,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      Text(locationController.addressData.value.country ?? ' '),
-                      Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15)
-                    ]),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(locationController.addressData.value.country ??
+                              ' '),
+                          Icon(Icons.arrow_forward_ios,
+                              color: AppColors.grey, size: 15)
+                        ]),
                   ),
-                  leading: Icon(Icons.pin_drop_sharp, color: AppColors.black, size: 20),
+                  leading: Icon(Icons.pin_drop_sharp,
+                      color: AppColors.black, size: 20),
                   title: Text(
                     'Ship to',
                     style: TextStyles.headingFont,
@@ -724,16 +1004,18 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
-                  child: (productController.offerShipping.value['amountRequired'] < 0)
-                      ? Text(
-                          'Free shipping ',
-                          style: TextStyles.headingFont,
-                        )
-                      : Text(
-                          'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
-                          //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
-                          style: TextStyles.body,
-                        ),
+                  child:
+                      (productController.offerShipping.value['amountRequired'] <
+                              0)
+                          ? Text(
+                              'Free shipping ',
+                              style: TextStyles.headingFont,
+                            )
+                          : Text(
+                              'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${productController.offerShipping.value['offeredShipping'] == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
+                              //${productController.offerShipping.value['offeredShipping']}${CodeHelp.euro} Shipping cost or buy more of ${CodeHelp.euro}${productController.offerShipping.value['amountRequired']}',
+                              style: TextStyles.body,
+                            ),
                 ),
                 Divider(
                   color: AppColors.lightGrey,
@@ -741,7 +1023,8 @@ class ProductDetailScreen extends StatelessWidget {
                   thickness: 1,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     // textDirection: TextDirection.,
@@ -755,7 +1038,13 @@ class ProductDetailScreen extends StatelessWidget {
                     },
                     children: [
                       //  buildRow(["Newbie", "Silver", "Gold", "Platinum", ""]),
-                      buildRow(["User Level", "Standard Cart Value", "Standard Price(€)", "Offer Cart Value", "Offer Price"], isheader: true),
+                      buildRow([
+                        "User Level",
+                        "Standard Cart Value",
+                        "Standard Price(€)",
+                        "Offer Cart Value",
+                        "Offer Price"
+                      ], isheader: true),
                       buildRow([
                         "Newbie",
                         "Less than 49€",
@@ -763,9 +1052,27 @@ class ProductDetailScreen extends StatelessWidget {
                         "Above 49€",
                         "2.99€",
                       ]),
-                      buildRow(["Silver", "Less than 49€", "4.99€", "Above 49€", "Free"]),
-                      buildRow(["Gold", "Less than 39€", "3.99€", "Above 39€", "Free"]),
-                      buildRow(["Platinum", "Less than 29€", "2.99€", "Above 29€", "Free"]),
+                      buildRow([
+                        "Silver",
+                        "Less than 49€",
+                        "4.99€",
+                        "Above 49€",
+                        "Free"
+                      ]),
+                      buildRow([
+                        "Gold",
+                        "Less than 39€",
+                        "3.99€",
+                        "Above 39€",
+                        "Free"
+                      ]),
+                      buildRow([
+                        "Platinum",
+                        "Less than 29€",
+                        "2.99€",
+                        "Above 29€",
+                        "Free"
+                      ]),
                     ],
                   ),
                 ),
@@ -782,13 +1089,17 @@ class ProductDetailScreen extends StatelessWidget {
                               style: TextStyles.linkFont,
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Modular.to.popAndPushNamed('/widget/compilance', arguments: 'EARN_SCOINS');
+                                  Modular.to.popAndPushNamed(
+                                      '/widget/compilance',
+                                      arguments: 'EARN_SCOINS');
                                 }),
                         ],
                       ),
                     )),
                 SizedBox(
-                  height: addressList.length > 0 ? MediaQuery.of(context).size.height * 0.20 : 0,
+                  height: addressList.length > 0
+                      ? MediaQuery.of(context).size.height * 0.20
+                      : 0,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
@@ -803,7 +1114,8 @@ class ProductDetailScreen extends StatelessWidget {
                         currentAddress,
                         () {
                           locationController.addressData.value = currentAddress;
-                          locationController.pinCode.value = currentAddress.zipCode!;
+                          locationController.pinCode.value =
+                              currentAddress.zipCode!;
                           Navigator.pop(context);
                           return {};
                         },
@@ -824,7 +1136,9 @@ class ProductDetailScreen extends StatelessWidget {
       height: MediaQuery.of(context).size.height * .60,
       child: Column(children: [
         AppBar(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))),
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12), topRight: Radius.circular(12))),
           backgroundColor: AppColors.white,
           elevation: 1,
           title: Row(
@@ -859,7 +1173,8 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {},
-                    leading: Icon(Icons.security, color: AppColors.black, size: 15),
+                    leading:
+                        Icon(Icons.security, color: AppColors.black, size: 15),
                     title: Text(
                       'Secure Payments',
                       style: TextStyles.headingFont,
@@ -868,35 +1183,40 @@ class ProductDetailScreen extends StatelessWidget {
                     minLeadingWidth: 20,
                     horizontalTitleGap: 10,
                     // contentPadding: const EdgeInsets.all(2),
-                    subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(
-                        'Accepted Payment methods',
-                        style: TextStyles.titleFont.copyWith(color: AppColors.grey),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Image.asset(
-                        'assets/payment-methods.png',
-                        width: MediaQuery.of(context).size.width * .8,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'For information about how sbazar uses your personal data view our privacy policy',
-                        style: TextStyles.body.copyWith(color: AppColors.grey),
-                        softWrap: true,
-                        maxLines: 3,
-                      )
-                    ]),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Accepted Payment methods',
+                            style: TextStyles.titleFont
+                                .copyWith(color: AppColors.grey),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Image.asset(
+                            'assets/payment-methods.png',
+                            width: MediaQuery.of(context).size.width * .8,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'For information about how sbazar uses your personal data view our privacy policy',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                            softWrap: true,
+                            maxLines: 3,
+                          )
+                        ]),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   ListTile(
                     onTap: () {},
-                    leading: Icon(Icons.reset_tv_rounded, color: AppColors.black, size: 15),
+                    leading: Icon(Icons.reset_tv_rounded,
+                        color: AppColors.black, size: 15),
                     title: Text(
                       'Easy return',
                       style: TextStyles.headingFont,
@@ -905,21 +1225,25 @@ class ProductDetailScreen extends StatelessWidget {
                     minLeadingWidth: 20,
                     horizontalTitleGap: 10,
                     // contentPadding: const EdgeInsets.all(2),
-                    subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(
-                        'Experience hassle-free satisfaction with our easy return policy, where simplicity meets peace of mind',
-                        style: TextStyles.body.copyWith(color: AppColors.grey),
-                        softWrap: true,
-                        maxLines: 6,
-                      ),
-                    ]),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Experience hassle-free satisfaction with our easy return policy, where simplicity meets peace of mind',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                            softWrap: true,
+                            maxLines: 6,
+                          ),
+                        ]),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   ListTile(
                     onTap: () {},
-                    leading: Icon(Icons.headset_mic, color: AppColors.black, size: 15),
+                    leading: Icon(Icons.headset_mic,
+                        color: AppColors.black, size: 15),
                     title: Text(
                       'Customer Service',
                       style: TextStyles.headingFont,
@@ -928,14 +1252,17 @@ class ProductDetailScreen extends StatelessWidget {
                     minLeadingWidth: 20,
                     horizontalTitleGap: 10,
                     // contentPadding: const EdgeInsets.all(2),
-                    subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(
-                        'Get in touch with our customer service team if you have any queries or concerns',
-                        style: TextStyles.body.copyWith(color: AppColors.grey),
-                        softWrap: true,
-                        maxLines: 6,
-                      ),
-                    ]),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Get in touch with our customer service team if you have any queries or concerns',
+                            style:
+                                TextStyles.body.copyWith(color: AppColors.grey),
+                            softWrap: true,
+                            maxLines: 6,
+                          ),
+                        ]),
                   ),
                 ],
               ),
@@ -965,7 +1292,8 @@ class ProductDetailScreen extends StatelessWidget {
               ),
             );
           else {
-            var currentKey = stateController.membershipList.keys.elementAt(index - 1);
+            var currentKey =
+                stateController.membershipList.keys.elementAt(index - 1);
             var currenMemberInfo = stateController.membershipList[currentKey]!;
             return currenMemberInfo.id != memberShipType.No_Membership.name
                 ? Padding(
@@ -993,40 +1321,6 @@ class ProductDetailScreen extends StatelessWidget {
         },
       ),
     );
-    //     Row(
-    //       children: [
-    //         ImageBox(
-    //           stateController.membershipIcon.value,
-    //           height: 20,
-    //           width: 20,
-    //           fit: BoxFit.contain,
-    //         ),
-    //         Text(
-    //           Helper.getFormattedNumber(Helper.getMsdAmount(
-    //                   price: price!, userType: stateController.userType.value))
-    //               .toString(),
-    //           style: TextStyles.headingFont,
-    //         ),
-    //       ],
-    //     ),
-    //     Row(
-    //       children: [
-    //         ImageBox(
-    //           stateController.membershipIcon.value,
-    //           height: 20,
-    //           width: 20,
-    //           fit: BoxFit.contain,
-    //         ),
-    //         Text(
-    //           Helper.getFormattedNumber(Helper.getMsdAmount(
-    //                   price: price!, userType: stateController.userType.value))
-    //               .toString(),
-    //           style: TextStyles.headingFont,
-    //         ),
-    //       ],
-    //     ),
-    //   ],
-    // );
   }
 
   deliveryTo(productController, context) {
@@ -1044,7 +1338,8 @@ class ProductDetailScreen extends StatelessWidget {
                 context: context,
                 useRootNavigator: true,
                 isDismissible: true,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
                 backgroundColor: Colors.white,
                 isScrollControlled: true,
                 elevation: 3,
@@ -1057,17 +1352,20 @@ class ProductDetailScreen extends StatelessWidget {
             minLeadingWidth: 20,
             horizontalTitleGap: 10,
             contentPadding: const EdgeInsets.all(2),
-            leading: Icon(Icons.delivery_dining, color: AppColors.primeColor, size: 20),
-            trailing: Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
-            title: Obx(() => (productController.offerShipping.value['amountRequired'] <= 0)
-                ? Text(
-                    'Free shipping ',
-                    style: TextStyles.headingFont,
-                  )
-                : Text(
-                    'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
-                    style: TextStyles.headingFont,
-                  )),
+            leading: Icon(Icons.delivery_dining,
+                color: AppColors.primeColor, size: 20),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
+            title: Obx(() =>
+                (productController.offerShipping.value['amountRequired'] <= 0)
+                    ? Text(
+                        'Free shipping ',
+                        style: TextStyles.headingFont,
+                      )
+                    : Text(
+                        'Add ${Helper.getFormattedNumber(productController.offerShipping.value['amountRequired'] as double)}${CodeHelp.euro}, for ${(productController.offerShipping.value['offeredShipping'] as double) == 0 ? 'free' : productController.offerShipping.value['offeredShipping'].toString() + CodeHelp.euro} shipping',
+                        style: TextStyles.headingFont,
+                      )),
             subtitle: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
@@ -1087,7 +1385,8 @@ class ProductDetailScreen extends StatelessWidget {
                 context: context,
                 useRootNavigator: true,
                 isDismissible: true,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13)),
                 backgroundColor: Colors.white,
                 isScrollControlled: true,
                 elevation: 3,
@@ -1100,8 +1399,10 @@ class ProductDetailScreen extends StatelessWidget {
             minLeadingWidth: 20,
             horizontalTitleGap: 10,
             contentPadding: const EdgeInsets.all(2),
-            leading: Icon(Icons.lock_outline, color: AppColors.primeColor, size: 20),
-            trailing: Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
+            leading:
+                Icon(Icons.lock_outline, color: AppColors.primeColor, size: 20),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.grey, size: 15),
             title: Text(
               'Buyer Protection',
               style: TextStyles.headingFont,
@@ -1248,7 +1549,9 @@ class ProductDetailScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: Text(
-                        productController.varient.value.weight.toString() + CodeHelp.formatUnit(productController.varient.value.unit),
+                        productController.varient.value.weight.toString() +
+                            CodeHelp.formatUnit(
+                                productController.varient.value.unit),
                         style: TextStyles.body,
                         textAlign: TextAlign.justify,
                       ),
@@ -1270,9 +1573,13 @@ class ProductDetailScreen extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: PriceTag(
-                          productController.varient.value.price!.offerPrice!.toString(),
-                          productController.varient.value.price!.actualPrice!.toString(),
-                          scoin: Helper.getMemberCoinValue(productController.varient.value.price!, stateController.userType.value),
+                          productController.varient.value.price!.offerPrice!
+                              .toString(),
+                          productController.varient.value.price!.actualPrice!
+                              .toString(),
+                          scoin: Helper.getMemberCoinValue(
+                              productController.varient.value.price!,
+                              stateController.userType.value),
                         ),
                       ),
                     )
@@ -1297,10 +1604,12 @@ class ProductDetailScreen extends StatelessWidget {
                             height: 30,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: productController.product.value.keywords!.length,
+                              itemCount: productController
+                                  .product.value.keywords!.length,
                               shrinkWrap: true,
                               itemBuilder: (_, index) {
-                                var currentTag = productController.product.value.keywords![index];
+                                var currentTag = productController
+                                    .product.value.keywords![index];
                                 return SizedBox(
                                   height: 20,
                                   child: Card(
@@ -1310,9 +1619,13 @@ class ProductDetailScreen extends StatelessWidget {
                                         padding: const EdgeInsets.all(4),
                                         child: GestureDetector(
                                           onTap: () {
-                                            Modular.to.pushNamed('/widget/tag-product', arguments: currentTag);
+                                            Modular.to.pushNamed(
+                                                '/widget/tag-product',
+                                                arguments: currentTag);
                                           },
-                                          child: Text('${currentTag}', style: TextStyles.body.copyWith(color: AppColors.primeColor)),
+                                          child: Text('${currentTag}',
+                                              style: TextStyles.body.copyWith(
+                                                  color: AppColors.primeColor)),
                                         ),
                                       ),
                                     ),
@@ -1341,9 +1654,14 @@ class ProductDetailScreen extends StatelessWidget {
                     TableCell(
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Html(data: getTextData(productController, 'nutrition'), style: {
-                          "body": Style(fontSize: FontSize(FontSizes.body), fontWeight: FontWeight.w300, fontFamily: Fonts.body),
-                        }),
+                        child: Html(
+                            data: getTextData(productController, 'nutrition'),
+                            style: {
+                              "body": Style(
+                                  fontSize: FontSize(FontSizes.body),
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: Fonts.body),
+                            }),
                       ),
                     )
                   ],
@@ -1363,7 +1681,9 @@ class ProductDetailScreen extends StatelessWidget {
                     TableCell(
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: ShowMoreWidget(text: getTextData(productController, 'allergy'), length: 50),
+                        child: ShowMoreWidget(
+                            text: getTextData(productController, 'allergy'),
+                            length: 50),
                       ),
                     )
                   ],
@@ -1386,7 +1706,11 @@ class ProductDetailScreen extends StatelessWidget {
           ),
           Padding(
               padding: const EdgeInsets.only(right: 16),
-              child: ShowMoreWidget(text: productController.product.value.description!.defaultText!.text ?? '', length: 200)),
+              child: ShowMoreWidget(
+                  text: productController
+                          .product.value.description!.defaultText!.text ??
+                      '',
+                  length: 200)),
         ],
       ),
     );
@@ -1421,7 +1745,8 @@ class ProductDetailScreen extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               e,
-                              style: TextStyles.bodyFontBold.copyWith(color: AppColors.primeColor),
+                              style: TextStyles.bodyFontBold
+                                  .copyWith(color: AppColors.primeColor),
                             ),
                           ),
                         ),
@@ -1493,7 +1818,9 @@ class ProductDetailScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Explore more products from ${brand!.name!} brand', style: TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
+          Text('Explore more products from ${brand!.name!} brand',
+              style:
+                  TextStyles.titleFont.copyWith(fontWeight: FontWeight.w600)),
           ListTile(
             onTap: () {
               Modular.to.pushNamed('/widget/brandProduct', arguments: brand.id);
@@ -1503,7 +1830,8 @@ class ProductDetailScreen extends StatelessWidget {
               width: 30,
               height: 30,
             ),
-            trailing: Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
+            trailing:
+                Icon(Icons.arrow_forward_ios, color: AppColors.primeColor),
             title: Text(
               brand.name!,
               style: TextStyles.body,
@@ -1518,7 +1846,8 @@ class ProductDetailScreen extends StatelessWidget {
     if (type == 'nutrition') {
       var nutritionDetail = productController.product.value.nutritionDetail;
       if (nutritionDetail != null) {
-        return nutritionDetail.defaultText != null && nutritionDetail.defaultText!.text != null
+        return nutritionDetail.defaultText != null &&
+                nutritionDetail.defaultText!.text != null
             ? nutritionDetail.defaultText!.text ?? ''
             : nutritionDetail.languageTexts![0].text ?? '';
       } else {
@@ -1528,7 +1857,8 @@ class ProductDetailScreen extends StatelessWidget {
     if (type == 'allergy') {
       var allergyDetail = productController.product.value.allergicDetail;
       if (allergyDetail != null) {
-        return allergyDetail.defaultText != null && allergyDetail.defaultText!.text != null
+        return allergyDetail.defaultText != null &&
+                allergyDetail.defaultText!.text != null
             ? allergyDetail.defaultText!.text ?? ''
             : allergyDetail.languageTexts![0].text ?? '';
       } else {
@@ -1542,7 +1872,9 @@ class ProductDetailScreen extends StatelessWidget {
   TableRow buildRow(List<String> cells, {bool isheader = false}) => TableRow(
       children: cells
           .map((e) => Padding(
-                padding: isheader ? const EdgeInsets.symmetric(vertical: 8, horizontal: 2) : const EdgeInsets.symmetric(vertical: 6, horizontal: 2.5),
+                padding: isheader
+                    ? const EdgeInsets.symmetric(vertical: 8, horizontal: 2)
+                    : const EdgeInsets.symmetric(vertical: 6, horizontal: 2.5),
                 child: Center(
                     child: Text(
                   e,
@@ -1551,4 +1883,15 @@ class ProductDetailScreen extends StatelessWidget {
                 )),
               ))
           .toList());
+
+  checkProductAvailability(productController) {
+    if (productController.varient.value.msdApplicableProduct!) {
+      return cartController.checkProductInCart(
+          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+          'MSD');
+    } else
+      return cartController.checkProductInCart(
+          '${productController.product.value.id!}@${productController.varient.value.varientCode}',
+          addedFrom);
+  }
 }

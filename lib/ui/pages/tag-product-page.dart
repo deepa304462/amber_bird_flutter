@@ -69,8 +69,13 @@ class TagProductPage extends StatelessWidget {
             itemBuilder: (_, index) {
               var currentProduct = tagController.productList[index];
               if (currentProduct.varient != null) {
-                return ProductCard(currentProduct, currentProduct.id, 'TAG',
-                    currentProduct.varient!.price!, null, null);
+                return ProductCard(
+                    currentProduct,
+                    currentProduct.id,
+                    'TAG',
+                    currentProduct.varient!.price!,
+                    null,
+                    currentProduct.varient!.constraint);
               } else {
                 return const SizedBox();
               }

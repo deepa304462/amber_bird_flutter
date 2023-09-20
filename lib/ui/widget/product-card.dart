@@ -70,13 +70,6 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _gridItemHeader(ProductSummary product, BuildContext context) {
-    // String timeLeft = '';
-    // var difference;
-    // if (addedFrom == dealName.FLASH.name) {
-    //   String expire = ruleConfig!.willExpireAt ?? '';
-    //   var newDate = DateTime.now().toUtc();
-    //   difference = DateTime.parse(expire).difference(newDate);
-    // }
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -245,7 +238,9 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     activeVariant.value = product!.varient!;
-    var minOrder = (constraint != null && constraint!.minimumOrder != null)
+    var minOrder = (constraint != null &&
+            constraint!.minimumOrder != null &&
+            constraint!.minimumOrder != 0)
         ? constraint!.minimumOrder
         : 1;
 
@@ -335,7 +330,7 @@ class ProductCard extends StatelessWidget {
                                           await cartController.addToCart(
                                               '$refId@${activeVariant.value.varientCode}',
                                               addedFrom!,
-                                              1,
+                                              minOrder,
                                               price,
                                               product,
                                               null,
@@ -350,7 +345,7 @@ class ProductCard extends StatelessWidget {
                                           await cartController.addToCart(
                                               '${product!.id}@${product!.varient!.varientCode}',
                                               'CATEGORY',
-                                              1,
+                                              minOrder,
                                               product!.varient!.price,
                                               product,
                                               null,
@@ -380,7 +375,7 @@ class ProductCard extends StatelessWidget {
                                           await cartController.addToCart(
                                               '$refId@${activeVariant.value.varientCode}',
                                               addedFrom!,
-                                              1,
+                                              minOrder,
                                               price,
                                               product,
                                               null,
@@ -393,7 +388,7 @@ class ProductCard extends StatelessWidget {
                                           await cartController.addToCart(
                                               '${product!.id}@${product!.varient!.varientCode}',
                                               'CATEGORY',
-                                              1,
+                                              minOrder,
                                               product!.varient!.price,
                                               product,
                                               null,
@@ -440,7 +435,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCartScoins(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        -1,
+                                        -minOrder!,
                                         price,
                                         product,
                                         null,
@@ -451,7 +446,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCartMSD(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        -1,
+                                        -minOrder!,
                                         price,
                                         product,
                                         null,
@@ -462,7 +457,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        -1,
+                                        -minOrder!,
                                         price,
                                         product,
                                         null,
@@ -476,7 +471,7 @@ class ProductCard extends StatelessWidget {
                                   await cartController.addToCart(
                                       '${product!.id}@${product!.varient!.varientCode}',
                                       'CATEGORY',
-                                      1,
+                                      -minOrder!,
                                       product!.varient!.price,
                                       product,
                                       null,
@@ -487,7 +482,7 @@ class ProductCard extends StatelessWidget {
                                   await cartController.addToCart(
                                       '$refId@${activeVariant.value.varientCode}',
                                       addedFrom!,
-                                      -1,
+                                      -minOrder!,
                                       price,
                                       product,
                                       null,
@@ -525,7 +520,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCartScoins(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        1,
+                                        minOrder,
                                         price,
                                         product,
                                         null,
@@ -536,7 +531,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCartMSD(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        1,
+                                        minOrder,
                                         price,
                                         product,
                                         null,
@@ -547,7 +542,7 @@ class ProductCard extends StatelessWidget {
                                     await cartController.addToCart(
                                         '$refId@${activeVariant.value.varientCode}',
                                         addedFrom!,
-                                        1,
+                                        minOrder,
                                         price,
                                         product,
                                         null,
