@@ -252,7 +252,7 @@ class LocationController extends GetxController {
           if (addAddressApiCallCount.value < 2) {
             await controller
                 .getCustomerDetail(controller.loggedInProfile.value.id);
-            addAddressCall();
+            return addAddressCall();
           } else {
             return {"msg": "Oops, Something went Wrong!!", "status": "error"};
           }

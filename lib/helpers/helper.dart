@@ -47,7 +47,7 @@ class Helper {
     } else if (userType == memberShipType.Silver.name) {
       return price.membersSpecialPrice!.forSilverMember!;
     } else {
-      return price.membersSpecialPrice!.forGoldMember!;
+      return price.offerPrice!;
     }
   }
 
