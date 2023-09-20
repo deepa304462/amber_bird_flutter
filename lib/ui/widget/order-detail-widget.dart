@@ -18,233 +18,175 @@ class OrderDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        Obx(() => orderController.orderDetail.value.products != null
-          ? ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0),
-                  child: Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Icon(Icons.file_copy_outlined,size: 60,),
-                          const SizedBox(width: 20,),
-                          Container(
-                            width: 230,
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Cancel: no action\nrequired",style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16
-                                ),),
-                                SizedBox(
-                                  width: 250,
-                                  child: Text("Ready to order? Top the Reorder\nbutton fill your cart with items you \nalready picker out.",
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14
+    return Obx(() => orderController.orderDetail.value.products != null
+        ? ListView(
+            children: [
+              orderController.orderDetail.value.status == "CANCELLED"
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 10.0, right: 10.0, top: 10.0),
+                      child: Card(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.cancel,
+                                size: 60,
+                                color: AppColors.primeColor,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Container(
+                                width: 230,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Cancel: no action\nrequired",
+                                        style: TextStyles.headingFont3),
+                                    SizedBox(
+                                      width: 250,
+                                      child: Text(
+                                        "Ready to order? Top the Reorder\nbutton fill your cart with items you \nalready picker out.",
+                                        style: TextStyles.titleFont,
+                                        maxLines: 4,
+                                        overflow: TextOverflow.fade,
+                                        textAlign: TextAlign.justify,
+                                      ),
                                     ),
-                                    maxLines: 4,
-                                    overflow: TextOverflow.fade,
-                                    textAlign: TextAlign.justify,
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              _shippingDetails(context, orderController),
+              Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Text("Item Info", style: TextStyles.headingFont),
+              ),
+              _orderProductSummary(context),
+              _paymentDetails(context),
+              orderController.orderDetail.value.status == "CANCELLED" ||
+                      orderController.orderDetail.value.status == "DELIVERED"
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            onPressed: () {},
+                            child: Text("Reorder"),
+                          )
                         ],
                       ),
-                    ),
-                  ),
-                ),
-
-                _shippingDetails(context, orderController),
-                    const Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: Text("Item Info" ,
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14
-                        ),),
-                    ),
-
-             _orderProductSummary(context),
-                _paymentDetails(context),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      MaterialButton(
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)
-                        ),
-                        onPressed: (){
-
-                        },child: Text("Reorder"),)
-                    ],
-                  ),
-                )
-              ],
-            )
-          :SizedBox()
-
-        );
+                    )
+                  : SizedBox()
+            ],
+          )
+        : SizedBox());
   }
 
   _orderProductSummary(BuildContext context) {
-    return
-
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-        children: orderController.orderDetail.value.products!
-            .map((e) {
-              return Card(
-                child: Column(
-                  children: [
-                    _orderProductTile(e, context),
-
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: orderController.orderDetail.value.products!.map((e) {
+          return Card(
+            child: Column(
+              children: [
+                _orderProductTile(e, context),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      const Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Divider(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Coupon",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                orderController.orderDetail.value.payment!.appliedCouponCode==null?"-": '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Taxes",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                '${orderController.orderDetail.value.payment!.appliedTaxAmount.toString()}${CodeHelp.euro}',
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Shipping",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                "DHL",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "s! Points Applied",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                              Text(
-                                "-\$0.50",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16),
-                              ),
-                            ],
-                          ),
+                          Text("Coupon", style: TextStyles.headingFont),
+                          Text(
+                              orderController.orderDetail.value.payment!
+                                          .appliedCouponCode ==
+                                      null
+                                  ? "-"
+                                  : '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
+                              style: TextStyles.headingFont),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Taxes", style: TextStyles.headingFont),
+                          Text(
+                              '${orderController.orderDetail.value.payment!.appliedTaxAmount.toString()}${CodeHelp.euro}',
+                              style: TextStyles.headingFont),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Shipping", style: TextStyles.headingFont),
+                          Text("DHL", style: TextStyles.headingFont),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Total", style: TextStyles.headingFont),
+                          Text(
+                              '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
+                              style: TextStyles.headingFont),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("s Points Applied",
+                              style: TextStyles.headingFont),
+                          Text(
+                              '${orderController.orderDetail.value.payment!.totalSPointsEarned.toString()}${CodeHelp.euro}',
+                              style: TextStyles.headingFont),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            })
-            .toList(),
-    ),
-      );
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 
   Widget _orderProductTile(ProductOrder e, BuildContext context) {
-
     return e.products!.length == 0
         ? ListTile(
             dense: false,
@@ -260,7 +202,7 @@ class OrderDetailWidget extends StatelessWidget {
                   width: 150,
                   child: Text(
                     e.product!.name!.defaultText!.text!,
-                    style: TextStyles.bodyFont,
+                    style: TextStyles.titleFont,
                     textAlign: TextAlign.start,
                     maxLines: 2,
                   ),
@@ -268,14 +210,16 @@ class OrderDetailWidget extends StatelessWidget {
                 SizedBox(
                   width: 150,
                   child: Text(
-                    '${e.product!.varient!.weight!} ${CodeHelp.formatUnit(e.product!.varient!.unit!)}', textAlign: TextAlign.start,),
+                    '${e.product!.varient!.weight!} ${CodeHelp.formatUnit(e.product!.varient!.unit!)}',
+                    textAlign: TextAlign.start,
+                    style: TextStyles.titleFont,
+                  ),
                 ),
-
                 SizedBox(
                   width: 150,
                   child: Text(
                     '${e.product!.varient!.price!.offerPrice}${CodeHelp.euro} x ${e.count} Unit',
-                    style: TextStyles.bodyFont,
+                    style: TextStyles.titleFont,
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -295,7 +239,6 @@ class OrderDetailWidget extends StatelessWidget {
                 )
               ],
             ),
-
           )
         : ListTile(
             dense: false,
@@ -333,28 +276,176 @@ class OrderDetailWidget extends StatelessWidget {
                   .toList(),
             ),
           );
-
   }
 
   Widget _shippingDetails(
       BuildContext context, OrderController orderController) {
+    // return orderController.shippingDhl.value.shipments != null &&
+    //         orderController.shippingDhl.value.shipments!.length > 0
+    //     ? Column(
+    //         children: [
+    //           const Padding(
+    //             padding: EdgeInsets.all(12.0),
+    //             child: Text(
+    //               "Shipping Info",
+    //               style: TextStyle(
+    //                   color: Colors.black87,
+    //                   fontWeight: FontWeight.w700,
+    //                   fontSize: 14),
+    //             ),
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Card(
+    //               color: Colors.white,
+    //               child: Padding(
+    //                 padding: const EdgeInsets.all(8.0),
+    //                 child: Expanded(
+    //                   // height: ,
+    //                   child: ListView.builder(
+    //                       physics: const BouncingScrollPhysics(),
+    //                       scrollDirection: Axis.vertical,
+    //                       shrinkWrap: true,
+    //                       itemCount: orderController
+    //                           .shippingDhl.value.shipments!.length,
+    //                       itemBuilder: (_, index) {
+    //                         var currentData =
+    //                             orderController.shippingDhl.value.shipments![0];
+    //                         var delTime = DateTime.parse(
+    //                             currentData.estimatedTimeOfDelivery!);
+    //                         return Column(
+    //                             mainAxisAlignment: MainAxisAlignment.start,
+    //                             crossAxisAlignment: CrossAxisAlignment.start,
+    //                             children: [
+    //                               Text(
+    //                                 "Shipment method",
+    //                                 style: TextStyle(
+    //                                     color: Colors.grey,
+    //                                     fontWeight: FontWeight.w500,
+    //                                     fontSize: 14),
+    //                               ),
+    //                               Row(
+    //                                 mainAxisAlignment:
+    //                                     MainAxisAlignment.spaceBetween,
+    //                                 children: [
+    //                                   Text(
+    //                                     currentData.status!.description!,
+    //                                     style: TextStyles.headingFont
+    //                                         .copyWith(color: Colors.blue),
+    //                                   ),
+    //                                   Text(
+    //                                     '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',
+    //                                     style: TextStyles.bodyFontBold,
+    //                                   ),
+    //                                 ],
+    //                               ),
+    //                               const SizedBox(
+    //                                 height: 10,
+    //                               ),
+    //                               // Text('Destination', style: TextStyles.bodyFontBold),
+    //                               Row(
+    //                                 mainAxisAlignment:
+    //                                     MainAxisAlignment.spaceBetween,
+    //                                 children: [
+    //                                   // const Text('Address'),
+    //                                   Text(
+    //                                       '${currentData.destination!.address!.countryCode!}${currentData.destination!.address!.addressLocality!}')
+    //                                 ],
+    //                               ),
+    //                               // Text('Origin', style: TextStyles.bodyFontBold),
+    //                               Row(
+    //                                 mainAxisAlignment:
+    //                                     MainAxisAlignment.spaceBetween,
+    //                                 children: [
+    //                                   // const Text('Address'),
+    //                                   Text(
+    //                                       '${currentData.origin!.address!.countryCode!}${currentData.origin!.address!.addressLocality!}')
+    //                                 ],
+    //                               ),
+    //                               const SizedBox(
+    //                                 height: 10,
+    //                               ),
+    //                               // const Text('Origin'),
+    //                               SizedBox(
+    //                                 height: 200,
+    //                                 child: SingleChildScrollView(
+    //                                   child: ListView.builder(
+    //                                     physics: const BouncingScrollPhysics(),
+    //                                     scrollDirection: Axis.vertical,
+    //                                     shrinkWrap: true,
+    //                                     itemCount: currentData.events!.length,
+    //                                     itemBuilder: (_, index) {
+    //                                       var currentEvent =
+    //                                           currentData.events![index];
+    //                                       DateTime time = DateTime.parse(
+    //                                           currentEvent.timestamp!);
+    //                                       return Column(
+    //                                         crossAxisAlignment:
+    //                                             CrossAxisAlignment.start,
+    //                                         mainAxisAlignment:
+    //                                             MainAxisAlignment.spaceBetween,
+    //                                         children: [
+    //                                           Text(
+    //                                             "Shipment method",
+    //                                             style: TextStyle(
+    //                                                 color: Colors.grey,
+    //                                                 fontWeight: FontWeight.w500,
+    //                                                 fontSize: 14),
+    //                                           ),
+    //                                           Row(
+    //                                             mainAxisAlignment:
+    //                                                 MainAxisAlignment
+    //                                                     .spaceBetween,
+    //                                             children: [
+    //                                               Text(
+    //                                                 currentEvent.description!,
+    //                                               ),
+    //                                               // Text('${currentEvent.timestamp}'),
+    //                                               Text(
+    //                                                 '${TimeUtil.getFormatDateTime(time, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(time, 'hh:mm a')}',
+    //                                                 style:
+    //                                                     TextStyles.bodyFontBold,
+    //                                               ),
+    //                                             ],
+    //                                           ),
+    //                                           Text(
+    //                                             currentEvent.location!.address!
+    //                                                 .addressLocality!,
+    //                                             style: TextStyles.body,
+    //                                           )
+    //                                         ],
+    //                                       );
+    //                                     },
+    //                                   ),
+    //                                 ),
+    //                               )
+    //                             ]);
+    //                       }),
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       )
+    //     : const SizedBox();
     return orderController.shippingDhl.value.shipments != null &&
             orderController.shippingDhl.value.shipments!.length > 0
         ? Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Text("Shipping Info" ,
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14
-                ),),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                        color: Colors.white,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Text(
+                  "Shipping Info",
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Expanded(
@@ -363,24 +454,27 @@ class OrderDetailWidget extends StatelessWidget {
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount:
-                              orderController.shippingDhl.value.shipments!.length,
+                          itemCount: orderController
+                              .shippingDhl.value.shipments!.length,
                           itemBuilder: (_, index) {
                             var currentData =
                                 orderController.shippingDhl.value.shipments![0];
-                            var delTime =
-                                DateTime.parse(currentData.estimatedTimeOfDelivery!);
+                            var delTime = DateTime.parse(
+                                currentData.estimatedTimeOfDelivery!);
                             return Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                                Text("Shipment method",  style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14
-                                                ),),
+                                  Text(
+                                    "Shipment method",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         currentData.status!.description!,
@@ -398,7 +492,8 @@ class OrderDetailWidget extends StatelessWidget {
                                   ),
                                   // Text('Destination', style: TextStyles.bodyFontBold),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       // const Text('Address'),
                                       Text(
@@ -407,7 +502,8 @@ class OrderDetailWidget extends StatelessWidget {
                                   ),
                                   // Text('Origin', style: TextStyles.bodyFontBold),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       // const Text('Address'),
                                       Text(
@@ -429,28 +525,34 @@ class OrderDetailWidget extends StatelessWidget {
                                         itemBuilder: (_, index) {
                                           var currentEvent =
                                               currentData.events![index];
-                                          DateTime time =
-                                              DateTime.parse(currentEvent.timestamp!);
+                                          DateTime time = DateTime.parse(
+                                              currentEvent.timestamp!);
                                           return Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                                            Text("Shipment method",  style: TextStyle(
-                                                                color: Colors.grey,
-                                                                fontWeight: FontWeight.w500,
-                                                                fontSize: 14
-                                                            ),),
+                                              Text(
+                                                "Shipment method",
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
                                               Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(currentEvent.description!,),
+                                                  Text(
+                                                    currentEvent.description!,
+                                                  ),
                                                   // Text('${currentEvent.timestamp}'),
                                                   Text(
                                                     '${TimeUtil.getFormatDateTime(time, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(time, 'hh:mm a')}',
-                                                    style: TextStyles.bodyFontBold,
+                                                    style:
+                                                        TextStyles.bodyFontBold,
                                                   ),
                                                 ],
                                               ),
@@ -470,25 +572,87 @@ class OrderDetailWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-            ),
-          ],
-        )
-        : const SizedBox();
-
+              ),
+            ],
+          )
+        : orderController.orderDetail.value.shipping!.destination != null
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Shipment method",
+                        style: TextStyles.titleFont,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            orderController
+                                        .orderDetail
+                                        .value
+                                        .shipping!
+                                        .destination!
+                                        .customerAddress!
+                                        .houseNo ==
+                                    null
+                                ? " "
+                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.houseNo}${" , "}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                          Text(
+                            orderController
+                                        .orderDetail
+                                        .value
+                                        .shipping!
+                                        .destination!
+                                        .customerAddress!
+                                        .landMark ==
+                                    null
+                                ? " "
+                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.landMark}${" , "}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                          Text(
+                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.city==null?"":   '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}${" , "}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                          Text(
+                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.country==null?"":  '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.country}${" , "}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                          Text(
+                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode==null?"":'${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode}',
+                            style: TextStyles.bodyFontBold,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+              )
+            : const SizedBox();
   }
 
   _paymentDetails(BuildContext context) {
-    return  Column(
+    DateTime orderTime =
+        DateTime.parse(orderController.orderDetail.value.metaData!.createdAt!);
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-         Padding(
+        Padding(
           padding: EdgeInsets.all(12.0),
-          child: Text("Order Details" ,
-           style: TextStyles.bodyFontBold,),
+          child: Text("Order Details", style: TextStyles.headingFont),
         ),
-         Padding(
-          padding: EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0),
+        Padding(
+          padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
           child: Card(
             color: Colors.white,
             child: Padding(
@@ -498,77 +662,68 @@ class OrderDetailWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order Number",
-                        style: TextStyles.bodyFont,),
-                      Text(orderController.orderDetail.value.userFriendlyOrderId.toString(),
-
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
+                      Text(
+                        "Order Number",
+                        style: TextStyles.titleFont,
+                      ),
+                      Text(
+                        orderController.orderDetail.value.userFriendlyOrderId
+                            .toString(),
+                        style: TextStyles.titleFont,
+                      ),
                     ],
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order Total",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
-                      Text('${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
+                      Text(
+                        "Order Total",
+                        style: TextStyles.titleFont,
+                      ),
+                      Text(
+                        '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
+                        style: TextStyles.titleFont,
+                      ),
                     ],
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order Date",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
-                      Text("Wed 05/11/2022",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
+                      Text(
+                        "Order Date",
+                        style: TextStyles.titleFont,
+                      ),
+                      Text(
+                        TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy'),
+                        style: TextStyles.titleFont,
+                      ),
                     ],
                   ),
-
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Shipment Method",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
-                      Text("DHL",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16
-                        ),),
+                      Text(
+                        "Shipment Method",
+                        style: TextStyles.titleFont,
+                      ),
+                      Text(
+                        "DHL",
+                        style: TextStyles.titleFont,
+                      ),
                     ],
                   ),
-                  SizedBox(height: 5,),
-
-
-
-
+                  SizedBox(
+                    height: 5,
+                  ),
                 ],
               ),
             ),
@@ -576,60 +731,60 @@ class OrderDetailWidget extends StatelessWidget {
         ),
       ],
     );
-   // return   Padding(
-   //   padding: const EdgeInsets.all(8.0),
-   //   child: Card(
-   //  color: Colors.white,
-   //      child: Padding(
-   //        padding: const EdgeInsets.all(8.0),
-   //        child: Column(
-   //          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-   //          children: [
-   //            Row(
-   //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-   //              children: [
-   //                Text(
-   //                  'Total tax paid',
-   //                  style: TextStyles.bodyFont,
-   //                ),
-   //                Text(
-   //
-   //                '${orderController.orderDetail.value.payment!.appliedTaxAmount!.toString()}${CodeHelp.euro}',
-   //
-   //                style: TextStyles.bodyFontBold,
-   //                )
-   //              ],
-   //            ),
-   //            Row(
-   //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-   //              children: [
-   //                Text(
-   //                  'Discount amount',
-   //                  style: TextStyles.bodyFont,
-   //                ),
-   //                Text(
-   //                  '${orderController.orderDetail.value.payment!.discountAmount!.toString()}${CodeHelp.euro}',
-   //                  style: TextStyles.bodyFontBold,
-   //                )
-   //              ],
-   //            ),
-   //            Row(
-   //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-   //              children: [
-   //                Text(
-   //                  'Total amount paid',
-   //                  style: TextStyles.bodyFont,
-   //                ),
-   //                Text(
-   //                  '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
-   //                  style: TextStyles.bodyFontBold,
-   //                )
-   //              ],
-   //            )
-   //          ],
-   //        ),
-   //      ),
-   //
-   // ));
+    // return   Padding(
+    //   padding: const EdgeInsets.all(8.0),
+    //   child: Card(
+    //  color: Colors.white,
+    //      child: Padding(
+    //        padding: const EdgeInsets.all(8.0),
+    //        child: Column(
+    //          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //          children: [
+    //            Row(
+    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //              children: [
+    //                Text(
+    //                  'Total tax paid',
+    //                  style: TextStyles.bodyFont,
+    //                ),
+    //                Text(
+    //
+    //                '${orderController.orderDetail.value.payment!.appliedTaxAmount!.toString()}${CodeHelp.euro}',
+    //
+    //                style: TextStyles.bodyFontBold,
+    //                )
+    //              ],
+    //            ),
+    //            Row(
+    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //              children: [
+    //                Text(
+    //                  'Discount amount',
+    //                  style: TextStyles.bodyFont,
+    //                ),
+    //                Text(
+    //                  '${orderController.orderDetail.value.payment!.discountAmount!.toString()}${CodeHelp.euro}',
+    //                  style: TextStyles.bodyFontBold,
+    //                )
+    //              ],
+    //            ),
+    //            Row(
+    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //              children: [
+    //                Text(
+    //                  'Total amount paid',
+    //                  style: TextStyles.bodyFont,
+    //                ),
+    //                Text(
+    //                  '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
+    //                  style: TextStyles.bodyFontBold,
+    //                )
+    //              ],
+    //            )
+    //          ],
+    //        ),
+    //      ),
+    //
+    // ));
   }
 }

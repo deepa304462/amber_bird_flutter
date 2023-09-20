@@ -69,6 +69,11 @@ class TextStyles {
       fontSize: FontSizes.title,
       fontWeight: FontWeight.bold,
       color: AppColors.DarkGrey);
+  static TextStyle get headingFont3 => TextStyle(
+      fontFamily: Fonts.body,
+      fontSize: FontSizes.title,
+      fontWeight: FontWeight.bold,
+      color:  AppColors.primeColor, );
   static TextStyle get headingFont2 => TextStyle(
       fontFamily: Fonts.body,
       fontSize: FontSizes.title2,
