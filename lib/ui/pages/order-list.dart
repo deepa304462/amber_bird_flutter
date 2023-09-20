@@ -98,125 +98,6 @@ class OrderListPage extends StatelessWidget {
     );
   }
 
-  OrderTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: [
-            ListTile(
-              leading: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy'),
-                    style: TextStyles.bodyFontBold,
-                  ),
-                  Text(
-                    TimeUtil.getFormatDateTime(orderTime, 'hh:mm a'),
-                    style: TextStyles.titleFont,
-                  ),
-                ],
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text('Order #', style: TextStyles.headingFont),
-                      Text(
-                        '${curOrder.userFriendlyOrderId}',
-                        style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
-                      ),
-                    ],
-                  ),
-                  Text('${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered', style: TextStyles.titleFont),
-                ],
-              ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Order Status', style: TextStyles.titleFont),
-                  Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.bodyFontBold),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text('${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}', style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
-                      Text(
-                        'Paid ',
-                        style: TextStyles.titleFont.copyWith(color: Colors.grey),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Order will be deliver soon.',
-                        style: TextStyles.bodyFont.copyWith(color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      OutlinedButton(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(12),
-                        //     side: BorderSide(color: AppColors.primeColor)),
-                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          Modular.to.pushNamed('/widget/order-detail', arguments: {'id': curOrder.id});
-                        },
-
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: AppColors.primeColor),
-                            ),
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(BorderSide(color: AppColors.primeColor)),
-                        ),
-                        child: Text(
-                          'View',
-                          style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            orderButtons(curOrder, context),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
-                      style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget orderButtons(Order curOrder, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -632,17 +513,19 @@ class OrderListPage extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: MaterialButton(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  color: Colors.lightBlue,
-                  textColor: Colors.white,
-                  shape: StadiumBorder(),
-                  onPressed: () {},
-                  child: Text("Reorder"),
-                ),
-              ),
+              child: (curOrder.status == "SHIPPED" || curOrder.status == "CANCELLED" || curOrder.status == "EXPIRED" || curOrder.status == "DELIVERED")
+                  ? Align(
+                      alignment: Alignment.topRight,
+                      child: MaterialButton(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        color: Colors.lightBlue,
+                        textColor: Colors.white,
+                        shape: StadiumBorder(),
+                        onPressed: () {},
+                        child: Text("Reorder"),
+                      ),
+                    )
+                  : orderButtons(curOrder, context),
             )
             //    orderButtons(curOrder, context),
             // Padding(
