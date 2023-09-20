@@ -284,7 +284,8 @@ class CartWidget extends StatelessWidget {
               var currentProduct =
                   cartController.msdProducts.value[currentKey]!;
               var minOrder = (currentProduct.constraint != null &&
-                      currentProduct.constraint.minimumOrder != null)
+                      currentProduct.constraint.minimumOrder != null &&
+                      currentProduct.constraint!.minimumOrder != 0)
                   ? currentProduct.constraint!.minimumOrder
                   : 1;
               var currentMemberPrice = Helper.getMsdAmount(
