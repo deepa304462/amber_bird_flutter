@@ -363,12 +363,6 @@ class MultiProductRow extends StatelessWidget {
                     '(${multiProd.products!.length} Products) ',
                     style: TextStyles.body.copyWith(color: AppColors.grey),
                   ),
-                  // Text(
-                  //   '${multiProd.name!.defaultText!.text}',
-                  //   style: TextStyles.titleFont
-                  //       .copyWith(color: AppColors.primeColor),
-                  //   textAlign: TextAlign.left,
-                  // ),
                 ],
               ),
               Row(children: [

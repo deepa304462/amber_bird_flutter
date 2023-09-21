@@ -238,7 +238,7 @@ class CartController extends GetxController {
         return ({
           'error': true,
           'data': '',
-          'msg': 'All products not available!!'
+          'msg': 'Oops!!.. Some products sold out!!'
         });
       }
     } else {
@@ -338,7 +338,7 @@ class CartController extends GetxController {
           return ({
             'error': true,
             'data': '',
-            'msg': 'All products not available!!'
+            'msg': 'Oops!!.. Some products sold out!!'
           });
         }
       } else {

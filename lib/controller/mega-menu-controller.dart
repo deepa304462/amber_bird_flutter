@@ -9,7 +9,6 @@ import 'package:amber_bird/helpers/controller-generator.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
 import 'package:get/get.dart';
-
 import '../data/product_availability_resp.dart';
 
 class MegaMenuController extends GetxController {
