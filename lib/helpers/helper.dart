@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:amber_bird/controller/cart-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
@@ -306,4 +306,19 @@ class Helper {
     }
     return ({'error': false, 'msg': '', 'type': ''});
   }
+  static  Color getColor(String? status) {
+    switch (status) {
+      case "PAID":
+        return Colors.green;
+
+      case "EXPIRED":
+        return Colors.red;
+
+      case "PAID":
+        return Colors.green;
+      default:
+        return Colors.green;
+    }
+  }
+
 }
