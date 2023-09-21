@@ -1,7 +1,9 @@
 import 'package:amber_bird/data/order/order.dart';
+import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
+import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
@@ -71,7 +73,7 @@ class OrderListPage extends StatelessWidget {
                           itemCount: orderList.length,
                           itemBuilder: (_, index) {
                             var curOrder = orderList[index];
-                            return OrderTile(context, curOrder);
+                            return OrdeTile(context, curOrder);
                           },
                         ),
                       )
@@ -90,126 +92,6 @@ class OrderListPage extends StatelessWidget {
                           ),
                         ),
                       ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  OrderTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: [
-            ListTile(
-              leading: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy'),
-                    style: TextStyles.bodyFontBold,
-                  ),
-                  Text(
-                    TimeUtil.getFormatDateTime(orderTime, 'hh:mm a'),
-                    style: TextStyles.titleFont,
-                  ),
-                ],
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text('Order #', style: TextStyles.headingFont),
-                      Text(
-                        '${curOrder.userFriendlyOrderId}',
-                        style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
-                      ),
-                    ],
-                  ),
-                  Text('${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered', style: TextStyles.titleFont),
-                ],
-              ),
-              trailing: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Order Status', style: TextStyles.titleFont),
-                  Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.bodyFontBold),
-                ],
-              ),
-            ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text('${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
-                          style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
-                      Text(
-                        'Paid ',
-                        style: TextStyles.titleFont.copyWith(color: Colors.grey),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Order will be deliver soon.',
-                        style: TextStyles.bodyFont.copyWith(color: Colors.grey),
-                      ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      OutlinedButton(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(12),
-                        //     side: BorderSide(color: AppColors.primeColor)),
-                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: () {
-                          Modular.to.pushNamed('/widget/order-detail', arguments: {'id': curOrder.id});
-                        },
-
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                              side: BorderSide(color: AppColors.primeColor),
-                            ),
-                          ),
-                          side: MaterialStateProperty.all<BorderSide>(BorderSide(color: AppColors.primeColor)),
-                        ),
-                        child: Text(
-                          'View',
-                          style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-            orderButtons(curOrder, context),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
-                      style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-                    ),
-                  )
-                ],
-              ),
-            ),
           ],
         ),
       ),
@@ -302,7 +184,7 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                _showCancelOrderConfirmationDialog(context, curOrder.id);
+                                                _showCancelOrderConfirmationDialog(context, curOrder.userFriendlyOrderId!);
                                               }
                                             },
                                           ),
@@ -393,7 +275,7 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                ReturnOrderConfirmationDialog(context, curOrder.id);
+                                                ReturnOrderConfirmationDialog(context, curOrder.userFriendlyOrderId);
                                               }
                                             },
                                           ),
@@ -569,5 +451,129 @@ class OrderListPage extends StatelessWidget {
     } else {
       return false;
     }
+  }
+
+  OrdeTile(BuildContext context, Order curOrder) {
+    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text(
+                  "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
+                  style: TextStyles.bodyFontBold,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                  decoration: ShapeDecoration(shape: StadiumBorder(), color: Helper.getColor(curOrder.status).withOpacity(0.2)),
+                  child: Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.headingFont.copyWith(color: Helper.getColor(curOrder.status))),
+                ),
+              ]),
+            ),
+            const Divider(
+              thickness: 1.5,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              child: Row(
+                //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // Text('Order #', style: TextStyles.headingFont),
+                  Text(
+                    'Order number:  ${curOrder.userFriendlyOrderId}',
+                    style: TextStyles.body.copyWith(
+                      color: AppColors.grey,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    'Total: ',
+                    style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
+                  ),
+
+                  Text('\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}', style: TextStyles.headingFont),
+                ],
+              ),
+            ),
+            if (curOrder.products!.isNotEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _orderProductTile(curOrder.products!, context),
+              )
+            ],
+            const Divider(
+              thickness: 1.5,
+              // color: Colors.black12,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: (curOrder.status == "SHIPPED" || curOrder.status == "CANCELLED" || curOrder.status == "EXPIRED" || curOrder.status == "DELIVERED")
+                  ? Align(
+                      alignment: Alignment.topRight,
+                      child: MaterialButton(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        color: Colors.lightBlue,
+                        textColor: Colors.white,
+                        shape: StadiumBorder(),
+                        onPressed: () {},
+                        child: Text("Reorder"),
+                      ),
+                    )
+                  : orderButtons(curOrder, context),
+            )
+            //    orderButtons(curOrder, context),
+            // Padding(
+            //   padding: const EdgeInsets.all(4.0),
+            //   child: Row(
+            //     children: [
+            //       Padding(
+            //         padding: const EdgeInsets.all(4.0),
+            //         child: Text(
+            //           'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
+            //           style:
+            //               TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _orderProductTile(List<ProductOrder> e, BuildContext context) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          //   shrinkWrap: true,
+          itemCount: e.length,
+          itemBuilder: (context, index) => Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  ImageBox(
+                    e[index].product!.images![0],
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  ),
+                  Container(
+                    decoration: ShapeDecoration(shape: StadiumBorder(), color: Colors.black87),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                      child: Text("x${e[index].count}", style: TextStyles.body.copyWith(color: AppColors.white)),
+                    ),
+                  )
+                ],
+              )),
+    );
   }
 }
