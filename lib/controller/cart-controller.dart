@@ -18,12 +18,10 @@ import 'package:amber_bird/data/price/price.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
 import 'package:amber_bird/services/client-service.dart';
-import 'package:amber_bird/ui/element/analytics.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
 class CartController extends GetxController {
   RxMap<String, ProductOrder> cartProducts = <String, ProductOrder>{}.obs;
@@ -48,20 +46,159 @@ class CartController extends GetxController {
   Rx<bool> couponIncludeCondition = false.obs;
   RxList<SliverList> innerLists = <SliverList>[].obs;
   String uniqueId = Random().nextInt(34342).toString();
-  late final Mixpanel _mixpanel;
 
   @override
   void onInit() {
     fetchCart();
-    _initMixpanel();
     super.onInit();
   }
 
-  Future<void> _initMixpanel() async {
-    _mixpanel = await MixpanelManager.init();
-  }
-
   applyCoupon() {}
+
+  // checkout() async {
+  //   List<dynamic> listSumm = [];
+  //   List<dynamic> listScoins = [];
+  //   List<dynamic> listMsd = [];
+  //   for (var v in cartProducts.values) {
+  //     listSumm.add((jsonDecode(v.toJson())));
+  //   }
+  //   for (var v in cartProductsScoins.values) {
+  //     listScoins.add((jsonDecode(v.toJson())));
+  //   }
+  //   for (var v in msdProducts.values) {
+  //     listMsd.add((jsonDecode(v.toJson())));
+  //   }
+  //   if (listScoins.length > 0 && listSumm.length > 0) {
+  //     selectedPaymentMethod.value = 'MOLLIE_PLUS_SCOINS';
+  //   } else if (listScoins.length > 0) {
+  //     selectedPaymentMethod.value = 'SCOINS ';
+  //   } else if (listSumm.length > 0) {
+  //     selectedPaymentMethod.value = 'MOLLIE';
+  //   }
+  //   var selectedAdd;
+  //   if (Get.isRegistered<LocationController>()) {
+  //     var locationController = Get.find<LocationController>();
+  //     selectedAdd = locationController.addressData.value;
+  //   }
+  //   Ref custRef = await Helper.getCustomerRef();
+  //   var insightDetail =
+  //       await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+  //   var referredbyId = await SharedData.read('referredById');
+  //   Customer cust = Customer.fromMap(insightDetail as Map<String, dynamic>);
+  //   var payload;
+  //   if (selectedAdd != null && selectedAdd.name != null) {
+  //     var resp = await ClientService.post(
+  //         path: 'order/checkout', payload: (jsonDecode((cust.cart!.toJson()))));
+  //     if (resp.statusCode == 200) {
+  //       Checkout data = Checkout.fromMap(resp.data);
+  //       checkoutData.value = data;
+  //       if (data.allAvailable == true) {
+  //         var resp1;
+  //         if (cust.cart != null && cust.cart!.id != '') {
+  //           payload = {
+  //             'status': 'INIT',
+  //             'customerRef': (jsonDecode(custRef.toJson())),
+  //             'products': listSumm,
+  //             'productsViaSCoins': listScoins,
+  //             'msdApplicableProducts': listMsd,
+  //             "payment": {
+  //               "paidBy": (jsonDecode(custRef.toJson())),
+  //               "order": orderId.value != ''
+  //                   ? {"name": custRef.id, "_id": orderId.value}
+  //                   : null,
+  //               "currency": "EUR", //{"currencyCode": "USD"},
+  //               "paidTo": {"name": "sbazar", "_id": "sbazar"},
+  //               "status": "OPEN",
+  //               "description": "order created",
+  //               "paymentGateWayDetail": {
+  //                 "usedPaymentGateWay": selectedPaymentMethod.value,
+  //               },
+  //               "appliedCouponCode": selectedCoupon.value.couponCode != null
+  //                   ? {
+  //                       "name": selectedCoupon.value.couponCode,
+  //                       "_id": selectedCoupon.value.id
+  //                     }
+  //                   : null,
+  //             },
+  //             '_id': cust.cart!.id,
+  //             'metaData': (jsonDecode(cust.cart!.metaData!.toJson())),
+  //             'shipping': {
+  //               'orderRef': orderId.value != ''
+  //                   ? {"name": custRef.id, "_id": cust.cart!.id}
+  //                   : null,
+  //               'destination': {
+  //                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
+  //               }
+  //             },
+  //             'referredById': referredbyId != null ? referredbyId : null,
+  //           };
+  //           resp1 = await ClientService.Put(
+  //               path: 'order', id: cust.cart!.id!, payload: payload);
+  //         } else {
+  //           payload = {
+  //             'status': 'INIT',
+  //             'customerRef': (jsonDecode(custRef.toJson())),
+  //             'products': listSumm,
+  //             'productsViaSCoins': listScoins,
+  //             'msdApplicableProducts': listMsd,
+  //             "payment": {
+  //               "paidBy": (jsonDecode(custRef.toJson())),
+  //               "currency": "EUR", //{"currencyCode": "USD"},
+  //               "paidTo": {"name": "sbazar", "_id": "sbazar"},
+  //               "status": "OPEN",
+  //               "description": "order created",
+  //               "paymentGateWayDetail": {
+  //                 "usedPaymentGateWay": selectedPaymentMethod.value,
+  //               },
+  //               "appliedCouponCode": selectedCoupon.value.couponCode != null
+  //                   ? {
+  //                       "name": selectedCoupon.value.couponCode,
+  //                       "_id": selectedCoupon.value.id
+  //                     }
+  //                   : null,
+  //             },
+  //             'referredById': referredbyId,
+  //             'shipping': {
+  //               'destination': {
+  //                 'customerAddress': (jsonDecode(selectedAdd.toJson())),
+  //               }
+  //             }
+  //           };
+  //           resp1 = await ClientService.post(path: 'order', payload: payload);
+  //         }
+  //         // dev.log(jsonEncode(resp1.data).toString());
+  //         if (resp1.statusCode == 200) {
+  //           if (orderId.value == '') orderId.value = resp1.data['_id'];
+  //           cust.cart = Order.fromMap(resp1.data);
+  //           calculatedPayment.value = cust.cart!.payment!;
+  //           OfflineDBService.save(OfflineDBService.customerInsightDetail,
+  //               (jsonDecode(cust.toJson())));
+  //           return ({'error': false, 'data': '', 'msg': ''});
+  //         } else {
+  //           return ({
+  //             'error': false,
+  //             'data': '',
+  //             'msg': 'Oops, Something went Wrong!!'
+  //           });
+  //         }
+  //       } else {
+  //         return ({
+  //           'error': true,
+  //           'data': '',
+  //           'msg': 'All products not available!!'
+  //         });
+  //       }
+  //     } else {
+  //       return ({
+  //         'error': true,
+  //         'data': '',
+  //         'msg': 'Oops, Something went Wrong!!'
+  //       });
+  //     }
+  //   } else {
+  //     return ({'error': true, 'data': '', 'msg': 'Address can not be empty!!'});
+  //   }
+  // }
 
   clearCheckout() {
     checkoutData.value = null;
@@ -101,7 +238,7 @@ class CartController extends GetxController {
         return ({
           'error': true,
           'data': '',
-          'msg': 'All products not available!!'
+          'msg': 'Oops!!.. Some products sold out!!'
         });
       }
     } else {
@@ -201,7 +338,7 @@ class CartController extends GetxController {
           return ({
             'error': true,
             'data': '',
-            'msg': 'All products not available!!'
+            'msg': 'Oops!!.. Some products sold out!!'
           });
         }
       } else {
@@ -376,11 +513,6 @@ class CartController extends GetxController {
       Varient? varient,
       {String? mutliProductName,
       String? imageId}) async {
-    _mixpanel.track('Adding product  in cart', properties: {
-      "product_id": product!.id ?? "",
-      "red_id": refId,
-      'orderId': orderId.value
-    });
     clearCheckout();
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
@@ -388,7 +520,7 @@ class CartController extends GetxController {
       var getData = cartProducts[refId];
       int quantity = 0 + addQuantity!;
       double price = (priceInfo!.offerPrice!).toDouble();
-      double actualPrice = (priceInfo.actualPrice!).toDouble();
+      double actualPrice = (priceInfo!.actualPrice!).toDouble();
       List li = [];
       if (products != null) {
         for (var element in products) {
@@ -408,7 +540,7 @@ class CartController extends GetxController {
           quantity = getData.count!;
           quantity = quantity + addQuantity;
         }
-        product.varient = varient;
+        product!.varient = varient;
       }
       if (quantity > 0) {
         ProductOrder cartRow = ProductOrder.fromMap({
@@ -420,7 +552,7 @@ class CartController extends GetxController {
           'ref': {'_id': refId, 'name': addedFrom},
           'ruleConfig': (jsonDecode(ruleConfig?.toJson() ?? "{}")),
           'constraint': (jsonDecode(constraint?.toJson() ?? "{}")),
-          'productType': li.isNotEmpty ? null : product.type,
+          'productType': li.isNotEmpty ? null : product!.type,
           'name': mutliProductName ?? '',
           'imageId': imageId ?? '',
           'price': {
@@ -509,7 +641,7 @@ class CartController extends GetxController {
         });
         msdProducts[refId] = cartRow;
       } else {
-        removeProduct(refId, '');
+        removeProduct(refId, 'MSD');
         return;
       }
     } else {}
@@ -702,11 +834,6 @@ class CartController extends GetxController {
     if (resp.statusCode == 200) {
       if (orderId.value == '') orderId.value = resp.data['_id'];
       cust.cart = Order.fromMap(resp.data);
-      _mixpanel.track('Product added in cart', properties: {
-        // "product_id": product!.id ?? "",
-        // "red_id": refId,
-        'orderId': orderId.value
-      });
       calculatedPayment.value = cust.cart!.payment!;
       OfflineDBService.save(
           OfflineDBService.customerInsightDetail, (jsonDecode(cust.toJson())));

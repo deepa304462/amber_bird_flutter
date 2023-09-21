@@ -363,12 +363,6 @@ class MultiProductRow extends StatelessWidget {
                     '(${multiProd.products!.length} Products) ',
                     style: TextStyles.body.copyWith(color: AppColors.grey),
                   ),
-                  // Text(
-                  //   '${multiProd.name!.defaultText!.text}',
-                  //   style: TextStyles.titleFont
-                  //       .copyWith(color: AppColors.primeColor),
-                  //   textAlign: TextAlign.left,
-                  // ),
                 ],
               ),
               Row(children: [
@@ -485,7 +479,9 @@ class MultiProductRow extends StatelessWidget {
                       await cartController.addToCart(
                           multiProd.id!,
                           'MULTIPRODUCT',
-                          multiProd.constraint!.minimumOrder ?? 1,
+                          multiProd.constraint != null
+                              ? (multiProd.constraint!.minimumOrder) ?? 1
+                              : 1,
                           multiProd.price,
                           null,
                           multiProd.products,
