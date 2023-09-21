@@ -65,10 +65,7 @@ class CategoryProductPage extends StatelessWidget {
                 ),
               ),
               body: ListView(
-                children: [
-                  // categoryInfo(controller.category, context),
-                  productList(controller.productList, context)
-                ],
+                children: [productList(controller.productList, context)],
               ));
     });
   }
@@ -89,24 +86,6 @@ class CategoryProductPage extends StatelessWidget {
                           productList[index].id, 'CATEGORY', null, null, null);
                     }),
               )
-            : SizedBox()
-        //        Wrap(
-        //   direction: Axis.horizontal,
-        //   spacing: 8,
-        //   runSpacing: 12,
-        //   children: productList
-        //       .map(
-        //         (product) => SizedBox(
-        //           width: MediaQuery.of(context).size.width * .4,
-        //           child: Padding(
-        //             padding: const EdgeInsets.symmetric(vertical: 8),
-        //             child: ProductCard(
-        //                 product, product.id, 'CATEGORY', null, null, null),
-        //           ),
-        //         ),
-        //       )
-        //       .toList(),
-        // ),
-        );
+            : SizedBox());
   }
 }

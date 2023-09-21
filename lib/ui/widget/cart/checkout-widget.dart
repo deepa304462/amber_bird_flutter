@@ -260,10 +260,8 @@ class CheckoutWidget extends StatelessWidget {
                   MaterialButton(
                     color: Colors.white,
                     elevation: 0,
-                    onPressed: (() => {
-                          Modular.to.pushNamed('/widget/address-list')
-                          // Modular.to.navigate('../widget/address-list')
-                        }),
+                    onPressed: (() =>
+                        {Modular.to.pushNamed('/widget/address-list')}),
                     child: Row(
                       children: [
                         Text(
@@ -284,7 +282,6 @@ class CheckoutWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Modular.to.pushNamed('/widget/address-list');
-                  // Modular.to.navigate('../widget/address-list');
                 },
                 child: Card(
                   color: Colors.grey.shade300,
@@ -464,8 +461,6 @@ class CheckoutWidget extends StatelessWidget {
                   ? Container(
                       margin: const EdgeInsets.all(2.0),
                       padding: const EdgeInsets.all(3.0),
-                      // decoration: BoxDecoration(
-                      //     border: Border.all(color: Colors.grey)),
                       child: Row(
                         children: [
                           Expanded(

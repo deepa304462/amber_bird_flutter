@@ -76,14 +76,6 @@ class Controller extends GetxController {
         targetPadding: const EdgeInsets.all(5),
         tooltipBackgroundColor: AppColors.commonBgColor,
         textColor: AppColors.black,
-        // targetShapeBorder: const CircleBorder(),
-        // child: Container(
-        //     padding: const EdgeInsets.all(5),
-        //     width: 45,
-        //     height: 30,
-        //     decoration: BoxDecoration(
-        //         shape: BoxShape.circle, color: AppColors.primeColor),
-        //     child: Text('vfffffffffffffffffffffffff')),
         descTextStyle: TextStyles.bodyFont);
     showKeyMap['brand'] = ShowcaseKey(
         key: GlobalKey(),
@@ -103,12 +95,6 @@ class Controller extends GetxController {
         title: 'Checkout cart',
         titleTextStyle: TextStyles.titleFont,
         descTextStyle: TextStyles.bodyFont);
-    // showKeyMap['pincode'] = ShowcaseKey(
-    //     key: GlobalKey(),
-    //     desc: 'Enter pincode to connect with your nearest warehouse',
-    //     title: 'Pincode',
-    //     titleTextStyle: TextStyles.titleFont,
-    //     descTextStyle: TextStyles.bodyFont);
     showKeyMap['wishlist'] = ShowcaseKey(
         key: GlobalKey(),
         desc: 'Access your favourite products',
@@ -206,9 +192,6 @@ class Controller extends GetxController {
   }
 
   getLoginInfo() async {
-    // var onboardLocarl = await (SharedData.read('onboardingDone'));
-    // bool onboard = onboardLocarl.toString() == 'true';
-    // onboardingDone.value = onboard;
     var isLoginShared = await (SharedData.read('isLogin'));
     bool b = isLoginShared.toString() == 'true';
     isLogin.value = b;
