@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
 import 'package:amber_bird/helpers/helper.dart';
@@ -12,62 +13,138 @@ import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widget/compilance-widget.dart';
-import '../widget/loading-with-logo.dart';
 
 class OrderListPage extends StatelessWidget {
-  RxBool isLoading = true.obs;
+  // RxBool isLoading = true.obs;
   RxList<Order> orderList = <Order>[].obs;
-
+  RxInt selectedIndex = 0.obs;
+  Controller controller = Get.find<Controller>();
+  List<String> list = ["All", "OpenOrders", "PaidOrders", "ShippedOrders", "DeliveredOrders", "CancelledOrders"];
   getOrderList() async {
-    isLoading.value = true;
+    // isLoading.value = true;
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(path: 'order/search', payload: {"customerId": custRef.id, "onlyOrders": true});
     if (response.statusCode == 200) {
       List<Order> oList = ((response.data as List<dynamic>?)?.map((e) => Order.fromMap(e as Map<String, dynamic>)).toList() ?? []);
-      isLoading.value = false;
+      //   isLoading.value = false;
       orderList.value = oList;
+      //     orderList.value = controller.customerDetail.value.orders;
+    }
+  }
+
+  ordeList(int index) {
+    selectedIndex.value = index;
+    switch (index) {
+      case 0:
+        orderList.value = controller.customerDetail.value.orders ?? [];
+        break;
+      case 1:
+        orderList.value = controller.customerDetail.value.openOrders ?? [];
+        break;
+      case 2:
+        orderList.value = controller.customerDetail.value.paidOrders ?? [];
+        break;
+      case 3:
+        orderList.value = controller.customerDetail.value.shippedOrders ?? [];
+        break;
+      case 4:
+        orderList.value = controller.customerDetail.value.deliveredOrders ?? [];
+        break;
+
+      case 5:
+        orderList.value = controller.customerDetail.value.cancelledOrders ?? [];
+        break;
+
+      default:
+        orderList.value = controller.customerDetail.value.orders ?? [];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    getOrderList();
+    // getOrderList();
+    ordeList(0);
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 50,
         leadingWidth: 50,
-        backgroundColor: AppColors.primeColor,
+        backgroundColor: AppColors.white,
         leading: MaterialButton(
           onPressed: () {
             Navigator.pop(context);
           },
           child: const Icon(
             Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 15,
+            color: Colors.black,
+            size: 22,
           ),
         ),
-        title: Column(
-          children: [
-            Text(
-              'My Orders',
-              style: TextStyles.bodyFont.copyWith(color: Colors.white),
-            ),
-          ],
+        title: Text(
+          'My Orders',
+          style: TextStyles.bodyFont,
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 26,
+            ),
+          )
+        ],
       ),
-      body: Obx(
-        () => Column(
-          children: [
-            isLoading.value
-                ? const Expanded(child: LoadingWithLogo())
-                : orderList.isNotEmpty
+      body: Obx(() =>
+              // Column(
+              //   children: [
+              // isLoading.value
+              //     ? const Expanded(child: LoadingWithLogo())
+              //     :
+              Column(children: [
+                SizedBox(
+                  height: 35,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    itemCount: list.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        ordeList(index);
+                      },
+                      child: Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 3,
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            decoration: ShapeDecoration(
+                                color: (selectedIndex.value == index) ? AppColors.black : AppColors.white,
+                                shape: StadiumBorder(side: BorderSide(color: Colors.black12))),
+                            child: Text(list[index],
+                                style: (selectedIndex.value == index)
+                                    ? TextStyles.bodyFont.copyWith(color: AppColors.white)
+                                    : TextStyles.headingFont.copyWith(fontSize: 15, color: AppColors.grey, fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                orderList.isNotEmpty
                     ? Expanded(
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
                           itemCount: orderList.length,
                           itemBuilder: (_, index) {
                             var curOrder = orderList[index];
@@ -90,14 +167,16 @@ class OrderListPage extends StatelessWidget {
                           ),
                         ),
                       ),
-          ],
-        ),
-      ),
+              ])
+
+          //   ],
+          // ),
+          ),
     );
   }
 
   OrderTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
+    DateTime orderTime = curOrder.metaData?.createdAt != null ? DateTime.parse(curOrder.metaData!.createdAt!) : DateTime.now();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -150,8 +229,7 @@ class OrderListPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
-                          style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
+                      Text('${curOrder.payment?.totalAmount?.toString()} ${CodeHelp.euro}', style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
                       Text(
                         'Paid ',
                         style: TextStyles.titleFont.copyWith(color: Colors.grey),
@@ -203,7 +281,7 @@ class OrderListPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
+                      'You have saved ${CodeHelp.euro}${curOrder.payment?.totalSavedAmount} and you will get ${curOrder.payment?.totalSCoinsEarned} scoin.',
                       style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
                     ),
                   )
