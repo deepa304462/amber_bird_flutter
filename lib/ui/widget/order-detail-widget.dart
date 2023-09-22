@@ -6,6 +6,7 @@ import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class OrderDetailWidget extends StatelessWidget {
@@ -86,7 +87,9 @@ class OrderDetailWidget extends StatelessWidget {
                             textColor: Colors.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Modular.to.pushNamed('/widget/pre-checkout');
+                            },
                             child: Text("Reorder"),
                           )
                         ],
@@ -108,20 +111,16 @@ class OrderDetailWidget extends StatelessWidget {
               children: [
                 _orderProductTile(e, context),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
                       const Divider(),
-                      Row(
+                      orderController.orderDetail.value.payment!.appliedCouponCode==null?SizedBox():     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Coupon", style: TextStyles.headingFont),
-                          Text(
-                              orderController.orderDetail.value.payment!
-                                          .appliedCouponCode ==
-                                      null
-                                  ? "-"
-                                  : '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
+                               Text(
+                              '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
                               style: TextStyles.headingFont),
                         ],
                       ),
@@ -165,7 +164,7 @@ class OrderDetailWidget extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Row(
+                      orderController.orderDetail.value.payment!.totalSPointsEarned==null?SizedBox(): Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("s Points Applied",
@@ -229,10 +228,7 @@ class OrderDetailWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // Text(
-                //   '${e.product!.varient!.price!.offerPrice}${CodeHelp.euro} x ${e.count} Unit',
-                //   style: TextStyles.bodyFont,
-                // ),
+
                 Text(
                   '${e.price!.offerPrice}${CodeHelp.euro} ',
                   style: TextStyles.bodyFontBold,
@@ -280,154 +276,6 @@ class OrderDetailWidget extends StatelessWidget {
 
   Widget _shippingDetails(
       BuildContext context, OrderController orderController) {
-    // return orderController.shippingDhl.value.shipments != null &&
-    //         orderController.shippingDhl.value.shipments!.length > 0
-    //     ? Column(
-    //         children: [
-    //           const Padding(
-    //             padding: EdgeInsets.all(12.0),
-    //             child: Text(
-    //               "Shipping Info",
-    //               style: TextStyle(
-    //                   color: Colors.black87,
-    //                   fontWeight: FontWeight.w700,
-    //                   fontSize: 14),
-    //             ),
-    //           ),
-    //           Padding(
-    //             padding: const EdgeInsets.all(8.0),
-    //             child: Card(
-    //               color: Colors.white,
-    //               child: Padding(
-    //                 padding: const EdgeInsets.all(8.0),
-    //                 child: Expanded(
-    //                   // height: ,
-    //                   child: ListView.builder(
-    //                       physics: const BouncingScrollPhysics(),
-    //                       scrollDirection: Axis.vertical,
-    //                       shrinkWrap: true,
-    //                       itemCount: orderController
-    //                           .shippingDhl.value.shipments!.length,
-    //                       itemBuilder: (_, index) {
-    //                         var currentData =
-    //                             orderController.shippingDhl.value.shipments![0];
-    //                         var delTime = DateTime.parse(
-    //                             currentData.estimatedTimeOfDelivery!);
-    //                         return Column(
-    //                             mainAxisAlignment: MainAxisAlignment.start,
-    //                             crossAxisAlignment: CrossAxisAlignment.start,
-    //                             children: [
-    //                               Text(
-    //                                 "Shipment method",
-    //                                 style: TextStyle(
-    //                                     color: Colors.grey,
-    //                                     fontWeight: FontWeight.w500,
-    //                                     fontSize: 14),
-    //                               ),
-    //                               Row(
-    //                                 mainAxisAlignment:
-    //                                     MainAxisAlignment.spaceBetween,
-    //                                 children: [
-    //                                   Text(
-    //                                     currentData.status!.description!,
-    //                                     style: TextStyles.headingFont
-    //                                         .copyWith(color: Colors.blue),
-    //                                   ),
-    //                                   Text(
-    //                                     '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',
-    //                                     style: TextStyles.bodyFontBold,
-    //                                   ),
-    //                                 ],
-    //                               ),
-    //                               const SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               // Text('Destination', style: TextStyles.bodyFontBold),
-    //                               Row(
-    //                                 mainAxisAlignment:
-    //                                     MainAxisAlignment.spaceBetween,
-    //                                 children: [
-    //                                   // const Text('Address'),
-    //                                   Text(
-    //                                       '${currentData.destination!.address!.countryCode!}${currentData.destination!.address!.addressLocality!}')
-    //                                 ],
-    //                               ),
-    //                               // Text('Origin', style: TextStyles.bodyFontBold),
-    //                               Row(
-    //                                 mainAxisAlignment:
-    //                                     MainAxisAlignment.spaceBetween,
-    //                                 children: [
-    //                                   // const Text('Address'),
-    //                                   Text(
-    //                                       '${currentData.origin!.address!.countryCode!}${currentData.origin!.address!.addressLocality!}')
-    //                                 ],
-    //                               ),
-    //                               const SizedBox(
-    //                                 height: 10,
-    //                               ),
-    //                               // const Text('Origin'),
-    //                               SizedBox(
-    //                                 height: 200,
-    //                                 child: SingleChildScrollView(
-    //                                   child: ListView.builder(
-    //                                     physics: const BouncingScrollPhysics(),
-    //                                     scrollDirection: Axis.vertical,
-    //                                     shrinkWrap: true,
-    //                                     itemCount: currentData.events!.length,
-    //                                     itemBuilder: (_, index) {
-    //                                       var currentEvent =
-    //                                           currentData.events![index];
-    //                                       DateTime time = DateTime.parse(
-    //                                           currentEvent.timestamp!);
-    //                                       return Column(
-    //                                         crossAxisAlignment:
-    //                                             CrossAxisAlignment.start,
-    //                                         mainAxisAlignment:
-    //                                             MainAxisAlignment.spaceBetween,
-    //                                         children: [
-    //                                           Text(
-    //                                             "Shipment method",
-    //                                             style: TextStyle(
-    //                                                 color: Colors.grey,
-    //                                                 fontWeight: FontWeight.w500,
-    //                                                 fontSize: 14),
-    //                                           ),
-    //                                           Row(
-    //                                             mainAxisAlignment:
-    //                                                 MainAxisAlignment
-    //                                                     .spaceBetween,
-    //                                             children: [
-    //                                               Text(
-    //                                                 currentEvent.description!,
-    //                                               ),
-    //                                               // Text('${currentEvent.timestamp}'),
-    //                                               Text(
-    //                                                 '${TimeUtil.getFormatDateTime(time, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(time, 'hh:mm a')}',
-    //                                                 style:
-    //                                                     TextStyles.bodyFontBold,
-    //                                               ),
-    //                                             ],
-    //                                           ),
-    //                                           Text(
-    //                                             currentEvent.location!.address!
-    //                                                 .addressLocality!,
-    //                                             style: TextStyles.body,
-    //                                           )
-    //                                         ],
-    //                                       );
-    //                                     },
-    //                                   ),
-    //                                 ),
-    //                               )
-    //                             ]);
-    //                       }),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       )
-    //     : const SizedBox();
     return orderController.shippingDhl.value.shipments != null &&
             orderController.shippingDhl.value.shipments!.length > 0
         ? Column(
@@ -586,51 +434,45 @@ class OrderDetailWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Shipment method",
+                        "Shipping Address",
                         style: TextStyles.titleFont,
                       ),
                       SizedBox(
-                        height: 5,
+                        height: 10,
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          orderController.orderDetail.value.shipping!
+                                      .destination!.customerAddress!.name ==
+                                  null
+                              ? " "
+                              : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.name}${" , "}',
+                          style: TextStyles.bodyFontBold,
+                        ),
                       ),
                       Row(
                         children: [
                           Text(
+                            orderController.orderDetail.value.shipping!
+                                        .destination!.customerAddress!.line1 ==
+                                    null
+                                ? " "
+                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.line1}${" , "}',
+                            style: TextStyles.titleFont,
+                          ),
+                          Text(
                             orderController
                                         .orderDetail
                                         .value
                                         .shipping!
                                         .destination!
                                         .customerAddress!
-                                        .houseNo ==
+                                        .zipCode ==
                                     null
-                                ? " "
-                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.houseNo}${" , "}',
-                            style: TextStyles.bodyFontBold,
-                          ),
-                          Text(
-                            orderController
-                                        .orderDetail
-                                        .value
-                                        .shipping!
-                                        .destination!
-                                        .customerAddress!
-                                        .landMark ==
-                                    null
-                                ? " "
-                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.landMark}${" , "}',
-                            style: TextStyles.bodyFontBold,
-                          ),
-                          Text(
-                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.city==null?"":   '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.city}${" , "}',
-                            style: TextStyles.bodyFontBold,
-                          ),
-                          Text(
-                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.country==null?"":  '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.country}${" , "}',
-                            style: TextStyles.bodyFontBold,
-                          ),
-                          Text(
-                            orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode==null?"":'${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode}',
-                            style: TextStyles.bodyFontBold,
+                                ? ""
+                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode}',
+                            style: TextStyles.titleFont,
                           ),
                         ],
                       ),
@@ -731,60 +573,5 @@ class OrderDetailWidget extends StatelessWidget {
         ),
       ],
     );
-    // return   Padding(
-    //   padding: const EdgeInsets.all(8.0),
-    //   child: Card(
-    //  color: Colors.white,
-    //      child: Padding(
-    //        padding: const EdgeInsets.all(8.0),
-    //        child: Column(
-    //          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //          children: [
-    //            Row(
-    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //              children: [
-    //                Text(
-    //                  'Total tax paid',
-    //                  style: TextStyles.bodyFont,
-    //                ),
-    //                Text(
-    //
-    //                '${orderController.orderDetail.value.payment!.appliedTaxAmount!.toString()}${CodeHelp.euro}',
-    //
-    //                style: TextStyles.bodyFontBold,
-    //                )
-    //              ],
-    //            ),
-    //            Row(
-    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //              children: [
-    //                Text(
-    //                  'Discount amount',
-    //                  style: TextStyles.bodyFont,
-    //                ),
-    //                Text(
-    //                  '${orderController.orderDetail.value.payment!.discountAmount!.toString()}${CodeHelp.euro}',
-    //                  style: TextStyles.bodyFontBold,
-    //                )
-    //              ],
-    //            ),
-    //            Row(
-    //              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //              children: [
-    //                Text(
-    //                  'Total amount paid',
-    //                  style: TextStyles.bodyFont,
-    //                ),
-    //                Text(
-    //                  '${orderController.orderDetail.value.payment!.totalAmount!.toString()}${CodeHelp.euro}',
-    //                  style: TextStyles.bodyFontBold,
-    //                )
-    //              ],
-    //            )
-    //          ],
-    //        ),
-    //      ),
-    //
-    // ));
   }
 }
