@@ -431,7 +431,10 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                _showCancelOrderConfirmationDialog(context, curOrder.userFriendlyOrderId!);
+                                                _showCancelOrderConfirmationDialog(
+                                                    context,
+                                                    curOrder
+                                                        .userFriendlyOrderId!);
                                               }
                                             },
                                           ),
@@ -536,7 +539,10 @@ class OrderListPage extends StatelessWidget {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                ReturnOrderConfirmationDialog(context, curOrder.userFriendlyOrderId);
+                                                ReturnOrderConfirmationDialog(
+                                                    context,
+                                                    curOrder
+                                                        .userFriendlyOrderId);
                                               }
                                             },
                                           ),
@@ -725,7 +731,10 @@ class OrderListPage extends StatelessWidget {
   }
 
   OrdeTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
+    // DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
+    DateTime orderTime = curOrder.createdAt != null
+        ? DateTime.parse(curOrder.createdAt!)
+        : DateTime.now();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -734,17 +743,25 @@ class OrderListPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(15),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(
-                  "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
-                  style: TextStyles.bodyFontBold,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                  decoration: ShapeDecoration(shape: StadiumBorder(), color: Helper.getColor(curOrder.status).withOpacity(0.2)),
-                  child: Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.headingFont.copyWith(color: Helper.getColor(curOrder.status))),
-                ),
-              ]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
+                      style: TextStyles.bodyFontBold,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                      decoration: ShapeDecoration(
+                          shape: StadiumBorder(),
+                          color: Helper.getColor(curOrder.status)
+                              .withOpacity(0.2)),
+                      child: Text('${CodeHelp.titleCase(curOrder.status!)}',
+                          style: TextStyles.headingFont.copyWith(
+                              color: Helper.getColor(curOrder.status))),
+                    ),
+                  ]),
             ),
             const Divider(
               thickness: 1.5,
@@ -767,7 +784,8 @@ class OrderListPage extends StatelessWidget {
                     style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
                   ),
 
-                  Text('\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}', style: TextStyles.headingFont),
+                  Text('\$${curOrder.totalAmount.toString()} ${CodeHelp.euro}',
+                      style: TextStyles.headingFont),
                 ],
               ),
             ),
@@ -784,7 +802,10 @@ class OrderListPage extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: (curOrder.status == "SHIPPED" || curOrder.status == "CANCELLED" || curOrder.status == "EXPIRED" || curOrder.status == "DELIVERED")
+              child: (curOrder.status == "SHIPPED" ||
+                      curOrder.status == "CANCELLED" ||
+                      curOrder.status == "EXPIRED" ||
+                      curOrder.status == "DELIVERED")
                   ? Align(
                       alignment: Alignment.topRight,
                       child: MaterialButton(
@@ -837,10 +858,14 @@ class OrderListPage extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   Container(
-                    decoration: ShapeDecoration(shape: StadiumBorder(), color: Colors.black87),
+                    decoration: ShapeDecoration(
+                        shape: StadiumBorder(), color: Colors.black87),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      child: Text("x${e[index].count}", style: TextStyles.body.copyWith(color: AppColors.white)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 1),
+                      child: Text("x${e[index].count}",
+                          style:
+                              TextStyles.body.copyWith(color: AppColors.white)),
                     ),
                   )
                 ],
