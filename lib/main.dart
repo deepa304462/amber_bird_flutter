@@ -52,11 +52,9 @@ void main() async {
   if ((int.parse(packageInfo.buildNumber) >=
           remoteConfig.getValue('app_env_version').asInt()) ||
       (int.parse(packageInfo.buildNumber) == 0)) {
-    print("xxx");
     ClientService.setEnv(env: Environment.prod);
   }
   else {
-    print("fufy");
     ClientService.setEnv(env: Environment.dev);
   }
 
