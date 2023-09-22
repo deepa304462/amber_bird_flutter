@@ -29,23 +29,11 @@ class OrderController extends GetxController {
   }
 
   getShippingDhlData(String dhlNumber) async {
-    print(dhlNumber);
-
     var response =
         await ClientService.get(path: 'shipping/tracking', id: dhlNumber);
     if (response.statusCode == 200) {
-      // log(response.data.toString());
-      // orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);
-      inspect(response.data);
       shippingDhl.value =
           Dhl.fromMap(jsonDecode(response.data) as Map<String, dynamic>);
-      inspect(shippingDhl.value);
-      print(shippingDhl.value);
-      // response.data;
-      // if (orderDetail.value.shipping != null &&
-      //     orderDetail.value.shipping!.dhlShipmentNumber != null) {
-      //   getShippingDhlData(orderDetail.value.shipping!.dhlShipmentNumber!);
-      // }
     }
   }
 }

@@ -13,15 +13,8 @@ class FaqController extends GetxController {
   }
 
   getFaq() {
-    ClientService.post(path: '/faq/search', payload: {}).then((value) {
+    ClientService.post(path: 'faq/search', payload: {}).then((value) {
       if (value.statusCode == 200) {
-        // print(jsonEncode(value.data));
-        //print(value.data);
-        //  faq.value = Faq.fromJson(value.data);
-        //    print(faq.value);
-
-        //faq.value = Faq.fromMap(jsonDecode(value.data));
-
         faqList.value =
             (value.data as List).map((e) => Faq.fromMap(e)).toList();
       }

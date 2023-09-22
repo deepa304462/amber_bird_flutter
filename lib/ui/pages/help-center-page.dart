@@ -263,55 +263,56 @@ class HelpCenterPage extends StatelessWidget {
                 height: 20,
               ),
               SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Card(
-                      clipBehavior: Clip.hardEdge,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          //       height: MediaQuery.of(context).size.height * .2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('FAQ', style: TextStyles.headingFont),
-                              ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: result.length,
-                                  itemBuilder: (_, indx) {
-                                    return Container(
-                                      margin: EdgeInsets.all(0),
-                                      padding: EdgeInsets.all(0),
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                              width: 1.5,
-                                              color: AppColors.lightGrey),
-                                        ),
-                                      ),
-                                      child: ListTile(
-                                        dense: true,
-                                        onTap: () {
-                                          Modular.to.pushNamed('/widget/faq',
-                                              arguments: result[indx].id!);
-                                        },
-                                        title: Text(
-                                          result[indx].topic ?? '',
-                                          style: TextStyles.titleFont,
-                                        ),
-                                        trailing:
-                                            const Icon(Icons.chevron_right),
-                                      ),
-                                    );
-                                  })
-                            ],
-                          ),
-                        ),
-                      ))),
+                width: MediaQuery.of(context).size.width,
+                child: Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      //       height: MediaQuery.of(context).size.height * .2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('FAQ', style: TextStyles.headingFont),
+                          ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: result.length,
+                              itemBuilder: (_, indx) {
+                                return Container(
+                                  margin: EdgeInsets.all(0),
+                                  padding: EdgeInsets.all(0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1.5,
+                                          color: AppColors.lightGrey),
+                                    ),
+                                  ),
+                                  child: ListTile(
+                                    dense: true,
+                                    onTap: () {
+                                      Modular.to.pushNamed('/widget/faq',
+                                          arguments: result[indx].id!);
+                                    },
+                                    title: Text(
+                                      result[indx].topic ?? '',
+                                      style: TextStyles.titleFont,
+                                    ),
+                                    trailing: const Icon(Icons.chevron_right),
+                                  ),
+                                );
+                              })
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

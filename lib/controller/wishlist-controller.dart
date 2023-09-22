@@ -16,7 +16,6 @@ class WishlistController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // resetWishlist();
     fetchWishlist();
   }
 
@@ -24,15 +23,11 @@ class WishlistController extends GetxController {
     var insightDetailloc =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (insightDetailloc != null) {
-      // log((jsonDecode(jsonEncode(insightDetailloc))));
-      // log(insightDetailloc.toString());
       Customer cust = Customer.fromMap(
           (jsonDecode(jsonEncode(insightDetailloc))) as Map<String, dynamic>);
 
       if (cust.wishList != null) {
         wishlistId.value = cust.wishList!.id ?? '';
-        // for (var element in cust.wishList!.favorites!) {}
-        // totalPrice.value = pr;
       }
     } else {
       wishlistProducts.value = Map();
@@ -45,7 +40,6 @@ class WishlistController extends GetxController {
       if (wishlistRowcheck != null) {
         wishlistProducts.remove(pid);
       } else {
-        // Ref custRef = await Helper.getCustomerRef();
         Favorite fav = Favorite.fromMap({
           'product': product != null ? (jsonDecode(product.toJson())) : null,
           'products': products != null ? (jsonDecode(products.toJson())) : null,
@@ -60,7 +54,6 @@ class WishlistController extends GetxController {
   }
 
   removeWishList(pid) async {
-    // resetWishlist();
     wishlistProducts.remove(pid);
     await saveWishlist();
   }

@@ -47,22 +47,22 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FCMSyncService.init();
   await OfflineDBService.init();
+  _initMixpanel();
   final remoteConfig = FirebaseRemoteConfig.instance;
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   if ((int.parse(packageInfo.buildNumber) >=
           remoteConfig.getValue('app_env_version').asInt()) ||
       (int.parse(packageInfo.buildNumber) == 0)) {
     ClientService.setEnv(env: Environment.prod);
-  }
-  else {
+    AnalyticsService.logEvent('initalization', {
+      "message": 'initalized  production App',
+    });
+  } else {
     ClientService.setEnv(env: Environment.dev);
+    AnalyticsService.logEvent('initalization', {
+      "message": 'initalized dev App',
+    });
   }
-
-  _initMixpanel();
-
-  AnalyticsService.logEvent('initalization', {
-    "message": 'initalized App',
-  });
 
   // Check if you received the link via `getInitialLink` first
   final PendingDynamicLinkData? initialLink =
