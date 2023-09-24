@@ -579,17 +579,18 @@ class OrderListPage extends StatelessWidget {
                       curOrder.status == "CANCELLED" ||
                       curOrder.status == "EXPIRED" ||
                       curOrder.status == "DELIVERED")
-                  ? Align(
-                      alignment: Alignment.topRight,
-                      child: MaterialButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        color: Colors.lightBlue,
-                        textColor: Colors.white,
-                        shape: StadiumBorder(),
-                        onPressed: () {},
-                        child: Text("Reorder"),
-                      ),
-                    )
+                  ? SizedBox()
+                  // Align(
+                  //     alignment: Alignment.topRight,
+                  //     child: MaterialButton(
+                  //       padding: EdgeInsets.symmetric(horizontal: 15),
+                  //       color: Colors.lightBlue,
+                  //       textColor: Colors.white,
+                  //       shape: StadiumBorder(),
+                  //       onPressed: () {},
+                  //       child: Text("Reorder"),
+                  //     ),
+                  //   )
                   : orderButtons(curOrder, context),
             )
             //    orderButtons(curOrder, context),
