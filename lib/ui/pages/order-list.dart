@@ -9,11 +9,9 @@ import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../widget/compilance-widget.dart';
 
 class OrderListPage extends StatelessWidget {
@@ -40,7 +38,7 @@ class OrderListPage extends StatelessWidget {
               ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
               .toList() ??
           []);
-      //   isLoading.value = false;
+      isLoading.value = false;
       orderList.value = oList;
       //     orderList.value = controller.customerDetail.value.orders;
     }
@@ -784,7 +782,8 @@ class OrderListPage extends StatelessWidget {
                     style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
                   ),
 
-                  Text('\$${curOrder.totalAmount.toString()} ${CodeHelp.euro}',
+                  Text(
+                      '\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
                       style: TextStyles.headingFont),
                 ],
               ),

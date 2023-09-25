@@ -159,7 +159,15 @@ class _LocationPageState extends State<LocationPage> {
                                             children: locationController
                                                 .pincodeSuggestions
                                                 .map(
-                                                  (element) => TextButton(
+                                                  (element) {
+                                                    final postcode = element['properties']['postcode'];
+                                                    final suburb = element['properties']['suburb'];
+                                                    final city = element['properties']['city'];
+
+                                                    final addressText = '${postcode ?? ''} ${suburb ?? ''} ${city ?? ''}'.trim();
+
+                                                    if (addressText.isNotEmpty){
+                                                    return TextButton(
                                                     onPressed: () {
                                                       locationController
                                                               .pinCode.value =
@@ -197,15 +205,20 @@ class _LocationPageState extends State<LocationPage> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               8.0),
-                                                      child: Text(
-                                                        '${element['properties']['postcode']} ${element['properties']['suburb'] != null ? element['properties']['suburb'] : ''} ${element['properties']['city']}',
+                                                      child:
+                                                      Text(
+                                                        addressText,
                                                         style:
                                                             TextStyles.bodyFont,
                                                         textAlign:
                                                             TextAlign.right,
                                                       ),
                                                     ),
-                                                  ),
+
+                                                  );}else{
+                                                      return SizedBox.shrink();
+                                                    };
+                                                  },
                                                 )
                                                 .toList(),
                                           ),

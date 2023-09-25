@@ -1320,7 +1320,7 @@ class PreCheckoutWidget extends StatelessWidget {
     return SizedBox(
       height: 180,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
+        // scrollDirection: Axis.horizontal,
         itemCount: cartController.cartProducts.length +
             cartController.cartProductsScoins.length +
             cartController.msdProducts.length,
