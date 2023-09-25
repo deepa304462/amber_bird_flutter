@@ -6,7 +6,6 @@ import 'package:amber_bird/controller/product-controller.dart';
 import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/controller/wishlist-controller.dart';
 import 'package:amber_bird/data/customer/customer.insight.detail.dart';
-import 'package:amber_bird/data/deal_product/constraint.dart';
 import 'package:amber_bird/data/deal_product/product.dart';
 import 'package:amber_bird/data/deal_product/rule_config.dart';
 import 'package:amber_bird/data/deal_product/varient.dart';
@@ -725,24 +724,26 @@ class ProductDetailScreen extends StatelessWidget {
             },
             child: SizedBox(
               height: 20,
-              child: Card(
-                color: currentVarient.varientCode ==
-                        productController.varient.value.varientCode
-                    ? AppColors.primeColor
-                    : Colors.white,
-                margin: const EdgeInsets.all(3),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Text(
-                      '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: currentVarient.varientCode !=
-                                  productController.varient.value.varientCode
-                              ? AppColors.primeColor
-                              : Colors.white),
+              child: Obx(
+                () => Card(
+                  color: currentVarient.varientCode ==
+                          productController.varient.value.varientCode
+                      ? AppColors.primeColor
+                      : Colors.white,
+                  margin: const EdgeInsets.all(3),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        '${currentVarient.weight!} ${CodeHelp.formatUnit(currentVarient.unit!)}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                            color: currentVarient.varientCode !=
+                                    productController.varient.value.varientCode
+                                ? AppColors.primeColor
+                                : Colors.white),
+                      ),
                     ),
                   ),
                 ),
