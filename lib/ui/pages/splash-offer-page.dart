@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:amber_bird/controller/location-controller.dart';
 import 'package:amber_bird/controller/onboarding-controller.dart';
@@ -39,7 +40,7 @@ class SplashOfferPage extends StatelessWidget {
                   return Container(
                     width: double.infinity,
                     height: height,
-                    color: colorList[index],
+                    color: colorList[Random().nextInt(colorList.length)],
                     child: ImageBox(
                       data.imageId!,
                       height: MediaQuery.of(context).size.height,

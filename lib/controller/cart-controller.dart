@@ -887,9 +887,10 @@ class CartController extends GetxController {
     }
   }
 
-  checktOrderRefAvailable(Ref? ref) {
+  checktOrderRefAvailable(Ref? ref, {String type = 'single'}) {
     bool available = true;
     print(checkoutData.value);
+
     if (checkoutData.value != null &&
         checkoutData.value!.orderProductAvailabilityStatus!.isNotEmpty) {
       checkoutData.value!.orderProductAvailabilityStatus!.forEach((elem) {
