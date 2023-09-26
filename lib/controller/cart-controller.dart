@@ -501,6 +501,84 @@ class CartController extends GetxController {
     }
   }
 
+
+ Future<void> reOrder(List<ProductOrder>? products,
+      List<ProductOrder>? msdProduct, List<ProductOrder>? scoinProduct) async {
+    clearCheckout();
+    var customerInsightDetail =
+        await OfflineDBService.get(OfflineDBService.customerInsightDetail);
+    if (customerInsightDetail['_id'] == null) {
+      if (products!.isNotEmpty) {
+        products.forEach((element) {
+          ProductOrder cartRow = ProductOrder.fromMap({
+            'products': element.products!.isNotEmpty
+                ? (jsonDecode(element.products!.toString()))
+                : (jsonDecode(element.products!.toString())),
+            'product': element.product != null
+                ? (jsonDecode(element.product!.toJson()))
+                : null,
+            'count': element.count,
+            'ref': {'_id': element.ref!.id, 'name': element.ref!.name!},
+            'ruleConfig': (jsonDecode(element.ruleConfig?.toJson() ?? "{}")),
+            'constraint': (jsonDecode(element.constraint?.toJson() ?? "{}")),
+            'productType':
+                element.products!.isNotEmpty ? null : element.product!.type,
+            'name': element.name,
+            'imageId': element.imageId,
+            'price': (jsonDecode(element.price?.toJson() ?? "{}"))
+          });
+          cartProducts[element.ref!.id!] = cartRow;
+        });
+      }
+      if (msdProducts.isNotEmpty) {
+        msdProduct!.forEach((element) {
+          ProductOrder cartRow = ProductOrder.fromMap({
+            'products': element!.products!.isNotEmpty
+                ? (jsonDecode(element.products!.toString()))
+                : (jsonDecode(element.products!.toString())),
+            'product': element.product != null
+                ? (jsonDecode(element.product!.toJson()))
+                : null,
+            'count': element.count!,
+            'ref': {'_id': element.ref!.id, 'name': element.ref!.name!},
+            'ruleConfig': (jsonDecode(element.ruleConfig?.toJson() ?? "{}")),
+            'constraint': (jsonDecode(element.constraint?.toJson() ?? "{}")),
+            'productType':
+                element.products!.isNotEmpty ? null : element.product!.type,
+            'name': element.name,
+            'imageId': element.imageId,
+            'price': (jsonDecode(element.price?.toJson() ?? "{}"))
+          });
+          msdProducts[element!.ref!.id!] = cartRow;
+        });
+      }
+      if (scoinProduct!.isNotEmpty) {
+        scoinProduct.forEach((element) {
+          ProductOrder cartRow = ProductOrder.fromMap({
+            'products': element.products!.isNotEmpty
+                ? (jsonDecode(element.products!.toString()))
+                : (jsonDecode(element.products!.toString())),
+            'product': element.product != null
+                ? (jsonDecode(element.product!.toJson()))
+                : null,
+            'count': element.count!,
+            'ref': {'_id': element.ref!.id, 'name': element.ref!.name!},
+            'ruleConfig': (jsonDecode(element.ruleConfig?.toJson() ?? "{}")),
+            'constraint': (jsonDecode(element.constraint?.toJson() ?? "{}")),
+            'productType':
+                element.products!.isNotEmpty ? null : element.product!.type,
+            'name': element.name,
+            'imageId': element.imageId,
+            'price': (jsonDecode(element.price?.toJson() ?? "{}"))
+          });
+
+          cartProductsScoins[element.ref!.id!] = cartRow;
+        });
+      }
+    } else {}
+    await createOrder();
+  }
+  
   Future<void> addToCart(
       String refId,
       String addedFrom,
