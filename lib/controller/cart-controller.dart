@@ -21,6 +21,7 @@ import 'package:amber_bird/services/client-service.dart';
 import 'package:amber_bird/utils/data-cache-service.dart';
 import 'package:amber_bird/utils/offline-db.service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
@@ -508,7 +509,7 @@ class CartController extends GetxController {
     var customerInsightDetail =
         await OfflineDBService.get(OfflineDBService.customerInsightDetail);
     if (customerInsightDetail['_id'] == null) {
-      if (products!.isNotEmpty) {
+      if (products!=null && products.isNotEmpty) {
         products.forEach((element) {
           ProductOrder cartRow = ProductOrder.fromMap({
             'products': element.products!.isNotEmpty
@@ -552,7 +553,7 @@ class CartController extends GetxController {
           msdProducts[element!.ref!.id!] = cartRow;
         });
       }
-      if (scoinProduct!.isNotEmpty) {
+      if (scoinProduct!=null && scoinProduct.isNotEmpty) {
         scoinProduct.forEach((element) {
           ProductOrder cartRow = ProductOrder.fromMap({
             'products': element.products!.isNotEmpty
@@ -575,6 +576,7 @@ class CartController extends GetxController {
           cartProductsScoins[element.ref!.id!] = cartRow;
         });
       }
+      Modular.to.pushNamed('/widget/pre-checkout');
     } else {}
     await createOrder();
   }

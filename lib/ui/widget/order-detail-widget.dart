@@ -9,8 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 
+import '../../controller/cart-controller.dart';
+import '../../controller/state-controller.dart';
+
 class OrderDetailWidget extends StatelessWidget {
   late OrderController orderController;
+  final CartController cartController =
+  ControllerGenerator.create(CartController(), tag: 'cartController');
+  final Controller stateController = Get.find();
+  List<ProductOrder>? products;
+  List<ProductOrder>? msdProduct;
+  List<ProductOrder>? scoinProduct;
   OrderDetailWidget(String orderId, {Key? key}) {
     orderController =
         ControllerGenerator.create(OrderController(), tag: orderId);
@@ -20,6 +29,7 @@ class OrderDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => orderController.orderDetail.value.products != null
         ? ListView(
+
             children: [
               orderController.orderDetail.value.status == "CANCELLED"
                   ? Padding(
@@ -87,7 +97,7 @@ class OrderDetailWidget extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             onPressed: () {
-                              Modular.to.pushNamed('/widget/pre-checkout');
+                              cartController.reOrder(products, msdProduct, scoinProduct);
                             },
                             child: Text("Reorder"),
                           )
