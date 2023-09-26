@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 class OrderDetailWidget extends StatelessWidget {
   late OrderController orderController;
-
   OrderDetailWidget(String orderId, {Key? key}) {
     orderController =
         ControllerGenerator.create(OrderController(), tag: orderId);
