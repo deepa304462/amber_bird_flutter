@@ -8,18 +8,24 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/cart-controller.dart';
 import '../../controller/state-controller.dart';
+import '../../data/order/order.dart';
+import '../pages/order-list.dart';
+import 'compilance-widget.dart';
 
-class OrderDetailWidget extends StatelessWidget {
+class OrderDetailWidget extends StatelessWidget{
   late OrderController orderController;
   final CartController cartController =
-  ControllerGenerator.create(CartController(), tag: 'cartController');
+      ControllerGenerator.create(CartController(), tag: 'cartController');
   final Controller stateController = Get.find();
   List<ProductOrder>? products;
   List<ProductOrder>? msdProduct;
   List<ProductOrder>? scoinProduct;
+
+
   OrderDetailWidget(String orderId, {Key? key}) {
     orderController =
         ControllerGenerator.create(OrderController(), tag: orderId);
@@ -27,87 +33,97 @@ class OrderDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => orderController.orderDetail.value.products != null
-        ? ListView(
-
-            children: [
-              orderController.orderDetail.value.status == "CANCELLED"
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10.0, right: 10.0, top: 10.0),
-                      child: Card(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.cancel,
-                                size: 60,
-                                color: AppColors.primeColor,
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                width: 230,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Cancel: no action\nrequired",
-                                        style: TextStyles.headingFont3),
-                                    SizedBox(
-                                      width: 250,
-                                      child: Text(
-                                        "Ready to order? Top the Reorder\nbutton fill your cart with items you \nalready picker out.",
-                                        style: TextStyles.titleFont,
-                                        maxLines: 4,
-                                        overflow: TextOverflow.fade,
-                                        textAlign: TextAlign.justify,
-                                      ),
-                                    ),
-                                  ],
+    return Obx(() {
+      Order? curOrder;
+      return orderController.orderDetail.value.products != null
+          ? ListView(
+              children: [
+                orderController.orderDetail.value.status == "CANCELLED"
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 10.0),
+                        child: Card(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.cancel,
+                                  size: 60,
+                                  color: AppColors.primeColor,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  width: 230,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Cancel: no action\nrequired",
+                                          style: TextStyles.headingFont3),
+                                      SizedBox(
+                                        width: 250,
+                                        child: Text(
+                                          "Ready to order? Top the Reorder\nbutton fill your cart with items you \nalready picker out.",
+                                          style: TextStyles.titleFont,
+                                          maxLines: 4,
+                                          overflow: TextOverflow.fade,
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : Container(),
-              _shippingDetails(context, orderController),
-              Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Text("Item Info", style: TextStyles.headingFont),
-              ),
-              _orderProductSummary(context),
-              _paymentDetails(context),
-              orderController.orderDetail.value.status == "CANCELLED" ||
-                      orderController.orderDetail.value.status == "DELIVERED"
-                  ? Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                            color: Colors.blue,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            onPressed: () {
-                              cartController.reOrder(products, msdProduct, scoinProduct);
-                            },
-                            child: Text("Reorder"),
-                          )
-                        ],
-                      ),
-                    )
-                  : SizedBox()
-            ],
-          )
-        : SizedBox());
+                      )
+                    : Container(),
+                _shippingDetails(context, orderController),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 12.0,
+                  ),
+                  child: Text("Item Info", style: TextStyles.headingFont),
+                ),
+                _orderProductSummary(context),
+                _paymentDetails(context),
+                orderController.orderDetail.value.status == "CANCELLED" ||
+                        orderController.orderDetail.value.status ==
+                            "DELIVERED" ||
+                        orderController.orderDetail.value.status ==
+                            "EXPIRED" ||
+                        orderController.orderDetail.value.status == "SHIPPED"
+                    ? Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            MaterialButton(
+                              color: Colors.blue,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              onPressed: () {
+                                cartController.reOrder(
+                                    products, msdProduct, scoinProduct);
+                              },
+                              child: Text("Reorder"),
+                            )
+                          ],
+                        ),
+                      )
+                    : orderButtons(orderController.orderDetail.value, context),
+              ],
+            )
+          : SizedBox();
+    });
   }
 
   _orderProductSummary(BuildContext context) {
@@ -124,15 +140,19 @@ class OrderDetailWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       const Divider(),
-                      orderController.orderDetail.value.payment!.appliedCouponCode==null?SizedBox():     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Coupon", style: TextStyles.headingFont),
-                               Text(
-                              '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
-                              style: TextStyles.headingFont),
-                        ],
-                      ),
+                      orderController.orderDetail.value.payment!
+                                  .appliedCouponCode ==
+                              null
+                          ? SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Coupon", style: TextStyles.headingFont),
+                                Text(
+                                    '${orderController.orderDetail.value.payment!.appliedCouponCode.toString()}${CodeHelp.euro}',
+                                    style: TextStyles.headingFont),
+                              ],
+                            ),
                       const SizedBox(
                         height: 5,
                       ),
@@ -173,16 +193,19 @@ class OrderDetailWidget extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      orderController.orderDetail.value.payment!.totalSPointsEarned==null?SizedBox(): Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("s Points Applied",
-                              style: TextStyles.headingFont),
-                          Text(
-                              '${orderController.orderDetail.value.payment!.totalSPointsEarned.toString()}${CodeHelp.euro}',
-                              style: TextStyles.headingFont),
-                        ],
-                      ),
+                      orderController.orderDetail.value.payment!
+                                  .totalSPointsEarned ==
+                              null
+                          ? SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("S-Points", style: TextStyles.headingFont),
+                                Text(
+                                    '${orderController.orderDetail.value.payment!.totalSPointsEarned.toString()}${CodeHelp.euro}',
+                                    style: TextStyles.headingFont),
+                              ],
+                            ),
                     ],
                   ),
                 ),
@@ -237,7 +260,6 @@ class OrderDetailWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-
                 Text(
                   '${e.price!.offerPrice}${CodeHelp.euro} ',
                   style: TextStyles.bodyFontBold,
@@ -288,15 +310,13 @@ class OrderDetailWidget extends StatelessWidget {
     return orderController.shippingDhl.value.shipments != null &&
             orderController.shippingDhl.value.shipments!.length > 0
         ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(12.0),
+              Padding(
+                padding: EdgeInsets.only(left: 12.0, top: 12),
                 child: Text(
                   "Shipping Info",
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14),
+                  style: TextStyles.headingFont,
                 ),
               ),
               Padding(
@@ -322,13 +342,8 @@ class OrderDetailWidget extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Shipment method",
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
-                                  ),
+                                  Text("Shipment method",
+                                      style: TextStyles.headingFont),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
@@ -433,61 +448,77 @@ class OrderDetailWidget extends StatelessWidget {
             ],
           )
         : orderController.orderDetail.value.shipping!.destination != null
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                    child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Shipping Address",
-                        style: TextStyles.titleFont,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          orderController.orderDetail.value.shipping!
-                                      .destination!.customerAddress!.name ==
-                                  null
-                              ? " "
-                              : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.name}${" , "}',
-                          style: TextStyles.bodyFontBold,
-                        ),
-                      ),
-                      Row(
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(left: 12.0, top: 12),
+                      child: Text(
+                        "Shipping Info",
+                        style: TextStyles.headingFont,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            orderController.orderDetail.value.shipping!
-                                        .destination!.customerAddress!.line1 ==
-                                    null
-                                ? " "
-                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.line1}${" , "}',
-                            style: TextStyles.titleFont,
+                            "Shipping Address",
+                            style: TextStyles.headingFont,
                           ),
-                          Text(
-                            orderController
-                                        .orderDetail
-                                        .value
-                                        .shipping!
-                                        .destination!
-                                        .customerAddress!
-                                        .zipCode ==
-                                    null
-                                ? ""
-                                : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode}',
-                            style: TextStyles.titleFont,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              orderController.orderDetail.value.shipping!
+                                          .destination!.customerAddress!.name ==
+                                      null
+                                  ? " "
+                                  : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.name}${" , "}',
+                              style: TextStyles.bodyFontBold,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                orderController
+                                            .orderDetail
+                                            .value
+                                            .shipping!
+                                            .destination!
+                                            .customerAddress!
+                                            .line1 ==
+                                        null
+                                    ? " "
+                                    : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.line1}${" , "}',
+                                style: TextStyles.titleFont,
+                              ),
+                              Text(
+                                orderController
+                                            .orderDetail
+                                            .value
+                                            .shipping!
+                                            .destination!
+                                            .customerAddress!
+                                            .zipCode ==
+                                        null
+                                    ? ""
+                                    : '${orderController.orderDetail.value.shipping!.destination!.customerAddress!.zipCode}',
+                                style: TextStyles.titleFont,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    )),
                   ),
-                )),
+                ],
               )
             : const SizedBox();
   }
@@ -499,7 +530,7 @@ class OrderDetailWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.only(left: 12.0, top: 5, bottom: 5),
           child: Text("Order Details", style: TextStyles.headingFont),
         ),
         Padding(
@@ -581,6 +612,296 @@ class OrderDetailWidget extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget orderButtons(Order curOrder, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        children: [
+          Visibility(
+            visible: OrderListPage().checkValidCancelReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useRootNavigator: true,
+                    isDismissible: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    elevation: 3,
+                    builder: (context) {
+                      bool _isChecked = false;
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height * .75,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child:
+                                      CompilanceWidget('CANCELLATION_POLICY')),
+                              StatefulBuilder(
+                                builder: (BuildContext context, state) =>
+                                    Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    CheckboxListTile(
+                                      title: Text(
+                                        'I have read and agree with the above Term and condition',
+                                        style: TextStyles.titleFont,
+                                      ),
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      activeColor: AppColors.primeColor,
+                                      // checkColor: Colors.yellow,
+                                      selected: _isChecked,
+                                      value: _isChecked,
+                                      onChanged: (value) {
+                                        state(() {
+                                          _isChecked = value!;
+                                        });
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          OutlinedButton(
+                                            child: Text("Cancel"),
+                                            style: OutlinedButton.styleFrom(
+                                              // primary: Colors.red,
+                                              side: BorderSide(
+                                                width: 2,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text(
+                                              "Continue",
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
+                                              elevation: 0,
+                                            ),
+                                            onPressed: () {
+                                              if (_isChecked) {
+                                                Navigator.of(context).pop();
+                                                _showCancelOrderConfirmationDialog(
+                                                    context,
+                                                    curOrder
+                                                        .userFriendlyOrderId!);
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ));
+                    },
+                  );
+                },
+                child: Text(
+                  'Cancel',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: OrderListPage().checkValidReturnReq(curOrder),
+            child: Expanded(
+              child: TextButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    useRootNavigator: true,
+                    isDismissible: true,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    elevation: 3,
+                    builder: (context) {
+                      bool _isChecked = false;
+                      return SizedBox(
+                          height: MediaQuery.of(context).size.height * .75,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child: CompilanceWidget('RETURN_REFUND')),
+                              StatefulBuilder(
+                                builder: (BuildContext context, state) =>
+                                    Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    CheckboxListTile(
+                                      title: Text(
+                                        'I have read and agree with the above Term and condition',
+                                        style: TextStyles.titleFont,
+                                      ),
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
+                                      activeColor: AppColors.primeColor,
+                                      // checkColor: Colors.yellow,
+                                      selected: _isChecked,
+                                      value: _isChecked,
+                                      onChanged: (value) {
+                                        state(() {
+                                          _isChecked = value!;
+                                        });
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          OutlinedButton(
+                                            child: Text("Cancel"),
+                                            style: OutlinedButton.styleFrom(
+                                              // primary: Colors.red,
+                                              side: BorderSide(
+                                                width: 2,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                          ),
+                                          ElevatedButton(
+                                            child: Text(
+                                              "Continue",
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
+                                              elevation: 0,
+                                            ),
+                                            onPressed: () {
+                                              if (_isChecked) {
+                                                Navigator.of(context).pop();
+
+                                                OrderListPage()
+                                                    .ReturnOrderConfirmationDialog(
+                                                        context,
+                                                        curOrder
+                                                            .userFriendlyOrderId);
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ));
+                    },
+                  );
+                },
+                child: Text(
+                  'Return',
+                  style: TextStyles.headingFont.copyWith(color: AppColors.grey),
+                ),
+              ),
+            ),
+          ),
+          orderController.orderDetail.value.status == "CANCELLED" ||
+                  orderController.orderDetail.value.status == "DELIVERED"
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      MaterialButton(
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        onPressed: () {
+                          cartController.reOrder(
+                              products, msdProduct, scoinProduct);
+                        },
+                        child: Text("Reorder"),
+                      )
+                    ],
+                  ),
+                )
+              : SizedBox()
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showCancelOrderConfirmationDialog(
+      BuildContext context, String? orderID) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Confirm Order Cancellation',
+            style: TextStyles.titleFont,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to cancel this order?',
+                  style: TextStyles.body,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: Text('Confirm'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                OrderListPage().EmailCancelOrder(orderID); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
