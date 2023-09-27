@@ -47,26 +47,26 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FCMSyncService.init();
   await OfflineDBService.init();
-  _initMixpanel();
   final remoteConfig = FirebaseRemoteConfig.instance;
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   if ((int.parse(packageInfo.buildNumber) >=
-          remoteConfig.getValue('app_env_version').asInt()) ||
+      remoteConfig.getValue('app_env_version').asInt()) ||
       (int.parse(packageInfo.buildNumber) == 0)) {
     ClientService.setEnv(env: Environment.prod);
-    AnalyticsService.logEvent('initalization', {
-      "message": 'initalized  production App',
-    });
-  } else {
-    ClientService.setEnv(env: Environment.dev);
-    AnalyticsService.logEvent('initalization', {
-      "message": 'initalized dev App',
-    });
   }
+  else {
+    ClientService.setEnv(env: Environment.dev);
+  }
+
+  _initMixpanel();
+
+  AnalyticsService.logEvent('initalization', {
+    "message": 'initalized App',
+  });
 
   // Check if you received the link via `getInitialLink` first
   final PendingDynamicLinkData? initialLink =
-      await FirebaseDynamicLinks.instance.getInitialLink();
+  await FirebaseDynamicLinks.instance.getInitialLink();
 
   if (initialLink != null) {
     final Uri deepLink = initialLink.link;
@@ -75,7 +75,7 @@ void main() async {
   }
 
   FirebaseDynamicLinks.instance.onLink.listen(
-    (pendingDynamicLinkData) {
+        (pendingDynamicLinkData) {
       // Set up the `onLink` event listener next as it may be received here
       final Uri deepLink = pendingDynamicLinkData.link;
       Modular.to.navigate(deepLink.path, arguments: deepLink.queryParameters);
@@ -95,7 +95,7 @@ void main() async {
 
   // ignore: unused_local_variable
   final OnBoardingController onBoardingController =
-      Get.put(OnBoardingController());
+  Get.put(OnBoardingController());
   // ignore: unused_local_variable
   final LocationController locationController = Get.put(LocationController());
   Get.put(AuthController());

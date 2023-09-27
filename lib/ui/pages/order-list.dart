@@ -8,6 +8,7 @@ import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
 import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -505,109 +506,115 @@ class OrderListPage extends StatelessWidget {
 
   OrdeTile(BuildContext context, Order curOrder) {
     DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
-                      style: TextStyles.bodyFontBold,
-                    ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                      decoration: ShapeDecoration(
-                          shape: StadiumBorder(),
-                          color: Helper.getColor(curOrder.status)
-                              .withOpacity(0.2)),
-                      child: Text('${CodeHelp.titleCase(curOrder.status!)}',
-                          style: TextStyles.headingFont.copyWith(
-                              color: Helper.getColor(curOrder.status))),
-                    ),
-                  ]),
-            ),
-            const Divider(
-              thickness: 1.5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                //  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // Text('Order #', style: TextStyles.headingFont),
-                  Text(
-                    'Order number:  ${curOrder.userFriendlyOrderId}',
-                    style: TextStyles.body.copyWith(
-                      color: AppColors.grey,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    'Total: ',
-                    style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
-                  ),
-
-                  Text(
-                      '\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
-                      style: TextStyles.headingFont),
-                ],
-              ),
-            ),
-            if (curOrder.products!.isNotEmpty) ...[
+    return GestureDetector(
+      onTap: () {
+        Modular.to.pushNamed('/widget/order-detail',
+            arguments: {'id': curOrder.id});
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Colors.white,
+          child: Column(
+            children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _orderProductTile(curOrder.products!, context),
-              )
-            ],
-            const Divider(
-              thickness: 1.5,
-              // color: Colors.black12,
-            ),
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
+                        style: TextStyles.bodyFontBold,
+                      ),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                        decoration: ShapeDecoration(
+                            shape: StadiumBorder(),
+                            color: Helper.getColor(curOrder.status)
+                                .withOpacity(0.2)),
+                        child: Text('${CodeHelp.titleCase(curOrder.status!)}',
+                            style: TextStyles.headingFont.copyWith(
+                                color: Helper.getColor(curOrder.status))),
+                      ),
+                    ]),
+              ),
+              const Divider(
+                thickness: 1.5,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // Text('Order #', style: TextStyles.headingFont),
+                    Text(
+                      'Order number:  ${curOrder.userFriendlyOrderId}',
+                      style: TextStyles.body.copyWith(
+                        color: AppColors.grey,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      'Total: ',
+                      style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
+                    ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: (curOrder.status == "SHIPPED" ||
-                      curOrder.status == "CANCELLED" ||
-                      curOrder.status == "EXPIRED" ||
-                      curOrder.status == "DELIVERED")
-                  ? SizedBox()
-                  // Align(
-                  //     alignment: Alignment.topRight,
-                  //     child: MaterialButton(
-                  //       padding: EdgeInsets.symmetric(horizontal: 15),
-                  //       color: Colors.lightBlue,
-                  //       textColor: Colors.white,
-                  //       shape: StadiumBorder(),
-                  //       onPressed: () {},
-                  //       child: Text("Reorder"),
-                  //     ),
-                  //   )
-                  : orderButtons(curOrder, context),
-            )
-            //    orderButtons(curOrder, context),
-            // Padding(
-            //   padding: const EdgeInsets.all(4.0),
-            //   child: Row(
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.all(4.0),
-            //         child: Text(
-            //           'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
-            //           style:
-            //               TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // ),
-          ],
+                    Text(
+                        '\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
+                        style: TextStyles.headingFont),
+                  ],
+                ),
+              ),
+              if (curOrder.products!.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _orderProductTile(curOrder.products!, context),
+                )
+              ],
+              const Divider(
+                thickness: 1.5,
+                // color: Colors.black12,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: (curOrder.status == "SHIPPED" ||
+                        curOrder.status == "CANCELLED" ||
+                        curOrder.status == "EXPIRED" ||
+                        curOrder.status == "DELIVERED")
+                    ? SizedBox()
+                    // Align(
+                    //     alignment: Alignment.topRight,
+                    //     child: MaterialButton(
+                    //       padding: EdgeInsets.symmetric(horizontal: 15),
+                    //       color: Colors.lightBlue,
+                    //       textColor: Colors.white,
+                    //       shape: StadiumBorder(),
+                    //       onPressed: () {},
+                    //       child: Text("Reorder"),
+                    //     ),
+                    //   )
+                    : orderButtons(curOrder, context),
+              )
+              //    orderButtons(curOrder, context),
+              // Padding(
+              //   padding: const EdgeInsets.all(4.0),
+              //   child: Row(
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.all(4.0),
+              //         child: Text(
+              //           'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
+              //           style:
+              //               TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
