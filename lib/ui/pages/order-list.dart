@@ -20,13 +20,25 @@ class OrderListPage extends StatelessWidget {
   RxList<Order> orderList = <Order>[].obs;
   RxInt selectedIndex = 0.obs;
   Controller controller = Get.find<Controller>();
-  List<String> list = ["All", "Open", "Paid", "Shipped", "Delivered", "Cancelled"];
+  List<String> list = [
+    "All",
+    "Open",
+    "Paid",
+    "Shipped",
+    "Delivered",
+    "Cancelled"
+  ];
   getOrderList() async {
     // isLoading.value = true;
     Ref custRef = await Helper.getCustomerRef();
-    var response = await ClientService.post(path: 'order/search', payload: {"customerId": custRef.id, "onlyOrders": true});
+    var response = await ClientService.post(
+        path: 'order/search',
+        payload: {"customerId": custRef.id, "onlyOrders": true});
     if (response.statusCode == 200) {
-      List<Order> oList = ((response.data as List<dynamic>?)?.map((e) => Order.fromMap(e as Map<String, dynamic>)).toList() ?? []);
+      List<Order> oList = ((response.data as List<dynamic>?)
+              ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+              .toList() ??
+          []);
       isLoading.value = false;
       orderList.value = oList;
       //     orderList.value = controller.customerDetail.value.orders;
@@ -119,18 +131,27 @@ class OrderListPage extends StatelessWidget {
                       },
                       child: Obx(
                         () => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 3, vertical: 2),
                           child: Container(
                             alignment: Alignment.center,
                             padding: const EdgeInsets.symmetric(
                               horizontal: 10,
                             ),
                             decoration: ShapeDecoration(
-                                color: (selectedIndex.value == index) ? AppColors.black : AppColors.white, shape: StadiumBorder(side: BorderSide(color: Colors.black12))),
+                                color: (selectedIndex.value == index)
+                                    ? AppColors.black
+                                    : AppColors.white,
+                                shape: StadiumBorder(
+                                    side: BorderSide(color: Colors.black12))),
                             child: Text(list[index],
                                 style: (selectedIndex.value == index)
-                                    ? TextStyles.bodyFont.copyWith(color: AppColors.white)
-                                    : TextStyles.headingFont.copyWith(fontSize: 15, color: AppColors.grey, fontWeight: FontWeight.w600)),
+                                    ? TextStyles.bodyFont
+                                        .copyWith(color: AppColors.white)
+                                    : TextStyles.headingFont.copyWith(
+                                        fontSize: 15,
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w600)),
                           ),
                         ),
                       ),
@@ -154,7 +175,9 @@ class OrderListPage extends StatelessWidget {
                         child: Center(
                           child: Column(
                             children: [
-                              Lottie.asset('assets/no-data.json', width: MediaQuery.of(context).size.width * .5, fit: BoxFit.cover),
+                              Lottie.asset('assets/no-data.json',
+                                  width: MediaQuery.of(context).size.width * .5,
+                                  fit: BoxFit.cover),
                               Expanded(
                                 child: Text(
                                   'No orders available, waiting for a new order.',
@@ -174,7 +197,9 @@ class OrderListPage extends StatelessWidget {
   }
 
   OrderTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = curOrder.metaData?.createdAt != null ? DateTime.parse(curOrder.metaData!.createdAt!) : DateTime.now();
+    DateTime orderTime = curOrder.metaData?.createdAt != null
+        ? DateTime.parse(curOrder.metaData!.createdAt!)
+        : DateTime.now();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -204,18 +229,22 @@ class OrderListPage extends StatelessWidget {
                       Text('Order #', style: TextStyles.headingFont),
                       Text(
                         '${curOrder.userFriendlyOrderId}',
-                        style: TextStyles.headingFont.copyWith(color: AppColors.primeColor),
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.primeColor),
                       ),
                     ],
                   ),
-                  Text('${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered', style: TextStyles.titleFont),
+                  Text(
+                      '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered',
+                      style: TextStyles.titleFont),
                 ],
               ),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Order Status', style: TextStyles.titleFont),
-                  Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.bodyFontBold),
+                  Text('${CodeHelp.titleCase(curOrder.status!)}',
+                      style: TextStyles.bodyFontBold),
                 ],
               ),
             ),
@@ -227,10 +256,14 @@ class OrderListPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('${curOrder.payment?.totalAmount?.toString()} ${CodeHelp.euro}', style: TextStyles.bodyFontBold.copyWith(color: Colors.green)),
+                      Text(
+                          '${curOrder.payment?.totalAmount?.toString()} ${CodeHelp.euro}',
+                          style: TextStyles.bodyFontBold
+                              .copyWith(color: Colors.green)),
                       Text(
                         'Paid ',
-                        style: TextStyles.titleFont.copyWith(color: Colors.grey),
+                        style:
+                            TextStyles.titleFont.copyWith(color: Colors.grey),
                       )
                     ],
                   ),
@@ -249,7 +282,8 @@ class OrderListPage extends StatelessWidget {
                         //     side: BorderSide(color: AppColors.primeColor)),
                         // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         onPressed: () {
-                          Modular.to.pushNamed('/widget/order-detail', arguments: {'id': curOrder.id});
+                          Modular.to.pushNamed('/widget/order-detail',
+                              arguments: {'id': curOrder.id});
                         },
 
                         style: ButtonStyle(
@@ -259,11 +293,13 @@ class OrderListPage extends StatelessWidget {
                               side: BorderSide(color: AppColors.primeColor),
                             ),
                           ),
-                          side: MaterialStateProperty.all<BorderSide>(BorderSide(color: AppColors.primeColor)),
+                          side: MaterialStateProperty.all<BorderSide>(
+                              BorderSide(color: AppColors.primeColor)),
                         ),
                         child: Text(
                           'View',
-                          style: TextStyles.titleFont.copyWith(color: AppColors.primeColor),
+                          style: TextStyles.titleFont
+                              .copyWith(color: AppColors.primeColor),
                         ),
                       )
                     ],
@@ -280,7 +316,8 @@ class OrderListPage extends StatelessWidget {
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
                       'You have saved ${CodeHelp.euro}${curOrder.payment?.totalSavedAmount} and you will get ${curOrder.payment?.totalSCoinsEarned} scoin.',
-                      style: TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                      style:
+                          TextStyles.bodyFontBold.copyWith(color: Colors.grey),
                     ),
                   )
                 ],
@@ -318,7 +355,8 @@ class OrderListPage extends StatelessWidget {
                     context: context,
                     useRootNavigator: true,
                     isDismissible: true,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
                     elevation: 3,
@@ -328,9 +366,14 @@ class OrderListPage extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * .75,
                           child: Column(
                             children: [
-                              SizedBox(height: MediaQuery.of(context).size.height * .6, child: CompilanceWidget('CANCELLATION_POLICY')),
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child:
+                                      CompilanceWidget('CANCELLATION_POLICY')),
                               StatefulBuilder(
-                                builder: (BuildContext context, state) => Column(
+                                builder: (BuildContext context, state) =>
+                                    Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     CheckboxListTile(
@@ -338,7 +381,8 @@ class OrderListPage extends StatelessWidget {
                                         'I have read and agree with the above Term and condition',
                                         style: TextStyles.titleFont,
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       activeColor: AppColors.primeColor,
                                       // checkColor: Colors.yellow,
                                       selected: _isChecked,
@@ -350,9 +394,11 @@ class OrderListPage extends StatelessWidget {
                                       },
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           OutlinedButton(
                                             child: Text("Cancel"),
@@ -363,22 +409,31 @@ class OrderListPage extends StatelessWidget {
                                                 color: Colors.red,
                                               ),
                                             ),
-                                            onPressed: () => Navigator.of(context).pop(),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
                                           ),
                                           ElevatedButton(
                                             child: Text(
                                               "Continue",
-                                              style: TextStyle(fontFamily: Fonts.body, fontSize: FontSizes.title, color: AppColors.white),
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
                                             ),
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: _isChecked ? AppColors.primeColor : AppColors.grey,
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
                                               elevation: 0,
                                             ),
                                             onPressed: () {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                _showCancelOrderConfirmationDialog(context, curOrder.userFriendlyOrderId!);
+                                                _showCancelOrderConfirmationDialog(
+                                                    context,
+                                                    curOrder
+                                                        .userFriendlyOrderId!);
                                               }
                                             },
                                           ),
@@ -409,7 +464,8 @@ class OrderListPage extends StatelessWidget {
                     context: context,
                     useRootNavigator: true,
                     isDismissible: true,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
                     backgroundColor: Colors.white,
                     isScrollControlled: true,
                     elevation: 3,
@@ -419,9 +475,13 @@ class OrderListPage extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * .75,
                           child: Column(
                             children: [
-                              SizedBox(height: MediaQuery.of(context).size.height * .6, child: CompilanceWidget('RETURN_REFUND')),
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .6,
+                                  child: CompilanceWidget('RETURN_REFUND')),
                               StatefulBuilder(
-                                builder: (BuildContext context, state) => Column(
+                                builder: (BuildContext context, state) =>
+                                    Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     CheckboxListTile(
@@ -429,7 +489,8 @@ class OrderListPage extends StatelessWidget {
                                         'I have read and agree with the above Term and condition',
                                         style: TextStyles.titleFont,
                                       ),
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       activeColor: AppColors.primeColor,
                                       // checkColor: Colors.yellow,
                                       selected: _isChecked,
@@ -441,9 +502,11 @@ class OrderListPage extends StatelessWidget {
                                       },
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           OutlinedButton(
                                             child: Text("Cancel"),
@@ -454,22 +517,31 @@ class OrderListPage extends StatelessWidget {
                                                 color: Colors.red,
                                               ),
                                             ),
-                                            onPressed: () => Navigator.of(context).pop(),
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
                                           ),
                                           ElevatedButton(
                                             child: Text(
                                               "Continue",
-                                              style: TextStyle(fontFamily: Fonts.body, fontSize: FontSizes.title, color: AppColors.white),
+                                              style: TextStyle(
+                                                  fontFamily: Fonts.body,
+                                                  fontSize: FontSizes.title,
+                                                  color: AppColors.white),
                                             ),
                                             style: ElevatedButton.styleFrom(
-                                              backgroundColor: _isChecked ? AppColors.primeColor : AppColors.grey,
+                                              backgroundColor: _isChecked
+                                                  ? AppColors.primeColor
+                                                  : AppColors.grey,
                                               elevation: 0,
                                             ),
                                             onPressed: () {
                                               if (_isChecked) {
                                                 Navigator.of(context).pop();
 
-                                                ReturnOrderConfirmationDialog(context, curOrder.userFriendlyOrderId);
+                                                ReturnOrderConfirmationDialog(
+                                                    context,
+                                                    curOrder
+                                                        .userFriendlyOrderId);
                                               }
                                             },
                                           ),
@@ -499,7 +571,8 @@ class OrderListPage extends StatelessWidget {
   Future<void> EmailCancelOrder(String? orderID) async {
     const toEmail = 'hello@sbazar.app';
     String subject = 'cancel order $orderID';
-    String body = 'Hello,\n I would like to Cancel my order with the order id ${orderID.toString()}\n';
+    String body =
+        'Hello,\n I would like to Cancel my order with the order id ${orderID.toString()}\n';
 
     final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
     if (await canLaunchUrl(url)) {
@@ -510,7 +583,8 @@ class OrderListPage extends StatelessWidget {
   Future<void> ReturnOrderEmail(String? orderID) async {
     const toEmail = 'hello@sbazar.app';
     String subject = 'return order $orderID';
-    String body = 'Hello,\n I would like to Return my order with the order id ${orderID.toString()}\n';
+    String body =
+        'Hello,\n I would like to Return my order with the order id ${orderID.toString()}\n';
 
     final Uri url = Uri.parse('mailto:$toEmail?subject=$subject&body=$body');
     if (await canLaunchUrl(url)) {
@@ -518,7 +592,8 @@ class OrderListPage extends StatelessWidget {
     }
   }
 
-  Future<void> _showCancelOrderConfirmationDialog(BuildContext context, String? orderID) async {
+  Future<void> _showCancelOrderConfirmationDialog(
+      BuildContext context, String? orderID) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // User must tap button!
@@ -558,7 +633,8 @@ class OrderListPage extends StatelessWidget {
     );
   }
 
-  Future<void> ReturnOrderConfirmationDialog(BuildContext context, String? orderID) async {
+  Future<void> ReturnOrderConfirmationDialog(
+      BuildContext context, String? orderID) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // User must tap button!
@@ -613,7 +689,10 @@ class OrderListPage extends StatelessWidget {
   }
 
   checkValidCancelReq(Order order) {
-    if (order.status != 'PAID' || order.status != 'SHIPPED' || order.status != 'DELIVERED' || order.eligibleForCancellation!) {
+    if (order.status != 'PAID' ||
+        order.status != 'SHIPPED' ||
+        order.status != 'DELIVERED' ||
+        order.eligibleForCancellation!) {
       return true;
     } else {
       return false;
@@ -639,8 +718,11 @@ class OrderListPage extends StatelessWidget {
 
   checkValidReturnReq(Order order) {
     //   bool isDateTime14Daysold = isDateTime14DaysOld("2023-09-08T12:00:00");
-    bool isDateTime14Daysold = isDateTime14DaysOld(order.shipping?.lastMovement?.time);
-    if (order.status == 'DELIVERED' && order.shipping?.lastMovement?.status == "SHIPPED" && isDateTime14Daysold) {
+    bool isDateTime14Daysold =
+        isDateTime14DaysOld(order.shipping?.lastMovement?.time);
+    if (order.status == 'DELIVERED' &&
+        order.shipping?.lastMovement?.status == "SHIPPED" &&
+        isDateTime14Daysold) {
       return true;
     } else {
       return false;
@@ -649,96 +731,117 @@ class OrderListPage extends StatelessWidget {
 
   OrdeTile(BuildContext context, Order curOrder) {
     // DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
-    DateTime orderTime = curOrder.createdAt != null ? DateTime.parse(curOrder.createdAt!) : DateTime.now();
+    DateTime orderTime = curOrder.createdAt != null
+        ? DateTime.parse(curOrder.createdAt!)
+        : DateTime.now();
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(
-                  "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
-                  style: TextStyles.bodyFontBold,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
-                  decoration: ShapeDecoration(shape: StadiumBorder(), color: Helper.getColor(curOrder.status).withOpacity(0.2)),
-                  child: Text('${CodeHelp.titleCase(curOrder.status!)}', style: TextStyles.headingFont.copyWith(color: Helper.getColor(curOrder.status))),
-                ),
-              ]),
-            ),
-            const Divider(
-              thickness: 1.5,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                //  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // Text('Order #', style: TextStyles.headingFont),
-                  Text(
-                    'Order number:  ${curOrder.userFriendlyOrderId}',
-                    style: TextStyles.body.copyWith(
-                      color: AppColors.grey,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    'Total: ',
-                    style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
-                  ),
-
-                  Text('\$${curOrder.paidAmount?.toString()} ${CodeHelp.euro}', style: TextStyles.headingFont),
-                ],
-              ),
-            ),
-            if (curOrder.products!.isNotEmpty) ...[
+      child: GestureDetector(
+        onTap: () => Modular.to
+            .pushNamed('/widget/order-detail', arguments: {'id': curOrder.id}),
+        child: Card(
+          color: Colors.white,
+          child: Column(
+            children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: _orderProductTile(curOrder.products!, context),
-              )
-            ],
-            const Divider(
-              thickness: 1.5,
-              // color: Colors.black12,
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: (curOrder.status == "SHIPPED" || curOrder.status == "CANCELLED" || curOrder.status == "EXPIRED" || curOrder.status == "DELIVERED")
-                  ? Align(
-                      alignment: Alignment.topRight,
-                      child: MaterialButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        color: Colors.lightBlue,
-                        textColor: Colors.white,
-                        shape: StadiumBorder(),
-                        onPressed: () {},
-                        child: Text("Reorder"),
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${TimeUtil.getFormatDateTime(orderTime, 'EEE d /MM/ yyyy')}",
+                        style: TextStyles.bodyFontBold,
                       ),
-                    )
-                  : orderButtons(curOrder, context),
-            )
-            //    orderButtons(curOrder, context),
-            // Padding(
-            //   padding: const EdgeInsets.all(4.0),
-            //   child: Row(
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.all(4.0),
-            //         child: Text(
-            //           'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
-            //           style:
-            //               TextStyles.bodyFontBold.copyWith(color: Colors.grey),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // ),
-          ],
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 1),
+                        decoration: ShapeDecoration(
+                            shape: StadiumBorder(),
+                            color: Helper.getColor(curOrder.status)
+                                .withOpacity(0.2)),
+                        child: Text('${CodeHelp.titleCase(curOrder.status!)}',
+                            style: TextStyles.headingFont.copyWith(
+                                color: Helper.getColor(curOrder.status))),
+                      ),
+                    ]),
+              ),
+              const Divider(
+                thickness: 1.5,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Row(
+                  //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // Text('Order #', style: TextStyles.headingFont),
+                    Text(
+                      'Order number:  ${curOrder.userFriendlyOrderId}',
+                      style: TextStyles.body.copyWith(
+                        color: AppColors.grey,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      'Total: ',
+                      style:
+                          TextStyles.bodyFont.copyWith(color: AppColors.grey),
+                    ),
+
+                    Text(
+                        '\$${curOrder.paidAmount?.toString()} ${CodeHelp.euro}',
+                        style: TextStyles.headingFont),
+                  ],
+                ),
+              ),
+              if (curOrder.products!.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: _orderProductTile(curOrder.products!, context),
+                )
+              ],
+              const Divider(
+                thickness: 1.5,
+                // color: Colors.black12,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: (curOrder.status == "SHIPPED" ||
+                        curOrder.status == "CANCELLED" ||
+                        curOrder.status == "EXPIRED" ||
+                        curOrder.status == "DELIVERED")
+                    ? Align(
+                        alignment: Alignment.topRight,
+                        child: MaterialButton(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          color: Colors.lightBlue,
+                          textColor: Colors.white,
+                          shape: StadiumBorder(),
+                          onPressed: () {},
+                          child: Text("Reorder"),
+                        ),
+                      )
+                    : orderButtons(curOrder, context),
+              )
+              //    orderButtons(curOrder, context),
+              // Padding(
+              //   padding: const EdgeInsets.all(4.0),
+              //   child: Row(
+              //     children: [
+              //       Padding(
+              //         padding: const EdgeInsets.all(4.0),
+              //         child: Text(
+              //           'You have saved ${CodeHelp.euro}${curOrder.payment!.totalSavedAmount!} and you will get ${curOrder.payment!.totalSCoinsEarned!} scoin.',
+              //           style:
+              //               TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+              //         ),
+              //       )
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -755,16 +858,22 @@ class OrderListPage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   ImageBox(
-                    e[index].products!.isNotEmpty ? e[index].products![0].images![0] : e[index].product!.images?[0],
+                    e[index].products!.isNotEmpty
+                        ? e[index].products![0].images![0]
+                        : e[index].product!.images?[0],
                     width: 70,
                     height: 70,
                     fit: BoxFit.cover,
                   ),
                   Container(
-                    decoration: ShapeDecoration(shape: StadiumBorder(), color: Colors.black87),
+                    decoration: ShapeDecoration(
+                        shape: StadiumBorder(), color: Colors.black87),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-                      child: Text("x${e[index].count}", style: TextStyles.body.copyWith(color: AppColors.white)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 1),
+                      child: Text("x${e[index].count}",
+                          style:
+                              TextStyles.body.copyWith(color: AppColors.white)),
                     ),
                   )
                 ],
