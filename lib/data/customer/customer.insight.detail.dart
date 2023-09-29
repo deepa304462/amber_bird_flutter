@@ -10,21 +10,32 @@ import 'wish_list.insight.detail.dart';
 
 class Customer {
   List<Address>? addresses;
-  List<OrderSummary>? orders;
+  List<Order>? orders;
   Order? saveLater;
   Order? cart;
   WishList? wishList;
   PersonalInfo? personalInfo;
   CoinWallet? coinWalletDetail;
+  List<Order>? openOrders;
+  List<Order>? paidOrders;
+  List<Order>? shippedOrders;
+  List<Order>? deliveredOrders;
+  List<Order>? cancelledOrders;
 
-  Customer(
-      {this.addresses,
-      this.orders,
-      this.saveLater,
-      this.cart,
-      this.wishList,
-      this.personalInfo,
-      this.coinWalletDetail});
+  Customer({
+    this.addresses,
+    this.orders,
+    this.saveLater,
+    this.cart,
+    this.wishList,
+    this.personalInfo,
+    this.coinWalletDetail,
+    this.cancelledOrders,
+    this.deliveredOrders,
+    this.openOrders,
+    this.paidOrders,
+    this.shippedOrders,
+  });
 
   @override
   String toString() {
@@ -36,7 +47,7 @@ class Customer {
             ?.map((e) => Address.fromMap(e as Map<String, dynamic>))
             .toList(),
         orders: (data['orders'] as List<dynamic>?)
-            ?.map((e) => OrderSummary.fromMap(e as Map<String, dynamic>))
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
             .toList(),
         saveLater: data['saveLater'] == null
             ? null
@@ -55,6 +66,21 @@ class Customer {
             ? null
             : CoinWallet.fromMap(
                 data['coinWalletDetail'] as Map<String, dynamic>),
+        openOrders: (data['openOrders'] as List<dynamic>?)
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        paidOrders: (data['paidOrders'] as List<dynamic>?)
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        shippedOrders: (data['shippedOrders'] as List<dynamic>?)
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        deliveredOrders: (data['deliveredOrders'] as List<dynamic>?)
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+            .toList(),
+        cancelledOrders: (data['cancelledOrders'] as List<dynamic>?)
+            ?.map((e) => Order.fromMap(e as Map<String, dynamic>))
+            .toList(),
       );
 
   Map<String, dynamic> toMap() => {
@@ -81,7 +107,7 @@ class Customer {
 
   Customer copyWith({
     List<Address>? addresses,
-    List<OrderSummary>? orders,
+    List<Order>? orders,
     Order? saveLater,
     Order? cart,
     WishList? wishList,

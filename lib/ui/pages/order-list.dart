@@ -1,3 +1,4 @@
+import 'package:amber_bird/controller/state-controller.dart';
 import 'package:amber_bird/data/order/order.dart';
 import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/data/profile/ref.dart';
@@ -13,14 +14,22 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/compilance-widget.dart';
-import '../widget/loading-with-logo.dart';
 
 class OrderListPage extends StatelessWidget {
   RxBool isLoading = true.obs;
   RxList<Order> orderList = <Order>[].obs;
-
+  RxInt selectedIndex = 0.obs;
+  Controller controller = Get.find<Controller>();
+  List<String> list = [
+    "All",
+    "Open",
+    "Paid",
+    "Shipped",
+    "Delivered",
+    "Cancelled"
+  ];
   getOrderList() async {
-    isLoading.value = true;
+    // isLoading.value = true;
     Ref custRef = await Helper.getCustomerRef();
     var response = await ClientService.post(
         path: 'order/search',
@@ -32,48 +41,129 @@ class OrderListPage extends StatelessWidget {
           []);
       isLoading.value = false;
       orderList.value = oList;
+      //     orderList.value = controller.customerDetail.value.orders;
+    }
+  }
+
+  ordeList(int index) {
+    selectedIndex.value = index;
+    switch (index) {
+      case 0:
+        orderList.value = controller.customerDetail.value.orders ?? [];
+        break;
+      case 1:
+        orderList.value = controller.customerDetail.value.openOrders ?? [];
+        break;
+      case 2:
+        orderList.value = controller.customerDetail.value.paidOrders ?? [];
+        break;
+      case 3:
+        orderList.value = controller.customerDetail.value.shippedOrders ?? [];
+        break;
+      case 4:
+        orderList.value = controller.customerDetail.value.deliveredOrders ?? [];
+        break;
+
+      case 5:
+        orderList.value = controller.customerDetail.value.cancelledOrders ?? [];
+        break;
+
+      default:
+        orderList.value = controller.customerDetail.value.orders ?? [];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    getOrderList();
+    // getOrderList();
+    ordeList(0);
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
+        elevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
         toolbarHeight: 50,
         leadingWidth: 50,
-        backgroundColor: AppColors.primeColor,
+        backgroundColor: AppColors.white,
         leading: MaterialButton(
           onPressed: () {
             Navigator.pop(context);
           },
           child: const Icon(
             Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 15,
+            color: Colors.black,
+            size: 22,
           ),
         ),
-        title: Column(
-          children: [
-            Text(
-              'My Orders',
-              style: TextStyles.bodyFont.copyWith(color: Colors.white),
-            ),
-          ],
+        title: Text(
+          'My Orders',
+          style: TextStyles.bodyFont,
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 26,
+            ),
+          )
+        ],
       ),
-      body: Obx(
-        () => Column(
-          children: [
-            isLoading.value
-                ? const Expanded(child: LoadingWithLogo())
-                : orderList.isNotEmpty
+      body: Obx(() =>
+              // Column(
+              //   children: [
+              // isLoading.value
+              //     ? const Expanded(child: LoadingWithLogo())
+              //     :
+              Column(children: [
+                SizedBox(
+                  height: 35,
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    itemCount: list.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        ordeList(index);
+                      },
+                      child: Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 3, vertical: 2),
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            decoration: ShapeDecoration(
+                                color: (selectedIndex.value == index)
+                                    ? AppColors.black
+                                    : AppColors.white,
+                                shape: StadiumBorder(
+                                    side: BorderSide(color: Colors.black12))),
+                            child: Text(list[index],
+                                style: (selectedIndex.value == index)
+                                    ? TextStyles.bodyFont
+                                        .copyWith(color: AppColors.white)
+                                    : TextStyles.headingFont.copyWith(
+                                        fontSize: 15,
+                                        color: AppColors.grey,
+                                        fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                orderList.isNotEmpty
                     ? Expanded(
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
                           itemCount: orderList.length,
                           itemBuilder: (_, index) {
                             var curOrder = orderList[index];
@@ -98,6 +188,141 @@ class OrderListPage extends StatelessWidget {
                           ),
                         ),
                       ),
+              ])
+
+          //   ],
+          // ),
+          ),
+    );
+  }
+
+  OrderTile(BuildContext context, Order curOrder) {
+    DateTime orderTime = curOrder.metaData?.createdAt != null
+        ? DateTime.parse(curOrder.metaData!.createdAt!)
+        : DateTime.now();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            ListTile(
+              leading: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    TimeUtil.getFormatDateTime(orderTime, 'dd MMM, yy'),
+                    style: TextStyles.bodyFontBold,
+                  ),
+                  Text(
+                    TimeUtil.getFormatDateTime(orderTime, 'hh:mm a'),
+                    style: TextStyles.titleFont,
+                  ),
+                ],
+              ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text('Order #', style: TextStyles.headingFont),
+                      Text(
+                        '${curOrder.userFriendlyOrderId}',
+                        style: TextStyles.headingFont
+                            .copyWith(color: AppColors.primeColor),
+                      ),
+                    ],
+                  ),
+                  Text(
+                      '${curOrder.products!.length} ${curOrder.products!.length > 1 ? 'products' : 'product'} ordered',
+                      style: TextStyles.titleFont),
+                ],
+              ),
+              trailing: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Order Status', style: TextStyles.titleFont),
+                  Text('${CodeHelp.titleCase(curOrder.status!)}',
+                      style: TextStyles.bodyFontBold),
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                          '${curOrder.payment?.totalAmount?.toString()} ${CodeHelp.euro}',
+                          style: TextStyles.bodyFontBold
+                              .copyWith(color: Colors.green)),
+                      Text(
+                        'Paid ',
+                        style:
+                            TextStyles.titleFont.copyWith(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Order will be deliver soon.',
+                        style: TextStyles.bodyFont.copyWith(color: Colors.grey),
+                      ),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      OutlinedButton(
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(12),
+                        //     side: BorderSide(color: AppColors.primeColor)),
+                        // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onPressed: () {
+                          Modular.to.pushNamed('/widget/order-detail',
+                              arguments: {'id': curOrder.id});
+                        },
+
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: BorderSide(color: AppColors.primeColor),
+                            ),
+                          ),
+                          side: MaterialStateProperty.all<BorderSide>(
+                              BorderSide(color: AppColors.primeColor)),
+                        ),
+                        child: Text(
+                          'View',
+                          style: TextStyles.titleFont
+                              .copyWith(color: AppColors.primeColor),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            orderButtons(curOrder, context),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      'You have saved ${CodeHelp.euro}${curOrder.payment?.totalSavedAmount} and you will get ${curOrder.payment?.totalSCoinsEarned} scoin.',
+                      style:
+                          TextStyles.bodyFontBold.copyWith(color: Colors.grey),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -505,14 +730,15 @@ class OrderListPage extends StatelessWidget {
   }
 
   OrdeTile(BuildContext context, Order curOrder) {
-    DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
-    return GestureDetector(
-      onTap: () {
-        Modular.to.pushNamed('/widget/order-detail',
-            arguments: {'id': curOrder.id});
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    // DateTime orderTime = DateTime.parse(curOrder.metaData!.createdAt!);
+    DateTime orderTime = curOrder.createdAt != null
+        ? DateTime.parse(curOrder.createdAt!)
+        : DateTime.now();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => Modular.to
+            .pushNamed('/widget/order-detail', arguments: {'id': curOrder.id}),
         child: Card(
           color: Colors.white,
           child: Column(
@@ -543,7 +769,8 @@ class OrderListPage extends StatelessWidget {
                 thickness: 1.5,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Row(
                   //  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -557,11 +784,12 @@ class OrderListPage extends StatelessWidget {
                     Spacer(),
                     Text(
                       'Total: ',
-                      style: TextStyles.bodyFont.copyWith(color: AppColors.grey),
+                      style:
+                          TextStyles.bodyFont.copyWith(color: AppColors.grey),
                     ),
 
                     Text(
-                        '\$${curOrder.payment!.totalAmount!.toString()} ${CodeHelp.euro}',
+                        '\$${curOrder.paidAmount?.toString()} ${CodeHelp.euro}',
                         style: TextStyles.headingFont),
                   ],
                 ),
@@ -583,18 +811,17 @@ class OrderListPage extends StatelessWidget {
                         curOrder.status == "CANCELLED" ||
                         curOrder.status == "EXPIRED" ||
                         curOrder.status == "DELIVERED")
-                    ? SizedBox()
-                    // Align(
-                    //     alignment: Alignment.topRight,
-                    //     child: MaterialButton(
-                    //       padding: EdgeInsets.symmetric(horizontal: 15),
-                    //       color: Colors.lightBlue,
-                    //       textColor: Colors.white,
-                    //       shape: StadiumBorder(),
-                    //       onPressed: () {},
-                    //       child: Text("Reorder"),
-                    //     ),
-                    //   )
+                    ? Align(
+                        alignment: Alignment.topRight,
+                        child: MaterialButton(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          color: Colors.lightBlue,
+                          textColor: Colors.white,
+                          shape: StadiumBorder(),
+                          onPressed: () {},
+                          child: Text("Reorder"),
+                        ),
+                      )
                     : orderButtons(curOrder, context),
               )
               //    orderButtons(curOrder, context),
@@ -631,7 +858,9 @@ class OrderListPage extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   ImageBox(
-                    e[index].product!.images![0],
+                    e[index].products!.isNotEmpty
+                        ? e[index].products![0].images![0]
+                        : e[index].product!.images?[0],
                     width: 70,
                     height: 70,
                     fit: BoxFit.cover,

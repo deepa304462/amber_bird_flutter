@@ -23,23 +23,27 @@ class Order {
   String? userFriendlyOrderId;
   bool? eligibleForCancellation;
   String? id;
-
-  Order({
-    this.metaData,
-    this.payment,
-    this.products,
-    this.productsViaSCoins,
-    this.msdApplicableProducts,
-    this.status,
-    this.shipping,
-    this.customerRef,
-    this.shareLink,
-    this.businessId,
-    this.referredById,
-    this.userFriendlyOrderId,
-    this.eligibleForCancellation,
-    this.id,
-  });
+  String? createdAt;
+  double? totalAmount;
+  double? paidAmount;
+  Order(
+      {this.metaData,
+      this.payment,
+      this.products,
+      this.productsViaSCoins,
+      this.msdApplicableProducts,
+      this.status,
+      this.shipping,
+      this.customerRef,
+      this.shareLink,
+      this.businessId,
+      this.referredById,
+      this.userFriendlyOrderId,
+      this.eligibleForCancellation,
+      this.id,
+      this.totalAmount,
+      this.paidAmount,
+      this.createdAt});
 
   @override
   String toString() {
@@ -77,6 +81,9 @@ class Order {
         userFriendlyOrderId: data['userFriendlyOrderId'] as String?,
         eligibleForCancellation: data['eligibleForCancellation'] as bool?,
         id: data['_id'] as String?,
+        createdAt: data['createdAt'] as String?,
+        totalAmount: data['totalAmount']?.toDouble()  as double?,
+        paidAmount: data['paidAmount']?.toDouble()  as double?,
       );
 
   Map<String, dynamic> toMap() => {
