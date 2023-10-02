@@ -1,6 +1,8 @@
 import 'package:amber_bird/controller/order-controller.dart';
+import 'package:amber_bird/data/dhl/dhl.shipping.dart';
 import 'package:amber_bird/data/order/product_order.dart';
 import 'package:amber_bird/helpers/controller-generator.dart';
+import 'package:amber_bird/ui/pages/track_order.dart';
 import 'package:amber_bird/ui/widget/image-box.dart';
 import 'package:amber_bird/utils/codehelp.dart';
 import 'package:amber_bird/utils/time-util.dart';
@@ -8,7 +10,6 @@ import 'package:amber_bird/utils/ui-style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/cart-controller.dart';
 import '../../controller/state-controller.dart';
@@ -85,7 +86,7 @@ class OrderDetailWidget extends StatelessWidget{
                         ),
                       )
                     : Container(),
-                _shippingDetails(context, orderController),
+                //_shippingDetails(context, orderController),
                 Padding(
                   padding: EdgeInsets.only(
                     left: 12.0,
@@ -206,6 +207,14 @@ class OrderDetailWidget extends StatelessWidget{
                                     style: TextStyles.headingFont),
                               ],
                             ),
+                      TextButton(
+                          onPressed: (){
+                            if(orderController.shippingDhl.value.shipments !=null){
+                              Modular.to.pushNamed('/track_order',arguments: {'id': orderController.orderDetail.value.id ?? '',"productId":e.product!.id});
+                            }
+
+                          },
+                          child: Text("Track your item",style: TextStyle(color: Colors.black54),))
                     ],
                   ),
                 ),

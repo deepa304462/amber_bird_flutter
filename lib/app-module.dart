@@ -2,6 +2,7 @@ import 'package:amber_bird/home-page-module.dart';
 import 'package:amber_bird/ui/pages/login-page.dart';
 import 'package:amber_bird/ui/pages/reset-password-page.dart';
 import 'package:amber_bird/ui/pages/sign-up.dart';
+import 'package:amber_bird/ui/pages/track_order.dart';
 import 'package:amber_bird/ui/pages/wild-card-route-page.dart';
 import 'package:amber_bird/ui/pages/email-verification-page.dart';
 import 'package:amber_bird/ui/pages/splash-offer-page.dart';
@@ -31,6 +32,14 @@ class AppModule extends Module {
           return WildCardRoutePage(args.uri, args.data);
         }),
         ChildRoute('/login', child: (_, args) => LoginPageWidget()),
+    ChildRoute(
+      '/track_order',
+      child: (_, args) {
+        String orderId = args.data['id'];
+        String productId = args.data['productId'];
+        return TrackOrder(orderId,productId);
+      },
+    ),
         ChildRoute('/signup', child: (_, args) => SignUp()),
         ModuleRoute('/widget', module: WidgetRouteModule()),
         ChildRoute('/password-reset',

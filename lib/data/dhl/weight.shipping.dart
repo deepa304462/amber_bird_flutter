@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Weight {
-  int? value;
+  dynamic value;
   String? unitText;
 
   Weight({this.value, this.unitText});
@@ -10,7 +10,7 @@ class Weight {
   String toString() => 'Weight(value: $value, unitText: $unitText)';
 
   factory Weight.fromMap(Map<String, dynamic> data) => Weight(
-        value: data['value'] as int?,
+        value: data['value'],
         unitText: data['unitText'] as String?,
       );
 
@@ -32,7 +32,7 @@ class Weight {
   String toJson() => json.encode(toMap());
 
   Weight copyWith({
-    int? value,
+    dynamic value,
     String? unitText,
   }) {
     return Weight(

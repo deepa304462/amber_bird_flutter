@@ -20,11 +20,13 @@ class OrderController extends GetxController {
       log(response.data.toString());
       orderDetail.value = Order.fromMap(response.data as Map<String, dynamic>);
       inspect(orderDetail.value);
-      if (orderDetail.value.shipping != null &&
-          orderDetail.value.shipping!.dhlShipmentNumbers!.length > 0) {
+      // if (orderDetail.value.shipping != null &&
+      //     orderDetail.value.shipping!.dhlShipmentNumbers!.length > 0) {
         // Todo
-        getShippingDhlData(orderDetail.value.shipping!.dhlShipmentNumbers![0]);
-      }
+        //  getShippingDhlData(orderDetail.value.shipping!.dhlShipmentNumbers![0]);
+         getShippingDhlData("666666");
+
+      // }
     }
   }
 
@@ -32,6 +34,9 @@ class OrderController extends GetxController {
     var response =
         await ClientService.get(path: 'shipping/tracking', id: dhlNumber);
     if (response.statusCode == 200) {
+      print("response.data");
+      print(response.data);
+      print("response.data");
       shippingDhl.value =
           Dhl.fromMap(jsonDecode(response.data) as Map<String, dynamic>);
     }
