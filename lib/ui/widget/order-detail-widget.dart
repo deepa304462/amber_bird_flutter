@@ -86,7 +86,7 @@ class OrderDetailWidget extends StatelessWidget{
                         ),
                       )
                     : Container(),
-                //_shippingDetails(context, orderController),
+               _shippingDetails(context, orderController),
                 Padding(
                   padding: EdgeInsets.only(
                     left: 12.0,
@@ -345,8 +345,6 @@ class OrderDetailWidget extends StatelessWidget{
                           itemBuilder: (_, index) {
                             var currentData =
                                 orderController.shippingDhl.value.shipments![0];
-                            var delTime = DateTime.parse(
-                                currentData.estimatedTimeOfDelivery!);
                             return Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,8 +360,11 @@ class OrderDetailWidget extends StatelessWidget{
                                         style: TextStyles.headingFont
                                             .copyWith(color: Colors.blue),
                                       ),
+                                      currentData.estimatedTimeOfDelivery == null  ? Text("") :
                                       Text(
-                                        '${TimeUtil.getFormatDateTime(delTime, 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(delTime, 'hh:mm a')}',
+                                        '${TimeUtil.getFormatDateTime(DateTime.parse(
+                                            currentData.estimatedTimeOfDelivery!), 'dd MMM, yy')} ${TimeUtil.getFormatDateTime(DateTime.parse(
+                                            currentData.estimatedTimeOfDelivery!), 'hh:mm a')}',
                                         style: TextStyles.bodyFontBold,
                                       ),
                                     ],
